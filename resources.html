@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资料库 - CS Archive</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: white; }
+        
+        header { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); padding: 15px 20px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-links a { color: #a0aec0; text-decoration: none; padding: 8px 16px; border-radius: 8px; transition: all 0.3s; }
+        .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+        .nav-links a.active { color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        .search-container { display: flex; align-items: center; }
+        .search-box { padding: 8px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; background: rgba(255,255,255,0.05); color: white; width: 200px; }
+        .search-box:focus { outline: none; border-color: #667eea; }
+        .search-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 8px 16px; border-radius: 20px; margin-left: -35px; cursor: pointer; }
+        
+        .main-content { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .page-title { font-size: 2.5rem; margin-bottom: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-subtitle { font-size: 1rem; color: #a0aec0; margin-bottom: 40px; }
+        
+        .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .resource-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
+        .resource-card:hover { transform: translateY(-5px); }
+        .resource-icon { font-size: 45px; margin-bottom: 20px; }
+        .resource-title { font-size: 1.3rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
+        .resource-count { font-size: 0.9rem; color: #667eea; margin-bottom: 15px; }
+        .resource-desc { font-size: 0.9rem; color: #a0aec0; margin-bottom: 20px; line-height: 1.5; }
+        .resource-link { display: inline-block; padding: 10px 20px; background: rgba(102,126,234,0.2); color: #667eea; text-decoration: none; border-radius: 8px; font-size: 0.9rem; transition: background 0.3s; }
+        .resource-link:hover { background: rgba(102,126,234,0.3); }
+        
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: #667eea; }
+        .stat-label { font-size: 0.9rem; color: #a0aec0; margin-top: 5px; }
+        
+        .footer { max-width: 1200px; margin: 0 auto; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #718096; font-size: 0.9rem; text-align: center; }
+        
+        @media (max-width: 768px) { .nav-links { display: none; } .search-box { width: 150px; } .page-title { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">💾 CS Archive</div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="courses.html">课程备份</a></li>
+                <li><a href="resources.html" class="active">资料库</a></li>
+                <li><a href="about.html">关于我们</a></li>
+            </ul>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="搜索课程、资料...">
+                <button class="search-btn">🔍</button>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <h1 class="page-title">📁 资料库</h1>
+        <p class="page-subtitle">丰富的学习资源，助你掌握计算机科学知识</p>
+        
+        <div class="stats">
+            <div class="stat-card"><div class="stat-value">36+</div><div class="stat-label">课程讲义</div></div>
+            <div class="stat-card"><div class="stat-value">11</div><div class="stat-label">实验项目</div></div>
+            <div class="stat-card"><div class="stat-value">13</div><div class="stat-label">讨论课</div></div>
+            <div class="stat-card"><div class="stat-value">多套</div><div class="stat-label">考试真题</div></div>
+        </div>
+        
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">📖</div>
+                <div class="resource-title">课程讲义</div>
+                <div class="resource-count">36 份讲义</div>
+                <div class="resource-desc">包含完整的课程视频讲义、幻灯片和笔记资料，涵盖计算机体系结构的核心概念。</div>
+                <a href="#" class="resource-link">访问</a>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">💻</div>
+                <div class="resource-title">实验项目</div>
+                <div class="resource-count">8 个实验 + 3 个项目</div>
+                <div class="resource-desc">从基础到高级的编程实践任务，帮助你巩固课堂知识，提升动手能力。</div>
+                <a href="#" class="resource-link">访问</a>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">💬</div>
+                <div class="resource-title">讨论课资料</div>
+                <div class="resource-count">13 次讨论课</div>
+                <div class="resource-desc">包含预习材料、课堂练习和参考答案，加深对课程内容的理解。</div>
+                <a href="#" class="resource-link">访问</a>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">📝</div>
+                <div class="resource-title">考试真题</div>
+                <div class="resource-count">多套真题</div>
+                <div class="resource-desc">历年期末考试和期中考试真题及答案，助你备考复习。</div>
+                <a href="#" class="resource-link">访问</a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 CS Archive | 本站仅用于学习目的</p>
+    </footer>
+    
+    <script>
+        document.querySelector('.search-btn').addEventListener('click', () => {
+            const query = document.querySelector('.search-box').value;
+            if (query.trim()) alert(`搜索: ${query}`);
+        });
+    </script>
+</body>
+</html>

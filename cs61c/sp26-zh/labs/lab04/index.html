@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="language" content="chinese">
+  <title>实验4 | CS61C 2026年春季学期</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="shortcut icon" type="image/png" href="../../img/favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" referrerpolicy="no-referrer" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" referrerpolicy="no-referrer"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../css/main%EF%B9%96h=f8bd781ba155b1b368c870416f8523be84e7ec2bcec8d335573a0c95c849e327.css" />
+  <script defer type="text/javascript" src="../../js/main%EF%B9%96h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
+
+  <!-- block for FICT/FaRT -->
+  <script type="text/javascript" src="../../js/main-sync%EF%B9%96h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script>initDarkToggle();</script>
+
+  
+
+
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img class="d-inline-block me-2 rounded" height="48" width="48" src="../../img/icon-small.png" alt="outline of square computer chip with cs61c label" />
+      <span class="align-middle">CS61C Spring 2026</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle Navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../../calendar/index.html">日历</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../exam/index.html">考试</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../policies/index.html">政策</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://edstem.org/us/courses/93340/">Ed</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">快速链接</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="https://flextensions.berkeley.edu/">申请延期</a></li>
+            <li><a class="dropdown-item nav-link" href="https://oh.cs61c.org/">OH队列</a></li>
+            <li><a class="dropdown-item nav-link" href="https://venus.cs61c.org/">Venus</a></li>
+            <li><a class="dropdown-item nav-link" href="https://calendar.app.google/usQAgWHiiLPBH7hi6">学生支持会议</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">资源</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="../../resources/common-errors/index.html">常见错误</a></li>
+            <li><a class="dropdown-item nav-link" href="https://notes.cs61c.org/">课程笔记</a></li>
+            <li><a class="dropdown-item nav-link" href="../../pdfs/resources/reference-card.pdf">参考卡片</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/index.html">资源索引</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/exams/index.html">往年考试</a></li>
+            <li><a class="dropdown-item nav-link" href="https://inst.eecs.berkeley.edu/~cs61c/archives.html">往年学期</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../staff/index.html">工作人员</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="mb-4">
+    <section class="section">
+      <div class="container">
+        
+
+		
+
+        
+<div class="row spec">
+  
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+      
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#lab-3-factorial-explanation">实验3：阶乘解释</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#starter">起始代码</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#venus">Venus</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#calling-convention">调用约定</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#example-putting-it-into-practice">示例：实践应用</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#example-converting-from-c-to-risc-v-with-calling-convention">示例：使用调用约定从C转换到RISC-V</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-calling-convention-checker">练习1：调用约定检查器</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-1-examine-the-code">练习1.1：检查代码</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-2-callee-function">练习1.2：被调用函数</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-3-caller-and-callee-function">练习1.3：调用者和被调用者函数</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-2-fixing-cc-errors-s-edition">练习2：修复调用约定错误：s版</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-3-fixing-cc-errors-t-edition">练习3：修复调用约定错误：t版</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-4-reflection-and-feedback-form">练习4：反思与反馈表</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#submission">提交</a>
+        
+      </li>
+    
+  </ul>
+
+    </nav>
+  
+  <div id="toc-content-wrapper"  class="content col-md-9" >
+    <h1 class="title">实验4：RISC-V调用约定</h1>
+    
+      <p class="subtitle">截止日期：2月24日星期二晚上11:59:59 PT</p>
+    
+    
+    <p><a href="https://docs.google.com/presentation/d/1reR7XbA4wqHoDqo8xnwKuJLYJWa6QC3L1dSo-8XHCeo/edit?usp=sharing">实验幻灯片</a></p>
+<h3 id="lab-3-factorial-explanation">实验3：阶乘解释</h3>
+<p>作为对实验3中可选阶乘问题的快速复习，我们提供了以下演练。点击下拉菜单来检查您对RISC-V函数调用和寄存器约定的知识。</p>
+<p>完整程序：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">main:
+    la t0 n
+    lw a0 0(t0)
+    jal ra factorial
+    addi a1 a0 0
+    ...
+factorial:
+    addi t0 x0 1
+    addi t1 x0 1
+loop:
+    blt a0 t0 done
+    mul t1 t1 t0
+    addi t0 t0 1
+    j loop
+done:
+    add a0 t1 x0
+    jr ra
+</span></code></pre>
+<p>阶乘的类似C函数：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">factorial</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">int</span> <span class="z-variable z-parameter z-c">n</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> prod <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-keyword z-control z-c">for</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-storage z-type z-c">int</span> i <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-terminator z-c">;</span> i <span class="z-keyword z-operator z-comparison z-c">&lt;=</span> n<span class="z-punctuation z-terminator z-c">;</span> i<span class="z-keyword z-operator z-arithmetic z-c">++</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+        prod <span class="z-keyword z-operator z-assignment z-augmented z-c">*=</span> i<span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-punctuation z-section z-block z-end z-c">}</span></span>
+    <span class="z-keyword z-control z-flow z-return z-c">return</span> prod<span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>RISC-V版本使用寄存器而不是局部变量实现相同的逻辑！</p>
+<p>复习问题：</p>
+<details >
+  <summary>什么指令调用factorial？</summary>
+  <p><code>jal ra factorial</code></p>
+<p>这会跳转到<code>factorial</code>并将返回地址（main的下一行）保存在<code>ra</code>中。</p>
+
+</details>
+<details >
+  <summary>什么指令从factorial返回？</summary>
+  <p><code>jr ra</code></p>
+<p>这会跳回到<code>ra</code>中存储的地址。</p>
+
+</details>
+<details >
+  <summary>哪个寄存器保存factorial的参数？</summary>
+  <p><code>a0</code></p>
+<p>调用函数之前，<code>main</code>将<code>n</code>的值加载到<code>a0</code>中。按照约定，<code>a0</code>保存第一个参数。</p>
+
+</details>
+<details >
+  <summary>哪个寄存器保存factorial的返回值？</summary>
+  <p><code>a0</code></p>
+<p>返回之前，我们使用<code>add a0 t1 x0</code>将结果复制到<code>a0</code>中。</p>
+
+</details>
+<details >
+  <summary>循环体内部发生什么？</summary>
+  <p>循环体包含三个主要操作：</p>
+<ol>
+<li><code>mul t1, t1, t0</code>：我们将运行总数<code>t1</code>乘以当前计数器<code>t0</code>。</li>
+<li><code>addi t0, t0, 1</code>：我们将计数器增加1（i = i + 1）。</li>
+<li><code>j loop</code>：我们跳回到<code>loop</code>标签以重新检查退出条件。</li>
+</ol>
+
+</details>
+<details >
+  <summary>哪个寄存器保存循环索引，退出条件是什么？</summary>
+  <p>循环索引存储在<code>t0</code>中。</p>
+<p>退出条件由<code>blt a0 t0 done</code>定义。</p>
+<p>如果<code>a0</code>小于<code>t0</code>，控制跳转到<code>done</code>。用C语言来说，循环在<code>i &gt;= n</code>时继续。</p>
+
+</details>
+<h3 id="starter">起始代码</h3>
+<div  class="alert alert-warning">
+  <p>您必须在<strong>本地</strong>机器上完成此实验。如果需要重新设置本地机器，请参阅<a href="../lab00/index.html">实验0</a>。</p>
+
+</div>
+<p>在本地机器的<code>labs</code>目录中，拉取您在过去实验中可能做过的任何更改：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull origin main</span>
+</span></code></pre>
+<p>仍然在本地机器的<code>labs</code>目录中，使用以下命令拉取本实验的文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull starter main</span>
+</span></code></pre>
+<p>如果您遇到以下错误：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">fatal: &#39;starter&#39; does not appear to be a git repository
+fatal: Could not read from remote repository.
+</span></code></pre>
+<p>请按如下方式设置starter远程仓库：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> remote add starter https://github.com/61c-teach/sp26-lab-starter.git</span>
+</span></code></pre>
+<p>然后再次运行原始命令。</p>
+<p>仍然在<code>labs</code>目录中，运行以下命令下载我们可能需要的一些工具的最新版本：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">bash</span></span><span class="z-meta z-function-call z-arguments z-shell"> tools/download_tools.sh</span>
+</span></code></pre>
+<p>如果遇到任何<code>git</code>错误，请查看<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<h3 id="venus">Venus</h3>
+<p>与实验3一样，我们将使用<a href="https://venus.cs61c.org/">Venus RISC-V模拟器</a>。另外，当您需要复习Venus的任何功能时，请参考我们课程网站上的<a href="https://cs61c.org/sp26/resources/venus-reference/">Venus参考</a>。</p>
+<p>像处理<a href="../lab03/index.html#exercise-1-venus-basics">实验3</a>一样挂载实验4的文件。如果遇到错误，请参考<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<hr />
+<h2 id="calling-convention">调用约定</h2>
+<p>这里有一个关于调用约定的<a href="https://cs61c.org/sp26/projects/proj2/calling-convention/">附录</a>。如果您觉得不太熟悉，我们建议阅读它，因为正确的调用约定对于RISC-V编程至关重要。</p>
+<p>我们建议熟悉的其他优秀资源包括实验幻灯片和<a href="../../lectures/lec12/index.html">调用约定讲座</a>，以了解调用约定背后的动机。</p>
+<p>下面我们提供了两个调用约定（CC）的实际演练。我们知道这些示例很长，但它们将帮助您了解在编写RISC-V时如何遵循调用约定，并使本实验更容易解决。</p>
+<h3 id="example-putting-it-into-practice">示例：实践应用</h3>
+<p>假设我们有一个名为<code>func1</code>的函数的以下汇编代码结构。假设<code>func1</code>是一个被另一个函数（假设是<code>main</code>函数）调用的函数。从代码中，您还将看到<code>func1</code>也将调用另一个名为<code>func2</code>的函数。当<code>func1</code>被<code>main</code>函数调用时，<code>func1</code>是被调用者。然而，当<code>func1</code>调用<code>func2</code>时，<code>func1</code>成为调用者。因此，在遵循调用约定时，<code>func1</code>必须承担作为被调用者和调用者的职责。</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">func1: # 修改a0、t0和s0。ra指向`main`函数(modifies a0, t0, and s0. ra points to the `main` function)。
+    # 检查点1：在开始修改寄存器之前需要做什么？(Checkpoint 1: What do you need to do before you start modifying registers?)
+
+    # Some block of code using a0, t0, and s0
+    # Checkpoint 2: What do you need to do before you call another function?
+
+    # input argument at a0, return value at a0
+    jal ra, func2  # call func2
+    # Checkpoint 3: What do you need to do after a function call?
+
+    # Some block of code using a0, t0, and s0
+    # Checkpoint 4: What do you need to do before this function returns?
+
+    jr ra   # function return
+</span></code></pre>
+<p>使用<code>sw</code>指令将值保存到栈中，存储到适当的栈指针（<code>sp</code>）位置。使用<code>lw</code>指令从相应的栈指针位置检索值。每当您要将值保存到栈中时，需要调整栈指针（通过减小栈指针）。每当您要从栈中检索值时，需要反向调整栈指针（通过增加栈指针）。执行这些步骤将确保栈指针在函数调用的开始和结束时保持相同。这就是函数如何利用栈内存作为临时存储的方式。</p>
+<p>让我们尝试填写代码中每个检查点的代码。</p>
+<p>对于检查点1，由于<code>func1</code>是被调用者（被<code>main</code>调用），它必须保存它将要修改的被调用者保存寄存器。代码说明我们将修改<code>s0</code>，这是一个保存寄存器。此外，由于<code>func1</code>还将调用另一个函数<code>func2</code>，它还需要保存返回地址（<code>ra</code>）。虽然<code>ra</code>寄存器被标记为调用者保存寄存器，但将<code>ra</code>保存到栈中通常在这一步完成。由于我们将保存2个寄存器，我们必须将<code>sp</code>寄存器调整2个字（8字节）。因此，我们有以下代码：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">    # 检查点1：在开始修改寄存器之前需要做什么？(Checkpoint 1: What do you need to do before you start modifying registers?)
+    addi sp sp -8   # 将栈指针向下推2个字（8字节）(Push the stack pointer down by 2 words (8 bytes))
+    sw ra 0(sp)     # 保存返回地址寄存器(ra)(Save the return address register (ra))
+    sw s0 4(sp)     # 保存被调用者保存寄存器(s0)(Save the saved register (s0))
+</span></code></pre>
+<p>对于检查点2，我们看到<code>a0</code>、<code>t0</code>、<code>s0</code>之前已经被修改，现在我们即将调用<code>func2</code>（<code>func1</code>现在成为调用者）。我们看到<code>func2</code>在<code>a0</code>处接收输入参数，并在同一寄存器中设置返回值。此外，我们看到在代码的后面（检查点3之后），我们将再次使用<code>t0</code>和<code>s0</code>寄存器。因此，从<code>func1</code>的角度来看，在对<code>func2</code>的函数调用之前和之后，这两个寄存器都应该保持不变。我们知道，如果<code>func2</code>遵循调用约定，它应该将<code>s0</code>寄存器保存到栈中，并在返回之前将其恢复到原始值。这正是我们想要的。然而，<code>t0</code>不会被<code>func2</code>保存，它可以在函数内自由更改。因此，作为<code>func2</code>的调用者，<code>func1</code>现在也负责将<code>t0</code>保存到栈中。因此，我们有以下代码：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">    # 检查点2：在调用另一个函数之前需要做什么？(Checkpoint 2: What do you need to do before you call another function?)
+    addi sp sp -4   # 将栈指针向下推1个字（4字节）(Push the stack pointer down by 1 word (4 bytes))
+    sw t0 0(sp)     # 保存临时寄存器(t0)(Save the temporary register (t0))
+</span></code></pre>
+<p>对于检查点3，<code>func2</code>现在已经返回，返回值存储在<code>a0</code>中。<code>func1</code>现在将使用这个返回值（<code>a0</code>）以及<code>t0</code>和<code>s0</code>寄存器进行一些操作。同样，如果<code>func2</code>遵循了调用约定，那么从<code>func1</code>的角度来看，<code>s0</code>寄存器的值应该保持不变。然而，<code>t0</code>可能已被修改。好在我们在调用<code>func2</code>之前已经将其保存到栈中。现在我们只需要检索它即可。因此，我们有以下代码：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">    # 检查点3：函数调用后需要做什么？(Checkpoint 3: What do you need to do after a function call?)
+    lw t0 0(sp)     # 从栈中恢复保存的临时寄存器(Retrieve the saved temporary register from the stack)
+    addi sp sp 4    # 将栈指针向上恢复1个字（4字节）(Return the stack pointer up by 1 word (4 bytes))
+</span></code></pre>
+<p>对于检查点4，我们现在处于<code>func1</code>完成其操作并将返回<code>main</code>的时刻。然而，在返回之前，它必须确保它也完成了作为被调用者的职责。在检查点1中，我们将<code>ra</code>和<code>s0</code>寄存器保存到栈中。现在是时候检索它们了。在<code>func1</code>的操作过程中，它修改了<code>s0</code>寄存器和<code>ra</code>寄存器（由于对<code>func2</code>的函数调用）。作为被调用者，它有责任将它们恢复到原始值，以便从<code>main</code>函数的角度来看，这些寄存器保持不变。因此，我们有以下代码：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">    # 检查点4：函数返回之前需要做什么？(Checkpoint 4: What do you need to do before this function returns?)
+    lw s0 4(sp)     # 恢复原始保存的寄存器(s0)(Retrieve the original saved register (s0))
+    lw ra 0(sp)     # 恢复原始返回地址(ra)，它指回main函数(Retrieve the original return address (ra). This points back to the main function.)
+    addi sp sp 8    # 将栈指针向上恢复2个字（8字节）(Return the stack pointer up by 2 words (8 bytes))
+</span></code></pre>
+<p>通过这些操作，我们现在已经满足了<code>func1</code>的RISC-V调用约定。以下是完整代码：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">func1: # 修改a0、t0和s0。ra指向`main`函数(modifies a0, t0, and s0. ra points to the `main` function)。
+    # 检查点1：在开始修改寄存器之前需要做什么？(Checkpoint 1: What do you need to do before you start modifying registers?)
+    addi sp sp -8   # Push the stack pointer down by 2 words (8 bytes)
+    sw ra 0(sp)     # Save the return address register (ra)
+    sw s0 4(sp)     # Save the saved register (s0)
+
+    # Some block of code using a0, t0, and s0
+    # Checkpoint 2: What do you need to do before you call another function?
+    addi sp sp -4   # Push the stack pointer down by 1 word (4 bytes)
+    sw t0 0(sp)     # Save the temporary register (t0)
+
+    # input argument at a0, return value at a0
+    jal ra, func2  # call func2
+    # Checkpoint 3: What do you need to do after a function call?
+    lw t0 0(sp)     # Retrieve the saved temporary register from the stack
+    addi sp sp 4    # Return the stack pointer up by 1 word (4 bytes)
+
+    # Some block of code using a0, t0, and s0
+    # Checkpoint 4: What do you need to do before this function returns?
+    lw s0 4(sp)     # Retrieve the original saved register (s0)
+    lw ra 0(sp)     # Retrieve the original return address (ra). This points back to the main function.
+    addi sp sp 8    # Return the stack pointer up by 2 words (8 bytes)
+
+    jr ra   # function return
+</span></code></pre>
+<p>假设在<code>func1</code>调用开始时，寄存器<code>sp</code>从0x7FFFFFF0开始。</p>
+<details >
+  <summary><code>s0</code>保存在什么内存地址？</summary>
+  <p>栈指针被调整了-8，但<code>s0</code>存储在4 + <code>sp</code>处。因此，0x7FFFFFF0 - 8 + 4 = 0x7FFFFFEC</p>
+
+</details>
+<details >
+  <summary><code>t0</code>保存在什么内存地址？</summary>
+  <p>栈指针之前被调整了-8，然后在保存t0之前，我们再次将其调整-4。因此，0x7FFFFFF0 - 8 - 4 = 0x7FFFFFE4</p>
+
+</details>
+<details >
+  <summary>在<code>func1</code>结束时（在jr ra行），栈指针指向哪里？</summary>
+  <p>它应该回到原始值，因为我们已经检索了保存的数据并随后恢复了栈指针。因此，0x7FFFFFF0。</p>
+
+</details>
+<details >
+  <summary>如果我们没有实现检查点2和3中的代码，会出什么问题？</summary>
+  <p>在检查点3之后，描述了<code>func1</code>将再次使用<code>t0</code>。由于<code>t0</code>是调用者保存寄存器，被调用者（即<code>func2</code>）可以自由更改<code>t0</code>，不需要返回原始值。如果<code>t0</code>确实被<code>func2</code>修改了，那么<code>func1</code>的计算将会出错，因为函数调用改变了它的一个临时变量。</p>
+
+</details>
+<details >
+  <summary>如果我们根本不保存<code>ra</code>，会出什么问题？</summary>
+  <p><code>ra</code>指向调用函数的地址。在<code>func1</code>开始时，它指向<code>main</code>函数中的某个位置。每当您运行<code>jal</code>指令时，它会修改<code>ra</code>，使其指向该指令之后的下一行。这样做是为了当运行<code>jr ra</code>时，它将继续执行到<code>ra</code>指向的位置。<code>func1</code>有一个对<code>func2</code>的函数调用。这会改变<code>ra</code>，使其指向该调用之后的指令（<code>lw t0 0(sp)</code>）。现在它指向<code>func1</code>本身的某个位置。如果<code>ra</code>根本没有保存，那么当<code>func1</code>在末尾执行<code>jr ra</code>指令时，它将跳回到那个指令（<code>lw t0 0(sp)</code>），这不是预期的执行流程。</p>
+
+</details>
+<h3 id="example-converting-from-c-to-risc-v-with-calling-convention">示例：使用调用约定从C转换到RISC-V</h3>
+<p>在本练习中，您将被指导如何将下面的C程序转换为RISC-V。如果您想寻求额外的挑战，可以先翻译代码，然后再查看解决方案。</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> source<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span><span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span><span class="z-constant z-numeric z-integer z-decimal z-c">3</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">4</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">5</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">9</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-section z-block z-end z-c">}</span></span><span class="z-punctuation z-terminator z-c">;</span>
+<span class="z-storage z-type z-c">int</span> dest<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span><span class="z-constant z-numeric z-integer z-decimal z-c">10</span><span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+
+<span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">fun</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">int</span> <span class="z-variable z-parameter z-c">x</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+	<span class="z-keyword z-control z-flow z-return z-c">return</span> <span class="z-keyword z-operator z-arithmetic z-c">-</span>x <span class="z-keyword z-operator z-c">*</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>x <span class="z-keyword z-operator z-arithmetic z-c">+</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+
+<span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> k<span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span> sum <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-keyword z-control z-c">for</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>k <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> source<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-comparison z-c">!=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> k<span class="z-keyword z-operator z-arithmetic z-c">++</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+        dest<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-function-call z-c"><span class="z-variable z-function z-c">fun</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c">source<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+        sum <span class="z-keyword z-operator z-assignment z-augmented z-c">+=</span> dest<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-punctuation z-section z-block z-end z-c">}</span></span>
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>sum: <span class="z-constant z-other z-placeholder z-c">%d</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> sum</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>让我们从初始化<code>source</code>和<code>dest</code>数组开始。就像我们在实验3中所做的那样，我们需要在<code>.data</code>部分声明我们的数组，如下所示：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">.data
+source:
+    .word   3
+    .word   1
+    .word   4
+    .word   1
+    .word   5
+    .word   9
+    .word   0
+dest:
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+</span></code></pre>
+<p>接下来，让我们编写<code>fun</code>。</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">fun</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">int</span> <span class="z-variable z-parameter z-c">x</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+	<span class="z-keyword z-control z-flow z-return z-c">return</span> <span class="z-keyword z-operator z-arithmetic z-c">-</span>x <span class="z-keyword z-operator z-c">*</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>x <span class="z-keyword z-operator z-arithmetic z-c">+</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>调用约定规定：</p>
+<ul>
+<li>我们可以在寄存器<code>a0</code>中找到<code>x</code>。</li>
+<li>我们必须将返回值放在寄存器<code>a0</code>中</li>
+</ul>
+<p>代码的其余部分在下面的注释中解释。</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">.text
+fun:
+    addi t0, a0, 1 # t0 = x + 1
+    sub t1, x0, a0 # t1 = -x
+    mul a0, t0, t1 # a0 = (x + 1) * (-x)
+    jr ra # return
+</span></code></pre>
+<details >
+  <summary>问问自己：为什么我们在使用<code>t1</code>之前不保存它？</summary>
+  <p><code>t1</code>是一个调用者保存寄存器。调用约定不保证调用者保存寄存器在函数调用后保持不变。因此，<code>fun</code>可以在不保存其旧值的情况下更改<code>t1</code>。如果调用<code>fun</code>的函数在<code>t1</code>中存储了一个值，并且想在<code>fun</code>返回后使用它，则需要在调用<code>fun</code>之前保存<code>t1</code>。</p>
+
+</details>
+<p>让我们继续看main函数。（我们暂时忽略调用约定）。</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> k<span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span> sum <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span></span></code></pre>
+<p>上面的代码变成如下：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">main:
+    addi t0, x0, 0 # t0 = k = 0
+    addi s0, x0, 0 # s0 = sum = 0
+</span></code></pre>
+<p>We have to initialize <code>k</code> to 0 because there is no way to declare a variable in RISC-V and not set it.</p>
+<p>Next, let's load in the address of the two arrays.</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">    la s1, source
+    la s2, dest
+</span></code></pre>
+<p>Remember that <code>la</code> loads the address of a label. This is the only way that we can access the address of <code>source</code> and <code>dest</code>. <code>s1</code> is now a pointer to the source array and <code>s2</code> is now a pointer to the <code>dest</code> array.</p>
+<p>Let's move on to the loop.</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-keyword z-control z-c">for</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>k <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> source<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-comparison z-c">!=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> k<span class="z-keyword z-operator z-arithmetic z-c">++</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+    dest<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-function-call z-c"><span class="z-variable z-function z-c">fun</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c">source<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    sum <span class="z-keyword z-operator z-assignment z-augmented z-c">+=</span> dest<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>k<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+<span class="z-punctuation z-section z-block z-end z-c">}</span></span>
+</span></code></pre>
+<p>First, we'll construct the outer body of the loop.</p>
+<pre class="z-code"><code><span class="z-text z-plain">loop:
+#1  slli s3, t0, 2
+#2  add t1, s1, s3
+#3  lw t2, 0(t1)
+#4  beq t2, x0, exit
+    ...
+#5  addi t0, t0, 1
+#6  jal x0, loop
+exit:
+</span></code></pre>
+<ol>
+<li>
+<p>Lines 1-3 are needed to access <code>source[k]</code>. First we want to compute the byte offset of the element. We are dealing with <code>int</code> arrays, so the size of each element is <code>4 bytes</code>. This means that we need to multiply <code>t0</code> (k) by 4 to compute the byte offset. To multiply a value by 4, we can just shift it left by 2.</p>
+</li>
+<li>
+<p>Next, we need to add the offset to the array pointer to compute the address of <code>source[k]</code>.</p>
+</li>
+<li>
+<p>Now that we have the address, we can load the value in from memory.</p>
+</li>
+<li>
+<p>Then, we check to see if <code>source[k]</code> is 0. If it is, we jump to the exit.</p>
+</li>
+<li>
+<p>At the end of the loop, we increment <code>k</code> by 1</p>
+</li>
+<li>
+<p>Finally, we loop back the to beginning</p>
+</li>
+</ol>
+<p>Now, Let's fill in the rest of the loop (ignoring calling convention at first)</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">loop:
+    slli s3, t0, 2
+    add t1, s1, s3
+    lw t2, 0(t1)
+    beq t2, x0, exit
+#1  add a0, x0, t2 # 1
+    ...
+#2  jal fun # 2
+    ...
+#3  add t3, s2, s3 # 4
+#4  sw a0, 0(t3) # 5
+#5  add s0, s0, a0 # 6
+    addi t0, t0, 1
+    jal x0, loop
+exit:
+</span></code></pre>
+<ol>
+<li>
+<p>Fun takes in the argument <code>x</code>. We must pass this argument through <code>a0</code> so that <code>fun</code> will know where to find it.</p>
+</li>
+<li>
+<p>Call <code>fun</code>. <code>jal</code> automatically saves the return address in <code>ra</code>.</p>
+</li>
+<li>
+<p>Next, we want so store this value in <code>dest</code>. First we need to compute the address of where we want to store the value in <code>dest</code>. Remember that we can reuse the <code>offset</code> that we computed earlier (this can be found in <code>s3</code>). <code>s2</code> is a pointer to the beginning of <code>dest</code>.</p>
+</li>
+<li>
+<p>Store value at <code>dest[k]</code>. Remember that <code>fun</code> placed the return value in <code>a0</code>.</p>
+</li>
+<li>
+<p>Increment <code>sum</code> by <code>dest[k]</code></p>
+</li>
+</ol>
+<p>现在，让我们在<code>jal fun</code>周围添加正确的调用约定。在向下滚动之前，问问自己我们需要添加什么代码来满足调用约定。</p>
+<p>为了满足调用约定（从而使代码按预期运行），我们需要保存任何调用者保存寄存器，这些寄存器的值在调用<code>fun</code>后需要保持不变。在这种情况下，我们可以看到在<code>main</code>中使用了寄存器<code>t0</code>、<code>t1</code>、<code>t2</code>和<code>t3</code>。</p>
+<details >
+  <summary>我们需要保存和恢复所有这些寄存器吗？</summary>
+  <p>不需要，我们只需要保存和恢复<code>t0</code>。我们在<code>fun</code>之前使用<code>t1</code>和<code>t2</code>，但之后不再使用它们。我们在<code>fun</code>之后写入<code>t3</code>，所以我们不关心它的旧值是什么。</p>
+<p><code>t0</code>是我们拥有的唯一一个调用者保存寄存器，其值在<code>fun</code>之前和之后必须保持不变。</p>
+
+</details>
+<p>让我们在<code>jal fun</code>周围添加正确的调用约定代码。</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">addi sp, sp, -4
+sw t0, 0(sp)
+jal fun
+lw t0, 0(sp)
+addi sp, sp, 4
+</span></code></pre>
+<p>接下来，让我们继续看<code>exit</code>（暂时不考虑调用约定）。</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">exit:
+    addi a0, x0, 1 # argument to ecall, 1 = execute print integer
+    addi a1, s0, 0 # argument to ecall, the value to be printed
+    ecall # print integer ecall
+    addi a0, x0, 10 # argument to ecall, 10 = terminate program
+    ecall # terminate program
+</span></code></pre>
+<p>最终的总和存储在<code>s0</code>中。要打印这个值，我们需要将其存储在<code>a1</code>中，这是ecall的参数，将被打印出来。</p>
+<p>现在我们已经完成了程序的逻辑。接下来我们需要完成<code>main</code>的调用约定。</p>
+<details >
+  <summary>想一想，调用约定中缺少哪一部分？</summary>
+  <p>我们正在覆盖被调用者保存寄存器而不保存它们！记住，被调用者的职责是确保被调用者保存寄存器在函数的开始和结束时具有相同的值。</p>
+
+</details>
+<details >
+  <summary>我们需要保存哪些被调用者保存寄存器？</summary>
+  <p>我们需要保存我们使用的任何被调用者保存寄存器。我们不知道调用我们的函数正在使用这些寄存器中的哪些，所以我们必须保存所有我们覆盖的寄存器。在这种情况下，那将是寄存器<code>s0-s3</code>和<code>ra</code>。</p>
+
+</details>
+<p>理解为什么我们需要保存<code>ra</code>可能有点棘手。记住另一个函数调用了<code>main</code>。当那个函数调用<code>main</code>时，它将返回地址存储在<code>ra</code>中，以便<code>main</code>知道在执行完成后返回哪里。当<code>main</code>调用<code>fun</code>时，它需要将返回地址存储在<code>ra</code>中，以便<code>fun</code>知道在执行完成后返回哪里。因此，<code>main</code>必须在覆盖<code>ra</code>之前保存它。</p>
+<p>下面，您可以找到<code>main</code>的序言和结语：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">main:
+    # BEGIN PROLOGUE
+    addi sp, sp, -20
+    sw s0, 0(sp)
+    sw s1, 4(sp)
+    sw s2, 8(sp)
+    sw s3, 12(sp)
+    sw ra, 16(sp)
+    # END PROLOGUE
+    ...
+    ...
+exit:
+    addi a0, x0, 1 # argument to ecall, 1 = execute print integer
+    addi a1, s0, 0 # argument to ecall, the value to be printed
+    ecall # print integer ecall
+    # BEGIN EPILOGUE
+    lw s0, 0(sp)
+    lw s1, 4(sp)
+    lw s2, 8(sp)
+    lw s3, 12(sp)
+    lw ra, 16(sp)
+    addi sp, sp, 20
+    # END EPILOGUE
+    addi a0, x0, 10 # argument to ecall, 10 = terminate program
+    ecall # terminate program
+</span></code></pre>
+<p>您可以在<code>example_c_to_riscv.s</code>中找到完整的程序。</p>
+<h2 id="exercise-1-calling-convention-checker">练习1：调用约定检查器</h2>
+<div  class="alert alert-warning">
+  <p>在尝试以下练习之前，请确保您理解调用约定（实验幻灯片是一个很好的资源！）。</p>
+
+</div>
+<p>调用约定错误可能导致代码中难以发现的bug。调用约定检查器用于检测代码中的调用约定违规。然而，它<strong>不是</strong>全面的。在本练习中，您将使用调用约定检查器来修复一些调用约定问题。</p>
+<p><strong>注意：</strong> Venus的调用约定检查器不会报告所有调用约定bug；它主要用作基本检查。最重要的是，<strong>它只会查找使用<code>.globl</code>指令导出的函数中的bug</strong> - <code>.globl</code>的含义在<a href="https://cs61c.org/sp26/resources/venus-reference/#working-with-multiple-files">Venus参考</a>中有更详细的解释。</p>
+<ol>
+<li>要启用调用约定检查器，请<strong>点击</strong>页面顶部的Venus选项卡，并在"设置(Settings)"窗格下的"Calling Convention"行<strong>点击</strong>"Enable"（启用）。
+<ul>
+<li>您也可以使用<code>-cc</code>标志在命令行中运行调用约定检查器。例如，<code>java -jar tools/venus.jar -cc lab04/ex1.s</code>。</li>
+</ul>
+</li>
+<li><strong>打开</strong> <code>ex1.s</code> 在模拟器选项卡中。</li>
+<li><strong>运行</strong>模拟器，您应该会看到一些类似于下面的错误。</li>
+</ol>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">[CC Violation]: (PC=0x0000004C) Setting of a saved register (s0) which has not been saved! ex1.s:54 li s0, 1
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000054) Setting of a saved register (s0) which has not been saved! ex1.s:57 mul s0, s0, a0
+[CC Violation]: (PC=0x00000064) Save register s0 not correctly restored before return! Expected 0x00000000, Actual 0x00000080. ex1.s:65 jr ra
+[CC Violation]: (PC=0x00000070) Setting of a saved register (s0) which has not been saved! ex1.s:79 mv s0, a0 # Copy start of array to saved register
+[CC Violation]: (PC=0x00000074) Setting of a saved register (s1) which has not been saved! ex1.s:80 mv s1, a1 # Copy length of array to saved register
+[CC Violation]: (PC=0x000000A4) Setting of a saved register (s0) which has not been saved! ex1.s:117 addi s0, t1, 1
+Found 12 warnings!
+--------------------
+[ERROR] An error has occurred!
+
+Error:
+`StoreError: You are attempting to edit the text of the program though the program is set to immutable at address 0x00000006!
+</span></code></pre>
+<p>有关这些错误的更多信息可以在<a href="https://cs61c.org/sp26/resources/venus-reference/#calling-convention-checker">Venus参考</a>中找到。</p>
+<h3 id="exercise-1-1-examine-the-code">练习1.1：检查代码</h3>
+<p>阅读<code>ex1.s</code>。确保您对以下问题有答案。</p>
+<details >
+  <summary><code>next_test</code>是函数吗？</summary>
+  <p>不是，它只是一个用于跳过对<code>failure</code>调用的标签。如果一个标签是函数，我们会跳转到它并链接到它，因为我们总是希望函数返回到我们这里。在这种情况下，我们只是跳转到<code>next_test</code>。</p>
+
+</details>
+<details >
+  <summary>为什么<code>helper_fn</code>中的调用约定错误没有被CC检查器报告？（提示：在练习说明中提到过。）</summary>
+  <p>它没有声明<code>.globl</code>。调用约定检查器不会测试未声明<code>.globl</code>的函数。注意：helper_fn中的bug最初会被检查器报告，但当调用它的函数中的bug被修复后，这个bug就不再被报告了。</p>
+
+</details>
+<h3 id="exercise-1-2-callee-function">练习1.2：被调用者函数</h3>
+<p>使用打印的错误，<strong>修复</strong> <code>pow</code> 和 <code>helper_fn</code> 函数的调用约定错误。</p>
+<p>所有这些错误的修复（包括CC检查器报告的错误和它无法找到的错误）应该添加在起始代码中<code>FIXME</code>注释标记的行附近。
+修复后，您应该会看到CC检查器报告的错误消息减少。另外，请确保您对以下问题有答案。</p>
+<details >
+  <summary>是什么导致了Venus CC检查器报告的<code>pow</code>中的错误？</summary>
+  <p>缺少结语和序言。</p>
+
+</details>
+<details >
+  <summary>在RISC-V中，我们通过跳转到函数并将返回地址存储在<code>ra</code>寄存器中来调用函数。调用约定是否适用于跳转到<code>pow_loop</code>或<code>pow_end</code>标签？</summary>
+  <p>不适用，因为它们不是函数，我们不需要返回到函数被调用的位置。</p>
+
+</details>
+<h3 id="exercise-1-3-caller-and-callee-function">练习1.3：调用者和被调用者函数</h3>
+<p>使用打印的错误，<strong>修复</strong> <code>inc_arr</code> 函数的调用约定错误。</p>
+<p>所有这些错误的修复（包括CC检查器报告的错误和它无法找到的错误）应该添加在起始代码中<code>FIXME</code>注释标记的行附近。
+修复后，您的输出应该类似于：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">Tests passed.
+Found 0 warnings!
+</span></code></pre>
+<p>在继续下一个练习之前，请确保您对以下问题有答案。</p>
+<details >
+  <summary>是什么导致了Venus CC检查器报告的<code>inc_arr</code>中的错误？</summary>
+  <p><code>inc_arr</code>：未能在序言/结语中保存<code>s0</code>、<code>s1</code>，以及在调用<code>helper_fn</code>之前未能保存<code>t0</code>。</p>
+
+</details>
+<details >
+  <summary>为什么我们需要在<code>inc_arr</code>的序言中存储<code>ra</code>，而不需要在其他函数中存储？</summary>
+  <p><code>inc_arr</code>本身调用另一个函数——<code>ra</code>保存返回后继续执行的指令地址，当我们调用另一个函数时，它会被覆盖，因为我们需要能够返回到<code>inc_arr</code>的主体。</p>
+
+</details>
+<h2 id="exercise-2-fixing-cc-errors-s-edition">练习2：修复CC错误：<code>s</code>版</h2>
+<p>在本练习中，起始代码包含一个递归的pow函数，该函数有一个或多个我们在过去学期中常见的调用约定错误。您的任务是修复这些错误，以便在编写RISC-V时能够避免这些错误。</p>
+<div  class="alert alert-warning">
+  <p><strong>警告</strong>：您只能向起始代码添加行。请不要修改或删除任何现有行。</p>
+
+</div>
+<ol>
+<li><strong>打开</strong> <code>ex2.s</code> 并在Venus中<strong>运行</strong>。请注意，程序由于无限循环而无法退出。</li>
+<li><strong>阅读</strong>代码和注释。确保您已阅读以<code>Note</code>开头的注释。思考为什么程序会有无限循环，并查找调用约定违规。</li>
+<li><strong>修复</strong>调用约定错误。</li>
+</ol>
+<h2 id="exercise-3-fixing-cc-errors-t-edition">练习3：修复CC错误：<code>t</code>版</h2>
+<p>与上一个练习类似，本练习的起始代码包含一个递归的pow函数，该函数有一个或多个我们在过去学期中常见的调用约定错误。您的任务是修复这些错误，以便在编写RISC-V时能够避免这些错误。请注意，本练习中的pow函数实现方式略有不同。</p>
+<div  class="alert alert-warning">
+  <p><strong>警告</strong>：您只能向起始代码添加行。请不要修改或删除任何现有行。</p>
+
+</div>
+<ol>
+<li><strong>打开</strong> <code>ex3.s</code> 并在Venus中<strong>运行</strong>。请注意，程序由于无限循环而永远不会停止。</li>
+<li><strong>阅读</strong>代码和注释。确保您已阅读两个以<code>Note</code>开头的注释。思考为什么程序会有无限循环，并查找调用约定违规。这个pow函数与上一个练习中的pow函数有何不同？</li>
+<li><strong>修复</strong>调用约定错误。</li>
+</ol>
+<h2 id="exercise-4-reflection-and-feedback-form">练习4：反思和反馈表</h2>
+<p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLSfOoiuLaL9upOo7i4bAb3oFpmohTQTXpI6L15BTV8PonT1Akw/viewform?usp=publish-editor">此调查</a>告诉我们您到目前为止在讨论课和实验中的体验！</p>
+<hr />
+<h2 id="submission">提交</h2>
+<p>保存、提交并推送您的工作，然后在Gradescope上提交到<strong>实验4</strong>作业。</p>
+
+  </div>
+</div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  <div class="container border-top pt-4 mb-5">
+    <div class="row">
+      <div class="col">
+        <div id="dark-toggle-wrapper" class="d-none">
+          <div class="form-check form-switch">
+            <input id="inputDarkToggle" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="inputDarkToggle">
+              Dark Mode
+              <a id="buttonDarkToggleReset" class="d-none" href="javascript:void(0);">(reset)</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+<script>
+  
+
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      initToC();
+    });
+  
+</script>
+
+</body>
+
+</html>

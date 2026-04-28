@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="language" content="chinese">
+  <title>实验6 | CS61C 2026年春季学期</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="shortcut icon" type="image/png" href="../../img/favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" referrerpolicy="no-referrer" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" referrerpolicy="no-referrer"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../css/main%EF%B9%96h=f8bd781ba155b1b368c870416f8523be84e7ec2bcec8d335573a0c95c849e327.css" />
+  <script defer type="text/javascript" src="../../js/main%EF%B9%96h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
+
+  <!-- block for FICT/FaRT -->
+  <script type="text/javascript" src="../../js/main-sync%EF%B9%96h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script>initDarkToggle();</script>
+
+  
+
+
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img class="d-inline-block me-2 rounded" height="48" width="48" src="../../img/icon-small.png" alt="outline of square computer chip with cs61c label" />
+      <span class="align-middle">CS61C Spring 2026</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle Navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../../calendar/index.html">日历</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../exam/index.html">考试</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../policies/index.html">政策</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://edstem.org/us/courses/93340/">Ed</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">快速链接</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="https://flextensions.berkeley.edu/">申请延期</a></li>
+            <li><a class="dropdown-item nav-link" href="https://oh.cs61c.org/">答疑队列</a></li>
+            <li><a class="dropdown-item nav-link" href="https://venus.cs61c.org/">Venus</a></li>
+            <li><a class="dropdown-item nav-link" href="https://calendar.app.google/usQAgWHiiLPBH7hi6">学生支持会议</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">资源</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="../../resources/common-errors/index.html">常见错误</a></li>
+            <li><a class="dropdown-item nav-link" href="https://notes.cs61c.org/">课程笔记</a></li>
+            <li><a class="dropdown-item nav-link" href="../../pdfs/resources/reference-card.pdf">参考卡</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/index.html">资源索引</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/exams/index.html">过往考试</a></li>
+            <li><a class="dropdown-item nav-link" href="https://inst.eecs.berkeley.edu/~cs61c/archives.html">过往学期</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../staff/index.html">工作人员</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="mb-4">
+    <section class="section">
+      <div class="container">
+        
+
+		
+
+        
+<div class="row spec">
+  
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+      
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#setup">设置</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-constructing-immediates">练习1：构建立即数</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing">测试</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-2-constructing-the-brun-control-signal">练习2：构建BrUn控制信号</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing-1">测试</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-3-inefficiencies-everywhere">练习3：到处都是低效</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-4-pipe-that-line">练习4：管线化</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing-2">测试</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-5-debugging-circuits">练习5：调试电路</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-6-reflection-and-feedback-form">练习6：反思和反馈表</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#submission">提交</a>
+        
+      </li>
+    
+  </ul>
+
+    </nav>
+  
+  <div id="toc-content-wrapper"  class="content col-md-9" >
+    <h1 class="title">实验6：CPU，流水线</h1>
+    
+      <p class="subtitle">截止日期：4月2日星期四晚上11:59:59 PT</p>
+    
+    
+    <p><a href="https://docs.google.com/presentation/d/1Ee3HwAuuWPOTbCGQ-RrzVvdqbir_BBC4Y47wYl97krM/edit?usp=sharing">实验幻灯片</a></p>
+<h2 id="setup">设置</h2>
+<div  class="alert alert-warning">
+  <p>您必须在本地机器上完成此实验（不是hive机器）。如果需要重新设置本地机器，请参阅<a href="../lab00/index.html">实验0</a>。</p>
+
+</div>
+<p>在本地机器的<code>labs</code>目录中，拉取您在过去实验中可能做过的任何更改：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull origin main</span>
+</span></code></pre>
+<p>仍然在本地机器的<code>labs</code>目录中，使用以下命令拉取本实验的文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull starter main</span>
+</span></code></pre>
+<p>如果遇到任何<code>git</code>错误，请查看<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<p>与实验5一样，本实验的所有工作都将使用数字逻辑模拟程序<strong>Logisim Evolution</strong>完成。</p>
+<p>开始之前的一些重要警告：</p>
+<ul>
+<li>Logisim是一个GUI程序，因此不能在无头环境（WSL、SSH等）中轻松使用。我们建议在具有GUI、Java 9+和Python 3.6+的<strong>本地环境</strong>中运行它。如果您的本地系统是macOS或Linux，您可能已经准备好了。如果您使用Windows，请使用<code>Git Bash</code>，它在Windows上运行并支持GUI。</li>
+<li>请使用我们分发的Logisim版本，因为它与互联网上的其他版本不同（有bug修复和课程特定内容）</li>
+<li>不要移动工作人员提供的输入/输出引脚；如果引脚移动，您的电路将无法正确测试。如果您的电路未通过测试但您认为它是正确的，请检查您的电路是否适合<code>tests/ex#-test.circ</code>中的相应测试框架</li>
+<li>Logisim不会自动保存您的工作。记得在工作时经常保存（并提交）！</li>
+</ul>
+<h2 id="exercise-1-constructing-immediates">练习1：构建立即数</h2>
+<p>正如我们在讲座中看到的，RISC-V中有五种类型的立即数：I型、S型、B型、U型和J型。在本练习中，您将实现<strong>S型</strong>立即数生成器。<code>ex1.circ</code>将接收一个32位RISC-V存储指令作为输入。它应该输出该指令的符号扩展32位立即数值。构建立即数值需要使用分割器。您可以在实验5的高级Logisim功能部分找到分割器工作原理的摘要。</p>
+<p>本练习对项目3有帮助！</p>
+<ol>
+<li><strong>打开</strong> <code>ex1.circ</code>。此电路接收32位RISC-V<strong>存储指令</strong>。</li>
+<li><strong>修改</strong>电路，使其输出指令的32位符号扩展立即数值。您可以假设该指令始终是存储指令。</li>
+</ol>
+<h3 id="testing">测试</h3>
+<ol>
+<li><strong>打开</strong>本地终端会话并导航到您的<code>lab06</code>文件夹。</li>
+<li><strong>运行</strong>提供的测试：<code>python3 test.py</code>。
+<ul>
+<li>您的练习1电路在测试框架电路（<code>tests/ex1-test.circ</code>）中运行。</li>
+<li>您的输出位于<code>tests/out/ex1-test.out</code></li>
+<li>参考输出位于<code>tests/out/ex1-test.ref</code></li>
+<li>在输出文件中，每列对应主电路上的一个输入/输出引脚，每行显示一组输入和电路产生的相应输出。</li>
+<li>如果您的电路输出不同，您可以将其与参考输出文件进行比较；<code>diff</code>命令可能会有所帮助。</li>
+</ul>
+</li>
+</ol>
+<h2 id="exercise-2-constructing-the-brun-control-signal">练习2：构建BrUn控制信号</h2>
+<p><code>BrUn</code>控制信号用于告诉分支比较器分支比较是对有符号数还是无符号数进行的。下表总结了<code>BrUn</code>的期望值。</p>
+<table><thead><tr><th>指令类型</th><th><code>BrUn</code></th><th>备注</th></tr></thead><tbody>
+<tr><td>无符号分支比较</td><td><code>1</code></td><td>-</td></tr>
+<tr><td>有符号分支比较</td><td><code>0</code></td><td>-</td></tr>
+<tr><td><code>beq</code> 或 <code>bne</code></td><td>无关</td><td>确定数字是否相等时不需要数字的符号</td></tr>
+<tr><td>非分支</td><td>无关</td><td>非分支指令不使用分支比较器的输出</td></tr>
+</tbody></table>
+<p>如果值列为"无关"，这意味着您可以将<code>BrUn</code>设置为<code>0</code>或<code>1</code>。</p>
+<p>记住两个输入要么都是有符号的，要么都是无符号的。不能出现一个数字是有符号的而另一个是无符号的情况。我们的硬件不支持将无符号数与有符号数进行比较。</p>
+<p>我们为您提供了以下提示来帮助您实现。</p>
+<details>
+<summary>指令的哪个字段标识分支类型？</summary>
+funct3
+</details>
+<details>
+<summary>opcode字段重要吗？</summary>
+<p>您可以使用<code>opcode</code>和<code>funct3</code>字段，在指令执行无符号分支比较时将<code>BrUn</code>设置为<code>1</code>。</p>
+<p>然而，在实现<code>BrUn</code>时，opcode字段并不重要，因为对于所有非分支指令它都是"无关"的。我们可以简单地在<code>funct3</code>字段对应于无符号分支指令的<code>funct3</code>字段时输出<code>1</code>。如果<code>BrUn</code>对于非分支指令为<code>1</code>是可以的，因为非分支指令不使用分支比较器的输出。</p>
+</details>
+<p>根据您的实现，常量和比较器对本练习非常有帮助。常量可以在Wiring库中找到。您可以在左下角窗口的Properties部分选择常量的值。您也可以在Properties部分更改用于表示常量的位数。</p>
+<p>比较器有两个输入，用于确定第一个输入是小于、等于还是大于第二个输入。它们可以在Arithmetic库中找到。您可以在左下角窗口的Properties部分选择输入的大小以及比较是无符号还是补码。</p>
+<p>本练习对项目3有帮助！</p>
+<ol>
+<li><strong>打开</strong> <code>ex2.circ</code>。此电路接收32位RISC-V指令作为输入，并输出<code>BrUn</code>控制信号的值。</li>
+<li><strong>修改</strong>电路，使其正确生成<code>BrUn</code>的值。
+<ul>
+<li>注意：输入指令可能是也可能不是分支指令。</li>
+</ul>
+</li>
+</ol>
+<h3 id="testing-1">测试</h3>
+<p>请参阅<a href="#testing">练习1的测试部分</a>，但输出文件前缀现在是<code>ex2-test</code>而不是<code>ex1-test</code>。</p>
+<h2 id="exercise-3-inefficiencies-everywhere">练习3：到处都是低效</h2>
+<p>对于本练习，我们可以假设寄存器最初携带零值。我们将使用实验文件<code>ex3.circ</code>，它应该有一个名为<code>non_pipelined</code>的子电路，看起来像这样：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/exercise3.png" alt="" /></p>
+<p>这个电路简单地接收两个输入，将它们相乘，然后将结果添加到当前状态值。对于这个电路，假设加法器块的传播延迟为45ns，乘法块的传播延迟为60ns。寄存器的CLK-to-Q延迟为10ns，建立时间为10ns，保持时间为5ns。假设两个输入都从寄存器接收数据（因此输入在上升沿之后CLK-to-Q时间到达）。</p>
+<p>本练习要求您在<code>ex3_answers.txt</code>中写下您的答案。</p>
+<ul>
+<li>问题1：此电路的关键路径长度是多少<strong>ns</strong>。答案应该是一个没有单位的整数。</li>
+</ul>
+<h2 id="exercise-4-pipe-that-line">练习4：管线化</h2>
+<p>我们希望提高这个电路的性能，使其以更高的时钟频率运行。为实现这一点，我们希望在我们的流水线中有两个阶段：乘法阶段和加法阶段，按这个顺序。</p>
+<p>为了管线化电路，我们需要一个寄存器来保存流水线阶段之间计算的中间值。这是流水线的一个普遍主题。</p>
+<p>为了检查您的流水线是否仍然产生正确的输出，我们将认为电路的输出是"正确的"，当且仅当它对应于非流水线版本将发出的输出序列，但现在电路将有一个前导零。这个前导零的出现是因为流水线的第二阶段在第一个周期中是"空的"。</p>
+<p>要查看电路的输入和每个周期的相应输出，请查看<code>out/ex4-test.ref</code>。周期零的输出是<code>00000000</code>，因为还没有任何东西通过流水线。周期零本质上只是打印电路的起始状态。周期一的输出是<code>00000000</code>，因为流水线的第二阶段在第一个周期中是"空的"。</p>
+<p>我们讨论过，如果一条指令依赖于前一条指令的输出，我们需要插入一个流水线"气泡"（或多个）或包含转发逻辑，以确保第一条指令的输出准备好作为第二条指令的输入。提醒一下，气泡故意延迟流水线中的指令。</p>
+<details>
+<summary>为什么这种"气泡"对于这个特定电路是不必要的？</summary>
+<p>对于本练习，一条指令包括加法和乘法。加法和乘法不是两条独立的指令。</p>
+<p>相反，它们是流水线中的两个独立阶段，类似于EX和MEM是流水线中的两个独立阶段，它们对同一条指令进行操作，EX先对指令进行操作，然后MEM再对指令进行操作。</p>
+<p>在这个特定电路中我们没有任何气泡，因为没有任何单独的指令相互依赖。</p>
+</details>
+<p>本练习要求您在<code>ex4_answers.txt</code>中写下您的答案。问题编号可能与步骤编号不同，请小心！</p>
+<ol>
+<li><strong>打开</strong> <code>ex4.circ</code>并<strong>管线化</strong> <code>ex3.circ</code>中的电路
+<ul>
+<li>问题1：这个流水线电路的关键路径是多少<strong>ns</strong>。答案应该是一个没有单位的整数。</li>
+<li>问题2：这个流水线电路的最大时钟频率是多少<strong>MHz</strong>。答案应该是一个没有单位的十进制数。</li>
+</ul>
+</li>
+</ol>
+<h3 id="testing-2">测试</h3>
+<p>请参阅<a href="#testing">练习1的测试部分</a>，但输出文件前缀现在是<code>ex4-test</code>而不是<code>ex1-test</code>。</p>
+<h2 id="exercise-5-debugging-circuits">练习5：调试电路</h2>
+<p>让我们看一下<code>num_checker</code>电路的一个有bug的实现，给定一个32位数字，它将告诉我们它是奇数、偶数、零、大于十五，还是五或十。这个电路可能不是太令人兴奋，但测试电路的结构将与项目非常相似。</p>
+<p>本练习要求您在<code>ex5_answers.txt</code>中写下您的答案。文本文件只有前两个问题的项目符号，所以请在回答问题时添加项目符号（例如<code>3. </code>、<code>4. </code>等）。问题编号可能与步骤编号不同，请小心！</p>
+<ol>
+<li>
+<p>First, let’s get familiar with our testing harness. <strong>Open</strong> up the exercise 5 test circuit (<code>File -&gt; Open -&gt; lab06/tests/ex5-test.circ</code>).</p>
+<ul>
+<li>
+<p>The project test harness uses ROMs to store RISC-V instructions which will be fed into your CPU. For this circuit, the big block with hex digits is our ROM that contains the numbers which we will feed sequentially into our <code>ex5</code> circuit.</p>
+</li>
+<li>
+<p>This ROM will output a 32-bit integer at the index provided. In this case, we go sequentially through each number stored in our ROM.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-rom.png" alt="" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigate</strong> from the test harness to our <code>num_checker</code> circuit by right-clicking on <code>num_checker</code> and click &quot;View num_checker&quot;.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-subcircuit-view.png" alt="" /></p>
+<ul>
+<li>
+<p>Alternatively, the &quot;Simulate&quot; tab allows you to easily switch between circuits as well.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-simulate-tab.png" alt="" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Before we start debugging, we should do two things:</p>
+<ol>
+<li>
+<p><strong>Build</strong> the following gadget in <code>num_checker</code>. Remember to label the register in the gadget to <code>num_cycles</code>. This gadget, like a counter, allows us to check the current time step by probing the output of the register. This gadget can be located anywhere in the <code>num_checker</code> circuit standalone. It’s recommended to build this gadget whenever you debug in projects to make debugging easier.</p>
+<ul>
+<li>To edit <code>num_checker</code>, you must open its corresponding circuit file, <code>ex5.circ</code>. You cannot edit it through the test circuit. After editing, <strong>reopen</strong> <code>ex5_test.circ</code> for the changes to show up.
+<img src="https://cs61c.org/sp26/labs/lab06/ex5-gadget.png" alt="" /></li>
+<li>To label the register, go on the selection tool (the one that looks like a mouse cursor), and then double-click the corresponding register.</li>
+</ul>
+</li>
+<li>
+<p>Next, <strong>open</strong> the waveform viewer in Logisim (<code>Simulate -&gt; Timing Diagram</code>). After the window pops up, click the <code>Timing Diagram</code> to view the waveforms. If your window is too small, drag it out along the side of your screen so it looks like the window below.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-waveform-viewer.png" alt="" /></p>
+<ul>
+<li>
+<p>Click the <code>Add or Remove Signals</code> button. Let's remove the signals <code>halt</code> and <code>CYCLE</code> from view by using the arrows in the middle. Let's also add the <code>num_cycles</code> signal to view. You can find the <code>num_cycles</code> signal by scrolling down the signals available in the circuit and clicking the <code>num_checker</code> dropdown.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-signal-selection.png" alt="" /></p>
+</li>
+<li>
+<p>After you click <code>Ok</code>, you should see the added <code>num_cycles</code> signal in the waveform viewer. Make sure to expand the <code>Signal Name</code> column so that all text is visible. Then, right click on <code>num_cycles</code> to change its type to <code>Signed Decimal</code>. Do the same to the <code>num</code> signal.</p>
+<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-waveform-viewer-type.png" alt="" /></p>
+</li>
+<li>
+<p>The waveform viewer allows us to see a bunch of signals and their corresponding values per cycle. It's recommended to use the waveform viewer whenever you debug in projects.</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Let's <strong>probe</strong> (i.e. look at the value of certain wires) some outputs and use the waveform viewer to pinpoint the bug!</p>
+<ul>
+<li>Question 1: What is the value of <code>bit_zero</code> at time step 0 (before we tick)? The answer should be a single decimal digit. (Hint: You can find <code>bit_zero</code> inside of the <code>num_checker</code> circuit.)</li>
+<li>Question 2: What is the value of <code>is_odd</code> at time step 0? The answer should be a single decimal digit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tick</strong> the clock one full cycle. The circuit should be at time step 1 now (the gadget you made in step 3 part 1 should also reflect that).</p>
+<ul>
+<li>Question 3: What is the value of <code>bit_zero</code>? The answer should be a single decimal digit.</li>
+<li>Question 4: What is the output for <code>is_odd</code>? The answer should be a single decimal digit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tick</strong> the clock two more full cycles.</p>
+<ul>
+<li>Question 5: Using the waveform viewer, what is the value of <code>num</code>, in decimal? The answer should be an integer.</li>
+<li>Question 6: Using the waveform viewer, what is the value of the output pin <code>greater_than_fifteen</code>? The answer should be a single decimal digit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tick</strong> the clock one more full cycle.</p>
+<ul>
+<li>Question 7: Using the waveform viewer, what is the value of <code>num</code>, in decimal? The answer should be an integer.</li>
+<li>Question 8: Using the waveform viewer, what is the value of the output pin <code>greater_than_fifteen</code>? The answer should be a single decimal digit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tick</strong> the clock one more full cycle.</p>
+<ul>
+<li>Question 9: What time step is the circuit at? The answer should be an integer.</li>
+<li>Question 10: What is the value of <code>bits_five</code>, in binary? The answer should be a 3-bit binary number, with the <code>0b</code> prefix.</li>
+<li>Question 11: What is the value of the output pin <code>five_or_ten</code>. The answer should be a single decimal digit.</li>
+</ul>
+</li>
+<li>
+<p>Now that we are familiar with the behavior of our circuit, let’s <strong>run</strong> the test (using <code>python3 test.py</code>). </p>
+</li>
+<li>
+<p>To look at the output, <strong>open</strong> <code>ex5-test.out</code> (the circuit output) and <code>ex5-test.ref</code> (the expected output). Both files are located in the <code>tests/out</code> folder. There should be a few values that are different.</p>
+</li>
+<li>
+<p>With the knowledge you've gained from simulating the circuit, fix the <code>num_checker</code> circuit so that it passes the test. Feel free to run through the simulator a couple more times! </p>
+<ul>
+<li>Note: All simulation should be done inside your <code>ex5_test.circ</code> Logisim window. Remember to navigate back into the <code>num_checker</code> circuit block to probe your outputs. Do not simulate in your <code>num_checker</code> window (the clock and inputs will not sync between files).</li>
+</ul>
+</li>
+</ol>
+<h2 id="exercise-6-reflection-and-feedback-form">练习6：反思和反馈表</h2>
+<p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLSfWAGB84Y3G2mguauvDn4beCYne4UAHfuwl2-42lNSsQqQmpw/viewform?usp=publish-editor">此调查</a>告诉我们您到目前为止在讨论课和实验中的体验！</p>
+<hr />
+<h2 id="submission">提交</h2>
+<p>保存、提交并推送您的工作，然后在Gradescope上提交到<strong>实验6</strong>作业。</p>
+
+  </div>
+</div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  <div class="container border-top pt-4 mb-5">
+    <div class="row">
+      <div class="col">
+        <div id="dark-toggle-wrapper" class="d-none">
+          <div class="form-check form-switch">
+            <input id="inputDarkToggle" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="inputDarkToggle">
+              Dark Mode
+              <a id="buttonDarkToggleReset" class="d-none" href="javascript:void(0);">(reset)</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+<script>
+  
+
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      initToC();
+    });
+  
+</script>
+
+</body>
+
+</html>

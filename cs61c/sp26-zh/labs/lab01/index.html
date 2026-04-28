@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="language" content="chinese">
+  <title>实验1 | CS61C 2026年春季学期</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="shortcut icon" type="image/png" href="../../img/favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" referrerpolicy="no-referrer" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" referrerpolicy="no-referrer"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../css/main%EF%B9%96h=f8bd781ba155b1b368c870416f8523be84e7ec2bcec8d335573a0c95c849e327.css" />
+  <script defer type="text/javascript" src="../../js/main%EF%B9%96h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
+
+  <!-- block for FICT/FaRT -->
+  <script type="text/javascript" src="../../js/main-sync%EF%B9%96h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script>initDarkToggle();</script>
+
+  
+
+
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img class="d-inline-block me-2 rounded" height="48" width="48" src="../../img/icon-small.png" alt="outline of square computer chip with cs61c label" />
+      <span class="align-middle">CS61C 2026年春季学期</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../../calendar/index.html">日历</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../exam/index.html">考试</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../policies/index.html">政策</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://edstem.org/us/courses/93340/">Ed</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">快速链接</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="https://flextensions.berkeley.edu/">申请延期</a></li>
+            <li><a class="dropdown-item nav-link" href="https://oh.cs61c.org/">OH队列</a></li>
+            <li><a class="dropdown-item nav-link" href="https://venus.cs61c.org/">Venus</a></li>
+            <li><a class="dropdown-item nav-link" href="https://calendar.app.google/usQAgWHiiLPBH7hi6">学生支持会议</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">资源</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="../../resources/common-errors/index.html">常见错误</a></li>
+            <li><a class="dropdown-item nav-link" href="https://notes.cs61c.org/">课程笔记</a></li>
+            <li><a class="dropdown-item nav-link" href="../../pdfs/resources/reference-card.pdf">参考卡片</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/index.html">资源索引</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/exams/index.html">过往考试</a></li>
+            <li><a class="dropdown-item nav-link" href="https://inst.eecs.berkeley.edu/~cs61c/archives.html">过往学期</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../staff/index.html">工作人员</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="mb-4">
+    <section class="section">
+      <div class="container">
+        
+
+		
+
+        
+<div class="row spec">
+  
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="目录">
+      
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#setup">设置</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-hello">练习1：你好！</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#compiling-and-running-a-c-program">编译和运行C程序</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#review-pointers">复习：指针</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-2-pointers-and-functions">练习2：指针和函数</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#review-arrays">复习：数组</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-3-arrays">练习3：数组</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#review-pointer-arithmetic">复习：指针算术</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-4-pointer-arithmetic">练习4：指针算术</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#review-strings">复习：字符串</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-5-strings">练习5：字符串</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-6-structs">练习6：结构体</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#optional-typedefs">可选：typedefs</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-7-reflection-and-feedback-form">练习7：反思与反馈表</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#submission">提交</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#faq">常见问题</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-a-header-file">什么是头文件？</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-a-null-terminator">什么是空终止符？</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-an-executable">什么是可执行文件？</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-strlen">什么是strlen？</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-a-macro">什么是宏？</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#what-is-a-segfault">什么是段错误？</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+  </ul>
+
+    </nav>
+  
+  <div id="toc-content-wrapper"  class="content col-md-9" >
+    <h1 class="title">实验1：C语言</h1>
+    
+      <p class="subtitle">截止日期：1月31日星期六晚上11:59:59 PT</p>
+    
+    
+    <p>在你来实验1之前，请确保你熟悉使用自己选择的文本编辑器在hive上编辑文件。本实验旨在让你熟悉基本的C语言概念，并为项目1做准备。</p>
+<p>我们希望你的提交遵循问题的精神。如果你的提交不符合问题的精神（例如，硬编码正确输出而不应用本实验介绍的任何概念），我们可能会手动评分你的提交。如果你觉得可能违反问题的精神，请随时在Ed上提出私人问题或询问你的实验助教(TA)。</p>
+<p><a href="https://docs.google.com/presentation/d/15JzT9415bAu9OhLtgDCxYY0BOAm5Etf0kpaazl7CmVM/edit?usp=drive_link">实验幻灯片</a></p>
+<hr />
+<h2 id="setup">设置</h2>
+<div  class="alert alert-warning">
+  <p>你必须在hive机器上完成此实验。有关使用它们的复习，请参见<a href="../lab00/index.html">实验0</a>。</p>
+
+</div>
+<p>在你的 <code>labs</code> directory, 拉取你在过去实验中可能做的任何更改：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull origin main</span>
+</span></code></pre>
+<p>仍然在你的 <code>labs</code> 目录中，使用以下命令拉取此实验的文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull starter main</span>
+</span></code></pre>
+<p>如果你遇到如下错误：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">fatal: &#39;starter&#39; does not appear to be a git repository
+fatal: Could not read from remote repository.
+</span></code></pre>
+<p>请确保按如下方式设置starter远程仓库：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> remote add starter https://github.com/61c-teach/sp26-lab-starter.git</span>
+</span></code></pre>
+<p>然后再次运行原始命令。</p>
+<p>如果你遇到任何<code>git</code>错误，请查看<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<hr />
+<h2 id="exercise-1-hello">练习1：你好！</h2>
+<h3 id="compiling-and-running-a-c-program">编译和运行C程序</h3>
+<p>在本实验中，我们将使用命令行程序<a href="https://gcc.gnu.org/">gcc</a>来编译C语言程序。使用以下命令编译练习1的代码（确保你已经<code>cd</code>进入正确的目录）</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">gcc</span></span><span class="z-meta z-function-call z-arguments z-shell"> ex1_hello.c</span>
+</span></code></pre>
+<p>这将<code>ex1_hello.c</code>编译成一个名为<code>a.out</code>的<a href="#faq">可执行</a>文件。如果你上过CS61B或有Java经验，你可以把<code>gcc</code>看作是C语言版本的<code>javac</code>。可以使用以下命令运行此文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./a.out</span></span>
+</span></code></pre>
+<p>可执行文件是<code>a.out</code>，那么<code>./</code>是用来做什么的？答案：当你想要执行一个可执行文件时，你需要在可执行文件名称前添加路径。点号指的是"当前目录"。双点号(<code>..</code>)指的是上一级目录。</p>
+<p><code>gcc</code>有各种命令行选项，我们鼓励你探索。然而在本实验中，我们只使用<code>-o</code>，它用于指定<code>gcc</code>创建的可执行文件的名称。默认情况下，<code>gcc</code>生成的可执行文件名为<code>a.out</code>。你可以使用以下命令将<code>ex1_hello.c</code>编译成名为<code>ex1_hello</code>的程序，然后运行它。如果你不希望所有可执行文件都命名为<code>a.out</code>，这很有帮助。</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">gcc</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>o</span> ex1_hello ex1_hello.c</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./ex1_hello</span></span>
+</span></code></pre>
+<p>此时，你应该看到字符串<code>Hello World</code>被打印出来。如果你编辑源代码（如<code>ex1_hello.c</code>），你必须使用<code>gcc</code>重新编译程序以生成新的可执行文件，否则可执行文件仍将运行旧的源代码。</p>
+<p><strong>编辑</strong> <code>ex1_hello.c</code>（使用你选择的编辑器），使程序打印字符串"Hello 61C"而不是"Hello World"。确保保存你编辑的文件，但暂时不要重新编译。</p>
+<p><strong>运行</strong>可执行文件，使用<code>./ex1_hello</code>。你应该仍然看到<code>Hello World</code>，这是旧的输出。</p>
+<p>现在，使用<code>gcc -o ex1_hello ex1_hello.c</code><strong>重新编译</strong>你的程序，然后再次使用<code>./ex1_hello</code><strong>运行</strong>可执行文件。你现在应该看到<code>Hello 61C</code>。</p>
+<h2 id="review-pointers">复习：指针</h2>
+<p>指针是一个变量，其值是另一个变量的内存地址。请注意，每个变量声明始终位于内存中，每个元素都有一个对应的地址。可以把它想象成一个数组：每个变量值都包含在特定的数组索引（地址）上，而指向该变量的指针是同一个数组中的另一个变量，它包含它所指向的变量的索引（地址）。</p>
+<p>考虑以下示例：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> my_var <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">20</span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span><span class="z-keyword z-operator z-c">*</span> my_var_p<span class="z-punctuation z-terminator z-c">;</span>
+    my_var_p <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-keyword z-operator z-c">&amp;</span>my_var<span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>第一行，我们声明了一个名为<code>my_var</code>的<code>int</code>变量，然后赋值为20。这个值20将被放置在内存中的某个位置。</p>
+<p>第二行，我们声明了一个名为<code>my_var_p</code>的<code>int</code>指针变量。请注意，你也可以写成<code>int *my_var_p</code>，其中星号紧贴变量名而不是变量类型。</p>
+<p>第三行，我们将<code>my_var_p</code>赋值为等于<code>my_var</code>的地址。这是通过在<code>my_var</code>变量前使用<code>&amp;</code>运算符完成的。此时，变量<code>my_var_p</code>中包含的值是变量<code>my_var</code>在内存中的地址。</p>
+<p>请注意，无论何时你想改变<code>my_var</code>的值，你可以直接通过修改<code>my_var</code>来实现。</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c">my_var <span class="z-keyword z-operator z-assignment z-augmented z-c">+=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">2</span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>或者，你也可以通过解引用<code>my_var_p</code>来改变<code>my_var</code>的值</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-keyword z-operator z-c">*</span>my_var_p <span class="z-keyword z-operator z-assignment z-augmented z-c">+=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">2</span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>简而言之，<code>&amp;x</code>获取<code>x</code>的地址，而<code>*x</code>获取地址<code>x</code>处的内容。</p>
+<p>在本节中，假设<code>sizeof(int) == 4</code>。以下是一个更完整的示例：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> my_var <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">20</span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span><span class="z-keyword z-operator z-c">*</span> my_var_p<span class="z-punctuation z-terminator z-c">;</span>
+    my_var_p <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-keyword z-operator z-c">&amp;</span>my_var<span class="z-punctuation z-terminator z-c">;</span>
+
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>Address of my_var: <span class="z-constant z-other z-placeholder z-c">%p</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> my_var_p</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>Address of my_var: <span class="z-constant z-other z-placeholder z-c">%p</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-keyword z-operator z-c">&amp;</span>my_var</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>Address of my_var_p: <span class="z-constant z-other z-placeholder z-c">%p</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-keyword z-operator z-c">&amp;</span>my_var_p</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+
+    <span class="z-keyword z-operator z-c">*</span>my_var_p <span class="z-keyword z-operator z-assignment z-augmented z-c">+=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">2</span><span class="z-punctuation z-terminator z-c">;</span>
+
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>my_var: <span class="z-constant z-other z-placeholder z-c">%d</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> my_var</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>my_var: <span class="z-constant z-other z-placeholder z-c">%d</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-keyword z-operator z-c">*</span>my_var_p</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>此代码的示例执行结果如下：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">Address of my_var: 0xebafb32c
+Address of my_var: 0xebafb32c
+Address pf my_var_p: 0xebafb330
+my_var: 22
+my_var: 22
+</span></code></pre>
+<p>第一行打印<code>my_var_p</code>的值，它被赋值为变量<code>my_var</code>的地址。</p>
+<p>第二行显示<code>my_var_p</code>确实等于<code>&amp;my_var</code>，即变量<code>my_var</code>的地址。</p>
+<p>第三行打印<code>my_var_p</code>的地址。请注意，由于<code>my_var_p</code>本身实际上是一个变量（变量类型是int指针），因此它也必须放置在内存中的某个位置。因此，打印<code>&amp;my_var_p</code>可以让我们看到<code>my_var_p</code>变量在内存中的位置。</p>
+<p>在前三个打印输出之后，我们使用<code>*my_var_p</code>间接改变了<code>my_var</code>的值。由于<code>my_var_p</code>是指向<code>my_var</code>的指针（即<code>my_var_p</code>是<code>my_var</code>的地址），执行<code>*my_var_p</code>允许我们修改<code>my_var_p</code>中地址处的内容。</p>
+<p>第四行显示我们确实修改了<code>my_var</code>，因为值现在是22。
+
+第五行确认<code>*my_var_p</code>确实等于<code>my_var</code>。</p>
+<!-- todo: make gradescope quiz, move to arrays -->
+<details >
+  <summary>如果我们执行以下操作会发生什么：<code>my_var_p += 2</code>？</summary>
+  <p><code>my_var_p</code>是指向int的指针。<code>sizeof(int)</code> = 4。因此，指针算术将添加2 * 4 = 8。
+<code>my_var_p</code>中的值更新为<code>0x7fffebafb32c</code> + 8 = <code>0x7fffebafb334</code></p>
+
+</details>
+<details >
+  <summary>执行<code>my_var_p += 2</code>后，<code>&amp;my_var_p</code>的值是多少？</summary>
+  <p><code>my_var_p</code>的地址将保持不变：<code>0x7fffebafb330</code></p>
+
+</details>
+<details >
+  <summary>执行<code>my_var_p += 2</code>后，如果我们尝试打印<code>*my_var_p</code>的值会发生什么？</summary>
+  <p>由于<code>my_var_p</code>的值已更改，它现在指向内存中的不同位置。行为是未定义的。它要么打印该特定内存位置上的垃圾数据，要么如果您尝试访问受保护的内存段，程序将因段错误而崩溃。</p>
+
+</details>
+<h2 id="exercise-2-pointers-and-functions">练习2：指针和函数</h2>
+<p><strong>编辑</strong> <code>ex2_pointers_and_functions.c</code>（使用你选择的编辑器）并填空。如果卡住了，可以参考<a href="#review-pointers">指针复习部分</a>。</p>
+<p><strong>编译并运行</strong>程序，<strong>检查</strong>输出是否符合预期。如果需要复习<code>gcc</code>，请参考<a href="#exercise-1-hello">练习1</a>。</p>
+<h2 id="review-arrays">复习：数组</h2>
+<p>数组是一种固定长度的数据结构，可以容纳一个或多个相同类型的元素。与列表不同，数组在添加元素时不会自动调整大小。
+
+在C语言中，数组名称与第一个元素的地址是同义词。数组的每个元素都存储在内存中，并且它们存储在连续的内存位置（并排）。数组在函数中使用时会退化为指针。这个指针本身不足以推断数组的长度，因此如果需要跟踪数组的长度，必须使用另一个变量。
+
+你可以对指针执行算术运算来访问数组的不同元素。回想一下，指针只是一个地址，因此如果你对地址进行加法或减法运算，就可以获得数组中后面或前面元素的地址。</p>
+<h2 id="exercise-3-arrays">练习3：数组</h2>
+<p><strong>编辑</strong> <code>ex3_arrays.c</code>（使用你选择的编辑器）并填空。如果卡住了，可以参考<a href="#review-arrays">数组部分</a>。</p>
+<p><strong>编译并运行</strong>程序，<strong>检查</strong>输出是否符合预期。</p>
+<p><strong>阅读</strong>程序的输出。注意数组起始地址和索引2的地址之间的关系（提示：它们相差两个字节）。</p>
+<h2 id="review-pointer-arithmetic">复习：指针算术</h2>
+<p>在练习3中，你的程序在计算索引2的地址时执行了基本的指针算术。这之所以有效，是因为每个元素的大小是1字节（因为<code>int8_t</code>的大小是1字节）。然而，你将处理的大多数类型在内存中占用超过1字节。</p>
+<p>执行指针算术时，C语言会自动考虑指针的类型并添加正确的字节数。例如，如果你写<code>ptr + 5</code>，C语言不会总是将5添加到<code>ptr</code>。相反，C语言将添加5乘以<code>ptr</code>指向的数据类型的大小。如果<code>ptr</code>是<code>int*</code>，且<code>int</code>在内存中占用4字节，则<code>ptr + 5</code>将向<code>ptr</code>中保存的地址添加20。</p>
+<h2 id="exercise-4-pointer-arithmetic">练习4：指针算术</h2>
+<p><strong>编辑</strong> <code>ex4_pointer_arithmetic.c</code>（使用你选择的编辑器）并填空。如果卡住了，可以参考<a href="#review-arrays">数组复习部分</a>。你的解决方案应该与<a href="#exercise-3-arrays">练习3</a>类似。</p>
+<p><strong>编译并运行</strong>程序，<strong>检查</strong>输出是否符合预期。</p>
+<p><strong>阅读</strong>程序的输出。注意数组起始地址和索引2的地址之间的关系与上一个练习中的关系<strong>不同</strong>。</p>
+<h2 id="review-strings">复习：字符串</h2>
+<p>在C语言中，字符串表示为<code>char</code>数组。字符串是一种特殊类型的<code>char</code>数组，因为它们总是以空终止符(<code>\0</code>)结尾。回想一下，C语言中的数组不包含任何关于其长度的信息，因此空终止符允许我们确定字符串何时结束。</p>
+<p>为字符串分配内存时，必须有足够的内存来存储字符串中的字符<strong>以及</strong>空终止符。否则，您可能会遇到未定义行为。然而，数组可能比它存储的字符串大。</p>
+<p>C语言有一个用于操作字符串的函数库，例如：</p>
+<ul>
+<li><code>strlen</code>：通过计算空终止符之前的字符数来计算字符串的长度</li>
+<li><code>strcpy</code>：将字符串从一个内存位置复制到另一个内存位置，一次复制一个字符，直到到达空终止符（空终止符也会被复制）</li>
+</ul>
+<h2 id="exercise-5-strings">练习5：字符串</h2>
+<p><strong>编辑</strong> <code>ex5_strings.c</code>（使用你选择的编辑器）并填空。如果卡住了，可以参考<a href="#review-strings">字符串复习部分</a>。</p>
+<p><strong>编译并运行</strong>程序，<strong>检查</strong>输出是否符合预期。</p>
+<h2 id="exercise-6-structs">练习6：结构体</h2>
+<p><strong>编辑</strong> <code>ex6_structs.c</code>（使用你选择的编辑器）并填空。</p>
+<p><strong>编译并运行</strong>程序，<strong>检查</strong>输出是否符合预期。</p>
+<h2 id="optional-typedefs">可选：<code>typedef</code>s</h2>
+<p>有时，您可能会在声明结构体时看到<code>typedef</code>：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">typedef</span> <span class="z-storage z-type z-c">struct</span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+    <span class="z-storage z-type z-c">int</span> id<span class="z-punctuation z-terminator z-c">;</span>
+<span class="z-punctuation z-section z-block z-end z-c">}</span></span> <span class="z-entity z-name z-type z-typedef z-c">Student</span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>在这些情况下，您可以使用<code>Student</code>作为类型，而不是<code>struct Student</code>。我们不会在这里详细介绍，但如果您感兴趣，可以查看<a href="https://stackoverflow.com/questions/1675351/typedef-struct-vs-struct-definitions">此链接</a>。</p>
+<h2 id="exercise-7-reflection-and-feedback-form">练习7：反思与反馈表</h2>
+<p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLScREtPQIE01otP5va0qMAq9sAG34jrNJ0-U4GDtWKrx6VTeoQ/viewform?usp=publish-editor">此调查</a>，告诉我们您迄今为止在CS 61C课程中的体验！</p>
+<hr />
+<h2 id="submission">提交</h2>
+<p>保存、提交并推送您的工作，然后在Gradescope上提交到<strong>实验1</strong>作业。</p>
+<hr />
+<h2 id="faq">常见问题</h2>
+<h3 id="what-is-a-header-file">什么是头文件？</h3>
+<p>头文件允许您在不同的源文件之间共享函数和宏。有关更多信息，请参阅<a href="https://gcc.gnu.org/onlinedocs/cpp/Header-Files.html#Header-Files">GCC头文件文档</a>。</p>
+<h3 id="what-is-a-null-terminator">什么是空终止符？</h3>
+<p>空终止符是用于表示C语言中字符串结束的字符。空终止符写为<code>'\0'</code>。空终止符的ASCII值是<code>0</code>。当您创建字符数组时，应该像这样用空终止符终止数组</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">char</span> my_str<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span><span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span><span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>e<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>x<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>a<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>m<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>p<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>l<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span>e<span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-separator z-c">,</span> <span class="z-string z-quoted z-single z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&#39;</span><span class="z-constant z-character z-escape z-c">\0</span><span class="z-punctuation z-definition z-string z-end z-c">&#39;</span></span><span class="z-punctuation z-section z-block z-end z-c">}</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>如果您使用双引号创建字符串，空终止符会隐式添加，因此您不应该自己添加它。例如：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">char</span> <span class="z-keyword z-operator z-c">*</span>my_str <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>example<span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<h3 id="what-is-an-executable">什么是可执行文件？</h3>
+<p>可执行文件是由二进制代码组成的文件，可以在您的计算机上执行。可执行文件是通过编译源代码创建的。</p>
+<h3 id="what-is-strlen">什么是<code>strlen</code>？</h3>
+<p>有关完整说明，请参阅man手册页。在终端中输入以下内容</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">man</span></span><span class="z-meta z-function-call z-arguments z-shell"> strlen</span>
+</span></code></pre>
+<p>要退出man手册页，按<kbd>q</kbd>键。</p>
+<h3 id="what-is-a-macro">什么是宏？</h3>
+<p>宏是一段有名称的文本。每当这个名称出现在代码中时，预处理器会将该名称替换为文本。宏用<code>#define</code>表示。例如：</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-meta z-preprocessor z-macro z-c"><span class="z-keyword z-control z-import z-define z-c">#define</span></span><span class="z-meta z-preprocessor z-macro z-c"> <span class="z-entity z-name z-constant z-preprocessor z-c">ARR_SIZE</span></span><span class="z-meta z-preprocessor z-macro z-c"> <span class="z-constant z-numeric z-integer z-decimal z-c">1024</span></span>
+<span class="z-meta z-preprocessor z-macro z-c"><span class="z-keyword z-control z-import z-define z-c">#define</span></span><span class="z-meta z-preprocessor z-macro z-c"> <span class="z-entity z-name z-function z-preprocessor z-c">min</span></span><span class="z-meta z-preprocessor z-macro z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-variable z-parameter z-c">X</span><span class="z-punctuation z-separator z-c">,</span> <span class="z-variable z-parameter z-c">Y</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-preprocessor z-macro z-c">  <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>X<span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-comparison z-c">&lt;</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>Y<span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-ternary z-c">?</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>X<span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-ternary z-c">:</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>Y<span class="z-punctuation z-section z-group z-end z-c">)</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span>
+
+<span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> arr1<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>ARR_SIZE<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span> arr2<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>ARR_SIZE<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span> arr3<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>ARR_SIZE<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-terminator z-c">;</span>
+
+    <span class="z-keyword z-control z-c">for</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-storage z-type z-c">int</span> i <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> i <span class="z-keyword z-operator z-comparison z-c">&lt;</span> ARR_SIZE<span class="z-punctuation z-terminator z-c">;</span> <span class="z-keyword z-operator z-arithmetic z-c">++</span>i<span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+        arr3<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-function-call z-c"><span class="z-variable z-function z-c">min</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c">arr1<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-separator z-c">,</span> arr2<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-punctuation z-section z-block z-end z-c">}</span></span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>在此代码中，预处理器将把<code>ARR_SIZE</code>替换为<code>1024</code>，并将</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c">arr3<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-function-call z-c"><span class="z-variable z-function z-c">min</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c">arr1<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-separator z-c">,</span> arr2<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>替换为</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c">arr3<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>arr1<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-comparison z-c">&lt;</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>arr2<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-ternary z-c">?</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>arr1<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-keyword z-operator z-ternary z-c">:</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span>arr2<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span>i<span class="z-punctuation z-section z-brackets z-end z-c">]</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span><span class="z-punctuation z-section z-group z-end z-c">)</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>宏可以比上面的示例复杂得多。您可以在<a href="https://gcc.gnu.org/onlinedocs/cpp/Macros.html">GCC文档</a>中找到更多信息</p>
+<h3 id="what-is-a-segfault">什么是段错误？</h3>
+<p>当您尝试访问"不属于您"的内存时，就会发生段错误。有几种情况会导致段错误，包括：</p>
+<ol>
+<li>访问数组越界。请注意，访问数组越界并不总是导致段错误。段错误发生的索引在某种程度上是不可预测的。</li>
+<li>解引用空指针。</li>
+<li>访问已被<code>free</code>的指针（<code>free</code>不在本实验的范围内）。</li>
+<li>尝试写入只读内存。例如，使用以下语法创建的字符串是只读的。这意味着您无法在创建字符串后更改其值。换句话说，它是不可变的。</li>
+</ol>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">char</span> <span class="z-keyword z-operator z-c">*</span>my_str <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>Hello<span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>然而，使用以下语法创建的字符串是可变的。</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">char</span> my_str<span class="z-meta z-brackets z-c"><span class="z-punctuation z-section z-brackets z-begin z-c">[</span><span class="z-punctuation z-section z-brackets z-end z-c">]</span></span> <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span>hello<span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>为什么第一个字符串是不可变的而第二个字符串是可变的？第一个字符串存储在内存的数据部分，这是只读的，而第二个字符串存储在堆栈上。</p>
+
+  </div>
+</div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  <div class="container border-top pt-4 mb-5">
+    <div class="row">
+      <div class="col">
+        <div id="dark-toggle-wrapper" class="d-none">
+          <div class="form-check form-switch">
+            <input id="inputDarkToggle" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="inputDarkToggle">
+              Dark Mode
+              <a id="buttonDarkToggleReset" class="d-none" href="javascript:void(0);">(reset)</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+<script>
+  
+
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      initToC();
+    });
+  
+</script>
+
+</body>
+
+</html>

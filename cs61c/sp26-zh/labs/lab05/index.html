@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="language" content="chinese">
+  <title>实验5 | CS61C 2026年春季学期</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="shortcut icon" type="image/png" href="../../img/favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" referrerpolicy="no-referrer" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" referrerpolicy="no-referrer"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../css/main%EF%B9%96h=f8bd781ba155b1b368c870416f8523be84e7ec2bcec8d335573a0c95c849e327.css" />
+  <script defer type="text/javascript" src="../../js/main%EF%B9%96h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
+
+  <!-- block for FICT/FaRT -->
+  <script type="text/javascript" src="../../js/main-sync%EF%B9%96h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script>initDarkToggle();</script>
+
+  
+
+
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img class="d-inline-block me-2 rounded" height="48" width="48" src="../../img/icon-small.png" alt="outline of square computer chip with cs61c label" />
+      <span class="align-middle">CS61C 2026年春季学期</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle Navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../../calendar/index.html">日历</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../exam/index.html">考试</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../policies/index.html">政策</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://edstem.org/us/courses/93340/">Ed</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">快速链接</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="https://flextensions.berkeley.edu/">申请延期</a></li>
+            <li><a class="dropdown-item nav-link" href="https://oh.cs61c.org/">OH队列</a></li>
+            <li><a class="dropdown-item nav-link" href="https://venus.cs61c.org/">Venus</a></li>
+            <li><a class="dropdown-item nav-link" href="https://calendar.app.google/usQAgWHiiLPBH7hi6">学生支持会议</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">资源</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="../../resources/common-errors/index.html">常见错误</a></li>
+            <li><a class="dropdown-item nav-link" href="https://notes.cs61c.org/">课程笔记</a></li>
+            <li><a class="dropdown-item nav-link" href="../../pdfs/resources/reference-card.pdf">参考卡片</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/index.html">资源索引</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/exams/index.html">过往考试</a></li>
+            <li><a class="dropdown-item nav-link" href="https://inst.eecs.berkeley.edu/~cs61c/archives.html">过往学期</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../staff/index.html">工作人员</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="mb-4">
+    <section class="section">
+      <div class="container">
+        
+
+		
+
+        
+<div class="row spec">
+  
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+      
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#setup">设置</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#possible-setup-errors">可能的设置错误</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-introduction">练习1：介绍</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#building-our-circuit">构建我们的电路</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#list-of-wire-colors-and-values">电线颜色和值列表</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-2-sub-circuits">练习2：子电路</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing">测试</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#checkpoint">检查点</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-3-storing-state">练习3：存储状态</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#checkpoint-1">检查点</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#advanced-logisim-features">高级Logisim功能</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#splitters">分割器</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#tunnels">隧道</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#extenders">扩展器</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-4-rotate-right">练习4：循环右移</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-5-reflection-and-feedback-form">练习5：反思和反馈表</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-6-optional-mid-semester-feedback-form">练习6：[可选(OPTIONAL)]学期中期反馈表</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#submission">提交</a>
+        
+      </li>
+    
+  </ul>
+
+    </nav>
+  
+  <div id="toc-content-wrapper"  class="content col-md-9" >
+    <h1 class="title">实验5：Logisim</h1>
+    
+      <p class="subtitle">截止日期：3月12日星期四晚上11:59:59 PT</p>
+    
+    
+    <p>本实验介绍Logisim——一个用于设计和模拟数字逻辑电路的教育工具。这是项目3的重要准备。</p>
+<p><a href="https://docs.google.com/presentation/d/1ShCYj2EdtpaU0Tuau6bCSISYyEKb3LY31FFXdSahSTg/edit?usp=drive_web&amp;ouid=108835853953890482662">实验幻灯片</a></p>
+<hr />
+<h2 id="setup">设置</h2>
+<div  class="alert alert-warning">
+  <p>您必须在本地机器上完成此实验。如果需要重新设置本地机器，请参阅<a href="../lab00/index.html">实验0</a>。</p>
+
+</div>
+<p>在本地机器的<code>labs</code>目录中，拉取您在过去实验中可能做的任何更改：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull origin main</span>
+</span></code></pre>
+<p>仍然在本地机器的<code>labs</code>目录中，使用以下命令拉取本实验的文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull starter main</span>
+</span></code></pre>
+<p>如果遇到任何<code>git</code>错误，请查看<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<p>仍然在labs目录中，运行以下命令下载最新版本的Logisim：</p>
+<pre class="z-code"><code><span class="z-text z-plain">bash tools/download_tools.sh
+</span></code></pre>
+<p>本实验中的所有工作都将使用<strong>Logisim Evolution</strong>完成。</p>
+<p>开始前的一些重要警告：</p>
+<ul>
+<li>Logisim是一个GUI程序，因此不能在无图形界面环境（WSL、SSH等）中轻松使用。请在具有GUI、Java 9+和Python 3.6+的<strong>本地环境</strong>中运行它。如果您的本地系统是macOS或Linux，您可能已经准备好了。如果您使用Windows，请使用<code>Git Bash</code>，它在Windows上运行并支持GUI。</li>
+<li>请使用我们分发的Logisim版本，因为它与互联网上的其他版本不同（包含bug修复和课程特定内容）</li>
+<li>不要移动工作人员提供的输入/输出引脚；如果引脚移动，您的电路将无法正确测试。如果您的电路未通过测试但您认为它是正确的，请检查您的电路是否适合<code>tests/ex#_test.circ</code>中的相应测试框架</li>
+<li>Logisim不会自动保存您的工作。工作时请记住频繁保存（并提交）！</li>
+</ul>
+<h3 id="possible-setup-errors">可能的设置错误</h3>
+<ul>
+<li>在Windows 10上尝试运行Python时出现&quot;Permission Denied&quot;（权限拒绝）
+<ol>
+<li>在Windows搜索提示符中搜索&quot;app execution alias&quot;（应用执行别名）。点击&quot;Manage app execution aliases&quot;（管理应用执行别名），它是&quot;System Setting&quot;（系统设置）的一部分</li>
+<li>通过切换相应的可执行文件来禁用商店版本的Python。<details>
+     <summary>截图</summary>
+     <img src="https://cs61c.org/sp26/labs/lab05/setup-error-app-exec-aliases.png" />
+ </details>
+</li>
+</ol>
+</li>
+<li><code>java.lang.UnsupportedClassVersionError</code><pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">Exception in thread &quot;main&quot; java.lang.UnsupportedClassVersionError: com/cburch/logisim/Main has been compiled by a more recent version of the Java Runtime (class file version 60.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+</span></code></pre>
+您需要更新到Java 16+。请按照<a href="../lab00/index.html">实验0的设置说明</a>操作。</li>
+</ul>
+<hr />
+<h2 id="exercise-1-introduction">练习1：介绍</h2>
+<p>与Venus类似，您可以从<code>lab05</code>文件夹内打开Logisim，使用命令：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">java</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>jar</span> ../tools/logisim-evolution.jar <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"># 如果在不同的文件夹中，请使用相应的相对路径</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></span></code></pre>
+<p>短暂的启动序列后，应该会出现一个看起来有点古老的窗口。如果没有出现，请检查终端中的错误。</p>
+<p>我们将从创建一个非常简单的电路开始，只是为了感受放置门和电线的感觉。开始之前，请注意一个<strong>有用的功能：缩放功能！</strong>它在左下角，将在接下来的几周内让您的生活变得更加轻松。缩放缩放缩放。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/interface-emphasize-zoom.png" alt="Zoom... Zoom... ENHANCE! Zoom feature is available in Logisim at the bottom left corner." /></p>
+<h3 id="building-our-circuit">构建我们的电路</h3>
+<ol>
+<li>
+<p><img src="https://cs61c.org/sp26/labs/lab05/icon-and.png" alt="AND gate icon" /> 首先点击<code>AND</code>门按钮。这将使<code>AND</code>门的阴影跟随您的光标移动。在主原理图窗口中单击一次以放置一个<code>AND</code>门。</p>
+</li>
+<li>
+<p><img src="https://cs61c.org/sp26/labs/lab05/icon-pin-input.png" alt="Input pin icon" /> 点击<code>Input Pin</code>（输入引脚）按钮。现在，在您的<code>AND</code>门左侧的某个位置放置两个输入引脚。</p>
+</li>
+<li>
+<p><img src="https://cs61c.org/sp26/labs/lab05/icon-pin-output.png" alt="Output pin icon" /> 点击<code>Output Pin</code>（输出引脚）按钮。然后在您的<code>AND</code>门右侧的某个位置放置一个输出引脚。此时您的原理图应该看起来像这样：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-and-disconnected.png" alt="A circuit in Logisim. It has two input pins on the left, each has value &quot;0&quot; in binary. In the center there is an AND gate. To its right, there is an output pin with value &quot;U&quot;. They are all disconnected." /></p>
+</li>
+<li>
+<p><img src="https://cs61c.org/sp26/labs/lab05/icon-select.png" alt="Select tool icon" /> 点击<code>Select tool</code>（选择工具）按钮。点击并拖动以将2个输入引脚连接到<code>AND</code>门左侧的2个输入端。您只能绘制垂直和水平的电线。只需水平绘制一条电线，释放鼠标按钮，然后从电线末端开始点击并拖动以继续垂直绘制。重复相同的过程，将<code>AND</code>门右侧的输出端连接到输出引脚。完成这些步骤后，您的原理图应该看起来类似于此：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-and-connected.png" alt="A circuit in Logisim. It has two input pins on the left, each has value &quot;0&quot; in binary. They are connected to an AND gate in the center. Connected to its right, there is an output pin with value &quot;0&quot; in binary." /></p>
+</li>
+<li>
+<p><img src="https://cs61c.org/sp26/labs/lab05/icon-poke.png" alt="Poke tool icon" /> 最后，<code>Poke</code>工具在您点击引脚时会切换引脚的值。如果您在电线上使用<code>Poke</code>工具，它将显示电线上的值。选择<code>Poke</code>工具，尝试点击原理图中的输入引脚，并观察发生了什么。输出是否符合您认为<code>AND</code>门应该做的事情？现在，尝试直接点击一根电线。该电线上的当前值应该会弹出；这在您以后构建更复杂的电路时会非常有用。</p>
+</li>
+<li>
+<p>现在，删除电线，并尝试将每个输入引脚连接到<code>AND</code>门上的<em>另一个</em>引脚，使电线交叉。一个极端的例子：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-and-crossover.png" alt="This Logisim circuit shows two input pins with binary value “0” and “1” connected to an AND gate by intertwined crossover wires. The output from the AND gate is split and connected to two output pins with binary value “0”, with the text “wow we’re identical!” next to them." title="- Gred and Forge" /></p>
+<p>如果您在创建电线时将其拖动<strong>穿过</strong>另一根电线而不停下，电线不会连接。如果您在创建电线时在另一根电线<strong>上方</strong>停止拖动，将创建一个连接点（大圆圈），电线将连接。设计电路时一定要注意连接点！</p>
+</li>
+</ol>
+<h3 id="list-of-wire-colors-and-values">电线颜色和值列表</h3>
+<p>请查看此列表。尝试自己重新创建每种颜色可能会有所帮助。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-wire-errors.png" alt="This circuit shows multiple input-output pin groups. In the first group, an input pin with binary value “0” is connected to an output pin with binary value “0” via a dark green wire. In the second group, an input pin with binary value &quot;1&quot; is connected to an output pin with binary value &quot;1&quot; via a bright green wire. In the third group, an input pin with binary &quot;0&quot; and an input pin with binary value &quot;1&quot; are connected to the same wire in red, and the red wire is connected to an output pin with binary value &quot;E&quot;. In the fourth group, an input pin with binary value &quot;0&quot; is disconnected with an output pin with binary value &quot;U&quot;. The wire on the output pin side is blue. The fifth group has three input pins. Two 2-bit input pins are wired to the MUX data bits. A slightly hidden orange wire behind the MUX connecting the 2-bit lower data line to the 1-bit select line, making the lower data and select wires orange as well. The MUX is connected to a two bit output pin with value &quot;UU&quot; via a black wire." /></p>
+<table><thead><tr><th>颜色</th><th>含义</th></tr></thead><tbody>
+<tr><td>深绿色</td><td>1位电线的值为0</td></tr>
+<tr><td>亮绿色</td><td>1位电线的值为1</td></tr>
+<tr><td>黑色</td><td>多位电线（许多组件具有位宽属性，可以在左下角的属性菜单中配置）</td></tr>
+<tr><td>红色（值为<code>EEEE</code>）</td><td>电线上有多个值（在这种情况下，来自2个输入的<code>0</code>和<code>1</code>）。另外，记住在电线连接点会出现一个大圆圈。</td></tr>
+<tr><td>蓝色（值为<code>UUUU</code>）</td><td>电线处于浮动状态（即没有已知值）</td></tr>
+<tr><td>橙色</td><td>电线连接到具有不同位宽的组件。一个简单的例子是1位输入引脚连接到2位输出引脚。在所示示例中，<code>MUX</code>后面有一根稍微隐藏的电线，将2位低位数据线连接到1位选择线。要注意这些情况！</td></tr>
+</tbody></table>
+<div  class="alert alert-info">
+  <p><strong>无障碍提示</strong>：如果您有残疾且难以识别这些颜色，请随意使用更方便的颜色集。要执行此操作，请转到<code>File -&gt; Preferences -&gt; Simulation Tab</code>（文件-&gt;首选项-&gt;模拟选项卡）。当您在OH或Ed上展示电路时，请告知课程工作人员此更改，因为我们经常使用颜色作为调试工具。</p>
+
+</div>
+<h2 id="exercise-2-sub-circuits">练习2：子电路</h2>
+<p>就像C程序可以包含辅助函数一样，原理图可以包含辅助子电路。在本实验的这一部分，我们将创建几个子电路来演示它们的用法。</p>
+<p>注意：Logisim Evolution通常不允许使用带空格或符号的名称、以数字开头的名称或与关键字冲突的名称（例如<code>NAND</code>）。</p>
+<ol>
+<li>
+<p>打开练习2的原理图（<code>File -&gt; Open -&gt; lab05/ex2.circ</code>）。</p>
+</li>
+<li>
+<p>通过双击左侧电路选择器中的<code>AND2</code>来打开<code>AND2</code>示例子电路。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/interface-circuit-selector.png" alt="" /></p>
+<p>请注意末尾的<code>2</code>；因为有一个名为<code>AND</code>的组件，所以我们不能将其称为<code>AND</code>。
+我们创建了一个演示电路供您参考。它有2个1位输入引脚<code>A</code>和<code>B</code>，并将<code>A &amp; B</code>的结果发送到<code>RESULT</code>输出引脚。这应该与您刚刚制作的练习电路非常相似。</p>
+</li>
+<li>
+<p>现在，打开<code>NAND2</code>子电路。是时候制作您自己的电路了！<strong>不</strong>使用左侧Gates库中的内置<code>NAND</code>门来填充此电路（即仅使用<code>AND</code>、<code>OR</code>和<code>NOT</code>门；它们在窗口顶部的工具栏中作为小图标提供，或在电路选择器的Gates库中）。完成后，类似地填充<code>NOR2</code>、<code>XOR2</code>、<code>MUX2</code>（2选1 MUX）和<code>MUX4</code>（4选1 MUX）。请注意，<code>NAND</code>、<code>NOR</code>、<code>XOR</code>和<code>MUX</code>已存在于Logisim中。本练习旨在帮助您理解如何使用子电路。</p>
+<ul>
+<li>请不要更改子电路的名称或创建新的子电路，否则您的电路可能无法正常工作</li>
+<li>除了<code>AND</code>、<code>OR</code>和<code>NOT</code>之外，不要使用任何内置门。但是，一旦您构建了一个子电路，您可以（并且鼓励）<strong>使用它来构建其他电路</strong>。您可以通过在电路选择器中单击子电路，然后像放置<code>AND</code>/<code>NOT</code>/<code>OR</code>门一样放置它来实现这一点</li>
+<li>为每个电路写出真值表会有所帮助。您可能还会发现复习关于如何构建这些门的讲座幻灯片很有用</li>
+<li>这份<a href="https://inst.eecs.berkeley.edu/%7Ecs61c/sp21/resources-pdfs/blocks.pdf">组合逻辑块讲义</a>可能对您的MUX实现有用</li>
+<li>对于<code>4-to-1 MUX</code>，<code>SEL0</code>和<code>SEL1</code>分别对应于2位选择器的第0位和第1位。确保不要切换它们！</li>
+</ul>
+</li>
+</ol>
+<h3 id="testing">测试</h3>
+<p>打开终端会话并转到<code>lab05</code>文件夹。我们为每个练习提供了测试，您可以使用<code>python3 test.py</code>运行。对于每个测试，您的电路在测试框架电路（<code>tests/ex2-test.circ</code>）中运行，其输出与该测试的参考输出（<code>tests/out/ex2-test.ref</code>）进行比较。在输出文件中，每列对应主电路上的一个输入/输出引脚，每行显示一组输入和电路产生的相应输出。如果您的电路输出（<code>tests/out/ex2-test.out</code>）不同，您可以将其与参考输出文件进行比较；<code>diff</code>命令可能会有所帮助。</p>
+<ul>
+<li>请注意，输出文件通过在每个值之间添加制表符（<code>\t</code>）来&quot;格式化&quot;，当制表符显示为8个空格宽时，它们看起来最好。8个或更多字符的值和列标题可能会打乱对齐，所以要注意这些！</li>
+<li>不要修改参考输出文件，否则本地测试可能会产生不正确的结果</li>
+<li>您不需要编辑本实验的测试框架电路。但是，查看一下可能会很有用；我们将在下一个实验和项目3中做类似的事情！</li>
+</ul>
+<h3 id="checkpoint">检查点</h3>
+<p>在这一点上，请确保您熟悉Logisim环境、创建子电路以及在其他电路中重用此类电路。</p>
+<h2 id="exercise-3-storing-state">练习3：存储状态</h2>
+<p>让我们实现一个重复递增值的电路。这个电路与您到目前为止为实验构建的电路之间的区别在于，它将把这个值作为<strong>状态</strong>存储在<strong>寄存器</strong>中。</p>
+<ol>
+<li>
+<p>打开练习3的原理图（<code>File -&gt; Open -&gt; lab05/ex3.circ</code>）并转到空的<code>AddMachine</code>电路。</p>
+<ol>
+<li>记住要<strong>经常保存</strong>，并<strong>避免移动或编辑提供的输入/输出引脚</strong>。</li>
+</ol>
+</li>
+<li>
+<p>从<code>Arithmetic</code>库（左侧的电路选择器）中选择<code>Adder</code>子电路，并将加法器放置到您的<code>AddMachine</code>子电路中。</p>
+<img src="https://cs61c.org/sp26/labs/lab05/interface-library-emphasize-adder.png" class="w-25" />
+</li>
+<li>
+<p>从<code>Memory</code>库中选择<code>Register</code>（寄存器），并将一个寄存器放置到您的子电路中。下面是一张说明寄存器各部分的图片。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/diagram-register.png" alt="" /></p>
+</li>
+<li>
+<p>将<code>clk</code>输入引脚连接到寄存器上的时钟引脚。通常，最好让电路中的所有组件使用同一个时钟，以便所有内容同步。在这种情况下，测试框架为其寄存器使用时钟，因此它通过这里的<code>clk</code>引脚将该时钟信号传递给您电路的寄存器。将来，如果您正在处理一个没有现有时钟信号的电路，可以使用<code>Wiring</code>库中的新<code>Clock</code>（时钟）来创建自己的时钟。</p>
+</li>
+<li>
+<p>将加法器的输出连接到寄存器的输入，并将寄存器的输出连接到加法器的输入。</p>
+<ul>
+<li>当您尝试连接组件时，可能会收到&quot;Incompatible widths&quot;（不兼容的宽度）错误。这意味着您的电线正试图连接两个具有不同位宽的引脚。如果您使用<code>Selection</code>工具（顶部工具栏上的鼠标指针图标）单击一个组件，您会注意到窗口左下角字段中有一个<code>Data Bits</code>（数据位）属性。该值决定了组件输入和输出的位数。确保加法器和寄存器的数据位宽度都为<code>8</code>，这样&quot;Incompatible widths&quot;错误应该会得到解决。</li>
+</ul>
+</li>
+<li>
+<p>将一个值为<code>1</code>的8位常量连接到加法器的第二个输入。您可以在<code>Wiring</code>库中找到<code>Constant</code>（常量）电路元件。要将其值更改为<code>1</code>，只需在<code>Value</code>属性中输入<code>1</code>并按<code>Enter</code>。现在您应该看到该值为<code>0x1</code>（Logisim会自动将您输入的十进制值转换为十六进制）。</p>
+</li>
+<li>
+<p>将两个输出引脚连接到您的电路，以便您可以监控加法器和寄存器的输出。加法器的输出应连接到<code>ADD_OUT</code>，寄存器的输出应连接到<code>REG_OUT</code>。因此，最后您的电路应该看起来类似于：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-add-machine.png" alt="" /></p>
+</li>
+<li>
+<p>现在，打开本练习的测试电路（<code>lab05/tests/ex3-test.circ</code>）。在左上角，我们有一个小型电路（类似于您的<code>AddMachine</code>）来跟踪当前周期。在其下方，您应该看到您的<code>AddMachine</code>电路连接到时钟和一些输出引脚。</p>
+</li>
+<li>
+<p>通过转到<code>Simulate -&gt; Tick Half Cycle</code>（模拟-&gt;半周期滴答）（<code>Command/Control + T</code>）来滴答您的电路一次。您的<code>AddMachine</code>的输出应该增加了！此外，时钟现在应该是亮绿色的。</p>
+<p>这对项目3<strong>极其</strong>重要，所以请确保您知道如何滴答时钟和点击电线。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/half-tick.png" alt="" /></p>
+<p>如果您再次<code>Tick Half Cycle</code>（半周期滴答），您会注意到时钟变回深绿色，但数字不会改变。这是因为寄存器默认是上升沿触发的（即从低时钟信号变为高信号时触发）。</p>
+<p>如果您对查看半周期的变化不太感兴趣，也可以使用<code>Simulate -&gt; Tick Full Cycle</code>（模拟-&gt;全周期滴答）（<code>F2</code>）。</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/full-tick.png" alt="" /></p>
+</li>
+<li>
+<p>手动滴答电路可能会很累。好消息是：Logisim可以为您滴答电路！转到<code>Simulate -&gt; Ticks Enabled/Enable Clock Ticks</code>（模拟-&gt;启用滴答/启用时钟滴答）（<code>Command/Control + K</code>）。现在您的电路应该自动计数了！</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/ticks-enabled.gif" alt="" /></p>
+<p>如果您想让电路运行得更快，可以在<code>Simulate -&gt; Tick Frequency</code>（模拟-&gt;滴答频率）中更改滴答频率。要停止，请再次点击<code>Ticks Enabled//Enable Clock Ticks</code>（启用滴答//启用时钟滴答）（<code>Command/Control + K</code>）。如果您想重置电路，请使用<code>Simulate -&gt; Reset Simulation</code>（模拟-&gt;重置模拟）（<code>Command/Control + R</code>）。</p>
+</li>
+<li>
+<p>完成后，尝试运行提供的测试（<a href="#testing">使用<code>python3 test.py</code></a>）。</p>
+</li>
+</ol>
+<h3 id="checkpoint-1">检查点</h3>
+<p>在这一点上，请确保您熟悉在Logisim环境中设计和模拟使用<em>组合逻辑</em>和<em>状态元件</em>（寄存器）混合的简单数字逻辑电路。</p>
+<hr />
+<h2 id="advanced-logisim-features">高级Logisim功能</h2>
+<p>以下是三个Logisim功能，它们既可以为您节省大量时间，又可以使您的电路看起来更整洁。</p>
+<h3 id="splitters">分割器</h3>
+<p>分割器允许您将一个多位值拆分成较小的部分，或者（尽管名称如此）将多个一位或多位的值组合成单个值。在这里，我们将4位二进制数<code>1100</code>拆分为<code>11</code>和<code>00</code>，交换它们的位置，并将它们与<code>0</code>组合以创建最终的5位数<code>00110</code>：</p>
+<p><img src="https://cs61c.org/sp26/labs/lab05/circuit-splitter-demo.png" alt="" /></p>
+<p>（使用<code>Select</code>工具）点击分割器以在侧边栏（左下角）中获取其属性。您可以配置分割器上的臂数和每个臂上存在的位等属性。对于上面的电路，左侧和右侧分割器的属性如下所示：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/interface-attributes-splitter-demo-left.png" alt="" /><img src="https://cs61c.org/sp26/labs/lab05/interface-attributes-splitter-demo-right.png" alt="" /></p>
+
+</div>
+<p>请注意有一个名为<code>Facing</code>（朝向）的属性。您可以使用它来旋转分割器。在上面的示例中，右侧的分割器朝向<code>West</code>（西），而左侧的分割器朝向<code>East</code>（东）。</p>
+<p>如果您看到橙色的错误电线，这意味着您的输入位宽与输出位宽不匹配。确保在用电线连接两个组件时，在该组件的菜单中正确设置位宽。</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-splitter-error-width.png" alt="" /></p>
+
+</div>
+<h3 id="tunnels">隧道</h3>
+<p>隧道允许您绘制一条&quot;隐形电线&quot;来将两个点绑定在一起。隧道按赋予电线的区分大小写的标签分组。它们用于连接电线，如下所示：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-tunnel-demo-working.png" alt="" /></p>
+
+</div>
+<p>这实际上相当于：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-tunnel-demo-working-revealed.png" alt="" /></p>
+
+</div>
+<p>应该注意哪些电线与哪些其他电线通过隧道连接，例如在这种情况下：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-tunnel-demo-error.png" alt="" /></p>
+
+</div>
+<p>这实际上相当于：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-tunnel-demo-error-revealed.png" alt="" /></p>
+
+</div>
+<p>我们<em>强烈</em>建议您在Logisim中使用隧道，因为它们使您的电路看起来更整洁（减少电线混乱），这意味着更容易调试。</p>
+<h3 id="extenders">扩展器</h3>
+<p>当更改电线的宽度时，为了清晰起见，您应该使用位扩展器。例如，考虑以下将8位电线零扩展为16位电线的实现：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-extender-demo-wider.png" alt="" /></p>
+
+</div>
+<p>与分割器相比，扩展器一目了然。在处理复杂电路时，这变得特别有帮助。</p>
+<p>此外，考虑丢弃位的情况。尽管名称如此，扩展器也可以执行此操作：</p>
+<div class="d-inline-block wrap w-50">
+  <p><img src="https://cs61c.org/sp26/labs/lab05/circuit-extender-demo-narrower.png" alt="" /></p>
+
+</div>
+<p>虽然分割器更简约，但也稍微难以阅读。</p>
+<hr />
+<h2 id="exercise-4-rotate-right">练习4：循环右移</h2>
+<p>凭借您对分割器的了解以及对多路复用器的知识和经验，您已准备好实现一个非平凡的组合逻辑块：<code>RotRight</code>，代表&quot;循环右移&quot;（Rotate Right）。其思想是<code>RotRight</code>将输入<code>INPUT0</code>的位模式向右循环移动<code>AMOUNT</code>位。因此，如果<code>INPUT0</code>是<code>0b1000000000000101</code>且<code>AMOUNT</code>是<code>0b0011</code>（十进制的<code>3</code>），则该块的输出将是<code>0b1011000000000000</code>。请注意，最右边的<code>3</code>位从值的右端移出并回到左端。这可以通过位运算<code>R = A &gt;&gt; B | A &lt;&lt; (16 - B)</code>来表示。</p>
+<p>实现一个名为<code>RotRight</code>的子电路，具有以下输入：</p>
+<ul>
+<li><code>INPUT0</code>（16位），要旋转的16位输入</li>
+<li><code>AMOUNT</code>（4位），旋转量（为什么是4位？）</li>
+</ul>
+<p>您可以在<code>ex4.circ</code>中找到起始子电路。记住要<strong>经常保存</strong>，并<strong>避免移动或编辑提供的输入/输出引脚</strong>。</p>
+<p>输出应该是<code>INPUT0</code>向右旋转<code>AMOUNT</code>位位置，如上所述。您<strong>不允许</strong>在解决方案中使用Logisim移位器，但允许使用所有其他组合逻辑（MUX、常量、门等）。Logisim的内置MUX（在<code>Plexers</code>菜单下找到）可能特别有帮助。您的解决方案不应涉及时钟或任何时钟元件（如寄存器）。</p>
+<ul>
+<li>我们为您提供了<code>rot1</code>、<code>rot2</code>、<code>rot4</code>和<code>rot8</code>的框架，它们将分别将输入旋转1、2、4和8位。您应该实现这些子电路并在<code>RotRight</code>的实现中使用它们。</li>
+</ul>
+<details >
+  <summary>提示</summary>
+  <p>您可以使用提供的子电路旋转0-15范围内的任何数字。例如，要旋转9位，您可以先旋转8位，然后旋转1位。</p>
+
+</details>
+<p>完成后，尝试运行提供的测试。</p>
+<h2 id="exercise-5-reflection-and-feedback-form">练习5：反思和反馈表</h2>
+<p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLSehGRUSB4tG994DH8MlXG2ar7-Q_XBXjLWSbov6R4qd5KAJHg/viewform?usp=dialog">此调查</a>告诉我们您到目前为止在讨论课和实验中的体验！</p>
+<h2 id="exercise-6-optional-mid-semester-feedback-form">练习6：[可选(OPTIONAL)]学期中期反馈表</h2>
+<p>我们还在进行一项<a href="https://docs.google.com/forms/d/e/1FAIpQLSfBHqmCIu56oWhcj5oIE5s36FIlPXeDIz46JzYo_pUBKoCrPw/viewform?usp=dialog">学期中期调查</a>，以了解您在整个课程中的体验。请填写此调查以获得<strong>额外学分</strong>！</p>
+<hr />
+<h2 id="submission">提交</h2>
+<p>保存、提交并推送您的工作，然后在Gradescope上提交到<strong>实验5</strong>作业。</p>
+
+  </div>
+</div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  <div class="container border-top pt-4 mb-5">
+    <div class="row">
+      <div class="col">
+        <div id="dark-toggle-wrapper" class="d-none">
+          <div class="form-check form-switch">
+            <input id="inputDarkToggle" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="inputDarkToggle">
+              Dark Mode
+              <a id="buttonDarkToggleReset" class="d-none" href="javascript:void(0);">(reset)</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+<script>
+  
+
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      initToC();
+    });
+  
+</script>
+
+</body>
+
+</html>

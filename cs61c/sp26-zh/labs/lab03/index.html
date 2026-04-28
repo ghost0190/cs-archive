@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="language" content="chinese">
+  <title>实验3 | CS61C 2026年春季学期</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="shortcut icon" type="image/png" href="../../img/favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" referrerpolicy="no-referrer" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" referrerpolicy="no-referrer"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
+
+
+  <link rel="stylesheet" href="../../css/main%EF%B9%96h=f8bd781ba155b1b368c870416f8523be84e7ec2bcec8d335573a0c95c849e327.css" />
+  <script defer type="text/javascript" src="../../js/main%EF%B9%96h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
+
+  <!-- block for FICT/FaRT -->
+  <script type="text/javascript" src="../../js/main-sync%EF%B9%96h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script>initDarkToggle();</script>
+
+  
+
+
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
+
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img class="d-inline-block me-2 rounded" height="48" width="48" src="../../img/icon-small.png" alt="outline of square computer chip with cs61c label" />
+      <span class="align-middle">CS61C Spring 2026</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle Navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../../calendar/index.html">日历</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../exam/index.html">考试</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../policies/index.html">政策</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://edstem.org/us/courses/93340/">Ed讨论区</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">快速链接</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="https://flextensions.berkeley.edu/">申请延期</a></li>
+            <li><a class="dropdown-item nav-link" href="https://oh.cs61c.org/">答疑队列</a></li>
+            <li><a class="dropdown-item nav-link" href="https://venus.cs61c.org/">Venus</a></li>
+            <li><a class="dropdown-item nav-link" href="https://calendar.app.google/usQAgWHiiLPBH7hi6">学生支持会议</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLinksDropdownToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">资源</a>
+          <ul class="dropdown-menu p-0" aria-labelledby="navbarLinksDropdownToggle">
+            <li><a class="dropdown-item nav-link" href="../../resources/common-errors/index.html">常见错误</a></li>
+            <li><a class="dropdown-item nav-link" href="https://notes.cs61c.org/">课程笔记</a></li>
+            <li><a class="dropdown-item nav-link" href="../../pdfs/resources/reference-card.pdf">参考卡片</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/index.html">资源索引</a></li>
+            <li><a class="dropdown-item nav-link" href="../../resources/exams/index.html">过往考试</a></li>
+            <li><a class="dropdown-item nav-link" href="https://inst.eecs.berkeley.edu/~cs61c/archives.html">过往学期</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../staff/index.html">工作人员</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="mb-4">
+    <section class="section">
+      <div class="container">
+        
+
+		
+
+        
+<div class="row spec">
+  
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+      
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#setup">Setup</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#introduction-to-assembly">Introduction to Assembly</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#venus-getting-started">Venus: Getting Started</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-1-venus-basics">Exercise 1: Venus Basics</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#translating-from-c-to-risc-v">Translating from C to RISC-V</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-2-using-the-venus-debugger">Exercise 2: Using the Venus Debugger</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#venus-memcheck">Venus: Memcheck</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-3-using-memcheck">Exercise 3: Using Memcheck</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-4-array-practice">Exercise 4: Array Practice</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing">Testing</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#optional-exercise-5-factorial">[可选(OPTIONAL)] 练习5：阶乘(Factorial)</a>
+        
+          
+  <ul class="nav flex-column">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#testing-1">Testing</a>
+        
+      </li>
+    
+  </ul>
+
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#exercise-6-reflection-and-feedback-form">Exercise 6: Reflection and Feedback Form</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#transitioning-to-more-complex-risc-v-programs">Transitioning to More Complex RISC-V Programs</a>
+        
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-link" href="#submission">Submission</a>
+        
+      </li>
+    
+  </ul>
+
+    </nav>
+  
+  <div id="toc-content-wrapper"  class="content col-md-9" >
+    <h1 class="title">实验3：RISC-V，Venus</h1>
+    
+      <p class="subtitle">截止日期：2月12日星期四晚上11:59:59 PT</p>
+    
+    
+    <p><a href="https://docs.google.com/presentation/d/1LaYGLXCU7JZycvRdz43jjPdD6qhm7W3eqR83KOwXRZk/edit?usp=sharing">实验幻灯片</a></p>
+<h2 id="setup">设置</h2>
+<div  class="alert alert-warning">
+  <p>您必须在<strong>本地机器</strong>上完成此实验。如果需要重新设置本地机器，请参阅<a href="../lab00/index.html">实验0</a>。</p>
+
+</div>
+<p>在您本地机器的<code>labs</code>目录中，拉取您在过去实验中可能做的任何更改：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull origin main</span>
+</span></code></pre>
+<p>仍然在您本地机器的<code>labs</code>目录中，使用以下命令拉取此实验的文件：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> pull starter main</span>
+</span></code></pre>
+<p>如果您收到如下错误：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">fatal: 'starter' does not appear to be a git repository
+fatal: Could not read from remote repository.
+</span></code></pre>
+<p>请确保按如下方式设置starter远程仓库：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> remote add starter https://github.com/61c-teach/sp26-lab-starter.git</span>
+</span></code></pre>
+<p>然后再次运行原始命令。</p>
+<p>仍然在您的<code>labs</code>目录中，运行以下命令下载我们可能需要的一些工具的最新版本：</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">bash</span></span><span class="z-meta z-function-call z-arguments z-shell"> tools/download_tools.sh</span>
+</span></code></pre>
+<p>如果遇到任何<code>git</code>错误，请查看<a href="../../resources/common-errors/index.html">常见错误</a>页面。</p>
+<hr />
+<h2 id="introduction-to-assembly">汇编语言简介</h2>
+<p>到目前为止，在本课程中，我们主要处理C程序（带有<code>.c</code>文件扩展名），使用<code>gcc</code>程序将它们编译成机器码，然后直接在hive机器上执行。现在，我们将重点转移到RISC-V汇编语言，这是一种更接近机器码的低级语言。我们无法直接执行RISC-V代码，因为您的计算机和hive机器是为运行其他汇编语言（最可能是x86或ARM）的机器码而构建的。</p>
+<p>在本次实验和下次实验中，我们将处理几个RISC-V汇编文件，每个文件都有<code>.s</code>文件扩展名。要运行这些文件，我们将使用<a href="https://venus.cs61c.org/">Venus</a>，这是一个教育用途的RISC-V汇编器和模拟器。您可以从自己的终端本地运行Venus，也可以在Venus网站上运行，以下说明将指导您完成设置步骤。虽然您可能发现在本实验中使用Web编辑器更方便，但<em>无论如何请完成这些本地设置说明</em>：这些步骤还将设置未来项目和实验所需的其他基础设施。</p>
+<h2 id="venus-getting-started">Venus：入门</h2>
+<p>要开始使用Venus，请查看<a href="https://cs61c.org/sp26/resources/venus-reference/">Venus参考文档</a>中的"编辑器选项卡"和"模拟器选项卡"。我们建议您在某个时候阅读整个页面，但这些部分足以让您入门。</p>
+<div  class="alert alert-warning">
+  <p><strong>警告</strong>：对于以下练习，请确保您完成的代码保存在本地机器上的文件中。否则，我们将无法证明您完成了实验练习。</p>
+
+</div>
+<hr />
+<h2 id="exercise-1-venus-basics">练习1：Venus基础</h2>
+<p>您可以将本地设备上的文件夹"挂载"到Venus的Web前端，这样您在浏览器Venus编辑器中所做的编辑会反映在本地文件系统中，反之亦然。如果不执行此步骤，每次关闭标签页时，在Venus中创建和编辑的文件将会丢失，除非您将它们复制/粘贴到本地文件中。</p>
+<p>本练习将引导您完成将文件系统连接到Venus的过程，这将为您省去在本地驱动器和Venus编辑器之间复制/粘贴文件的大量麻烦。</p>
+<ol>
+<li>在您的labs文件夹中，<strong>运行</strong> <code>java -jar tools/venus.jar . -dm</code>。这会将您的实验目录通过网络端口暴露给Venus。
+<ul>
+<li>您应该会看到一个大的"Javalin"标志。</li>
+<li>如果您看到类似"port unable to be bound"的消息，则可以通过在命令后附加<code>--port PORT_NUM</code>来显式指定另一个端口号（例如，<code>java -jar tools/venus.jar . -dm --port 6162</code>将在端口6162上暴露文件系统）。</li>
+</ul>
+</li>
+<li><strong>打开</strong> <a href="https://venus.cs61c.org">https://venus.cs61c.org</a> 在您的Web浏览器中（推荐使用Chrome或Firefox）。</li>
+<li>在Venus Web终端中，<strong>运行</strong> <code>mount local labs</code>（如果您选择了不同的端口，请将"local"替换为完整的URL，例如<code>http://localhost:6162</code>）。这会将Venus连接到您的文件系统。
+<ul>
+<li>在浏览器中，您可能会看到一个提示：<code>Key has been shown in the Venus mount server! Please copy and paste it into here.</code>。您应该能够在本地终端输出的最新一行中看到一个密钥；只需将其复制并粘贴到对话框中即可。</li>
+</ul>
+</li>
+<li><strong>转到</strong>"Files"选项卡。您现在应该能够在<code>labs</code>文件夹下看到您的<code>labs</code>目录。</li>
+<li><strong>导航</strong>到<code>lab03</code>，并通过点击<code>ex1_hello.s</code>旁边的<code>Edit</code>按钮确保它正常工作。这应该会在<code>Editor</code>选项卡中打开。
+<ul>
+<li>您应该在编辑器中看到<code>ex1_hello.s</code>的内容。这个编辑器的行为类似于大多数其他文本编辑器，尽管没有许多更高级的功能。</li>
+</ul>
+</li>
+<li>要汇编编辑器中打开的程序，<strong>点击</strong>"Simulator"（模拟器）选项卡，然后<strong>点击</strong>"Assemble & Simulate from Editor"（从编辑器汇编并模拟）。
+<ul>
+<li>将来，如果您已经在模拟器中打开了一个程序，请改为点击"Re-assemble from Editor"（重新从编辑器汇编）。请注意，这将覆盖模拟器选项卡中的所有内容，例如现有的调试会话。</li>
+</ul>
+</li>
+<li>要运行程序，<strong>点击</strong>"Run"（运行）。
+<ul>
+<li>您可以看到其他按钮，如"Step"（单步执行）、"Prev"（上一步）和"Reset"（重置）。您将在实验后期和作业期间使用这些按钮。</li>
+</ul>
+</li>
+<li>返回编辑器选项卡，并<strong>编辑</strong> <code>ex1_hello.s</code> 使其输出打印<code>2026</code>。
+<ul>
+<li>提示：当<code>ecall</code>执行时，会打印<code>a1</code>中的值。不过<code>ecall</code>的具体作用不在本课程的范围内。</li>
+</ul>
+</li>
+<li>在macOS上按<kbd>Cmd</kbd> + <kbd>s</kbd>，在Windows/Linux上按<kbd>Ctrl</kbd> + <kbd>s</kbd>，<strong>保存</strong>您刚刚所做的更改。这将更新您的本地文件副本。</li>
+<li><strong>打开</strong>本地机器上的文件（使用您选择的文本编辑器），检查并确保它与Web编辑器中的内容匹配。
+<ul>
+<li><strong>注意：</strong>如果您使用文本编辑器在本地机器上对文件进行任何更改，如果您在Venus编辑器中打开了同一个文件，则需要从"Files"菜单重新打开它以获取新更改。</li>
+</ul>
+</li>
+<li><strong>再次运行</strong>（Run）程序，如果您正确修改了源文件，现在应该会看到<code>2026</code>。</li>
+</ol>
+<hr />
+<h2 id="translating-from-c-to-risc-v">从C语言转换到RISC-V</h2>
+<p>在这个例子中，我们将逐步讲解如何将一个C程序转换为RISC-V程序。下面的程序将打印出第n个斐波那契数。尽管这部分有点长，请仔细阅读！</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-meta z-preprocessor z-include z-c"><span class="z-keyword z-control z-import z-include z-c">#include</span> <span class="z-string z-quoted z-other z-lt-gt z-include z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&lt;</span>stdio.h<span class="z-punctuation z-definition z-string z-end z-c">&gt;</span></span>
+</span>
+<span class="z-storage z-type z-c">int</span> n <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">12</span><span class="z-punctuation z-terminator z-c">;</span>
+
+<span class="z-comment z-line z-double-slash z-c"><span class="z-punctuation z-definition z-comment z-c">//</span>函数：查找第n个斐波那契数
+</span><span class="z-storage z-type z-c">int</span> <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">main</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">void</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c"> </span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+    <span class="z-storage z-type z-c">int</span> curr_fib <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-separator z-c">,</span> next_fib <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-constant z-numeric z-integer z-decimal z-c">1</span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-storage z-type z-c">int</span> new_fib<span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-keyword z-control z-c">for</span> <span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span><span class="z-storage z-type z-c">int</span> i <span class="z-keyword z-operator z-assignment z-c">=</span> n<span class="z-punctuation z-terminator z-c">;</span> i <span class="z-keyword z-operator z-comparison z-c">&gt;</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span> i<span class="z-keyword z-operator z-arithmetic z-c">--</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span> <span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span>
+        new_fib <span class="z-keyword z-operator z-assignment z-c">=</span> curr_fib <span class="z-keyword z-operator z-arithmetic z-c">+</span> next_fib<span class="z-punctuation z-terminator z-c">;</span>
+        curr_fib <span class="z-keyword z-operator z-assignment z-c">=</span> next_fib<span class="z-punctuation z-terminator z-c">;</span>
+        next_fib <span class="z-keyword z-operator z-assignment z-c">=</span> new_fib<span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-punctuation z-section z-block z-end z-c">}</span></span>
+    <span class="z-meta z-function-call z-c"><span class="z-support z-function z-C99 z-c">printf</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-string z-quoted z-double z-c"><span class="z-punctuation z-definition z-string z-begin z-c">&quot;</span><span class="z-constant z-other z-placeholder z-c">%d</span><span class="z-constant z-character z-escape z-c">\n</span><span class="z-punctuation z-definition z-string z-end z-c">&quot;</span></span><span class="z-punctuation z-separator z-c">,</span> curr_fib</span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span>
+    <span class="z-keyword z-control z-flow z-return z-c">return</span> <span class="z-constant z-numeric z-integer z-decimal z-c">0</span><span class="z-punctuation z-terminator z-c">;</span>
+</span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>让我们逐步分解如何进行转换。在Venus编辑器中打开<code>fib.s</code>。首先，我们需要定义全局变量<code>n</code>。在RISC-V中，全局变量在<code>.data</code>指令下声明。这代表数据段。它看起来像这样：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">.data
+n: .word 12
+</span></code></pre>
+<ul>
+<li><code>n</code>是变量名</li>
+<li><code>.word</code>表示数据的大小是一个字</li>
+<li><code>12</code>是分配给<code>n</code>的值</li>
+</ul>
+<p>继续初始化<code>curr_fib</code>和<code>next_fib</code></p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">.text
+main:
+    add t0, x0, x0 # curr_fib = 0（当前斐波那契数 = 0）
+    addi t1, x0, 1 # next_fib = 1（下一个斐波那契数 = 1）
+</span></code></pre>
+<p>这里我们添加了<code>.text</code>指令。此指令下的所有内容都是我们的代码。</p>
+<p>记住<code>x0</code>始终保存值0。</p>
+<p>我们不需要做任何事情来声明<code>new_fib</code>（在RISC-V中我们不声明变量）。</p>
+<p>接下来，让我们进入循环。我们将从设置循环变量开始。下面的代码将把<code>i</code>设置为<code>n</code></p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">la t3, n # 加载标签n的地址(load the address of the label n)
+lw t3, 0(t3) # 获取存储在标签n所表示地址处的值(get the value that is stored at the address denoted by the label n)
+</span></code></pre>
+<p>您可以将上面的代码理解为执行以下操作</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c">t3 <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-keyword z-operator z-c">&amp;</span>n<span class="z-punctuation z-terminator z-c">;</span>
+t3 <span class="z-keyword z-operator z-assignment z-c">=</span> <span class="z-keyword z-operator z-c">*</span>t3<span class="z-punctuation z-terminator z-c">;</span>
+</span></code></pre>
+<p>这里我们有一个新指令<code>la</code>。此指令加载标签的地址。第一行本质上将<code>t3</code>设置为指向<code>n</code>的指针。接下来，我们使用<code>lw</code>解引用<code>t3</code>，这将把<code>t3</code>设置为存储在<code>n</code>处的值。</p>
+<p>现在，您可能会想："为什么我们不能直接将<code>t3</code>设置为<code>n</code>？" 在<code>.text</code>部分，我们无法直接访问<code>n</code>。（想想看，我们不能说<code>add t3, n, x0</code>。<code>add</code>的参数必须是寄存器，而<code>n</code>不是寄存器。）我们唯一能访问它的方法是获取<code>n</code>的地址。一旦我们获得了<code>n</code>的地址，我们需要使用<code>lw</code>来解引用它。<code>lw</code>将访问您指定的地址处的内存，并加载存储在该地址的值。在这种情况下，我们指定了<code>n</code>的地址并添加了<code>0</code>的偏移量。</p>
+<p>现在让我们开始循环部分。首先，我们将创建下面的外层结构：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">fib:
+    beq t3, x0, finish # 完成n次迭代后退出循环(exit loop once we have completed n iterations)
+    ...
+    ...
+    addi t3, t3, -1 # 递减计数器(decrement counter)
+    j fib # 循环(loop)
+finish:
+</span></code></pre>
+<p>第一行（<code>fib:</code>）是一个标签，我们将用它来跳回循环的开头。</p>
+<p>下一行（<code>beq t3, x0, finish</code>）指定了我们的终止条件。在这里，一旦<code>t3</code>（代表<code>i</code>）达到<code>0</code>，我们将跳转到另一个标签<code>finish</code>。</p>
+<p>下一行（<code>addi t3, t3, -1</code>）在循环体末尾递减<code>i</code>。在末尾执行此操作很重要，因为<code>i</code>在循环体中被使用。如果我们在<code>beq</code>之后立即更新它，那么它在循环体中就不会有正确的值。</p>
+<p>下一条指令跳回循环的开头。</p>
+<p>现在，让我们添加循环体。</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">fib:
+    beq t3, x0, finish # 完成n次迭代后退出循环(exit loop once we have completed n iterations)
+    add t2, t1, t0 # new_fib = curr_fib + next_fib（新斐波那契数 = 当前 + 下一个）;
+    mv t0, t1 # curr_fib = next_fib（当前 = 下一个）;
+    mv t1, t2 # next_fib = new_fib（下一个 = 新的）;
+    addi t3, t3, -1 # 递减计数器(decrement counter)
+    j fib # 循环(loop)
+finish:
+</span></code></pre>
+<p>这里没什么特别的。相应的C语言代码行写在注释中。</p>
+<p>让我们打印出第n个斐波那契数！</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">finish:
+    addi a0, x0, 1 # ecall参数：执行打印整数(argument to ecall to execute print integer)
+    addi a1, t0, 0 # ecall参数，要打印的值(argument to ecall, the value to be printed)
+    ecall # 打印整数ecall(print integer ecall)
+</span></code></pre>
+<p>打印是一个系统调用。您将在本学期晚些时候学到更多关于这些的知识，但系统调用本质上是程序与操作系统交互的一种方式。要在RISC-V中进行系统调用，我们使用一个特殊的指令<code>ecall</code>。要打印一个整数，我们需要向<code>ecall</code>传递两个参数。第一个参数指定我们希望<code>ecall</code>做什么（在这种情况下，打印一个整数）。要指定我们要打印整数，我们传递<code>1</code>。第二个参数是我们要打印的整数。</p>
+<p>在C语言中，我们习惯函数看起来像<code>ecall(1, t0)</code>。在RISC-V中，我们不能以这种方式传递参数。要传递参数，我们需要将其放置在参数寄存器（<code>a0</code>-<code>a7</code>）中。当函数执行时，它会在这些寄存器中查找参数。（如果您还没有在课堂上看到这一点，很快就会看到）。第一个参数应该放在<code>a0</code>中，第二个放在<code>a1</code>中，依此类推。</p>
+<p>为了设置参数，我们在<code>a0</code>中放置了<code>1</code>，在<code>a1</code>中放置了我们要打印的整数。</p>
+<p>接下来，让我们终止程序！这也需要<code>ecall</code></p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">addi a0, x0, 10 # ecall参数：终止程序(argument to ecall to terminate)
+ecall # 终止ecall(terminate ecall)
+</span></code></pre>
+<p>在这种情况下，<code>ecall</code>只需要一个参数。将<code>a0</code>设置为<code>10</code>指定我们要终止程序。</p>
+<p>就是这样！这就是我们完整的程序！</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">.data
+n: .word 12
+
+.text
+main:
+    add t0, x0, x0 # curr_fib = 0（当前斐波那契数 = 0）
+    addi t1, x0, 1 # next_fib = 1（下一个斐波那契数 = 1）
+    la t3, n # 加载标签n的地址(load the address of the label n)
+    lw t3, 0(t3) # 获取存储在标签n所表示地址处的值(get the value that is stored at the address denoted by the label n)
+fib:
+    beq t3, x0, finish # 完成n次迭代后退出循环(exit loop once we have completed n iterations)
+    add t2, t1, t0 # new_fib = curr_fib + next_fib（新斐波那契数 = 当前 + 下一个）;
+    mv t0, t1 # curr_fib = next_fib（当前 = 下一个）;
+    mv t1, t2 # next_fib = new_fib（下一个 = 新的）;
+    addi t3, t3, -1 # 递减计数器(decrement counter)
+    j fib # 循环(loop)
+finish:
+    addi a0, x0, 1 # ecall参数：执行打印整数(argument to ecall to execute print integer)
+    addi a1, t0, 0 # ecall参数，要打印的值(argument to ecall, the value to be printed)
+    ecall # 打印整数ecall(print integer ecall)
+    addi a0, x0, 10 # ecall参数：终止程序(argument to ecall to terminate)
+    ecall # 终止ecall(terminate ecall)
+</span></code></pre>
+<h2 id="exercise-2-using-the-venus-debugger">练习2：使用Venus调试器</h2>
+<p>在Venus调试器中打开文件有两种方式：</p>
+<ol>
+<li>通过编辑器
+<ol>
+<li><strong>打开</strong> <code>fib.s</code> 到Venus编辑器中。</li>
+<li><strong>点击</strong>"Simulator"（模拟器）选项卡，然后<strong>点击</strong>"Assemble & Simulate from Editor"（从编辑器汇编并模拟）（或"Re-assemble from Editor"（重新从编辑器汇编））按钮。当前指令以浅蓝色高亮显示。与<code>cgdb</code>类似，当前指令是尚未执行但即将执行的指令。</li>
+</ol>
+</li>
+<li>通过"Files"选项卡
+<ol>
+<li><strong>点击</strong>"Venus"选项卡，然后<strong>点击</strong>"Files"（文件）选项卡。</li>
+<li><strong>导航</strong>到<code>fib.s</code>文件，它应该位于<code>lab03</code>下的<code>labs</code>文件夹中。</li>
+<li><strong>点击</strong>文件名旁边的"VDB"（Venus调试器）按钮。</li>
+</ol>
+</li>
+</ol>
+<p>本练习要求您将答案写在<code>ex2_answers.txt</code>中。问题编号可能与步骤编号不同，请注意！</p>
+<ol>
+<li><strong>打开</strong> <code>fib.s</code> 在Venus调试器中，使用上面列出的两种方式之一。
+<ul>
+<li>问题1：高亮显示的指令的机器码是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+<li>问题2：地址<code>0x34</code>处的指令的机器码是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>点击</strong>"step"（单步执行）按钮前进到下一条指令。第二条指令现在应该被高亮显示。</li>
+<li><strong>点击</strong>"prev"（上一步）按钮撤销最后执行的指令。请注意，撤销可能会也可能不会撤销由<code>ecall</code>执行的操作，例如退出程序或打印到控制台。</li>
+<li>在屏幕右侧，<strong>点击</strong>"Registers"（寄存器）选项卡查看所有32个寄存器的值。如果标题以黄色高亮显示，则此选项卡可能已被选中。确保您正在查看整数寄存器，而不是浮点寄存器。
+<ul>
+<li>问题3：<code>sp</code>寄存器的值是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>继续单步执行</strong>直到<code>t1</code>中的值改变。
+<ul>
+<li>问题4：<code>t1</code>寄存器的新值是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+<li>问题5：<em>当前指令</em>的机器码是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>单步执行</strong>直到您到达地址<code>0x10</code>。此时，<code>t3</code>的值已更新。
+<ul>
+<li>问题6：<code>t3</code>寄存器的值是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li>如果我们查看当前指令，我们正在从<code>t3</code>寄存器加载。<strong>使用</strong>"Memory"选项卡（"Registers"选项卡旁边），并将问题6的答案（<code>t3</code>的值）<strong>输入</strong>到"Address"框中。您可能需要在memory选项卡上向下滚动才能看到它。<strong>按</strong>"Go"转到该内存地址
+<ul>
+<li>问题7：<code>t3</code>指向的字节是什么？答案应该是一个8位（1字节）十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>设置断点</strong>在地址<code>0x28</code>处，方法是点击该地址所在的行。该行应变为浅红色，并出现断点符号。</li>
+<li><strong>继续执行</strong>直到断点，按"Run"（运行）。
+<ul>
+<li>问题8：<code>t0</code>寄存器的值是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>继续执行</strong>再执行6次。
+<ul>
+<li>问题9：<code>t0</code>寄存器的新值是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li>有时，读取十六进制值不是很有帮助。<strong>设置</strong>显示设置为"Decimal"，使用寄存器选项卡底部的下拉菜单。这也可以在内存选项卡上完成。
+<ul>
+<li>问题10：<code>t0</code>寄存器的十进制值是什么？答案应该是一个无前缀的十进制数。</li>
+</ul>
+</li>
+<li><strong>再次点击</strong>地址<code>0x28</code>处的指令以取消断点。</li>
+<li><strong>点击</strong>运行以完成程序运行，因为没有更多断点了。
+<ul>
+<li>问题11：程序的输出是什么？答案应该是一个无前缀的十进制数。</li>
+</ul>
+</li>
+</ol>
+<h2 id="venus-memcheck">Venus：内存检查</h2>
+<p>在项目1（以及一般的C编程）中，<code>valgrind</code>是调试内存访问错误（如<code>Segmentation fault (core dumped)</code>）的首选工具。对于Venus，我们有一个名为"memcheck"的功能，可以实现类似的功能。memcheck错误消息旨在模仿<code>valgrind</code>错误消息。注意：此功能是在2022年春季开发的，我们在2022年秋季首次引入，因此如果您遇到任何bug，请告诉我们！</p>
+<p>Memcheck有两种模式：</p>
+<ul>
+<li>正常模式（或简称"memcheck"）：此模式将显示任何对内存的无效读取或写入。如果程序退出时有未释放的内存，它还将打印未释放内存的字节数。</li>
+<li>详细模式（或"memcheck verbose"）：除了正常模式外，此模式还会打印每次内存读取/写入操作，以及程序退出时未释放的块列表。</li>
+</ul>
+<p>您可以在Venus选项卡下启用这些模式。如果同时选择了"启用Memcheck?（Enable Memcheck?）"和"启用Memcheck详细模式?（Enable Memcheck Verbose?）"，memcheck将以详细模式运行。</p>
+<div  class="alert alert-warning">
+  <p>启用或禁用memcheck后，您必须在VDB中重新打开正在调试的文件。</p>
+
+</div>
+<h2 id="exercise-3-using-memcheck">练习3：使用内存检查</h2>
+<p>与上一个练习类似，本练习要求您将答案写在<code>ex3_answers.txt</code>中。问题编号可能与步骤编号不同，请注意！</p>
+<ol>
+<li><strong>打开</strong> <code>ex3_memcheck.s</code> 在Venus编辑器中，并<strong>阅读</strong>整个程序以了解它的作用。</li>
+<li><strong>运行</strong>程序。哦不，程序出错了！让我们看一下错误消息。
+<ul>
+<li>问题1：程序尝试访问哪个地址但导致了错误？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+<li>问题2：程序尝试访问多少字节？答案应该是一个无前缀的十进制数。</li>
+</ul>
+</li>
+<li>这看起来像是内存错误，所以让我们试试memcheck。<strong>启用</strong>memcheck（正常模式）并在VDB中<strong>重新打开</strong> <code>ex3_memcheck.s</code>。</li>
+<li><strong>运行</strong>程序。看，memcheck错误提供了更多详细信息！<strong>仔细阅读</strong>错误信息。
+<ul>
+<li>问题3：程序尝试访问哪个地址但导致了错误？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+<li>问题4：与错误相关的块中分配了多少字节？答案应该是一个没有单位的数字。</li>
+<li>问题5：源文件的哪一行导致了这个错误？答案应该是一个数字。</li>
+</ul>
+</li>
+<li><strong>比较</strong>您对问题2和问题4的答案。请注意，memcheck可能会改变<code>malloc</code>返回的内存地址。</li>
+<li>让我们尝试调试这个错误。<strong>回想</strong>一下，<code>t1</code>包含循环计数器。
+<ul>
+<li>问题6：根据memcheck错误消息，<code>t1</code>的值是什么？答案应该是一个十进制数。</li>
+</ul>
+</li>
+<li><strong>修复</strong>源代码中的这个错误并<strong>保存</strong>文件。</li>
+<li><strong>再次运行</strong>程序。进程完成，没有任何无效访问错误。但是，它抱怨有一些未释放的内存。
+<ul>
+<li>问题7：程序退出时有多少字节未被释放？答案应该是一个无前缀的十进制数。</li>
+</ul>
+</li>
+<li><strong>重新运行</strong>程序，使用memcheck的详细模式。记得在VDB中重新打开文件。
+<ul>
+<li>问题8：未释放的块的地址是什么？答案应该是一个32位十六进制数，带有<code>0x</code>前缀。</li>
+</ul>
+</li>
+<li><strong>通过调用</strong><code>free</code><strong>修复</strong>这个错误。</li>
+<li><strong>禁用</strong>memcheck，以便进行接下来的两个练习。</li>
+</ol>
+<details >
+  <summary>提示</summary>
+  <p>将指向数组开头的指针放在<code>a0</code>中，然后使用<code>jal</code>调用<code>free</code>。</p>
+
+</details>
+<h2 id="exercise-4-array-practice">练习4：数组练习</h2>
+<p>考虑定义在整数集<code>{-3, -2, -1, 0, 1, 2, 3}</code>上的离散值函数<code>f</code>。以下是函数定义：</p>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">f(-3) = 6
+f(-2) = 61
+f(-1) = 17
+f(0) = -38
+f(1) = 19
+f(2) = 42
+f(3) = 5
+</span></code></pre>
+<p>在RISC-V中实现<code>ex4_discrete_fn.s</code>中的函数，条件是您的代码<strong>不能</strong>使用任何分支和/或跳转指令！确保您的代码保存在本地。如果您遇到困难，我们提供了一些提示。</p>
+<p>所有输出值存储在输出数组中，该数组通过寄存器<code>a1</code>传递给<code>f</code>。您<strong>不需要</strong>自己创建数组。您可以索引到该数组以获取与输入对应的输出。</p>
+<p><strong>确保您只写入<code>t</code>和<code>a</code>寄存器。如果您使用其他寄存器，可能会发生奇怪的事情（您很快就会了解原因）。</strong></p>
+<details >
+  <summary>提示1</summary>
+  <p>您可以使用<code>lw</code>访问数组的值。</p>
+
+</details>
+<details >
+  <summary>提示2</summary>
+  <p><code>lw</code>要求偏移量是一个立即值。当我们计算此问题的偏移量时，它将存储在寄存器中。由于我们不能使用寄存器作为偏移量，我们可以将寄存器中存储的值添加到基地址以计算我们感兴趣的索引的地址。然后我们可以使用偏移量<code>0</code>执行<code>lw</code>。</p>
+<p>在以下示例中，索引存储在<code>t0</code>中，数组指针存储在<code>t1</code>中。每个元素的大小是4字节。在RISC-V中，我们必须自己进行指针运算，所以：</p>
+<ol>
+<li>我们需要将索引乘以数组元素的大小。</li>
+<li>然后我们将此偏移量添加到数组的地址以获取我们要读取的元素的地址。</li>
+<li>读取元素。</li>
+</ol>
+<pre data-lang="txt" class="language-txt z-code"><code class="language-txt" data-lang="txt"><span class="z-text z-plain">slli t2, t0, 2 # 步骤1（见上文）
+add t2, t2, t1 # 步骤2（见上文）
+lw t3, 0(t2)   # 步骤3（见上文）
+</span></code>
+</details></pre>
+<details >
+  <summary>提示3</summary>
+  <p><code>f(-3)</code>应存储在偏移量0处，<code>f(-2)</code>应存储在偏移量1处，依此类推</p>
+
+</details>
+<h3 id="testing">测试</h3>
+<p>要测试您的函数，请打开<code>ex4_discrete_fn_tester.s</code>并通过模拟器运行它。这将是我们在自动评分器上使用的测试，因此请确保在提交之前测试在本地通过。</p>
+<p>您也可以使用以下命令通过命令行测试您的代码。</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">java</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>jar</span> tools/venus.jar lab03/ex4_discrete_fn_tester.s</span>
+</span></code></pre>
+<h2 id="optional-exercise-5-factorial">[可选(OPTIONAL)] 练习5：阶乘(Factorial)</h2>
+<div  class="alert alert-warning">
+  <p>确保在本练习中禁用memcheck。</p>
+
+</div>
+<p>在本练习中，您将在RISC-V中实现<code>factorial</code>函数。此函数接受一个整数参数<code>n</code>并返回<code>n!</code>。此函数的存根可以在文件<code>ex5_factorial.s</code>中找到。</p>
+<p>传递给函数的参数位于标签<code>n</code>处。您可以修改<code>n</code>以测试不同的阶乘。要实现，您需要在<code>factorial</code>标签下添加指令。有一个递归解决方案，但我们建议您实现迭代解决方案。您可以假设<code>factorial</code>函数只会对正数调用，且结果不会溢出32位二进制补码整数。</p>
+<p>在阶乘调用开始时，寄存器<code>a0</code>包含我们要计算阶乘的数字。然后，在从函数返回之前，将返回值放入寄存器<code>a0</code>中。</p>
+<p><strong>确保您只写入<code>t</code>和<code>a</code>寄存器。如果您使用其他寄存器，可能会发生奇怪的事情（您很快就会了解原因）。</strong></p>
+<p><strong>另外，请确保初始化您正在使用的寄存器！</strong> Venus可能显示寄存器最初为0，但在现实生活中它们可能包含垃圾数据。请确保在使用寄存器之前将它们设置为某个定义好的数字。</p>
+<h3 id="testing-1">测试</h3>
+<p>要测试您的代码，可以确保您的函数正确返回正确的输出。一些示例是<code>0! = 1</code>、<code>3! = 6</code>、<code>7! = 5040</code>和<code>8! = 40320</code>。</p>
+<p>要测试您的函数，请打开<code>ex5_factorial.s</code>并通过模拟器运行它。这将是我们在自动评分器上测试您的函数的方式，因此请确保在提交之前测试在本地通过。</p>
+<p>您也可以使用以下命令通过命令行测试您的代码。</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">java</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>jar</span> tools/venus.jar lab03/ex5_factorial.s</span>
+</span></code></pre>
+<h2 id="exercise-6-reflection-and-feedback-form">练习6：反思与反馈表</h2>
+<p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLSdaav8_TvpCIyW4_yHSct1QEkW2AbWNju2Oz8JlaTa8h7b6uA/viewform?usp=dialog">此调查问卷</a>，告诉我们您到目前为止在讨论课和实验中的体验！</p>
+<hr />
+<h2 id="transitioning-to-more-complex-risc-v-programs">过渡到更复杂的RISC-V程序</h2>
+<p>未来，我们将处理更复杂的RISC-V程序，这些程序需要多个汇编代码文件。为为此做准备，我们建议查看<a href="https://cs61c.org/sp26/resources/venus-reference/">Venus参考</a>。</p>
+<hr />
+<h2 id="submission">提交</h2>
+<p>保存、提交并推送您的工作，然后在Gradescope上提交到<strong>实验3</strong>作业。</p>
+
+  </div>
+</div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  <div class="container border-top pt-4 mb-5">
+    <div class="row">
+      <div class="col">
+        <div id="dark-toggle-wrapper" class="d-none">
+          <div class="form-check form-switch">
+            <input id="inputDarkToggle" class="form-check-input" type="checkbox">
+            <label class="form-check-label" for="inputDarkToggle">
+              Dark Mode
+              <a id="buttonDarkToggleReset" class="d-none" href="javascript:void(0);">(reset)</a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+<script>
+  
+
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      initToC();
+    });
+  
+</script>
+
+</body>
+
+</html>
