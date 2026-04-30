@@ -5,279 +5,341 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS Archive - 计算机科学课程备份</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-bg-hover: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-highlight: rgba(255, 255, 255, 0.25);
-            --blur-amount: 40px;
-            --accent: #007aff;
-            --accent-glow: rgba(0, 122, 255, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --blur: 60px;
+            --accent-blue: #2979ff;
+            --accent-purple: #7c4dff;
+            --accent-teal: #00bfa5;
+            --accent-orange: #ff6d00;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --text-tertiary: rgba(255, 255, 255, 0.35);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        html { scroll-behavior: smooth; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
-            background: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #050510;
             min-height: 100vh;
-            color: #fff;
+            color: var(--text-primary);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         
-        .bg-gradient {
+        .bg-mesh {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: 
-                radial-gradient(ellipse at 20% 30%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(118, 75, 162, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(0, 122, 255, 0.2) 0%, transparent 60%),
-                #000;
-            filter: blur(0px);
+            background: #050510;
         }
         
-        .bg-gradient::before,
-        .bg-gradient::after {
-            content: '';
+        .bg-mesh .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            animation: float 20s ease-in-out infinite;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: orbFloat 25s ease-in-out infinite;
         }
         
-        .bg-gradient::before {
-            width: 600px;
-            height: 600px;
-            background: rgba(102, 126, 234, 0.3);
-            top: 10%;
-            left: 15%;
+        .bg-mesh .orb-1 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(41, 121, 255, 0.25), transparent 70%);
+            top: -20%; left: -10%;
         }
         
-        .bg-gradient::after {
-            width: 500px;
-            height: 500px;
-            background: rgba(118, 75, 162, 0.3);
-            bottom: 10%;
-            right: 15%;
-            animation-delay: -10s;
+        .bg-mesh .orb-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(124, 77, 255, 0.2), transparent 70%);
+            bottom: -10%; right: -5%;
+            animation-delay: -8s;
         }
         
-        @keyframes float {
+        .bg-mesh .orb-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 191, 165, 0.15), transparent 70%);
+            top: 40%; left: 50%;
+            animation-delay: -16s;
+        }
+        
+        @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
+            33% { transform: translate(40px, -30px) scale(1.05); }
+            66% { transform: translate(-30px, 20px) scale(0.95); }
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
         }
         
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur)) saturate(150%);
+            -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+            background: rgba(5, 5, 16, 0.6);
             border-bottom: 1px solid var(--glass-border);
         }
         
         nav {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
         }
         
         .nav-links {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             list-style: none;
         }
         
         .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
         
         .nav-links a:hover {
-            color: #fff;
-            background: var(--glass-bg);
+            color: var(--text-primary);
+            background: var(--glass-bg-hover);
         }
         
         .nav-links a.active {
             color: #fff;
-            background: var(--accent);
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-        
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 24px;
+            background: rgba(255,255,255,0.1);
         }
         
         .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            margin-bottom: 80px;
+            padding: 120px 32px 80px;
+            position: relative;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px 6px 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
         
         .hero h1 {
-            font-size: clamp(48px, 8vw, 80px);
-            font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%);
+            font-size: clamp(52px, 10vw, 96px);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 0.95;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.6) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .hero-subtitle {
-            font-size: clamp(18px, 3vw, 24px);
-            color: rgba(255, 255, 255, 0.6);
+        .hero-sub {
+            font-size: clamp(18px, 2.5vw, 22px);
+            color: var(--text-secondary);
             font-weight: 400;
             letter-spacing: -0.3px;
-            margin-bottom: 40px;
+            max-width: 560px;
+            line-height: 1.6;
+            margin-bottom: 48px;
         }
         
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
-            pointer-events: none;
-        }
-        
-        .glass-card:hover {
-            background: var(--glass-bg-hover);
-            border-color: var(--glass-highlight);
-            transform: translateY(-4px);
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.4),
-                0 0 40px rgba(255,255,255,0.05);
-        }
-        
-        .description-card {
-            margin-bottom: 60px;
-            text-align: left;
-        }
-        
-        .description-card p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .description-card strong {
-            color: #fff;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 60px;
-        }
-        
-        .feature-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
-            pointer-events: none;
-        }
-        
-        .feature-card:hover {
-            background: var(--glass-bg-hover);
-            border-color: var(--glass-highlight);
-            transform: translateY(-4px) scale(1.02);
-        }
-        
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 16px;
-            display: block;
-        }
-        
-        .feature-title {
-            font-size: 16px;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 15px;
             font-weight: 600;
-            color: #fff;
-            margin-bottom: 8px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
         }
         
-        .feature-desc {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 8px 32px rgba(41, 121, 255, 0.25);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(41, 121, 255, 0.35);
+        }
+        
+        .btn-ghost {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+        
+        .btn-ghost:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-highlight);
+            transform: translateY(-2px);
+        }
+        
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-tertiary);
+            font-size: 12px;
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+        
+        .scroll-hint svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-tertiary);
+        }
+        
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+        
+        .section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 100px 32px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .section-label {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
         }
         
         .section-title {
-            font-size: 32px;
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 30px;
-            text-align: center;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        
+        .section-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 24px;
-            justify-items: center;
         }
         
         .course-card {
-            width: 100%;
-            max-width: 400px;
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 40px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 48px;
             position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
         }
         
         .course-card::before {
@@ -285,10 +347,17 @@
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, transparent 50%, rgba(118, 75, 162, 0.2) 100%);
-            pointer-events: none;
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .course-card.card-blue::before {
+            background: linear-gradient(135deg, rgba(41, 121, 255, 0.08) 0%, transparent 60%);
+        }
+        
+        .course-card.card-purple::before {
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.08) 0%, transparent 60%);
         }
         
         .course-card:hover::before {
@@ -296,138 +365,440 @@
         }
         
         .course-card:hover {
-            background: var(--glass-bg-hover);
             border-color: var(--glass-highlight);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.4),
-                0 0 40px rgba(102, 126, 234, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5);
         }
         
-        .course-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            display: block;
+        .card-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
         }
         
-        .course-code {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
+        .course-card:hover .card-glow {
+            opacity: 0.15;
         }
         
-        .course-name {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+        .card-blue .card-glow { background: var(--accent-blue); top: -50px; right: -50px; }
+        .card-purple .card-glow { background: var(--accent-purple); top: -50px; right: -50px; }
+        
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
             margin-bottom: 24px;
         }
         
-        .course-link {
-            display: inline-flex;
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            background: var(--accent);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 999px;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px var(--accent-glow);
+            justify-content: center;
+            font-size: 28px;
         }
         
-        .course-link:hover {
-            background: #0066d6;
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px var(--accent-glow);
+        .card-blue .card-icon {
+            background: rgba(41, 121, 255, 0.12);
+            border: 1px solid rgba(41, 121, 255, 0.2);
+        }
+        
+        .card-purple .card-icon {
+            background: rgba(124, 77, 255, 0.12);
+            border: 1px solid rgba(124, 77, 255, 0.2);
+        }
+        
+        .card-semester {
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .card-code {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+        
+        .card-blue .card-code { color: #5ea8ff; }
+        .card-purple .card-code { color: #a78bfa; }
+        
+        .card-name {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+        
+        .tag {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .card-blue .tag {
+            background: rgba(41, 121, 255, 0.1);
+            color: rgba(100, 170, 255, 0.9);
+            border: 1px solid rgba(41, 121, 255, 0.15);
+        }
+        
+        .card-purple .tag {
+            background: rgba(124, 77, 255, 0.1);
+            color: rgba(167, 139, 250, 0.9);
+            border: 1px solid rgba(124, 77, 255, 0.15);
+        }
+        
+        .card-spacer { flex: 1; }
+        
+        .card-links {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .card-link {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-blue .card-link.primary {
+            background: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(41, 121, 255, 0.25);
+        }
+        
+        .card-purple .card-link.primary {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.25);
+        }
+        
+        .card-link.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(41, 121, 255, 0.35);
+        }
+        
+        .card-purple .card-link.primary:hover {
+            box-shadow: 0 8px 30px rgba(124, 77, 255, 0.35);
+        }
+        
+        .card-link.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-link.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .stats-section {
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            padding: 48px 32px;
+            text-align: center;
+            border-right: 1px solid var(--glass-border);
+        }
+        
+        .stat-item:last-child { border-right: none; }
+        
+        .stat-value {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 36px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-card:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-highlight);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .feature-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
         
         footer {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 40px 24px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
+            padding: 48px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-tertiary);
             font-size: 13px;
+        }
+        
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover { color: var(--text-primary); }
+        
+        @media (max-width: 1024px) {
+            .courses-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:nth-child(2) { border-right: none; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
         }
         
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero h1 { font-size: 48px; }
+            .hero h1 { letter-spacing: -2px; }
+            .hero-sub { font-size: 17px; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .hero-actions .btn { width: 100%; justify-content: center; }
             .courses-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .course-card { padding: 32px; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
     
     <header>
         <nav>
-            <div class="logo">CS Archive</div>
+            <a href="index.html" class="logo">
+                <div class="logo-mark">C</div>
+                CS Archive
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">首页</a></li>
-                <li><a href="courses.html">课程备份</a></li>
-                <li><a href="about.html">关于我们</a></li>
+                <li><a href="courses.html">课程</a></li>
+                <li><a href="about.html">关于</a></li>
             </ul>
         </nav>
     </header>
     
-    <main class="main-content">
-        <section class="hero">
-            <h1>CS Archive</h1>
-            <p class="hero-subtitle">计算机科学课程备份网站</p>
-            
-            <div class="glass-card description-card">
-                <p>欢迎来到 <strong>CS Archive</strong>，这里是计算机科学学习资源的永久备份仓库。我们致力于为全球学习者提供高质量的计算机科学课程资料。</p>
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            持续更新中
+        </div>
+        <h1>CS Archive</h1>
+        <p class="hero-sub">顶尖学府计算机科学课程的永久备份，支持中英双语，随时随地访问</p>
+        <div class="hero-actions">
+            <a href="courses.html" class="btn btn-primary">
+                浏览课程
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="about.html" class="btn btn-ghost">了解更多</a>
+        </div>
+        <div class="scroll-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </section>
+    
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">2</div>
+                <div class="stat-label">收录课程</div>
             </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">📚</span>
-                    <div class="feature-title">完整课程资料</div>
-                    <div class="feature-desc">讲义、实验、项目一应俱全</div>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🔒</span>
-                    <div class="feature-title">永久备份</div>
-                    <div class="feature-desc">资源安全保存，随时访问</div>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🌍</span>
-                    <div class="feature-title">多语言支持</div>
-                    <div class="feature-desc">中英文版本自由切换</div>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎓</span>
-                    <div class="feature-title">名校课程</div>
-                    <div class="feature-desc">收录顶尖学府精品课程</div>
-                </div>
+            <div class="stat-item">
+                <div class="stat-value">80+</div>
+                <div class="stat-label">讲义与实验</div>
             </div>
-        </section>
+            <div class="stat-item">
+                <div class="stat-value">2</div>
+                <div class="stat-label">语言版本</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">UCB</div>
+                <div class="stat-label">课程来源</div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="section">
+        <div class="section-header">
+            <div class="section-label">Courses</div>
+            <h2 class="section-title">收录课程</h2>
+            <p class="section-desc">来自加州大学伯克利分校的精品计算机科学课程</p>
+        </div>
         
-        <section>
-            <h2 class="section-title">热门课程</h2>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <span class="course-icon">💻</span>
-                    <div class="course-code">CS61C</div>
-                    <div class="course-name">Computer Architecture</div>
-                    <a href="cs61c/sp26-zh/index.html" class="course-link">
-                        访问课程
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
+        <div class="courses-grid">
+            <div class="course-card card-blue">
+                <div class="card-glow"></div>
+                <div class="card-top">
+                    <div class="card-icon">💻</div>
+                    <span class="card-semester">Spring 2026</span>
+                </div>
+                <div class="card-code">CS 61C</div>
+                <div class="card-name">Great Ideas in Computer Architecture</div>
+                <div class="card-tags">
+                    <span class="tag">计算机体系结构</span>
+                    <span class="tag">RISC-V</span>
+                    <span class="tag">CPU 设计</span>
+                    <span class="tag">流水线</span>
+                </div>
+                <div class="card-spacer"></div>
+                <div class="card-links">
+                    <a href="cs61c/sp26-zh/index.html" class="card-link primary">中文版</a>
+                    <a href="cs61c/sp26-en/index.html" class="card-link secondary">English</a>
                 </div>
             </div>
-        </section>
-    </main>
+            
+            <div class="course-card card-purple">
+                <div class="card-glow"></div>
+                <div class="card-top">
+                    <div class="card-icon">📐</div>
+                    <span class="card-semester">Spring 2025</span>
+                </div>
+                <div class="card-code">EECS 70</div>
+                <div class="card-name">Discrete Mathematics and Probability Theory</div>
+                <div class="card-tags">
+                    <span class="tag">离散数学</span>
+                    <span class="tag">概率论</span>
+                    <span class="tag">图论</span>
+                    <span class="tag">数论</span>
+                </div>
+                <div class="card-spacer"></div>
+                <div class="card-links">
+                    <a href="eecs70/index.html" class="card-link primary">进入课程</a>
+                    <a href="eecs70/index.html" class="card-link secondary">English</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" style="padding-top: 0;">
+        <div class="section-header">
+            <div class="section-label">Features</div>
+            <h2 class="section-title">为什么选择 CS Archive</h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-wrap">📚</div>
+                <div class="feature-title">完整课程资料</div>
+                <div class="feature-desc">讲义、实验、项目、讨论一应俱全，还原完整学习体验</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrap">🔒</div>
+                <div class="feature-title">永久离线备份</div>
+                <div class="feature-desc">所有资源本地化存储，不依赖外部服务，随时访问</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrap">🌐</div>
+                <div class="feature-title">中英双语支持</div>
+                <div class="feature-desc">核心课程提供中文翻译版本，降低语言学习门槛</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrap">🎓</div>
+                <div class="feature-title">名校精品课程</div>
+                <div class="feature-desc">收录 UC Berkeley 等顶尖学府的计算机科学课程</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrap">⚡</div>
+                <div class="feature-title">零依赖访问</div>
+                <div class="feature-desc">纯静态页面，无需后端服务，极速加载体验</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrap">🔄</div>
+                <div class="feature-title">持续更新</div>
+                <div class="feature-desc">不断收录新课程，完善现有内容与翻译质量</div>
+            </div>
+        </div>
+    </section>
     
     <footer>
-        <p>&copy; 2026 CS Archive | 本站仅用于学习目的</p>
+        <p>&copy; 2026 CS Archive. 本站仅用于学习目的</p>
+        <p><a href="https://ghost0190.xyz" target="_blank">ghost0190.xyz</a></p>
     </footer>
 </body>
 </html>

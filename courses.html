@@ -3,167 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>课程备份 - CS Archive</title>
+    <title>课程 - CS Archive</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-bg-hover: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-highlight: rgba(255, 255, 255, 0.25);
-            --blur-amount: 40px;
-            --accent: #007aff;
-            --accent-glow: rgba(0, 122, 255, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --blur: 60px;
+            --accent-blue: #2979ff;
+            --accent-purple: #7c4dff;
+            --accent-teal: #00bfa5;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --text-tertiary: rgba(255, 255, 255, 0.35);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
-            background: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #050510;
             min-height: 100vh;
-            color: #fff;
+            color: var(--text-primary);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         
-        .bg-gradient {
+        .bg-mesh {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: 
-                radial-gradient(ellipse at 20% 30%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(118, 75, 162, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(0, 122, 255, 0.2) 0%, transparent 60%),
-                #000;
+            background: #050510;
         }
         
-        .bg-gradient::before,
-        .bg-gradient::after {
-            content: '';
+        .bg-mesh .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            animation: float 20s ease-in-out infinite;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: orbFloat 25s ease-in-out infinite;
         }
         
-        .bg-gradient::before {
-            width: 600px;
-            height: 600px;
-            background: rgba(102, 126, 234, 0.3);
-            top: 10%;
-            left: 15%;
+        .bg-mesh .orb-1 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(41, 121, 255, 0.25), transparent 70%);
+            top: -20%; left: -10%;
         }
         
-        .bg-gradient::after {
-            width: 500px;
-            height: 500px;
-            background: rgba(118, 75, 162, 0.3);
-            bottom: 10%;
-            right: 15%;
-            animation-delay: -10s;
+        .bg-mesh .orb-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(124, 77, 255, 0.2), transparent 70%);
+            bottom: -10%; right: -5%;
+            animation-delay: -8s;
         }
         
-        @keyframes float {
+        .bg-mesh .orb-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 191, 165, 0.15), transparent 70%);
+            top: 40%; left: 50%;
+            animation-delay: -16s;
+        }
+        
+        @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
+            33% { transform: translate(40px, -30px) scale(1.05); }
+            66% { transform: translate(-30px, 20px) scale(0.95); }
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
         }
         
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur)) saturate(150%);
+            -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+            background: rgba(5, 5, 16, 0.6);
             border-bottom: 1px solid var(--glass-border);
         }
         
         nav {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
         }
         
         .nav-links {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             list-style: none;
         }
         
         .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
         
         .nav-links a:hover {
-            color: #fff;
-            background: var(--glass-bg);
+            color: var(--text-primary);
+            background: var(--glass-bg-hover);
         }
         
         .nav-links a.active {
             color: #fff;
-            background: var(--accent);
-            box-shadow: 0 4px 20px var(--accent-glow);
+            background: rgba(255,255,255,0.1);
         }
         
         .main-content {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 120px 32px 80px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .page-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
         }
         
         .page-title {
             font-size: clamp(36px, 6vw, 56px);
             font-weight: 700;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
             margin-bottom: 12px;
-            text-align: center;
         }
         
         .page-subtitle {
-            font-size: clamp(16px, 2.5vw, 20px);
-            color: rgba(255, 255, 255, 0.6);
-            text-align: center;
-            margin-bottom: 60px;
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 24px;
-            justify-items: center;
         }
         
         .course-card {
-            width: 100%;
-            max-width: 500px;
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 40px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 48px;
             position: relative;
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
         }
         
         .course-card::before {
@@ -171,154 +215,291 @@
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.5s;
             pointer-events: none;
         }
         
+        .course-card.card-blue::before {
+            background: linear-gradient(135deg, rgba(41, 121, 255, 0.08) 0%, transparent 60%);
+        }
+        
+        .course-card.card-purple::before {
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.08) 0%, transparent 60%);
+        }
+        
+        .course-card:hover::before { opacity: 1; }
+        
         .course-card:hover {
-            background: var(--glass-bg-hover);
             border-color: var(--glass-highlight);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.4),
-                0 0 40px rgba(102, 126, 234, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5);
         }
         
-        .course-icon {
-            font-size: 56px;
+        .card-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .course-card:hover .card-glow { opacity: 0.15; }
+        .card-blue .card-glow { background: var(--accent-blue); top: -50px; right: -50px; }
+        .card-purple .card-glow { background: var(--accent-purple); top: -50px; right: -50px; }
+        
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
             margin-bottom: 24px;
-            display: block;
         }
         
-        .course-code {
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
         }
         
-        .course-name {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 16px;
+        .card-blue .card-icon {
+            background: rgba(41, 121, 255, 0.12);
+            border: 1px solid rgba(41, 121, 255, 0.2);
         }
         
-        .course-desc {
+        .card-purple .card-icon {
+            background: rgba(124, 77, 255, 0.12);
+            border: 1px solid rgba(124, 77, 255, 0.2);
+        }
+        
+        .card-semester {
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .card-code {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+        
+        .card-blue .card-code { color: #5ea8ff; }
+        .card-purple .card-code { color: #a78bfa; }
+        
+        .card-name {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .card-desc {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.6;
+            color: var(--text-tertiary);
+            line-height: 1.7;
             margin-bottom: 24px;
         }
         
-        .course-tags {
+        .card-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 28px;
+            margin-bottom: 32px;
         }
         
         .tag {
-            padding: 6px 14px;
-            background: rgba(0, 122, 255, 0.15);
-            color: rgba(0, 122, 255, 0.9);
-            border-radius: 999px;
+            padding: 5px 12px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 500;
-            border: 1px solid rgba(0, 122, 255, 0.2);
         }
         
-        .course-links {
+        .card-blue .tag {
+            background: rgba(41, 121, 255, 0.1);
+            color: rgba(100, 170, 255, 0.9);
+            border: 1px solid rgba(41, 121, 255, 0.15);
+        }
+        
+        .card-purple .tag {
+            background: rgba(124, 77, 255, 0.1);
+            color: rgba(167, 139, 250, 0.9);
+            border: 1px solid rgba(124, 77, 255, 0.15);
+        }
+        
+        .card-spacer { flex: 1; }
+        
+        .card-links {
             display: flex;
             gap: 12px;
         }
         
-        .course-link {
+        .card-link {
             flex: 1;
             padding: 14px;
             text-align: center;
-            background: var(--accent);
-            color: #fff;
-            text-decoration: none;
             border-radius: 14px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px var(--accent-glow);
         }
         
-        .course-link:hover {
-            background: #0066d6;
+        .card-blue .card-link.primary {
+            background: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(41, 121, 255, 0.25);
+        }
+        
+        .card-purple .card-link.primary {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.25);
+        }
+        
+        .card-link.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
+            box-shadow: 0 8px 30px rgba(41, 121, 255, 0.35);
         }
         
-        .course-link.secondary {
+        .card-purple .card-link.primary:hover {
+            box-shadow: 0 8px 30px rgba(124, 77, 255, 0.35);
+        }
+        
+        .card-link.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-link.secondary:hover {
             background: rgba(255, 255, 255, 0.1);
-            box-shadow: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .course-link.secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         
         footer {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 40px 24px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
+            padding: 48px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-tertiary);
             font-size: 13px;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover { color: var(--text-primary); }
+        
+        @media (max-width: 1024px) {
+            .courses-grid { grid-template-columns: 1fr; }
         }
         
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .page-title { font-size: 36px; }
             .courses-grid { grid-template-columns: 1fr; }
+            .course-card { padding: 32px; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
     
     <header>
         <nav>
-            <div class="logo">CS Archive</div>
+            <a href="index.html" class="logo">
+                <div class="logo-mark">C</div>
+                CS Archive
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html">首页</a></li>
-                <li><a href="courses.html" class="active">课程备份</a></li>
-                <li><a href="about.html">关于我们</a></li>
+                <li><a href="courses.html" class="active">课程</a></li>
+                <li><a href="about.html">关于</a></li>
             </ul>
         </nav>
     </header>
     
     <main class="main-content">
-        <h1 class="page-title">课程备份</h1>
-        <p class="page-subtitle">收录顶尖学府的计算机科学课程资料</p>
+        <div class="page-header">
+            <div class="page-label">Courses</div>
+            <h1 class="page-title">课程备份</h1>
+            <p class="page-subtitle">收录顶尖学府的计算机科学课程资料，支持中英双语</p>
+        </div>
         
         <div class="courses-grid">
-            <div class="course-card">
-                <span class="course-icon">💻</span>
-                <div class="course-code">CS61C</div>
-                <div class="course-name">Great Ideas in Computer Architecture</div>
-                <div class="course-desc">加州大学伯克利分校经典计算机体系结构课程，涵盖数字逻辑、指令集架构、CPU设计等核心概念。</div>
-                <div class="course-tags">
+            <div class="course-card card-blue">
+                <div class="card-glow"></div>
+                <div class="card-top">
+                    <div class="card-icon">💻</div>
+                    <span class="card-semester">Spring 2026</span>
+                </div>
+                <div class="card-code">CS 61C</div>
+                <div class="card-name">Great Ideas in Computer Architecture</div>
+                <div class="card-desc">加州大学伯克利分校经典计算机体系结构课程，涵盖数字逻辑、指令集架构、CPU设计、流水线等核心概念。</div>
+                <div class="card-tags">
                     <span class="tag">计算机体系结构</span>
                     <span class="tag">RISC-V</span>
-                    <span class="tag">Spring 2026</span>
+                    <span class="tag">CPU 设计</span>
+                    <span class="tag">流水线</span>
                 </div>
-                <div class="course-links">
-                    <a href="cs61c/sp26-zh/index.html" class="course-link">中文版本</a>
-                    <a href="cs61c/sp26-en/index.html" class="course-link secondary">英文版本</a>
+                <div class="card-spacer"></div>
+                <div class="card-links">
+                    <a href="cs61c/sp26-zh/index.html" class="card-link primary">中文版</a>
+                    <a href="cs61c/sp26-en/index.html" class="card-link secondary">English</a>
+                </div>
+            </div>
+            
+            <div class="course-card card-purple">
+                <div class="card-glow"></div>
+                <div class="card-top">
+                    <div class="card-icon">📐</div>
+                    <span class="card-semester">Spring 2025</span>
+                </div>
+                <div class="card-code">EECS 70</div>
+                <div class="card-name">Discrete Mathematics and Probability Theory</div>
+                <div class="card-desc">加州大学伯克利分校离散数学与概率论课程，涵盖逻辑证明、图论、数论、概率论、贝叶斯推断等核心内容。</div>
+                <div class="card-tags">
+                    <span class="tag">离散数学</span>
+                    <span class="tag">概率论</span>
+                    <span class="tag">图论</span>
+                    <span class="tag">数论</span>
+                </div>
+                <div class="card-spacer"></div>
+                <div class="card-links">
+                    <a href="eecs70/index.html" class="card-link primary">进入课程</a>
+                    <a href="eecs70/index.html" class="card-link secondary">English</a>
                 </div>
             </div>
         </div>
     </main>
     
     <footer>
-        <p>&copy; 2026 CS Archive | 本站仅用于学习目的</p>
+        <p>&copy; 2026 CS Archive. 本站仅用于学习目的</p>
+        <p><a href="https://ghost0190.xyz" target="_blank">ghost0190.xyz</a></p>
     </footer>
 </body>
 </html>

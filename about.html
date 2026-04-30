@@ -3,261 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我们 - CS Archive</title>
+    <title>关于 - CS Archive</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-bg-hover: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-highlight: rgba(255, 255, 255, 0.25);
-            --blur-amount: 40px;
-            --accent: #007aff;
-            --accent-glow: rgba(0, 122, 255, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --blur: 60px;
+            --accent-blue: #2979ff;
+            --accent-purple: #7c4dff;
+            --accent-teal: #00bfa5;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --text-tertiary: rgba(255, 255, 255, 0.35);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', sans-serif;
-            background: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #050510;
             min-height: 100vh;
-            color: #fff;
+            color: var(--text-primary);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         
-        .bg-gradient {
+        .bg-mesh {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: 
-                radial-gradient(ellipse at 20% 30%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(118, 75, 162, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(0, 122, 255, 0.2) 0%, transparent 60%),
-                #000;
+            background: #050510;
         }
         
-        .bg-gradient::before,
-        .bg-gradient::after {
-            content: '';
+        .bg-mesh .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            animation: float 20s ease-in-out infinite;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: orbFloat 25s ease-in-out infinite;
         }
         
-        .bg-gradient::before {
-            width: 600px;
-            height: 600px;
-            background: rgba(102, 126, 234, 0.3);
-            top: 10%;
-            left: 15%;
+        .bg-mesh .orb-1 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(41, 121, 255, 0.25), transparent 70%);
+            top: -20%; left: -10%;
         }
         
-        .bg-gradient::after {
-            width: 500px;
-            height: 500px;
-            background: rgba(118, 75, 162, 0.3);
-            bottom: 10%;
-            right: 15%;
-            animation-delay: -10s;
+        .bg-mesh .orb-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(124, 77, 255, 0.2), transparent 70%);
+            bottom: -10%; right: -5%;
+            animation-delay: -8s;
         }
         
-        @keyframes float {
+        @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
+            33% { transform: translate(40px, -30px) scale(1.05); }
+            66% { transform: translate(-30px, 20px) scale(0.95); }
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
         }
         
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(var(--blur)) saturate(150%);
+            -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+            background: rgba(5, 5, 16, 0.6);
             border-bottom: 1px solid var(--glass-border);
         }
         
         nav {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
         }
         
         .nav-links {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             list-style: none;
         }
         
         .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
         
         .nav-links a:hover {
-            color: #fff;
-            background: var(--glass-bg);
+            color: var(--text-primary);
+            background: var(--glass-bg-hover);
         }
         
         .nav-links a.active {
             color: #fff;
-            background: var(--accent);
-            box-shadow: 0 4px 20px var(--accent-glow);
+            background: rgba(255,255,255,0.1);
         }
         
         .main-content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 120px 32px 80px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .page-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
         }
         
         .page-title {
             font-size: clamp(36px, 6vw, 56px);
             font-weight: 700;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
             margin-bottom: 12px;
-            text-align: center;
         }
         
         .page-subtitle {
-            font-size: clamp(16px, 2.5vw, 20px);
-            color: rgba(255, 255, 255, 0.6);
-            text-align: center;
-            margin-bottom: 60px;
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-amount)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 36px;
             position: relative;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 24px;
-        }
-        
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
-            pointer-events: none;
+            margin-bottom: 20px;
         }
         
         .glass-card:hover {
             background: var(--glass-bg-hover);
             border-color: var(--glass-highlight);
-            transform: translateY(-4px);
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.4),
-                0 0 40px rgba(255,255,255,0.05);
         }
         
         .glass-card h2 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            color: #fff;
-            margin-bottom: 16px;
+            color: var(--text-primary);
+            margin-bottom: 14px;
         }
         
         .glass-card p {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             line-height: 1.8;
         }
         
-        .contact-card {
-            margin-top: 32px;
+        .glass-card p + p {
+            margin-top: 12px;
         }
         
         .contact-item {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
         
-        .contact-item:last-child {
-            border-bottom: none;
-        }
+        .contact-item:last-child { border-bottom: none; }
         
         .contact-icon {
-            font-size: 24px;
+            font-size: 22px;
             flex-shrink: 0;
         }
         
         .contact-text {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
         }
         
         .contact-text a {
-            color: var(--accent);
+            color: var(--accent-blue);
             text-decoration: none;
             transition: color 0.3s;
         }
         
-        .contact-text a:hover {
-            color: #fff;
-        }
+        .contact-text a:hover { color: #fff; }
         
         footer {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 40px 24px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
+            padding: 48px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-tertiary);
             font-size: 13px;
+            border-top: 1px solid var(--glass-border);
         }
+        
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover { color: var(--text-primary); }
         
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .page-title { font-size: 36px; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    <div class="noise-overlay"></div>
     
     <header>
         <nav>
-            <div class="logo">CS Archive</div>
+            <a href="index.html" class="logo">
+                <div class="logo-mark">C</div>
+                CS Archive
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html">首页</a></li>
-                <li><a href="courses.html">课程备份</a></li>
-                <li><a href="about.html" class="active">关于我们</a></li>
+                <li><a href="courses.html">课程</a></li>
+                <li><a href="about.html" class="active">关于</a></li>
             </ul>
         </nav>
     </header>
     
     <main class="main-content">
-        <h1 class="page-title">关于我们</h1>
-        <p class="page-subtitle">了解 CS Archive 的使命与愿景</p>
+        <div class="page-header">
+            <div class="page-label">About</div>
+            <h1 class="page-title">关于我们</h1>
+            <p class="page-subtitle">了解 CS Archive 的使命与愿景</p>
+        </div>
         
         <div class="glass-card">
             <h2>我们的使命</h2>
@@ -275,7 +316,7 @@
             <p>本站所有课程资料均来自公开渠道，版权归原授课机构和讲师所有。本站仅用于学习目的，请勿用于商业用途。如果您是版权所有者，认为我们的内容侵犯了您的权益，请与我们联系。</p>
         </div>
         
-        <div class="glass-card contact-card">
+        <div class="glass-card">
             <h2>联系我们</h2>
             <div class="contact-item">
                 <span class="contact-icon">📮</span>
@@ -289,7 +330,8 @@
     </main>
     
     <footer>
-        <p>&copy; 2026 CS Archive | 本站仅用于学习目的</p>
+        <p>&copy; 2026 CS Archive. 本站仅用于学习目的</p>
+        <p><a href="https://ghost0190.xyz" target="_blank">ghost0190.xyz</a></p>
     </footer>
 </body>
 </html>
