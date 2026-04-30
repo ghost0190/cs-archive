@@ -1,0 +1,825 @@
+﻿<!DOCTYPE html> <html lang=en style><!--
+ Page saved with SingleFile 
+ url: https://cs61c.org/sp26/projects/proj2/function-definitions/ 
+ saved date: Thu Apr 30 2026 22:53:18 GMT+0800 (中国标准时间)
+--><meta charset=utf-8>
+<meta name=language content=english>
+<title>Appendix: Function Definitions | CS61C Spring 2026</title>
+<meta name=viewport content="width=device-width, initial-scale=1.0">
+<meta name=color-scheme content="light dark">
+<style>/*!
+ * Bootstrap v5.1.3 (https://getbootstrap.com/)
+ * Copyright 2011-2021 The Bootstrap Authors
+ * Copyright 2011-2021 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;--bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-gray-100:#f8f9fa;--bs-gray-200:#e9ecef;--bs-gray-300:#dee2e6;--bs-gray-400:#ced4da;--bs-gray-500:#adb5bd;--bs-gray-600:#6c757d;--bs-gray-700:#495057;--bs-gray-800:#343a40;--bs-gray-900:#212529;--bs-primary:#0d6efd;--bs-secondary:#6c757d;--bs-success:#198754;--bs-info:#0dcaf0;--bs-warning:#ffc107;--bs-danger:#dc3545;--bs-light:#f8f9fa;--bs-dark:#212529;--bs-primary-rgb:13,110,253;--bs-secondary-rgb:108,117,125;--bs-success-rgb:25,135,84;--bs-info-rgb:13,202,240;--bs-warning-rgb:255,193,7;--bs-danger-rgb:220,53,69;--bs-light-rgb:248,249,250;--bs-dark-rgb:33,37,41;--bs-white-rgb:255,255,255;--bs-black-rgb:0,0,0;--bs-body-color-rgb:33,37,41;--bs-body-bg-rgb:255,255,255;--bs-font-sans-serif:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--bs-font-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--bs-gradient:linear-gradient(180deg,rgba(255,255,255,0.15),rgba(255,255,255,0));--bs-body-font-family:var(--bs-font-sans-serif);--bs-body-font-size:1rem;--bs-body-font-weight:400;--bs-body-line-height:1.5;--bs-body-color:#212529;--bs-body-bg:#fff}*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:var(--bs-body-font-family);font-size:var(--bs-body-font-size);font-weight:var(--bs-body-font-weight);line-height:var(--bs-body-line-height);color:var(--bs-body-color);text-align:var(--bs-body-text-align);background-color:var(--bs-body-bg);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}h1,h2,h3{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}p{margin-top:0;margin-bottom:1rem}ul{padding-left:2rem}ul{margin-top:0}ul ul{margin-bottom:0}b{font-weight:bolder}a{text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]):hover{color:inherit;text-decoration:none}code{font-family:var(--bs-font-monospace);direction:ltr;unicode-bidi:bidi-override}code{font-size:.875em;word-wrap:break-word}img{vertical-align:middle}table{caption-side:bottom;border-collapse:collapse}tbody,td,tr{border-color:inherit;border-style:solid;border-width:0}label{display:inline-block}button:focus:not(:focus-visible){outline:0}button,input{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{text-transform:none}[role=button]{cursor:pointer}select:disabled{opacity:1}[list]::-webkit-calendar-picker-indicator{display:none}[type=button],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}::-moz-focus-inner{padding:0;border-style:none}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::-webkit-file-upload-button{font:inherit}::file-selector-button{font:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}.blockquote-footer::before{content:"— "}.container{width:100%;padding-right:var(--bs-gutter-x,.75rem);padding-left:var(--bs-gutter-x,.75rem);margin-right:auto;margin-left:auto}@media (min-width:576px){.container{max-width:540px}}@media (min-width:768px){.container{max-width:720px}}@media (min-width:992px){.container{max-width:960px}}@media (min-width:1200px){.container{max-width:1140px}}@media (min-width:1400px){.container{max-width:1320px}}.row{--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(-1*var(--bs-gutter-y));margin-right:calc(-.5*var(--bs-gutter-x));margin-left:calc(-.5*var(--bs-gutter-x))}.row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x)*.5);padding-left:calc(var(--bs-gutter-x)*.5);margin-top:var(--bs-gutter-y)}.col{flex:1 0 0%}@media (min-width:768px){.col-md-3{flex:0 0 auto;width:25%}.col-md-9{flex:0 0 auto;width:75%}}.table-hover>tbody>tr:hover>*{--bs-table-accent-bg:var(--bs-table-hover-bg);color:var(--bs-table-hover-color)}.form-control[type=file]:not(:disabled):not([readonly]){cursor:pointer}.form-control:focus{color:#212529;background-color:#fff;border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}.form-control::-webkit-date-and-time-value{height:1.5em}.form-control::-moz-placeholder{color:#6c757d;opacity:1}.form-control::placeholder{color:#6c757d;opacity:1}.form-control:disabled{background-color:#e9ecef;opacity:1}.form-control::-webkit-file-upload-button{padding:.375rem .75rem;margin:-.375rem -.75rem;-webkit-margin-end:.75rem;margin-inline-end:.75rem;color:#212529;background-color:#e9ecef;pointer-events:none;border-color:inherit;border-style:solid;border-width:0;border-inline-end-width:1px;border-radius:0;-webkit-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.form-control::file-selector-button{padding:.375rem .75rem;margin:-.375rem -.75rem;-webkit-margin-end:.75rem;margin-inline-end:.75rem;color:#212529;background-color:#e9ecef;pointer-events:none;border-color:inherit;border-style:solid;border-width:0;border-inline-end-width:1px;border-radius:0;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-control::-webkit-file-upload-button{-webkit-transition:none;transition:none}.form-control::file-selector-button{transition:none}}.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button{background-color:#dde0e3}.form-control:hover:not(:disabled):not([readonly])::file-selector-button{background-color:#dde0e3}.form-control::-webkit-file-upload-button{padding:.375rem .75rem;margin:-.375rem -.75rem;-webkit-margin-end:.75rem;margin-inline-end:.75rem;color:#212529;background-color:#e9ecef;pointer-events:none;border-color:inherit;border-style:solid;border-width:0;border-inline-end-width:1px;border-radius:0;-webkit-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-control::-webkit-file-upload-button{-webkit-transition:none;transition:none}}.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button{background-color:#dde0e3}.form-control-sm::-webkit-file-upload-button{padding:.25rem .5rem;margin:-.25rem -.5rem;-webkit-margin-end:.5rem;margin-inline-end:.5rem}.form-control-sm::file-selector-button{padding:.25rem .5rem;margin:-.25rem -.5rem;-webkit-margin-end:.5rem;margin-inline-end:.5rem}.form-control-sm::-webkit-file-upload-button{padding:.25rem .5rem;margin:-.25rem -.5rem;-webkit-margin-end:.5rem;margin-inline-end:.5rem}.form-control-lg::-webkit-file-upload-button{padding:.5rem 1rem;margin:-.5rem -1rem;-webkit-margin-end:1rem;margin-inline-end:1rem}.form-control-lg::file-selector-button{padding:.5rem 1rem;margin:-.5rem -1rem;-webkit-margin-end:1rem;margin-inline-end:1rem}.form-control-lg::-webkit-file-upload-button{padding:.5rem 1rem;margin:-.5rem -1rem;-webkit-margin-end:1rem;margin-inline-end:1rem}.form-control-color:not(:disabled):not([readonly]){cursor:pointer}.form-control-color::-moz-color-swatch{height:1.5em;border-radius:.25rem}.form-control-color::-webkit-color-swatch{height:1.5em;border-radius:.25rem}.form-select:focus{border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}.form-select:disabled{background-color:#e9ecef}.form-select:-moz-focusring{color:transparent;text-shadow:0 0 0#212529}.form-check{display:block;min-height:1.5rem;margin-bottom:.125rem}.form-check .form-check-input{float:left}.form-check-input{height:1em;margin-top:.25em;vertical-align:top;background-color:#fff;background-repeat:no-repeat;background-size:contain;border:1px solid rgba(0,0,0,.25);-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-print-color-adjust:exact;color-adjust:exact}.form-check-input:active{filter:brightness(90%)}.form-check-input:focus{border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}.form-check-input:checked{background-color:#0d6efd;border-color:#0d6efd}.form-check-input:checked[type=checkbox]{background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 20\ 20\'%3e%3cpath\ fill=\'none\'\ stroke=\'%23fff\'\ stroke-linecap=\'round\'\ stroke-linejoin=\'round\'\ stroke-width=\'3\'\ d=\'M6\ 10l3\ 3l6-6\'/%3e%3c/svg%3e)}.form-check-input:checked[type=radio]{background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'-4\ -4\ 8\ 8\'%3e%3ccircle\ r=\'2\'\ fill=\'%23fff\'/%3e%3c/svg%3e)}.form-check-input[type=checkbox]:indeterminate{background-color:#0d6efd;border-color:#0d6efd;background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 20\ 20\'%3e%3cpath\ fill=\'none\'\ stroke=\'%23fff\'\ stroke-linecap=\'round\'\ stroke-linejoin=\'round\'\ stroke-width=\'3\'\ d=\'M6\ 10h8\'/%3e%3c/svg%3e)}.form-check-input:disabled{pointer-events:none;filter:none;opacity:.5}.form-check-input:disabled~.form-check-label{opacity:.5}.form-switch{padding-left:2.5em}.form-switch .form-check-input{width:2em;margin-left:-2.5em;background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'-4\ -4\ 8\ 8\'%3e%3ccircle\ r=\'3\'\ fill=\'rgba%280,\ 0,\ 0,\ 0.25%29\'/%3e%3c/svg%3e);background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}@media (prefers-reduced-motion:reduce){.form-switch .form-check-input{transition:none}}.form-switch .form-check-input:focus{background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'-4\ -4\ 8\ 8\'%3e%3ccircle\ r=\'3\'\ fill=\'%2386b7fe\'/%3e%3c/svg%3e)}.form-switch .form-check-input:checked{background-position:right center;background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'-4\ -4\ 8\ 8\'%3e%3ccircle\ r=\'3\'\ fill=\'%23fff\'/%3e%3c/svg%3e)}.btn-check:disabled+.btn{pointer-events:none;filter:none;opacity:.65}.form-range:focus{outline:0}.form-range:focus::-webkit-slider-thumb{box-shadow:0 0 0 1px #fff,0 0 0 .25rem rgba(13,110,253,.25)}.form-range:focus::-moz-range-thumb{box-shadow:0 0 0 1px #fff,0 0 0 .25rem rgba(13,110,253,.25)}.form-range::-moz-focus-outer{border:0}.form-range::-webkit-slider-thumb{width:1rem;height:1rem;margin-top:-.25rem;background-color:#0d6efd;border:0;border-radius:1rem;-webkit-transition:background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;-webkit-appearance:none;appearance:none}@media (prefers-reduced-motion:reduce){.form-range::-webkit-slider-thumb{-webkit-transition:none;transition:none}}.form-range::-webkit-slider-thumb:active{background-color:#b6d4fe}.form-range::-webkit-slider-runnable-track{width:100%;height:.5rem;color:transparent;cursor:pointer;background-color:#dee2e6;border-color:transparent;border-radius:1rem}.form-range::-moz-range-thumb{width:1rem;height:1rem;background-color:#0d6efd;border:0;border-radius:1rem;-moz-transition:background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;-moz-appearance:none;appearance:none}@media (prefers-reduced-motion:reduce){.form-range::-moz-range-thumb{-moz-transition:none;transition:none}}.form-range::-moz-range-thumb:active{background-color:#b6d4fe}.form-range::-moz-range-track{width:100%;height:.5rem;color:transparent;cursor:pointer;background-color:#dee2e6;border-color:transparent;border-radius:1rem}.form-range:disabled{pointer-events:none}.form-range:disabled::-webkit-slider-thumb{background-color:#adb5bd}.form-range:disabled::-moz-range-thumb{background-color:#adb5bd}.form-floating>.form-control::-moz-placeholder{color:transparent}.form-floating>.form-control::placeholder{color:transparent}.form-floating>.form-control:not(:-moz-placeholder-shown){padding-top:1.625rem;padding-bottom:.625rem}.form-floating>.form-control:focus,.form-floating>.form-control:not(:placeholder-shown){padding-top:1.625rem;padding-bottom:.625rem}.form-floating>.form-control:-webkit-autofill{padding-top:1.625rem;padding-bottom:.625rem}.form-floating>.form-control:not(:-moz-placeholder-shown)~label{opacity:.65;transform:scale(.85) translateY(-.5rem) translateX(.15rem)}.form-floating>.form-control:focus~label,.form-floating>.form-control:not(:placeholder-shown)~label{opacity:.65;transform:scale(.85) translateY(-.5rem) translateX(.15rem)}.form-floating>.form-control:-webkit-autofill~label{opacity:.65;transform:scale(.85) translateY(-.5rem) translateX(.15rem)}.input-group>.form-control:focus,.input-group>.form-select:focus{z-index:3}.input-group .btn:focus{z-index:3}.was-validated :valid~.valid-feedback,.was-validated :valid~.valid-tooltip{display:block}.was-validated .form-control:valid{border-color:#198754;padding-right:calc(1.5em + .75rem);background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 8\ 8\'%3e%3cpath\ fill=\'%23198754\'\ d=\'M2.3\ 6.73L.6\ 4.53c-.4-1.04.46-1.4\ 1.1-.8l1.1\ 1.4\ 3.4-3.8c.6-.63\ 1.6-.27\ 1.2.7l-4\ 4.6c-.43.5-.8.4-1.1.1z\'/%3e%3c/svg%3e);background-repeat:no-repeat;background-position:right calc(.375em + .1875rem) center;background-size:calc(.75em + .375rem) calc(.75em + .375rem)}.form-control.is-valid:focus,.was-validated .form-control:valid:focus{border-color:#198754;box-shadow:0 0 0 .25rem rgba(25,135,84,.25)}.was-validated textarea.form-control:valid{padding-right:calc(1.5em + .75rem);background-position:top calc(.375em + .1875rem) right calc(.375em + .1875rem)}.was-validated .form-select:valid{border-color:#198754}.was-validated .form-select:valid:not([multiple]):not([size]),.was-validated .form-select:valid:not([multiple])[size="1"]{padding-right:4.125rem;background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 16\ 16\'%3e%3cpath\ fill=\'none\'\ stroke=\'%23343a40\'\ stroke-linecap=\'round\'\ stroke-linejoin=\'round\'\ stroke-width=\'2\'\ d=\'M2\ 5l6\ 6\ 6-6\'/%3e%3c/svg%3e),url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 8\ 8\'%3e%3cpath\ fill=\'%23198754\'\ d=\'M2.3\ 6.73L.6\ 4.53c-.4-1.04.46-1.4\ 1.1-.8l1.1\ 1.4\ 3.4-3.8c.6-.63\ 1.6-.27\ 1.2.7l-4\ 4.6c-.43.5-.8.4-1.1.1z\'/%3e%3c/svg%3e);background-position:right .75rem center,center right 2.25rem;background-size:16px 12px,calc(.75em + .375rem) calc(.75em + .375rem)}.form-select.is-valid:focus,.was-validated .form-select:valid:focus{border-color:#198754;box-shadow:0 0 0 .25rem rgba(25,135,84,.25)}.was-validated .form-check-input:valid{border-color:#198754}.form-check-input.is-valid:checked,.was-validated .form-check-input:valid:checked{background-color:#198754}.form-check-input.is-valid:focus,.was-validated .form-check-input:valid:focus{box-shadow:0 0 0 .25rem rgba(25,135,84,.25)}.was-validated .form-check-input:valid~.form-check-label{color:#198754}.was-validated .input-group .form-control:valid,.was-validated .input-group .form-select:valid{z-index:1}.input-group .form-control.is-valid:focus,.input-group .form-select.is-valid:focus,.was-validated .input-group .form-control:valid:focus,.was-validated .input-group .form-select:valid:focus{z-index:3}.was-validated :invalid~.invalid-feedback,.was-validated :invalid~.invalid-tooltip{display:block}.was-validated .form-control:invalid{border-color:#dc3545;padding-right:calc(1.5em + .75rem);background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 12\ 12\'\ width=\'12\'\ height=\'12\'\ fill=\'none\'\ stroke=\'%23dc3545\'%3e%3ccircle\ cx=\'6\'\ cy=\'6\'\ r=\'4.5\'/%3e%3cpath\ stroke-linejoin=\'round\'\ d=\'M5.8\ 3.6h.4L6\ 6.5z\'/%3e%3ccircle\ cx=\'6\'\ cy=\'8.2\'\ r=\'.6\'\ fill=\'%23dc3545\'\ stroke=\'none\'/%3e%3c/svg%3e);background-repeat:no-repeat;background-position:right calc(.375em + .1875rem) center;background-size:calc(.75em + .375rem) calc(.75em + .375rem)}.form-control.is-invalid:focus,.was-validated .form-control:invalid:focus{border-color:#dc3545;box-shadow:0 0 0 .25rem rgba(220,53,69,.25)}.was-validated textarea.form-control:invalid{padding-right:calc(1.5em + .75rem);background-position:top calc(.375em + .1875rem) right calc(.375em + .1875rem)}.was-validated .form-select:invalid{border-color:#dc3545}.was-validated .form-select:invalid:not([multiple]):not([size]),.was-validated .form-select:invalid:not([multiple])[size="1"]{padding-right:4.125rem;background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 16\ 16\'%3e%3cpath\ fill=\'none\'\ stroke=\'%23343a40\'\ stroke-linecap=\'round\'\ stroke-linejoin=\'round\'\ stroke-width=\'2\'\ d=\'M2\ 5l6\ 6\ 6-6\'/%3e%3c/svg%3e),url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 12\ 12\'\ width=\'12\'\ height=\'12\'\ fill=\'none\'\ stroke=\'%23dc3545\'%3e%3ccircle\ cx=\'6\'\ cy=\'6\'\ r=\'4.5\'/%3e%3cpath\ stroke-linejoin=\'round\'\ d=\'M5.8\ 3.6h.4L6\ 6.5z\'/%3e%3ccircle\ cx=\'6\'\ cy=\'8.2\'\ r=\'.6\'\ fill=\'%23dc3545\'\ stroke=\'none\'/%3e%3c/svg%3e);background-position:right .75rem center,center right 2.25rem;background-size:16px 12px,calc(.75em + .375rem) calc(.75em + .375rem)}.form-select.is-invalid:focus,.was-validated .form-select:invalid:focus{border-color:#dc3545;box-shadow:0 0 0 .25rem rgba(220,53,69,.25)}.was-validated .form-check-input:invalid{border-color:#dc3545}.form-check-input.is-invalid:checked,.was-validated .form-check-input:invalid:checked{background-color:#dc3545}.form-check-input.is-invalid:focus,.was-validated .form-check-input:invalid:focus{box-shadow:0 0 0 .25rem rgba(220,53,69,.25)}.was-validated .form-check-input:invalid~.form-check-label{color:#dc3545}.was-validated .input-group .form-control:invalid,.was-validated .input-group .form-select:invalid{z-index:2}.input-group .form-control.is-invalid:focus,.input-group .form-select.is-invalid:focus,.was-validated .input-group .form-control:invalid:focus,.was-validated .input-group .form-select:invalid:focus{z-index:3}.btn:hover{color:#212529}.btn-check:focus+.btn,.btn:focus{outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}.btn:disabled,fieldset:disabled .btn{pointer-events:none;opacity:.65}.btn-primary:hover{color:#fff;background-color:#0b5ed7;border-color:#0a58ca}.btn-check:focus+.btn-primary,.btn-primary:focus{color:#fff;background-color:#0b5ed7;border-color:#0a58ca;box-shadow:0 0 0 .25rem rgba(49,132,253,.5)}.btn-check:active+.btn-primary,.btn-check:checked+.btn-primary,.btn-primary:active{color:#fff;background-color:#0a58ca;border-color:#0a53be}.btn-check:active+.btn-primary:focus,.btn-check:checked+.btn-primary:focus,.btn-primary.active:focus,.btn-primary:active:focus,.show>.btn-primary.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(49,132,253,.5)}.btn-primary:disabled{color:#fff;background-color:#0d6efd;border-color:#0d6efd}.btn-secondary:hover{color:#fff;background-color:#5c636a;border-color:#565e64}.btn-check:focus+.btn-secondary,.btn-secondary:focus{color:#fff;background-color:#5c636a;border-color:#565e64;box-shadow:0 0 0 .25rem rgba(130,138,145,.5)}.btn-check:active+.btn-secondary,.btn-check:checked+.btn-secondary,.btn-secondary:active{color:#fff;background-color:#565e64;border-color:#51585e}.btn-check:active+.btn-secondary:focus,.btn-check:checked+.btn-secondary:focus,.btn-secondary.active:focus,.btn-secondary:active:focus,.show>.btn-secondary.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(130,138,145,.5)}.btn-secondary:disabled{color:#fff;background-color:#6c757d;border-color:#6c757d}.btn-success:hover{color:#fff;background-color:#157347;border-color:#146c43}.btn-check:focus+.btn-success,.btn-success:focus{color:#fff;background-color:#157347;border-color:#146c43;box-shadow:0 0 0 .25rem rgba(60,153,110,.5)}.btn-check:active+.btn-success,.btn-check:checked+.btn-success,.btn-success:active{color:#fff;background-color:#146c43;border-color:#13653f}.btn-check:active+.btn-success:focus,.btn-check:checked+.btn-success:focus,.btn-success.active:focus,.btn-success:active:focus,.show>.btn-success.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(60,153,110,.5)}.btn-success:disabled{color:#fff;background-color:#198754;border-color:#198754}.btn-info:hover{color:#000;background-color:#31d2f2;border-color:#25cff2}.btn-check:focus+.btn-info,.btn-info:focus{color:#000;background-color:#31d2f2;border-color:#25cff2;box-shadow:0 0 0 .25rem rgba(11,172,204,.5)}.btn-check:active+.btn-info,.btn-check:checked+.btn-info,.btn-info:active{color:#000;background-color:#3dd5f3;border-color:#25cff2}.btn-check:active+.btn-info:focus,.btn-check:checked+.btn-info:focus,.btn-info.active:focus,.btn-info:active:focus,.show>.btn-info.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(11,172,204,.5)}.btn-info:disabled{color:#000;background-color:#0dcaf0;border-color:#0dcaf0}.btn-warning:hover{color:#000;background-color:#ffca2c;border-color:#ffc720}.btn-check:focus+.btn-warning,.btn-warning:focus{color:#000;background-color:#ffca2c;border-color:#ffc720;box-shadow:0 0 0 .25rem rgba(217,164,6,.5)}.btn-check:active+.btn-warning,.btn-check:checked+.btn-warning,.btn-warning:active{color:#000;background-color:#ffcd39;border-color:#ffc720}.btn-check:active+.btn-warning:focus,.btn-check:checked+.btn-warning:focus,.btn-warning.active:focus,.btn-warning:active:focus,.show>.btn-warning.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(217,164,6,.5)}.btn-warning:disabled{color:#000;background-color:#ffc107;border-color:#ffc107}.btn-danger:hover{color:#fff;background-color:#bb2d3b;border-color:#b02a37}.btn-check:focus+.btn-danger,.btn-danger:focus{color:#fff;background-color:#bb2d3b;border-color:#b02a37;box-shadow:0 0 0 .25rem rgba(225,83,97,.5)}.btn-check:active+.btn-danger,.btn-check:checked+.btn-danger,.btn-danger:active{color:#fff;background-color:#b02a37;border-color:#a52834}.btn-check:active+.btn-danger:focus,.btn-check:checked+.btn-danger:focus,.btn-danger.active:focus,.btn-danger:active:focus,.show>.btn-danger.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(225,83,97,.5)}.btn-danger:disabled{color:#fff;background-color:#dc3545;border-color:#dc3545}.btn-light:hover{color:#000;background-color:#f9fafb;border-color:#f9fafb}.btn-check:focus+.btn-light,.btn-light:focus{color:#000;background-color:#f9fafb;border-color:#f9fafb;box-shadow:0 0 0 .25rem rgba(211,212,213,.5)}.btn-check:active+.btn-light,.btn-check:checked+.btn-light,.btn-light:active{color:#000;background-color:#f9fafb;border-color:#f9fafb}.btn-check:active+.btn-light:focus,.btn-check:checked+.btn-light:focus,.btn-light.active:focus,.btn-light:active:focus,.show>.btn-light.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(211,212,213,.5)}.btn-light:disabled{color:#000;background-color:#f8f9fa;border-color:#f8f9fa}.btn-dark:hover{color:#fff;background-color:#1c1f23;border-color:#1a1e21}.btn-check:focus+.btn-dark,.btn-dark:focus{color:#fff;background-color:#1c1f23;border-color:#1a1e21;box-shadow:0 0 0 .25rem rgba(66,70,73,.5)}.btn-check:active+.btn-dark,.btn-check:checked+.btn-dark,.btn-dark:active{color:#fff;background-color:#1a1e21;border-color:#191c1f}.btn-check:active+.btn-dark:focus,.btn-check:checked+.btn-dark:focus,.btn-dark.active:focus,.btn-dark:active:focus,.show>.btn-dark.dropdown-toggle:focus{box-shadow:0 0 0 .25rem rgba(66,70,73,.5)}.btn-dark:disabled{color:#fff;background-color:#212529;border-color:#212529}.btn-outline-primary:hover{color:#fff;background-color:#0d6efd;border-color:#0d6efd}.btn-check:focus+.btn-outline-primary,.btn-outline-primary:focus{box-shadow:0 0 0 .25rem rgba(13,110,253,.5)}.btn-check:active+.btn-outline-primary,.btn-check:checked+.btn-outline-primary,.btn-outline-primary:active{color:#fff;background-color:#0d6efd;border-color:#0d6efd}.btn-check:active+.btn-outline-primary:focus,.btn-check:checked+.btn-outline-primary:focus,.btn-outline-primary.active:focus,.btn-outline-primary.dropdown-toggle.show:focus,.btn-outline-primary:active:focus{box-shadow:0 0 0 .25rem rgba(13,110,253,.5)}.btn-outline-primary:disabled{color:#0d6efd;background-color:transparent}.btn-outline-secondary:hover{color:#fff;background-color:#6c757d;border-color:#6c757d}.btn-check:focus+.btn-outline-secondary,.btn-outline-secondary:focus{box-shadow:0 0 0 .25rem rgba(108,117,125,.5)}.btn-check:active+.btn-outline-secondary,.btn-check:checked+.btn-outline-secondary,.btn-outline-secondary:active{color:#fff;background-color:#6c757d;border-color:#6c757d}.btn-check:active+.btn-outline-secondary:focus,.btn-check:checked+.btn-outline-secondary:focus,.btn-outline-secondary.active:focus,.btn-outline-secondary.dropdown-toggle.show:focus,.btn-outline-secondary:active:focus{box-shadow:0 0 0 .25rem rgba(108,117,125,.5)}.btn-outline-secondary:disabled{color:#6c757d;background-color:transparent}.btn-outline-success:hover{color:#fff;background-color:#198754;border-color:#198754}.btn-check:focus+.btn-outline-success,.btn-outline-success:focus{box-shadow:0 0 0 .25rem rgba(25,135,84,.5)}.btn-check:active+.btn-outline-success,.btn-check:checked+.btn-outline-success,.btn-outline-success:active{color:#fff;background-color:#198754;border-color:#198754}.btn-check:active+.btn-outline-success:focus,.btn-check:checked+.btn-outline-success:focus,.btn-outline-success.active:focus,.btn-outline-success.dropdown-toggle.show:focus,.btn-outline-success:active:focus{box-shadow:0 0 0 .25rem rgba(25,135,84,.5)}.btn-outline-success:disabled{color:#198754;background-color:transparent}.btn-outline-info:hover{color:#000;background-color:#0dcaf0;border-color:#0dcaf0}.btn-check:focus+.btn-outline-info,.btn-outline-info:focus{box-shadow:0 0 0 .25rem rgba(13,202,240,.5)}.btn-check:active+.btn-outline-info,.btn-check:checked+.btn-outline-info,.btn-outline-info:active{color:#000;background-color:#0dcaf0;border-color:#0dcaf0}.btn-check:active+.btn-outline-info:focus,.btn-check:checked+.btn-outline-info:focus,.btn-outline-info.active:focus,.btn-outline-info.dropdown-toggle.show:focus,.btn-outline-info:active:focus{box-shadow:0 0 0 .25rem rgba(13,202,240,.5)}.btn-outline-info:disabled{color:#0dcaf0;background-color:transparent}.btn-outline-warning:hover{color:#000;background-color:#ffc107;border-color:#ffc107}.btn-check:focus+.btn-outline-warning,.btn-outline-warning:focus{box-shadow:0 0 0 .25rem rgba(255,193,7,.5)}.btn-check:active+.btn-outline-warning,.btn-check:checked+.btn-outline-warning,.btn-outline-warning:active{color:#000;background-color:#ffc107;border-color:#ffc107}.btn-check:active+.btn-outline-warning:focus,.btn-check:checked+.btn-outline-warning:focus,.btn-outline-warning.active:focus,.btn-outline-warning.dropdown-toggle.show:focus,.btn-outline-warning:active:focus{box-shadow:0 0 0 .25rem rgba(255,193,7,.5)}.btn-outline-warning:disabled{color:#ffc107;background-color:transparent}.btn-outline-danger:hover{color:#fff;background-color:#dc3545;border-color:#dc3545}.btn-check:focus+.btn-outline-danger,.btn-outline-danger:focus{box-shadow:0 0 0 .25rem rgba(220,53,69,.5)}.btn-check:active+.btn-outline-danger,.btn-check:checked+.btn-outline-danger,.btn-outline-danger:active{color:#fff;background-color:#dc3545;border-color:#dc3545}.btn-check:active+.btn-outline-danger:focus,.btn-check:checked+.btn-outline-danger:focus,.btn-outline-danger.active:focus,.btn-outline-danger.dropdown-toggle.show:focus,.btn-outline-danger:active:focus{box-shadow:0 0 0 .25rem rgba(220,53,69,.5)}.btn-outline-danger:disabled{color:#dc3545;background-color:transparent}.btn-outline-light:hover{color:#000;background-color:#f8f9fa;border-color:#f8f9fa}.btn-check:focus+.btn-outline-light,.btn-outline-light:focus{box-shadow:0 0 0 .25rem rgba(248,249,250,.5)}.btn-check:active+.btn-outline-light,.btn-check:checked+.btn-outline-light,.btn-outline-light:active{color:#000;background-color:#f8f9fa;border-color:#f8f9fa}.btn-check:active+.btn-outline-light:focus,.btn-check:checked+.btn-outline-light:focus,.btn-outline-light.active:focus,.btn-outline-light.dropdown-toggle.show:focus,.btn-outline-light:active:focus{box-shadow:0 0 0 .25rem rgba(248,249,250,.5)}.btn-outline-light:disabled{color:#f8f9fa;background-color:transparent}.btn-outline-dark:hover{color:#fff;background-color:#212529;border-color:#212529}.btn-check:focus+.btn-outline-dark,.btn-outline-dark:focus{box-shadow:0 0 0 .25rem rgba(33,37,41,.5)}.btn-check:active+.btn-outline-dark,.btn-check:checked+.btn-outline-dark,.btn-outline-dark:active{color:#fff;background-color:#212529;border-color:#212529}.btn-check:active+.btn-outline-dark:focus,.btn-check:checked+.btn-outline-dark:focus,.btn-outline-dark.active:focus,.btn-outline-dark.dropdown-toggle.show:focus,.btn-outline-dark:active:focus{box-shadow:0 0 0 .25rem rgba(33,37,41,.5)}.btn-outline-dark:disabled{color:#212529;background-color:transparent}.btn-link:hover{color:#0a58ca}.btn-link:disabled{color:#6c757d}.collapse:not(.show){display:none}.dropdown{position:relative}.dropdown-toggle{white-space:nowrap}.dropdown-toggle::after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-bottom:0;border-left:.3em solid transparent}.dropdown-toggle:empty::after{margin-left:0}.dropdown-menu{z-index:1000;min-width:10rem;margin:0;font-size:1rem;text-align:left;list-style:none;background-clip:padding-box;border:1px solid rgba(0,0,0,.15);border-radius:.25rem}.dropup .dropdown-toggle::after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:0;border-right:.3em solid transparent;border-bottom:.3em solid;border-left:.3em solid transparent}.dropup .dropdown-toggle:empty::after{margin-left:0}.dropend .dropdown-toggle::after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:.3em solid transparent;border-right:0;border-bottom:.3em solid transparent;border-left:.3em solid}.dropend .dropdown-toggle:empty::after{margin-left:0}.dropend .dropdown-toggle::after{vertical-align:0}.dropstart .dropdown-toggle::after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:""}.dropstart .dropdown-toggle::after{display:none}.dropstart .dropdown-toggle::before{display:inline-block;margin-right:.255em;vertical-align:.255em;content:"";border-top:.3em solid transparent;border-right:.3em solid;border-bottom:.3em solid transparent}.dropstart .dropdown-toggle:empty::after{margin-left:0}.dropstart .dropdown-toggle::before{vertical-align:0}.dropdown-item:focus,.dropdown-item:hover{color:#1e2125;background-color:#e9ecef}.dropdown-item:active{color:#fff;text-decoration:none;background-color:#0d6efd}.dropdown-item:disabled{color:#adb5bd;pointer-events:none;background-color:transparent}.dropdown-menu-dark .dropdown-item:focus,.dropdown-menu-dark .dropdown-item:hover{color:#fff;background-color:rgba(255,255,255,.15)}.dropdown-menu-dark .dropdown-item:active{color:#fff;background-color:#0d6efd}.dropdown-menu-dark .dropdown-item:disabled{color:#adb5bd}.btn-group-vertical>.btn-check:checked+.btn,.btn-group-vertical>.btn-check:focus+.btn,.btn-group-vertical>.btn:active,.btn-group-vertical>.btn:focus,.btn-group-vertical>.btn:hover,.btn-group>.btn-check:checked+.btn,.btn-group>.btn-check:focus+.btn,.btn-group>.btn:active,.btn-group>.btn:focus,.btn-group>.btn:hover{z-index:1}.dropdown-toggle-split::after,.dropend .dropdown-toggle-split::after,.dropup .dropdown-toggle-split::after{margin-left:0}.dropstart .dropdown-toggle-split::before{margin-right:0}.nav{display:flex;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}.nav-link{display:block;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out}@media (prefers-reduced-motion:reduce){.nav-link{transition:none}}.nav-link:focus,.nav-link:hover{color:#0a58ca}.nav-tabs .nav-link:focus,.nav-tabs .nav-link:hover{border-color:#e9ecef #e9ecef #dee2e6;isolation:isolate}.navbar{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding-top:.5rem;padding-bottom:.5rem}.navbar>.container{display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between}.navbar-brand{padding-top:.3125rem;padding-bottom:.3125rem;margin-right:1rem;font-size:1.25rem;text-decoration:none;white-space:nowrap}.navbar-nav{display:flex;flex-direction:column;padding-left:0;list-style:none}.navbar-nav .nav-link{padding-right:0;padding-left:0}.navbar-nav .dropdown-menu{position:static}.navbar-collapse{flex-basis:100%;flex-grow:1;align-items:center}.navbar-toggler{padding:.25rem .75rem;font-size:1.25rem;line-height:1;background-color:transparent;border:1px solid transparent;border-radius:.25rem;transition:box-shadow .15s ease-in-out}@media (prefers-reduced-motion:reduce){.navbar-toggler{transition:none}}.navbar-toggler:hover{text-decoration:none}.navbar-toggler:focus{text-decoration:none;outline:0;box-shadow:0 0 0 .25rem}@media (min-width:992px){.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-nav .dropdown-menu{position:absolute}.navbar-expand-lg .navbar-nav .nav-link{padding-right:.5rem;padding-left:.5rem}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}.navbar-light .navbar-brand:focus,.navbar-light .navbar-brand:hover{color:rgba(0,0,0,.9)}.navbar-light .navbar-nav .nav-link:focus,.navbar-light .navbar-nav .nav-link:hover{color:rgba(0,0,0,.7)}.navbar-light .navbar-text a:focus,.navbar-light .navbar-text a:hover{color:rgba(0,0,0,.9)}.navbar-dark .navbar-brand{color:#fff}.navbar-dark .navbar-brand:focus,.navbar-dark .navbar-brand:hover{color:#fff}.navbar-dark .navbar-nav .nav-link:focus,.navbar-dark .navbar-nav .nav-link:hover{color:rgba(255,255,255,.75)}.navbar-dark .navbar-toggler{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.1)}.navbar-dark .navbar-text a:focus,.navbar-dark .navbar-text a:hover{color:#fff}.accordion-button:not(.collapsed)::after{background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 16\ 16\'\ fill=\'%230c63e4\'%3e%3cpath\ fill-rule=\'evenodd\'\ d=\'M1.646\ 4.646a.5.5\ 0\ 0\ 1\ .708\ 0L8\ 10.293l5.646-5.647a.5.5\ 0\ 0\ 1\ .708.708l-6\ 6a.5.5\ 0\ 0\ 1-.708\ 0l-6-6a.5.5\ 0\ 0\ 1\ 0-.708z\'/%3e%3c/svg%3e);transform:rotate(-180deg)}.accordion-button::after{flex-shrink:0;width:1.25rem;height:1.25rem;margin-left:auto;content:"";background-image:url(data:image/svg+xml,%3csvg\ xmlns=\'http://www.w3.org/2000/svg\'\ viewBox=\'0\ 0\ 16\ 16\'\ fill=\'%23212529\'%3e%3cpath\ fill-rule=\'evenodd\'\ d=\'M1.646\ 4.646a.5.5\ 0\ 0\ 1\ .708\ 0L8\ 10.293l5.646-5.647a.5.5\ 0\ 0\ 1\ .708.708l-6\ 6a.5.5\ 0\ 0\ 1-.708\ 0l-6-6a.5.5\ 0\ 0\ 1\ 0-.708z\'/%3e%3c/svg%3e);background-repeat:no-repeat;background-size:1.25rem;transition:transform .2s ease-in-out}@media (prefers-reduced-motion:reduce){.accordion-button::after{transition:none}}.accordion-button:hover{z-index:2}.accordion-button:focus{z-index:3;border-color:#86b7fe;outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}.breadcrumb-item+.breadcrumb-item::before{float:left;padding-right:.5rem;color:#6c757d;content:var(--bs-breadcrumb-divider,"/")}.page-link:hover{z-index:2;color:#0a58ca;background-color:#e9ecef;border-color:#dee2e6}.page-link:focus{z-index:3;color:#0a58ca;background-color:#e9ecef;outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25)}@-webkit-keyframes progress-bar-stripes{0%{background-position-x:1rem}}@keyframes progress-bar-stripes{0%{background-position-x:1rem}}.list-group-numbered>li::before{content:counters(section,".")". ";counter-increment:section}.list-group-item-action:focus,.list-group-item-action:hover{z-index:1;color:#495057;text-decoration:none;background-color:#f8f9fa}.list-group-item-action:active{color:#212529;background-color:#e9ecef}.list-group-item:disabled{color:#6c757d;pointer-events:none;background-color:#fff}.list-group-item-primary.list-group-item-action:focus,.list-group-item-primary.list-group-item-action:hover{color:#084298;background-color:#bacbe6}.list-group-item-secondary.list-group-item-action:focus,.list-group-item-secondary.list-group-item-action:hover{color:#41464b;background-color:#cbccce}.list-group-item-success.list-group-item-action:focus,.list-group-item-success.list-group-item-action:hover{color:#0f5132;background-color:#bcd0c7}.list-group-item-info.list-group-item-action:focus,.list-group-item-info.list-group-item-action:hover{color:#055160;background-color:#badce3}.list-group-item-warning.list-group-item-action:focus,.list-group-item-warning.list-group-item-action:hover{color:#664d03;background-color:#e6dbb9}.list-group-item-danger.list-group-item-action:focus,.list-group-item-danger.list-group-item-action:hover{color:#842029;background-color:#dfc2c4}.list-group-item-light.list-group-item-action:focus,.list-group-item-light.list-group-item-action:hover{color:#636464;background-color:#e5e5e5}.list-group-item-dark.list-group-item-action:focus,.list-group-item-dark.list-group-item-action:hover{color:#141619;background-color:#bebebf}.btn-close:hover{color:#000;text-decoration:none;opacity:.75}.btn-close:focus{outline:0;box-shadow:0 0 0 .25rem rgba(13,110,253,.25);opacity:1}.btn-close:disabled{pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;opacity:.25}.tooltip .tooltip-arrow::before{position:absolute;content:"";border-color:transparent;border-style:solid}.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,.bs-tooltip-top .tooltip-arrow::before{top:-1px;border-width:.4rem .4rem 0;border-top-color:#000}.bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before,.bs-tooltip-end .tooltip-arrow::before{right:-1px;border-width:.4rem .4rem .4rem 0;border-right-color:#000}.bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before,.bs-tooltip-bottom .tooltip-arrow::before{bottom:-1px;border-width:0 .4rem .4rem;border-bottom-color:#000}.bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before,.bs-tooltip-start .tooltip-arrow::before{left:-1px;border-width:.4rem 0 .4rem .4rem;border-left-color:#000}.popover .popover-arrow::after,.popover .popover-arrow::before{position:absolute;display:block;content:"";border-color:transparent;border-style:solid}.bs-popover-auto[data-popper-placement^=top]>.popover-arrow::before,.bs-popover-top>.popover-arrow::before{bottom:0;border-width:.5rem .5rem 0;border-top-color:rgba(0,0,0,.25)}.bs-popover-auto[data-popper-placement^=top]>.popover-arrow::after,.bs-popover-top>.popover-arrow::after{bottom:1px;border-width:.5rem .5rem 0;border-top-color:#fff}.bs-popover-auto[data-popper-placement^=right]>.popover-arrow::before,.bs-popover-end>.popover-arrow::before{left:0;border-width:.5rem .5rem .5rem 0;border-right-color:rgba(0,0,0,.25)}.bs-popover-auto[data-popper-placement^=right]>.popover-arrow::after,.bs-popover-end>.popover-arrow::after{left:1px;border-width:.5rem .5rem .5rem 0;border-right-color:#fff}.bs-popover-auto[data-popper-placement^=bottom]>.popover-arrow::before,.bs-popover-bottom>.popover-arrow::before{top:0;border-width:0 .5rem .5rem .5rem;border-bottom-color:rgba(0,0,0,.25)}.bs-popover-auto[data-popper-placement^=bottom]>.popover-arrow::after,.bs-popover-bottom>.popover-arrow::after{top:1px;border-width:0 .5rem .5rem .5rem;border-bottom-color:#fff}.bs-popover-auto[data-popper-placement^=bottom] .popover-header::before,.bs-popover-bottom .popover-header::before{position:absolute;top:0;left:50%;display:block;width:1rem;margin-left:-.5rem;content:"";border-bottom:1px solid #f0f0f0}.bs-popover-auto[data-popper-placement^=left]>.popover-arrow::before,.bs-popover-start>.popover-arrow::before{right:0;border-width:.5rem 0 .5rem .5rem;border-left-color:rgba(0,0,0,.25)}.bs-popover-auto[data-popper-placement^=left]>.popover-arrow::after,.bs-popover-start>.popover-arrow::after{right:1px;border-width:.5rem 0 .5rem .5rem;border-left-color:#fff}.carousel-inner::after{display:block;clear:both;content:""}.carousel-control-next:focus,.carousel-control-next:hover,.carousel-control-prev:focus,.carousel-control-prev:hover{color:#fff;text-decoration:none;outline:0;opacity:.9}@-webkit-keyframes spinner-border{to{transform:rotate(360deg)}}@keyframes spinner-border{to{transform:rotate(360deg)}}@-webkit-keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}@keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}.placeholder.btn::before{display:inline-block;content:""}@-webkit-keyframes placeholder-glow{50%{opacity:.2}}@keyframes placeholder-glow{50%{opacity:.2}}@-webkit-keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}@keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}.clearfix::after{display:block;clear:both;content:""}.link-primary:focus,.link-primary:hover{color:#0a58ca}.link-secondary:focus,.link-secondary:hover{color:#565e64}.link-success:focus,.link-success:hover{color:#146c43}.link-info:focus,.link-info:hover{color:#3dd5f3}.link-warning:focus,.link-warning:hover{color:#ffcd39}.link-danger:focus,.link-danger:hover{color:#b02a37}.link-light:focus,.link-light:hover{color:#f9fafb}.link-dark:focus,.link-dark:hover{color:#1a1e21}.ratio::before{display:block;padding-top:var(--bs-aspect-ratio);content:""}@media (min-width:768px){.sticky-md-top{position:sticky;z-index:1020}}.visually-hidden-focusable:not(:focus):not(:focus-within){position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}.stretched-link::after{position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;content:""}.align-middle{vertical-align:middle!important}.d-inline-block{display:inline-block!important}.border-top{border-top:1px solid #dee2e6!important}.flex-column{flex-direction:column!important}.me-2{margin-right:.5rem!important}.me-auto{margin-right:auto!important}.mb-2{margin-bottom:.5rem!important}.mb-4{margin-bottom:1.5rem!important}.mb-5{margin-bottom:3rem!important}.p-0{padding:0!important}.pt-4{padding-top:1.5rem!important}.rounded{border-radius:.25rem!important}@media (min-width:992px){.mb-lg-0{margin-bottom:0!important}}</style>
+<style>body{border-color:var(--bs-body-color)}h2,h3{margin-top:1.25em}a{color:var(--bs-link)}a:focus,a:hover{color:rgba(var(--bs-link-rgb),0.85)}a[href^="http"]:not([href*="/127.0.0.1"]):not([href*="/localhost"]):not([href*="/cs61c.org"]):not([href*="/inst.eecs.berkeley.edu/~cs61c"]):after{--ext-icon:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGcgc3R5bGU9InN0cm9rZTpibGFjaztzdHJva2Utd2lkdGg6MiI+PGxpbmUgeDE9IjEiIHkxPSI1IiB4Mj0iMSIgeTI9IjE5IiAvPjxsaW5lIHgxPSIxNSIgeTE9IjExIiB4Mj0iMTUiIHkyPSIxOSIgLz48bGluZSB4MT0iMSIgeTE9IjE5IiB4Mj0iMTUiIHkyPSIxOSIgLz48bGluZSB4MT0iMSIgeTE9IjUiIHgyPSI5IiB5Mj0iNSIgLz48bGluZSB4MT0iMTAiIHkxPSIyIiB4Mj0iMTgiIHkyPSIyIiAvPjxsaW5lIHgxPSIxOCIgeTE9IjIiIHgyPSIxOCIgeTI9IjEwIiAvPjxsaW5lIHgxPSIxMCIgeTE9IjEwIiB4Mj0iMTgiIHkyPSIyIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOjIuNSIgLz48L2c+PC9zdmc+);-webkit-mask-image:var(--ext-icon);mask-image:var(--ext-icon);content:"";background-color:currentColor;display:inline-block;height:1em;margin-left:0.3em;padding-right:1em;width:1em}.btn-primary:disabled{background-color:rgba(var(--btn-primary-rgb),0.7);border-color:rgba(var(--btn-primary-rgb),0.7);color:var(--bs-body-bg)}.btn-primary:hover{background-color:rgba(var(--btn-primary-rgb),0.85);border-color:rgba(var(--btn-primary-rgb),0.85);color:var(--bs-body-bg)}.btn-outline-primary:disabled{background-color:unset;color:rgba(var(--btn-primary-rgb),0.8)}.btn-outline-primary:active{background-color:var(--btn-primary);border-color:var(--btn-primary);color:var(--bs-body-bg)}.btn-outline-primary:hover{background-color:rgba(var(--btn-primary-rgb),0.8);border-color:rgba(var(--btn-primary-rgb),0.8);color:var(--bs-body-bg)}.nav.is-collapsible{max-height:100vh;overflow:hidden}.nav.is-collapsed{margin-top:0;margin-bottom:0;max-height:0}.nav ul{margin-left:.75rem;padding-left:.75rem;border-left-style:solid;border-left-width:2px}.nav li{margin-bottom:0}.nav-link{color:var(--bs-link);padding:0.25rem 0.5rem}.nav-link:focus,.nav-link:hover{color:rgba(var(--bs-link-rgb),0.85)}.nav-link:active{color:rgba(var(--bs-link-rgb),0.7)}.nav-link:disabled{color:rgba(var(--bs-link-rgb),0.55)}.nav-item.active>.nav-link{background-color:var(--bs-primary);color:#FFFFFF}.navbar-dark .navbar-nav .nav-link{color:#FFFFFF}.navbar li{margin-bottom:0}.dropdown-menu{background-color:var(--bs-body-bg);border-color:rgba(var(--bs-body-color-rgb),0.85);border-top:0;border-top-left-radius:0;border-top-right-radius:0;color:var(--bs-body-color)}.navbar-dark .navbar-nav .dropdown-menu .nav-link:focus,.navbar-dark .navbar-nav .dropdown-menu .nav-link:hover{background-color:var(--bs-body-bg);color:rgba(255,255,255,0.85)}.dropdown:hover .dropdown-menu{display:block}li ul{margin-top:0.25em}pre.z-code .language-bash span:not(.z-operator)+.z-meta.z-function-call.z-shell:not(.z-arguments) ::before,pre.z-code .language-bash>.z-source>span:first-child ::before,pre.z-code .language-sh span:not(.z-operator)+.z-meta.z-function-call.z-shell:not(.z-arguments) ::before,pre.z-code .language-sh>.z-source>span:first-child ::before{color:#AAAAAA;content:"$ "}.spec :not(code)>table{width:100%;margin-bottom:1rem;vertical-align:top}.spec :not(code)>table>:not(caption)>*>*{padding:.5rem .5rem;background-color:var(--bs-table-bg);border-bottom-width:1px;box-shadow:inset 0 0 0 9999px var(--bs-table-accent-bg)}.spec :not(code)>table>tbody{vertical-align:inherit}.spec :not(code)>table>:not(caption)>*{border-width:1px 0}.spec :not(code)>table>:not(caption)>*>*{border-width:0 1px}.spec :not(code)>table{border-color:rgba(var(--bs-body-color-rgb),0.7)}@media (min-width:768px){.spec>.content{padding-left:1.5rem}.spec>.content>h2::before,.spec>.content>h3::before,.spec>.content>h4::before{content:"§";float:left;position:relative;right:1.5rem;width:0;z-index:-1;color:rgba(var(--bs-body-color-rgb),0.5)}.nav-wrapper.sticky-md-top{height:calc(100vh - 1rem);top:1rem;overflow-y:auto}}:root{--bs-body-bg:#FFFFFF;--bs-body-bg-rgb:255,255,255;--bs-body-color:#181A1B;--bs-body-color-rgb:24,26,27;--bs-secondary:#6c757d;--bs-secondary-rgb:108,117,125;--bs-primary:#567A8D;--bs-primary-rgb:86,122,141;--bs-link:#2F6FBC;--bs-link-rgb:47,111,188;--btn-primary:#2F6FBC;--btn-primary-rgb:47,111,188;--cs61c-navbar-bg:var(--bs-primary)}.spec :not(code)>table{--bs-table-bg:unset;--bs-table-accent-bg:unset;--bs-table-striped-bg:rgba(var(--bs-body-color-rgb),0.05);--bs-table-striped-color:inherit;--bs-table-active-bg:rgba(var(--bs-body-color-rgb),0.15);--bs-table-active-color:inherit;--bs-table-hover-bg:rgba(var(--bs-body-color-rgb),0.1);--bs-table-hover-color:inherit;color:inherit}.navbar{background-color:var(--bs-primary)}.navbar .navbar-brand img{filter:brightness(0) invert(1)}:not(pre)>code{color:#C42775}@media (prefers-color-scheme:dark){:root{--bs-body-bg:#181A1B;--bs-body-bg-rgb:24,26,27;--bs-body-color:#E0E0E0;--bs-body-color-rgb:224,224,224;--bs-secondary:#ADADAD;--bs-secondary-rgb:173,173,173;--bs-primary:#2F6FBC;--bs-primary-rgb:47,111,188;--bs-link:#80BFFF;--bs-link-rgb:128,191,255;--btn-primary:#E0E0E0;--btn-primary-rgb:224,224,224;--cs61c-navbar-bg:var(--bs-body-bg)}.spec :not(code)>table{--bs-table-bg:unset;--bs-table-accent-bg:unset;--bs-table-striped-bg:#2C3034;--bs-table-striped-color:#E0E0E0;--bs-table-active-bg:#373B3E;--bs-table-active-color:#E0E0E0;--bs-table-hover-bg:#323539;--bs-table-hover-color:#E0E0E0}.navbar{background-color:#181A1B}.navbar .navbar-brand img{filter:none}:not(pre)>code{color:#D29096}}</style>
+<meta name=referrer content=no-referrer><link rel="shortcut icon" type=image/png href=data:image/png;base64,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><style>.sf-hidden{display:none!important}</style><link rel=canonical href=../function-definitions/index.html><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:; object-src 'self' data:; frame-src 'self' data:;"></head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+ <div class=container>
+ <a class=navbar-brand href=../../index.html>
+ <img class="d-inline-block me-2 rounded" height=48 width=48 src="data:image/png;base64,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" alt="outline of square computer chip with cs61c label">
+ <span class=align-middle>CS61C Spring 2026</span>
+ </a>
+ <button class="navbar-toggler sf-hidden" type=button data-bs-toggle=collapse data-bs-target=#navbarContent aria-controls=navbarContent aria-expanded=false aria-label="Toggle Navigation">
+ 
+ </button>
+ <div class="collapse navbar-collapse" id=navbarContent>
+ <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+ <li class=nav-item>
+ <a class=nav-link href=../../calendar/index.html>Calendar</a>
+ </li>
+ <li class=nav-item>
+ <a class=nav-link href=../../exam/index.html>Exam</a>
+ </li>
+ <li class=nav-item>
+ <a class=nav-link href=../../policies/index.html>Policies</a>
+ </li>
+ <li class=nav-item>
+ <a class=nav-link href=https://edstem.org/us/courses/93340/>Ed</a>
+ </li>
+ <li class="nav-item dropdown">
+ <a class="nav-link dropdown-toggle" href=# id=navbarLinksDropdownToggle role=button data-bs-toggle=dropdown aria-expanded=false>Quick Links</a>
+ <ul class="dropdown-menu p-0 sf-hidden" aria-labelledby=navbarLinksDropdownToggle>
+ 
+ 
+ 
+ 
+ </ul>
+ </li>
+ <li class="nav-item dropdown">
+ <a class="nav-link dropdown-toggle" href=# id=navbarLinksDropdownToggle role=button data-bs-toggle=dropdown aria-expanded=false>Resources</a>
+ <ul class="dropdown-menu p-0 sf-hidden" aria-labelledby=navbarLinksDropdownToggle>
+ 
+ 
+ 
+ 
+ 
+ 
+ </ul>
+ </li>
+ <li class=nav-item>
+ <a class=nav-link href=../../staff/index.html>Staff</a>
+ </li>
+ </ul>
+ </div>
+ </div>
+</nav>
+ <main class=mb-4>
+ <section class=section>
+ <div class=container>
+ 
+ 
+ 
+ 
+<div class="row spec">
+ <nav class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+ 
+ 
+ 
+ 
+ 
+ <ul class="nav flex-column">
+ <li class=nav-item>
+ <a class=nav-link href=../index.html>Project 2: CS61Classify</a>
+ 
+ </li>
+ 
+ 
+ <li class=nav-item>
+ <a class=nav-link href=../part-a/index.html>Part A</a>
+ 
+ </li>
+ 
+ 
+ <li class=nav-item>
+ <a class=nav-link href=../calling-convention/index.html>Calling Convention</a>
+ 
+ </li>
+ 
+ 
+ <li class=nav-item>
+ <a class=nav-link href=../part-b/index.html>Part B</a>
+ 
+ </li>
+ 
+ 
+ <li class=nav-item>
+ <a class=nav-link href=../function-definitions/index.html>Appendix: Function Definitions</a>
+ 
+ <div id=toc-wrapper><ul class="toc-list nav flex-column"><li class="nav-item active"><a href=#utilities-memory-allocation class="nav-link node-name--H2 active">Utilities: Memory Allocation</a><ul class="toc-list nav flex-column is-collapsible"><li class=nav-item><a href=#malloc class="nav-link node-name--H3">malloc</a><li class=nav-item><a href=#free class="nav-link node-name--H3">free</a></ul><li class=nav-item><a href=#utilities-file-operations class="nav-link node-name--H2">Utilities: File Operations</a><ul class="toc-list nav flex-column is-collapsible is-collapsed"><li class=nav-item><a href=#fopen class="nav-link node-name--H3">fopen</a><li class=nav-item><a href=#fread class="nav-link node-name--H3">fread</a><li class=nav-item><a href=#fwrite class="nav-link node-name--H3">fwrite</a><li class=nav-item><a href=#fclose class="nav-link node-name--H3">fclose</a></ul><li class=nav-item><a href=#utilities-printing class="nav-link node-name--H2">Utilities: Printing</a><ul class="toc-list nav flex-column is-collapsible is-collapsed"><li class=nav-item><a href=#print-int class="nav-link node-name--H3">print_int</a><li class=nav-item><a href=#print-char class="nav-link node-name--H3">print_char</a></ul><li class=nav-item><a href=#part-a class="nav-link node-name--H2">Part A</a><ul class="toc-list nav flex-column is-collapsible is-collapsed"><li class=nav-item><a href=#relu class="nav-link node-name--H3">relu</a><li class=nav-item><a href=#argmax class="nav-link node-name--H3">argmax</a><li class=nav-item><a href=#dot class="nav-link node-name--H3">dot</a><li class=nav-item><a href=#testing-functions class="nav-link node-name--H3">Testing functions</a></ul><li class=nav-item><a href=#part-b class="nav-link node-name--H2">Part B</a><ul class="toc-list nav flex-column is-collapsible is-collapsed"><li class=nav-item><a href=#matmul class="nav-link node-name--H3">matmul</a><li class=nav-item><a href=#read-matrix class="nav-link node-name--H3">read_matrix</a><li class=nav-item><a href=#write-matrix class="nav-link node-name--H3">write_matrix</a><li class=nav-item><a href=#classify class="nav-link node-name--H3">classify</a></ul><li class=nav-item><a href=#error-codes class="nav-link node-name--H2">Error Codes</a><ul class="toc-list nav flex-column is-collapsible is-collapsed"><li class=nav-item><a href=#part-a-1 class="nav-link node-name--H3">Part A</a><li class=nav-item><a href=#part-b-1 class="nav-link node-name--H3">Part B</a></ul></ul></div>
+ 
+ </li>
+ 
+ 
+ </ul>
+ </nav>
+ <div id=toc-content-wrapper class="content col-md-9">
+ <h1>Appendix: Function Definitions</h1>
+ 
+ 
+ <p>This appendix contains the function definitions (arguments, return values, error codes) for all the provided utility functions and all the functions you need to implement.</p>
+<h2 id=utilities-memory-allocation>Utilities: Memory Allocation</h2>
+<h3 id=malloc><code>malloc</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>malloc</code>: Allocates heap memory.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The size of the memory that we want to allocate (in bytes).</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>void *</code></td>
+ <td>A pointer to the allocated memory. If the allocation failed, this value is 0.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=free><code>free</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>free</code>: Frees heap memory.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>void *</code></td>
+ <td>A pointer to the allocated memory to be freed.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h2 id=utilities-file-operations>Utilities: File Operations</h2>
+<h3 id=fopen><code>fopen</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>fopen</code>: Open a file for reading or writing.</td>
+ </tr>
+ <tr>
+ <td rowspan=2 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filename string.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int</code></td>
+ <td>Permission bits. 0 for read-only, 1 for write-only.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>A file descriptor. This integer can be used in other file operation functions to refer to the opened file. If opening the file failed, this value is -1.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=fread><code>fread</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>fread</code>: Read bytes from a file to a buffer in memory. Subsequent reads will read from later parts of the file.</td>
+ </tr>
+ <tr>
+ <td rowspan=3 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The file descriptor of the file we want to read from, previously returned by <code>fopen</code>.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int*</code></td>
+ <td>A pointer to the buffer where the read bytes will be stored.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of bytes to read from the file.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The number of bytes actually read from the file. If this differs from the argument provided in <code>a2</code>, then we either hit the end of the file or there was an error.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=fwrite><code>fwrite</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>fwrite</code>: Write bytes from a buffer in memory to a file. Subsequent writes append to the end of the existing file.</td>
+ </tr>
+ <tr>
+ <td rowspan=4 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The file descriptor of the file we want to write to, previously returned by <code>fopen</code>.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>void *</code></td>
+ <td>A pointer to a buffer containing what we want to write to the file.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of elements to write to the file.</td>
+ </tr>
+ <tr>
+ <td><code>a3</code></td>
+ <td><code>int</code></td>
+ <td>The size of each element. In total, <code>a2</code> × <code>a3</code> bytes are written.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The number of items actually written to the file. If this differs from the number of items specified (<code>a2</code>), then we either hit the end of the file or there was an error.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=fclose><code>fclose</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>fclose</code>: Close a file, saving any writes we have made to the file.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The file descriptor of the file we want to close, previously returned by <code>fopen</code>.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>0 on success, and -1 otherwise.</td>
+ </tr>
+</tbody>
+</table>
+<h2 id=utilities-printing>Utilities: Printing</h2>
+<h3 id=print-int><code>print_int</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>print_int</code>: Prints an integer.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The integer to print.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=print-char><code>print_char</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>print_char</code>: Prints a character.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>char</code></td>
+ <td>The character to print. You can provide the ASCII code or put the character directly in the register like <code>li t0 '\n'</code>.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h2 id=part-a>Part A</h2>
+<h3 id=relu><code>relu</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>relu</code>: Task 2.</td>
+ </tr>
+ <tr>
+ <td rowspan=2 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the integer array.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int</code></td>
+ <td>The number of integers in the array. You can assume that this argument matches the actual length of the integer array.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=argmax><code>argmax</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>argmax</code>: Task 3.</td>
+ </tr>
+ <tr>
+ <td rowspan=2 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the integer array.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int</code></td>
+ <td>The number of integers in the array. You can assume that this argument matches the actual length of the integer array.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The index of the largest element. If the largest element appears multiple times, return the smallest index.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=dot><code>dot</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>dot</code>: Task 4.</td>
+ </tr>
+ <tr>
+ <td rowspan=5 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the first array.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the second array.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of elements to use in the calculation.</td>
+ </tr>
+ <tr>
+ <td><code>a3</code></td>
+ <td><code>int</code></td>
+ <td>The stride of the first array.</td>
+ </tr>
+ <tr>
+ <td><code>a4</code></td>
+ <td><code>int</code></td>
+ <td>The stride of the second array.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The dot product of the two arrays, using the given number of elements and the given strides.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=testing-functions>Testing functions</h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4>Loss functions: Task 5.</td>
+ </tr>
+ <tr>
+ <td rowspan=4 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the first input array.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the second input array.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of integers in the array.</td>
+ </tr>
+ <tr>
+ <td><code>a3</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the output array, where the results will be stored.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The sum of the elements in the output array. (No return value for zero-one loss.)</td>
+ </tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>initialize_zero</code>: Task 5.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The size of the array to be created.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the newly-allocated array of zeros.</td>
+ </tr>
+</tbody>
+</table>
+<h2 id=part-b>Part B</h2>
+<h3 id=matmul><code>matmul</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>matmul</code>: Task 6.</td>
+ </tr>
+ <tr>
+ <td rowspan=7 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the first matrix A (stored as an integer array in row-major order).</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int</code></td>
+ <td>The number of rows (height) of the first matrix A.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of columns (width) of the first matrix A.</td>
+ </tr>
+ <tr>
+ <td><code>a3</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of the second matrix B (stored as an integer array in row-major order).</td>
+ </tr>
+ <tr>
+ <td><code>a4</code></td>
+ <td><code>int</code></td>
+ <td>The number of rows (height) of the second matrix B.</td>
+ </tr>
+ <tr>
+ <td><code>a5</code></td>
+ <td><code>int</code></td>
+ <td>The number of columns (width) of the second matrix B.</td>
+ </tr>
+ <tr>
+ <td><code>a6</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the start of an integer array where the result C should be stored. You can assume this memory has been allocated (but is uninitialized) and has enough space to store C.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=read-matrix><code>read_matrix</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>read_matrix</code>: Task 7.</td>
+ </tr>
+ <tr>
+ <td rowspan=3 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filename string.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to an integer which will contain the number of rows. You can assume this points to allocated memory.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to an integer which will contain the number of columns. You can assume this points to allocated memory.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the matrix in memory.</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=write-matrix><code>write_matrix</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:9%>
+<col span=1 style=width:9%>
+<col span=1 style=width:67%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>write_matrix</code>: Task 8.</td>
+ </tr>
+ <tr>
+ <td rowspan=4 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filename string.</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>int *</code></td>
+ <td>A pointer to the matrix in memory (stored as an integer array).</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>The number of rows in the matrix.</td>
+ </tr>
+ <tr>
+ <td><code>a3</code></td>
+ <td><code>int</code></td>
+ <td>The number of columns in the matrix.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td colspan=3>None</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=classify><code>classify</code></h3>
+<table>
+<colgroup>
+<col span=1 style=width:15%>
+<col span=1 style=width:19%>
+<col span=1 style=width:9%>
+<col span=1 style=width:57%>
+</colgroup>
+<tbody>
+ <tr>
+ <td colspan=4><code>classify</code>: Task 9.</td>
+ </tr>
+ <tr>
+ <td rowspan=7 style=vertical-align:middle><b>Arguments</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td><code>argc</code> (the number of arguments provided)</td>
+ </tr>
+ <tr>
+ <td><code>a1</code></td>
+ <td><code>char **</code></td>
+ <td><code>argv</code>, a pointer to an array of argument strings (<code>char *</code>)</td>
+ </tr>
+ <tr>
+ <td><code>a1[1]</code> = <code>*(a1 + 4)</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filepath string of the first matrix file <code>m0</code>.</td>
+ </tr>
+ <tr>
+ <td><code>a1[2]</code> = <code>*(a1 + 8)</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filepath string of the second matrix file <code>m1</code>.</td>
+ </tr>
+ <tr>
+ <td><code>a1[3]</code> = <code>*(a1 + 12)</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filepath string of the input matrix file <code>input</code>.</td>
+ </tr>
+ <tr>
+ <td><code>a1[4]</code> = <code>*(a1 + 16)</code></td>
+ <td><code>char *</code></td>
+ <td>A pointer to the filepath string of the output file.</td>
+ </tr>
+ <tr>
+ <td><code>a2</code></td>
+ <td><code>int</code></td>
+ <td>If set to 0, print out the classification. Otherwise, do not print anything.</td>
+ </tr>
+ <tr>
+ <td style=vertical-align:middle><b>Return values</b></td>
+ <td><code>a0</code></td>
+ <td><code>int</code></td>
+ <td>The classification (see above).</td>
+ </tr>
+</tbody>
+</table>
+<h2 id=error-codes>Error Codes</h2>
+<h3 id=part-a-1>Part A</h3>
+<table>
+<colgroup>
+<col span=1 style=width:8%>
+<col span=1 style=width:56%>
+<col span=1 style=width:36%>
+</colgroup>
+<tbody>
+ <tr>
+ <td><b>Return code</b></td>
+ <td><b>Exception</b></td>
+ <td><b>Functions</b></td>
+ </tr>
+ <tr>
+ <td>26</td>
+ <td><code>malloc</code> returns an error.</td>
+ <td><code>initialize_zero</code> (5)</td>
+ </tr>
+ <tr>
+ <td>36</td>
+ <td>The length of the array is less than 1.</td>
+ <td><code>relu</code> (2), <code>argmax</code> (3), <code>dot</code> (4), loss functions (5), <code>initialize_zero</code> (5)</td>
+ </tr>
+ <tr>
+ <td>37</td>
+ <td>The stride of either array is less than 1.</td>
+ <td><code>dot</code> (4)</td>
+ </tr>
+</tbody>
+</table>
+<h3 id=part-b-1>Part B</h3>
+<table>
+<colgroup>
+<col span=1 style=width:8%>
+<col span=1 style=width:56%>
+<col span=1 style=width:36%>
+</colgroup>
+<tbody>
+ <tr>
+ <td><b>Return code</b></td>
+ <td><b>Exception</b></td>
+ <td><b>Functions</b></td>
+ </tr>
+ <tr>
+ <td>26</td>
+ <td><code>malloc</code> returns an error.</td>
+ <td><code>read_matrix</code> (7), <code>classify</code> (9)</td>
+ </tr>
+ <tr>
+ <td>27</td>
+ <td><code>fopen</code> returns an error.</td>
+ <td><code>read_matrix</code> (7), <code>write_matrix</code> (8)</td>
+ </tr>
+ <tr>
+ <td>28</td>
+ <td><code>fclose</code> returns an error.</td>
+ <td><code>read_matrix</code> (7), <code>write_matrix</code> (8)</td>
+ </tr>
+ <tr>
+ <td>29</td>
+ <td><code>fread</code> does not read the correct number of bytes.</td>
+ <td><code>read_matrix</code> (7)</td>
+ </tr>
+ <tr>
+ <td>30</td>
+ <td><code>fwrite</code> does not write the correct number of bytes.</td>
+ <td><code>write_matrix</code> (8)</td>
+ </tr>
+ <tr>
+ <td>31</td>
+ <td>There are an incorrect number of command line arguments.</td>
+ <td><code>classify</code> (9)</td>
+ </tr>
+ <tr>
+ <td>38</td>
+ <td>The height or width of either matrix is less than 1.</td>
+ <td><code>matmul</code> (6)</td>
+ </tr>
+ <tr>
+ <td>38</td>
+ <td>The number of columns (width) of the first matrix A is not equal to the number of rows (height) of the second matrix B.</td>
+ <td><code>matmul</code> (6)</td>
+ </tr>
+</tbody>
+</table>
+ </div>
+</div>
+ </div>
+ </section>
+ </main>
+ <footer>
+ <div class="container border-top pt-4 mb-5">
+ <div class=row>
+ <div class=col>
+ <div id=dark-toggle-wrapper>
+ <div class="form-check form-switch">
+ <input id=inputDarkToggle class=form-check-input type=checkbox value=on>
+ <label class=form-check-label for=inputDarkToggle>
+ Dark Mode
+ <a id=buttonDarkToggleReset class="d-none sf-hidden" href=javascript:void(0)>(reset)</a>
+ </label>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</footer>
+ 
