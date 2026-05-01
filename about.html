@@ -8,17 +8,24 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-bg-hover: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.15);
-            --blur: 60px;
-            --accent-blue: #2979ff;
-            --accent-purple: #7c4dff;
-            --accent-teal: #00bfa5;
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.55);
-            --text-tertiary: rgba(255, 255, 255, 0.35);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fb;
+            --bg-tertiary: #f1f3f7;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: rgba(59, 130, 246, 0.08);
+            --accent-purple: #8b5cf6;
+            --accent-teal: #14b8a6;
+            --text-primary: #1a1a2e;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+            --border-color: rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.06);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,54 +33,12 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #050510;
+            background: var(--bg-secondary);
             min-height: 100vh;
             color: var(--text-primary);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-        }
-        
-        .bg-mesh {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: #050510;
-        }
-        
-        .bg-mesh .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.5;
-            animation: orbFloat 25s ease-in-out infinite;
-        }
-        
-        .bg-mesh .orb-1 {
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(41, 121, 255, 0.25), transparent 70%);
-            top: -20%; left: -10%;
-        }
-        
-        .bg-mesh .orb-2 {
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(124, 77, 255, 0.2), transparent 70%);
-            bottom: -10%; right: -5%;
-            animation-delay: -8s;
-        }
-        
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(40px, -30px) scale(1.05); }
-            66% { transform: translate(-30px, 20px) scale(0.95); }
-        }
-        
-        .noise-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            pointer-events: none;
+            line-height: 1.6;
         }
         
         header {
@@ -82,17 +47,17 @@
             left: 0;
             right: 0;
             z-index: 100;
-            backdrop-filter: blur(var(--blur)) saturate(150%);
-            -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
-            background: rgba(5, 5, 16, 0.6);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-color);
         }
         
         nav {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 32px;
-            height: 64px;
+            height: 72px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -110,8 +75,8 @@
         }
         
         .logo-mark {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             display: flex;
@@ -120,6 +85,7 @@
             font-size: 16px;
             font-weight: 800;
             color: #fff;
+            box-shadow: var(--shadow-md);
         }
         
         .nav-links {
@@ -131,8 +97,8 @@
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 18px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
             font-size: 14px;
             font-weight: 500;
             transition: all 0.25s ease;
@@ -140,18 +106,18 @@
         
         .nav-links a:hover {
             color: var(--text-primary);
-            background: var(--glass-bg-hover);
+            background: var(--bg-tertiary);
         }
         
         .nav-links a.active {
-            color: #fff;
-            background: rgba(255,255,255,0.1);
+            color: var(--accent-blue);
+            background: var(--accent-blue-light);
         }
         
         .main-content {
-            max-width: 800px;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 120px 32px 80px;
+            padding: 140px 32px 80px;
         }
         
         .page-header {
@@ -160,7 +126,7 @@
         }
         
         .page-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -169,36 +135,34 @@
         }
         
         .page-title {
-            font-size: clamp(36px, 6vw, 56px);
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 700;
-            letter-spacing: -1.5px;
+            letter-spacing: -1px;
             margin-bottom: 12px;
+            color: var(--text-primary);
         }
         
         .page-subtitle {
             font-size: 17px;
             color: var(--text-secondary);
-            max-width: 520px;
+            max-width: 480px;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(150%);
-            -webkit-backdrop-filter: blur(40px) saturate(150%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 36px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 32px;
             margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
         }
         
         .glass-card:hover {
-            background: var(--glass-bg-hover);
-            border-color: var(--glass-highlight);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
         }
         
         .glass-card h2 {
@@ -223,7 +187,7 @@
             align-items: center;
             gap: 16px;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid var(--border-color);
         }
         
         .contact-item:last-child { border-bottom: none; }
@@ -244,18 +208,18 @@
             transition: color 0.3s;
         }
         
-        .contact-text a:hover { color: #fff; }
+        .contact-text a:hover { color: var(--text-primary); }
         
         footer {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 48px 32px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-tertiary);
-            font-size: 13px;
-            border-top: 1px solid var(--glass-border);
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
         }
         
         @media (max-width: 768px) {
@@ -265,12 +229,6 @@
     </style>
 </head>
 <body>
-    <div class="bg-mesh">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-    </div>
-    <div class="noise-overlay"></div>
-    
     <header>
         <nav>
             <a href="index.html" class="logo">
