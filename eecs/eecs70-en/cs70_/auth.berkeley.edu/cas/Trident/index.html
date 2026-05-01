@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh">
+
+<head>
+    <meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><title>CAS - CalNet Authentication Service Unauthorized Access</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" type="text/css" href="/cas/webjars/normalize.css/8.0.1/normalize-112272e51c80ffe5bd01becd2ce7d656.css" /><link rel="stylesheet" type="text/css" href="/cas/webjars/bootstrap/5.3.8/css/bootstrap-grid.min-895b9494c7178ac12ad9c56d81305665.css" /><link rel="stylesheet" type="text/css" href="/cas/webjars/material-components-web/14.0.0/dist/material-components-web.min-9da9033e8d04504fe54b3dbb1298fd78.css" /><link rel="stylesheet" type="text/css" href="/cas/webjars/mdi__font/7.4.47/css/materialdesignicons.min-2c83c4bce691e18f82409f87b2bf84e4.css" /><link rel="stylesheet" type="text/css" href="/cas/webjars/datatables/2.3.2/css/dataTables.dataTables-86c98d6ce5aa289ccf4492ac3a785fad.css" /><link rel="stylesheet" type="text/css" href="/cas/css/cas-a90aca7e2afb259734284377211db332.css" /><link rel="stylesheet" type="text/css" href="/cas/css/custom-f4c452be2717052669e88ca365d3d41b.css" /><link rel="shortcut icon" href="/cas/images/B-favicon-b72f8be7d6c344ef49d6e2c7e4abaa1e.svg" /></head>
+
+<body>
+    <script type="text/javascript" src="/cas/webjars/jquery/3.7.1/jquery.min-2c872dbe60f4ba70fb85356113d8b35e.js"></script>
+<script type="text/javascript" src="/cas/webjars/datatables/2.3.2/js/dataTables-8e31487c41abe2938c55b5dcde42a604.js"></script>
+<script type="text/javascript" src="/cas/webjars/clientjs/0.2.1/dist/client.min-5b6a46b3fb2ab9307d013def98fd7289.js"></script>
+
+<script type="text/javascript" src="/cas/webjars/material-components-web/14.0.0/dist/material-components-web.min-3c99031127092dd1984f2e3aa6aeed8b.js"></script>
+<script type="text/javascript" src="/cas/js/cas-cd46228f2a9b608731f0c9dacfb9758c.js"></script>
+<script type="text/javascript" src="/cas/js/material-b55ff53584b5e775934a54f8a5dd3ba8.js"></script>
+<script type="text/javascript" src="/cas/js/custom-68f2256de5c80303b099502064d175ed.js"></script>
+<script>
+    if (typeof resourceLoadedSuccessfully === "function") {
+        resourceLoadedSuccessfully();
+    }
+    let trackGeoLocation = null;
+</script>
+
+<!-- Add a class just for IE11 --><script>
+    if (navigator.userAgent.indexOf('Trident/') > -1) {
+        document.documentElement.classList.add('ie11');
+    }
+    </script>
+    <!-- Add a class just for IE11 --><div></div>
+
+    <div class="mdc-drawer-scrim"></div>
+
+    <div class="wrapper">
+        <div id="logo"><img src="/cas/images/UCBerkeley_Logo_Berkeley.svg" class="logo" alt="UC Berkeley"></div>
+        <div id="content" class="mdc-card card p-4 m-auto w-lg-66">
+            <div class="banner banner-danger alert alert-danger">
+                <h2>Unauthorized Access</h2>
+                <p>Either the authentication request was rejected/cancelled, or the authentication provider denied access due to permissions, etc. Review logs to find the root cause of the issue.</p>
+
+                <p>
+                    <i class="mdi mdi-alert fas fa-exclamation-triangle me-2" aria-hidden="true"></i>
+                    <span>Authentication response provided to CAS by the external identity provider cannot be accepted.</span>
+                </p>
+
+                <div class="mdc-data-table table-responsive w-100">
+                    <table id="errorTable" class="table table-striped w-100 auto-init" aria-label="Error information">
+                        <thead>
+                            <tr class="mdc-data-table__header-row">
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.error.title</th>
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.reason.title</th>
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.code.title</th>
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.description.title</th>
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.provider.title</th>
+                                <th class="mdc-data-table__header-cell">screen.delegation.unauthz.description.title</th>
+                            </tr>
+                        </thead>
+                        <tbody class="mdc-data-table__content">
+                            <tr class="mdc-data-table__row">
+                                <td class="mdc-data-table__cell"></td>
+                                <td class="mdc-data-table__cell"></td>
+                                <td class="mdc-data-table__cell">403</td>
+                                <td class="mdc-data-table__cell"></td>
+                                <td class="mdc-data-table__cell"></td>
+                                <td class="mdc-data-table__cell">
+                                    <a href="">Go to Application</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/><div class="d-flex mt-2">
+                <a id="loginLink" class="mdc-button mdc-button--raised btn btn-primary me-2" href="/cas/login">
+                    <span class="mdc-button__label">Back to CAS</span>
+                </a>
+                <a id="appLink" class="mdc-button mdc-button--raised btn btn-primary me-2" href="">
+                    <span class="mdc-button__label">Go to Application</span>
+                </a>
+                <form method="post" id="fm1">
+                    <input type="hidden" name="execution" value=""/><input type="hidden" name="_eventId" value="retry"/><button id="retryButton" class="mdc-button mdc-button--raised btn btn-primary me-2" name="retry" accesskey="r">
+                        <span class="mdc-button__label">Try Again</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>
