@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries CS 70}\\[0.2em]
+离散数学与概率论\\[0.1em]
+2026年春季\\[0.1em]
+课程笔记\\[0.3em]
+\textbf{笔记 0}
+\end{center}
+
+\section{集合}
+
+集合是不同对象的无序集合，称为元素。例如，集合 $\{1, 2, 3\}$ 包含元素 1、2 和 3。我们使用符号 $x \in A$ 表示 $x$ 是集合 $A$ 的元素，用 $x \notin A$ 表示 $x$ 不是 $A$ 的元素。集合可以通过列出其元素来明确描述，例如 $A = \{1, 2, 3\}$，也可以通过描述其元素的属性来描述，例如 $B = \{x \mid x \text{ 是偶数}\}$。
+
+集合可以包含有限个元素，例如 $\{1, 2, 3\}$。只包含 0 个元素的集合是存在的。只有一个这样的集合，称为空集，用符号 $\emptyset$ 表示。集合也可以包含无限多个元素，例如所有整数、所有素数或所有奇数的集合。
+
+\subsection*{子集和真子集}
+
+如果集合 $A$ 的每个元素也在集合 $B$ 中，则我们说 $A$ 是 $B$ 的子集，记作 $A \subseteq B$。等价地，我们可以写成 $B \supseteq A$，或 $B$ 是 $A$ 的超集。真子集是严格包含在 $B$ 中的集合 $A$，记作 $A \subset B$，意味着 $A$ 排除了 $B$ 的至少一个元素。例如，考虑集合 $B = \{1, 2, 3, 4, 5\}$。那么 $\{1, 2, 3\}$ 既是 $B$ 的子集也是真子集，而 $\{1, 2, 3, 4, 5\}$ 是子集但不是真子集。以下是关于子集的一些基本性质：
+
+\begin{itemize}
+\item 空集，记作 $\{\}$ 或 $\emptyset$，是任何非空集合 $A$ 的真子集：$\{\} \subset A$。
+\item 空集是任何集合 $B$ 的子集：$\{\} \subseteq B$。
+\item 任何集合 $A$ 都是它自己的子集：$A \subseteq A$。
+\end{itemize}
+
+\subsection*{交集和并集}
+
+集合 $A$ 与集合 $B$ 的交集，记作 $A \cap B$，是包含同时在 $A$ 和 $B$ 中的所有元素的集合。如果 $A \cap B = \emptyset$，则称两个集合不相交。集合 $A$ 与集合 $B$ 的并集，记作 $A \cup B$，是在 $A$ 或 $B$ 或两者中的所有元素的集合。例如，如果 $A$ 是所有正偶数的集合，$B$ 是所有正奇数的集合，那么 $A \cap B = \emptyset$，$A \cup B = \mathbb{Z}^+$，即所有正整数的集合。以下是交集和并集的一些性质：
+
+\begin{itemize}
+\item $A \cup B = B \cup A$
+\item $A \cup \emptyset = A$
+\item $A \cap B = B \cap A$
+\item $A \cap \emptyset = \emptyset$
+\end{itemize}
+
+\subsection*{补集}
+
+如果 $A$ 和 $B$ 是两个集合，那么 $A$ 在 $B$ 中的相对补集，或 $B$ 与 $A$ 的差集，记作 $B - A$ 或 $B \setminus A$，是在 $B$ 中但不在 $A$ 中的元素的集合：$B \setminus A = \{x \in B \mid x \notin A\}$。例如，如果 $B = \{1, 2, 3\}$，$A = \{3, 4, 5\}$，那么 $B \setminus A = \{1, 2\}$。再举一个例子，如果 $\mathbb{R}$ 是实数集，$\mathbb{Q}$ 是有理数集，那么 $\mathbb{R} \setminus \mathbb{Q}$ 是无理数集。以下是补集的一些重要性质：
+
+\begin{itemize}
+\item $A \setminus A = \emptyset$
+\item $A \setminus \emptyset = A$
+\item $\emptyset \setminus A = \emptyset$
+\end{itemize}
+
+\subsection*{重要集合}
+
+在数学中，一些集合被如此频繁地引用，以至于用特殊符号表示。这些包括：
+
+\begin{itemize}
+\item $\mathbb{N}$ 表示所有自然数的集合\footnote{有些人将自然数定义为集合 $\{1, 2, 3, \ldots\}$，即不包括 0。这是一个约定问题。在本课程中，我们假设 0 是自然数。}：$\{0, 1, 2, 3, \ldots\}$。
+\item $\mathbb{Z}$ 表示所有整数的集合：$\{\ldots, -2, -1, 0, 1, 2, \ldots\}$。
+\item $\mathbb{Q}$ 表示所有有理数的集合：$\{\frac{a}{b} \mid a, b \in \mathbb{Z}, b \neq 0\}$。
+\item $\mathbb{R}$ 表示所有实数的集合。
+\item $\mathbb{C}$ 表示所有复数的集合。
+\end{itemize}
+
+\subsection*{笛卡尔积和幂集}
+
+两个集合 $A$ 和 $B$ 的笛卡尔积（也称为叉积），记作 $A \times B$，是所有有序对的集合，其第一个分量是 $A$ 的元素，第二个分量是 $B$ 的元素。
+
+用集合表示法，$A \times B = \{(a, b) \mid a \in A, b \in B\}$。
+
+例如，如果 $A = \{1, 2, 3\}$，$B = \{u, v\}$，那么 $A \times B = \{(1, u), (1, v), (2, u), (2, v), (3, u), (3, v)\}$。而 $\mathbb{N} \times \mathbb{N} = \{(0, 0), (1, 0), (0, 1), (1, 1), (2, 0), \ldots\}$ 是所有自然数对的集合。给定集合 $S$，$S$ 的幂集，记作 $\mathcal{P}(S)$，是 $S$ 的所有子集的集合：$\{T \mid T \subseteq S\}$。例如，如果 $S = \{1, 2, 3\}$，那么 $S$ 的幂集是：$\mathcal{P}(S) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}\}$。注意，如果 $|S| = k$，则 $|\mathcal{P}(S)| = 2^k$。[为什么？]
+
+\section{数学符号}
+
+\subsection*{求和与求积}
+
+有一种紧凑的符号用于写出大量项的和或积。例如，要写出 $1 + 2 + \cdots + n$，而不必说"点点点"，我们写成 $\sum_{i=1}^{n} i$。更一般地，我们可以将和 $f(m) + f(m+1) + \cdots + f(n)$ 写成 $\sum_{i=m}^{n} f(i)$。因此，例如 $\sum_{i=5}^{n} i^2 = 5^2 + 6^2 + \cdots + n^2$。
+
+类似地，要写出积 $f(m)f(m+1)\cdots f(n)$，我们使用符号 $\prod_{i=m}^{n} f(i)$。
+
+例如，$\prod_{i=1}^{n} i = 1 \cdot 2 \cdots n$ 是前 $n$ 个正整数的乘积。
+
+\section{全称量词和存在量词}
+
+考虑以下陈述：对于所有自然数 $n$，$n^2 + n + 41$ 是素数。这里，$n$ 被量化为自然数集 $\mathbb{N}$ 中的任何元素。用符号表示，我们写成 $(\forall n \in \mathbb{N})(n^2 + n + 41 \text{ 是素数})$。这里我们使用了全称量词 $\forall$（"对于所有"）。这个陈述是真的吗？如果你尝试代入小的 $n$ 值，你会注意到对于这些值，$n^2 + n + 41$ 确实是素数。但如果你仔细思考，你可以找到更大的 $n$ 值使它不是素数。你能找到一个吗？所以陈述 $(\forall n \in \mathbb{N})(n^2 + n + 41 \text{ 是素数})$ 是假的。
+
+存在量词 $\exists$（"存在"）用于以下陈述：$(\exists x \in \mathbb{Z})(x < 2 \text{ 且 } x^2 = 4)$。该陈述说存在一个整数 $x$ 小于 2，但其平方等于 4。这是一个真的陈述（取 $x = -2$）。
+
+我们也可以使用两种量词来写陈述：
+\begin{enumerate}
+\item $(\forall x \in \mathbb{Z})(\exists y \in \mathbb{Z})(y > x)$
+\item $(\exists y \in \mathbb{Z})(\forall x \in \mathbb{Z})(y > x)$
+\end{enumerate}
+
+第一个陈述说，给定一个整数，我们可以找到一个更大的整数。第二个陈述说的完全不同：存在一个最大的整数！第一个陈述是真的，第二个不是。
+
+\end{document}

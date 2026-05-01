@@ -1,0 +1,257 @@
+\documentclass[11pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries CS 70}\\[0.2em]
+离散数学与概率论\\[0.1em]
+2026年春季\\[0.1em]
+课程笔记\\[0.3em]
+\textbf{笔记 1}
+\end{center}
+
+\section{命题逻辑}
+
+为了能够熟练地处理数学陈述，你需要理解数学语言的基本框架。在这第一堂课中，我们将从学习数学定理可能采取的逻辑形式开始，以及如何操作这些形式使它们更容易证明。在接下来的几堂课中，我们将学习几种不同的证明方法。
+
+我们的第一个构建块是命题的概念，它只是一个要么为真要么为假的陈述。
+
+以下陈述都是命题：
+\begin{enumerate}
+\item $\sqrt{3}$ 是无理数。
+\item $1 + 1 = 5$。
+\item 尤利乌斯·凯撒在他 10 岁生日那天早餐吃了 2 个鸡蛋。
+\end{enumerate}
+
+以下陈述显然不是命题：
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item $2 + 2$。
+\item $x^2 + 3x = 5$。[什么是 $x$？]
+\end{enumerate}
+
+以下陈述也不是命题（尽管有些书说它们是）。命题不应包含模糊术语。
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item 阿诺德·施瓦辛格经常吃西兰花。[什么是"经常"？]
+\item 亨利八世不受欢迎。[什么是"不受欢迎"？]
+\end{enumerate}
+
+命题可以组合成更复杂的陈述。设 $P$ 和 $Q$ 是表示命题的变量（例如，$P$ 可以代表"3 是奇数"）。连接这些命题的最简单方法是使用连接词"与"、"或"和"非"。
+
+\begin{enumerate}
+\item 合取：$P \land Q$（"$P$ 与 $Q$"）。仅当 $P$ 和 $Q$ 都为真时为真。
+\item 析取：$P \lor Q$（"$P$ 或 $Q$"）。当 $P$ 和 $Q$ 中至少有一个为真时为真。
+\item 否定：$\neg P$（"非 $P$"）。当 $P$ 为假时为真。
+\end{enumerate}
+
+像这样带有变量的陈述称为命题形式。
+
+一个被称为排中律的基本原理说，对于任何命题 $P$，要么 $P$ 为真，要么 $\neg P$ 为真（但不能同时为真）。因此，无论 $P$ 的真值如何，$P \lor \neg P$ 总是为真。无论其变量的真值如何，总是为真的命题形式称为永真式。相反，像 $P \land \neg P$ 这样总是为假的陈述称为矛盾式。
+
+\textbf{概念检查！} 如果我们让 $P$ 代表命题"3 是奇数"，$Q$ 代表"4 是奇数"，$R$ 代表"$4 + 5 = 49$"，那么 $P \land R$、$P \lor R$ 和 $\neg Q$ 的值是什么？
+
+描述命题形式可能值的有用工具是真值表。真值表与函数表相同：你列出变量所有可能的输入值，然后列出给定这些输入的输出。（顺序不重要。）
+
+以下是合取和否定的真值表：
+
+\begin{center}
+\begin{tabular}{cc|c}
+$P$ & $Q$ & $P \land Q$ \\
+\hline
+T & T & T \\
+T & F & F \\
+F & T & F \\
+F & F & F
+\end{tabular}
+\hspace{2em}
+\begin{tabular}{c|c}
+$P$ & $\neg P$ \\
+\hline
+T & F \\
+F & T
+\end{tabular}
+\end{center}
+
+\textbf{概念检查！} 写出析取（OR）的真值表。
+
+最重要且微妙的命题形式是蕴含：
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item 蕴含：$P \Rightarrow Q$（"$P$ 蕴含 $Q$"）。这与"如果 $P$，那么 $Q$"相同。
+\end{enumerate}
+
+这里，$P$ 称为蕴含的假设，$Q$ 称为结论。
+
+我们在日常生活中经常遇到蕴含；这里有几个例子：
+
+\begin{itemize}
+\item 如果你站在雨中，那么你会淋湿。
+\item 如果你通过了课程，你就会收到证书。
+\end{itemize}
+
+蕴含 $P \Rightarrow Q$ 仅当 $P$ 为真且 $Q$ 为假时为假。例如，只有当你站在雨中但没有淋湿时，上面的第一个陈述才为假。只有当你通过了课程但没有收到证书时，第二个陈述才为假。
+
+以下是 $P \Rightarrow Q$ 的真值表（以及我们稍后解释的额外一列）：
+
+\begin{center}
+\begin{tabular}{cc|c|c}
+$P$ & $Q$ & $P \Rightarrow Q$ & $\neg P \lor Q$ \\
+\hline
+T & T & T & T \\
+T & F & F & F \\
+F & T & T & T \\
+F & F & T & T
+\end{tabular}
+\end{center}
+
+注意，当 $P$ 为假时，$P \Rightarrow Q$ 总是为真。这意味着许多在英语中听起来荒谬的陈述，在数学上是真确的。例子是像这样的陈述："如果猪会飞，那么马会阅读"或"如果 14 是奇数，那么 $1 + 2 = 18$"。（这些是我们在日常生活中永远不会做出的陈述，但在数学中完全自然。）当蕴含因为假设为假而愚蠢地为真时，我们说它是平凡真的。
+
+还要注意，$P \Rightarrow Q$ 与 $\neg P \lor Q$ 逻辑等价，这可以通过比较上面真值表的最后两列看出：对于 $P$ 和 $Q$ 的所有可能真值，$P \Rightarrow Q$ 和 $\neg P \lor Q$ 取相同的值（即它们有相同的真值表）。我们将其写成 $(P \Rightarrow Q) \equiv (\neg P \lor Q)$。
+
+$P \Rightarrow Q$ 是数学定理最常见的形式。以下是说它的几种不同方式：
+\begin{enumerate}
+\item 如果 $P$，那么 $Q$；
+\item $Q$ 如果 $P$；
+\item $P$ 仅当 $Q$；
+\item $P$ 是 $Q$ 的充分条件；
+\item $Q$ 是 $P$ 的必要条件；
+\item $Q$ 除非非 $P$。
+\end{enumerate}
+
+如果 $P \Rightarrow Q$ 和 $Q \Rightarrow P$ 都为真，那么我们说"$P$ 当且仅当 $Q$"（缩写为"$P$ iff $Q$"）。形式上，我们写成 $P \Leftrightarrow Q$。注意，$P \Leftrightarrow Q$ 仅当 $P$ 和 $Q$ 具有相同的真值（都为真或都为假）时为真。
+
+例如，如果我们让 $P$ 为"3 是奇数"，$Q$ 为"4 是奇数"，$R$ 为"6 是偶数"，那么以下都为真：$P \Rightarrow R$，$Q \Rightarrow P$（平凡地），和 $R \Rightarrow P$。因为 $P \Rightarrow R$ 和 $R \Rightarrow P$，我们也看到 $P \Leftrightarrow R$ 为真。
+
+给定蕴含 $P \Rightarrow Q$，我们还可以定义它的
+\begin{enumerate}
+\item[(a)] 逆否命题：$\neg Q \Rightarrow \neg P$
+\item[(b)] 逆命题：$Q \Rightarrow P$
+\end{enumerate}
+
+"如果你通过了课程，你就会收到证书"的逆否命题是"如果你没有收到证书，你就没有通过课程"。逆命题是"如果你收到了证书，你就通过了课程"。逆否命题说的与原陈述相同吗？逆命题呢？
+
+让我们看看真值表：
+
+\begin{center}
+\begin{tabular}{cc|c|c|c|c|c|c}
+$P$ & $Q$ & $\neg P$ & $\neg Q$ & $P \Rightarrow Q$ & $Q \Rightarrow P$ & $\neg Q \Rightarrow \neg P$ & $P \Leftrightarrow Q$ \\
+\hline
+T & T & F & F & T & T & T & T \\
+T & F & F & T & F & T & F & F \\
+F & T & T & F & T & F & T & F \\
+F & F & T & T & T & T & T & T
+\end{tabular}
+\end{center}
+
+注意，$P \Rightarrow Q$ 和它的逆否命题在真值表中的所有地方都有相同的真值，所以它们逻辑等价：$(P \Rightarrow Q) \equiv (\neg Q \Rightarrow \neg P)$。许多学生混淆逆否命题和逆命题：注意 $P \Rightarrow Q$ 和 $\neg Q \Rightarrow \neg P$ 逻辑等价，但 $P \Rightarrow Q$ 和 $Q \Rightarrow P$ 不等价！
+
+当两个命题形式逻辑等价时，我们可以认为它们"意思相同"。我们将在下一堂课中看到这对证明定理有多么有用。
+
+\section{量词}
+
+你在实践中看到的数学陈述不会由像"3 是奇数"这样的简单命题组成。相反，你会看到像这样的陈述：
+\begin{enumerate}
+\item 对于所有自然数 $n$，$n^2 + n + 41$ 是素数。
+\item 如果 $n$ 是奇整数，那么 $n^3$ 也是。
+\item 存在一个整数 $k$，它既是偶数又是奇数。
+\end{enumerate}
+
+本质上，这些陈述一次断言关于许多简单命题（甚至无限多！）的某些东西。例如，第一个陈述断言 $0^2 + 0 + 41$ 是素数，$1^2 + 1 + 41$ 是素数，等等。最后一个陈述说，当 $k$ 遍历所有可能的整数时，我们将找到至少一个满足该陈述的 $k$ 值。
+
+为什么上面的三个例子被认为是命题，而早些时候我们声称"$x^2 + 3x = 5$"不是？原因是，在这些例子中，有一个我们正在其中工作的潜在"论域"，并且陈述在该论域上被量化。为了用数学表达这些陈述，我们需要两个量词：全称量词 $\forall$（"对于所有"）和存在量词 $\exists$（"存在"）。例子：
+
+\begin{enumerate}
+\item "有些哺乳动物产卵。"数学上，"有些"意味着"至少一个"，所以该陈述说"存在一个哺乳动物 $x$ 使得 $x$ 产卵。"如果我们让论域 $U$ 为哺乳动物集合，那么我们可以写成：$(\exists x \in U)(x \text{ 产卵})$。（有时，当论域清楚时，我们省略 $U$，简单地写成 $\exists x(x \text{ 产卵})$。）
+
+\item "对于所有自然数 $n$，$n^2 + n + 41$ 是素数"，可以通过将论域取为自然数集（记作 $\mathbb{N}$）来表达：$(\forall n \in \mathbb{N})(n^2 + n + 41 \text{ 是素数})$。
+\end{enumerate}
+
+我们将引用变量的陈述称为谓词或命题公式，当用值替换变量时，该陈述要么为真要么为假。例如，陈述"$n^2 + n + 41$ 是素数"是带有变量 $n$ 的谓词或命题公式。该陈述在自然数 $n$ 上的值取决于 $n$ 的值，要么为真要么为假。也就是说，用值替换变量使谓词成为命题。特别地，对于 $n = 1$，我们有"43 是素数"，这是真的。而对于 $n = 41$，陈述"$41^2 + 41 + 41$ 是素数"是假的，因为可以将 $41^2 + 41 + 41$ 分解为 $41 \times 43$。
+
+注意，在有限论域中，我们可以不用量词来表达存在量化和全称量化的命题，分别使用析取和合取。例如，如果我们的论域 $U$ 是 $\{1, 2, 3, 4\}$，那么 $(\exists x \in U)P(x)$ 逻辑等价于 $P(1) \lor P(2) \lor P(3) \lor P(4)$，而 $(\forall x \in U)P(x)$ 逻辑等价于 $P(1) \land P(2) \land P(3) \land P(4)$。然而，在无限论域中，如自然数，这是不可能的。
+
+\textbf{概念检查！} 使用量词表达以下两个陈述："对于所有整数 $x$，$2x + 1$ 是奇数"，以及"存在一个 2 和 4 之间的整数"。
+
+有些陈述可以有多个量词。然而，正如我们将看到的，量词不能交换。你可以通过思考英语陈述来看出这一点。考虑以下（相当血腥的）例子：
+
+"每次我在纽约坐地铁，都会有人被刺。"
+
+"有一个人，每次我在纽约坐地铁，那个人都会被刺。"
+
+第一个陈述说每次我坐地铁都会有人被刺，但每次可能是不同的人。第二个陈述说的是真正可怕的事情：有一个可怜的家伙 Joe，不幸的是每次我上纽约地铁，Joe 就在那里，再次被刺。（可怜的 Joe 一看到我就会逃命。）
+
+数学上，我们在两个论域上量化：$T = \{\text{我坐地铁的时候}\}$ 和 $P = \{\text{人}\}$。第一个陈述可以写成：$(\forall t \in T)(\exists p \in P)(p \text{ 在时间 } t \text{ 被刺})$。第二个陈述说：$(\exists p \in P)(\forall t \in T)(p \text{ 在时间 } t \text{ 被刺})$。
+
+让我们看一个更数学化的例子：
+
+考虑
+\begin{enumerate}
+\item $(\forall x \in \mathbb{Z})(\exists y \in \mathbb{Z})(x < y)$
+\item $(\exists y \in \mathbb{Z})(\forall x \in \mathbb{Z})(x < y)$
+\end{enumerate}
+
+第一个陈述说，给定一个整数，我可以找到一个更大的整数。第二个陈述说的完全不同：存在一个最大的整数！第一个陈述是真的，第二个不是。
+
+\section{关于否定的讨论}
+
+命题 $P$ 为假意味着什么？这意味着它的否定 $\neg P$ 为真。有一些处理否定的规则是有帮助的，这将在下一堂课我们看证明时变得更加明显。
+
+首先，让我们看看如何否定合取和析取：
+\begin{align*}
+\neg(P \land Q) &\equiv (\neg P \lor \neg Q) \\
+\neg(P \lor Q) &\equiv (\neg P \land \neg Q)
+\end{align*}
+
+这两个等价被称为德摩根定律，它们非常直观：例如，如果 $P \land Q$ 为真这种情况不成立，那么 $P$ 或 $Q$ 必须为假（反之亦然）。
+
+\textbf{概念检查！} 通过写出适当的真值表来验证德摩根定律。
+
+否定涉及量词的命题实际上遵循类似的定律。让我们从一个简单的例子开始。假设论域是 $\{1, 2, 3, 4\}$，让 $P(x)$ 表示命题公式"$x^2 > 10$"。验证 $\exists x\,P(x)$ 为真但 $\forall x\,P(x)$ 为假。观察 $\neg(\forall x\,P(x))$ 和 $\exists x\,\neg P(x)$ 都为真，因为 $P(1)$ 为假。还要注意 $\forall x\,\neg P(x)$ 和 $\neg(\exists x\,P(x))$ 都为假，因为 $P(4)$ 为真。每对陈述具有相同真值这一事实并非偶然，因为等价
+\begin{align*}
+\neg(\forall x\,P(x)) &\equiv \exists x\,\neg P(x) \\
+\neg(\exists x\,P(x)) &\equiv \forall x\,\neg P(x)
+\end{align*}
+是在任何论域上量化的任何命题 $P$ 都成立的定律（包括无限论域）。
+
+思考英语句子来（非正式地）说服自己这些定律是真的是有帮助的。例如，假设我们在论域 $\mathbb{Z}$（所有整数的集合）内工作，$P(x)$ 是命题"$x$ 是奇数"。我们知道陈述 $(\forall x\,P(x))$ 是假的，因为并非每个整数都是奇数。因此，我们期望它的否定 $\neg(\forall x\,P(x))$ 为真。但你会用英语怎么说这个否定？嗯，如果不是每个整数都是奇数，那么一定存在某个整数不是奇数（即是偶数）。这如何用命题形式写出？很简单，就是：$(\exists x\,\neg P(x))$。
+
+要看一个更复杂的例子，固定某个论域和命题公式 $P(x, y)$。假设我们有命题 $\neg(\forall x\,\exists y\,P(x, y))$，我们想将否定运算符推入量词内部。根据上述定律，我们可以这样做：
+\[
+\neg(\forall x\,\exists y\,P(x, y)) \equiv \exists x\,\neg(\exists y\,P(x, y)) \equiv \exists x\,\forall y\,\neg P(x, y).
+\]
+
+注意，我们将复杂的否定分解成更小、更容易的问题，因为否定通过量词传播。还要注意，量词在我们进行时"翻转"。
+
+\section{更棘手的量词例子}
+
+让我们看一组更棘手的例子：
+
+将句子"至少有三个不同的整数 $x$ 满足 $P(x)$"写成使用量词的命题！一种方法是
+\[
+\exists x\,\exists y\,\exists z\,(x \neq y \land y \neq z \land z \neq x \land P(x) \land P(y) \land P(z)).
+\]
+（这里所有量词都在整数论域 $\mathbb{Z}$ 上。）
+
+现在将句子"至多有三个不同的整数 $x$ 满足 $P(x)$"写成使用量词的命题。一种方法是
+\[
+\exists x\,\exists y\,\exists z\,\forall d\,(P(d) \Rightarrow d = x \lor d = y \lor d = z).
+\]
+
+如果你不确定如何解释这个命题逻辑陈述，你可以这样读："存在 3 个特定的整数 $x$、$y$ 和 $z$，使得如果 $P(d)$ 为真，那么 $d$ 必须是这三个整数之一。"还有许多其他方式可以表达同样的陈述，例如：
+\[
+\forall x\,\forall y\,\forall v\,\forall z\,((x \neq y \land y \neq v \land v \neq x \land x \neq z \land y \neq z \land v \neq z) \Rightarrow \neg(P(x) \land P(y) \land P(v) \land P(z))).
+\]
+
+\textbf{概念检查！} 检查你理解上述两种替代方案。
+
+注意，我们还可以生成更多完全相同的替代方案，例如写出逆否命题、传播否定等。一般来说，你想选择最能清楚表达思想的命题逻辑陈述。
+
+最后，如果我们想表达句子"恰好有三个不同的整数 $x$ 满足 $P(x)$"呢？这现在很容易：我们可以只使用上述两个命题的合取。
+
+\end{document}

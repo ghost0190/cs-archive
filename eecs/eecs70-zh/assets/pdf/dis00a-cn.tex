@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries CS 70}\\[0.2em]
+离散数学与概率论\\[0.1em]
+2026年春季\\[0.1em]
+Sinclair, Song\\[0.5em]
+\fbox{\textbf{讨论 0A}}
+\end{center}
+
+\section*{命题逻辑入门}
+
+\textcolor{blue}{\textbf{笔记 1}}
+
+\textbf{命题}：具有真值的陈述；它要么为真要么为假。
+
+命题可以组合成更复杂的表达式，使用以下运算：
+
+\textbf{运算符}
+\begin{itemize}
+\item $\land$ 与
+\item $\lor$ 或
+\item $\neg$ 非
+\item $\Rightarrow$ 蕴含
+\item $\equiv$ 等价于
+\end{itemize}
+
+\textbf{量词}
+\begin{itemize}
+\item $\forall$ 对于所有
+\item $\exists$ 存在
+\end{itemize}
+
+\textbf{蕴含运算}
+
+\begin{tabular}{ll}
+蕴含 & $P \Rightarrow Q$ \\
+逆否命题 & $\neg P \Rightarrow \neg Q$ \\
+逆命题 & $Q \Rightarrow P$ \\
+否命题 & $\neg Q \Rightarrow \neg P$
+\end{tabular}
+
+此外，对于蕴含 $P \Rightarrow Q$（其中 $P$ 是假设，$Q$ 是结论），知道 $P \Rightarrow Q \equiv \neg P \lor Q$ 是有用的。另外，任何蕴含都与其逆否命题逻辑等价。
+
+\textbf{德摩根定律}：以下等式在简化表达式和分配否定时很有用。
+\begin{itemize}
+\item $\neg(P \land Q) \equiv \neg P \lor \neg Q$
+\item $\neg(P \lor Q) \equiv \neg P \land \neg Q$
+\item $\neg(\forall x\, P(x)) \equiv \exists x\, (\neg P(x))$
+\item $\neg(\exists x\, P(x)) \equiv \forall x\, (\neg P(x))$
+\end{itemize}
+
+\section{命题练习}
+
+\textcolor{blue}{\textbf{笔记 1}}
+
+将以下英文句子转换为命题逻辑，将以下命题转换为英文。判断每个陈述是否为真，并简要说明理由。
+
+回顾：$\mathbb{R}$ 是实数集，$\mathbb{Q}$ 是有理数集，$\mathbb{Z}$ 是整数集，$\mathbb{N}$ 是自然数集。符号"$a \mid b$"读作"$a$ 整除 $b$"，表示 $a$ 是 $b$ 的因数。
+
+\begin{enumerate}[label=(\alph*)]
+\item 存在一个不是有理数的实数。
+
+\item 所有整数要么是自然数，要么是负数，但不能同时满足两者。
+
+\item 如果一个自然数能被 6 整除，那么它能被 2 整除或能被 3 整除。
+
+\item $\neg(\forall x \in \mathbb{Q})(x \in \mathbb{Z})$
+
+\item $(\forall x \in \mathbb{Z})(((2 \mid x) \lor (3 \mid x)) \Rightarrow (6 \mid x))$
+
+\item $(\forall x \in \mathbb{N})((x > 7) \Rightarrow ((\exists a,b \in \mathbb{N})\, (a+b = x)))$
+\end{enumerate}
+
+\section{真值表}
+
+\textcolor{blue}{\textbf{笔记 1}}
+
+通过写出真值表，判断以下等价是否成立。明确说明每对是否等价。
+
+\begin{enumerate}[label=(\alph*)]
+\item $P \land (Q \lor P) \equiv P \land Q$
+
+\item $(P \lor Q) \land R \equiv (P \land R) \lor (Q \land R)$
+
+\item $(P \land Q) \lor R \equiv (P \lor R) \land (Q \lor R)$
+\end{enumerate}
+
+\section{蕴含}
+
+\textcolor{blue}{\textbf{笔记 0, 1}}
+
+以下哪些蕴含总是为真，无论 $P$ 如何？为每个错误的断言给出一个反例（即想出一个使蕴含为假的陈述 $P(x,y)$）。
+
+\begin{enumerate}[label=(\alph*)]
+\item $\forall x\,\forall y\,P(x,y) \Rightarrow \forall y\,\forall x\,P(x,y)$
+
+\item $\forall x\,\exists y\,P(x,y) \Rightarrow \exists y\,\forall x\,P(x,y)$
+
+\item $\exists x\,\forall y\,P(x,y) \Rightarrow \forall y\,\exists x\,P(x,y)$
+\end{enumerate}
+
+\end{document}
