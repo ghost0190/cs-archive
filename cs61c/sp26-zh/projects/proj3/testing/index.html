@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang=zh-CN style><!--
+﻿<!DOCTYPE html> <html lang=zh-CN style><!--
  Page saved with SingleFile 
  url: https://cs61c.org/sp26/projects/proj3/testing/ 
  saved date: Fri May 01 2026 00:00:43 GMT+0800 (中国标准时间)
@@ -480,6 +480,122 @@ end:     addi s0, x0, 2
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
   <script defer type="text/javascript" src="../../../js/main﹖h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
   <script type="text/javascript" src="../../../js/main-sync﹖h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script id=cs61c-local-page-fix>
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+  }
+
+  if(!window.initDarkToggle){
+    window.initDarkToggle = function(){
+      var input = document.getElementById('inputDarkToggle');
+      var reset = document.getElementById('buttonDarkToggleReset');
+      var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+      function storedMode(){
+        var value = null;
+        try{ value = localStorage.getItem('cs61cDarkMode'); }catch(e){}
+        return value === 'dark' || value === 'light' ? value : null;
+      }
+      function apply(mode){
+        var isDark = mode === 'dark';
+        document.documentElement.classList.toggle('theme-dark', isDark);
+        document.documentElement.classList.toggle('theme-light', !isDark);
+        if(input) input.checked = isDark;
+        if(reset){
+          var hasStored = !!storedMode();
+          reset.classList.toggle('d-none', !hasStored);
+          reset.classList.toggle('sf-hidden', !hasStored);
+        }
+      }
+      function currentMode(){
+        return storedMode() || (media && media.matches ? 'dark' : 'light');
+      }
+      apply(currentMode());
+      if(input){
+        input.addEventListener('change', function(){
+          var mode = input.checked ? 'dark' : 'light';
+          try{ localStorage.setItem('cs61cDarkMode', mode); }catch(e){}
+          apply(mode);
+        });
+      }
+      if(reset){
+        reset.addEventListener('click', function(event){
+          event.preventDefault();
+          try{ localStorage.removeItem('cs61cDarkMode'); }catch(e){}
+          apply(currentMode());
+        });
+      }
+      if(media && media.addEventListener){
+        media.addEventListener('change', function(){ if(!storedMode()) apply(currentMode()); });
+      }
+    };
+  }
+
+  function localInitToC(){
+    var toc = document.getElementById('toc-wrapper');
+    var content = document.getElementById('toc-content-wrapper');
+    if(!toc || !content) return;
+    if(toc.getAttribute('data-cs61c-toc-fixed') === 'true') return;
+    toc.setAttribute('data-cs61c-toc-fixed', 'true');
+    var links = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
+    var entries = links.map(function(link){
+      var id = decodeURIComponent(link.getAttribute('href').slice(1));
+      return { link: link, target: document.getElementById(id), id: id };
+    }).filter(function(entry){ return !!entry.target; });
+    if(!entries.length) return;
+
+    function setActive(id){
+      Array.prototype.forEach.call(toc.querySelectorAll('.active'), function(node){ node.classList.remove('active'); });
+      Array.prototype.forEach.call(toc.querySelectorAll('.is-collapsible'), function(node){ node.classList.add('is-collapsed'); });
+      var entry = entries.filter(function(item){ return item.id === id; })[0] || entries[0];
+      entry.link.classList.add('active');
+      var item = entry.link.closest ? entry.link.closest('.nav-item') : entry.link.parentElement;
+      if(item) item.classList.add('active');
+      var parent = entry.link.parentElement;
+      while(parent && parent !== toc){
+        if(parent.classList && parent.classList.contains('is-collapsible')) parent.classList.remove('is-collapsed');
+        parent = parent.parentElement;
+      }
+    }
+
+    var ticking = false;
+    function update(){
+      ticking = false;
+      var offset = 96;
+      var current = entries[0];
+      entries.forEach(function(entry){
+        if(entry.target.getBoundingClientRect().top <= offset) current = entry;
+      });
+      var scroller = document.scrollingElement || document.documentElement;
+      if(scroller.scrollTop + window.innerHeight >= scroller.scrollHeight - 2){
+        current = entries[entries.length - 1];
+      }
+      setActive(current.id);
+    }
+    function queueUpdate(){
+      if(!ticking){
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }
+    links.forEach(function(link){
+      link.addEventListener('click', function(){
+        var id = decodeURIComponent(link.getAttribute('href').slice(1));
+        window.setTimeout(function(){ setActive(id); queueUpdate(); }, 0);
+      });
+    });
+    window.addEventListener('scroll', queueUpdate, { passive: true });
+    window.addEventListener('resize', queueUpdate);
+    update();
+  }
+
+  window.initToC = localInitToC;
+  ready(function(){
+    localInitToC();
+  });
+})();
+</script>
   <script>initDarkToggle();</script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
