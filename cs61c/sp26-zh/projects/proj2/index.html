@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -21,8 +21,7 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.17.0/tocbot.min.js" referrerpolicy="no-referrer"></script>
 
 
-  <style id=cs61c-proj2-navbar-fix>:root{--bs-primary:#567A8D;--bs-primary-rgb:86,122,141;--cs61c-navbar-bg:var(--bs-primary)}.navbar,html.theme-light .navbar,html.theme-dark .navbar{background-color:#567A8D!important}.navbar .navbar-brand img,html.theme-light .navbar .navbar-brand img,html.theme-dark .navbar .navbar-brand img{filter:brightness(0) invert(1)!important}</style>
-</head>
+  <style id=cs61c-project-theme-fix>:root,html.theme-light{--bs-body-bg:#FFFFFF;--bs-body-bg-rgb:255,255,255;--bs-body-color:#181A1B;--bs-body-color-rgb:24,26,27;--bs-primary:#567A8D;--bs-primary-rgb:86,122,141;--bs-link:#2F6FBC;--bs-link-rgb:47,111,188;--btn-primary:#2F6FBC;--btn-primary-rgb:47,111,188;--cs61c-navbar-bg:#567A8D}html.theme-dark{--bs-body-bg:#181A1B;--bs-body-bg-rgb:24,26,27;--bs-body-color:#E0E0E0;--bs-body-color-rgb:224,224,224;--bs-primary:#567A8D;--bs-primary-rgb:86,122,141;--bs-link:#80BFFF;--bs-link-rgb:128,191,255;--btn-primary:#E0E0E0;--btn-primary-rgb:224,224,224;--cs61c-navbar-bg:#567A8D}html.theme-light body{background-color:#FFFFFF!important;color:#181A1B!important}html.theme-dark body{background-color:#181A1B!important;color:#E0E0E0!important}.navbar,html.theme-light .navbar,html.theme-dark .navbar{background-color:#567A8D!important}.navbar .navbar-brand img,html.theme-light .navbar .navbar-brand img,html.theme-dark .navbar .navbar-brand img{filter:brightness(0) invert(1)!important}.nav-item.active>.nav-link,#toc-wrapper .nav-link.active{background-color:#567A8D!important;color:#FFFFFF!important}html.theme-dark .dropdown-menu{background-color:#181A1B!important;border-color:rgba(224,224,224,.85)!important;color:#E0E0E0!important}html.theme-dark pre.z-code{background-color:#282C34!important;color:#DCDFE4!important;border-color:#E0E0E0!important}html.theme-light pre.z-code{background-color:#FAFAFA!important;color:#383A42!important;border-color:#C0C0C0!important}html.theme-dark .alert-info{background-color:#04404C!important;border-color:#36737F!important;color:#DFF4FC!important}html.theme-dark .alert-warning{background-color:#3D2F09!important;border-color:#806520!important;color:#FFE8A3!important}</style></head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark mb-4">
@@ -289,6 +288,57 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js"></script>
   <script defer type="text/javascript" src="../../js/main﹖h=ad997e2a23022756f6ea00b8b4e23a4ee1a56495d9f493dcb7b75cae0dc3465f.js"></script>
   <script type="text/javascript" src="../../js/main-sync﹖h=a5a9607bf30db01764e4c92a4d4832318d20ec7d3ec29af4ddf72b7ddcb13817.js"></script>
+  <script id=cs61c-project-dark-fix>
+(function(){
+  window.initDarkToggle = function(){
+    var wrapper = document.getElementById('dark-toggle-wrapper');
+    var input = document.getElementById('inputDarkToggle');
+    var reset = document.getElementById('buttonDarkToggleReset');
+    var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function storedMode(){
+      var value = null;
+      try{ value = localStorage.getItem('cs61cDarkMode'); }catch(e){}
+      return value === 'dark' || value === 'light' ? value : null;
+    }
+    function apply(mode){
+      var isDark = mode === 'dark';
+      document.documentElement.classList.toggle('theme-dark', isDark);
+      document.documentElement.classList.toggle('theme-light', !isDark);
+      if(input) input.checked = isDark;
+      if(wrapper) wrapper.classList.remove('d-none', 'sf-hidden');
+      if(reset){
+        var hasStored = !!storedMode();
+        reset.classList.toggle('d-none', !hasStored);
+        reset.classList.toggle('sf-hidden', !hasStored);
+      }
+    }
+    function currentMode(){
+      return storedMode() || (media && media.matches ? 'dark' : 'light');
+    }
+    apply(currentMode());
+    if(input && input.getAttribute('data-cs61c-dark-fixed') !== 'true'){
+      input.setAttribute('data-cs61c-dark-fixed', 'true');
+      input.addEventListener('change', function(){
+        var mode = input.checked ? 'dark' : 'light';
+        try{ localStorage.setItem('cs61cDarkMode', mode); }catch(e){}
+        apply(mode);
+      });
+    }
+    if(reset && reset.getAttribute('data-cs61c-dark-fixed') !== 'true'){
+      reset.setAttribute('data-cs61c-dark-fixed', 'true');
+      reset.addEventListener('click', function(event){
+        event.preventDefault();
+        try{ localStorage.removeItem('cs61cDarkMode'); }catch(e){}
+        apply(currentMode());
+      });
+    }
+    if(media && media.addEventListener && !media._cs61cDarkFixed){
+      media._cs61cDarkFixed = true;
+      media.addEventListener('change', function(){ if(!storedMode()) apply(currentMode()); });
+    }
+  };
+})();
+</script>
   <script>initDarkToggle();</script>
 
 
