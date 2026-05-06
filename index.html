@@ -1,587 +1,753 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS Archive - 计算机科学课程备份</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fb;
-            --bg-tertiary: #f1f3f7;
-            --accent-blue: #3b82f6;
-            --accent-blue-light: rgba(59, 130, 246, 0.08);
-            --accent-purple: #8b5cf6;
-            --accent-purple-light: rgba(139, 92, 246, 0.08);
-            --text-primary: #1a1a2e;
-            --text-secondary: #64748b;
-            --text-tertiary: #94a3b8;
-            --border-color: rgba(0, 0, 0, 0.06);
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.06);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.08);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-secondary);
-            min-height: 100vh;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-        
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 32px;
-            height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-        
-        .logo-mark {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 4px;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.25s ease;
-        }
-        
-        .nav-links a:hover {
-            color: var(--text-primary);
-            background: var(--bg-tertiary);
-        }
-        
-        .nav-links a.active {
-            color: var(--accent-blue);
-            background: var(--accent-blue-light);
-        }
-        
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 140px 32px 100px;
-            position: relative;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-        }
-        
-        .hero h1 {
-            font-size: clamp(48px, 8vw, 80px);
-            font-weight: 800;
-            letter-spacing: -3px;
-            line-height: 1;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero-sub {
-            font-size: clamp(17px, 2vw, 20px);
-            color: var(--text-secondary);
-            font-weight: 400;
-            max-width: 520px;
-            line-height: 1.7;
-            margin-bottom: 48px;
-        }
-        
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: var(--radius-lg);
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.35);
-        }
-        
-        .btn-ghost {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .btn-ghost:hover {
-            background: var(--bg-tertiary);
-            border-color: rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 32px;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        
-        .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-blue);
-            margin-bottom: 16px;
-        }
-        
-        .section-title {
-            font-size: clamp(28px, 4vw, 40px);
-            font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.2;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-        
-        .section-desc {
-            font-size: 16px;
-            color: var(--text-secondary);
-            max-width: 480px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-        
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-        
-        .course-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: transparent;
-        }
-        
-        .card-accent {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-        }
-        
-        .card-blue .card-accent { background: linear-gradient(90deg, var(--accent-blue), rgba(59, 130, 246, 0.3)); }
-        .card-purple .card-accent { background: linear-gradient(90deg, var(--accent-purple), rgba(139, 92, 246, 0.3)); }
-        
-        .card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-        
-        .card-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
-        
-        .card-blue .card-icon {
-            background: var(--accent-blue-light);
-        }
-        
-        .card-purple .card-icon {
-            background: var(--accent-purple-light);
-        }
-        
-        .card-semester {
-            padding: 6px 12px;
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-        
-        .card-code {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 6px;
-        }
-        
-        .card-blue .card-code { color: var(--accent-blue); }
-        .card-purple .card-code { color: var(--accent-purple); }
-        
-        .card-name {
-            font-size: 15px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        
-        .card-desc {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            line-height: 1.7;
-            margin-bottom: 24px;
-        }
-        
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 32px;
-        }
-        
-        .tag {
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .card-blue .tag {
-            background: var(--accent-blue-light);
-            color: var(--accent-blue);
-        }
-        
-        .card-purple .tag {
-            background: var(--accent-purple-light);
-            color: var(--accent-purple);
-        }
-        
-        .card-spacer { flex: 1; }
-        
-        .card-links {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .card-link {
-            flex: 1;
-            padding: 13px 16px;
-            text-align: center;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-blue .card-link.primary,
-        .card-purple .card-link.primary {
-            background: var(--text-primary);
-            color: #fff;
-        }
-        
-        .card-link.primary:hover {
-            transform: translateY(-2px);
-        }
-        
-        .card-blue .card-link.primary:hover { background: var(--accent-blue); }
-        .card-purple .card-link.primary:hover { background: var(--accent-purple); }
-        
-        .card-link.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-        
-        .card-link.secondary:hover {
-            background: var(--bg-secondary);
-            border-color: rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        
-        .feature-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-        
-        .feature-icon-wrap {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            background: var(--bg-tertiary);
-        }
-        
-        .feature-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .feature-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        
-        footer {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 48px 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-tertiary);
-            font-size: 14px;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        @media (max-width: 1024px) {
-            .courses-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: 1fr 1fr; }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { letter-spacing: -2px; }
-            .hero-actions { flex-direction: column; width: 100%; }
-            .hero-actions .btn { width: 100%; justify-content: center; }
-            .courses-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: 1fr; }
-            .course-card { padding: 32px; }
-            footer { flex-direction: column; gap: 16px; text-align: center; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Archive - 计算机课程归档</title>
+  <meta name="description" content="面向自学者的计算机课程中文归档，整理课程主页、讲义、实验、项目和学习路径。">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --surface-soft: #eef3f5;
+      --ink: #17202a;
+      --muted: #5d6b78;
+      --subtle: #8a97a3;
+      --line: #dfe5ea;
+      --brand: #567a8d;
+      --brand-dark: #345765;
+      --green: #2f7d59;
+      --amber: #a96616;
+      --blue: #2f6fbc;
+      --red: #b94a48;
+      --shadow: 0 16px 40px rgba(30, 45, 55, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(223, 229, 234, 0.9);
+      background: rgba(246, 247, 249, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      max-width: 1180px;
+      height: 64px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(86, 122, 141, 0.25);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--brand-dark);
+      background: rgba(86, 122, 141, 0.12);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 32px;
+      align-items: stretch;
+      min-height: calc(100vh - 128px);
+    }
+
+    .intro {
+      padding: 42px 0 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--brand-dark);
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 720;
+      text-decoration: none;
+      box-shadow: 0 2px 0 rgba(23, 32, 42, 0.03);
+    }
+
+    .button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel {
+      align-self: center;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .panel-head strong {
+      font-size: 15px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(47, 125, 89, 0.12);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .status-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .course-list {
+      display: grid;
+    }
+
+    .course-row {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 18px;
+      padding: 20px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+
+    .course-row:last-child { border-bottom: 0; }
+    .course-row:hover { background: #fbfcfd; }
+
+    .course-code {
+      color: var(--brand-dark);
+      font-size: 24px;
+      font-weight: 820;
+    }
+
+    .course-row h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .course-row p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 6px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 680;
+    }
+
+    .arrow {
+      color: var(--subtle);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--brand-dark);
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .section {
+      margin-top: 70px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .detail-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 1px 0 rgba(23, 32, 42, 0.03);
+    }
+
+    .detail-card h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .detail-card .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .detail-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+    }
+
+    .detail-card ul {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .detail-card li {
+      display: flex;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .detail-card li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      margin-top: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      flex: 0 0 auto;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    .mini-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--brand-dark);
+      font-size: 14px;
+      font-weight: 740;
+      text-decoration: none;
+    }
+
+    .mini-link:hover {
+      border-color: rgba(86, 122, 141, 0.45);
+      background: rgba(86, 122, 141, 0.08);
+    }
+
+    .guide {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+    }
+
+    .guide-menu {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .guide-menu a {
+      display: block;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .guide-menu a:last-child { border-bottom: 0; }
+    .guide-menu a:hover { color: var(--brand-dark); background: rgba(86, 122, 141, 0.08); }
+
+    .guide-body {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .note {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .note h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .resource-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+
+    .resource {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .resource strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .resource p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .resource:nth-child(2) strong { color: var(--green); }
+    .resource:nth-child(3) strong { color: var(--amber); }
+
+    .footer {
+      margin-top: 70px;
+      padding: 28px 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .guide {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        padding-top: 22px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .stats,
+      .resource-band {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        height: auto;
+        padding: 14px 18px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .page {
+        padding: 28px 18px 46px;
+      }
+
+      .course-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .arrow {
+        display: none;
+      }
+
+      .stats,
+      .detail-grid,
+      .guide-body,
+      .resource-band {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">
-                <img src="favicon.svg" alt="CS Archive" class="logo-mark">
-                CS Archive
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">首页</a></li>
-                <li><a href="courses.html">课程</a></li>
-                <li><a href="about.html">关于</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section class="hero">
-        <h1>CS Archive</h1>
-        <p class="hero-sub">顶尖学府计算机科学课程的永久备份，支持中英双语，随时随地访问</p>
-        <div class="hero-actions">
-            <a href="courses.html" class="btn btn-primary">
-                浏览课程
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="about.html" class="btn btn-ghost">了解更多</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="主导航">
+      <a class="brand" href="index.html">
+        <img src="favicon.svg" alt="">
+        <span>CS Archive</span>
+      </a>
+      <ul class="nav-links">
+        <li><a class="active" href="index.html">首页</a></li>
+        <li><a href="#courses">课程</a></li>
+        <li><a href="#path">学习路径</a></li>
+        <li><a href="courses.html">全部归档</a></li>
+        <li><a href="about.html">关于</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="intro">
+        <p class="eyebrow">Course Archive for CS Self-Learners</p>
+        <h1 id="hero-title">把经典计算机课程整理成可长期访问的学习入口</h1>
+        <p class="lead">这里收录课程主页、日程、讲义、实验、项目和常用资源，优先整理适合系统自学的公开课程，并为中文学习者保留本地化入口。</p>
+        <div class="actions">
+          <a class="button primary" href="#courses">查看课程详情</a>
+          <a class="button" href="courses.html">浏览全部课程</a>
+          <a class="button" href="resources.html">资源索引</a>
         </div>
+        <div class="stats" aria-label="归档状态">
+          <div class="stat"><strong>2</strong><span>已收录课程</span></div>
+          <div class="stat"><strong>4</strong><span>中英入口</span></div>
+          <div class="stat"><strong>20+</strong><span>项目与实验页</span></div>
+          <div class="stat"><strong>静态</strong><span>GitHub Pages 部署</span></div>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="快速进入课程">
+        <div class="panel-head">
+          <strong>当前可用课程</strong>
+          <span class="status-pill">持续整理</span>
+        </div>
+        <div class="course-list">
+          <a class="course-row" href="cs61c/sp26-zh/index.html">
+            <span class="course-code">CS 61C</span>
+            <span>
+              <h2>Great Ideas in Computer Architecture</h2>
+              <p>RISC-V、C、CPU、缓存、并行计算与计算机系统结构。</p>
+              <span class="meta">
+                <span class="tag">Spring 2026</span>
+                <span class="tag">中文整理</span>
+                <span class="tag">项目完整</span>
+              </span>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="course-row" href="eecs/eecs70-zh/index.html">
+            <span class="course-code">EECS 70</span>
+            <span>
+              <h2>Discrete Mathematics and Probability Theory</h2>
+              <p>证明、图论、数论、组合、概率与随机过程基础。</p>
+              <span class="meta">
+                <span class="tag">Spring 2025</span>
+                <span class="tag">中文整理</span>
+                <span class="tag">理论基础</span>
+              </span>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </aside>
     </section>
-    
-    <section class="section">
-        <div class="section-header">
-            <div class="section-label">课程</div>
-            <h2 class="section-title">收录课程</h2>
-            <p class="section-desc">来自加州大学伯克利分校的精品计算机科学课程</p>
-        </div>
-        
-        <div class="courses-grid">
-            <div class="course-card card-blue">
-                <div class="card-accent"></div>
-                <div class="card-top">
-                    <div class="card-icon">💻</div>
-                    <span class="card-semester">2026年春季</span>
-                </div>
-                <div class="card-code">CS 61C</div>
-                <div class="card-name">计算机体系结构中的伟大思想</div>
-                <div class="card-desc">加州大学伯克利分校经典计算机体系结构课程，涵盖数字逻辑、RISC-V指令集、CPU流水线设计、并行计算等核心概念。</div>
-                <div class="card-tags">
-                    <span class="tag">计算机体系结构</span>
-                    <span class="tag">RISC-V</span>
-                    <span class="tag">CPU设计</span>
-                    <span class="tag">流水线</span>
-                </div>
-                <div class="card-spacer"></div>
-                <div class="card-links">
-                    <a href="cs61c/sp26-zh/index.html" class="card-link primary">中文版</a>
-                    <a href="cs61c/sp26-en/index.html" class="card-link secondary">English</a>
-                </div>
-            </div>
-            
-            <div class="course-card card-purple">
-                <div class="card-accent"></div>
-                <div class="card-top">
-                    <div class="card-icon">📐</div>
-                    <span class="card-semester">2025年春季</span>
-                </div>
-                <div class="card-code">EECS 70</div>
-                <div class="card-name">离散数学与概率论</div>
-                <div class="card-desc">加州大学伯克利分校离散数学与概率论课程，涵盖逻辑证明、图论、数论、概率论、贝叶斯推断等核心内容。</div>
-                <div class="card-tags">
-                    <span class="tag">离散数学</span>
-                    <span class="tag">概率论</span>
-                    <span class="tag">图论</span>
-                    <span class="tag">数论</span>
-                </div>
-                <div class="card-spacer"></div>
-                <div class="card-links">
-                    <a href="eecs/eecs70-zh/index.html" class="card-link primary">中文版</a>
-                    <a href="eecs/eecs70-en/index.html" class="card-link secondary">English</a>
-                </div>
-            </div>
-        </div>
+
+    <section id="courses" class="section" aria-labelledby="courses-title">
+      <div class="section-title">
+        <h2 id="courses-title">课程详情</h2>
+        <p>参考自学社区和 CS 自学指南的组织方式，首页不只放课程链接，也标出课程定位、适合阶段和推荐学习顺序。</p>
+      </div>
+
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>CS 61C</h3>
+          <p class="subtitle">计算机体系结构与机器级程序</p>
+          <p>适合已经有编程基础、想理解程序如何在硬件上执行的学习者。课程强调动手项目，从 C 与 RISC-V 逐步过渡到 CPU、缓存和并行计算。</p>
+          <ul>
+            <li>核心主题：C、RISC-V、调用约定、流水线、Cache、虚拟内存、SIMD/OpenMP。</li>
+            <li>学习产出：能读写汇编、理解性能瓶颈，并完成体系结构相关项目。</li>
+            <li>建议前置：至少完成一门编程入门课和基础数据结构训练。</li>
+          </ul>
+          <div class="card-actions">
+            <a class="mini-link" href="cs61c/sp26-zh/index.html">中文主页</a>
+            <a class="mini-link" href="cs61c/sp26-en/index.html">English</a>
+            <a class="mini-link" href="cs61c/sp26-zh/projects/proj2/index.html">项目示例</a>
+          </div>
+        </article>
+
+        <article class="detail-card">
+          <h3>EECS 70</h3>
+          <p class="subtitle">离散数学与概率论</p>
+          <p>适合补齐 CS 理论基础的学习者。它连接算法、机器学习、密码学、网络和系统设计中常见的数学语言。</p>
+          <ul>
+            <li>核心主题：证明方法、归纳、图、模运算、计数、条件概率、随机变量。</li>
+            <li>学习产出：能阅读更形式化的算法和概率分析材料。</li>
+            <li>建议前置：熟悉基础编程，愿意投入时间练习证明与推导。</li>
+          </ul>
+          <div class="card-actions">
+            <a class="mini-link" href="eecs/eecs70-zh/index.html">中文主页</a>
+            <a class="mini-link" href="eecs/eecs70-en/index.html">English</a>
+            <a class="mini-link" href="courses.html">课程索引</a>
+          </div>
+        </article>
+      </div>
     </section>
-    
-    <section class="section" style="padding-top: 0;">
-        <div class="section-header">
-            <div class="section-label">特点</div>
-            <h2 class="section-title">为什么选择 CS Archive</h2>
+
+    <section id="path" class="section" aria-labelledby="path-title">
+      <div class="section-title">
+        <h2 id="path-title">如何使用这个归档</h2>
+        <p>不要只收藏链接。像完成真实课程一样推进：看材料、做实验、交付项目、复盘错题。</p>
+      </div>
+
+      <div class="guide">
+        <div class="guide-menu" aria-label="学习步骤">
+          <a href="#path">1. 先确定课程定位</a>
+          <a href="#path">2. 按周推进材料</a>
+          <a href="#path">3. 优先完成项目</a>
+          <a href="#path">4. 用笔记沉淀结果</a>
         </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon-wrap">📚</div>
-                <div class="feature-title">完整课程资料</div>
-                <div class="feature-desc">讲义、实验、项目、讨论一应俱全，还原完整学习体验</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon-wrap">🔒</div>
-                <div class="feature-title">永久离线备份</div>
-                <div class="feature-desc">所有资源本地化存储，不依赖外部服务，随时访问</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon-wrap">🌐</div>
-                <div class="feature-title">中英双语支持</div>
-                <div class="feature-desc">核心课程提供中文翻译版本，降低语言学习门槛</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon-wrap">🎓</div>
-                <div class="feature-title">名校精品课程</div>
-                <div class="feature-desc">收录 UC Berkeley 等顶尖学府的计算机科学课程</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon-wrap">⚡</div>
-                <div class="feature-title">零依赖访问</div>
-                <div class="feature-desc">纯静态页面，无需后端服务，极速加载体验</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon-wrap">🔄</div>
-                <div class="feature-title">持续更新</div>
-                <div class="feature-desc">不断收录新课程，完善现有内容与翻译质量</div>
-            </div>
+        <div class="guide-body">
+          <div class="note">
+            <h3>按课程而不是按资料学习</h3>
+            <p>一门好课程已经替你组织好了概念顺序、练习密度和项目目标。尽量跟随课程节奏，而不是在不同资源之间频繁切换。</p>
+          </div>
+          <div class="note">
+            <h3>把项目当作主线</h3>
+            <p>CS 课程的关键收获往往来自实验和项目。讲义可以帮助理解，但真正的掌握通常发生在调试和实现过程中。</p>
+          </div>
+          <div class="note">
+            <h3>保留英文术语</h3>
+            <p>中文整理用于降低阅读门槛，关键术语仍建议同时记住英文，方便查资料、读论文和参与英文社区讨论。</p>
+          </div>
+          <div class="note">
+            <h3>持续校对与修复</h3>
+            <p>归档页会逐步修复链接、翻译、脚本和排版问题。如果页面行为异常，优先检查缓存和 GitHub Pages 部署状态。</p>
+          </div>
         </div>
+      </div>
     </section>
-    
-    <footer>
-        <p>&copy; 2026 CS Archive. 仅供学习目的使用</p>
-    </footer>
+
+    <section class="section" aria-labelledby="resources-title">
+      <div class="section-title">
+        <h2 id="resources-title">归档内容</h2>
+        <p>面向长期访问整理课程资料，尽量减少外部脚本和易失链接对学习过程的影响。</p>
+      </div>
+
+      <div class="resource-band">
+        <div class="resource">
+          <strong>课程主页</strong>
+          <p>保留日程、公告、讲义、实验、项目说明和参考链接，作为学习入口。</p>
+        </div>
+        <div class="resource">
+          <strong>中文整理</strong>
+          <p>为核心课程提供中文页面，保留必要英文术语和原课程结构。</p>
+        </div>
+        <div class="resource">
+          <strong>本地化修复</strong>
+          <p>持续检查 GitHub Pages、暗色模式、侧边栏高亮和站内链接可用性。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>CS Archive · 课程归档与中文整理</span>
+    <span>仅用于学习与资料备份</span>
+  </footer>
 </body>
 </html>
