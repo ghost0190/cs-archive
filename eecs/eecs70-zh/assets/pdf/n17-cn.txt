@@ -1,0 +1,451 @@
+CS 70 离散数学 和 概率论
+笔记 17
+春季 2026 Course Notes
+Functions of Random Variables
+In the previous 笔记, we considered simple 线性的 functions (sums, differences 和 常数 multiples) of
+randomvariables. Inthisnote,wewillconsidermoregeneralfunctionsofarandomvariable.
+Formally, 令 X be a random 变量 on a 样本空间 Ω with 概率 分布 P . 那么, 对于 a
+X
+函数 f(·) on the 值域 of X, f(X) is also a random 变量 on the same 样本空间 Ω. Denoting
+Y = f(X),wehaveY(ω)= f(X(ω))forω ∈Ω.
+Intermsofsamplespaces,theevent“Y =y”isequivalenttotheevent“X ∈ f−1(y)”,其中 f−1(y)denotes
+thepreimage{x| f(x)=y}. (When f(·)isone-to-one,itisabitsimpler,i.e.,“X =x”isthesameeventas
+“Y = f(x)”.)
+Withthisview,thedistributionofY = f(X),P ,canbederivedfromthedistributionofX asfollows:
+Y
+P [Y =y]= ∑ P [X =x]. (1)
+Y X
+x:f(x)=y
+Fromthis,weobservethat
+E[Y]=∑y P [Y =y]=∑ ∑ y P [X =x]=∑f(x)P [X =x].
+Y X X
+y y x:f(x)=y x
+Thefirstequalityisbythedefinitionofexpectation,thesecondis(1),andthelastcomesbyobservingthat
+eachvalueofxisincludedexactlyonceintheinnersummation. 因此,wehavethefollowingidentity:
+E[f(X)]=∑f(x)P [X =x].
+X
+x
+Inwords: tocomputetheexpectationof f(X),wetakethesameweightedaverageasintheusualexpectation
+of X, 但是 replace the value x of X by f(x). (This identity is sometimes called the Law of the Unconscious
+Statistician(LOTUS)asitisusefulandusedwithoutmuchthoughtattimes.)
+Anexamplethatwewilluseextensivelyisthefollowing. Foranyr.v.X,wehaveE(cid:2) X2(cid:3) =∑
+x
+x2P
+X
+[X =x].
+Warning: 笔记 that E(cid:2) X2(cid:3) is 非 the same as (E[X])2. Similarly, in general, E[f(X)] is 非 the same as
+f(E[X]),除非 f isoftheform f(X)=aX+bwhereaandbareconstants.
+Random Variables: 方差 和 Covariance
+Wehaveseeninthepreviousnotethatifwetakeabiasedcointhatcomesupheadswithprobability pand
+tossitntimes,thentheexpectednumberofheadsisnp. Whatthismeansisthatifwerepeattheexperiment
+multipletimes,whereineachexperimentwetossthecoinntimes,thenonaveragewegetnpheads. Butin
+any single experiment, the number of heads observed can be any value between 0 和 n. What can we say
+about how far off we are from the expected value? 即, what is the typical deviation of the number of
+headsfromnp?
+CS70,Spring2026,Note17 1
+
+1 条件的 期望 和 the Law of Total 期望
+LetX andY berandomvariablesdefinedonthesameprobabilityspace,takingvaluesinA andB,respec-
+tively. 给定 their joint 分布 {((a,b),P[X =a,Y =b]):a∈A, b∈B}, we 定义 the 条件的
+probabilityofX =agivenY =b(forP[Y =b]>0)as
+P[X =a,Y =b]
+P[X =a|Y =b]= .
+P[Y =b]
+Thisleadstothenotionofconditionalexpectation:
+定义 17.1 (条件的 期望). 对于 any b∈B with P[Y =b]>0, the 条件的 期望
+ofX givenY =bis
+E[X |Y =b]= ∑ a·P[X =a|Y =b].
+a∈A
+因此, E[X |Y =b] is simply the expected value of X conditioned on the eventY =b. 对于 each fixed b, it
+satisfiestheusualpropertiesofexpectation,suchaslinearity.
+Nowdefinetherandomvariable
+f(Y)=E[X |Y].
+Thatis, f(Y)takesthevalueE[X |Y =b]whenY =b. 因为 f(Y)isafunctionoftherandomvariableY,it
+isitselfarandomvariabledefinedonthesameprobabilityspace. Itsexpectationisgivenby
+E[f(Y)]= ∑ f(b)P[Y =b]= ∑ E[X |Y =b]P[Y =b]. (2)
+b∈B b∈B
+ThefollowingtheoremshowsthatthisquantityequalsE[X].
+Theorem17.1(LawofTotalExpectation). IfE[|X|]<∞,那么
+E[X]=E[E[X |Y]].
+(ThisisalsoknownastheLawofIteratedExpectationortheTowerRule.)
+证明. Using(2),wehave
+E[E[X |Y]]= ∑ E[X |Y =b]P[Y =b]
+b∈B
+= ∑ ∑ aP[X =a|Y =b]P[Y =b]
+b∈Ba∈A
+= ∑ a ∑ P[X =a|Y =b]P[Y =b]
+a∈A b∈B
+= ∑ aP[X =a]
+a∈A
+=E[X].
+Inthethirdlineweinterchangetheorderofsummation,andthefourthlinefollowsfromtheTotalProbability
+Rule.
+Asaresult,Theorem17.1impliesthatwecancomputeE[X]as
+E[X]= ∑ E[X |Y =b]P[Y =b], (3)
+b∈B
+whichisoftenusefulbecauseconditioningonY =bcansimplifythecomputation.
+CS70,Spring2026,Note17 2
+
+2 Random Walk
+令 us 考虑 a simpler setting 即 等价 to tossing a fair coin n times, 但是 is easier to picture.
+Supposewehaveaparticlethatstartsatposition0andperformsarandomwalkinonedimension. Ateach
+time step, the particle moves either one step to the right 或 one step to the left with equal 概率 (this
+kindofrandomwalkiscalledsymmetric),andthemoveateachtimestepisindependentofallothermoves.
+We think of these random moves as taking place according to whether a fair coin comes up heads 或 tails.
+The expected position of the particle after n moves is back at 0, 但是 how far from 0 should we typically
+expecttheparticletoendup?
+Denotingaright-moveby+1andaleft-moveby−1, wecandescribetheprobabilityspacehereastheset
+ofallsequencesoflengthnoverthealphabet{±1},eachhavingequalprobability 1. Letther.v.S 表示
+2n n
+thepositionoftheparticle(relativetoourstartingpoint0)afternmoves. 因此,wecanwrite
+S =X +X +···+X , (4)
+n 1 2 n
+whereX =+1iftheithmoveistotherightandX =−1ifthemoveistotheleft.
+i i
+TheexpectationofS canbeeasilycomputedasfollows. SinceE[X]=(1×1)+(1×(−1))=0,applying
+n i 2 2
+linearityofexpectationimmediatelygivesE[S
+n
+]=∑ n
+i=1
+E[X
+i
+]=0. Butofcoursethisisnotveryinformative,
+andisduetothefactthatpositiveandnegativedeviationsfrom0cancelout.
+Whatwearereallyaskingis: Whatistheexpectedvalueof|S |,thedistanceoftheparticlefrom0?
+n
+Ratherthanconsiderther.v.|S |,whichisalittledifficulttoworkwithduetotheabsolutevalueoperator,we
+n
+will instead look at the r.v. S2. Notice that this also has the effect of making all deviations from 0 正的,
+n
+所以 it should also give a good measure of the distance from 0. 然而, because it is the squared distance,
+wewillneedtotakeasquarerootattheend.
+Wewillnowshowthattheexpectedsquareddistanceafternstepsisequalton:
+Proposition17.1. FortherandomvariableS
+definedin(4),wehaveE(cid:2) S2(cid:3)
+=n.
+n n
+证明. Weusetheexpressionfrom(4)andexpandthesquare:
+(cid:34) (cid:35)
+n n
+E(cid:2) S2(cid:3) =E(cid:2) (X +X +···+X )2(cid:3) =E ∑X2+2∑XX = ∑E(cid:2) X2(cid:3) +2∑E[XX ]. (5)
+n 1 2 n i i j i i j
+i=1 i<j i=1 i<j
+In the last equality 我们有 used linearity of 期望. To proceed, we need to 计算
+E(cid:2) X2(cid:3)
+和
+i
+E[XX ] 对于 i̸= j. 因为 X can take on only values ±1, clearly X2 =1 always, 所以 E(cid:2) X2(cid:3) =1. To 计算
+i j i i i
+E[XX ]fori̸= j,noteXX =+1whenX =X =+1orX =X =−1,andotherwiseXX =−1. 因此,
+i j i j i j i j i j
+P[XX =1]=P[(X =X =+1)∨(X =X =−1)]
+i j i j i j
+=P[X =X =+1]+P[X =X =−1]
+i j i j
+=P[X =+1]×P[X =+1]+P[X =−1]×P[X =−1]
+i j i j
+1 1 1
+= + = ,
+4 4 2
+wherethesecondequalityfollowsfromthefactthattheeventsX =X =+1andX =X =−1aremutually
+i j i j
+exclusive, 当...时 the third equality follows from the independence of the events X =+1 和 X =+1, 和
+i j
+likewise 对于 the events X =−1 和 X =−1. 因为 the only other possible value 对于 XX is −1, we must
+i j i j
+CS70,Spring2026,Note17 3
+
+also have P[XX = −1] = 1, 和 因此 E[XX ] = 0. [笔记: Later we will see a much simpler way to
+i j 2 i j
+computeE[XX ]usingthefactthatX andX areindependent.]
+i j i j
+Finally, plugging E(cid:2) X
+i
+2(cid:3) =1 和 E[X
+i
+X
+j
+]=0, 对于 i̸= j, into (5) gives E(cid:2) S
+n
+2(cid:3) =∑ n
+i=1
+1+2∑
+i<j
+0=n, as
+claimed.
+所以, 对于 the 对称的 random walk 例子, we see that theexpectedsquareddistancefrom0isn. One
+√
+interpretationofthisisthatwemightexpecttobeadistanceofabout nawayfrom0afternsteps. 然而,
+wehavetobecarefulhere: wecannotsimplyarguethatE[|S |]= (cid:112)E[S2]= √ n. (Whynot?) Wewillsee
+n n
+later in the course how to make precise deductions about |S | from knowledge of
+E(cid:2) S2(cid:3)
+. 对于 the moment,
+n n
+然而,letusagreetoviewE(cid:2) S2(cid:3)
+asanintuitivemeasureof“spread”ofther.v.S .
+n n
+对于 a more general r.v. X with 期望 E[X]=µ, what we are really interested in is E(cid:2) (X−µ)2(cid:3) , the
+expectedsquareddistancefromthemean. Inoursymmetricrandomwalkexample,wehaveE[S ]=µ =0,
+n
+soE(cid:2)
+(S
+−µ)2(cid:3) justreducestoE(cid:2) S2(cid:3)
+.
+n n
+Definition17.2(方差). Forar.v.X withexpectationE[X]=µ,thevarianceofX isdefinedtobe
+Var(X)=E(cid:2) (X−µ)2(cid:3)
+.
+(cid:112)
+Thesquarerootσ(X):= Var(X)iscalledthestandarddeviationofX.
+Thepointoftakingthesquarerootofvarianceistoputthestandarddeviation“onthesamescale”asther.v.
+itself. 因为 the 方差 和 标准差 differ just by a square, it really doesn’t matter 其中 one
+we choose to work with as we can always 计算 one from the other. We shall usually use the 方差.
+Fortherandomwalkexampleabove,Proposition17.1impliesthatVar(S )=n,andthestandarddeviation
+√ n
+isσ(S )= n.
+n
+Thefollowingobservationprovidesaslightlydifferentwaytocomputethevariance,whichsometimesturns
+outtobesimpler.
+Theorem17.2. Forar.v.X withexpectationE[X]=µ,wehaveVar(X)=E(cid:2) X2(cid:3) −µ2.
+证明. Fromthedefinitionofvariance,wehave
+Var(X)=E(cid:2) (X−µ)2(cid:3) =E(cid:2) X2−2µX+µ2(cid:3) =E(cid:2) X2(cid:3) −2µE[X]+µ2=E(cid:2) X2(cid:3) −µ2.
+In the third equality, we used linearity of 期望; 笔记 that, 因为 µ = E[X] is a 常数, E[µX] =
+µE[X]=µ2 andE(cid:2) µ2(cid:3) =µ2.
+Another important property that will come in handy is the following: 对于 any random 变量 X 和 con-
+stantc,wehave
+Var(cX)=c2Var(X). (6)
+Verifyingthisisstraightforwardandleftasanexercise.
+3 方差 Computation
+Letusseesomeexamplesofvariancecalculations.
+CS70,Spring2026,Note17 4
+
+1. Fairdie. LetX bethescoreontherollofasinglefairdie. RecallfromthepreviousnotethatE[X]= 7.
+SowejustneedtocomputeE(cid:2) X2(cid:3)
+,whichisaroutinecalculation:
+2
+E(cid:2) X2(cid:3)
+=
+1(cid:0) 12+22+32+42+52+62(cid:1)
+=
+91
+.
+6 6
+因此,fromTheorem17.2,
+Var(X)=E(cid:2) X2(cid:3) −(E[X])2= 91 − 49 = 35 .
+6 4 12
+2. Uniformdistribution. Moregenerally,supposeX isauniformrandomvariableontheset{1,...,n},
+written X ∼均匀的{1,...,n}, 所以 X takes on values 1,...,n with equal 概率 1. The mean,
+n
+varianceandstandarddeviationofX aregivenby:
+(cid:114)
+n+1 n2−1 n2−1
+E[X]= , Var(X)= , σ(X)= . (7)
+2 12 12
+Youshouldverifytheseasanexercise. [Recallthat∑ n i= n(n+1) 和∑ n i2= n(n+1)(2n+1) .]
+i=1 2 i=1 6
+3. Fixed points of permutations. 令 X be the number of fixed points in a random permutation of n
+n
+items(i.e.,inthehomeworkpermutationexample,X isthenumberofstudentsinaclassofsizenwho
+n
+receive their own 作业 after shuffling). We saw in the previous 笔记 that E[X ]=1, regardless
+n
+of n. To 计算
+E(cid:2) X2(cid:3)
+, write X =I +I +···+I , 其中 I =1 如果 i is a fixed point, 和 I =0
+n n 1 2 n i i
+otherwise. Thenasusualwehave
+n
+E(cid:2) X2(cid:3) = ∑E(cid:2) I2(cid:3) +2∑E[II ]. (8)
+n i i j
+i=1 i<j
+因为 I is an indicator r.v., 我们有 that E(cid:2) I2(cid:3) =P[I =1]= 1. 对于 i< j, 因为 both I 和 I are
+i i i n i j
+indicators,wecancomputeE[II ]asfollows:
+i j
+1
+E[II ]=P[II =1]=P[I =1∧I =1]=P[bothiand j arefixedpoints]= .
+i j i j i j
+n(n−1)
+Makesurethatyouunderstandthelaststephere! Pluggingthisinto(8)weget
+E(cid:2) X2(cid:3)
+= ∑
+n 1
++2∑
+1
+=
+(cid:18)
+n×
+1 (cid:19)
++
+(cid:20)
+2
+(cid:18) n (cid:19)
+×
+1 (cid:21)
+=1+1=2.
+n n n(n−1) n 2 n(n−1)
+i=1 i<j
+因此, Var(X )=E(cid:2) X2(cid:3) −(E[X ])2 =2−1=1. 即, the 方差 和 the mean are both equal
+n n n
+to 1. Like the mean, the 方差 is also 独立的 of n. Intuitively at least, this means that it is
+unlikelythattherewillbemorethanasmallnumberoffixedpointsevenwhenthenumberofitems,
+n,isverylarge.
+4 Sum of 独立的 Random Variables
+One of the most important 和 useful facts about 方差 is that 如果 a random 变量 X is the sum of
+independentrandomvariablesX=X +···+X ,thenitsvarianceisthesumofthevariancesoftheindividual
+1 n
+r.v.’s. Inparticular,iftheindividualr.v.’sX areidenticallydistributed(i.e.,theyhavethesamedistribution),
+i √
+那么 Var(X)=∑ n
+i=1
+Var(X
+i
+)=n·Var(X
+1
+). This means that the 标准差 is σ(X)= n·σ(X
+1
+).
+CS70,Spring2026,Note17 5
+
+Notethatbycontrast,theexpectedvalueisE[X]=n·E[X ]. Intuitivelythismeansthatwhereastheaverage
+1 √
+value of X grows proportionally to n, the spread of the 分布 grows proportionally to n, 其中 is
+muchsmallerthann. Inotherwords,thedistributionofX tendstoconcentratearounditsmean.
+Letusnowformalizetheseideas. First,wehavethefollowingresultwhichstatesthattheexpectedvalueof
+theproductoftwoindependentrandomvariablesisequaltotheproductoftheirexpectedvalues.
+Theorem17.3. ForindependentrandomvariablesX,Y,wehaveE[XY]=E[X]E[Y].
+证明. Wehave
+E[XY]=∑∑ab×P[X =a,Y =b]
+a b
+=∑∑ab×P[X =a]×P[Y =b]
+a b
+(cid:32) (cid:33)
+(cid:18) (cid:19)
+= ∑a×P[X =a] × ∑b×P[Y =b]
+a b
+=E[X]×E[Y],
+asrequired. Inthesecondlineherewemadecrucialuseofindependence.
+We now use the above 定理 to conclude the nice property that the 方差 of the sum of 独立的
+randomvariablesisequaltothesumoftheirvariances.
+Theorem17.4. ForindependentrandomvariablesX,Y,wehave
+Var(X+Y)=Var(X)+Var(Y).
+证明. FromthealternativeformulaforvarianceinTheorem17.2andlinearityofexpectation,wehave
+Var(X+Y)=E(cid:2) (X+Y)2(cid:3) −(E[X+Y])2
+=E(cid:2) X2(cid:3) +E(cid:2) Y2(cid:3) +2E[XY]−(E[X]+E[Y])2
+=(E(cid:2) X2(cid:3) −E[X]2)+(E(cid:2) Y2(cid:3) −E[Y]2)+2(E[XY]−E[X]E[Y])
+=Var(X)+Var(Y)+2(E[XY]−E[X]E[Y]).
+SinceX,Y areindependent,Theorem17.3impliesthatthefinalterminthisexpressioniszero.
+It is very important to remember that neither of the above two results is 真 in general when X,Y are 非
+独立的. Asasimpleexample,notethatevenfora{0,1}-valuedr.v.X withP[X =1]= p,E(cid:2) X2(cid:3) = p
+isnotequaltoE[X]2= p2 (becauseofcourseX andX arenotindependent!). Thisisincontrasttolinearity
+of 期望, 其中 we saw that the 期望 of a sum of r.v.’s is the sum of the expectations of the
+individualr.v.’s,regardlessofwhetherornotther.v.’sareindependent.
+例子
+令 us return to our motivating 例子 of a 序列 of n coin tosses. 令 X 表示 the number of
+n
+HeadsinntossesofabiasedcoinwithHeadsprobability p(i.e.,X ∼二项的(n,p)). Asusual,wewrite
+n
+X =I +I +···+I ,whereI =1iftheithtossisH,andI =0otherwise.
+n 1 2 n i i
+CS70,Spring2026,Note17 6
+
+We already know E[X
+n
+]=∑ n
+i=1
+E[I
+i
+]=np. We can 计算 Var(I
+i
+)=E(cid:2) I
+i
+2(cid:3) −E[I
+i
+]2 = p−p2 = p(1−p).
+SincetheI
+i
+’sareindependent,byTheorem17.4wegetVar(X
+n
+)=∑ n
+i=1
+Var(I
+i
+)=np(1−p).
+As an 例子, 对于 a fair coin (p = 1) the expected number of Heads in n tosses is n, 和 the standard
+√ 2 2
+deviationis (cid:112)n = n . NotethatsincethemaximumnumberofHeadsisn,thestandarddeviationismuch
+4 2
+less than this maximum number 对于 large n. This is in contrast to the previous 例子 of the uniformly
+(cid:113)
+distributedrandomvariablein(7),wherethestandarddeviationσ(X)= n2−1 ≈ √n (forlargen)isofthe
+12 12
+same order as the largest value, n. In this sense, the spread of a binomially distributed r.v. is much smaller
+thanthatofauniformlydistributedr.v.
+5 Covariance 和 Correlation
+The expression E[XY]−E[X]E[Y] in the 证明 of 定理 17.4 is a measure of association between X,Y,
+andiscalledthecovariance:
+定义 17.3 (Covariance). The covariance of random variables X andY, denoted cov(X,Y), is defined
+as
+cov(X,Y)=E[(X−µ )(Y−µ )]=E[XY]−E[X]E[Y],
+X Y
+whereµ =E[X]和 µ =E[Y].
+X Y
+练习: Checkthattheabovetwoexpressionsforcov(X,Y)areindeedequal.
+Remarks. Wenotesomeimportantfactsaboutcovariance.
+1. IfX,Y areindependent,thencov(X,Y)=0. 然而,theconverseisnottrue.
+2. cov(X,X)=Var(X).
+3. Covarianceisbilinear;i.e.,foranycollectionofrandomvariables{X ,...,X },{Y ,...,Y }andfixed
+1 n 1 m
+constants{a ...,a },{b ,...,b },
+1 n 1 m
+cov(∑ n i=1 a i X i ,∑ m j=1 b j Y j )=∑ n i=1 ∑ m j=1 a i b j cov(X i ,Y j ).
+ForgeneralrandomvariablesX andY,
+Var(X+Y)=Var(X)+Var(Y)+2cov(X,Y).
+Whilethesignofcov(X,Y)(positiveornegative)isinformativeofhowX andY areassociated,itsmagnitude
+isdifficulttointerpret. Astatisticthatiseasiertointerpretiscorrelation:
+Definition17.4(Correlation). SupposeX andY arerandomvariableswithσ(X)>0andσ(Y)>0. 那么,
+thecorrelationofX andY isdefinedas
+cov(X,Y)
+Corr(X,Y)= .
+σ(X)σ(Y)
+Correlation is more useful than covariance because the former always ranges between −1 和 +1, as the
+followingtheoremshows:
+Theorem17.5. ForanypairofrandomvariablesX andY withσ(X)>0andσ(Y)>0,
+−1≤Corr(X,Y)≤+1.
+CS70,Spring2026,Note17 7
+
+证明. 令 E[X] = µ
+X
+和 E[Y] = µ
+Y
+, 和 定义 X(cid:101) = (X−µ
+X
+)/σ(X) 和 Y(cid:101) = (Y −µ
+Y
+)/σ(Y). 那么,
+E[X(cid:101) 2]=E[Y(cid:101) 2]=1,所以
+0≤E[(X(cid:101)−Y(cid:101))2]=E[X(cid:101) 2]+E[Y(cid:101) 2]−2E[X(cid:101)Y(cid:101)]=2−2E[X(cid:101)Y(cid:101)]
+0≤E[(X(cid:101)+Y(cid:101))2]=E[X(cid:101) 2]+E[Y(cid:101) 2]+2E[X(cid:101)Y(cid:101)]=2+2E[X(cid:101)Y(cid:101)],
+whichimplies−1≤E[X(cid:101)Y(cid:101)]≤+1. Finally,notethat
+cov(X,Y) E[(X−µ )(Y−µ )] (cid:104) (cid:105)
+Corr(X,Y)= = X Y =E X(cid:101)Y(cid:101) .
+σ(X)σ(Y) σ(X)σ(Y)
+因此,wecandeducethat−1≤Corr(X,Y)≤+1.
+NotethattheaboveproofshowsthatCorr(X,Y)=+1ifandonlyifE[(X(cid:101)−Y(cid:101))2]=0,whichimpliesX(cid:101)=Y(cid:101)
+withprobability1. Similarly,Corr(X,Y)=−1ifandonlyifE[(X(cid:101)+Y(cid:101))2]=0,whichimpliesX(cid:101)=−Y(cid:101) with
+probability1. IntermsoftheoriginalrandomvariablesX,Y,thismeansthefollowing: ifCorr(X,Y)=±1,
+thenthereexistconstantsaandbsuchthat,withprobability1,
+Y =aX+b,
+wherea>0ifCorr(X,Y)=+1anda<0ifCorr(X,Y)=−1. (Thevaluesa,bdependonµ ,µ ,σ(X),σ(Y);
+X Y
+inparticular,a=±σ(Y)
+,wherethesigndependsonwhetherCorr(X,Y)=±1.) ThusX andY differjustby
+σ(X)
+ascalingfactorandashift.
+6 Exercises
+1. ForanyrandomvariableX andconstantc,showthatVar(cX)=c2Var(X).
+2. ForX ∼均匀的{1,...,n},showthatE[X]andVar(X)areasshownin(7).
+CS70,Spring2026,Note17 8
+

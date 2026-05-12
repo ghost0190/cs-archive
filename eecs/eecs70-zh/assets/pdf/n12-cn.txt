@@ -1,0 +1,503 @@
+CS 70 离散数学 和 概率论
+笔记 12
+春季 2026 Course Notes
+Counting
+Thenextmajortopicofthecourseisprobabilitytheory. Supposeyoutossafaircoinathousandtimes. How
+likelyisitthatyougetexactly500heads? Andwhatabout1000heads? Itturnsoutthatthechancesof500
+headsareroughly2.5%,whereasthechancesof1000headsaresoinfinitesimallysmallthatwemayaswell
+say that it is impossible. 但是 before you can learn to 计算 或 estimate odds 或 probabilities you must
+learntocount! Thatisthesubjectofthisnote.
+1 Counting Sequences
+Westartbyconsideringasimplescenario. Wepickk≤nelementsfromann-elementsetS={1,2,...,n}
+oneatatimewhileremovingthesampledelementfromS. Thistypeofsamplingiscalledsamplingwithout
+replacement. We wish to count the number of different ways to do this, taking into account the order in
+其中 the elements are picked. 对于 例子, when k =2, picking 1 和 那么 2 is considered a different
+outcomefrompicking2followedby1. Anotherwaytoaskthequestionisthis: wewishtoformanordered
+序列 of k distinct elements, 其中 each 元素 is picked from the 集合 S. How many different such
+orderedsequencesarethere?
+Ifwewere dealingcards, theset wouldbeS={1,...,52}, 其中 eachnumberrepresentsacard inadeck
+of 52 cards. Picking an 元素 of S in this case refers to dealing one card. 笔记 that once a card is dealt,
+itisnolongerinthedeckandsoitcannotbedealtagain. Sothehandofk cardsthataredealtconsistsofk
+distinctelementsfromthesetS.
+对于 the first card, 容易看出 我们有 52 distinct choices. 但是 now the available choices 对于 the
+secondcarddependuponwhatcardwepickedfirst. Thecrucialobservationisthatregardlessofwhichcard
+we picked first, 存在 exactly 51 choices 对于 the second card. 所以 the total number of ways of choosing
+the first two cards is 52×51. Reasoning in the same way, 存在 exactly 50 choices 对于 the third card,
+regardlessofourchoicesforthefirsttwocards. Itfollowsthatthereareexactly52×51×50sequencesof
+threecards. Ingeneral,thenumberofsequencesofkcardsis52×51×···×[52−(k−1)].
+ThisisanexampleoftheFirstRuleofCounting:
+First Rule of Counting: 如果 an object can be made by a succession of k choices, 其中 存在 n ways
+1
+of making the first choice, 和 对于 every way of making the first choice 存在 n ways of making the
+2
+second choice, 和 对于 every way of making the first 和 second choice 存在 n ways of making the
+3
+third choice, 和 所以 on up to the n -th choice, 那么 the total number of distinct objects that can be made in
+k
+thiswayistheproductn ×n ×n ×···×n .
+1 2 3 k
+HereisanotherwayofpicturingtheFirstRuleofCounting. Considerthefollowingtree:
+CS70,Spring2026,Note12 1
+
+Level1 n 1
+Level2 n 2
+Level3 n 3
+Level4
+It has branching factor n at the 根, n at every 顶点 at the second level,..., n at every 顶点 at the
+1 2 k
+k-thlevel. Eachpathfromtheroottoavertexatlevelk+1(i.e.,aleafvertex)representsonepossibleway
+of making the object by making a succession of k choices. 所以 the number of distinct objects that can be
+madeisequaltothenumberofleavesinthetree. 此外,thenumberofleavesinthetreeistheproduct
+n ×n ×n ×···×n . Forexample,ifn =2,n =2,andn =3,thenthereare12leaves(i.e.,outcomes).
+1 2 3 k 1 2 3
+2 Counting Sets
+考虑 a slightly different 问题. We would like to pick k distinct elements of S={1,2,...,n} (i.e.,
+without repetition), 但是 we do 非 care about the order in 其中 we picked the k elements. 对于 例子,
+picking elements 1,...,k is considered the same 结果 as picking elements 2,...,k 和 picking 1 as the
+last(k-thelement). Nowhowmanywaysaretheretochoosetheseelementstoobtainthesameoutcome?
+When dealing a hand of cards, say a poker hand, it is often more natural to count the number of distinct
+hands(i.e.,thesetof5cardsdealtinthehand),ratherthantheorderinwhichtheyweredealt. Aswehave
+seeninSection1, ifweareconsideringorder, thereare52·51·50·49·48= 52! outcomes. Buthowmany
+47!
+distincthandsof5cardsarethere? Hereisanotherwayofaskingthequestion: eachsuch5cardhandisjust
+asubsetofSofcardinality5. Soweareaskinghowmany5elementsubsetsofSarethere?
+HereisaclevertrickforcountingthenumberofdistinctsubsetsofSwithexactly5elements. Createabin
+correspondingtoeachsuch5elementsubset. Nowtakeallthesequencesof5cardsanddistributetheminto
+thesebinsinthenaturalway: eachsequencegetsplacedinthebincorrespondingtothesetof5elementsin
+the 序列. 因此, 如果 the 序列 is (2,1,3,5,4), 那么 it is placed in the bin labeled {1,2,3,4,5}. How
+manysequencesareplacedineachbin? Theanswerisexactly5!, sincethereareexactly5!differentways
+toorder5cards.
+Recallthatourgoalwastocomputethenumberof5elementsubsets,whichnowcorrespondstothenumber
+ofbins. Weknowthatthereare 52! distinct5-cardsequences,andthereare5!sequencesplacedineachbin.
+47!
+Thetotalnumberofbinsistherefore 52! .
+47!5!
+Thisquantity n! isusedsooftenthatthereisspecialnotationforit: (cid:0)n(cid:1) ,pronounced“nchoosek,”和
+(n−k)!k! k
+it’s known as the 二项的 系数. This is the number of ways of picking k distinct elements from S,
+其中 the order of placement does 非 matter. Equivalently, it’s the number of ways of choosing k objects
+outofatotalofndistinctobjects,wheretheorderofthechoicesdoesnotmatter.
+ThetrickweusedaboveisactuallyourSecondRuleofCounting:
+Second Rule of Counting: 假设 an object is made by a succession of choices, 和 the order in 其中
+the choices are made does 非 matter. 令 A be the 集合 of ordered objects 和 令 B be the 集合 of unordered
+objects. 如果 存在 an m-to-1 函数 f from A to B, we can count the number of ordered objects
+CS70,Spring2026,Note12 2
+
+(pretendingthattheordermatters)anddividebym(thenumberoforderedobjectsperunorderedobjects)to
+obtain|B|,thenumberofunorderedobjects.
+笔记 that we are assuming that the number of ordered objects is the same 对于 every unordered object; the
+rulecannotbeappliedotherwise. HereisanotherwayofpicturingtheSecondRuleofCounting:
+|A|
+A B |B|=
+m
+Thefunction f simplyplacestheorderedoutcomesintobinscorrespondingtotheunorderedoutcomes. In
+our poker hand 例子, f will map 5! elements in the 定义域 of the 函数 (the 集合 of ordered 5 card
+outcomes) to one 元素 in the 值域 (the 集合 of 5-元素 subsets of S). The number of elements in the
+rangeofthefunctionistherefore 52! .
+47!5!
+3 Sampling with Replacement
+Sometimes we wish to 考虑 a different scenario of sampling 其中 after we choose an 元素 from
+S={1,2,...,n},wethrowitbackintoSsothatwecanchooseitagain. Assumethatwearestillpickingk
+elementsoutofS oneatatimeandthatordermatters. Howmanydistinctsequencesofk elementscanwe
+obtainunderthisnewsamplingscheme? WecanusetheFirstRuleofCounting. Sincewehavenchoicesin
+eachtrial,n =n =···=n =n. Thenwehaveagrandtotalofnk sequences.
+1 2 k
+Thistypeofsamplingiscalledsamplingwithreplacement;multipletrialscanhavethesameoutcome. Card
+dealingisatypeofsamplingwithoutreplacement,sincetwotrialscannotbothhavethesameoutcome(one
+cardcannotbedealttwice).
+3.1 Coin Tosses
+令 us return to coin tosses. How many different outcomes are there 如果 we toss a coin k times? By an
+结果, we mean a length-k 序列 consisting of heads 和 tails. 假设 we represent each 结果
+by a binary string of length k 其中 0 corresponds to a tail (T) 和 1 a head (H). 对于 例子, the string
+001 would represent an 结果 of 2 tails followed by a head. The following 树, in 其中 the leaves are
+in1-to-1correspondencewiththesetofpossibleoutcomes,illustratestheexperimentfork=3:
+T H
+T H T H
+T H T H T H T H
+000 001 010 011 100 101 110 111
+Here S={0,1}. This is a case of sampling with replacement; multiple coin flips could result in tails (we
+couldpicktheelement0fromthesetSinmultipletrials). Orderalsomatters;e.g.,strings001and010are
+CS70,Spring2026,Note12 3
+
+considereddifferentoutcomes. Bythereasoningabove(usingtheFirstRuleofCounting)wehaveatotalof
+nk =2k distinctoutcomes,sincen=2.
+3.2 Rolling Dice
+令’ssaywerolltwodice,sok=2andS={1,2,3,4,5,6}. Howmanypossibleoutcomesarethere? Inthis
+setting, ordering matters; obtaining 1 with the first die 和 2 with the second is different from obtaining 2
+withthefirstand1withthesecond. Wearesamplingwithreplacement,sincewecanobtainthesameresult
+onbothdice.
+The setting is 因此 the same as the coin flipping 例子 above (order matters 和 we are sampling
+with replacement), 所以 we can use the First Rule of Counting in the same manner. The number of distinct
+outcomesisthereforen2=62=36.
+3.3 Sampling with Replacement, 但是 其中 Order Does 非 Matter
+Say you have unlimited quantities of apples, bananas 和 oranges. You want to select 5 pieces of fruit to
+makeafruitsalad. Howmanywaysaretheretodothis? Inthisexample,S={1,2,3},where1represents
+apples, 2 represents bananas, 和 3 represents oranges. k = 5 因为 we wish to select 5 pieces of fruit.
+Ordering does 非 matter; selecting an apple followed by a banana will lead to the same salad as a banana
+followedbyanapple.
+Thisscenarioistrickiertoanalyze. ItmayseemnaturaltoapplytheSecondRuleofCountingbecauseorder
+does 非 matter. 令’s considerthis method. We first pretend thatorder matters 和 observe thenumber of
+orderedobjectsis35 asdiscussedabove. Howmanyorderedoptionsarethereforeveryunorderedoption?
+Theproblemisthatthisnumberdiffersdependingonwhichunorderedobjectweareconsidering. 令’ssay
+theunorderedobjectisanoutcomewith5bananas. Thereisonlyonesuchorderedoutcome. Butifweare
+considering4bananasand1apple,thereare5suchorderedoutcomes(representedas12222,21222,22122,
+22212,22221).
+NowthatweseetheSecondRuleofCountingwillnothelp,canwelookatthisprobleminadifferentway?
+Letusfirstgeneralizebacktoouroriginalsetting: wehaveasetS={1,2,...,n}andwewouldliketoknow
+howmanywaystherearetochoosemultisets(setswithrepetition)ofsizek. Remarkably,wecanmodelthis
+problemintermsofbinarystrings,asdescribedbelow.
+假设 我们有 one bin 对于 each 元素 of S, 所以 n bins in total. 对于 例子, 如果 we selected 2 apples
+和 1 banana, bin 1 would have 2 elements 和 bin 2 would have 1 元素. In order to count the number
+of multisets, we need to count how many different ways 存在 to fill these bins with k elements. We
+don’tcareabouttheorderofthebinsthemselves,justhowmanyofthek elementseachbincontains. 令’s
+represent each of the k elements by a 0 in the binary string, 和 separations between bins by a 1. The
+followingpictureillustratesanexampleofplacementwhereS={1,...,5}andk=4:
+00110110
+Countingthenumberofmultisetsisnowequivalenttocountingthenumberofplacementsofthek 0’s. We
+have just reducedwhat seemed like a very complexproblem to a 问题 about abinary string, simply by
+lookingatitfromadifferentperspective!
+CS70,Spring2026,Note12 4
+
+How many ways can we choose these locations? The length of our binary string is k+n−1, 和 we are
+choosingwhichklocationsshouldcontain0’s. Theremainingn−1locationswillcontain1’s. Oncewepick
+a location 对于 one zero, we cannot pick it again; repetition is 非 allowed. Picking location 1 followed by
+location 2 is the same as picking location 2 followed by location 1, 所以 ordering does 非 matter. It follows
+that all we wish to 计算 is the number of ways of picking k elements from k+n−1 elements, without
+replacement 和 其中 the order of placement does 非 matter. This is 给定 by
+(cid:0)n+k−1(cid:1)
+, as discussed in
+k
+Section2. ThisisthereforethenumberofwaysinwhichwecanchoosemultisetsofsizekfromsetS.
+Returningtoourexampleabove,thenumberofwaysofpicking5piecesoffruitisexactly
+(cid:0)3+5−1(cid:1)
+=
+(cid:0)7(cid:1)
+.
+5 5
+Noticethatwestartedwithaproblemwhichseemedverydifferentfrompreviousexamples,但是,byviewing
+itfromacertainperspective,wewereabletouseprevioustechniques(thoseusedincountingsets)tofinda
+解答!
+Inasense,wehavefoundthezerothruleofcounting:
+ZerothRuleofCounting: IfasetAcanbeplacedintoaone-to-onecorrespondencewithasetB(i.e.,you
+can 求 a bijection between the two—an invertible pair of maps that map elements of A to elements of B
+andvice-versa),那么|A|=|B|.
+This is the very heart of what it means to count 和 is key to many combinatorial arguments, as we will
+explorefurtherinthenextsection.
+4 Combinatorial Proofs
+Combinatorial proofs are interesting because they rely on intuitive counting arguments rather than tedious
+algebraicmanipulation. Theyoftenfeellikeproofsbystories—thesamestory,toldfrommultiplepointsof
+view.
+Asawarm-up,令’sprovetheBinomialTheoremusingcountingarguments:
+Theorem12.1(BinomialTheorem). Foralln∈N,
+n (cid:18) n (cid:19)
+(a+b)n= ∑ akbn−k.
+k
+k=0
+证明. Theleft-handsidecanbewrittenasthen-foldproduct(a+b)(a+b)···(a+b). Labelthesenfactors
+as f ,f ,...,f . When (a+b)(a+b)···(a+b) is expanded out via multiplication, it will result in a sum
+1 2 n
+over 2n monomials, 和 to each monomial in the sum, each factor f contributes either an a 或 a b. 对于
+i
+例子,in(a+b)(a+b)=a2+ab+ba+b2,a2 isformedbymultiplyingafrom f andafrom f ;abis
+1 2
+formedbymultiplyingafrom f andbfrom f ;baisformedbymultiplyingbfrom f andafrom f ;b2 is
+1 2 1 2
+formedbymultiplyingbfrom f andbfrom f . Ingeneral,themonomialakbn−k isobtainedwhenkcopies
+1 2
+ofa’sandn−k copiesofb’saremultiplied. Thereareexactly
+(cid:0)n(cid:1)
+waystochoosek copiesofa’sandn−k
+k
+copiesofb’sfromthenfactors f ,f ,...,f .
+1 2 n
+This well-known result has numerous applications. 对于 例子, the following combinatorial identity can
+beeasilyderivedusingTheorem12.1:
+Corollary12.1. Foralln∈N,
+n (cid:18) n (cid:19)
+∑(−1)k =0.
+k
+k=0
+CS70,Spring2026,Note12 5
+
+证明. Seta=−1andb=1inTheorem12.1.
+In what follows, we will 考虑 more sophisticated versions of combinatorial proofs. The key idea is to
+证明 that the two sides of a 给定 方程 correspond to two different ways to count the same kind of
+objects. Inmoreadvancedsettings,thegoalistoestablishabijectionbetweenthesetofobjectscountedon
+the left-hand side of an identity with the 集合 of objects counted on the right-hand side. We illustrate these
+conceptsbelow.
+4.1 Combinatorial Identities
+Usingcombinatorialarguments,wecanprovecomplexfacts,suchas
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+n n−1 n−2 k
+= + +···+ , (1)
+k+1 k k k
+whichisknownasthehockey-stickidentity. Youcandirectlyverifythisidentitybyalgebraicmanipulation.
+但是 you can also do this by interpreting what each side means as a combinatorial process. The left-hand
+sideof(1)isjustthenumberofwaysofchoosingasubsetX withk+1elementsfromasetS={1,...,n}.
+Letusthinkaboutadifferentprocessthatresultsinthechoiceofasubsetwithk+1elements. Westartby
+pickingthelowest-numberedelementofX. Ifwepicked1,tofinishconstructingX,wemustnowchoosek
+elementsoutoftheremainingn−1elementsofSgreaterthan1;thiscanbedonein
+(cid:0)n−1(cid:1)
+ways. Ifinstead
+k
+the lowest-numbered 元素 we picked is 2, 那么 我们有 to choose k elements from the remaining n−2
+elementsofSgreaterthan2,whichcanbedonein
+(cid:0)n−2(cid:1)
+ways. Moreoverallthesesubsetsaredistinctfrom
+k
+those 其中 the lowest-numbered 元素 was 1. 所以 we should add the number of ways of choosing each
+to the grand total. Proceeding in this way, we split up the process into cases according to the first (i.e.,
+lowest-numbered)objectweselect,toobtain:
+
+ element1, leadingto
+(cid:0)n−1(cid:1)
+remainingways,
+  k
+
+
+
+  element2, leadingto
+(cid:0)n−2(cid:1)
+remainingways,
+  k
+
+Firstelementselectedis element3, leadingto (cid:0)n−3(cid:1) remainingways,
+k
+
+    . . . . . .
+
+
+
+ 
+ 元素(n−k), leadingto
+(cid:0)k(cid:1)
+remainingways.
+k
+These factors correspond to the terms on the right-hand side of (1). (笔记 that the lowest-numbered object
+weselectcannotbehigherthann−kaswehavetoselectk+1distinctobjects.)
+Anothercombinatorialidentitywewillproveis
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+n n n
++ +···+ =2n. (2)
+0 1 n
+This identity actually follows immediately from setting a=1 和 b=1 in the 二项的 定理 above,
+但是 we will provide a more direct combinatorial 证明. 假设 我们有 a 集合 S with n distinct elements.
+On the left-hand side of (2),
+(cid:0)n(cid:1)
+counts the number of ways of choosing a 子集 of S of size exactly i; 所以
+i
+thesumontheleft-handsidecountsthetotalnumberofsubsets(ofanysize)ofS.
+Weclaimthattheright-handsideof(2)doesindeedalsocountthetotalnumberofsubsets. Toseethis,just
+identifyasubsetwithann-bitvector,whereineachposition jweputa1ifthe j-thelementisinthesubset,
+CS70,Spring2026,Note12 6
+
+Table1: Permutationsof{1,2,3}andthenumberoffixedpoints.
+(π ,π ,π ) #fixedpoints
+1 2 3
+(1,2,3) 3
+(1,3,2) 1
+(2,1,3) 1
+(2,3,1) 0
+(3,1,2) 0
+(3,2,1) 1
+anda0otherwise. Sothenumberofsubsetsisequaltothenumberofn-bitvectors,whichis2n (thereare2
+optionsforeachbit).
+令 us look at an 例子, 其中 S = {1,2,3} (所以 n = 3). Enumerate all 23 = 8 possible subsets of S:
+∅,{1},{2},{3},{1,2},{1,3},{2,3},{1,2,3}. The eight 3-bit vectors corresponding to these subsets are
+(0,0,0),(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(1,1,1), respectively. On the left-hand side of
+(2),theterm
+(cid:0)3(cid:1)
+countsthenumberofwaystochooseasubsetofSwith0elements;thereisonlyonesuch
+0
+子集,namelytheemptyset∅={}. Thereare (cid:0)3(cid:1) =3waysofchoosingasubsetwith1element, (cid:0)3(cid:1) =3
+1 2
+waysofchoosingasubsetwith2elements,和
+(cid:0)3(cid:1)
+=1wayofchoosingasubsetwith3elements(即,
+3
+thesubsetconsistingofeveryelementofS). Summing,weget1+3+3+1=8,asexpected.
+4.2 Permutations 和 Derangements
+问题: Supposewecollectthehomeworksofnstudents,randomlyshufflethem,andreturnthemtothe
+students. 如果 we repeated this experiment many times, 那么 on average how many students would receive
+theirownhomework?
+At first this may seem like a rather challenging 题目, 但是 you will be able to 答案 this 问题 in a
+fewlineslaterinthecourseonceyouhavesomebasictoolsofprobabilitytheoryunderyourbelt. Fornow,
+令’stranslatethequestionintoamathematicalstatementandconsiderarelatedcountingproblem.
+Label the homeworks as 1,2,...,n 和 令 π 表示 the 作业 即 returned to the i-th student.
+i
+那么, thevectorπ =(π ,...,π )correspondstoapermutationoftheset{1,...,n}. Notethatπ ,...,π ∈
+1 n 1 n
+{1,2,...,n} are all distinct, 所以 each 元素 in {1,...,n} appears exactly once in the permutation π. In
+total,therearen!distinctpermutationsof{1,...,n}.
+In this setting, the i-th student receives their own 作业 如果 和 only 如果 π =i. 那么 the 问题 “How
+i
+manystudentsreceivetheirownhomework?” translatesintothequestionofhowmanyindices(i’s)satisfy
+π =i. Theseareknownasfixedpointsofthepermutationπ. Toillustratetheideaconcretely,letusconsider
+i
+the 例子 n=3. 表 1 shows a 完全的 list of all 3!=6 permutations of {1,2,3}, together with the
+correspondingnumberoffixedpoints.
+Wenowconsideraninterestingcountingproblemconcerningderangements,whicharedefinedasfollows.
+Definition12.1(Derangement). Apermutationwithnofixedpointsiscalledaderangement.
+LetD denotethenumberofderangementsof{1,2,...,n}. AscanbeseeninTable1,D =2;specifically,
+n 3
+the derangements are (2,3,1) 和 (3,1,2). Our goal is to 求 a formula 对于 D as a 函数 of n 对所有
+n
+n∈Z+. Wewilllearntwodifferentwaystosolvethisproblem.
+CS70,Spring2026,Note12 7
+
+Thefirstmethodinvolvesacombinatorialproof. Forconcreteness,令’sconsiderthecaseofn=4. Table2a
+lists all derangements of {1,2,3,4}, with each row corresponding to a derangement. In the first derange-
+ment, 笔记 that the entries shown in blue corresponds to a derangement of {1,2}. In the second 和 third
+derangements, the entries shown in red are in 1-to-1 correspondence with the derangements of {1,2,3},
+showninTable2b. Notethatthered4inTable2asatisfiesthesameconstraintasthenumber3inTable2b;
+specifically, π ̸=4 in the former 和 π ̸=3 in the latter. In summary, the above 讨论 suggests that
+3 3
+D isrelatedtoD andD . Thefollowingtheoremformalizesthisrelationship.
+4 2 3
+Table2: Listofderangements. (a)n=4. (b)n=3.
+(a) (b)
+π π π π π π π
+1 2 3 4 1 2 3
+2 1 4 3 2 3 1
+2 4 1 3 3 1 2
+4 1 2 3
+4 3 2 1
+3 4 2 1
+2 3 4 1
+3 4 1 2
+4 3 1 2
+3 1 4 2
+Theorem12.2. Foranarbitrarypositiveintegern≥3,thenumberD ofderangementsof{1,...,n}satisfies
+n
+D =(n−1)(D +D ). (3)
+n n−1 n−2
+证明. Weprovideacombinatorialproofbyestablishingrelevantbijections. Inaderangement(π ,...,π )
+1 n
+of {1,...,n}, 假设 π = j ∈{1,...,n−1}; i.e., j is what n maps to under the permutation. 存在
+n
+n−1 choices 对于 j, 和 this gives rise to the multiplicative factor (n−1) in (3). (The case of j = n is
+excluded, 因为 a derangement cannot have π =n.) 对于 a 给定 value of j∈{1,...,n−1}, 存在 two
+n
+casestoconsider:
+Case1: 如果 π = n, 那么 j 和 n get swapped, 和 存在 a 1-to-1 correspondence between the 集合 of
+j
+derangementsoftheremainingelementsandthesetofderangementsof{1,...,n−2}. Thisgivesriseto
+D .
+n−2
+Case2: 如果 π ̸=n, 那么 n satisfies the same constraint as j, 所以 存在 a 1-to-1 correspondence between
+j
+thesetofderangementsof{1,...,j−1,j+1,...,n}andthesetofderangementsof{1,...,n−1}. This
+givesrisetoD .
+n−1
+Thiscompletesourderivationof(3).
+TogetherwiththeboundaryconditionsD =0andD =1(checkthis),D canbedeterminedefficiently(in
+1 2 n
+lineartimeinn)usingtherecursionin(3)andmemoization. Infact,therecursioncanbesolvedanalytically
+toyield(seeExercise2)anexplicitformula:
+n (−1)k
+D =n!∑ . (4)
+n
+k!
+k=0
+CS70,Spring2026,Note12 8
+
+Comingupwiththerecursionin(3)andsolvingitrequiresomecreativity. Asmentionedearlier,thereisan
+alternatewaytotacklethiscountingproblem,whichturnsouttobeamorestraightforwardapproach. This
+alternatemethodutilizesapowerfultoolcalledtheprincipleofinclusion-exclusion,whichwenowdescribe.
+5 The Principle of Inclusion-Exclusion
+Inthissectionwewilllearnausefulformulathatcanbeemployedtocountobjectswithoutover-counting.
+Westartwithafamiliarexample. LetA andA betwosubsetsofthesamefinitesetA,andsupposewewant
+1 2
+to count the number of elements in A ∪A . 如果 A 和 A are disjoint, 那么 clearly |A ∪A |=|A |+|A |.
+1 2 1 2 1 2 1 2
+IfA andA havecommonelements,然而,thenthoseelementswouldbecountedtwiceintheprevious
+1 2
+formula. Tocorrectforthisovercounting,weneedtosubtract|A ∩A |from|A |+|A |,thusyielding
+1 2 1 2
+|A ∪A |=|A |+|A |−|A ∩A |.
+1 2 1 2 1 2
+Theprincipleofinclusion-exclusiongeneralizesthisconcepttoanarbitrarynumberofsubsets.
+Theorem12.3(Inclusion-Exclusion). LetA ,...,A bearbitrarysubsetsofthesamefinitesetA. 那么,
+1 n
+n
+|A ∪···∪A |= ∑(−1)k−1 ∑ |∩ A|. (5)
+1 n i∈S i
+k=1 S⊆{1,...,n}:|S|=k
+Remarks:
+1. The inner summation in (5) is over all size-k subsets of {1,2,...,n}. More explicitly, (5) can be
+writtenas
+n
+|A ∪···∪A |= ∑|A| −∑|A ∩A | + ∑ |A ∩A ∩A | − ∑ |A ∩A ∩A ∩A | +···
+1 n i i j i j k i j k l
+i=1 i<j i<j<k i<j<k<l
++(−1)n−1|A ∩A ∩···∩A |, (6)
+1 2 n
+其中∑ denotessummingoveralli,j∈{1,...,n}suchthati< j,andsoon.
+i<j
+2. ThestandardwaytoproveTheorem12.3isviainductiononn. Here,wewillprovideacombinatorial
+证明.
+证明. First, 笔记 that 如果 a∈/ A ∪···∪A , 那么 a∈/ A 对所有 i∈{1,...,n} 和 因此 a∈/ ∩ A 对于 any
+1 n i i∈S i
+S⊆{1,...,n},soitisnotcountedbytheright-handside(RHS)of(5). Wenowshowthatifa∈A ∪···∪A ,
+1 n
+thenitiscountedexactlyoncebytheRHS.DefinetheindexsetM⊆{1,...,n}as
+M={i∈{1,...,n}|a∈A};
+i
+thatis, a∈A ifandonlyifi∈M. Notethatm:=|M|≥1, sincea∈A ∪···∪A . Clearly, ifS̸⊆M, 那么
+i 1 n
+a∈/ ∩ A (i.e., 如果 S contains an index i 非 in M, 那么 a∈/ A, 所以 a∈/ ∩ A). 此外, a∈∩ A 对于
+i∈S i i i∈S i i∈S i
+anynon-emptysubsetS⊆M. 因此,thenumberoftimesthataiscountedontheRHSof(5)is
+m m (cid:18) m (cid:19)
+∑(−1)k−1 ∑ 1 = ∑(−1)k−1 = 1,
+k
+k=1 S⊆M:|S|=k k=1
+wherethefirstequalityfollowsfromthefactthatthenumberofdistinctk-elementsubsetsofMis
+(cid:0)m(cid:1)
+,当...时
+k
+thesecondequalityfollowsfromCorollary12.1.
+CS70,Spring2026,Note12 9
+
+Application: DerangementsRevisited
+We now illustrate the power of 定理 12.3 by applying it to derive the formula shown in (4) 对于 the
+numberD ofderangementsof{1,...,n}.
+n
+令 A 表示 the 集合 of all permutations of {1,...,n} with i being a fixed point. 那么, 因为 存在 n!
+i
+distinct permutations of {1,...,n} 和 |A ∪A ∪···∪A | counts the number of permutations with at least
+1 2 n
+onefixedpoint,wehave
+D =n!−|A ∪A ∪···∪A |. (7)
+n 1 2 n
+WhatisthecardinalityofA? Weknowthatimapstoi,whiletheremainingn−1elementscanbearranged
+i
+inanarbitraryway. 所以,|A|=(n−1)!. Similarly,fori̸= j,imapstoiand jmapsto j,whiletheremaining
+i
+n−2 elements can be arranged in an arbitrary way, 所以 我们得出结论 |A ∩A |=(n−2)!. In general, 对于
+i j
+any 子集 S⊆{1,...,n} of size |S|=k, |∩ A|=(n−k)!, 当...时 存在
+(cid:0)n(cid:1)
+such subsets. 因此, the
+i∈S i k
+inclusion-exclusionformulafrom(5)gives
+n (cid:18) n (cid:19) n n! n (−1)k−1
+|A ∪A ∪···∪A |= ∑(−1)k−1 (n−k)!= ∑(−1)k−1 (n−k)!=n!∑ .
+1 2 n
+k k!(n−k)! k!
+k=1 k=1 k=1
+Substitutingthisresultinto(7)gives
+n (−1)k−1 n (−1)k
+D =n!−n!∑ =n!∑ .
+n
+k! k!
+k=1 k=0
+6 Exercises
+1. ProvideadirectcombinatorialproofofCorollary12.1.
+2. Using (3) 和 the boundary conditions D = 0 和 D = 1, derive (4). [提示: 对于 n ≥ 2, 定义
+1 2
+Q =D −nD andobtainarecursionforQ .]
+n n n−1 n
+3. ProveTheorem12.3usinginduction.
+CS70,Spring2026,Note12 10
+

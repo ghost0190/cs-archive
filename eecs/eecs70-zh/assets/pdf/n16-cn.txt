@@ -1,0 +1,602 @@
+CS 70 离散数学 和 概率论
+笔记 16
+春季 2026 Course Notes
+Random Variables: 分布 和 期望
+Recall our setup of a probabilistic experiment as a procedure of drawing a sample from a 集合 of possible
+values, andassigning aprobabilityforeachpossible outcomeoftheexperiment. Forexample, 如果 wetossa
+faircoinntimes,thenthereare2npossibleoutcomes,eachofwhichisequallylikelyandhasprobability 1.
+2n
+Now 假设 we want to make a measurement in our experiment. 对于 例子, we can ask what is the
+number of heads in n coin tosses; call this number X. Of course, X is 非 a fixed number, 但是 it depends
+on the actual 序列 of coin flips that 我们得到. 对于 例子, 如果 n = 4 和 we observe the 结果
+ω =HTHH, 那么 X =3; whereas 如果 we observe the 结果 ω =HTHT, 那么 X =2. In this 例子
+of n coin tosses, we only know that X is an 整数 between 0 和 n, 但是 we do 非 know what its exact
+value is 直到 we observe 其中 结果 of n coin flips is realized 和 count how many heads 存在.
+Because every possible 结果 is assigned a 概率, the value X also carries with it a 概率 对于
+each possible value it can take. The 表 below lists all the possible values X can take in the 例子 of
+n=4cointosses,alongwiththeirrespectiveprobabilities.
+outcomesω valueofX (#heads) probabilityofoccurring
+TTTT 0 1/16
+HTTT, THTT, TTHT, TTTH 1 4/16
+HHTT, HTHT, HTTH, THHT, THTH, TTHH 2 6/16
+HHHT, HHTH, HTHH, THHH 3 4/16
+HHHH 4 1/16
+Such a value X that depends on the 结果 of the probabilistic experiment is called a random 变量
+(abbreviated r.v.). As we see from the 例子 above, a random 变量 X typically does 非 have a
+definitive value, 但是 instead only has a 概率 分布 over the 集合 of possible values X can take,
+其中 is why it is called random. 所以 the 问题 “What is the number of heads in n coin tosses?” does
+非 exactly make sense because the 答案 X is a random 变量. 但是 the 问题 “What is the typical
+numberofheadsinncointosses?” makessense—itisaskingwhatistheaveragevalueofX (thenumber
+of heads) 如果 we repeat the experiment of tossing n coins multiple times. This average value is called the
+expectationofX,andisoneofthemostusefulsummaries(alsocalledstatistics)ofanexperiment.
+1 Random Variables
+Before we formalize the above notions, 令 us 考虑 another 例子 to enforce our conceptual under-
+standingofarandomvariable.
+例子: FixedPointsofPermutations
+问题: Supposewecollectthehomeworksofnstudents,randomlyshufflethem,andreturnthemtothe
+students. Howmanystudentsreceivetheirownhomework?
+CS70,Spring2026,Note16 1
+
+Heretheprobabilityspaceconsistsofalln!permutationsofthehomeworks,eachwithequalprobability 1.
+n!
+Ifwelabelthehomeworksas1,2,...,n,theneachsamplepointisapermutationπ =(π ,...,π )whereπ
+1 n i
+is the 作业 即 returned to the ith student. We call i a fixed point of π 如果 π =i, i.e., 如果 student i
+i
+receivestheirownhomework.
+As in the coin flipping case above, our 问题 does 非 have a simple numerical 答案 (such as 4),
+becausethenumberdependsontheparticularpermutationwechoose(i.e.,onthesamplepoint). Letuscall
+thenumberoffixedpointsX ,whichisarandomvariabletakingvaluesintheset{0,1,2,...,n}. (Actually
+n
+thevalueX =n−1isnotpossible: why?)
+n
+FormalDefinitionofaRandomVariable
+Wenowformalizetheconceptsdiscussedabove.
+定义 16.1 (Random 变量). A randomvariable X on a 样本空间 Ω is a 函数 X: Ω→R
+thatassignstoeachsamplepointω ∈ΩarealnumberX(ω).
+Untilfurthernotice,wewillrestrictourattentiontorandomvariablesthatarediscrete,i.e.,theytakevalues
+inarangethatisfiniteorcountablyinfinite. ThismeanseventhoughwedefineX tomapΩtoR,theactual
+setofvalues{X(ω): ω ∈Ω}thatX takesisadiscretesubsetofR.
+A random 变量 can be visualized in general by the picture in 图 1.1 笔记 that the term “random
+变量” is really something of a misnomer: it is a 函数 所以 存在 nothing random about it 和 it is
+definitelynotavariable! Whatisrandomiswhichsamplepointoftheexperimentisrealizedandhencethe
+valuethattherandomvariablemapsthesamplepointto.
+Randomvariable
+X
+Sample
+Space R
+a
+Ω
+X =#offixedpoints
+3
+123 231
+R
+132 312
+0 1 2 3
+213 321
+Samplespaceof
+allpermutations
+Figure1: Visualizationofhowarandomvariableisdefinedonthesamplespace.
+练习. By completing the lower picture in 图 1, 证明 that the only possible values 对于 the r.v. X
+3
+are0,1and3,andthattheirprobabilitiesare 1, 1 和 1,respectively.
+3 2 6
+1ThefiguresinthisnoteareinspiredbyfiguresinChapter2ofIntroductiontoProbabilitybyD.BertsekasandJ.Tsitsiklis.
+CS70,Spring2026,Note16 2
+
+2 概率 分布
+Whenweintroducedthebasicprobabilityspaceinanearliernote,wedefinedtwothings:
+1. ThesamplespaceΩconsistingofallthepossibleoutcomes(samplepoints)oftheexperiment.
+2. Theprobabilityofeachofthesamplepoints.
+Analogously,therearetwoimportantthingsaboutanyrandomvariable:
+1. Thesetofvaluesthatitcantake.
+2. Theprobabilitieswithwhichittakesonthevalues.
+因为 a random 变量 is defined on a 概率 space, we can calculate these probabilities 给定 the
+probabilitiesofthesamplepoints. LetabeanynumberintherangeofarandomvariableX. Thentheset
+{ω ∈Ω:X(ω)=a}
+is an 事件 in the 样本空间 (because it is a 子集 of Ω). We usually abbreviate this 事件 to simply
+“X = a”. 因为 X = a is an 事件, we can talk about its 概率, P[X = a]. The collection of these
+probabilities,forallpossiblevaluesofa,isknownasthedistributionoftherandomvariableX.
+定义 16.2 (分布). The 分布 of a 离散的 random 变量 X is the collection of values
+{(a,P[X =a]):a∈A},whereA isthesetofallpossiblevaluestakenbyX.
+因此,thedistributionoftherandomvariableX inourpermutationexampleaboveis:
+1 1 1
+P[X =0]= ; P[X =1]= ; P[X =3]= .
+3 2 6
+Ifneeded,wemayalsowriteP[X =a]=0forallothervaluesofa.
+The 分布 of a random 变量 can be visualized as a bar diagram, shown in 图 2. The x-axis
+representsthevaluesthattherandomvariablecanassume. Theheightofthebaratavalueaistheprobability
+P[X =a]. Each of these probabilities can be computed by looking at the 概率 of the corresponding
+eventinthesamplespace.
+NotethatthecollectionofeventsX =a,fora∈A,satisfytwoimportantproperties:
+• AnytwoeventsX =a andX =a witha ̸=a aredisjoint.
+1 2 1 2
+• TheunionofalltheseeventsisequaltotheentiresamplespaceΩ.
+The collection of events 因此 form a 划分 of the 样本空间 (see 图 2). Both properties follow
+directly from the fact that X is a 函数 defined on Ω, i.e., X assigns a unique value to each 和 every
+possible sample point in Ω. 所以, when we sum up the probabilities of the events X = a, we are really
+summinguptheprobabilitiesofallthesamplepoints,givingusatotalofexactly1.
+CS70,Spring2026,Note16 3
+
+P[X =a]
+X =a
+1
+X =a
+2
+X =a
+3
+a a a
+1 2 3
+P[X =a]
+1
+123 231 2
+1
+132 312 3
+1
+6
+213 321
+0 1 2 3
+Figure2: Visualizationofhowthedistributionofarandomvariableisdefined.
+BernoulliDistribution
+A simple yet very useful 概率 分布 is the Bernoulli 分布 of a random 变量 其中
+takesvaluein{0,1}:
+(cid:40)
+p, ifi=1,
+P[X =i]=
+1−p, ifi=0,
+where0≤ p≤1. WesaythatX isdistributedasaBernoullirandomvariablewithparameter p,andwrite
+X ∼Bernoulli(p) 或 X ∼Ber(p).
+BinomialDistribution
+Letusreturntoourcointossingexampleabove,wherewedefinedourrandomvariableX tobethenumber
+of heads. More formally, 考虑 the random experiment consisting of n 独立的 tosses of a biased
+cointhatshowsH withprobability p. Eachsamplepointω isasequenceoftosses,andX(ω)isdefinedto
+bethenumberofheadsinω. Forexample,whenn=3,X(THH)=2.
+To 计算 the 分布 of X, we first enumerate the possible values that X can take. They are simply
+0,1,...,n. 那么 we 计算 the 概率 of each 事件 X =i 对于 i=0,1,...,n. The 概率 of the
+事件 X =i is the sum of the probabilities of all the sample points with exactly i heads (对于 例子, 如果
+n=3andi=2,therewouldbethreesuchsamplepoints{HHT,HTH,THH}). Anysuchsamplepointhas
+概率 pi(1−p)n−i,sincethecoinflipsareindependent. Thereareexactly (cid:0)n(cid:1) ofthesesamplepoints.
+i
+因此,
+(cid:18) (cid:19)
+n
+P[X =i]= pi(1−p)n−i, fori=0,1,...,n. (1)
+i
+CS70,Spring2026,Note16 4
+
+This 分布, called the 二项的 分布, is one of the most important distributions in 概率.
+Arandomvariablewiththisdistributioniscalledabinomialrandomvariable,andwewrite
+X ∼Bin(n,p),
+wherendenotesthenumberoftrialsand ptheprobabilityofsuccess(observinganH intheexample). An
+例子 of a 二项的 分布 is shown in 图 3. Notice that due to the properties of X mentioned
+above,itmustbethecasethat∑ n P[X =i]=1,whichimpliesthat∑ n (cid:0)n(cid:1) pi(1−p)n−i=1. Thisprovides
+i=0 i=0 i
+a probabilistic 证明 of the 二项的 定理 from an earlier 笔记 其中 we saw it combinatorially, 对于
+a= pandb=1−p.
+P[X =a] P[X =a]
+Binomialdistribution Binomialdistribution
+n=9, p= 1 nlarge, psmall
+2
+a a
+1 2 3 4 5 6 7 8 9 n
+Figure3: Thebinomialdistributionsfortwochoicesof(n,p).
+Althoughwedefinethebinomialdistributionintermsofanexperimentinvolvingtossingcoins, thisdistri-
+butionisusefulformodelingmanyreal-worldproblems. Considerforexampletheerrorcorrectionproblem
+studied earlier. 回忆 we wanted to encode n packets into n+k packets 满足 the recipient can
+reconstructtheoriginalnpacketsfromanynpacketsreceived. Butinpractice,thenumberofpacketlosses
+is random, 所以 how do we choose k, the amount of redundancy? 如果 we model each packet getting lost with
+概率 p 和 the losses are 独立的, 那么 如果 we transmit n+k packets, the number of packets re-
+ceivedisarandomvariableX withbinomialdistribution: X ∼Bin(n+k,1−p)(wearetossingacoinn+k
+times, 和 each coin turns out to be a head (packet received) with 概率 1−p). 所以 the 概率 of
+successfullydecodingtheoriginaldatais:
+n+k n+k(cid:18) n+k (cid:19)
+P[X ≥n]= ∑P[X =i]= ∑ (1−p)ipn+k−i.
+i
+i=n i=n
+Givenfixednand p,wecanchooseksuchthatthisprobabilityisnolessthan,say,0.99.
+HypergeometricDistribution
+考虑 an urn containing N = B+W balls, 其中 B balls are black 和 W are white. 假设 you
+randomly sample n≤N balls from the urn with replacement, 和 令 X 表示 the number of black balls
+in your sample. What is the 概率 分布 of X? 因为 the 概率 of seeing a black ball is
+CS70,Spring2026,Note16 5
+
+B/N 对于 each draw, independently of all other draws, X follows the 二项的 分布 Bin(n,p), 其中
+p=B/N.
+What 如果 you randomly sample n≤N balls from the urn without replacement? In this case, the 概率
+of seeing a black ball in the ith draw depends on the colors of the i−1 balls already drawn; 即, unlike
+inthecaseofsamplingwithreplacement,thedrawsarenotindependent. Theprobabilitydistributionofthe
+numberY ofblackballsinthissettingcanbefoundasfollows.
+Considerasequenceω ofndrawswherethefirstkballsareblackandthenextn−kballsarewhite. 那么,
+usingtheProductRulefromNote14,theprobabilityofthisparticularsequenceofdrawscanbecomputed
+as
+(cid:0)B(cid:1)(cid:0)W (cid:1)
+B B−1 B−k+1 W W−1 W−(n−k)+1 1
+P[ω]= × ×···× × × ×···× = k n−k . (2)
+N N−1 N−k+1 N−k N−k−1 N−n+1
+(cid:0)N(cid:1) (cid:0)n(cid:1)
+n k
+此外, anyothersequenceω′ consistingofk blacksballsandn−k whiteballshasexactlythesame
+probabilityasω: ifwecarryoutasimilarcalculationasin(2)forthesequenceofdrawsinω′,thenumerators
+appearinginP[ω′]willbesomepermutationofthenumeratorsinthefirstlineof(2),whilethedenominators
+will be exactly the same as in (2). 因为 存在
+(cid:0)n(cid:1)
+distinct sequences of length n consisting of k black
+k
+ballsandn−kwhiteballs,weobtain
+(cid:18) (cid:19) (cid:0)B(cid:1)(cid:0)N−B(cid:1)
+n
+P[Y =k]= P[ω]= k n−k , (3)
+k
+(cid:0)N(cid:1)
+n
+fork∈{0,1,...,n}. (Notethat (cid:0)m(cid:1) =0if j>m,soP[Y =k]̸=0onlyifmax(0,n+B−N)≤k≤min(n,B).)
+j
+ThisprobabilitydistributioniscalledthehypergeometricdistributionwithparametersN,B,n,andwewrite
+Y ∼Hypergeometric(N,B,n).
+3 Multiple Random Variables, Independence, 和 Exchangeability
+Often one is interested in multiple random variables on the same 样本空间. 考虑, 对于 例子,
+the 样本空间 of flipping three coins. One could 定义 many random variables: 对于 例子 a random
+variableX indicatingthenumberofheads,orarandomvariableY indicatingthenumberoftails,orabinary
+randomvariableZ indicatingwhetherthefirsttossisH ornot. Notethatforeachsamplepoint,anyrandom
+variablehasaspecificvalue: e.g.,forω =HTT,wehaveX(ω)=1,Y(ω)=2,andZ(ω)=1.
+Theconceptofadistributioncanthenbeextendedtoprobabilitiesforthecombinationofvaluesformultiple
+randomvariables.
+Definition16.3. ThejointdistributionoftwodiscreterandomvariablesX andY isthecollectionofvalues
+{((a,b),P[X =a,Y =b]):a∈A, b∈B}, 其中 A is the 集合 of all possible values taken by X 和 B is
+thesetofallpossiblevaluestakenbyY.
+GivenajointdistributionofX andY,thedistributionP[X =a]ofX iscalledthemarginaldistributionofX,
+andcanbefoundbysummingoverthevaluesofY. Thatis,
+P[X =a]= ∑ P[X =a,Y =b].
+b∈B
+ThemarginaldistributionofY isdefinedanalogously.
+CS70,Spring2026,Note16 6
+
+AjointdistributionoveranysetofrandomvariablesX ,...,X (forexample,X couldbethevalueoftheith
+1 n i
+rollofasequenceofndierolls)isP[X =a ,...,X =a ],wherea ∈A andA isthesetofpossiblevalues
+1 1 n n i i i
+forX. ThemarginaldistributionofX canbeobtainedbysummingoverallthepossiblevaluesoftheother
+i i
+variables.
+Independence
+Independenceforrandomvariablesisdefinedinananalogousfashiontoindependenceforevents:
+定义 16.4 (Independence). Random variables X 和 Y on the same 概率 space are said to
+be 独立的 如果 the events X =a 和 Y =b are 独立的 对所有 values a,b. Equivalently, the joint
+distributionofindependentr.v.’sdecomposesas
+P[X =a,Y =b]=P[X =a]P[Y =b], ∀a,b.
+Mutualindependenceofmorethantwor.v.’sisdefinedsimilarly.
+Averyimportantexampleofindependentrandomvariablesareindicatorrandomvariablesforindependent
+events. 如果 I denotes the indicator r.v. 对于 the ith toss of a coin being H, 那么 I ,...,I are mutually inde-
+i 1 n
+pendentrandomvariables. Thisexamplemotivatesthecommonlyusedphrase“independentandidentically
+distributed (i.i.d.) 集合 of random variables.” In this 例子, {I ,...,I } is a 集合 of i.i.d. indicator random
+1 n
+variables.
+Exchangeability
+假设 we randomly sample without replacement n ≤ N balls from an urn containing B black balls
+和 N−B white balls. We showed earlier that the number Y of black balls in the sample follows the
+Hypergeometric(N,B,n)分布. Notethatwecanwrite
+Y =I +···+I ,
+1 n
+whereI istheindicatorrandomvariablethatequals1iftheithdrawisblackand0otherwise.
+i
+Bytheargumentusedtoderive(2),wehave(here∑ n
+i=1
+a
+i
+playstheroleofkin(2)):
+(cid:0) B (cid:1)(cid:0) N−B (cid:1)
+P[I =a ,...,I =a ]= ∑n i=1 ai n−∑n i=1 ai · 1 . (4)
+1 1 n n (cid:0)N(cid:1) (cid:0) n (cid:1)
+n ∑n
+i=1
+ai
+Animportantfeatureof(4)isthattheright-handsidedependson(a
+1
+,...,a
+n
+)onlythroughtheirsum∑ n
+i=1
+a
+i
+.
+Inparticular,thejointdistributionisinvariantunderpermutationsoftheindices. Thatis,foranypermutation
+π of{1,...,n},
+P[I =a ,...,I =a ]=P[I =a ,...,I =a ] (5)
+π(1) 1 π(n) n 1 1 n n
+foralla ,...,a ∈{0,1}.
+1 n
+Randomvariablessatisfying(5)arecalledexchangeable.
+定义 16.5 (Exchangeability). A collection of random variables X ,...,X with common 值域 A is
+1 n
+saidtobeexchangeableif(X ,...,X )hasthesamejointdistributionas(X ,...,X )foreverypermu-
+π(1) π(n) 1 n
+tationπ of{1,...,n}.
+CS70,Spring2026,Note16 7
+
+因此,I ,...,I areexchangeablerandomvariables.
+1 n
+Wenowrecordseveralconsequencesofexchangeability.
+1. Identicalmarginals. TherandomvariablesX ,...,X haveidenticalmarginaldistributions:
+1 n
+P[X =a]=P[X =a]=···=P[X =a] (6)
+1 2 n
+foralla∈A.
+Thisfollowsbecause,foranyiandanya∈A,
+P[X =a]= ∑ P[X =b ,...,X =b ,X =a,X =b ,...,X =b ]
+i 1 1 i−1 i−1 i i+1 i+1 n n
+b 1,...,bi−1,bi+1,...,bn∈A
+= ∑ P[X =a,...,X =b ,X =b ,X =b ,...,X =b ]
+1 i−1 i−1 i 1 i+1 i+1 n n
+b 1,...,bi−1,bi+1,...,bn∈A
+=P[X =a],
+1
+whereweusedexchangeabilityinthesecondstep.
+AlthoughtheX haveidenticaldistributions,theyaregenerallynotindependent. Infact,i.i.d.蕴含
+i
+exchangeability,buttheconverseneednothold.
+2. Identicalpairwisedistributions. Foranydistincti,j,
+P[X =a,X =b]=P[X =a,X =b] (7)
+i j 1 2
+foralla,b∈A. Theprooffollowsbysummingovertheremainingvariablesandapplyingexchange-
+ability.
+3. Identical k-tuple distributions. More generally, 对于 any distinct indices i ,...,i , 其中 k<n, the
+1 k
+jointdistributionof(X ,...,X )isthesameasthatof(X ,...,X ). Theproofissimilartotheprevious
+i 1 ik 1 k
+cases.
+4 期望
+The 分布 of a r.v. contains all the information about the r.v. In most applications, 然而, the
+完全的 分布 of a r.v. is very hard to calculate. 对于 例子, 考虑 the 作业 permutation
+例子 with n=20. In principle, we would have to enumerate 20!≈2.4×1018 sample points, 计算
+the value of X at each one, 和 count the number of points at 其中 X takes on each of its possible values
+(though in practice we could streamline this calculation a bit)! 此外, even when we can 计算 the
+completedistributionofar.v.,itisoftennotveryinformative.
+Forthesereasons, weseektosummarizethedistributionintoamorecompact, convenientformthatisalso
+easiertocompute. Themostwidelyusedsuchformistheexpectation(ormeanoraverage)ofther.v.
+Definition16.6(期望). TheexpectationofadiscreterandomvariableX isdefinedas
+E[X]= ∑ a×P[X =a], (8)
+a∈A
+wherethesumisoverallpossiblevaluestakenbyther.v.
+CS70,Spring2026,Note16 8
+
+TechnicalNote. Expectationiswelldefinedprovidedthatthesumontherighthandsideof(8)isabsolutely
+convergent, i.e., ∑ a∈A |a|×P[X =a]<∞. 存在 离散的 random variables 对于 其中 expectations do
+非 exist, such as the r.v. X with 分布 P[X =i]= 6 对所有 正的 integers i. (The reason 对于 the
+π2i2
+factor 6 hereistomaketheprobabilitiessumto1,因为∑∞ 1 = π2 .)
+π2 i=1i2 6
+Foroursimplerpermutationexamplewithonly3students,theexpectationis
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+1 1 1 1 1
+E[X]= 0× + 1× + 3× =0+ + =1.
+3 2 6 2 2
+Thatis,theexpectednumberoffixedpointsinapermutationofthreeitemsisexactly1.
+The 期望 can be seen in some sense as a “typical” value of the r.v. (though 笔记 that E[X] may 非
+actuallybeavaluethatX cantake). Thequestionofhowtypicaltheexpectationisforagivenr.v.isavery
+importantonethatweshallreturntoinalaterlecture.
+Here is a physical interpretation of the 期望 of a random 变量: imagine carving out a wooden
+cutoutfigureoftheprobabilitydistributionasinFigure4. Thentheexpectedvalueofthedistributionisthe
+balancepoint(directlybelowthecenterofgravity)ofthisobject.
+Figure4: Physicalinterpretationofexpectedvalueasthebalancepoint.
+4.1 Examples
+1. Single die. Throw a fair die once 和 令 X be the number that comes up. 那么 X takes on values
+1,2,...,6eachwithprobability 1,所以
+6
+1 21 7
+E[X]= (1+2+3+4+5+6)= = .
+6 6 2
+NotethatX neveractuallytakesonitsexpectedvalue 7.
+2
+2. Twodice. ThrowtwofairdiceandletX bethesumoftheirscores. ThenthedistributionofX is
+a 2 3 4 5 6 7 8 9 10 11 12
+P[X =a] 1 1 1 1 5 1 5 1 1 1 1
+36 18 12 9 36 6 36 9 12 18 36
+Theexpectationistherefore
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+1 1 1 1
+E[X]= 2× + 3× + 4× +···+ 12× =7.
+36 18 12 36
+CS70,Spring2026,Note16 9
+
+3. Roulette. Aroulettewheelisspun(recallthataroulettewheelhas38slots: thenumbers1,2,...,36,
+halfofwhichareredandhalfblack,plus0and00,whicharegreen). Youbet$1onBlack. Ifablack
+number comes up, you receive your stake plus $1; otherwise you lose your stake. 令 X be your net
+winningsinonegame. ThenX cantakeonthevalues+1and−1,andP[X=1]= 18,P[X=−1]= 20.
+38 38
+因此,
+(cid:18) (cid:19) (cid:18) (cid:19)
+18 20 1
+E[X]= 1× + −1× =− ;
+38 38 19
+i.e., you expect to lose about a nickel per game. Notice how the zeros tip the balance in favor of the
+casino!
+4.2 Linearity of 期望
+Sofar,wehavecomputedexpectationsbybruteforce: i.e.,wehavewrittendownthewholedistributionand
+那么 added up the contributions 对所有 possible values of the r.v. The 实数 power of expectations is that in
+many 实数-life examples they can be computed much more easily using a simple shortcut. The shortcut is
+thefollowing:
+Theorem16.1. ForanytworandomvariablesX andY onthesameprobabilityspace,wehave
+E[X+Y]=E[X]+E[Y].
+Also,foranyconstantc,wehave
+E[cX]=cE[X].
+证明. Wefirstrewritethedefinitionofexpectationinamoreconvenientform. RecallfromDefinition16.6
+that
+E[X]= ∑ a×P[X =a].
+a∈A
+考虑 a particular term a×P[X =a] in the above sum. Notice that P[X =a], by 定义, is the sum
+of P[ω] over those sample points ω 对于 其中 X(ω)=a. 此外, we know that every sample point
+ω ∈ΩisinexactlyoneoftheseeventsX =a. Thismeanswecanwriteouttheabovedefinitioninamore
+long-windedformas
+E[X]= ∑ X(ω)×P[ω]. (9)
+ω∈Ω
+This 等价 定义 of 期望 will make the present 证明 much easier (though it is usually less
+convenientforactualcalculations). Applying(9)toE[X+Y]gives:
+E[X+Y]= ∑ (X+Y)(ω)×P[ω]
+ω∈Ω
+= ∑ (X(ω)+Y(ω))×P[ω]
+ω∈Ω
+= ∑ (X(ω)×P[ω])+ ∑ (Y(ω)×P[ω])
+ω∈Ω ω∈Ω
+=E[X]+E[Y]
+Inthelaststep,weused(9)twice.
+This completes the 证明 of the first equality. The 证明 of the second equality is much simpler 和 is left
+asanexercise.
+CS70,Spring2026,Note16 10
+
+定理 16.1 is very powerful: it says that the 期望 of a sum of r.v.’s is the sum of their expecta-
+tions,withnoassumptionsaboutther.v.’s. WecanuseTheorem16.1toconcludethingslikeE[3X−5Y]=
+3E[X]−5E[Y],regardlessofwhetherornotX andY areindependent. Thisimportantpropertyisknownas
+linearityofexpectation.
+Important caveat: 定理 16.1 does 非 say that E[XY] = E[X]E[Y], 或 that E(cid:2)1(cid:3) = 1 , etc. These
+X E[X]
+claims are 非 真 in general. It is only sums 和 differences 和 常数 multiples of random variables
+thatbehavesonicely.
+4.3 Applications of Linearity of 期望
+NowletusseesomeexamplesofTheorem16.1inaction.
+1. Twodiceagain. HereisamuchlesspainfulwayofcomputingE[X],whereX isthesumofthescores
+of the two dice. 笔记 that X =Y +Y , whereY is the score on die i. We know from 例子 1 in
+1 2 i
+Section4.1thatE[Y ]=E[Y ]= 7. 所以,byTheorem16.1,wehaveE[X]=E[Y ]+E[Y ]=7.
+1 2 2 1 2
+2. More roulette. 假设 we play the roulette game mentioned in 节 4.1 n≥1 times. 令 X
+n
+be our expected net winnings. 那么 X =Y +Y +···+Y , 其中 Y is our net winnings in the
+n 1 2 n i
+ith play. We know from earlier that E[Y]=− 1 对于 each i. 因此, by 定理 16.1, E[X ]=
+i 19 n
+E[Y ]+E[Y ]+···+E[Y ]=− n . Forn=1000, E[X ]=−1000 ≈−53, soifyouplay1000games,
+1 2 n 19 n 19
+youexpecttoloseabout$53.
+3. Fixedpointsofpermutations. Letusreturntothehomeworkpermutationexamplewithanarbitrary
+number n of students. 令 X 表示 the number of students who receive their own 作业 after
+n
+shuffling (或 equivalently, the number of fixed points). To take advantage of 定理 16.1, we need
+towriteX asasumofsimplerr.v.’s. SinceX countsthenumberoftimessomethinghappens,wecan
+n n
+writeitasasumusingthefollowingusefultrick:
+(cid:40)
+1, ifstudentigetstheirownhomework,
+X =I +I +···+I , whereI = (10)
+n 1 2 n i
+0, otherwise.
+[Youshouldthinkaboutthisequationforamoment. RememberthatalltheI’sarerandomvariables.
+i
+What does an 方程 involving random variables mean? What we mean is that, at every sample
+pointω,wehaveX (ω)=I (ω)+I (ω)+···+I (ω). Whyisthistrue?]
+n 1 2 n
+A Bernoulli random 变量 such as I is called an indicator random 变量 of the corresponding
+i
+事件(inthiscase,theeventthatstudentigetstheirownhomework). Forindicatorr.v.’s,theexpecta-
+tionisparticularlyeasytocalculate. Specifically,
+E[I]=(0×P[I =0])+(1×P[I =1])=P[I =1].
+i i i i
+Inourcase,wehave
+1
+P[I =1]=P[studentigetstheirownhomework]= .
+i
+n
+WecannowapplyTheorem16.1to(10),yielding
+1
+E[X ]=E[I ]+E[I ]+···+E[I ]=n× =1.
+n 1 2 n
+n
+所以, we see that the expected number of students who get their own homeworks in a class of size n
+is 1. 即, the expected number of fixed points in a random permutation of n items is always 1,
+regardlessofn!
+CS70,Spring2026,Note16 11
+
+4. Cointosses. Tossafaircoinn≥1times. Letther.v.X bethenumberofheadsobserved. Asinthe
+n
+previousexample,totakeadvantageofTheorem16.1wewrite
+X =I +I +···+I ,
+n 1 2 n
+whereI istheindicatorr.v.oftheeventthattheithtossisH. Sincethecoinisfair,wehave
+i
+1
+E[I]=P[I =1]=P[ithtossisH]= .
+i i
+2
+UsingTheorem16.1,wethereforeget
+n 1 n
+E[X ]= ∑ = .
+n
+2 2
+i=1
+Moregenerally,inntossesofabiasedcointhatcomesupH withprobability p,E[X ]=np. (Check
+n
+this!) 所以 the 期望 of a 二项的 r.v. X ∼Bin(n,p) is equal to np. 笔记 that it would have
+been much messier (though possible) to reach the same 结论 by computing this directly from
+thedefinitionofexpectationin(8)andthedistributionofabinomialr.v.in(1).
+5. Sampling without replacement. 考虑 sampling without replacement n≤N balls from an urn
+containingBblackballsandN−Bwhiteballs. LetY denotethenumberofblackballsinthesample.
+WeknowthatY followstheHypergeometric(N,B,n)分布. 然而,computingE[Y]directly
+from the 分布 (see (3)) can be cumbersome. A much simpler approach is to use indicator
+randomvariables. Write
+Y =I +···+I ,
+1 n
+其中 I is the indicator that the ith draw is black. 虽然 the random variables I ,...,I are 非
+i 1 n
+独立的,linearityofexpectationstillapplies:
+E[Y]=E[I ]+···+E[I ].
+1 n
+此外,byexchangeability,theI haveidenticaldistributions,所以
+i
+E[Y]=nE[I ].
+1
+Finally,sincetheprobabilitythatthefirstdrawisblackisP[I =1]= B,weconcludethat
+1 N
+B
+E[Y]=n .
+N
+6. Ballsandbins. Throwmballsintonbins. Letther.v.X bethenumberofballsthatlandinthefirst
+bin. 那么 X behaves exactly like the number of heads in m tosses of a biased coin with P[H]= 1
+n
+(why?). 所以, from the previous 例子, we get E[X]= m. In the special case m=n, the expected
+n
+numberofballsinanybinis1. IfwewantedtocomputethisdirectlyfromthedistributionofX, we
+wouldgetintoamessycalculationinvolvingbinomialcoefficients.
+Here is another 例子 on the same 样本空间. 令 the r.v. Y be the number of empty bins.
+n
+The 分布 of Y is horrible to contemplate: to get a feel 对于 this, you might like to write it
+n
+down 对于 m=n=3 (i.e., 3 balls, 3 bins). 然而, computing the 期望 E[Y ] is easy using
+n
+Theorem16.1. Asintheprevioustwoexamples,wewrite
+Y =I +I +···+I , (11)
+n 1 2 n
+CS70,Spring2026,Note16 12
+
+whereI istheindicatorr.v.oftheevent“biniisempty”. TheexpectationofI iseasytofind:
+i i
+(cid:18) (cid:19)m
+1
+E[I]=P[I =1]=P[biniisempty]= 1− ,
+i i
+n
+asdiscussedearlier. ApplyingTheorem16.1to(11),wethereforeobtain
+n (cid:18) 1 (cid:19)m
+E[Y ]= ∑E[I]=n 1− ,
+n i
+n
+i=1
+a simple formula, quite easily derived. 令 us see how it behaves in the special case m=n (same
+number of balls as bins). In this case we get E[Y ]=n (cid:0) 1−1(cid:1)n . Now the quantity (cid:0) 1−1(cid:1)n can be
+n n n
+approximated(forlargeenoughvaluesofn)bythenumber 1.2 Soweseethat,forlargen,
+e
+n
+E[Y ]≈ ≈0.368n.
+n
+e
+The bottom line is that, 如果 we throw (say) 1000 balls into 1000 bins, the expected number of empty
+binsisabout368.
+2Moregenerally,itisastandardfactthatforanyconstantc,
+(1+c)n→ec asn→∞.
+n
+Wejustusedthisfactinthespecialcasec=−1. Theapproximationisactuallyverygoodevenforquitesmallvaluesofn. (Tryit
+yourself!) E.g.,forn=20wealreadyget(1−1)n≈0.358,whichisverycloseto 1 ≈0.368. Theapproximationgetsbetterand
+n e
+betterforlargern.
+CS70,Spring2026,Note16 13
+

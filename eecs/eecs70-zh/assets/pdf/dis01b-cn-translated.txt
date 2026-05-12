@@ -1,0 +1,88 @@
+CS 70 离散数学 和 概率论
+DIS 1B
+春季 2026 Sinclair, Song
+Stable 匹配 Intro
+Goal: 我们有 n candidates 和 n jobs; each candidate 和 job has a preference list. We want to pair up
+Note4
+candidatesandjobssuchthatthereisastablematching.
+Definitions:
+• StableMatchingInstance: Asetofjobsandcandidatesandtheirrespectivepreferencelists
+• 匹配: Disjointsetof(c,j)pairsthatarematchedtogether
+i i
+• Rogue Couple: a pair (c,j) 非 in the 匹配 that prefers each other over their current matchings
+(c,j′)和(c′,j)
+• StableMatching: matchingwithnoroguecouples
+• Optimalcandidateforjob: highestrankedcandidateforajobinanystablematching
+• Optimaljobforcandidate: highestrankedjobforacandidateinanystablematching
+• Joboptimal: Alljobsgettheiroptimalcandidates;acandidateoptimalmatchingisdefinedsimilarly
+• Candidatepessimal: Allcandidatesgettheirpessimaljobs(i.e. lowestrankedjobforeachcandidate
+inanystablematching);ajobpessimalmatchingisdefinedsimilarly
+Proposeandrejectalgorithm: Eachday,
+1. Morning: Jobsproposetothetopcandidatewhohavenotrejectedthem; notethatajobwillpropose
+tothesamecandidateasthepreviousdayiftheywerenotrejected
+2. Afternoon: Candidatessay“maybe”tothebestjoboffersofar, keepingtheminhand oronastring,
+andsay“no”toeveryotheroffer
+3. Evening: Jobscrossoffthecandidatesthathaverejectedthem
+The process halts when no rejections happen; all candidates 那么 accept their current offer. 笔记 that the
+算法 only produces one stable 匹配, 所以 there can be other stable matchings 非 produced by the
+算法.
+Improvementlemma: everycandidatewillonlysaymaybetobetterjoboffersastimegoeson. Similarly,
+everyjobwillonlyproposetoworsecandidatesastimegoeson.
+As a result, the propose 和 reject 算法 always produces a stable 匹配 即 job optimal 和
+candidatepessimal.
+Remember, a stable 匹配 instance is only defined as the 集合 of jobs, candidates, 和 preference
+lists. Itdoesnotincludethematchingitself,noranyalgorithm.
+CS70,Spring2026,DIS1B 1
+
+1 Stable 匹配
+ConsiderthesetofjobsJ={1,2,3}andthesetofcandidatesC={A,B,C}withthefollowingpreferences.
+Note4
+Jobs Candidates Candidates Jobs
+1 A > B > C A 2 > 1 > 3
+2 B > A > C B 1 > 3 > 2
+3 A > B > C C 1 > 2 > 3
+Runthetraditionalpropose-和-rejectalgorithmonthisexample. Howmanydaysdoesittakeandwhatis
+theresultingpairing? (Showyourwork.)
+2 Propose-和-Reject Proofs
+Provethefollowingstatementsaboutthetraditionalpropose-和-rejectalgorithm.
+Note4
+(a) Inanyexecutionofthealgorithm,ifacandidatereceivesaproposalondayi,thentheyreceivesome
+proposaloneverydaythereafteruntiltermination.
+(b) In any execution of the 算法, 如果 a candidate receives no proposal on day i, 那么 they receive no
+proposalonanypreviousday j,1≤ j<i.
+(c) Inanyexecutionofthealgorithm,thereisatleastonecandidatewhoonlyreceivesasingleproposal.
+(提示: usethepartsabove!)
+CS70,Spring2026,DIS1B 2
+
+(d) There does 非 exist a stable 匹配 instance 对于 n jobs 和 n candidates 对于 n>1, 满足 in a
+stablematchingalgorithmwithjobsproposing,everyjobendsupwithitsleastpreferredcandidate.
+3 Be a Judge
+Foreachofthefollowingstatements,indicatewhetherthestatementisTrueorFalseandjustifyyouranswer
+Note4
+withashort2-3lineexplanation:
+(a) Inastablematchinginstance,ifjobJandcandidateCeachputeachotheratthetopoftheirrespective
+preferencelists,thenJ mustbepairedwithCineverystablepairing.
+(b) Inastablematchinginstancewithatleasttwojobsandtwocandidates,ifjobJ andcandidateC each
+puteachotheratthebottomoftheirrespectivepreferencelists,thenJ cannotbepairedwithCinany
+stablepairing.
+(c) Foreveryn>1,thereisastablematchinginstancefornjobsandncandidateswhichhasanunstable
+pairingwhereeveryunmatchedjob-candidatepairisaroguecouple.
+CS70,Spring2026,DIS1B 3
+
+4 Stable 匹配 III
+(a) TrueorFalse?
+Note4
+(i) Ifacandidateaccidentallyrejectsajobtheypreferonagivenday,thenthealgorithmstillalways
+endswithamatching.
+(ii) ThePropose-和-RejectAlgorithmneverproducesacandidate-optimalmatching.
+(iii) Ifthesamejobislastonthepreferencelistofeverycandidate,thejobmustendupwithitsleast
+preferredcandidate.
+(b) Asyou’veseenfromlecture,thejobs-proposingPropose-和-RejectAlgorithmproducesanemployer-
+optimalstablematching. 令’sseeifthecandidatehaveanywayofimprovingtheirstanding. 假设
+exactlyoneofthecandidateshasthepowertoarbitrarilyrejectoneproposal,regardlessofwhichjob
+they have on their string (如果 any). Construct an 例子 that illustrates the following: 对于 any n≥2,
+存在 a stable 匹配 instance 对于 其中 using this power helps every candidate, i.e. every
+candidategetsabetterjobthantheywouldhavegottenunderthejobs-proposingPropose-和-Reject
+算法.
+CS70,Spring2026,DIS1B 4
+

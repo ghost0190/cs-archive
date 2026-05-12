@@ -1,0 +1,478 @@
+CS 70 离散数学 和 概率论
+笔记 15
+春季 2026 Course Notes
+Three Killer Applications: Hashing, Coupon Collecting 和 Load Balancing
+In this 笔记, we will see that the simple balls-和-bins 概率 space can be used to model a surpris-
+ing 值域 of phenomena. 回忆 in this process we distribute m balls into n bins, 其中 each ball is
+independentlyplacedinauniformlyrandombin. Wecanaskquestionssuchas:
+• Howlargecanwechoosemwhileensuringthatwithprobabilityatleast1/2,notwoballslandinthe
+samebin?
+• Ifm=n(samenumberofballsasbins),whatisthemaximumnumberofballsthatarelikelytoland
+inthesamebin?
+Asweshallsee,thesetwosimplequestionsprovidekeyinsightsintotwoimportantengineeringapplications:
+hashing 和 load balancing. These in turn arise in many contexts, such as the design of efficient data
+structures 和 resource allocation in networks, 其中 demands can be assumed to be random (所以-called
+“stochasticmultiplexing.”)
+Our answers to these questions are based largely on the application of a simple technique called the 并集
+界,discussedearlier. GivenanytwoeventsAandB,itstatesthatP[A∪B]≤P[A]+P[B]. Thisobserva-
+tionplussome“back-of-the-envelope”calculationswillgetusalongway.
+1 Hashing
+One of the basic issues in hashing is the tradeoff between the size of the hash 表 和 the number of
+collisions. Hereisasimplequestionthatquantifiesthetradeoff:
+• 假设 a hash 函数 distributes keys evenly over a 表 of size n. How many keys can we hash
+beforetheprobabilityofacollisionexceeds(say) 1?
+2
+回忆 a hash 表 is a data structure that supports the storage of a 集合 of keys drawn from a large
+universeU (say, the names of all 350 million people in the US). The 集合 of keys to be stored changes over
+time, 和 所以 the data structure allows keys to be added 和 deleted quickly. 给定 a key, it also reports
+whetherornotthekeybelongstothecurrentlystoredset. Thecrucialquestionis: Howlargemustthehash
+tablebetoallowtheseoperations(addition,deletionandmembership)tobeimplementedquickly?
+Here is how the hashing works. The hash 函数 h maps U to a 表 T of modest size (much smaller
+thanU). To ADD akeyxtoourset,weevaluateh(x)(i.e.,applythehashfunctiontothekey)andstorexat
+thelocationh(x)inthetableT. Allkeysinoursetthataremappedtothesametablelocationarestoredina
+simplelinkedlist. TheoperationsDELETEandMEMBERareimplementedinsimilarfashion,byevaluating
+h(x)andsearchingthelinkedlistath(x). Notethattheefficiencyofahashfunctiondependsonhavingonly
+fewcollisions—i.e., keysthat map tothe same location. Thisis becausethesearch time 对于 DELETE 和
+MEMBERoperationsisproportionaltothelengthofthecorrespondinglinkedlist.
+Ofcourse,wecouldbeunluckyandchoosekeyssuchthatourhashfunctionmapsmanyofthemtothesame
+CS70,Spring2026,Note15 1
+
+locationinthetable. Butthewholeideabehindhashingisthatweselectourhashfunctioncarefully,sothat
+itscramblesuptheinputkeyandseemstomapittoarandomlocationinthetable, makingitunlikelythat
+mostofthekeysweselectaremappedtothesamelocation. Toquantitativelyunderstandthisphenomenon,
+wewillmodelourhashfunctionasarandomfunction—i.e.,onethatmapseachkeytoauniformlyrandom
+locationinthetable,independentlyofwhereallotherkeysaremapped. Thequestionwewillansweristhe
+following: whatisthelargestnumbermofkeyswecanstorebeforetheprobabilityofacollisionreaches 1?
+2
+Notethatthereisnothingspecialabout 1. Onecanask,andanswer,thesamequestionwithdifferentvalues
+2
+ofcollisionprobability,andthelargestnumberofkeysmwillchangeaccordingly.
+1.1 Balls 和 Bins
+Letusbeginbyseeinghowthisproblemcanbeputintotheballs-和-binsframework. Theballswillbethe
+m keys to be stored, 和 the bins will be the n locations in the hash 表 T. 因为 the hash 函数 maps
+each key to a random location in the 表 T, we can see each key (ball) as choosing a hash 表 location
+(bin) uniformly from T, independently of all other keys. 因此 the 概率 space corresponding to this
+hashingexperimentisexactlythesameastheballs-和-binsspace.
+We are interested in the 事件 A that 存在 no collision, 或 equivalently, that all m balls land in different
+bins. Clearly P[A] will decrease as m increases (with n fixed). Our goal is to 求 the largest value of m
+suchthatP[A]≥1−ε,whereε ∈(0,1)isaspecifiedtolerancelevelofcollisionprobability. [笔记: Strictly
+speaking, we are looking at different sample spaces here, one 对于 each value of m. 所以 it would be more
+correcttowriteP ratherthanjustP,tomakeclearwhichsamplespacewearetalkingabout. 然而,we
+m
+willomitthisdetail.]
+1.2 Using the 并集 界
+令 us see how to use the 并集 界 to achieve this goal. We will fix the value of m 和 try to 计算
+P[A]. Thereareexactly (cid:0)m(cid:1) = m(m−1) possiblepairsamongourmkeys. Imaginethesearenumberedfrom1
+to
+(cid:0)m(cid:1)
+(itdoesnotmatter
+2
+how). L
+2
+etC denotetheeventthatpairihasacollision(i.e.,bothkeysinthepair
+2 i
+(m)
+are hashed to the same location). 那么 the 事件 A that some collision occurs can be written A=(cid:83) 2 C.
+i=1 i
+What is P[C]? We claim it is just 1 对于 every i; this is the 概率 that two particular balls land in the
+i n
+samebinwhentherearenbins. (Checkthatyouunderstandthis!)
+所以,usingtheunionboundfromearlier,wehave
+P[A]=P
+(cid:20) (cid:91)(m
+2
+)
+C
+(cid:21)
+≤
+(
+∑
+m 2 )
+P[C]=
+(cid:18) m (cid:19)
+×
+1
+=
+m(m−1)
+≈
+m2
+.
+i i
+i=1 2 n 2n 2n
+i=1
+√
+This means that the 概率 of having a collision is less than ε 如果
+m2
+≤ε; 即, 如果 m≤ 2εn. (对于
+√ 2n
+ε = 1,thisjustsaysm≤ n.) 因此,ifwewishtosuffernocollisionswithhighprobability,thesizeofthe
+2
+hashtablemustbeaboutthesquareofthecardinalityofthesetwearetryingtostore. (Inthelatersection
+onloadbalancing,wewillseewhathappenstothenumberofcollisionsifwedecreasethesizeofthehash
+tableandmakeitsimilartothesizeofthesetwearetryingtostore.)
+As detailed in 节 1.4, 结果是 we can derive a slightly more accurate 界 对于 m using
+techniquesthatarelesscrudethantheunionbound. 然而,althoughthatalternateboundisalittlebetter,
+√
+bothboundsarethesameintermsoftheirdependenceonn(bothareoftheformm=O( n)).
+CS70,Spring2026,Note15 2
+
+1.3 The Birthday Paradox Revisited
+Recall the Birthday Paradox from an earlier lecture: how many people need to be in a room in order to
+ensure that two of them have the same birthday, with 概率 at least 1? This is exactly the hashing
+2
+problemconsideredintheprevioussection, withn=365. (Why? Actuallythereisadifferenceof1inthe
+answers, 因为 the hashing 题目 wants to avoid collisions with 概率 at least 1 当...时 the birthday
+2
+题目 wants to get at least one collision with 概率 at least 1). We noted in the earlier lecture, by
+2
+an exact calculation, that the 答案 to the birthday 题目 is 23. This is in line with our approximate
+√
+calculationintheprevioussection,since23isofasimilarorderto 365≈19.
+1.4 A More Accurate 界
+In this 节, we derive a more accurate 界 on m 对于 the collision 题目, 其中 will 证明 that the
+√
+square-rootdependencem=O( n)isnotonlysufficientbutalsonecessary.
+MainIdea
+令’sfixthevalueofmandtrytocomputeP[A]exactly,ratherthanapproximatingitusingtheunionbound
+aswedidabove. (Thisexactcalculationiswhatwedidforthebirthdayproblemintheearlierlecture.) 因为
+ourprobabilityspaceisuniform(eachoutcomehasprobability 1 ),it’senoughjusttocountthenumberof
+nm
+outcomes in A. In how many ways can we arrange m balls in n bins 所以 that no bin contains more than one
+ball? Well,thisisjustthenumberofwaysofchoosingmthingsoutofnwithout replacement,whichaswe
+sawinanearliernoteis
+n×(n−1)×(n−2)×···×(n−m+2)×(n−m+1).
+This formula is valid as long as m≤n: 如果 m>n 那么 clearly the 答案 is zero. From now on, we will
+assumethatm≤n.
+Nowwecancalculatetheprobabilityofnocollision:
+n(n−1)(n−2)...(n−m+1)
+P[A]=
+nm
+n n−1 n−2 n−m+1
+= × × ×···×
+n n n n
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+1 2 m−1
+= 1− × 1− ×···× 1− . (1)
+n n n
+Beforegoingon,令’spausetoobservethatwecouldcomputeP[A]inadifferentway,asfollows. Viewthe
+probabilityspaceasasequenceofchoices, oneforeachball. For1≤i≤m, letA betheeventthattheith
+i
+balllandsinadifferentbinfromballs1,2,...,i−1. 那么
+P[A]=P
+(cid:104)(cid:92)m
+A
+(cid:105)
+=P[A ]×P[A |A ]×P[A |A ∩A ]×···×P
+(cid:104)
+A |
+(cid:92)m−1
+A
+(cid:105)
+i 1 2 1 3 1 2 m i
+i=1 i=1
+n−1 n−2 n−m+1
+=1× × ×···×
+n n n
+(cid:18) (cid:19) (cid:18) (cid:19) (cid:18) (cid:19)
+1 2 m−1
+= 1− × 1− ×···× 1− .
+n n n
+Fortunately, we get the same 答案 as before! [You should make sure you see how we obtained the
+条件的 probabilities in the second line above. 对于 例子, P[A |A ∩A ] is the 概率 that the
+3 1 2
+CS70,Spring2026,Note15 3
+
+thirdballlandsinadifferentbinfromthefirsttwoballs, giventhat thosetwoballsalsolandedindifferent
+bins. Thismeansthatthethirdballhasn−2possiblebinchoicesoutofatotalofn.]
+Essentially, we are now done with our 题目: 方程 (1) gives an exact formula 对于 the 概率 of
+nocollisionwhenmkeysarehashed. Allweneedtodonowisplugvaluesm=1,2,3,...into(1)untilwe
+findthatP[A]dropsbelow1−ε. Thecorrespondingvalueofm(minus1)iswhatwewant. (Again, thisis
+exactlywhatwedidforthebirthdayprobleminanearlierlecture.)
+We can actually make this 界 much more useful by turning it around, as we will do below. We will
+deriveanequationwhichtellsusthevalueofmatwhichP[A]dropsbelow1−ε.
+FurtherSimplification
+Theboundwegaveabove(forthelargestnumbermofkeyswecanstorebeforetheprobabilityofacollision
+reaches 1)isnotreallysatisfactory: itwouldbemuchmoreusefultohaveaformulathatgivesthe“critical”
+2
+value of m directly, rather than having to 计算 P[A] 对于 m=1,2,3,.... 笔记 that we would have to do
+thiscomputationseparatelyforeachdifferentvalueofnweareinterestedin: i.e.,wheneverwechangethe
+sizeofourhashtable.
+所以 what remains is to “turn (1) around”, 所以 that it tells us the value of m at 其中 P[A] drops below 1. To
+2
+do this, 令’s takelogs: this isa goodthing to dobecause itturns theproduct intoa sum, 其中 is easierto
+handle. Weget
+(cid:16) 1(cid:17) (cid:16) 2(cid:17) (cid:16) m−1(cid:17)
+ln(P[A])=ln 1− +ln 1− +···+ln 1− , (2)
+n n n
+其中 “ln” denotes natural (base e) logarithm. Now we can make use of a standard 近似 对于
+logarithms: 即,ifxissmallthenln(1−x)≈−x. ThiscomesfromtheTaylorseriesexpansion
+x2 x3
+ln(1−x)=−x− − −···.
+2 3
+Sobyreplacingln(1−x)by−xwearemakinganerrorofatmost(x2 +x3 +···),whichisatmost2x2when
+2 3
+x≤ 1. Inotherwords,wehave
+2
+−x≥ln(1−x)≥−x−2x2.
+和 如果 x is small 那么 the error term 2x2 will be much smaller than the main term −x. Rather than carry
+around the error term 2x2 everywhere, in what follows we will just write ln(1−x) ≈ −x, secure in the
+knowledgethatwecouldmakethisapproximationpreciseifnecessary.
+Nowlet’splugthisapproximationinto(2):
+1 2 3 m−1
+ln(P[A])≈− − − −···−
+n n n n
+1m−1
+=− ∑ i
+n
+i=1
+m(m−1)
+=−
+2n
+m2
+≈− . (3)
+2n
+笔记 that 我们有 used the 近似 对于 ln(1−x) with x= 1,2,3,...,m−1. 所以 our 近似
+n n n n
+shouldbegoodprovidedallthesearesmall, i.e.,providednisfairlybigandmisquiteabitsmallerthann
+CS70,Spring2026,Note15 4
+
+√
+(whichitwillbe,sincewewillonlyneedtotakemuptoabout n). Oncewearedone,wewillseethatthe
+approximationisactuallyprettygoodevenformodestsizesofn.
+Nowwecanundothelogsin(3)togetourexpressionforP[A]:
+P[A]≈e−m
+2n
+2
+.
+Thefinalstepistofigureoutforwhatvalueofmthisprobabilitybecomes1−ε. Sowewantthelargestm
+suchthate−m
+2n
+2
+≥1−ε. Thismeanswemusthave
+m2 (cid:18) 1 (cid:19)
+− ≥ln(1−ε)=−ln ,
+2n 1−ε
+orequivalently
+(cid:115)
+(cid:18) 1 (cid:19) √
+m≤ 2ln × n. (4)
+1−ε
+√ √
+对于 ε = 1, the 系数 in front of n is 2ln2≈1.177. 所以 the bottom line is that we can hash ap-
+2 √
+proximatelym=⌊1.177 n⌋keysbeforetheprobabilityofacollisionreaches 1. Recallthatourcalculation
+2
+was only approximate; 所以 we should go back 和 get a feel 对于 how much error we made. We can do this
+by using (1) to 计算 the exact largest value m=m 对于 其中 P[A] remains above 1, 对于 a few sample
+0 √ 2
+valuesofn. Thenwecancomparethesevalueswithourestimatem≈1.177 n:
+n 10 20 50 100 200 365 500 1000 104 105 106
+√
+1.177 n 3.7 5.3 8.3 11.8 16.6 22.5 26.3 37.3 118 372 1177
+exactm 4 5 8 12 16 22 26 37 118 372 1177
+0
+From the 表, we see that our 近似 is very good even 对于 small values of n. When n is large,
+theerrorintheapproximationbecomesnegligible. (Noteinparticularthatwhenn=365,wegetm =22.
+0
+This corresponds to the fact that, when 存在 22 people in a room, the 概率 that any two share a
+birthdayislessthan 1,butaddingonemorepersonpushesthisprobabilityabove 1.)
+2 2
+如果 instead we were interested in keeping the collision 概率 below (say) ε = 1 (i.e., 5%), (4) 蕴含
+(cid:112) √ 20
+thatwecouldhashatmostm= (2ln(20/19))n≈0.32 nkeys. Ofcourse,thisnumberisabitsmallerthan
+√
+1.177 nbecauseourcollisionprobabilityisnowsmaller. Butnomatterwhat“confidence”probabilitywe
+√
+specify,ourcriticalvalueofmwillalwaysbec nforsomeconstantc(whichdependsontheconfidence).
+2 Coupon Collecting
+Inthecouponcollectingproblem,ourgoalistocollectasetofndifferentbaseballcards. Wegetthecards
+by buying boxes of cereal: each box contains exactly one card, 和 it is equally likely to be any of the n
+cards. Howmanyboxesdoweneedtobuyuntilwehavecollectedatleastonecopyofeverycard?
+Thisproblemtoocanbemodeledwithballsandbins,wherethequestionnowis: “Howmanyballsshould
+onethrowinordertohaveatleastoneballineachofthenbins?”
+Thisquestioncanagainbeaddressedusingtheunionboundmethodontheexperimentofthrowingmballs
+intonbins. Firstwecalculatetheprobabilitythatthefirstbinisempty. Aballmissesthebinwithprobability
+(1−1)和,usingtheproductruleforindependentevents,wecanconcludethatallmballsmissthebinwith
+n
+概率 (1− 1)m. 对于 large n, we can approximate this value by e−m n, using the standard exponential
+n
+CS70,Spring2026,Note15 5
+
+近似 (1−1)n ≈e−1. (This 近似 is actually very good, even 对于 moderate values of n:
+n
+tryitoutyourself!)
+Nowwecanusetheunionboundtoboundtheprobabilitythatanyofthenbinsisempty. WritingAforthe
+eventthatanyofthebinsisempty,andA fortheeventthattheithbinisempty,wehave
+i
+(cid:20) n (cid:21)
+P[A]=P (cid:91) A
+i
+≤n×e−m n.
+i=1
+Finally, by choosing m=nlnn+n, we see that the 概率 that any bin is empty is at most 1/e. 因此,
+with 概率 at least 1−1/e (其中 is a bit larger than 1), we will have collected all n coupons after
+2
+buyingatmostnlnn+ncerealboxes.
+This rough calculation actually gives us a pretty accurate 答案: more sophisticated calculations can be
+usedtoshowthat,evenformoderatevaluesofn,thenumberofboxesrequiredtocollectallthecouponsis
+closetonlnn. Tointerpretthisresult, notethatwecertainlyhavetobuyatleastnboxesinordertocollect
+allthecoupons;butwewouldhavetobeincrediblyluckytogetthemallinonlynboxes! Wecanviewthe
+lnnfactorasthe“overhead”inthenumberofboxeswehavetobuyinordertobeprettysurewe’vegotall
+thecoupons.
+Despiteitsfolksydescription, couponcollectingarisesfrequentlyintheanalysisofmanyrandomizedpro-
+cessesandalgorithms: e.g., howlongdoesittakeforallncomponentsinsomesystemtofire, giventhata
+randomonefireseachsecond?
+3 Load Balancing
+Animportantpracticalissueindistributedcomputingishowtospreadtheworkloadinadistributedsystem
+amongitsprocessors. Hereweinvestigateanextremelysimplescenariothatisbothfundamentalinitsown
+rightandalsoestablishesabaselineagainstwhichmoresophisticatedmethodsshouldbejudged.
+Supposewehavemidenticaljobsandnidenticalprocessors. Ourtaskistoassignthejobstotheprocessors
+insuchawaythatnoprocessoristooheavilyloaded. Ofcourse,thereisasimpleoptimalsolutionhere: just
+divideupthejobsasevenlyaspossible,sothateachprocessorreceiveseither
+(cid:6)m(cid:7)
+或
+(cid:4)m(cid:5)
+jobs. 然而,this
+n n
+solutionrequiresalotofcentralizedcontrol,和/oralotofcommunication: theworkloadhastobebalanced
+evenlyeitherbyapowerfulcentralizedschedulerthattalkstoalltheprocessors,orbytheexchangeofmany
+messages between jobs 和 processors. This kind of operation is very costly in most distributed systems.
+Thequestionthereforeis: Whatcanwedowithlittleornooverheadinschedulingandcommunicationcost?
+3.1 Back to Balls 和 Bins
+Thefirstideathatcomestomindhereis...ballsandbins! Inotherwords,eachjobsimplyselectsaprocessor
+uniformlyatrandomandindependentlyofallothers,andgoestothatprocessor. (Makesureyoubelievethat
+theprobabilityspaceforthisexperimentisthesameastheoneforballsandbins.) Thisschemerequiresno
+communication. 然而, presumably it will 非 in general achieve an optimal balancing of the load. 令
+A be the 事件 that the load of some processor is at least k. As designers 或 users of this load balancing
+k
+scheme,here’sonequestionwemightcareabout:
+问题: FindthesmallestvalueksuchthatP[A ]≤ 1.
+k 2
+Ifwehavesuchavaluek,thenwewillknowthat,withhighprobability(atleast 1),everyprocessorinour
+2
+system will have a load at most k. This will give us a good idea about the performance of the system. Of
+CS70,Spring2026,Note15 6
+
+course,aswithourhashingapplication,there’snothingspecialaboutthevalue 1;wearejustusingthisfor
+2
+illustration. EssentiallythesameanalysiscanbeusedtofindksuchthatP[A ]≤0.05(i.e.,95%confidence),
+k
+oranyothervaluewelike. Indeed,wecanevenfindthek’sforseveraldifferentconfidencelevelsandthus
+buildupamoredetailedpictureofthebehaviorofthescheme. Tosimplifyourproblem,wewillalsoassume
+fromnowonthatm=n(i.e.,thenumberofjobsisthesameasthenumberofprocessors). Withabitmore
+work,wecouldgeneralizeouranalysistoothervaluesofm.
+3.2 Applying the 并集 界
+From the hashing application, we know1 that we get collisions with high 概率 already when m ≈
+√
+1.177 n. 所以, when m=n, the maximum load will certainly be larger than 1 (with high 概率). 但是
+howlargewillitbe? Ifwetrytoanalyzethemaximumloaddirectly,werunintotheproblemthatitdepends
+onthenumberofjobsateveryprocessor(orequivalently,thenumberofballsineverybin). Sincetheload
+inonebindependsonthoseintheothers,thisbecomesverytricky. Instead,whatwewilldoisanalyzethe
+loadinanyonebin,saybin1;thiswillbefairlyeasy. LetA (1)betheeventthattheloadinbin1isatleast
+k
+k. Whatwewilldoistofindthesmallestksuchthat
+1
+P[A (1)]≤ . (5)
+k
+2n
+Sinceallthebinsareidentical,wewillthenknowthat,forthesamek,
+1
+P[A (i)]≤ , fori=1,2,...,n,
+k
+2n
+whereA (i)istheeventthattheloadinbiniisatleastk. Butnow,sincetheeventA isexactlytheunionof
+k k
+theeventsA (i)(doyouseewhy?),wecanusetheunionbound:
+k
+P[A ]=P
+(cid:104)(cid:91)n
+A (i)
+(cid:105)
+≤ ∑
+n
+P[A (i)]≤n×
+1
+=
+1
+.
+k k k
+i=1 2n 2
+i=1
+It is worth standing back to notice what we did here: we wanted to conclude that P[A ]≤ 1. We could 非
+k 2
+analyze A directly, 但是 we knew that A =(cid:83)n A (i), 对于 much simpler events A (i). 因为 存在 n
+k k i=1 k k
+events A (1),...,A (n), 和 all have the same 概率, it is enough 对于 us to 证明 that P[A (i)]≤ 1 ;
+k k k 2n
+the 并集 界 那么 guarantees thatP[A ]≤ 1. This kind of reasoning is very common in applications of
+k 2
+probabilityinengineeringcontextslikeComputerScience.
+Nowallthatislefttodoistofindthesmallestkthatsatisfies(5). Thatis,wewishtoboundtheprobability
+thatbin1hasatleastkballs(andfindthesmallestvalueofksothatthisprobabilityissmallerthan 1 ). We
+2n
+startbyobservingthatfortheeventA (1)tooccur(thatbin1hasatleastkballs),theremustbesomesubset
+k
+Sofexactlyk ballssuchthatallballsinSendedupinbin1. Wecansaythismoreformallyasfollows: 对于
+asubsetS(其中|S|=k),letB betheeventthatallballsinSlandinbin1. ThentheeventA (1)isequal
+S k
+totheunionoftheeventsB overallsetsSofcardinalityk. Thuswehave:
+S
+P[A (1)]=P
+(cid:104)(cid:91)
+B
+(cid:105)
+.
+k S
+S
+WecanusetheunionboundonP[(cid:83) B ]:
+S S
+P
+(cid:104)(cid:91)
+B
+(cid:105)
+≤∑P[B ].
+S S
+S
+S
+1Note that this 题目 of finding the heaviest load in load balancing is identical to asking what the length of the longest
+linked-listinthehash-tablewouldbe,whenwearestoringnitemsinahashtableofsizen.
+CS70,Spring2026,Note15 7
+
+Thereare (cid:0)n(cid:1) setswearesummingover,andforeachsetS,P[B ]issimple: itisjusttheprobabilitythatall
+k S
+kballsinSlandinbin1,whichis 1. Usingtheseobservationsandtheaboveequations,wecancomputean
+nk
+upperboundonP[A (1)]:
+k
+(cid:18) (cid:19)
+n 1
+P[A (1)]≤ .
+k k nk
+因此,toachieveouroriginalgoalofsatisfying(5),weneedtofindthesmallestksothat (cid:0)n(cid:1)1 ≤ 1 . First
+k nk 2n
+notethat
+(cid:18) (cid:19)
+n 1 n(n−1)···(n−k+1) 1 1
+= ≤ ,
+k nk k! nk k!
+所以 (cid:0)n(cid:1)1 ≤ 1 如果 1 ≤ 1 . Takinglogs, thisisequivalenttolnk!≥ln(2n). UsingacoarseformofStirling’s
+k nk 2n k! 2n
+approximationlnk!≈klnk−kforlargek,weconcludethatlnk!≈ln(2n)ifkischosentobe
+lnn
+k≈ ,
+lnlnn
+forlargen. Thisapproximationisactuallyinlinewiththevalueobtainedbymoredetailedcalculations,和
+forlargenisagoodestimateofthemaximumload. Infact,amorecarefulanalysissuggeststhatthevalue
+k = 2lnn is a good upper 界 on the maximum load 对于 reasonable values of n. (The extra factor of 2
+lnlnn
+wipesoutsomelowerorderterms.) Thefollowingtableshowsthegrowthofthisbound,givingagoodidea
+ofhowthemaximumloadbehavesasafunctionofn.
+n 10 20 50 100 500 1000 104 105 106 107 108 1015
+2lnn 5.5 5.5 5.7 6.0 6.8 7.2 8.2 9.4 10.6 11.6 12.6 20
+lnlnn
+Finally,hereisonepunchlinefromtheabove. 令’ssaytheUSpopulationisabout350million. Supposewe
+mail350millionitemsofjunkmail, eachonewitharandomUSaddress. Thenwithprobabilityatleast 1,
+2
+noonepersonanywherewillreceivemorethanaboutadozenitems!
+CS70,Spring2026,Note15 8
+

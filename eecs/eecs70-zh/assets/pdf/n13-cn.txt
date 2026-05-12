@@ -1,0 +1,310 @@
+CS 70 离散数学 和 概率论
+笔记 13
+春季 2026 Course Notes
+Introduction to 离散的 概率
+概率论 hasits origins in gambling—analyzing cardgames, dice, roulette wheels. Todayit is an
+essentialtoolinengineeringandthesciences. NolesssoinEECS,whereitsuseiswidespreadinalgorithms,
+systems,control,signalprocessing,learningtheory,andAI.
+Herearesometypicalstatementsthatyoumightseeconcerningprobability:
+1. Thechanceofgettingaflushina5-cardpokerhandisabout2in1000.
+2. The chance that this randomized primality testing 算法 outputs “prime” when the input is 非
+primeisatmostoneinatrillion.
+3. In this load-balancing scheme, the 概率 that any processor has to deal with more than 12 re-
+questsisnegligible.
+4. Theaveragetimebetweensystemfailuresisabout3days.
+5. Thereisa30%chanceofamagnitude8.0earthquakeinNorthernCaliforniabefore2040.
+Implicitinallsuchstatementsisthenotionofanunderlyingprobabilityspace. Thismaybetheresultofa
+randomexperimentthatwehaveourselvesconstructed(asin1,2and3above),orsomemodelwebuildof
+therealworld(asin4and5above). Noneofthesestatementsmakessenseunlesswespecifytheprobability
+spacewearetalkingabout: forthisreason,statementslike5(whicharetypicallymadewithoutthiscontext)
+arealmostcontent-free.
+In this 笔记, we will try to understand all this more clearly. The first important notion here is that of a
+random experiment. We will start by introducing the space of all possible outcomes of the experiment,
+calledasamplespace. Eachelementofthesamplespaceisassignedaprobabilitywhichtellsushowlikely
+theoutcomeistooccurwhenweactuallyperformtheexperiment.
+1 Random Experiments
+Typically, a random experiment consists of drawing a sample of k elements from a 集合 S of cardinality n.
+The possible outcomes of such an experiment are exactly the objects that we counted in 笔记 12. Recall
+fromNote12thatweconsideredfourpossiblescenariosforcounting,dependinguponwhetherwesampled
+with 或 without replacement, 和 whether the order in 其中 the k elements are chosen does 或 does 非
+matter. The same will be the case 对于 our random experiments. The 结果 of a random experiment is
+called asample point, andthe 样本空间(often denotedbyΩ) isthe 集合 ofall possible outcomesof the
+experiment.
+An 例子 of such an experiment is tossing a coin 4 times. In this case, S={H,T} 和 we are drawing
+4 elements with replacement. HTHT is an 例子 of a sample point 和 the 样本空间 Ω has 16
+elements,asillustratedinthefollowingpicture:
+CS70,Spring2026,Note13 1
+
+HHHH HTHH THHH TTHH
+HHHT HTHT THHT TTHT
+Ω =
+HHTH HTTH THTH TTTH
+HHTT HTTT THTT TTTT
+Howdowedeterminethechanceofeachparticularoutcome,suchasHHTH,ofourexperiment? Inorder
+todothis,weneedtodefinetheprobabilityforeachsamplepoint,asdescribedbelow.
+2 概率 Spaces
+AprobabilityspaceisasamplespaceΩ, togetherwithaprobabilityP[ω](oftenalsodenotedasPr[ω])对于
+eachsamplepointω,suchthat
+• (Non-negativity): 0≤P[ω]≤1forallω ∈Ω.
+• (Sumto1): ∑ P[ω]=1,i.e.,thesumoftheprobabilitiesoveralloutcomesis1.
+ω∈Ω
+(Technically, P is a 实数-valued 函数 on a certain collection of subsets of Ω, 和 is called 概率
+measure.) The easiest way to assign probabilities to sample points is to do it uniformly: 如果 |Ω|=N, 那么
+P[ω]= 1, ∀ω ∈Ω. 对于 例子, 如果 we toss a fair coin 4 times, each of the 16 sample points (as pictured
+N
+above)isassignedprobability 1 . Wewillseeexamplesofnon-uniformprobabilityspacessoon.
+16
+After performing an experiment, we are often interested in knowing whether a certain 事件 occurred. 对于
+例子, we might be interested in the 事件 that there were exactly 2 H’s in four tosses of the coin. How
+do we formally 定义 the concept of an 事件 in terms of the 样本空间 Ω? The 答案 is to identify
+the 事件 “exactly 2 H’s” with the 集合 of all those outcomes in 其中 存在 exactly two H’s, 即:
+{HHTT,HTHT,HTTH,THHT,THTH,TTHH}⊂Ω. 因此, formally an 事件 A is just a 子集 of the
+samplespaceΩ,i.e.,A⊆Ω.
+How should we 定义 the 概率 of an 事件 A? Naturally, we should just add up the probabilities of
+thesamplepointsinA. ForanyeventA⊆Ω,wedefinetheprobabilityofAtobe
+P[A]= ∑ P[ω].
+ω∈A
+Notethat0≤P[A]≤1forallA⊆Ω,andP[Ω]=1. TheprobabilityofgettingexactlytwoH’sinfourcoin
+tossescanbecalculatedusingthisdefinitionasfollows. EventAconsistsofallsequencesthathaveexactly
+twoH’s,andso|A|= (cid:0)4(cid:1) =6. Forthisexample,thereare24=16possibleoutcomesforflippingfourcoins.
+2
+因此, each sample point ω ∈A has 概率 1 ; 和 因为 存在 six sample points in A, 我们得到
+16
+P[A]=6· 1 = 3.
+16 8
+3 Examples
+We will now look at examples of random experiments 和 their corresponding sample spaces, along with
+possibleprobabilityspacesandevents.
+CS70,Spring2026,Note13 2
+
+3.1 Coin Tosses
+SupposewehaveacoinwithP[H]= pandP[T]=1−p,andourexperimentconsistsofflippingthecoin4
+times. ThesamplespaceΩconsistsofthesixteenpossiblesequencesofH’sandT’sshowninthefigureon
+thepreviouspage.
+The 概率 space depends on p. 如果 p= 1 the probabilities are assigned uniformly; the 概率 of
+2
+each sample point is 1 . What 如果 p= 2? 那么 the probabilities are different. 对于 例子, P[HHHH]=
+16 3
+2×2×2×2 = 16,whileP[TTHH]= 1×1×2×2 = 4 . (笔记: Wehavesimplymultipliedprobabilities
+3 3 3 3 81 3 3 3 3 81
+here; we will explain later why this is the correct thing to do 对于 this 例子. It is 非 always OK to
+multiplyprobabilitieslikethis.)
+What type of events can we 考虑 in this setting? 令 A be the 事件 that all four coin tosses are the
+same. 那么 A={HHHH,TTTT}. HHHH has 概率
+(cid:0)2(cid:1)4
+和 TTTT has 概率
+(cid:0)1(cid:1)4
+. 因此,
+3 3
+P[A]=P[HHHH]+P[TTTT]= (cid:0)2(cid:1)4 + (cid:0)1(cid:1)4 = 17.
+3 3 81
+Next,considertheeventBthatthereareexactlytwoheads. Theprobabilityofanyparticularoutcomewith
+two heads (such as HTHT) is
+(cid:0)2(cid:1)2(cid:0)1(cid:1)2
+. How many such outcomes are there? 存在
+(cid:0)4(cid:1)
+=6 ways
+3 3 2
+of choosing the positions of the heads, 和 these choices completely specify the 序列. 所以, P[B] =
+6 (cid:0)2(cid:1)2(cid:0)1(cid:1)2 = 24 = 8 .
+3 3 81 27
+Moregenerally,ifweflipthecoinntimes,wegetasamplespaceΩofcardinality2n. Thesamplepointsare
+all possible length-n sequences of H’s 和 T’s. 如果 the coin has P[H]= p, 和 如果 we 考虑 any 序列
+ofncoinflipswithexactlyrH’s,thentheprobabilityofthissequenceis pr(1−p)n−r.
+Now 考虑 the eventC that we get exactly r H’s when we flip the coin n times. This 事件 consists of
+exactly (cid:0)n(cid:1) samplepointsandeachhasprobability pr(1−p)n−r. 所以,P[C]= (cid:0)n(cid:1) pr(1−p)n−r.
+r r
+Biasedcointossingsequencesshowupinmanycontexts: forexample,theymightmodelthebehaviorofn
+independenttrialsofafaultysystem,whichfailseachtimewithprobability p.
+3.2 Rolling Dice
+考虑 rolling two fair dice. In this experiment, Ω = {(i,j) : 1 ≤ i,j ≤ 6}. The 概率 space is
+均匀的,i.e.,allsamplepointshavethesameprobability 1 = 1 . 因此,theprobabilityofanyeventAis
+|Ω| 36
+#ofsamplepointsinA |A|
+P[A]= = .
+#ofsamplepointsinΩ |Ω|
+所以,foruniformspaces,computingprobabilitiesreducestocountingsamplepoints!
+Now 考虑 two events: the 事件 A that the sum of the dice is at least 10 和 the 事件 B that 存在 at
+least one 6. By enumerating the sample points contained in each 事件, it can be easily shown that |A|=6
+和|B|=11. 那么,bytheobservationabove,itfollowsthatP[A]= 6 = 1 andP[B]= 11.
+36 6 36
+3.3 Card Shuffling
+Considertherandomexperimentofshufflingadeckofstandardplayingcards. Here,Ωisequaltothesetof
+all52!permutationsofthedeck. Weassumethattheprobabilityspaceisuniform. (Notethatwearereally
+talking about an idealized mathematical model of shuffling here; in 实数 life, there will always be a bit of
+bias in our shuffling. 然而, the mathematical model is close enough to be useful.) We can generalize
+CS70,Spring2026,Note13 3
+
+thisexperimenttorandomly“shuffling"nitems,forarbitraryn. (Forcardshuffling,n=52.) Forexample,
+supposewecollectthehomeworksofnstudentsinaclass,thenredistributethemrandomly,oneperstudent.
+Theresultisarandompermutationofthehomeworks,witheachoutcomehavingprobability 1.
+n!
+3.4 Poker Hands
+Here’sanotherexperiment: shufflingadeckofcardsanddealingapokerhand. Inthiscase,Sisthesetof52
+cards 和 our 样本空间 Ω={allpossiblepokerhands}, 其中 corresponds to choosing k=5 objects
+without replacement from a 集合 of size n=52 其中 order does 非 matter. 因此, as we saw in 笔记 12,
+|Ω|= (cid:0)52(cid:1) = 52×51×50×49×48 =2,598,960. Assumingthatthedeckiswellshuffled,theprobabilityofeach
+5 5×4×3×2×1
+outcomeisequallylikelyandwearethereforedealingwithauniformprobabilityspace.
+LetAbetheeventthatthepokerhandisaflush. (Forthosewhoarenotfamiliarwithpoker,aflushisahand
+in 其中 all cards have the same suit, say Hearts.) 因为 the 概率 space is 均匀的, computing P[A]
+reduces to simply computing |A|, the number of poker hands that are flushes. 存在 13 cards in each
+suit,sothenumberofflushesineachsuitis
+(cid:0)13(cid:1)
+. Thetotalnumberofflushesistherefore4×
+(cid:0)13(cid:1)
+. Thenwe
+5 5
+have
+4×
+(cid:0)13(cid:1)
+13! 5!47! 13·12·11·10·9
+P[handisaflush]= 5 =4× × =4× ≈0.002.
+(cid:0)52(cid:1) 5!8! 52! 52·51·50·49·48
+5
+3.5 Balls 和 Bins
+Inthisexperiment,wewillthrow20(labeled)ballsinto10(labeled)bins. Assumethateachballisequally
+likelytolandinanybin,regardlessofwhathappenstotheotherballs.
+如果 you wish to understand this situation in terms of sampling a 序列 of k elements from a 集合 S of
+cardinality n: the 集合 S consists of the 10 bins, 和 we are sampling with replacement k=20 times. The
+orderofsamplingmatters,sincetheballsarelabeled.
+The 样本空间 Ω is equal to {(b ,b ,...,b ):1≤b ≤10 foreachi=1,...,20}, 其中 the compo-
+1 2 20 i
+nentb denotesthebininwhichballilands. Thecardinality|Ω|ofthesamplespaceisequalto1020,因为
+i
+each 元素 b in the 序列 has 10 possible choices 和 存在 20 elements in the 序列. More
+i
+generally, 如果 we throw m balls into n bins, 我们有 a 样本空间 of size nm. The 概率 space is
+均匀的;aswesaidearlier,eachballisequallylikelytolandinanybin.
+令 A be the 事件 that bin 1 is empty. 因为 the 概率 space is 均匀的, we simply need to count
+how many outcomes have this property. This is exactly the number of ways all 20 balls can 秋季 into the
+remainingninebins,whichis920. 因此,P[A]= 920 = (cid:0) 9 (cid:1)20 ≈0.12.
+1020 10
+LetBbetheeventthatbin1containsatleastoneball. Thiseventisthecomplement AofA,i.e.,itconsists
+ofpreciselythosesamplepointswhicharenotinA. SoP[B]=1−P[A]≈0.88. Moregenerally,ifwethrow
+mballsintonbins,wehave:
+(cid:18)
+n−1
+(cid:19)m (cid:18)
+1
+(cid:19)m
+P[bin1isempty]= = 1− .
+n n
+As we shall see, balls 和 bins is another 概率 space that shows up very often in Computer Science:
+forexample,wecanthinkofitasmodelingaloadbalancingscheme,inwhicheachjobissenttoarandom
+processor.
+CS70,Spring2026,Note13 4
+
+It is also a more general model 对于 problems 我们有 previously considered. 对于 例子, flipping a fair
+coin4timesisthespecialcaseinwhichthenumberofballs(m)is4andthenumberofbins(n)is2. Rolling
+twodiceisthespecialcaseinwhichm=2andn=6.
+3.6 Birthday Paradox
+The“birthdayparadox”isaremarkablephenomenonthatexaminesthechancesthattwopeopleinagroup
+havethesamebirthday. Itisa“paradox”notbecauseofalogicalcontradiction,butbecauseitgoesagainst
+intuition. 对于 ease of calculation, we take the number of days in a year to be 365. 那么 S={1,...,365},
+andtherandomexperimentconsistsofdrawingasampleofnelementsfromSwithreplacement,wherethe
+elementsarethebirthdatesofnpeopleinagroup. 那么|Ω|=365n. Thisisbecauseeachsamplepointis
+asequenceofpossiblebirthdaysfornpeople; sotherearenpointsinthesequenceandeachpointhas365
+possiblevalues.
+令 A be the 事件 that at least a pair of people have the same birthday. 如果 we want to determine P[A], it
+mightbesimplertoinsteadcomputetheprobabilityofthecomplementofA;i.e.,P[A],whereAistheevent
+thatnotwopeoplehavethesamebirthday. SinceP[A]=1−P[A],wecantheneasilycomputeP[A].
+Weareagainworkinginauniformprobabilityspace,sowejustneedtodetermine|A|. Equivalently,weare
+computingthenumberofwaysfornotwopeopletohavethesamebirthday. Thereare365choicesforthe
+firstperson,364forthesecond,...,365−n+1choicesforthenthperson,foratotalof365×364×···×
+(365−n+1). This is simply an application of the First Rule of Counting from 笔记 12; we are sampling
+withoutreplacement(sinceweneedtoavoidcollisions)andtheordermatters.
+Insummary,wehave
+|A| 365×364×···×(365−n+1)
+P[A]= = ,
+|Ω| 365n
+soP[A]=1−P[A]=1−365×364×···×(365−n+1) . ThisallowsustocomputeP[A]asafunctionofthenumbern
+365n
+ofpeople. Ofcourse,asnincreasesP[A]increases. Infact,withn=23people,youshouldbewillingtobet
+thatatleastapairofpeoplehavethesamebirthday,sincethenP[A]islargerthan50%. Forn=60people,
+P[A]isover99%.
+3.7 The Monty Hall 题目
+Thisexampleislooselybasedonan(in)famous1970sTVgameshowhostedbyMontyHall. Acontestant
+isshownthreedoors;behindoneofthedoorsisavaluableprize(acar),andbehindtheothertwoaregoats.
+Thecontestantpicksadoor(butdoesnotopenit). ThenHall’sassistant(Carol)opensoneoftheothertwo
+doors,revealingagoat(sinceCarolknowswheretheprizeis,shecanalwaysdothis). Thecontestantisthen
+giventheoptionofstickingwithhis/hercurrentdoor,orswitchingtotheotherunopenedone. Thecontestant
+winstheprizeifandonlyiftheirchosendooristhecorrectone. Thequestionis: Doesthecontestanthave
+abetterchanceofwinningifhe/sheswitchesdoors?
+Intuitively,itseemsobviousthatsincethereareonlytworemainingdoorsafterCarolopensone,theymust
+haveequalprobability. Soyoumaybetemptedtojumptotheconclusionthatitshouldnotmatterwhetheror
+notthecontestantstaysorswitches. Wewillseethatactually,thecontestanthasabetterchanceofpicking
+the car 如果 he 或 she uses the switching strategy. We will first give an intuitive pictorial argument, 和 那么
+takeamorerigorousprobabilityapproachtotheproblem.
+To see why it is in the contestant’s best interests to switch, 考虑 the following. Initially when the
+contestant chooses the door, he 或 she has a 1 chance of picking the car. This must mean that the other
+3
+CS70,Spring2026,Note13 5
+
+doors combined have a 2 chance of winning. 但是 after Carol opens a door with a goat behind it, how do
+3
+theprobabilitieschange? Well,thedoorthecontestantoriginallychosestillhasa 1 chanceofwinning,和
+3
+thedoorthatCarolopenedhasnochanceofwinning. Whataboutthelastdoor? Itmusthavea 2 chanceof
+3
+containing the car, 和 所以 the contestant has a higher chance of winning 如果 he 或 she switches doors. This
+argumentcanbesummedupnicelyinthefollowingpicture:
+What is the 样本空间 here? Well, we can describe the 结果 of the game (up to the point 其中 the
+contestantmakeshis/herfinaldecision)usingatripleoftheform(i,j,k),wherei,j,k∈{1,2,3}. Thevalues
+i,j,k respectively specify the location of the prize, the initial door chosen by the contestant, 和 the door
+openedbyCarol. Notethatsometriplesarenotpossible: e.g.,(1,2,1)isnot,becauseCarolneveropensthe
+prize door. Thinking of the 样本空间 as a 树 structure, in 其中 first i is chosen, 那么 j, 和 finally k
+(dependingoniand j),weseethatthereareexactly12samplepoints.
+Assigningprobabilitiestothesamplepointshererequirespinningdownsomeassumptions:
+• Theprizeisequallylikelytobebehindanyofthethreedoors.
+• Initially,thecontestantisequallylikelytopickanyofthethreedoors.
+• 如果 the contestant happens to pick the prize door (所以 存在 two possible doors 对于 Carol to open),
+Carolisequallylikelytopickeitherone. (Actuallyourcalculationwillhavethesameresultnomatter
+howCarolpicksthedoor.)
+Fromthis,wecanassignaprobabilitytoeverysamplepoint. Forexample,thepoint(2,1,3)correspondsto
+theprizebeingplacedbehinddoor2(withprobability 1),thecontestantpickingdoor1(withprobability 1),
+3 3
+andCarolopeningdoor3(withprobability1,becauseshehasnochoice). 所以
+1 1 1
+P[(2,1,3)]= × ×1= .
+3 3 9
+[笔记: Again we are multiplying probabilities here, without proper justification!] 笔记 that 存在 six
+outcomesofthistype,characterizedbyhavingi̸= j(andhencekmustbedifferentfromboth). Ontheother
+hand,wehave
+1 1 1 1
+P[(1,1,2)]= × × = .
+3 3 2 18
+Andtherearesixoutcomesofthistype,havingi= j. Thesearetheonlypossibleoutcomes,sowehavecom-
+pletelydefinedourprobabilityspace. Justtocheckourarithmetic,wenotethatthesumoftheprobabilities
+ofalloutcomesis(6×1)+(6× 1 )=1.
+9 18
+令’sreturntotheMontyHallproblem. Recallthatwewanttoinvestigatetherelativemeritsofthe“sticking”
+strategy 和 the “switching” strategy. 令’s 假设 the contestant decides to switch doors. The eventW
+weareinterestedinistheeventthatthecontestantwins. Whichsamplepoints(i,j,k)areinW? Well,因为
+CS70,Spring2026,Note13 6
+
+thecontestantisswitchingdoors,theirinitialchoice j cannotbeequaltotheprizedoor,whichisi. Andall
+outcomesofthistypecorrespondtoawinforthecontestant,becauseCarolmustopenthesecondnon-prize
+door, leaving the contestant to switch to the prize door. SoW consists of all outcomes of the first type in
+our earlier analysis; 回忆 存在 six of these, each with 概率 1. 所以 P[W]= 6 = 2. 即,
+9 9 3
+usingtheswitchingstrategy,thecontestantwinswithprobability 2. Itshouldbeintuitivelyclear(andeasy
+3
+to check formally—try it!) that under the sticking strategy their 概率 of winning is 1. (In this case,
+3
+thecontestantisreallyjustpickingasinglerandomdoor.) Sobyswitching,thecontestantactuallyimproves
+theiroddsbyahugeamount!
+4 Summary
+The Monty Hall 例子 well illustrates the importance of doing 概率 calculations systematically,
+ratherthan“intuitively.” Recallthekeystepsinallourcalculations:
+• Whatisthesamplespace(i.e.,theexperimentanditssetofpossibleoutcomes)?
+• Whatistheprobabilityofeachoutcome(samplepoint)?
+• Whatistheeventweareinterestedin(i.e.,whichsubsetofthesamplespace)?
+• Finally, 计算 the 概率 of the 事件 by adding up the probabilities of the sample points
+containedinit.
+Whenever you meet a 概率 题目, you should always go back to these basics to avoid potential
+pitfalls. Evenexperiencedresearchersmakemistakeswhentheyforgettodothis—witnessmanyerroneous
+“proofs”,submittedbypeoplewithPhDstonewspapersatthetime,oftheclaimthattheswitchingstrategy
+intheMontyHallproblemdoesnotimprovetheodds.
+CS70,Spring2026,Note13 7
+

@@ -1,0 +1,547 @@
+CS 70 离散数学 和 概率论
+笔记 14
+春季 2026 Course Notes
+条件的 概率, Independence, 和 Combinations of Events
+Oneofthekeypropertiesofcoinflipsisindependence: ifyouflipafaircointentimesandgettenT’s,this
+doesnotmakeitmorelikelythatthenextcoinflipwillbeH’s. Itstillhasexactly50%chanceofbeingH.
+By contrast, 假设 当...时 dealing cards, the first ten cards are all red (hearts 或 diamonds). What is the
+chancethatthenextcardisred? Westartedwithexactly26redcardsand26blackcards. Butafterdealing
+the first ten cards, we know that the deck has 16 red cards 和 26 black cards. 所以 the chance that the
+next card is red is 16. 所以 unlike the case of coin flips, now the chance of drawing a red card is no longer
+42
+independentofthepreviouscardthatwasdealt. Thisisthephenomenonwewillexploreinthisnote.
+1 条件的 概率
+令’s 考虑 an 例子 with a smaller 样本空间. 假设 we toss m=4 labeled balls into n=3
+labeledbins;thisisauniformsamplespacewith34=81samplepoints. Fromthepreviousnote,wealready
+knowthattheprobabilitythefirstbinisemptyis(1−1)4=(2)4= 16. Whatistheprobabilityofthisevent
+3 3 81
+giventhatthesecondbinisempty? LetAdenotetheeventthatthefirstbinisempty,andBtheeventthatthe
+secondbinisempty. Inthelanguageofconditionalprobability,wewishtocomputetheprobabilityP[A|B],
+whichwereadas“theconditionalprobabilityofAgivenB.”
+HowshouldwecomputeP[A|B]? SinceeventBisguaranteedtohappen,weneedtolooknotatthewhole
+样本空间 Ω, 但是 at the smaller 样本空间 consisting only of the sample points in B. In terms of the
+picturebelow,wearenolongerlookingatthelargeoval,butonlytheovallabeledB:
+B
+Ω=
+A
+Whatshouldbetheprobabilityofeachsamplepointω ∈BgiventhattheeventBoccurs? Iftheyallsimply
+inheritedtheirprobabilitiesfromΩ,thenthesumoftheseprobabilitieswouldbe∑ P[ω]=P[B],其中
+ω∈B
+ingeneralislessthan1. 所以,togetthecorrectnormalization,weneedtoscaletheprobabilityofeachsample
+pointby 1 . Thatis,foreachsamplepointω ∈B,thenewprobabilitybecomes
+P[B]
+P[ω]
+P[ω |B]= .
+P[B]
+NowitisclearhowtocomputeP[A|B]: 即, wejustsumupthesescaledprobabilitiesoverallsample
+pointsthatlieinbothAandB:
+P[ω] P[A∩B]
+P[A|B]= ∑ P[ω |B]= ∑ = .
+P[B] P[B]
+ω∈A∩B ω∈A∩B
+CS70,Spring2026,Note14 1
+
+定义 14.1 (条件的 概率). 对于 events A,B ⊆ Ω in the same 概率 space 满足
+P[B]>0,theconditionalprobabilityofAgivenBis
+P[A∩B]
+P[A|B]= .
+P[B]
+Returning to our 例子 of balls 和 bins, to 计算 P[A|B] we need to 图 out P[A∩B]. 但是 A∩B
+is the 事件 that both the first two bins are empty, i.e., all four balls 秋季 in the third bin. 所以 P[A∩B]= 1
+81
+(why?). 因此,
+P[A∩B] 1/81 1
+P[A|B]= = = .
+P[B] 16/81 16
+非 surprisingly, P[A|B]= 1 =0.0625 is quite a bit less than P[A]= 16 ≈0.1975; knowing that bin 2 is
+16 81
+emptymakesitsignificantlylesslikelythatbin1willbeempty.
+例子: CardDealing
+令’sapplytheideasdiscussedabovetocomputetheprobabilitythat,whendealing2cardsandthefirstcard
+isknowntobeanace,thesecondcardisalsoanace. LetBbetheeventthatthefirstcardisanace,andlet
+Abetheeventthatthesecondcardisanace.
+To 计算 P[A|B], we need to 图 out P[A∩B]. This is the 概率 that both cards are aces. 笔记
+thatthereare52·51samplepointsinthesamplespace,sinceeachsamplepointisasequenceoftwocards.
+AsamplepointisinA∩Bifbothcardsareaces. Thiscanhappenin4·3=12ways.
+Sinceeachsamplepointisequallylikely,P[A∩B]= 12 ,whileP[B],theprobabilityofdrawinganacein
+52·51
+thefirsttrial,is 4 . 因此,
+52
+P[A∩B] 3
+P[A|B]= = ,
+P[B] 51
+其中 is less than P[A]= 4 = 1 (see 练习 1). 因此, 如果 the first card is an ace, it makes it less likely
+52 13
+thatthesecondcardisalsoanace.
+2 Bayesian Inference
+Now that 我们有 introduced the notion of 条件的 概率, we can see how it is used in 实数 world
+settings. 条件的 概率 is at the heart of a subject called Bayesian inference, used extensively in
+fields such as machine learning, communications 和 signal processing. Bayesian inference is a way to
+update knowledge after making an observation. 对于 例子, we may have an estimate of the 概率
+of a 给定 事件 A. After 事件 B occurs, we can update this estimate to P[A|B]. In this interpretation,
+P[A] can be thought of as a prior 概率: our assessment of the likelihood of an 事件 of interest, A,
+before making an observation. It reflects our prior knowledge. P[A|B] can be interpreted as the posterior
+probabilityofAaftertheobservation. Itreflectsourupdatedknowledge.
+Hereisanexampleofwherewecanapplysuchatechnique. Apharmaceuticalcompanyismarketinganew
+testforacertainmedicaldisorder. Accordingtoclinicaltrials,thetesthasthefollowingproperties:
+1. Whenappliedtoanaffectedperson,thetestcomesuppositivein90%ofcases,andnegativein10%
+(thesearecalled“falsenegatives”).
+2. When applied to a healthy person, the test comes up 负的 in 80% of cases, 和 正的 in 20%
+(thesearecalled“falsepositives”).
+CS70,Spring2026,Note14 2
+
+SupposethattheincidenceofthedisorderintheUSpopulationis5%;thisisourpriorknowledge. Whena
+random person is tested 和 the test comes up 正的, how can we update the 概率 that the person
+hasthedisorder? (Notethatthisispresumablynot thesameasthesimpleprobabilitythatarandomperson
+in the population has the disorder, 其中 is just 1 .) The implicit 概率 space here is the entire US
+20
+populationwithequalprobabilities.
+正的
+A∩P H∩P
+Affected Healthy (P)
+(A) (H)
+负的 A∩N H∩N
+(N)
+The 样本空间 here consists of all people in the US—表示 their number by N (所以 N ≈350 million).
+令 A be the 事件 that a person chosen at random is affected, 和 B be the 事件 that a person chosen at
+randomtestspositive. Nowwecanrewritetheinformationaboveas:
+• P[A]=0.05,(5%oftheU.S.populationisaffected)
+• P[B|A]=0.9,(90%oftheaffectedpeopletestpositive)
+• P[B|A]=0.2,(20%ofhealthypeopletestpositive)
+WewanttocalculateP[A|B]. Wecanproceedasfollows:
+P[A∩B] P[B|A]P[A]
+P[A|B]= = . (1)
+P[B] P[B]
+Weobtainedthesecondequalityabovebyapplyingthedefinitionofconditionalprobability:
+P[A∩B]
+P[B|A]= .
+P[A]
+To evaluate (1), we need to 计算 P[B]. This is the 概率 that a random person tests 正的. To
+计算 this, we can sum two values: the 概率 P[A∩B] that a healthy person tests 正的 和 the
+概率 P[A∩B] that an affected person tests 正的. We can sum because the events A∩B 和 A∩B
+donotintersect:
+B
+A
+A∩B A∩B
+Byagainapplyingthedefinitionofconditionalprobability,wehave:
+P[B]=P[A∩B]+P[A∩B]=P[B|A]P[A]+P[B|A]P[A]
+(2)
+=P[B|A]P[A]+P[B|A](1−P[A]).
+CS70,Spring2026,Note14 3
+
+Combining(1)和(2),wehaveexpressedP[A|B]intermsofP[A],P[B|A]andP[B|A]:
+P[B|A]P[A]
+P[A|B]= . (3)
+P[B|A]P[A]+P[B|A](1−P[A])
+Byplugginginthevalueswrittenabove,weobtainP[A|B]= 9 ≈0.19.
+47
+方程 (3) is useful 对于 many inference problems. We are 给定 P[A], 其中 is the (unconditional) prob-
+abilitythattheeventofinterest, A, happens. WearegivenP[B|A]andP[B|A], whichquantifyhownoisy
+the observation is. (如果 P[B|A]=1 和 P[B|A]=0, 对于 例子, the observation is completely noiseless.)
+Now we want to calculate P[A|B], the 概率 that the 事件 of interest happens 给定 we made the
+observation. 方程(3)allowsustodojustthat.
+Of course, (1) to (3) are derived from the basic axioms of 概率 和 the 定义 of 条件的
+概率, 和 are 因此 真 with 或 without the above Bayesian inference interpretation. 然而,
+thisinterpretationisveryusefulwhenweapplyprobabilitytheorytostudyinferenceproblems.
+3 贝叶斯’ Rule 和 Total 概率 Rule
+Equations (1) 和 (2) are very useful in their own right. The former is called 贝叶斯’ Rule 和 the latter is
+called the Total 概率 Rule. 贝叶斯’ Rule is useful when one wants to calculate P[A|B] 但是 one is
+givenP[B|A]instead,i.e.,itallowsusto“flipthingsaround.”
+The Total 概率 Rule is an application of the strategy of “dividing into cases.” 存在 two possi-
+bilities: either an 事件 A happens 或 A does 非 happen. 如果 A happens, the 概率 that B happens is
+P[B|A]. IfAdoesnothappen,theprobabilitythatBhappensisP[B|A]. Ifweknoworcaneasilycalculate
+thesetwoprobabilitiesandalsoP[A],thentheTotalProbabilityRuleyieldstheprobabilityofeventB.
+3.1 Examples
+TennisMatch
+You are about to play a tennis match against a randomly chosen opponent 和 you wish to calculate your
+probabilityofwinning. Youknowyouropponentwillbeoneoftwopeople,X orY. IfpersonX ischosen,
+youwillwinwithprobability0.7. IfpersonY ischosen, youwillwinwithprobability0.3. Youropponent
+ischosenbyflippingabiasedcoinsuchthattheprobabilityofchoosingX is0.6.
+令’sfirstdeterminewhicheventsweareinterestedin. LetAbetheeventthatyouwin. LetB betheevent
+X
+thatpersonX ischosen,andletB betheeventthatpersonY ischosen. WewishtocalculateP[A]. Hereis
+Y
+whatweknowsofar:
+• P[A|B ]=0.7,(ifpersonX ischosen,youwinwithprobability0.7)
+X
+• P[A|B ]=0.3,(ifpersonY ischosen,youwinwithprobability0.3)
+Y
+• P[B ]=0.6,(personX ischosenwithprobability0.6)
+X
+• P[B ]=0.4,(personY ischosenwithprobability0.4)
+Y
+ByusingtheTotalProbabilityRule,wehaveP[A]=P[A|B ]P[B ]+P[A|B ]P[B ],andplugginginthe
+X X Y Y
+knownvaluesgivesP[A]=(0.7×0.6)+(0.3×0.4)=0.54.
+CS70,Spring2026,Note14 4
+
+BallsandBins
+Imaginewehavethefollowingtwobinseachcontainingsomenumberofblackandwhiteballs:
+Bin1 Bin2
+假设 one of the two bins is chosen with equal 概率 和 a ball is drawn from the chosen bin
+uniformly at random. What is the 概率 that we picked Bin 1 给定 that a white ball was drawn, i.e.,
+P[Bin1| ]?
+Is the 答案 2, 因为 we know that 存在 a total of three white balls, two of 其中 are in Bin 1? This
+3
+reasoningisincorrect. Instead,whatweshoulddoisappropriatelyscaleeachsamplepointasthefollowing
+pictureshows:
+B B
+1 2
+1 1 1 1
+10 10 10 4
+1 1 1
+10 10 4
+ThisdiagramshowsthatthesamplespaceΩconsistsoftheoutcomesineventB (correspondingtoBin1)
+1
+andeventB (correspondingtoBin2),i.e.,Ω=B ∪B . Wecanusethedefinitionofconditionalprobability
+2 1 2
+toseethat
+1 + 1 2 4
+P[Bin1| ]= 10 10 = 10 = .
+1 + 1 +1 9 9
+10 10 4 20
+令 us try to achieve this 概率 using 贝叶斯’ Rule. To apply 贝叶斯’ Rule, we need to 计算
+P[ | Bin1], P[Bin1], 和 P[ ]. Here, P[ | Bin1] is the chance that we pick a white ball 给定 that
+wepickedBin1,whichis 2. P[Bin1]= 1,asgiveninthedescriptionoftheproblem. Finally,P[ ]canbe
+5 2
+computedusingtheTotalProbabilityRule:
+2 1 1 1 9
+P[ ]=P[ |Bin1]×P[Bin1]+P[ |Bin2]×P[Bin2]= × + × = .
+5 2 2 2 20
+ObservethatwecanapplytheTotalProbabilityRuleherebecauseP[Bin1]isthecomplementofP[Bin2].
+Finally, upon plugging the above values into 贝叶斯’ Rule, 我们得到 the 概率 that we picked Bin 1
+giventhatwepickedawhiteball:
+2×1 2 4
+P[Bin1| ]= 5 2 = 10 = .
+9 9 9
+20 20
+All 我们有 done above is to combine 贝叶斯’ Rule 和 the Total 概率 Rule; this is also how we
+obtained(3). Equivalently,wecouldhavepluggedintheappropriatevaluesto(3).
+CS70,Spring2026,Note14 5
+
+3.2 Generalization
+We now 考虑 贝叶斯’ Rule 和 the Total 概率 Rule in a more general context. First, we 定义 a
+partitionofaneventasfollows.
+Definition14.2(Partitionofanevent). WesaythataneventAispartitionedintoneventsA ,...,A 如果
+1 n
+1. A=A ∪A ∪···∪A ,和
+1 2 n
+2. A ∩A =∅foralli̸= j (i.e.,A ,...,A aremutuallyexclusive).
+i j 1 n
+Inotherwords,eachoutcomeinAbelongstoexactlyoneoftheeventsA ,...,A .
+1 n
+Now,letA ,...,A beapartitionofthesamplespaceΩ. 那么,theTotalProbabilityRuleforanyeventB
+1 n
+is
+n n
+P[B]= ∑P[B∩A]= ∑P[B|A]P[A], (4)
+i i i
+i=1 i=1
+whileBayes’Rule,assumingP[B]̸=0,isgivenby
+P[B|A]P[A] P[B|A]P[A]
+P[A |B]= i i = i i , (5)
+i P[B] ∑ n j=1 P[B|A j ]P[A j ]
+wherethesecondequalityfollowsfromtheTotalProbabilityRule.
+4 Combinations of Events
+In most applications of 概率 in Computer Science, we are interested in things like P[(cid:83)n A] 和
+i=1 i
+P[(cid:84)n A], 其中 the A are simple events (i.e., we know 或 can easily 计算 P[A]). The 交集
+i=1 i i i
+(cid:84)
+i
+A
+i
+correspondstothelogical ANDoftheeventsA
+i
+,whiletheunion (cid:83)
+i
+A
+i
+correspondstotheirlogical 或.
+As an 例子, 如果 A denotes the 事件 that a failure of type i happens in a certain system, 那么 (cid:83) A is the
+i i i
+eventthatthesystemfails.
+Ingeneral,computingtheprobabilitiesofsuchcombinationscanbeverydifficult. Inthissection,wediscuss
+somesituationswhereitcanbedone. 令’sstartwithindependentevents,forwhichintersectionsarequite
+simpletocompute.
+4.1 独立的 Events
+定义 14.3 (Independence). Two events A,B in the same 概率 space are said to be 独立的
+如果 P[A∩B]=P[A]×P[B].
+Theintuitionbehindthisdefinitionisthefollowing. SupposethatP[B]>0. Thenwehave
+P[A∩B] P[A]×P[B]
+P[A|B]= = =P[A].
+P[B] P[B]
+因此 independence has the natural meaning that “the 概率 of A is 非 affected by whether 或 非 B
+occurs.” (Byasymmetricalargument,wealsohaveP[B|A]=P[B]providedP[A]>0.) ForeventsA,Bsuch
+thatP[B]>0,theconditionP[A|B]=P[A]isactuallyequivalenttothedefinitionofindependence.
+Severalofourpreviouslymentionedrandomexperimentsconsistofindependentevents. Forexample,ifwe
+flipacointwice,theeventofobtainingheadsinthefirsttrialisindependentoftheeventofobtainingheads
+inthesecondtrial. Thesameappliesfortworollsofadie;theoutcomesofeachtrialareindependent.
+CS70,Spring2026,Note14 6
+
+Theabovedefinitiongeneralizestoanyfinitesetofevents:
+定义 14.4 (Mutual independence). Events A ,...,A are said to be mutuallyindependent 如果 对于 every
+1 n
+subsetI⊆{1,...,n}withsize|I|≥2,
+P[(cid:84) A]=∏P[A]. (6)
+i∈I i i
+i∈I
+Anequivalentdefinitionofmutualindependenceisasfollows.
+定义 14.5 (Mutual independence). Events A ,...,A are said to be mutuallyindependent 如果 对所有
+1 n
+B ∈{A,A},i=1,...,n,
+i i i
+n
+P[B ∩···∩B ]=∏P[B]. (7)
+1 n i
+i=1
+Remarks.
+1. In 定义 14.4, (6) needs to hold 对于 every 子集 I of {1,...,n} with size |I|≥2. The cases of
+|I|=0and|I|=1areomitted,astheyimposenoconstraints.
+2. Notethat(6)imposes2n−n−1constraintsontheprobabilitydistribution,当...时(7)defines2n con-
+straints. Itturnsoutthatexactlyn+1constraintsimpliedby(7)areactuallyredundant.
+FormutuallyindependenteventsA ,...,A ,itisnothardtocheckfromthedefinitionofconditionalproba-
+1 n
+bilitythat,forany1≤i≤nandanysubsetI⊆{1,...,n}\{i},wehave
+P[A |(cid:84) A ]=P[A].
+i j∈I j i
+笔记 that the independence of every pair of events (所以-called pairwise independence) does 非 necessarily
+implymutualindependence. Asillustratedinthefollowingexample,itispossibletoconstructthreeevents
+A,B,CsuchthateachpairisindependentbutthetripleA,B,Cisnotmutuallyindependent.
+例子: PairwiseIndependentbutNotMutuallyIndependentEvents
+假设 you toss a fair coin twice 和 令 A be the 事件 that the first flip is H 和 B be the 事件 that the
+secondflipisH. NowletC betheeventthatbothflipsarethesame(i.e., bothH’sorbothT’s). Ofcourse
+A 和 B are 独立的. What is more interesting is that 所以 are A 和 C: 给定 that the first toss came
+up H, the chance of the second flip being the same as the first is still 1. Another way of saying this is that
+2
+P[A∩C]= 1 =P[A]P[C] 因为 A∩C is the 事件 that the first flip is H 和 the second is also H. By the
+4
+samereasoningBandCarealsoindependent. Ontheotherhand,A,BandCarenotmutuallyindependent.
+Forexample,ifwearegiventhatAandBoccurred,thentheprobabilitythatCoccursis1. 所以,eventhough
+A, B andC are 非 mutually 独立的, every pair of them are 独立的. 换句话说, A, B andC
+arepairwiseindependentbutnotmutuallyindependent.
+4.2 Intersections of Events
+Computing the 概率 of an 交集 of mutually 独立的 events is easy; it follows from the
+定义. We simply multiply the probabilities of each 事件. How do we 计算 the 概率 of an
+交集 对于 events that are 非 mutually 独立的? From the 定义 of 条件的 概率,
+we immediately have the following ProductRule (sometimes also called the chainrule) 对于 computing the
+probabilityofanintersectionofevents.
+CS70,Spring2026,Note14 7
+
+Theorem14.1(ProductRule). ForanyeventsA,B,wehave
+P[A∩B]=P[A]P[B|A].
+Moregenerally,foranyeventsA ,...,A ,
+1 n
+P[(cid:84)n A]=P[A ]×P[A |A ]×P[A |A ∩A ]×···×P[A |(cid:84)n−1A].
+i=1 i 1 2 1 3 1 2 n i=1 i
+证明. ThefirstassertionfollowsdirectlyfromthedefinitionofP[B|A](andisinfactaspecialcaseofthe
+secondassertionwithn=2).
+To 证明 the second assertion, we will use 归纳 on n (the number of events). The 基础情况 is n=1,
+和 corresponds to the statement that P[A]=P[A], 其中 is trivially 真. 对于 an arbitrary n>1, 假设
+(theinductivehypothesis)that
+P[(cid:84)n−1A]=P[A ]×P[A |A ]×···×P[A |(cid:84)n−2A].
+i=1 i 1 2 1 n−1 i=1 i
+NowwecanapplythedefinitionofconditionalprobabilitytothetwoeventsA 和 (cid:84)n−1A todeducethat
+n i=1 i
+P[(cid:84)n A]=P[A ∩((cid:84)n−1A)]
+i=1 i n i=1 i
+=P[A |(cid:84)n−1A]×P[(cid:84)n−1A]
+n i=1 i i=1 i
+=P[A |(cid:84)n−1A]×P[A ]×P[A |A ]×···×P[A |(cid:84)n−2A]
+n i=1 i 1 2 1 n−1 i=1 i
+whereinthelastlinewehaveusedtheinductivehypothesis. Thiscompletestheproofbyinduction.
+TheProductRuleisparticularlyusefulwhenwecanviewoursamplespaceasasequenceofchoices. The
+nextfewexamplesillustratethispoint.
+例子: CoinTosses
+Tossafaircointhreetimes. LetAbetheeventthatallthreetossesareheads. ThenA=A ∩A ∩A ,其中
+1 2 3
+A istheeventthattheithtosscomesupheads. Wehave
+i
+P[A]=P[A ]×P[A |A ]×P[A |A ∩A ]
+1 2 1 3 1 2
+=P[A ]×P[A ]×P[A ]
+1 2 3
+1 1 1 1
+= × × = .
+2 2 2 8
+Thesecondlineherefollowsfromthefactthatthetossesaremutuallyindependent. Ofcourse,wealready
+knowthatP[A]= 1 fromourdefinitionoftheprobabilityspaceinthepreviousnote. Anotherwayoflooking
+8
+atthiscalculationisthatitjustifiesourdefinitionoftheprobabilityspace, andshowsthatitwasconsistent
+withassumingthatthecoinflipsaremutuallyindependent.
+Ifthecoinisbiasedwithheadsprobability p,weget,againusingindependence,
+P[A]=P[A ]×P[A ]×P[A ]= p3.
+1 2 3
+Moregenerally,theprobabilityofanysequenceofntossescontainingkheadsandn−ktailsis pk(1−p)n−k.
+Thisisinfactthereasonwedefinedtheprobabilityspacethisway: wedefinedthesamplepointprobabilities
+sothatthecointosseswouldbehaveindependently.
+CS70,Spring2026,Note14 8
+
+例子: MontyHallRevisited
+Recall the Monty Hall 题目 from the previous 笔记: 存在 three doors 和 the 概率 that the
+prizeisbehindanygivendooris 1. Therearegoatsbehindtheothertwodoors. Thecontestantpicksadoor
+3
+randomly,andthehostopensoneoftheothertwodoors,revealingagoat. Howdowecalculateintersections
+in this setting? 对于 例子, what is the 概率 that the contestant chooses door 1, the prize is behind
+door2,andthehostchoosesdoor3?
+LetC betheeventthatthecontestantchoosesdoori,letP betheeventthattheprizeisbehinddoori,和
+i i
+letH betheeventthatthehostchoosesdoori. 那么,bytheProductRule,
+i
+P[C ∩P ∩H ]=P[C ]×P[P |C ]×P[H |C ∩P ].
+1 2 3 1 2 1 3 1 2
+TheprobabilityofC is 1,sincethecontestantischoosingthedooratrandom. TheprobabilityofP 给定
+1 3 2
+C isstill 1 sincetheyareindependent. Theprobabilityofthehostchoosingdoor3giveneventsC andP
+1 3 1 2
+is 1; the host cannot choose door 1 因为 the contestant has already chosen it, 和 the host cannot choose
+door2sincethehostmustrevealagoat(andnottheprize). 因此,
+1 1 1
+P[C ∩P ∩H ]= × ×1= .
+1 2 3
+3 3 9
+观察到 we needed 条件的 概率 in this setting; had we simply multiplied the probabilities
+of each 事件, we would have obtained 1 因为 the 概率 of H is also 1 (can you 图 out why?).
+27 3 3
+What 如果 we changed the situation, 和 instead asked 对于 the 概率 that the contestant chooses door 1,
+the prize is behind door 1, 和 the host chooses door 3? We can use the same technique as above, 但是 our
+finalanswerwillbedifferent. Thisisleftasanexercise(seeExercise4).
+Now,notingthatP[H |C ]= 1 (seeExercise5)andP[C ∩H ]=P[C ]P[H |C ]= 1×1 = 1,weobtain
+3 1 2 1 3 1 3 1 3 2 6
+P[C ∩P ∩H ] 1 2
+P[P |C ∩H ]= 1 2 3 = 9 = ,
+2 1 3 P[C ∩H ] 1 3
+1 3
+6
+whichisamoreformalderivationofthesameconclusiondescribedinthepreviousnote.
+例子: PokerHands
+令’susetheProductRuletocomputetheprobabilityofaflushinadifferentway. Thisisequalto4×P[A],
+whereAistheprobabilityofaHeartsflush. Intuitively,thisshouldbeclearsincethereare4suits;we’llsee
+why this is formally 真 in the next 节. We can write A=(cid:84)5 A, 其中 A is the 事件 that the ith
+i=1 i i
+cardwepickisaHeart. Sowehave
+P[A]=P[A ]×P[A |A ]×···×P[A |(cid:84)4 A].
+1 2 1 5 i=1 i
+Clearly P[A ] = 13 = 1. What about P[A | A ]? Well, 因为 we are conditioning on A (the first card
+1 52 4 2 1 1
+is a Heart), 存在 only 51 remaining possibilities 对于 the second card, 12 of 其中 are Hearts. 所以
+P[A |A ]= 12. Similarly,P[A |A ∩A ]= 11,andsoon. Soweget
+2 1 51 3 1 2 50
+13 12 11 10 9
+4×P[A]=4× × × × × ,
+52 51 50 49 48
+whichisexactlythesamefractionwecomputedinthepreviousnote.
+Sonowwehavetwomethodsofcomputingprobabilitiesinmanyofoursamplespaces. Itisusefultokeep
+these different methods around, both as a check on your answers 和 because in some cases one of the
+methodsiseasiertousethantheother.
+CS70,Spring2026,Note14 9
+
+4.3 Unions of Events
+You are in Las Vegas, 和 you spy a new game with the following rules. You pick a number between 1
+and6. Thenthreedicearethrown. Youwinifandonlyifyournumbercomesuponatleastoneofthedice.
+Thecasinoclaimsthatyouroddsofwinningare50%,usingthefollowingargument. LetAbetheeventthat
+youwin. WecanwriteA=A ∪A ∪A ,whereA istheeventthatyournumbercomesupondiei. Clearly
+1 2 3 i
+P[A]= 1 foreachi. 因此,theyclaim
+i 6
+1 1
+P[A]=P[A ∪A ∪A ]=P[A ]+P[A ]+P[A ]=3× = .
+1 2 3 1 2 3
+6 2
+Is this calculation correct? Well, 假设 instead that the casino rolled six dice, 和 again you win 如果 和
+only 如果 your number comes up at least once. 那么 the analogous calculation would say that you win with
+probability6×1 =1,i.e.,certainly! Thesituationbecomesevenmoreridiculouswhenthenumberofdice
+6
+getsbiggerthan6.
+TheproblemisthattheeventsA arenotdisjoint: i.e.,therearesomesamplepointsthatlieinmorethanone
+i
+oftheA. (Wecouldgetreallyluckyandournumbercouldcomeupontwoofthedice,orallthree.) 所以,如果
+i
+weadduptheP[A],wearecountingsomesamplepointsmorethanonce.
+i
+Fortunately,inNote12welearnedaboutthePrincipleofInclusion-Exclusionwhichallowsustodealwith
+this kind of situation. In the 证明 of 定理 12.3, it was shown that every ω ∈/ A ∪···∪A is 非
+1 n
+counted by the Inclusion-Exclusion formula, 当...时 every ω ∈A ∪···∪A is counted exactly once by the
+1 n
+formula. 因此, rather than summing (with appropriate signs) the cardinalities of (cid:84) A in the Inclusion-
+i∈S i
+Exclusionformula,ifweinsteadsumtheirprobabilitiesP[(cid:84) A],weobtainthefollowingusefulformula
+i∈S i
+forcomputingP[A ∪···∪A ]:
+1 n
+Theorem14.2(Inclusion-Exclusion). LetA ,...,A beeventsinsomeprobabilityspace,wheren≥2. 那么,
+1 n
+wehave
+n
+P[A ∪···∪A ]= ∑(−1)k−1 ∑ P[(cid:84) A]. (8)
+1 n i∈S i
+k=1 S⊆{1,...,n}:|S|=k
+Therighthandsideof(8)canbewrittenas
+n
+P[(cid:83)n A]= ∑P[A]−∑P[A ∩A ]+ ∑ P[A ∩A ∩A ]−···+(−1)n−1P[A ∩A ∩···∩A ],
+i=1 i i i j i j k 1 2 n
+i=1 i<j i<j<k
+其中 ∑ denotes summing over all i,j ∈ {1,...,n} 满足 i < j, 和 所以 on. 即, to 计算
+i<j
+P[(cid:83) A],westartbysummingtheeventprobabilitiesP[A],thenwesubtracttheprobabilitiesofallpairwise
+i i i
+intersections,thenweaddbackintheprobabilitiesofallthree-wayintersections,andsoon. Youmightlike
+toverifyitforthespecialcasen=3bydrawingaVenndiagram. Youmightalsoliketoprovetheformula
+forgeneralnbyinduction(insimilarfashiontotheproofoftheProductRuleabove).
+Using(8),theprobabilitywegetluckyinthenewgameinLasVegasisgivenby
+P[A ∪A ∪A ]=P[A ]+P[A ]+P[A ]−P[A ∩A ]−P[A ∩A ]−P[A ∩A ]+P[A ∩A ∩A ].
+1 2 3 1 2 3 1 2 1 3 2 3 1 2 3
+Now the nice thing here is that the events A are mutually 独立的 (the 结果 of any die does 非
+i
+depend on that of the others), 所以 P[A ∩A ] = P[A]P[A ] = (1)2 = 1 , 和 similarly P[A ∩A ∩A ] =
+i j i j 6 36 1 2 3
+(1)3= 1 . 所以,weget
+6 216
+(cid:18) (cid:19) (cid:18) (cid:19)
+1 1 1 91
+P[A ∪A ∪A ]= 3× − 3× + = ≈0.42.
+1 2 3
+6 36 216 216
+CS70,Spring2026,Note14 10
+
+Soyouroddsarequiteabitworsethanwhatthecasinoisclaiming!
+When n is large (i.e., we are interested in the 并集 of many events), the Inclusion-Exclusion formula is
+essentially useless because it involves computing the 概率 of the 交集 of every non-empty
+子集 of the events: 和 存在 2n−1 of these! Sometimes we can just look at the first few terms of
+it 和 forget the rest: 笔记 that summing the first k terms gives us an overestimate when k is odd 和 an
+underestimatewhenkiseven,andboththeseestimatesgetbetteraskincreases.
+然而,inmanysituationswecangetalongwaybyjustlookingatthefirstterm:
+1. (Mutually exclusive events) 如果 the events A ,...,A are mutually exclusive (i.e., A ∩A =∅ 对所有
+1 n i j
+i̸= j),那么
+n
+P[(cid:83)n A]= ∑P[A].
+i=1 i i
+i=1
+[笔记 that 我们有 already used this fact several times in our examples, e.g., in claiming that the
+probabilityofaflushisfourtimestheprobabilityofaHeartsflush—clearlyflushesindifferentsuits
+aredisjointevents.]
+2. (Unionbound)LetA ,...,A beeventsinsomeprobabilityspace. 那么,foralln∈Z+,
+1 n
+n
+P[(cid:83)n A]≤ ∑P[A]. (9)
+i=1 i i
+i=1
+ThismerelysaysthataddinguptheP[A]canonlyoverestimatetheprobabilityoftheunion. Crudeas
+i
+itmayseem,wewilllaterseehowtousetheunionboundeffectivelyinComputerScienceexamples.
+5 Exercises
+1. 假设 five cards are dealt from a standard deck of playing cards. 令 A be the 事件 that the ith
+i
+cardisanace. ShowthatP[A]= 1 foralli=1,...,5.
+i 13
+2. ProveEquations(4)和(5).
+3. ShowthatDefinitions14.4and14.5ofmutualindependenceareequivalent.
+4. IntheMontyHallproblem,findP[C ∩P ∩H ].
+1 1 3
+5. IntheMontyHallproblem,showthatP[H |C ]= 1.
+3 1 2
+6. Provetheunionboundfrom(9).
+CS70,Spring2026,Note14 11
+

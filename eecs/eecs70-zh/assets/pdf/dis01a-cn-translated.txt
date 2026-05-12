@@ -1,0 +1,84 @@
+CS 70 离散数学 和 概率论
+DIS 1A
+春季 2026 Sinclair, Song
+归纳 Intro
+Naturalnumbersstartat0,andthereisalwaysanextone. Forpredicatesonnaturalnumberstheprinciple
+Note3
+ofinductionis: ∀n∈N,P(n)≡P(0)∧∀n,P(n) =⇒ P(n+1).
+即, to 证明 P(n) 对于 natural numbers one proves P(0), the 基础情况, 和 ∀n,P(n) =⇒ P(n+1),
+theinductionstep. Intheinductionstep,theassumptionthatP(n)istrueiscalledtheinductionhypothesis
+whichistypicallyusedtoarguethatP(n+1)istrue.
+AnexampleisthestatementP(n)=∑ n i= n(n+1) . Thebasecase,P(0),istheobservationthat∑ 0 i=0.
+i=0 2 i=0
+In the 归纳 step, the 归纳 假设, P(n), is ∑ n i= (n)(n+1) . The 归纳 step proceeds as
+i=0 2
+follows:
+n+1 n (n)(n+1) (n+1)(n+2)
+∑i= ∑i+n+1= +n+1= .
+2 2
+i=0 i=0
+Thefirstequalityfollowsfromthedefinitionofthenotation,∑,thesecondsubstitutestheinductionhypoth-
+esisandthelastisalgebra. AndwhatisprovenisP(n+1),whichisthat∑ n+1i= (n+1)(n+2) .
+i=0 2
+Anotherandequivalentviewofthenaturalnumbersarethattherearethenumbers0tonandthenthereis
+n+1. Thestronginductionprincipleisthat
+∀n∈N,P(n)≡P(0)∧∀n,((∀k≤n)P(k)) =⇒ P(n+1).
+Here the 归纳 假设 is that P(k) is 真 对所有 values k≤n. To 证明 that every natural number
+n≥2canbewrittenasaproductofprimes,wetakethebasecaseasP(2)whichcanbewrittenas2,其中
+isaproductofaprime. Andforanyn,ifitisprime,itcanbewrittenasitself,otherwisen=abandbythe
+inductivehypothesesP(a)andP(b)isthateachcanbewrittenasaproductofprimes. 因此, wecanwrite
+nastheproductoftheprimesinbothaandb. Noteherethatthebasecasestartsat2,whichillustratesthat
+onechosethebasecaseasisrelevanttothestatementbeingproven.
+Strengthening the 归纳 假设 is a technique that proves a stronger 定理. 对于 例子, the
+notes 考虑 the 定理 "The sum of the first n odd numbers is a perfect square." In fact, the notes
+inductively 证明 the stronger 定理 "The sum of the first n odd numbers is n2." Here, the stronger
+inductive 假设 allows the 归纳 step to proceed easily. 笔记 that in strong 归纳, we 假设
+more cases are 真 in the inductive 假设, whereas strengthening the inductive 假设 proves a
+strongerclaimentirely.
+CS70,Spring2026,DIS1A 1
+
+1 Natural 归纳 on Inequality
+Provethatifn∈Nandx>0,那么(1+x)n≥1+nx.
+Note3
+2 Make It Stronger
+Supposethatthesequencea ,a ,... isdefinedbya =1anda =3a2 forn≥1. Wewanttoprovethat
+Note3 1 2 1 n+1 n
+a
+≤3(2n)
+n
+foreverypositiveintegern.
+(a) Supposethatwewanttoprovethisstatementusinginduction. Canweletourinductivehypothesisbe
+simplya
+≤3(2n)?
+Attemptaninductionproofwiththishypothesistoshowwhythisdoesnotwork.
+n
+(b) Instead,令’strytoinsteadproveastrongerstatementinstead,oftheforma
+≤3(2n−??).
+Whatshould
+n
+replace the 问题 marks 所以 that the 归纳步骤 works out? Try some examples 和 see what
+works.
+CS70,Spring2026,DIS1A 2
+
+(c) Usingyourstrongerinductivehypothesisfrompart(b),carryouttheinductionproof.
+(d) Whydoesthehypothesisinpart(b)implytheoverallclaim?
+3 Binary Numbers
+证明 that every 正的 整数 n can be written in binary. 换句话说, 证明 that 对于 any 正的
+Note3
+integern,wecanwrite
+n=c ·2k+c ·2k−1+···+c ·21+c ·20,
+k k−1 1 0
+forsomek∈Nandc ∈{0,1}foralli≤k.
+i
+Asanexample,thenumber13canbewritteninbinaryas1101because13=1·23+1·22+0·21+1·20.
+CS70,Spring2026,DIS1A 3
+
+4 Fibonacci 对于 Home
+Recall,theFibonaccinumbers,definedrecursivelyas
+Note3
+F =1,F =1,andF =F +F .
+1 2 n n−2 n−1
+ProvethateverythirdFibonaccinumberiseven. Forexample,F =2isevenandF =8iseven.
+3 6
+CS70,Spring2026,DIS1A 4
+

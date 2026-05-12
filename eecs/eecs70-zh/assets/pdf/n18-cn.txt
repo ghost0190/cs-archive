@@ -1,0 +1,498 @@
+CS 70 离散数学 和 概率论
+笔记 18
+春季 2026 Course Notes
+Geometric 和 泊松 Distributions
+Recallourbasicprobabilisticexperimentoftossingabiasedcoinntimes. Thisisaverysimplemodel,yet
+surprisingly powerful. Many important 概率 distributions that are widely used to model 实数-world
+phenomenacanbederivedfromlookingatthisbasiccointossingmodel.
+ThefirstexampleistheBinomial(n,p)分布,introducedearlier. Thisisthedistributionofthenumber
+of Heads, S , in n tosses of a biased coin with 概率 p to be Heads. 回忆 the 分布 of S
+n n
+is P[S =k]= (cid:0)n(cid:1) pk(1−p)n−k 对于 k∈{0,1,...,n}. The expected value is E[S ]=np 和 the 方差 is
+n k n
+Var(S )=np(1−p). The 二项的 分布 is frequently used to model the number of successes in a
+n
+repeatedexperiment.
+1 Geometric 分布
+ConsiderrepeatedlytossingabiasedcoinwithHeadsprobability p. LetX denotethenumberoftossesuntil
+the first Head appears. 那么 X is a random 变量 that takes values in Z+, the 集合 of 正的 integers.
+TheeventthatX =iisequaltotheeventofobservingTailsforthefirsti−1tossesandgettingHeadsinthe
+ith toss, 其中 occurs with 概率 (1−p)i−1p. Such a random 变量 is called a geometric random
+变量. 笔记 that X is unbounded: i.e., 对于 any 正的 整数 i (no matter how large), 存在 some
+positiveprobabilitythatX =i.
+Thegeometricdistributionfrequentlyoccursinapplicationsbecauseweareofteninterestedinhowlongwe
+havetowaitbeforeacertaineventhappens: howmanyrunsbeforethesystemfails,howmanyshotsbefore
+oneisontarget,howmanypollsamplesbeforewefindaDemocrat,howmanyretransmissionsofapacket
+beforesuccessfullyreachingthedestination,etc.
+Definition18.1(GeometricDistribution). ArandomvariableX forwhich
+P[X =i]=(1−p)i−1p, fori=1,2,3,...,
+is said to have the geometricdistributionwithparameter p. This is abbreviated as X ∼Geometric(p) 或
+X ∼Geom(p).
+Asaquickcheck,wecanverifythatthetotalprobabilityofX isequalto1:
+∞ ∞ ∞ 1
+∑P[X =i]= ∑(1−p)i−1p= p∑(1−p)i−1= p× =1,
+1−(1−p)
+i=1 i=1 i=1
+whereinthesecond-to-laststepwehaveusedtheformulaforageometricseries.
+IfweplotthedistributionofX (i.e.,thevaluesP[X=i]againsti)wegetacurvethatdecreasesmonotonically
+byafactorof1−pateachstep,asillustratedinFigure1.
+CS70,Spring2026,Note18 1
+
+0.1
+0.08
+0.06
+0.04
+0.02
+0
+0 2 4 6 8 10 12 14 16
+k
+]k=
+X[P
+p=0.1
+0.3
+0.25
+0.2
+0.15
+0.1
+0.05
+0
+0 2 4 6 8 10 12 14 16
+k
+]k=
+X[P
+p=0.3
+Figure1: IllustrationoftheGeometric(p)distributionfor p=0.1and p=0.3.
+1.1 Mean 和 方差 of a Geometric Random 变量
+LetusnowcomputetheexpectationE[X]. Applyingthedefinitionofexpectedvaluedirectlygivesus:
+∞ ∞
+E[X]= ∑i×P[X =i]= p∑i(1−p)i−1.
+i=1 i=1
+然而, the final summation is a little tricky to evaluate (though it can be done). Instead, we will use the
+followingalternativeformulaforexpectationthatsimplifiesthecalculationandisusefulinitsownright.
+Theorem18.1(TailSumFormula). LetX bearandomvariablethattakesvaluesin{0,1,2,...}. 那么
+∞
+E[X]= ∑P[X ≥i].
+i=1
+证明. 对于 notational convenience, 令’s write p = P[X = i], 对于 i = 0,1,2,.... From the 定义 of
+i
+期望,wehave
+E[X]=(0×p )+(1×p )+(2×p )+(3×p )+(4×p )+···
+0 1 2 3 4
+= p +(p +p )+(p +p +p )+(p +p +p +p )+···
+1 2 2 3 3 3 4 4 4 4
+=(p +p +p +p +···)+(p +p +p +···)+(p +p +···)+(p +···)+···
+1 2 3 4 2 3 4 3 4 4
+=P[X ≥1]+P[X ≥2]+P[X ≥3]+P[X ≥4]+···.
+Inthethirdline,wehaveregroupedthetermsintoconvenientinfinitesums,andeachinfinitesumisexactly
+theprobabilitythatX ≥iforeachi. Youshouldcheckthatyouunderstandhowthefourthlinefollowsfrom
+thethird.
+Letusrepeattheproofmoreformally,thistimeusingmorecompactmathematicalnotation:
+∞ ∞ j ∞ ∞ ∞
+E[X]= ∑ j×P[X = j]= ∑ ∑P[X = j]= ∑∑P[X = j]= ∑P[X ≥i],
+j=1 j=1i=1 i=1j=i i=1
+wherethethirdequalityfollowsfrominterchangingtheorderofsummations.
+CS70,Spring2026,Note18 2
+
+WecannowuseTheorem18.1tocomputeE[X]moreeasily.
+Theorem18.2. ForX ∼Geometric(p),wehaveE[X]= 1.
+p
+证明. ThekeyobservationisthatforageometricrandomvariableX,
+P[X ≥i]=(1−p)i−1 fori=1,2,.... (1)
+We can obtain this simply by summing P[X = j] 对于 j ≥i. Another way of seeing this is to 笔记 that the
+事件 “X ≥i” means at least i tosses are required. This is 等价 to saying that the first i−1 tosses are
+allTails,andtheprobabilityofthiseventisprecisely(1−p)i−1. Now,plugging(1)intoTheorem18.1,we
+get
+∞ ∞ 1 1
+E[X]= ∑P[X ≥i]= ∑(1−p)i−1= = ,
+1−(1−p) p
+i=1 i=1
+wherewehaveusedtheformulaforgeometricseries.
+所以,theexpectednumberoftossesofabiasedcoinuntilthefirstHeadappearsis 1. Thusforafaircoin,the
+p
+expected number of tosses 直到 the first Head is 2 (但是 of course the actual number of tosses can be any
+positiveinteger).
+LetusnowcomputethevarianceofX.
+Theorem18.3. ForX ∼Geometric(p),wehaveVar(X)= 1−p.
+p2
+证明. Weusetheformula
+Var(X)=E(cid:2) X2(cid:3) −(E[X])2=E(cid:2) X2(cid:3)
+−
+1
+. (2)
+p2
+ThuswejusthavetocomputeE(cid:2) X2(cid:3)
+,whichwecandousingacalculustrickasfollows. Startingfrom
+∞ 1
+∑(1−p)i=
+p
+i=0
+anddifferentiatingwithrespectto p,weget
+∞ 1
+∑i(1−p)i−1= . (3)
+p2
+i=1
+Herewedroppedthefirstterm,fori=0,sinceitsderivativeiszero,andmultipliedbothsidesby−1. (笔记
+incidentallythat(3)givesanalternativeproofofthefactthatE[X]= 1;why?)
+p
+Nowwemultiplybothsidesof(3)by(1−p)anddifferentiateagaintoget
+∞ 2−p
+∑i2(1−p)i−1= .
+p3
+i=1
+Sincetheleft-handsidehereisexactly
+1E(cid:2) X2(cid:3)
+,weconcludethat
+p
+E(cid:2) X2(cid:3)
+=
+2−p
+.
+p2
+Finally,pluggingthisinto(2)givesus
+2−p 1 1−p
+Var(X)= − = ,
+p2 p2 p2
+asclaimed.
+CS70,Spring2026,Note18 3
+
+1.2 Memoryless Property
+The geometric 分布 has a special property called memorylessness1. To get some intuition 对于 this
+property,supposewerevisitourearliermotivationalexampleofrepeatedlytossingabiasedcoinwithheads
+概率 p,andletX denotethenumberoftossesuntilthefirstheadappears. 因此,X ∼Geometric(p).
+Aswehaveseen,theprobabilitythatweneedmorethanntossesbeforegettingthefirstheadisP[X >n]=
+(1−p)n,sincethefirstntossesmustallhavebeentails.
+What 如果 我们有 already tossed the coin m times without getting a head? What is the 概率 that we
+needmorethannadditionaltossesbeforegettingourfirsthead? Wecancalculatethisprobabilityas:
+P[X >n+m]
+P[X >n+m|X >m]=
+P[X >m]
+(1−p)n+m
+=
+(1−p)m
+=(1−p)n
+=P[X >n].
+Thisgivesustheformalstatementofthememorylesspropertyofgeometricdistributions:
+P[X >n+m|X >m]=P[X >n].
+Thegeometricdistributionismemorylessinthesensethatthelengthoftimewehavealreadybeenwaiting
+does 非 affect the additional time 我们有 to wait 直到 we get our first head. (Indeed, 如果 我们有 tossed a
+faircointentimesandithascomeuptailseverytime,theprobabilitythatitcomesupheadsonthe11thtoss
+isstill 1.)
+2
+1.3 Application: Coupon Collecting
+Recallthecouponcollectingproblemfromapreviousnote: wearetryingtocollectasetofndifferentbase-
+ballcardsbybuyingboxesofcereal,eachofwhichcontainsexactlyonerandomcard(uniformlydistributed
+amongthencards). Howmanyboxesdoweneedtobuyuntilwehavecollectedatleastonecopyofevery
+card?
+令 S 表示 the number of boxes we need to buy in order to collect all n cards. The 分布 of S is
+n n
+difficult to 计算 directly (try it 对于 n=3), 和 we did some calculations in a previous 笔记 to estimate
+the likely values of S . 但是 如果 we are only interested in the expected value E[S ], 那么 we can evaluate it
+n n
+easilyusinglinearityofexpectationandwhatwehavejustlearnedaboutthegeometricdistribution.
+Westartbywriting
+S =X +X +···+X (4)
+n 1 2 n
+对于 simpler random variables X, 其中 X is the number of boxes we buy 当...时 trying to get the ith new
+i i
+card(startingimmediatelyafterwehavegottenthe(i−1)stnewcard). Withthisdefinition,makesureyou
+believe(4)beforeproceeding.
+WhatdoesthedistributionofX looklike? Well,X istrivial: nomatterwhathappens,wealwaysgetanew
+i 1
+cardinthefirstbox(sincewehavenonetostartwith). SoP[X =1]=1,andthusE[X ]=1.
+1 1
+1Thispropertyissharedbytheexponentialdistribution,thecontinuousanalogofthegeometricdistribution,whichwe’llcover
+inafuturenote.Indeed,thesearetheonlytwodistributionsthatarememoryless.
+CS70,Spring2026,Note18 4
+
+How about X ? Each time we buy a box, we will get the same old card with 概率 1, 和 a new
+2 n
+cardwithprobability n−1. SowecanthinkofbuyingboxesasflippingabiasedcoinwithHeadsprobability
+n
+p= n−1;thenX isjustthenumberoftossesuntilthefirstHeadappears. SoX hasthegeometricdistribution
+n 2 2
+withparameter p= n−1,和
+n
+n
+E[X ]= .
+2
+n−1
+HowaboutX ? ThisisverysimilartoX exceptthatnowweonlygetanewcardwithprobability n−2 (因为
+3 2 n
+therearenowtwooldones). SoX hasthegeometricdistributionwithparameter p= n−2,和
+3 n
+n
+E[X ]= .
+3
+n−2
+Arguing in the same way, we see that, 对于 i=1,2,...,n, X has the geometric 分布 with parameter
+i
+p= n−i+1,andhencethat
+n
+n
+E[X]= .
+i
+n−i+1
+Finally,applyinglinearityofexpectationto(4),weget
+n n n n n n 1
+E[S ]= ∑E[X]= + +···+ + =n∑ . (5)
+n i
+n n−1 2 1 i
+i=1 i=1
+ThisisanexactexpressionforE[S ]. Wecanobtainatidierformbynotingthatthesumin(5)actuallyhas
+n
+averygoodapproximation,2 即:
+n 1
+∑ ≈lnn+γ ,
+E
+i
+i=1
+whereγ =0.5772...isknownasEuler’sconstant.
+E
+因此, theexpectednumberofcerealboxesneededtocollectncardsisaboutn(lnn+γ). This is an excel-
+lent 近似 to the exact formula from (5) even 对于 quite small values of n. 所以 对于 例子, 对于
+n=100,weexpecttobuyabout518boxes.
+2 泊松 分布
+考虑 the number of clicks of a Geiger counter, 其中 measures radioactive emissions. The average
+numberofsuchclicksperunittime,λ,isameasureofradioactivity,buttheactualnumberofclicksfluctuates
+according to a certain 分布 called the 泊松 分布. What is remarkable is that the average
+value,λ,completelydeterminestheprobabilitydistributiononthenumberofclicksX.
+Definition18.2(Poissondistribution). ArandomvariableX forwhich
+λi
+P[X =i]= e−λ, fori=0,1,2,... (6)
+i!
+issaidtohavethePoissondistributionwithparameterλ. ThisisabbreviatedasX ∼泊松(λ).
+Tomakesurethisisavaliddefinition,letuscheckthat(6)isinfactadistribution,i.e.,thattheprobabilities
+sumto1. Wehave
+∞ λi ∞ λi
+∑ e−λ =e−λ ∑ =e−λ×eλ =1.
+i! i!
+i=0 i=0
+2Thisisanotherofthelittletricksyoumightliketocarryaroundinyourtoolbox.
+CS70,Spring2026,Note18 5
+
+Inthesecond-to-laststep,weusedtheTaylorseriesexpansionex=1+x+x2 +x3
++···.
+2! 3!
+The 泊松 分布 is a very widely accepted model 对于 所以-called “rare events,” such as disconnected
+phonecalls,radioactiveemissions,crossoversinchromosomes,thenumberofcasesofdisease,thenumber
+of births per hour, etc. This model is appropriate whenever the occurrences can be assumed to happen
+randomlywithsomeconstantdensityλ inacontinuousregion (oftimeorspace), suchthatoccurrencesin
+disjoint subregions are 独立的. One can 那么 证明 that the number of occurrences in a region of unit
+sizeshouldobeythePoissondistributionwithparameterλ.
+例子
+Supposewhenwewriteanarticle,wemakeanaverageof1typoperpage. WecanmodelthiswithaPoisson
+randomvariableX withλ =1. Sotheprobabilitythatapagehas5typosis
+15 1 1
+P[X =5]= e−1= ≈ .
+5! 120e 326
+Now 假设 the article has 200 pages. 如果 we 假设 the numbers of typos on each page are 独立的,
+thentheprobabilitythatthereisatleastonepagewithexactly5typosis
+P[∃apagewithexactly5typos]=1−P[everypagehas̸=5typos]
+200
+=1−∏P[pagekhas̸=5typos]
+k=1
+200
+=1−∏(1−P[pagekhasexactly5typos])
+k=1
+(cid:18) (cid:19)200
+1
+=1− 1− ≈0.46,
+120e
+whereinthelaststepwehaveusedourearliercalculationforP[X =5].
+2.1 Mean 和 方差 of a 泊松 Random 变量
+LetusnowcalculatetheexpectationandvarianceofaPoissonrandomvariable.
+Theorem18.4. ForaPoissonrandomvariableX ∼泊松(λ),wehaveE[X]=λ andVar(X)=λ.
+证明. WecancalculateE[X]directlyfromthedefinitionofexpectation:
+∞
+E[X]= ∑i×P[X =i]
+i=0
+∞ λi
+= ∑i× e−λ (thei=0termisequalto0soweomitit)
+i!
+i=1
+∞ λi−1
+=λe−λ ∑
+(i−1)!
+i=1
+∞ λj
+=λe−λeλ (sinceeλ = ∑ with j=i−1)
+j!
+j=0
+=λ.
+CS70,Spring2026,Note18 6
+
+Similarly,wecancalculateE(cid:2) X2(cid:3)
+asfollows:
+∞
+E(cid:2) X2(cid:3) = ∑i2×P[X =i]
+i=0
+∞ λi
+= ∑i2 e−λ (thei=0termisequalto0soweomitit)
+i!
+i=1
+∞ λi−1
+=λe−λ ∑i
+(i−1)!
+i=1
+(cid:34) (cid:35)
+∞ λi−1 ∞ λi−1
+=λe−λ ∑ +∑ (replacingiby(i−1)+1)
+(i−2)! (i−1)!
+i=2 i=1
+(cid:104) (cid:105) ∞ λj
+=λe−λ λeλ+eλ (usingeλ = ∑ twice,with j=i−1and j=i−2)
+j!
+j=0
+=λ2+λ.
+因此,
+Var(X)=E(cid:2) X2(cid:3) −E[X]2=λ2+λ−λ2=λ,
+asdesired.
+AplotofthePoissondistributionrevealsacurvethatrisesmonotonicallytoasinglepeakandthendecreases
+monotonically. The peak is as close as possible to the expected value, i.e., at i=⌊λ⌋. 图 2 illustrates
+thePoisson(λ)distributionforλ =1,2,5,20.
+2.2 Sum of 独立的 泊松 Random Variables
+AsillustratedinFigure2,thePoisson(λ)distributionbecomesmoresymmetricandresemblesa“bellcurve”
+as λ increases. As we will learn later, this phenomenon is closely related to the following useful fact
+regardingasumofindependentPoissonrandomvariables.
+Theorem18.5. LetX ∼泊松(λ)andY ∼泊松(µ)beindependentPoissonrandomvariables. 那么,
+X+Y ∼泊松(λ+µ).
+证明. Forallk=0,1,2,...,wehave
+k
+P[X+Y =k]= ∑P[X = j,Y =k− j]
+j=0
+k
+= ∑P[X = j]P[Y =k− j]
+j=0
+k λj µk−j
+= ∑ e−λ e−µ
+j! (k− j)!
+j=0
+1 k k!
+=e−(λ+µ) ∑ λjµk−j
+k! j!(k− j)!
+j=0
+(λ+µ)k
+=e−(λ+µ) ,
+k!
+wherethesecondequalityfollowsfromindependence,andthelastequalityfromthebinomialtheorem.
+CS70,Spring2026,Note18 7
+
+0.4
+0.3
+0.2
+0.1
+0
+0 2 4 6 8 10 12 14 16
+k
+]k=
+X[P
+λ =1
+0.25
+0.2
+0.15
+0.1
+0.05
+0
+0 2 4 6 8 10 12 14 16
+k
+]k=
+X[P
+λ =2
+0.15
+0.1
+0.05
+0
+0 2 4 6 8 10 12 14 16
+k
+]k=
+X[P
+λ =5
+0.08
+0.06
+0.04
+0.02
+0
+0 10 20 30 40
+k
+]k=
+X[P
+λ =20
+Figure2: IllustrationofthePoisson(λ)distributionforλ =1,2,5,20.
+Byinduction,weconcludethatifX ,X ,...,X areindependentPoissonrandomvariableswithparameters
+1 2 n
+λ ,λ ,...,λ ,respectively,那么
+1 2 n
+X +X +···+X ∼泊松(λ +λ +···+λ ).
+1 2 n 1 2 n
+2.3 泊松 as 极限 of 二项的
+To see a concrete 例子 of how the 泊松 分布 arises, 假设 we want to model the number
+of cell phone users initiating calls in a network during a time period, of duration (say) 1 minute. There
+are many customers in the network, 和 all of them can potentially make a call during this time period.
+然而,onlyaverysmallfractionofthemactuallywill. Underthisscenario,itseemsreasonabletomake
+twoassumptions:
+• Theprobabilityofhavingmorethan1customerinitiatingacallinanysmalltimeintervalisnegligible.
+• Theinitiationsofcallsindisjointtimeintervalsareindependentevents.
+那么, 如果 we divide the one-minute time period into n disjoint intervals, the number of calls X in that time
+period can be modeled as a 二项的(n,p) random 变量, 其中 p is the 概率 of having a call
+initiated in a time interval of length 1/n. 但是 what should p be in terms of the relevant parameters of the
+题目? 如果 calls are initiated at an average rate of λ calls per minute, 那么 E[X]=λ 和 所以 np=λ, i.e.,
+CS70,Spring2026,Note18 8
+
+p=λ/n. SoX ∼二项的(n,λ). Asweshallseebelow,asweletntendtoinfinity,thisdistributiontends
+n
+tothePoissondistributionwithparameterλ. ThisexplainswhythePoissondistributionisamodelfor“rare
+events”: it counts the number of heads in a very long 序列 (n→∞) of coin flips, 其中 the expected
+numberofheadsisasmallfinitenumber.
+NowwewillprovetheclaimabovethatPoisson(λ)isthelimitofBinomial(n,λ),asntendstoinfinity.
+n
+Theorem18.6. LetX ∼二项的(n,λ)whereλ >0isafixedconstant. Thenforeveryi=0,1,2,...,
+n
+λi
+P[X =i]−→ e−λ asn→∞.
+i!
+Thatis,theprobabilitydistributionofX convergestothePoissondistributionwithparameterλ.
+证明. Fix i∈{0,1,2,...}, 和 假设 n≥i (because we will 令 n→∞). 那么, because X has 二项的
+distributionwithparameternand p= λ,
+n
+(cid:18)
+n
+(cid:19)
+n!
+(cid:18)
+λ
+(cid:19)i(cid:18)
+λ
+(cid:19)n−i
+P[X =i]= pi(1−p)n−i= 1− .
+i i!(n−i)! n n
+Letuscollectthefactorsinto
+λi(cid:18)
+n! 1
+(cid:19) (cid:18)
+λ
+(cid:19)n (cid:18)
+λ
+(cid:19)−i
+P[X =i]= · · 1− · 1− . (7)
+i! (n−i)! ni n n
+Foranyfixedi,thefirstparenthesisabovebecomes,asn→∞,
+n! 1 n·(n−1)···(n−i+1)·(n−i)! 1 n (n−1) (n−i+1)
+· = · = · ··· →1.
+(n−i)! ni (n−i)! ni n n n
+Sinceλ isafixedconstant,thesecondparenthesisin(7)becomes,asn→∞,
+(cid:18) (cid:19)n
+λ
+1− →e−λ.
+n
+Andsinceiisfixed,thethirdparenthesisin(7)becomes,asn→∞,
+(cid:18) (cid:19)−i
+λ
+1− →(1−0)−i=1.
+n
+Substitutingtheseresultsbackinto(7)givesus
+λi λi
+P[X =i]→ ·1·e−λ·1= e−λ,
+i! i!
+asdesired.
+CS70,Spring2026,Note18 9
+

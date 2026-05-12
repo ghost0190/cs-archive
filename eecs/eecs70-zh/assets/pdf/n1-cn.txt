@@ -1,0 +1,214 @@
+CS 70 离散数学 和 概率论
+笔记 1
+春季 2026 Course Notes
+1 Propositional Logic
+Inordertobefluentinworkingwithmathematicalstatements,youneedtounderstandthebasicframework
+of the language of mathematics. In this first lecture, we will start by learning about what logical forms
+mathematical theorems may take, 和 how to manipulate those forms to make them easier to 证明. In the
+nextfewlectures,wewilllearnseveraldifferentmethodsofprovingthings.
+Our first building block is the notion of a 命题, 其中 is simply a statement 其中 is either 真 或
+假.
+Thesestatementsareallpropositions:
+√
+(1) 3isirrational.
+(2) 1+1=5.
+(3) JuliusCaesarhad2eggsforbreakfastonhis10thbirthday.
+Thesestatementsareclearlynotpropositions:
+(4) 2+2.
+(5) x2+3x=5. [Whatisx?]
+These statements aren’t propositions either (虽然 some books say they are). Propositions should 非
+includefuzzyterms.
+(6) ArnoldSchwarzeneggerofteneatsbroccoli. [Whatis“often?”]
+(7) HenryVIIIwasunpopular. [Whatis“unpopular?”]
+Propositionsmaybejoinedtogethertoformmorecomplexstatements. LetPandQbevariablesrepresenting
+propositions (对于 例子, P could stand 对于 “3 is odd”). The simplest way of joining these propositions
+togetheristousetheconnectives“和”,“或”和“非.”
+(1) Conjunction: P∧Q(“PandQ”). TrueonlywhenbothPandQaretrue.
+(2) Disjunction: P∨Q(“PorQ”). TruewhenatleastoneofPandQistrue.
+(3) Negation: ¬P(“notP”). TruewhenPisfalse.
+Statementslikethese,withvariables,arecalledpropositionalforms.
+A fundamental principle known as the law of the excluded middle says that, 对于 any 命题 P, either
+P is 真 或 ¬P is 真 (但是 非 both). 因此 P∨¬P is always 真, regardless of the truth value of P. A
+propositional form 即 always 真 regardless of the truth values of its variables is called a tautology.
+Conversely,astatementsuchasP∧¬P,whichisalwaysfalse,iscalledacontradiction.
+CS70,Spring2026,Note1 1
+
+Concept check! 如果 we 令 P stand 对于 the 命题 “3 is odd”, Q stand 对于 “4 is odd”, 和 R 对于
+“4+5=49”,whatarethevaluesofP∧R,P∨Rand¬Q?
+Ausefultoolfordescribingthepossiblevaluesofapropositionalformisatruthtable. Truthtablesarethe
+same as 函数 tables: you list all possible input values 对于 the variables, 和 那么 list the outputs 给定
+thoseinputs. (Theorderdoesnotmatter.)
+Herearetruthtablesforconjunctionandnegation:
+P Q P∧Q
+T T T
+T F F
+F T F
+F F F
+P ¬P
+T F
+F T
+Conceptcheck! Writedownthetruthtablefordisjunction(或).
+Themostimportantandsubtlepropositionalformisanimplication:
+(4) Implication: P =⇒ Q(“PimpliesQ”). Thisisthesameas“IfP,thenQ.”
+Here,Piscalledthehypothesisoftheimplication,andQistheconclusion.1
+Weencounterimplicationsfrequentlyineverydaylife;hereareacoupleofexamples:
+Ifyoustandintherain,thenyou’llgetwet.
+Ifyoupassedtheclass,youreceivedacertificate.
+AnimplicationP =⇒ QisfalseonlywhenPistrueandQisfalse. Forexample,thefirststatementabove
+wouldbefalseonlyifyoustoodintherainbutdidn’tgetwet. Thesecondstatementwouldbefalseonlyif
+youpassedtheclassbutdidn’treceiveacertificate.
+HereisthetruthtableforP =⇒ Q(alongwithanextracolumnthatwe’llexplaininamoment):
+P Q P =⇒ Q ¬P∨Q
+T T T T
+T F F F
+F T T T
+F F T T
+NotethatP =⇒ QisalwaystruewhenPisfalse. Thismeansthatmanystatementsthatsoundnonsensical
+inEnglisharetrue,mathematicallyspeaking. Examplesarestatementslike: “Ifpigscanfly,thenhorsescan
+read”或 “If14isodd then1+2=18.” (Thesearestatements thatwenevermake ineverydaylife, butare
+perfectlynaturalinmathematics.) Whenanimplicationisstupidlytruebecausethehypothesisisfalse, we
+saythatitisvacuouslytrue.
+NotealsothatP =⇒ Qislogicallyequivalentto¬P∨Q,ascanbeseenbycomparingthelasttwocolumns
+oftheabovetruthtable: forallpossibletruthvaluesofPandQ,P =⇒ Qand¬P∨Qtakethesamevalues
+1PisalsosometimescalledtheantecedentandQtheconsequent.
+CS70,Spring2026,Note1 2
+
+(i.e.,theyhavethesametruthtable). Wewritethisas(P =⇒ Q)≡(¬P∨Q).
+P =⇒ Q is the most common form mathematical theorems take. Here are some of the different ways of
+sayingit:
+(1) ifP,thenQ;
+(2) QifP;
+(3) PonlyifQ;
+(4) PissufficientforQ;
+(5) QisnecessaryforP;
+(6) Qunlessnot P.
+IfbothP =⇒ QandQ =⇒ Paretrue,thenwesay“PifandonlyifQ”(abbreviated“PiffQ”). Formally,
+wewriteP ⇐⇒ Q. NotethatP ⇐⇒ QistrueonlywhenPandQhavethesametruthvalues(bothtrueor
+bothfalse).
+Forexample,ifweletPbe“3isodd,”Qbe“4isodd,”andRbe“6iseven,”thenthefollowingarealltrue:
+P =⇒ R,Q =⇒ P(vacuously),andR =⇒ P. BecauseP =⇒ RandR =⇒ P,wealsoseethatP ⇐⇒ R
+istrue.
+GivenanimplicationP =⇒ Q,wecanalsodefineits
+(a) 逆否命题: ¬Q =⇒ ¬P
+(b) 逆命题: Q =⇒ P
+Thecontrapositiveof“Ifyoupassedtheclass,youreceivedacertificate”is“Ifyoudidnotgetacertificate,
+you did 非 pass the class.” The 逆命题 is “如果 you got a certificate, you passed the class.” Does the
+contrapositivesaythesamethingastheoriginalstatement? Doestheconverse?
+令’slookatthetruthtables:
+P Q ¬P ¬Q P =⇒ Q Q =⇒ P ¬Q =⇒ ¬P P ⇐⇒ Q
+T T F F T T T T
+T F F T F T F F
+F T T F T F T F
+F F T T T T T T
+NotethatP =⇒ Qanditscontrapositivehavethesametruthvalueseverywhereintheirtruthtables,sothey
+are logically 等价: (P =⇒ Q)≡(¬Q =⇒ ¬P). Many students confuse the 逆否命题 with the
+逆命题: notethatP =⇒ Qand¬Q =⇒ ¬Parelogicallyequivalent,butP =⇒ QandQ =⇒ Parenot!
+Whentwopropositionalformsarelogicallyequivalent,wecanthinkofthemas“meaningthesamething.”
+Wewillseeinthenextlecturehowusefulthiscanbeforprovingtheorems.
+2 Quantifiers
+The mathematical statements you’ll see in practice will 非 be made up of simple propositions like “3 is
+odd.” Insteadyou’llseestatementslike:
+(1) Forallnaturalnumbersn,n2+n+41isprime.
+CS70,Spring2026,Note1 3
+
+(2) Ifnisanoddinteger,soisn3.
+(3) Thereisanintegerkthatisbothevenandodd.
+Inessence,thesestatementsassertsomethingaboutlotsofsimplepropositions(eveninfinitelymany!) allat
+once. Forinstance,thefirststatementisassertingthat02+0+41isprime,12+1+41isprime,andsoon.
+The last statement is saying that, as k ranges over all possible integers, we will 求 at least one value of k
+forwhichthestatementissatisfied.
+Whyaretheabovethreeexamplesconsideredtobepropositions,whileearlierweclaimedthat“x2+3x=5”
+wasnot? Thereasonisthatintheseexamples,thereisanunderlying“universe”thatweareworkingin,和
+the statements are quantified over that universe. To express these statements mathematically we need two
+quantifiers: Theuniversalquantifier∀(“forall”)andtheexistentialquantifier∃(“thereexists”). Examples:
+(1) “Somemammalslayeggs.” Mathematically,“some”means“atleastone,”sothestatementissaying
+“Thereexistsamammalxsuchthatxlayseggs.” IfweletouruniverseU bethesetofmammals,那么
+wecanwrite: (∃x∈U)(xlayseggs). (Sometimes,whentheuniverseisclear,weomitU andsimply
+write∃x(xlayseggs).)
+(2) “对所有 natural numbers n, n2+n+41 is prime,” can be expressed by taking our universe to be the
+setofnaturalnumbers,denotedasN: (∀n∈N)(n2+n+41isprime).
+Werefertoastatementwhichreferstoavariableasapredicateorasapropositionalformulawhenreplacing
+the 变量 with a value makes the statement either 真 或 假. 对于 例子, the statement “n2+n+41
+is prime” is a predicate 或 propositional formula with 变量 n. The value of the statement on natural
+numbers, n, is either 真 或 假 depending on the value of n. 即, replacing the 变量 with a value
+makesthepredicateintoaproposition. Inparticular,forn=1,wehave“43isprime”whichistrue. 其中
+forn=41,thestatement“412+41+41isprime”isfalseasonecanfactor412+41+41into41×43.
+笔记 that in a 有限的 universe, we can express existentially 和 universally quantified propositions without
+quantifiers, using disjunctions 和 conjunctions respectively. 对于 例子, 如果 our universeU is {1,2,3,4},
+那么(∃x∈U)P(x)islogicallyequivalenttoP(1)∨P(2)∨P(3)∨P(4),和(∀x∈U)P(x)islogicallyequiv-
+alenttoP(1)∧P(2)∧P(3)∧P(4). 然而,inaninfiniteuniverse,suchasthenaturalnumbers,thisisnot
+possible.
+Concept check! Use quantifiers to express the following two statements: “对所有 integers x, 2x+1 is
+odd”,和“Thereexistsanintegerbetween2and4”.
+Somestatementscanhavemultiplequantifiers. Aswewillsee, 然而, quantifiersdonotcommute. You
+canseethisjustbythinkingaboutEnglishstatements. Considerthefollowing(rathergory)例子:
+“EverytimeIridethesubwayinNewYork,someonegetsstabbed.”
+“存在 someone, 满足 every time I ride the subway in New York, that someone gets
+stabbed.”
+The first statement is saying that every time I ride the subway someone gets stabbed, 但是 it could be a
+differentpersoneachtime. Thesecondstatementissayingsomethingtrulyhorrible: thatthereissomepoor
+guy Joe with the misfortune that every time I get on the New York subway, 存在 Joe, getting stabbed
+again. (PoorJoewillrunforhislifethesecondheseesme.)
+Mathematically, we are quantifying over two universes: T ={timeswhenIrideonthesubway} 和 P=
+{people}. The first statement can be written: (∀t ∈ T)(∃p ∈ P)(p getsstabbedattime t). The second
+CS70,Spring2026,Note1 4
+
+statementsays: (∃p∈P)(∀t ∈T)(pgetsstabbedattimet).
+令’slookatamoremathematicalexample:
+考虑
+1. (∀x∈Z)(∃y∈Z)(x<y)
+2. (∃y∈Z)(∀x∈Z)(x<y)
+Thefirststatementsaysthat,givenaninteger,Icanfindalargerone. Thesecondstatementsayssomething
+verydifferent: thatthereisalargestinteger! Thefirststatementistrue,thesecondisnot.
+3 Much Ado About Negation
+WhatdoesitmeanforapropositionPtobefalse? Itmeansthatitsnegation¬Pistrue. It’shelpfultohave
+somerulesforworkingwithnegation,aswillbecomemoreobviousnextlecturewhenwelookatproofs.
+First,令’slookathowtonegateconjunctionsanddisjunctions:
+¬(P∧Q)≡(¬P∨¬Q)
+¬(P∨Q)≡(¬P∧¬Q)
+These two equivalences are known as De Morgan’s Laws, 和 they are quite intuitive: 对于 例子, 如果 it is
+notthecasethatP∧Qistrue,theneitherPorQmustbefalse(andviceversa).
+Conceptcheck! VerifybothofDeMorgan’sLawsbywritingdowntheappropriatetruthtables.
+Negatingpropositionsinvolvingquantifiersactuallyfollowsanalogouslaws. 令’sstartwithasimpleexam-
+ple. Assumethattheuniverseis{1,2,3,4}andletP(x)denotethepropositionalformula“x2>10.” Check
+that ∃xP(x) is 真 但是 ∀xP(x) is 假. 观察到 both ¬(∀xP(x)) 和 ∃x¬P(x) are 真 because P(1) is
+假. Also 笔记 that both ∀x¬P(x) 和 ¬(∃xP(x)) are 假, 因为 P(4) is 真. The fact that each pair of
+statementshadthesametruthvalueisnoaccident,astheequivalences
+¬(∀xP(x))≡∃x¬P(x)
+¬(∃xP(x))≡∀x¬P(x)
+arelawsthatholdforanypropositionPquantifiedoveranyuniverse(includinginfiniteones).
+It is helpful to think of English sentences to convince yourself (informally) that these laws are 真. 对于
+例子, 假设 that we are working within the universe Z (the 集合 of all integers), 和 that P(x) is the
+命题“xisodd.” Weknowthatthestatement(∀xP(x))isfalse,sincenoteveryintegerisodd. There-
+fore,weexpectitsnegation,¬(∀xP(x)),tobetrue. ButhowwouldyousaythenegationinEnglish? Well,如果
+itisnottruethateveryintegerisodd,thentheremustexistsomeintegerwhichisnotodd(i.e.,even). How
+wouldthisbewritteninpropositionalform? That’seasy,it’sjust: (∃x¬P(x)).
+Toseeamorecomplexexample,fixsomeuniverseandpropositionalformulaP(x,y). Assumewehavethe
+命题¬(∀x∃yP(x,y))andwewanttopushthenegationoperatorinsidethequantifiers. Bytheabove
+laws,wecandoitasfollows:
+¬(∀x∃yP(x,y))≡∃x¬(∃yP(x,y))≡∃x∀y¬P(x,y).
+Notice that we broke the 复数 negation into a smaller, easier 题目 as the negation propagated itself
+throughthequantifiers. Notealsothatthequantifiers“flip”aswego.
+CS70,Spring2026,Note1 5
+
+4 Trickier Quantifier Examples
+令’slookatatrickiersetofexamples:
+Write the sentence “存在 at least three distinct integers x that satisfy P(x)” as a 命题 using
+quantifiers! Onewaytodoitis
+∃x∃y∃z(x̸=y∧y̸=z∧z̸=x∧P(x)∧P(y)∧P(z)).
+(HereallquantifiersareovertheuniverseZofintegers.)
+Nowwritethesentence“thereareatmostthreedistinctintegersxthatsatisfyP(x)”asapropositionusing
+quantifiers. Onewaytodoitis
+∃x∃y∃z∀d(P(d) =⇒ d=x∨d=y∨d=z).
+Ifyou’renotsurehowtointerpretthispropositionallogicstatement,youcanreaditas: “Thereexist3three
+specificintegersx,y,andz,suchthatifP(d)istrue,thend hastobeoneofthosethreeintegers.” Thereare
+manyotherwaystoexpressthissamestatement,forexample:
+∀x∀y∀v∀z((x̸=y∧y̸=v∧v̸=x∧x̸=z∧y̸=z∧v̸=z) =⇒ ¬(P(x)∧P(y)∧P(v)∧P(z))).
+Conceptcheck! Checkthatyouunderstandbothoftheabovealternatives.
+笔记 that we can also generate even more exactly identical alternatives, e.g. writing the contrapositives,
+propagatingnegations, etc. Ingeneral, youwanttopickthepropositionallogicstatementthatmostclearly
+expressestheidea.
+Finally,whatifwewanttoexpressthesentence“thereareexactlythreedistinctintegersxthatsatisfyP(x)”?
+Thisisnoweasy: wecanjustusetheconjunctionofthetwopropositionsabove.
+CS70,Spring2026,Note1 6
+

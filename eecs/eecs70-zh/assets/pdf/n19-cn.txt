@@ -1,0 +1,320 @@
+CS 70 离散数学 和 概率论
+笔记 19
+春季 2026 Course Notes
+Concentration Inequalities 和 the Law of Large Numbers
+假设 我们有 a biased coin, 但是 we don’t know what the bias is. To estimate the bias, we toss the coin
+n times 和 count how many Heads we observe. 那么 our estimate of the bias is 给定 by pˆ= 1S , 其中
+n n
+S is the number of Heads in the n tosses. Is this a good estimate? 令 p 表示 the 真 bias of the coin,
+n
+其中 is unknown to us. 因为 E[S ]=np, we see that the estimator pˆ always has the correct expected
+n
+value: E[pˆ]= 1E[S ]= p. Whatistheroleofnhere? Whydowetaketheaverageofmanysamples,rather
+n n
+than just one? As we shall see, as n gets larger, the estimate pˆ gets closer to the desired value p. This is a
+manifestationoftheLawofLargeNumbers,whichcorrespondstoourownempiricalexperienceandwhich
+weshallproveformallyattheendofthisnote.
+Howlargeshouldnbetoguaranteethatourestimate pˆiswithinanerrorε ofthetruebias p,i.e.,|pˆ−p|≤ε?
+The 答案 is that we can never guarantee with absolute certainty that |pˆ−p|≤ε. This is because S is
+n
+a random 变量 that can take any 整数 values between 0 和 n, 和 因此 pˆ = 1S is also a random
+n n
+variablethatcantakeanyvaluesbetween0and1. Soregardlessofthevalueofthetruebias p∈(0,1),itis
+possible that in our experiment of n coin tosses we observe n Heads (this happens with 概率 pn), in
+whichcaseS =nand pˆ=1. Similarly,itisalsopossiblethatallncointossescomeupTails(thishappens
+n
+withprobability(1−p)n),inwhichcaseS =0and pˆ=0.
+n
+Soinsteadofrequiringthat|pˆ−p|≤ε withabsolutecertainty,werelaxourrequirementandonlydemand
+that|pˆ−p|≤ε withconfidence1−δ,即,P[|pˆ−p|≤ε]≥1−δ. Thismeansthereisasmallprobability
+δ thatwemakeanerrorofmorethanε,butwithhighprobability(atleast1−δ)ourestimateisveryclose
+to p. Now we can state our result: to guarantee that P[|pˆ−p|≤ε]≥1−δ, it suffices to toss the coin n
+timeswhere
+1
+n≥ .
+4ε2δ
+Toprovesucharesult,weuseamathematicaltoolcalledChebyshev’sInequality,whichprovidesaquanti-
+tative,probabilisticboundonhowfarawayarandomvariablecanbefromitsexpectedvalue.
+1 马尔可夫’s Inequality
+Before discussing 切比雪夫’s inequality, we first 证明 the following simpler 界, 其中 applies only
+tononnegativerandomvariables(i.e.,r.v.’swhichtakeonlyvalues≥0).
+Theorem19.1(马尔可夫’sInequality). ForanonnegativerandomvariableX (i.e.,X(ω)≥0 forallω∈Ω)
+withfinitemean,
+E[X]
+P[X ≥c]≤ ,
+c
+foranypositiveconstantc.
+CS70,Spring2026,Note19 1
+
+证明. LetA denotetherangeofX andconsideranyconstantc∈A. 那么,
+E[X]= ∑ a×P[X =a]
+a∈A
+≥ ∑a×P[X =a]
+a≥c
+≥ ∑c×P[X =a]
+a≥c
+=c∑P[X =a]
+a≥c
+=cP[X ≥c],
+wherethefirstlineisjustthedefinitionofexpectation,whilethesecondlinefollowsfromthefactthatX isa
+nonnegativerandomvariable(i.e.,a≥0foralla∈A). Rearrangingthelastinequalitygivesusthedesired
+result.
+(笔记: Setting c=2E[X] in 马尔可夫’s inequality, the statement is that at most 1 the people can be at least
+2
+twicetheaverage.)
+AslickerproofcanbeprovidedusingtheindicatorfunctionI{·},definedforanyeventE as
+(cid:40)
+1, ifE istrue,
+I{E}=
+0, ifE isfalse.
+AlternativeproofofTheorem19.1. 因为 X is a nonnegative random 变量 和 c > 0, 我们有 对所有
+ω ∈Ω,
+X(ω)≥cI{X(ω)≥c}, (1)
+sincetherighthandsideis0ifX(ω)<candiscifX(ω)≥c. MultiplyingbothsidesbyP[ω]andsumming
+overω ∈Ωgives
+E[X]≥cE[I{X ≥c}]=cP[X ≥c],
+其中 the first inequality follows from (1) 和 the last equality from the fact that I{X ≥c} is an indicator
+randomvariable.
+IfwehavearandomvariableY thatisnotnecessarilynonnegative,thenthesamelineofargumentasabove
+canbeappliedtoprovethefollowingresultfortheabsolutevalue|Y|ofY:
+定理 19.2 (Generalized 马尔可夫’s Inequality). 令 Y be an arbitrary random 变量 with 有限的
+mean. 那么,foranypositiveconstantscandr,
+E[|Y|r]
+P[|Y|≥c]≤ .
+cr
+证明. Sincec>0andr>0,wehave
+|Y|r ≥|Y|rI{|Y|≥c}≥crI{|Y|≥c}.
+(Notethatthelastinequalitywouldnotholdifrwerenegative.) Takingtheexpectationofbothsidesgives
+E[|Y|r]≥crE[I{|Y|≥c}]=crP[|Y|≥c],
+anddividingbycr leadstothedesiredresult.
+CS70,Spring2026,Note19 2
+
+例子: CoinTosses
+ConsidertossingafaircoinntimesandletX denotethenumberofheadsobserved. Whatistheprobability
+ofobservingmorethan 3nheads? 令’sapplyMarkov’sinequalitytoobtainanupperboundonP[X ≥ 3n].
+4 4
+SinceX ∼二项的(n,1),wehaveE[X]= 1n,所以
+2 2
+E[X] 2
+P[X ≥ 3n]≤ = ,
+4 3n 3
+4
+whichdoesnotdependonn. Isthisagoodupperbound? TheexactanswerforP[X ≥ 3n]isgivenby
+4
+n (cid:18) n (cid:19) 1
+P[X ≥ 3n]= ∑ ,
+4 k 2n
+(cid:108)3 (cid:109)
+k= n
+4
+whichis≈5.5×10−2forn=10and≈2.8×10−7forn=100. Asthesenumericalvaluesshow,P[X ≥ 3n]
+4
+isadecreasingfunctionofn,andsoMarkov’sinequalitydoesnotprovideaverygoodupperboundforthis
+例子. Inthenextsection,wewillseehowtoobtainanimprovedbound.
+2 切比雪夫’s Inequality
+我们有 seen that, intuitively, the 方差 (或, more correctly the 标准差) is a measure of
+“spread,”ordeviationfromthemean. Wecannowmakethisintuitionquantitativelyprecise:
+Theorem19.3(切比雪夫’sInequality). ForarandomvariableX withfiniteexpectationE[X]=µ,
+Var(X)
+P[|X−µ|≥c]≤ , (2)
+c2
+foranypositiveconstantc.
+证明. DefineY
+=(X−µ)2andnotethatE[Y]=E(cid:2) (X−µ)2(cid:3)
+=Var(X). Also,noticethattheeventthatwe
+are interested in, |X−µ|≥c, is exactly the same as the eventY =(X−µ)2 ≥c2. 因此, P[|X−µ|≥
+c]=P[Y ≥c2]. 此外,Y isobviouslynonnegative,sowecanapplyMarkov’sinequalityinTheorem19.1
+toget
+E[Y] Var(X)
+P[|X−µ|≥c]=P[Y ≥c2]≤ = .
+c2 c2
+Thiscompletestheproof.
+HereisasimplerproofusingGeneralizedMarkov’sinequalityfromTheorem19.2:
+AlternativeproofofTheorem19.3. 定义 Y =X−µ. 那么, 因为 |Y|2 =|X−µ|2 =(X−µ)2, 我们有
+(cid:104) (cid:105)
+E |Y|2 = E(cid:2) (X−µ)2(cid:3) = Var(X). 因此, (2) follows from applying 定理 19.2 to Y = X−µ with
+r=2.
+令’s pause to 考虑 what 切比雪夫’s inequality says. It tells us that the 概率 of any 给定
+deviation, c, from the mean, either above it 或 below it (笔记 the absolute value sign), is at most
+Var(X)
+.
+c2
+As expected, this deviation 概率 will be small 如果 the 方差 is small. An immediate 推论 of
+切比雪夫’sinequalityisthefollowing:
+CS70,Spring2026,Note19 3
+
+Corollary19.1. ForanyrandomvariableX withfiniteexpectationE[X]=µ andfinitestandarddeviation
+(cid:112)
+σ = Var(X),
+1
+P[|X−µ|≥kσ]≤ ,
+k2
+foranyconstantk>0.
+证明. Plugc=kσ intoChebyshev’sinequality.
+所以, 对于 例子, we see that the 概率 of deviating from the mean by more than (say) two standard
+deviations on either side is at most 1. In this sense, the 标准差 is a good working 定义 of
+4
+the“width”或“spread”ofadistribution.
+In some special cases, it is possible to get tighter bounds on the 概率 of deviations from the mean.
+然而, 对于 general random variables that only have means 和 variances, 切比雪夫’s inequality is es-
+sentially the only tool. Its power derives from the fact that it can be applied to any random 变量 with a
+meanandavariance.
+例子: CoinTossesRevisited
+令’s revisit the coin toss 例子 considered above 和 apply 切比雪夫’s inequality to obtain an upper
+boundonP[X ≥ 3n]. RecallingE[X]= n,weobtain
+4 2
+P[X ≥ 3n]=P[X−n ≥ n]≤P[ (cid:12) (cid:12)X−n(cid:12) (cid:12)≥ n ]≤ Var(X) .
+4 2 4 2 4 (cid:0)n(cid:1)2
+4
+SinceX ∼二项的(n,1),wehaveVar(X)=n1(1−1)= n,soweobtain
+2 2 2 4
+Var(X) 4
+P[X ≥ 3n]≤ = ,
+4 (cid:0)n(cid:1)2 n
+4
+whichismuchbetterthantheconstantboundof 2 givenbyMarkov’sinequality.
+3
+3 Applications
+Inthissection,wediscussapplicationsofChebyshev’sinequalitytoestimationproblems.
+3.1 Estimating the Bias of a Coin
+令 us go back to our motivating 例子 of estimating the bias of a coin. 回忆 我们有 a coin of
+unknownbias p,andourestimateof pis pˆ= 1S whereS isthenumberofHeadsinncointosses.
+n n n
+Asusual,wewillfindithelpfultowriteS =X +···+X ,whereX =1ifthei-thcointosscomesupHeads
+n 1 n i
+andX =0otherwise,andtherandomvariablesX ,...,X areindependentandidenticallydistributed. 那么
+i 1 n
+E[X]=P[X =1]= p,sobylinearityofexpectation,
+i i
+E[pˆ]=E(cid:2)1S (cid:3) = 1 ∑ n E[X]= p.
+n n n i
+i=1
+CS70,Spring2026,Note19 4
+
+Whataboutthevarianceof pˆ? NotethatsincetheX
+i
+’sareindependent,thevarianceofS
+n
+=∑ n
+i=1
+X
+i
+isequal
+tothesumofthevariances:
+1 1 n σ2
+Var(pˆ)=Var(1S )= Var(S )= ∑Var(X)= ,
+n n n2 n n2 i n
+i=1
+wherewehavewrittenσ2 forthevarianceofeachoftheX.
+i
+所以 we see that thevarianceof pˆisinverselyproportionalton. This fact ensures that, as we take larger 和
+largersamplesizesn,theprobabilitythatwedeviatemuchfromtheexpectation pgetssmallerandsmaller.
+令’s now use 切比雪夫’s inequality to 图 out how large n has to be to ensure a specified accuracy in
+ourestimateofthetruebias p. Aswediscussedinthebeginningofthisnote,anaturalwaytomeasurethis
+isforustospecifytwoparameters,ε andδ,bothintherange(0,1). Theparameterε controlstheerror we
+arepreparedtotolerateinourestimate,andδ controlstheconfidencewewanttohaveinourestimate.
+ApplyingChebyshev’sinequality,wehave
+Var(pˆ) σ2
+P[|pˆ−p|≥ε]≤ = .
+ε2 nε2
+Tomaketherighthandsidelessthanthedesiredvalueδ,weneedtoset
+σ2
+n≥ . (3)
+ε2δ
+Now 回忆 σ2 = Var(X) is the 方差 of a single sample X. 所以, 因为 X is an indicator random
+i i i
+variablewithP[X =1]= p,wehaveσ2= p(1−p),andtheinequalityfrom(3)becomesn≥ p(1−p) .因为
+i ε2δ
+p(1−p)ismaximized1 when p= 1,wecanconcludethatitissufficienttochoosensuchthat:
+2
+p(1−p) 1
+n≥max = , (4)
+p ε2δ 4ε2δ
+asweclaimedearlier.
+Forexample,plugginginε =0.1andδ =0.05,weseethatasamplesizeofn=500issufficienttogetan
+estimate pˆthatisaccuratetowithinanerrorof0.1withprobabilityatleast95%.
+Asaconcreteexample, considertheproblemofestimatingtheproportion pofDemocratsintheUSpopu-
+lation,bytakingasmallrandomsample. Wecanmodelthisastheproblemofestimatingthebiasofacoin
+above,whereeachcointosscorrespondstoapersonthatweselectrandomlyfromtheentirepopulation,和
+the coin tosses are independent2. Our calculation above shows that to get an estimate pˆ 即 accurate to
+withinanerrorof0.01withprobabilityatleast95%,itsufficestosamplen=50,000people3. Inparticular,
+notice that the size of the sample is 独立的 of the total size of the population! This is how polls can
+accuratelyestimatequantitiesofinterestforapopulationofseveralhundredmillionwhilesamplingonlya
+fairlysmallnumberofpeople.
+1Usecalculustoprovethis.
+2Weareassumingherethatthesamplingisdone“withreplacement”;i.e.,weselecteachpersoninthesamplefromtheentire
+population,includingthosewehavealreadypicked.Sothereisasmallchancethatwewillpickthesamepersontwice.
+3Actually the sample size needed is quite a bit smaller than this, as you will see in later classes such as CS174 using more
+sophisticatedconcentrationbounds.Butthisiscertainlyavalidupperbound.
+CS70,Spring2026,Note19 5
+
+3.2 Estimating a General 期望
+What 如果 we wanted to estimate something a little more 复数 than the bias of a coin? 对于 例子,
+假设 we want to estimate the average wealth of people in the US. We can model this as the 题目 of
+estimating the expected value of an unknown 概率 分布. 那么 we can use exactly the same
+scheme as before, except that now we sample the random variables X ,X ,...,X independently from our
+1 2 n
+unknowndistribution. ClearlyE[X]=µ,theexpectedvaluethatwearetryingtoestimate. Ourestimateof
+i
+µ willbeµˆ =
+n
+1∑ n
+i=1
+X
+i
+,forasuitablychosensamplesizen.
+Following the same calculation as before, 我们有 E[µˆ]=µ 和 Var(µˆ)= σ2 , 其中 σ2 =Var(X) is the
+n i
+varianceoftheX. (RecallthattheonlyfactsweusedabouttheX wasthattheywereindependentandhad
+i i
+the same 分布 — actually the same 期望 和 方差 would be enough: why?) This time,
+然而,sincewedonothaveanyaprioriboundonthemeanµ,itmakesmoresensetoletε betherelative
+error,i.e.,wewishtofindanestimateµˆ thatiswithinanadditiveerrorofεµ:
+P[|µˆ −µ|≥εµ]≤δ.
+Using(3),butsubstitutingεµ inplaceofε,itisenoughforthesamplesizentosatisfy
+σ2 1
+n≥ × . (5)
+µ2 ε2δ
+Here ε 和 1−δ are the desired relative error 和 confidence level respectively. Now of course we don’t
+knowtheothertwoquantities,µ andσ2,appearingin(5). Inpractice,wewouldusealowerboundonµ 和
+anupperboundonσ2 (justasweusedanupperboundon p(1−p)inthecointossingproblem). Plugging
+theseboundsinto(5)willensurethatoursamplesizeislargeenough.
+对于 例子, in the average wealth 题目 we could probably safely take µ to be at least (say) $20,000
+(probably more). 然而, the existence of very wealthy people such as Bill Gates means that we would
+need to take a very high value 对于 the 方差 σ2. Indeed, 如果 存在 at least one individual with wealth
+$50 billion in a population of size 325 million, 那么 assuming a relatively small value of µ means that the
+方差 must be at least about (50×109)2 ≈7.7×1012. 存在 really no way around this 题目 with
+325×106
+simpleuniformsampling: theunevendistributionofwealthmeansthatthevarianceisinherentlyverylarge,
+andwewillneedahugenumberofsamplesbeforewearelikelytofindanybodywhoisimmenselywealthy.
+Butifwedon’tincludesuchpeopleinoursample,thenourestimatewillbewaytoolow.
+4 The Law of Large Numbers
+The estimation method we used in the previous sections is based on a principle that we accept as part of
+everyday life: 即, the Law of Large Numbers (LLN). This asserts that, 如果 we observe some random
+变量 many times, 和 take the average of the observations, 那么 this average will 收敛 to a single
+value,whichisofcoursetheexpectationoftherandomvariable. Inotherwords,averagingtendstosmooth
+outanylargefluctuations,andthemoreaveragingwedothebetterthesmoothing.
+Theorem19.4(LawofLargeNumbers). LetX ,X ,...,beasequenceofi.i.d.(independentandidentically
+1 2
+distributed) random variables with common 有限的 期望 E[X]=µ 对所有 i. 那么, their partial sums
+i
+S =X +X +···+X satisfy
+n 1 2 n
+P(cid:2)(cid:12) (cid:12) n 1S n −µ (cid:12) (cid:12)≥ε (cid:3) →0 asn→∞,
+foreveryε >0,howeversmall.
+CS70,Spring2026,Note19 6
+
+证明. 令 Var(X) = σ2 be the common 方差 of the r.v.’s; we 假设 that σ2 is 有限的.4 With this
+i
+(relatively mild) assumption, the LLN is an immediate consequence of 定理 19.3. 因为 X ,X ,... are
+1 2
+i.i.d. random variables with E[X]= µ 和 Var(X)=σ2, 我们有 E(cid:2)1S (cid:3) = µ 和 Var(1S )= σ2 , 所以 by
+i i n n n n n
+切比雪夫’sinequalitywehave
+P(cid:2)(cid:12) (cid:12) n 1S n −µ (cid:12) (cid:12)≥ε (cid:3) ≤ Var ε ( 2 1 n S n ) = n σ ε 2 2 →0 asn→∞.
+NoticethattheLLNsaysthattheprobabilityofanydeviationε fromthemean,howeversmall,tendstozero
+as the number of observations n in our average tends to infinity. 因此, by taking n large enough, we can
+maketheprobabilityofanygivendeviationassmallaswelike.
+4Ifσ2isnotfinite,theLLNstillholdsbuttheproofrequiresmoreadvancedmathematicaltools.
+CS70,Spring2026,Note19 7
+

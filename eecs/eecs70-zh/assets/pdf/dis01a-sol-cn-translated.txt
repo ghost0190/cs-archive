@@ -1,0 +1,200 @@
+CS 70 离散数学 和 概率论
+DIS 1A
+春季 2026 Sinclair, Song
+归纳 Intro
+Natural numbers start at 0, 和 存在 always a next one. 对于 predicates on natural numbers the
+Note3
+principleofinductionis: ∀n∈N,P(n)≡P(0)∧∀n,P(n) =⇒ P(n+1).
+即, to 证明 P(n) 对于 natural numbers one proves P(0), the 基础情况, 和 ∀n,P(n) =⇒
+P(n+1), the 归纳 step. In the 归纳 step, the assumption that P(n) is 真 is called the
+inductionhypothesiswhichistypicallyusedtoarguethatP(n+1)istrue.
+An 例子 is the statement P(n)=∑ n i= n(n+1) . The 基础情况, P(0), is the observation that
+i=0 2
+∑ 0 i=0. Intheinductionstep,theinductionhypothesis,P(n),is∑ n i= (n)(n+1) . Theinduction
+i=0 i=0 2
+stepproceedsasfollows:
+n+1 n (n)(n+1) (n+1)(n+2)
+∑ i= ∑i+n+1= +n+1= .
+2 2
+i=0 i=0
+Thefirstequalityfollowsfromthedefinitionofthenotation,∑,thesecondsubstitutestheinduction
+hypothesisandthelastisalgebra. AndwhatisprovenisP(n+1),whichisthat∑ n+1i= (n+1)(n+2) .
+i=0 2
+Another 和 等价 view of the natural numbers are that 存在 the numbers 0 to n 和 那么
+thereisn+1. Thestronginductionprincipleisthat
+∀n∈N,P(n)≡P(0)∧∀n,((∀k≤n)P(k)) =⇒ P(n+1).
+Here the 归纳 假设 is that P(k) is 真 对所有 values k ≤n. To 证明 that every natural
+number n≥2 can be written as a product of primes, we take the 基础情况 as P(2) 其中 can be
+written as 2, 其中 is a product of a prime. 和 对于 any n, 如果 it is prime, it can be written as itself,
+otherwise n=ab 和 by the inductive hypotheses P(a) 和 P(b) is that each can be written as a
+product of primes. 因此, we can write n as the product of the primes in both a 和 b. 笔记 here
+that the 基础情况 starts at 2, 其中 illustrates that one chose the 基础情况 as is relevant to the
+statementbeingproven.
+Strengtheningtheinductionhypothesisisatechniquethatprovesastrongertheorem. Forexample,
+the notes 考虑 the 定理 "The sum of the first n odd numbers is a perfect square." In fact,
+the notes inductively 证明 the stronger 定理 "The sum of the first n odd numbers is n2." Here,
+the stronger inductive 假设 allows the 归纳 step to proceed easily. 笔记 that in strong
+归纳, we 假设 more cases are 真 in the inductive 假设, whereas strengthening the
+inductivehypothesisprovesastrongerclaimentirely.
+CS70,Spring2026,DIS1A 1
+
+1 Natural 归纳 on Inequality
+Provethatifn∈Nandx>0,那么(1+x)n ≥1+nx.
+Note3
+解答:
+• BaseCase: Whenn=0,theclaimholdssince(1+x)0 ≥1+0x.
+• InductiveHypothesis: Assumethat(1+x)k ≥1+kx forsomevalueofn=k wherek∈N.
+• InductiveStep: Forn=k+1,wecanshowthefollowing:
+(1+x)k+1 =(1+x)k(1+x)≥(1+kx)(1+x)
+≥1+kx+x+kx2
+≥1+(k+1)x+kx2 ≥1+(k+1)x
+Byinduction,wehaveshownthat∀n∈N,(1+x)n ≥1+nx.
+2 Make It Stronger
+假设 that the 序列 a ,a ,... is defined by a =1 和 a =3a2 对于 n≥1. We want to
+Note3 1 2 1 n+1 n
+provethat
+a
+≤3(2n)
+n
+foreverypositiveintegern.
+(a) 假设 that we want to 证明 this statement using 归纳. Can we 令 our inductive
+假设 be simply a ≤
+3(2n)?
+Attempt an 归纳 证明 with this 假设 to 证明
+n
+whythisdoesnotwork.
+(b) Instead,令’strytoinsteadproveastrongerstatementinstead,oftheforma
+≤3(2n−??).
+What
+n
+should replace the 问题 marks 所以 that the 归纳步骤 works out? Try some examples
+andseewhatworks.
+(c) Usingyourstrongerinductivehypothesisfrompart(b),carryouttheinductionproof.
+(d) Whydoesthehypothesisinpart(b)implytheoverallclaim?
+解答:
+(a) 令’strytoprovethatforeveryn≥1,wehavea
+≤32n
+byinduction.
+n
+BaseCase: Forn=1wehavea
+=1≤321
+=9.
+1
+InductiveStep: Forsomen≥1,weassumea
+≤32n
+. Now,considern+1. Wecanwrite:
+n
+a =3a2 ≤3(32n )2 =3×32×2n =3×32n+1 =32n+1+1.
+n+1 n
+然而, what we wanted was to get an inequality of the form: a ≤
+32n+1
+. 存在 an
+n+1
+extra+1intheexponentofwhatwederived.
+CS70,Spring2026,DIS1A 2
+
+(b) The 假设 should be a ≤
+32n−1.
+We can see in the next part that this modification
+n
+allowsthealgebraintheinductivesteptoworkoutnicely.
+(c) Thistimetheinductionworks.
+BaseCase: Forn=1wehavea =1≤32−1 =3.
+1
+InductiveStep: Forsomen≥1weassumea
+≤32n−1.
+Now,considern+1. Wecanwrite:
+n
+a =3a2 ≤3×(32n−1)2 =3×32×(2n−1) =3×32n+1−2 =32n+1−1.
+n+1 n
+Thisisexactlytheinductionhypothesisforn+1.
+(d)
+Foreveryn≥1,wehave2n−1≤2nandtherefore32n−1≤32n
+. Thismeansthatourmodified
+假设 其中 we proved in part (b) does indeed imply what we wanted to 证明 in part
+(a).
+3 Binary Numbers
+证明 that every 正的 整数 n can be written in binary. 换句话说, 证明 that 对于 any
+Note3
+positiveintegern,wecanwrite
+n=c ·2k+c ·2k−1+···+c ·21+c ·20,
+k k−1 1 0
+forsomek∈Nandc ∈{0,1}foralli≤k.
+i
+As an 例子, the number 13 can be written in binary as 1101 because 13 = 1·23+1·22+0·
+21+1·20.
+解答:
+Provebystronginductiononn.
+The key insight here is that 如果 n is divisible by 2, 那么 it is easy to get a bit string representation
+of (n+1) from that of n. 然而, 如果 n is 非 divisible by 2, 那么 (n+1) will be, 和 its binary
+representationwillbemoreeasilyderivedfromthatof(n+1)/2. Moreformally:
+• BaseCase:n=1canbewrittenas1×20.
+• InductiveStep: 假设 that the statement is 真 对所有 1 ≤ m ≤ n, 其中 n is arbitrary.
+Now, we need to 考虑 n+1. 如果 n+1 is divisible by 2, 那么 we can apply our inductive
+hypothesisto(n+1)/2anduseitsrepresentationtoexpressn+1inthedesiredform.
+(n+1)/2=c ·2k+c ·2k−1+···+c ·21+c ·20
+k k−1 1 0
+n+1=2·(n+1)/2=c ·2k+1+c ·2k+···+c ·22+c ·21+0·20.
+k k−1 1 0
+Otherwise, n must be divisible by 2 和 因此 have c =0. We can obtain the representation
+0
+ofn+1fromnasfollows:
+n=c ·2k+c ·2k−1+···+c ·21+0·20
+k k−1 1
+n+1=c ·2k+c ·2k−1+···+c ·21+1·20
+k k−1 1
+因此,thestatementistrue.
+CS70,Spring2026,DIS1A 3
+
+Here is another alternate 解答 emulating the 算法 of converting a decimal number to a
+binarynumber.
+• BaseCase:n=1canbewrittenas1×20.
+• InductiveStep:Assumethatthestatementistrueforall1≤m≤n,forarbitraryn. Weshow
+thatthestatementholdsforn+1. Let2mbethelargestpowerof2suchthatn+1≥2m. 因此,
+n+1<2m+1. Weexaminethenumber(n+1)−2m. 因为(n+1)−2m<n+1,theinductive
+假设 holds, 所以 我们有 a binary representation 对于 (n+1)−2m. (如果 (n+1)−2m =0,
+thenwestillhaveabinaryrepresentation,namely0·20.)
+Also, 因为 n+1<2m+1, (n+1)−2m <2m, 所以 the largest power of 2 in the representation
+of(n+1)−2m is2m−1. 因此,bytheinductivehypothesis,
+(n+1)−2m =c ·2m−1+c ·2m−2+···+c ·21+c ·20,
+m−1 m−2 1 0
+andadding2m tobothsidesgives
+n+1=2m+c ·2m−1+c ·2m−2+···+c ·21+c ·20,
+m−1 m−2 1 0
+whichisabinaryrepresentationforn+1. 因此,theinductioniscomplete.
+Anotherintuitionisthatifxhasabinaryrepresentation,2xand2x+1doaswell: shiftthebitsand
+possibly place 1 in the last bit. The above 归纳 could 那么 have proceeded from n 和 used
+the binary representationof ⌊n/2⌋, shifting 和 possiblysetting the first bit depending on whether
+nisoddoreven.
+笔记: In proofs using simple 归纳, we only use P(n) in order to 证明 P(n+1). Simple
+归纳 gets stuck here because in order to 证明 P(n+1) in the 归纳步骤, we need to
+assumemorethanjustP(n). Thisisbecauseitisnotimmediatelyclearhowtogetarepresentation
+对于 P(n+1) using just P(n), particularly in the case that n+1 is divisible by 2. As a result, we
+assumethestatementtobetrueforallof1,2,...,ninordertoproveitforP(n+1).
+4 Fibonacci 对于 Home
+Recall,theFibonaccinumbers,definedrecursivelyas
+Note3
+F =1,F =1,andF =F +F .
+1 2 n n−2 n−1
+ProvethateverythirdFibonaccinumberiseven. Forexample,F =2isevenandF =8iseven.
+3 6
+解答:
+Wewanttoprovethatforallnaturalnumbersk≥1,F iseven.
+3k
+Basecase: Fork=1,wecanseethatF =2iseven.
+3
+Inductionhypothesis: Supposethatforanarbitraryfixedvalueofk,F iseven.
+3k
+Inductivestep: Wecanwrite
+F =F +F =2F +F .
+3k+3 3k+2 3k+1 3k+1 3k
+CS70,Spring2026,DIS1A 4
+
+Bytheinductionhypothesis,weknowthatF =2qforsomeq.
+3k
+This means that 我们有 that F = 2(F +q), 其中 蕴含 that it is even. 因此, by the
+3k+3 3k+1
+principlesofinductionwehaveshownthatallF areeven.
+3k
+CS70,Spring2026,DIS1A 5
+
