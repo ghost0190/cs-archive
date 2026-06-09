@@ -1,0 +1,931 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 2: Breakout - CS50's Introduction to Game Development">
+
+        <link href="../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Lecture 2: Breakout - CS50's Introduction to Game Development</title>
+
+
+    <meta property="og:description" content="Today’s Topics Sprite Sheets Sprite Sheets allow us to condense all the images we need to load for our game into one big image, with each sprite assigned a...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="041bb839c66975fff8371a32ecbe5b29" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>CS50 Games (“CS50G”) was retired on 30 June 2024 and is officially deprecated. The material remains here for archive purposes only.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-game-development"><a href="../../index.html">CS50’s Introduction to Game Development</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+  <li><a href="../../weeks/8/index.html">Helicopter Game 3D</a></li>
+  <li><a href="../../weeks/9/index.html">Dreadhalls</a></li>
+  <li><a href="../../weeks/10/index.html">Portal</a></li>
+  <li><a href="../../weeks/11/index.html">Portal Problems</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50g">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lecture-2-breakout">Lecture 2: Breakout</h1>
+
+<h2 id="todays-topics">Today’s Topics</h2>
+
+<ul>
+  <li data-marker="*">Sprite Sheets
+    <ul>
+      <li data-marker="*">Sprite Sheets allow us to condense all the images we need to load for our game into one big image, with each sprite assigned a specific cell in the “sheet”.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Procedural Layouts
+    <ul>
+      <li data-marker="*">We’ll take a look at how to dynamically generate bricks for our breakout implementation!</li>
+    </ul>
+  </li>
+  <li data-marker="*">Managing State
+    <ul>
+      <li data-marker="*">This week we’ll go one step further with improving our state machine in terms of code cleanliness and best practices, particularly by taking advantage of the state machine class’s built-in methods to ensure we have a less polluted global namespace.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Levels
+    <ul>
+      <li data-marker="*">We’ll introduce the concept of “levels” to our game, allowing a player to “level up” and changing what we’re displaying to the screen accordingly.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Player Health
+    <ul>
+      <li data-marker="*">We’ll learn how to keep track of player “health” using hearts to give them a number of chances before losing the game.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Particle Systems
+    <ul>
+      <li data-marker="*">We’ll learn more about Particle Systems this week so as to provide more advanced aesthetic qualities to our game.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Collision Detection Revisited
+    <ul>
+      <li data-marker="*">Collision Detection will be a bit more advanced this week!</li>
+    </ul>
+  </li>
+  <li data-marker="*">Persistent Save Data
+    <ul>
+      <li data-marker="*">In the context of High Scores, it’s useful to know how to save information relevant to our game so that the next time we open it, we can still access that old information.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="downloading-demo-code">Downloading demo code</h2>
+
+<ul>
+  <li data-marker="*"><a href="https://github.com/games50/breakout">github.com/games50/breakout</a></li>
+</ul>
+
+<h2 id="breakout-state-flow">Breakout State Flow</h2>
+
+<ul>
+  <li data-marker="*">Below we map out the state flow for our final version of Breakout.</li>
+  <li data-marker="*">The program will begin in StartState, which can transition back and forth between itself and HighScoreState (since the user can check High Scores before playing).</li>
+  <li data-marker="*">StartState can also transition to PaddleSelectState, which transitions on to ServeState.</li>
+  <li data-marker="*">During gameplay, the program will transition back and forth between ServeState and PlayState as the user loses health. If the user clears the level, the program transitions onto the VictoryState and then to the ServeState for the next level.</li>
+  <li data-marker="*">Alternatively, if the user loses all their lives before clearing the level, the program will transition from PlayState to GameOverState, optionally transitioning to the EnterHighScoreState (if the user achieves a High Score) and
+then on to the HighScoreState, or simply transitioning from GameOverState to StartState if the user does not have a High Score.</li>
+  <li data-marker="*">
+    <p>Take a moment to examine the
+diagram below if in need of a visual aid:</p>
+
+    <p><img src="bkostatemap.png" alt=""></p>
+  </li>
+</ul>
+
+<h2 id="breakout0-the-day-0-update">breakout0 (“The Day-0 Update”)</h2>
+
+<ul>
+  <li data-marker="*">At this point, you will want to have downloaded the demo code in order to follow along.</li>
+  <li data-marker="*">breakout0 displays the main screen and allows the user to toggle between the “Start” and “High Score” options.</li>
+</ul>
+
+<h3 id="project-organization">Project Organization</h3>
+
+<ul>
+  <li data-marker="*">The first thing to note will be the organizational changes we’ve made to our workspace and to our code files themselves since last week.</li>
+  <li data-marker="*">You’ll notice that we’ve organized our workspace using appropriate subdirectories for our different file types. This is a big improvement from the messy workspaces we’ve had in the past.</li>
+  <li data-marker="*">Now, we have our <code class="language-plaintext highlighter-rouge">main.lua</code> file out in the open, while our sound, font, graphics, and other files are grouped   together in their own subdirectories. This is a good example to follow when working on your own projects!</li>
+  <li data-marker="*">In a similar vein, you’ll notice that we’ve moved away from our previous tendency to store related information in individual variables. Instead, we have begun modularizing our code even more by storing related values in tables, such as <code class="language-plaintext highlighter-rouge">gFonts</code>, <code class="language-plaintext highlighter-rouge">gTextures</code>, and <code class="language-plaintext highlighter-rouge">gSounds</code> from <code class="language-plaintext highlighter-rouge">main.lua</code> (recall that use of the prefix <code class="language-plaintext highlighter-rouge">g</code> is a common convention to denote that the variable in question will have global scope).</li>
+  <li data-marker="*">Furthermore, we’ve moved over our familiar constant globals from <code class="language-plaintext highlighter-rouge">main.lua</code> (e.g. <code class="language-plaintext highlighter-rouge">WINDOW_WIDTH</code>, <code class="language-plaintext highlighter-rouge">WINDOW_HEIGHT</code>, <code class="language-plaintext highlighter-rouge">VIRTUAL_WIDTH</code>, <code class="language-plaintext highlighter-rouge">VIRTUAL_HEIGHT</code>) into their own separate file, <code class="language-plaintext highlighter-rouge">src</code>, which we are then importing to <code class="language-plaintext highlighter-rouge">main.lua</code>
+</li>
+  <li data-marker="*">These wholesome organizational changes may seem unnecessary at first, but as your own projects grow more complex, you will come to depend on these organizational strategies, especially once you begin to work with collaborators who may otherwise not understand your project’s layout.</li>
+</ul>
+
+<h3 id="important-code">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Next in <code class="language-plaintext highlighter-rouge">main.lua</code> you’ll notice:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.load()</code> in which we set up our global tables as well as our state machine.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.update(dt)</code> whose logic we delegate to our state machine.</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">love.resize(w, h)</code></li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> which we funnel into <code class="language-plaintext highlighter-rouge">love.keyboard.wasPressed(key)</code>, our own custom  function as we did last week (recall why?).</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.draw()</code> which renders what we see on the screen.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">displayFPS()</code> a custom function (which should be a review from previous weeks).</li>
+    </ul>
+  </li>
+  <li data-marker="*">The remaining logic will be found in our <code class="language-plaintext highlighter-rouge">src/states</code> subdirectory, since our <code class="language-plaintext highlighter-rouge">love.update(dt)</code> function in <code class="language-plaintext highlighter-rouge">main.lua</code> is deferring to our state machine. Currently, we only have BaseState and StartState.
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">StartState:update(dt)</code>: allows the user to toggle between “Start” and “High Scores” on the screen, highlighting their selection and playing a toggle sound effect.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">StartState:render()</code>: includes some graphics configurations specific to the StartState.</li>
+      <li data-marker="*">Like last week, our BaseState is essentially a skeleton for our other states so that we don’t have to redefine the same methods for each State class.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Be sure to read through each file carefully so as to understand its role in the overarching project. The code itself should look familiar, but do take the time to familiarize yourself with the new organizational layout.</li>
+</ul>
+
+<h2 id="breakout1-the-quad-update">breakout1 (“The Quad Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout1 takes advantage of Sprite Sheets in order to render a Paddle sprite during PlayState.</li>
+</ul>
+
+<h3 id="what-is-a-sprite-sheet">What is a Sprite Sheet?</h3>
+
+<ul>
+  <li data-marker="*">A Sprite Sheet is essentially a bitmap image containing smaller images (i.e., sprites) within itself. A Sprite Sheet can be split into Quads, that is, rectangular sections of itself (each encapsulating a single sprite), so that instead of having multiple image files in our project for each sprite, we can more efficiently use a single file that we section out into Quads when wanting to render a particular sprite.</li>
+</ul>
+
+<h3 id="important-functions">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.newQuad(x, y, width, height, dimensions)</code>
+    <ul>
+      <li data-marker="*">This function allows us to specify rectangle boundaries of our Quad and pass in the dimensions (returned via <code class="language-plaintext highlighter-rouge">image:getDimensions</code> on whichever texture we want to make a Quad for).</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.draw(texture, quad, x, y)</code>
+    <ul>
+      <li data-marker="*">This is a variant of <code class="language-plaintext highlighter-rouge">love.graphics.draw()</code>, which we’ve seen, but in this case we can pass in a Quad to draw <em>just</em> the specific part of the texture we want, not the entire thing!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-1">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We’ve added a few files to our <code class="language-plaintext highlighter-rouge">src</code> subdirectory (which, recall, imports all its files to <code class="language-plaintext highlighter-rouge">main.lua</code> via <code class="language-plaintext highlighter-rouge">Dependencies.lua</code>).</li>
+  <li data-marker="*">Open up <code class="language-plaintext highlighter-rouge">Util.lua</code>, which handles the logic for generating our Quads. You should find the following functions:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">GenerateQuads(atlas, tilewidth, tileheight)</code>
+        <ul>
+          <li data-marker="*">We’ve written this function, which takes in an <code class="language-plaintext highlighter-rouge">atlas</code> (synonymous with Sprite Sheet) and our desired tile dimensions to determine the dimensions of our Quads. With this info, we can loop over our atlas (treating it as a 2D coordinate system with origin at the upper left corner) and generate our Quads along the way.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">table.slice(tbl, first, last, step)</code>
+        <ul>
+          <li data-marker="*">This is just a helper function to allow us to slice Lua tables in the same way that we can slice Python lists.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">GenerateQuadsPaddles(atlas)</code>
+        <ul>
+          <li data-marker="*">This function is specifically made to piece out the paddles from the sprite sheet. For this, we have to piece out the paddles a little more manually, since they are all different sizes.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">Next, over in <code class="language-plaintext highlighter-rouge">Paddle.lua</code>, we’ve created our Paddle class.
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Paddle:init</code> initializes the Paddle.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Paddle:update(dt)</code> allows the user to interact with the Paddle by moving it side to side.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Paddle:render()</code> displays the Paddle</li>
+    </ul>
+  </li>
+  <li data-marker="*">Lastly, take a look at <code class="language-plaintext highlighter-rouge">PlayState.lua</code>.
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:init</code>: instantiates a Paddle.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:update(dt)</code> allows the user to pause and quit the game, delegating the Paddle interactivity logic to the Paddle’s own <code class="language-plaintext highlighter-rouge">update</code> method.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:render()</code> calls the Paddle’s own <code class="language-plaintext highlighter-rouge">render()</code> method and also displays paused text.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="breakout2-the-bounce-update">breakout2 (“The Bounce Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout2 uses AABB Collision Detection so that the Ball can bounce when it collides with the Paddle or the walls.</li>
+</ul>
+
+<h3 id="important-code-2">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">main.lua</code> you’ll notice that we’ve modified the <code class="language-plaintext highlighter-rouge">gFrames</code> table to include Quads for our Ball.</li>
+  <li data-marker="*">Check out <code class="language-plaintext highlighter-rouge">Util.lua</code> to see how we’ve extracted these.</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">function GenerateQuadsBalls(atlas)</code>
+    <ul>
+      <li data-marker="*">In this function, we’re finding the offset for our Ball sprites in our Sprite Sheet and looping over it, generating Quads for the Balls as we go. This is essentially the analogous function for how we extracted our Paddle sprites.</li>
+      <li data-marker="*">The end result is that we can now access our Paddle and Ball sprites without needing to loop over the entire Sprite Sheet each time, which will prove useful going forward.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now we can read through <code class="language-plaintext highlighter-rouge">Ball.lua</code>, which creates our Ball class.
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Ball:init(skin)</code> initializes the Ball given a specific Ball sprite.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Ball:collides(target)</code> checks for collisions using AABB Collision Detection.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Ball:reset()</code> resets the Ball to the middle of the screen.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Ball:update(dt)</code> implements behavior for bouncing off walls.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Ball:render()</code> renders the Ball to the screen.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Again, we conclude with some additions to <code class="language-plaintext highlighter-rouge">PlayState.lua</code>:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:init()</code> now instantiates the Ball.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:update()</code> calls the Ball’s <code class="language-plaintext highlighter-rouge">update</code> method and naively implements behavior for bouncing off the Paddle. Can you think of a potential issue with our implementation? (Hint: think about what else we might want to do besides reversing the Ball’s velocity). You might be able to observe the issue by trying to bounce the Ball off the Paddle at an angle.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState:render()</code> calls the Ball’s <code class="language-plaintext highlighter-rouge">render()</code> method.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="breakout3-the-brick-update">breakout3 (“The Brick Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout3 renders Bricks onto the screen.</li>
+</ul>
+
+<h3 id="important-code-3">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Notice that the <code class="language-plaintext highlighter-rouge">gFrames</code> table in<code class="language-plaintext highlighter-rouge">main.lua</code> has been modified again, this time to include Quads for our Bricks.</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Util.lua</code> contains the implementation details of extracting the Brick sprites from our Sprite Sheet.
+    <ul>
+      <li data-marker="*">In this case, since the Brick sprites are at the top of our Sprite Sheet, the extraction process becomes much simpler:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">GenerateQuadsBricks</span><span class="p">(</span><span class="n">atlas</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">table</span><span class="p">.</span><span class="n">slice</span><span class="p">(</span><span class="n">GenerateQuads</span><span class="p">(</span><span class="n">atlas</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Brick.lua</code> creates our Brick class.
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Brick:init(x, y)</code> initializes a Brick. Importantly, we include an <code class="language-plaintext highlighter-rouge">inPlay</code> flag to serve as a signal for whether a Brick is still in play or if it should disappear from the screen. In the context of our breakout program, this is an effective shortcut, but do note that in larger programs, it would be better practice to free memory that is not being used instead of just hiding it from view.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Brick:hit()</code> hides a Brick by toggling the <code class="language-plaintext highlighter-rouge">inPlay</code> flag to <code class="language-plaintext highlighter-rouge">false</code>.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Brick:render()</code> renders a Brick to the screen.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState.lua</code> references a new class, <code class="language-plaintext highlighter-rouge">LevelMaker.lua</code>, which encapsulates all the logic for generating new levels (which boil down to Brick layouts). It also checks for collisions between the Ball and the Bricks (hiding Bricks as needed) and renders the “in play” Bricks to the screen.</li>
+  <li data-marker="*">To create a level, <code class="language-plaintext highlighter-rouge">LevelMaker.lua</code> randomly generates a table of Bricks that can be rendered to the screen. Read through the <code class="language-plaintext highlighter-rouge">LevelMaker.createMap(level)</code> function carefully, paying close attention to the comments.</li>
+</ul>
+
+<h2 id="breakout4-the-collision-update">breakout4 (“The Collision Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout4 implements bouncing behavior for the Ball upon a collision with a Brick. It also fixes our previous naive implementation of bouncing behavior between the Ball and the Paddle.</li>
+</ul>
+
+<h3 id="important-algorithms">Important Algorithms</h3>
+
+<ul>
+  <li data-marker="*">To fix our Paddle collision, we need to take the difference between the Ball’s <code class="language-plaintext highlighter-rouge">x</code> value and the Paddle’s center, which is:
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>paddle.x + (paddle.width / 2) * ball.x
+</code></pre></div>    </div>
+    <p>We use this formula to scale the ball’s <code class="language-plaintext highlighter-rouge">dx</code> in the negative direction.</p>
+  </li>
+  <li data-marker="*">We perform this operation on either side of the Paddle based on the Paddle’s <code class="language-plaintext highlighter-rouge">dx</code>. If on the right side, the differential will be negative, so we need to call <code class="language-plaintext highlighter-rouge">math.abs</code> to make it positive, then scale it by a positive amount so <code class="language-plaintext highlighter-rouge">dx</code> becomes positive.</li>
+  <li data-marker="*">For Brick collision, we must check which edge of the Ball is not inside the Brick. Below is our algorithm:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">left</span> <span class="n">edge</span> <span class="n">of</span> <span class="n">ball</span> <span class="n">is</span> <span class="n">outside</span> <span class="n">brick</span> <span class="ow">and</span> <span class="n">dx</span> <span class="n">is</span> <span class="n">positive</span><span class="p">:</span>
+      <span class="n">trigger</span> <span class="n">left</span><span class="o">-</span><span class="n">side</span> <span class="n">collision</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="n">right</span> <span class="n">edge</span> <span class="n">of</span> <span class="n">ball</span> <span class="n">is</span> <span class="n">outside</span> <span class="n">brick</span> <span class="ow">and</span> <span class="n">dx</span> <span class="n">is</span> <span class="n">negative</span><span class="p">:</span>
+      <span class="n">trigger</span> <span class="n">right</span><span class="o">-</span><span class="n">side</span> <span class="n">collision</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="n">top</span> <span class="n">edge</span> <span class="n">of</span> <span class="n">ball</span> <span class="n">is</span> <span class="n">outside</span> <span class="n">brick</span><span class="p">:</span>
+      <span class="n">trigger</span> <span class="n">top</span><span class="o">-</span><span class="n">side</span> <span class="n">collision</span>
+  <span class="k">else</span>
+      <span class="n">trigger</span> <span class="n">bottom</span><span class="o">-</span><span class="n">side</span> <span class="n">collision</span>
+</code></pre></div>    </div>
+    <p>This is a fairly simple collision algorithm, so it is not the most accurate, particularly when faced with corner-cases, but it works essentially 99% of the time. For a more robust solution, do check out the following alternative
+solution in the links below, if curious:</p>
+    <ul>
+      <li data-marker="*"><a href="https://github.com/noooway/love2d_arkanoid_tutorial">github.com/noooway/love2d_arkanoid_tutorial</a></li>
+      <li data-marker="*"><a href="https://github.com/noooway/love2d_arkanoid_tutorial/wiki/Resolving-Collisions">github.com/noooway/love2d_arkanoid_tutorial/wiki/Resolving-Collisions</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-4">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">PlayState.lua</code>, we’ve updated the <code class="language-plaintext highlighter-rouge">update()</code> function to reflect the collision algorithms mentioned above.</li>
+  <li data-marker="*">You’ll notice our new collision logic for Ball/Paddle collisions as discussed:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">dx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="o">+</span> <span class="o">-</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span><span class="p">))</span>
+  <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="nb">math.abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span><span class="p">))</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">And below that, our Ball/Brick collision detection, albeit with a small modification to account for corner-collisions. Namely, we insert a <code class="language-plaintext highlighter-rouge">break</code> statement to ensure the Ball’s collision mechanics are only evaluated against a single Brick in the event that it collides at the corner of two Bricks.</li>
+  <li data-marker="*">And of course, we slightly increase the Ball’s velocity after a collision.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">brick</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bricks</span><span class="p">)</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="n">brick</span><span class="p">.</span><span class="n">inPlay</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">brick</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">brick</span><span class="p">:</span><span class="n">hit</span><span class="p">()</span>
+          <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">brick</span><span class="p">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">brick</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">8</span>
+          <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">&gt;</span> <span class="n">brick</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">brick</span><span class="p">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">brick</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">32</span>
+          <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">brick</span><span class="p">.</span><span class="n">y</span> <span class="k">then</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">brick</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">8</span>
+          <span class="k">else</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">brick</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">16</span>
+          <span class="k">end</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">02</span>
+          <span class="k">break</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="breakout5-the-hearts-update">breakout5 (“The Hearts Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout5 implements the idea of “health” for the user, which is displayed on the screen as hearts.</li>
+</ul>
+
+<h3 id="important-code-5">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Notice in <code class="language-plaintext highlighter-rouge">StartState.lua</code> we are continuing our shift away from global variables (with global tables being an exception) by integrating relevant data fields into our State Machine.
+    <ul>
+      <li data-marker="*">On line 35, we see that when we transition from StartState to ServeState, we are passing along <code class="language-plaintext highlighter-rouge">paddle</code>, <code class="language-plaintext highlighter-rouge">bricks</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">score</code> through <code class="language-plaintext highlighter-rouge">gStateMachine:change()</code>, which we might’ve alternatively implemented as global values.</li>
+      <li data-marker="*">This design is cleaner since it allows us to remove unnecessary values from our files. For example, it makes sense to have <code class="language-plaintext highlighter-rouge">paddle</code> and <code class="language-plaintext highlighter-rouge">bricks</code> when we are in ServeState, but not so much when we are in HighScoreState.</li>
+    </ul>
+  </li>
+  <li data-marker="*">On that note, take a look at <code class="language-plaintext highlighter-rouge">ServeState.lua</code>, which serves a very similar purpose to the ServeState from Pong. The code should look familiar, as all we’re doing here is providing a state in which the user can hit the <code class="language-plaintext highlighter-rouge">enter</code> key to transition to the PlayState.</li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">main.lua</code> you’ll notice we’ve added <code class="language-plaintext highlighter-rouge">hearts</code> to our <code class="language-plaintext highlighter-rouge">gFrames</code> table and included a helper function for rendering the user’s <code class="language-plaintext highlighter-rouge">health</code> on the screen. It simply draws the corresponding number of full hearts followed by empty hearts per the user’s <code class="language-plaintext highlighter-rouge">health</code>.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">renderHealth</span><span class="p">(</span><span class="n">health</span><span class="p">)</span>
+      <span class="kd">local</span> <span class="n">healthX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="mi">100</span>
+
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">health</span> <span class="k">do</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">gTextures</span><span class="p">[</span><span class="s1">'hearts'</span><span class="p">],</span> <span class="n">gFrames</span><span class="p">[</span><span class="s1">'hearts'</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">healthX</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+          <span class="n">healthX</span> <span class="o">=</span> <span class="n">healthX</span> <span class="o">+</span> <span class="mi">11</span>
+      <span class="k">end</span>
+
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">health</span> <span class="k">do</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">gTextures</span><span class="p">[</span><span class="s1">'hearts'</span><span class="p">],</span> <span class="n">gFrames</span><span class="p">[</span><span class="s1">'hearts'</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">healthX</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+          <span class="n">healthX</span> <span class="o">=</span> <span class="n">healthX</span> <span class="o">+</span> <span class="mi">11</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">PlayState.lua</code> now also takes care of keeping score, monitoring the user’s <code class="language-plaintext highlighter-rouge">health</code>, and transitioning to other States as needed. You should be able to find the <code class="language-plaintext highlighter-rouge">health</code>-tracking code in <code class="language-plaintext highlighter-rouge">PlayState:update()</code>, which simply decreases health and reverts to ServeState when the Ball goes past the Paddle beyond the bottom of the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="k">then</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">health</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">health</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="n">gSounds</span><span class="p">[</span><span class="s1">'hurt'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">health</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+          <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'game-over'</span><span class="p">,</span> <span class="p">{</span>
+              <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+          <span class="p">})</span>
+      <span class="k">else</span>
+          <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'serve'</span><span class="p">,</span> <span class="p">{</span>
+              <span class="n">paddle</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">,</span>
+              <span class="n">bricks</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bricks</span><span class="p">,</span>
+              <span class="n">health</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">health</span><span class="p">,</span>
+              <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+          <span class="p">})</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>The score tracking can also be found in <code class="language-plaintext highlighter-rouge">PlayState:update()</code>, where we simply add 10 points to the <code class="language-plaintext highlighter-rouge">score</code> every time a Ball/Brick collision is detected.</p>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">GameOverState.lua</code>, which is unsurprisingly called when the user loses all health, creates our new GameOverState that simply renders a “Game Over” screen with the final score. When a user presses the <code class="language-plaintext highlighter-rouge">enter</code> key in this state, they’re taken back to the StartState.</li>
+</ul>
+
+<h2 id="breakout6-the-pretty-colors-update">breakout6 (“The Pretty Colors Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout6 updates the levels to include different colors and layouts of Bricks.</li>
+</ul>
+
+<h3 id="important-code-6">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We’ve made a few modifications to <code class="language-plaintext highlighter-rouge">LevelMaker.lua</code> in order to allow for a more varied gaming experience.</li>
+  <li data-marker="*">The changes mostly consist of adding some new flags so that we can display different colors and layouts for our bricks.</li>
+  <li data-marker="*">Read through the changes to this file carefully, paying special attention to the comments, to understand how we are generating our new map layouts.</li>
+</ul>
+
+<h2 id="breakout7-the-tier-update">breakout7 (“The Tier Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout7 differentiates between the different tiers and colors of Bricks, making updates to the gameplay and the scoring as a result.</li>
+</ul>
+
+<h3 id="important-code-7">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Take a look at <code class="language-plaintext highlighter-rouge">Brick.lua</code>. You’ll notice that we’ve updated the <code class="language-plaintext highlighter-rouge">Brick:hit()</code> method such that it only toggles the <code class="language-plaintext highlighter-rouge">inPlay</code> flag if the Brick being hit is of the lowest tier and color. Otherwise, it simply decrements the tier and/or color of the Brick.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">tier</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">tier</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tier</span> <span class="o">-</span> <span class="mi">1</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="mi">5</span>
+      <span class="k">else</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">end</span>
+  <span class="k">else</span>
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">inPlay</span> <span class="o">=</span> <span class="kc">false</span>
+      <span class="k">else</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">color</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">PlayState.lua</code>, we’ve updated the scoring algorithm to attribute higher values to Bricks of higher tiers and colors. Whereas previously we always added 10 points for any Ball/Brick collision, we now take color and tier into account:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">+</span> <span class="p">(</span><span class="n">brick</span><span class="p">.</span><span class="n">tier</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">+</span> <span class="n">brick</span><span class="p">.</span><span class="n">color</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="breakout8-the-particle-update">breakout8 (“The Particle Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout8 takes advantage of LÖVE2D’s Particle System features to create a nicer visual effect when the Ball collides with a Brick.</li>
+</ul>
+
+<h3 id="important-functions-1">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.newParticleSystem(texture, particles)</code>
+    <ul>
+      <li data-marker="*">This function takes in a particle texture and maximum number of particles we can emit and creates a particle system we can emit from, update, and render.</li>
+    </ul>
+  </li>
+  <li data-marker="*">For more LÖVE particle system functions and info, check out this link:
+    <ul>
+      <li data-marker="*"><a href="https://love2d.org/wiki/ParticleSystem">love2d.org/wiki/ParticleSystem</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-8">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You’ll notice, when running the program, that the particles adopt the color of the Brick being hit.</li>
+  <li data-marker="*">Atop our <code class="language-plaintext highlighter-rouge">Brick</code> class, we define <code class="language-plaintext highlighter-rouge">paletteColors</code> as a table of RGB values corresponding to blue, green, red, purple, and gold.</li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">Brick:init()</code>, we create a new particle system:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newParticleSystem</span><span class="p">(</span><span class="n">gTextures</span><span class="p">[</span><span class="s1">'particle'</span><span class="p">],</span> <span class="mi">64</span><span class="p">)</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">:</span><span class="n">setParticleLifetime</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">:</span><span class="n">setLinearAcceleration</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">:</span><span class="n">setEmissionArea</span><span class="p">(</span><span class="s1">'normal'</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">Brick:hit()</code>, we then use <code class="language-plaintext highlighter-rouge">paletteColors</code> to cause our particle system to interpolate between the appropriate colors, brighter for higher tiers and fading away over the particle’s lifetime.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">:</span><span class="n">setColors</span><span class="p">(</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">r</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">g</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">b</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">55</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">tier</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">r</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">g</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="n">paletteColors</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">color</span><span class="p">].</span><span class="n">b</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span>
+  <span class="p">)</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">:</span><span class="n">emit</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Finally, we need a separate render function for our particles so it can be called after all bricks are drawn. Otherwise, some bricks would render over other bricks’ particle systems:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Brick</span><span class="p">:</span><span class="n">renderParticles</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">psystem</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">16</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="breakout9-the-progression-update">breakout9 (“The Progression Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout9 allows the user to beat a level and progress to the next.</li>
+</ul>
+
+<h3 id="important-code-9">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You’ll notice in line 40 of <code class="language-plaintext highlighter-rouge">StartState.lua</code> that we are now passing in an additional field to <code class="language-plaintext highlighter-rouge">ServeState</code> upon transition, namely, <code class="language-plaintext highlighter-rouge">level</code>.</li>
+  <li data-marker="*">We’ll continue to do this once each level has been beaten, incrementing <code class="language-plaintext highlighter-rouge">level</code> as needed.</li>
+  <li data-marker="*">On line 204 in <code class="language-plaintext highlighter-rouge">PlayState.lua</code>, we’ve written a new method, <code class="language-plaintext highlighter-rouge">checkVictory()</code>, that checks if the current level has been beaten, by checking if every Brick’s <code class="language-plaintext highlighter-rouge">inPlay</code> flag has been toggled to <code class="language-plaintext highlighter-rouge">false</code>.</li>
+  <li data-marker="*">This method is called on line 88
+within <code class="language-plaintext highlighter-rouge">Playstate:update(dt)</code>, since it makes sense to check if the level has been beaten each time a Brick is hit.</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">VictoryState.lua</code> contains the code for producing our victory screen. It is only ever activated when the user beats a level. This is also where we increment the value of <code class="language-plaintext highlighter-rouge">level</code>. Upon increasing the <code class="language-plaintext highlighter-rouge">level</code>, we must create a new map:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">VictoryState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">8</span>
+
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'enter'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'return'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'serve'</span><span class="p">,</span> <span class="p">{</span>
+              <span class="n">level</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="n">bricks</span> <span class="o">=</span> <span class="n">LevelMaker</span><span class="p">.</span><span class="n">createMap</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+              <span class="n">paddle</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">paddle</span><span class="p">,</span>
+              <span class="n">health</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">health</span><span class="p">,</span>
+              <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+          <span class="p">})</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="breakout10-the-high-scores-update">breakout10 (“The High Scores Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout10 introduces the ability to view high scores.</li>
+</ul>
+
+<h3 id="important-functions-2">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.filesystem.setIdentity(identity)</code>
+    <ul>
+      <li data-marker="*">This function sets the active subfolder in the default LÖVE save directory for reading
+and writing files.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.filesystem.exists(path)</code>
+    <ul>
+      <li data-marker="*">Checks if a file exists in our save directory.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.filesystem.write(path, data)</code>
+    <ul>
+      <li data-marker="*">Writes data, as a string, to the file location at <code class="language-plaintext highlighter-rouge">path</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.filesystem.lines(path)</code>
+    <ul>
+      <li data-marker="*">Returns an iterator over the string lines in a file at <code class="language-plaintext highlighter-rouge">path</code>, located in our active identity path.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-10">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">main.lua</code>, we’ve written a new function (<code class="language-plaintext highlighter-rouge">loadHighScores()</code>) to load existing high scores from a <code class="language-plaintext highlighter-rouge">.lst</code> file, which is saved in LÖVE2D’s default save directory (called <code class="language-plaintext highlighter-rouge">breakout</code>).</li>
+  <li data-marker="*">If the file doesn’t exist, we create it and fill it with arbitrary values, leaving at least 10 blank entries.</li>
+  <li data-marker="*">Once the file exists, we can iterate through every line, filling in names and scores to a table.</li>
+</ul>
+
+<h2 id="breakout11-the-entry-update">breakout11 (“The Entry Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout11 allows users to save their own high scores.</li>
+</ul>
+
+<h3 id="important-code-11">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">EnterHighScoreState.lua</code>, we allow users to enter their high scores by choosing a 3-character name. The name is selected by toggling the 3 characters using the up and down keys. We
+use ASCII values to implement this behavior.</li>
+  <li data-marker="*">Once the user settles on a name, we write their score to the <code class="language-plaintext highlighter-rouge">breakout</code> file, taking care to loop through the existing scores in order to replace the lowest one (if necessary).</li>
+</ul>
+
+<h2 id="breakout12-the-paddle-select-update">breakout12 (“The Paddle Select Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout12 introduces a new state that allows the user to select a Paddle sprite before starting the game.</li>
+</ul>
+
+<h3 id="important-code-12">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">PaddleSelectState.lua</code>, we render a new screen to the user which contains some text, a left arrow, a right arrow, and a Paddle.</li>
+  <li data-marker="*">The user can toggle between Paddles using the arrows and can make a selection by pressing <code class="language-plaintext highlighter-rouge">enter</code>.</li>
+  <li data-marker="*">Notice that this State is now in charge of transitioning over to <code class="language-plaintext highlighter-rouge">ServeState</code> and passing along the relevant values.</li>
+</ul>
+
+<h2 id="breakout13-the-music-update">breakout13 (“The Music Update”)</h2>
+
+<ul>
+  <li data-marker="*">breakout13 adds background music to the game.</li>
+  <li data-marker="*">This is done in <code class="language-plaintext highlighter-rouge">main.lua</code> by adding the <code class="language-plaintext highlighter-rouge">music</code> track to our <code class="language-plaintext highlighter-rouge">gSounds</code> table and calling <code class="language-plaintext highlighter-rouge">gSounds['music']:play()</code> as well as <code class="language-plaintext highlighter-rouge">gSounds['music']:setLooping(true)</code>.</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

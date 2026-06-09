@@ -1,0 +1,449 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg">
+
+        <meta property="og:title" content="Artificial Intelligence - CS50 AP">
+
+        <link href="../../../../favicon%EF%B9%961775149255.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../assets/jquery/dist/jquery.min%EF%B9%961775149255.js"></script>
+        <script src="../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961775149255.css" rel="stylesheet">
+        <script src="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961775149255.js"></script>
+        <script src="../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961775149255.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../assets/luxon/build/global/luxon.min%EF%B9%961775149255.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../../assets/mathjax/tex-mml-chtml%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../assets/scratchblocks.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../assets/mermaid/dist/mermaid.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961775149255.js"></script>
+
+        
+
+        <link href="../../../../assets/page%EF%B9%961775149255.css" rel="stylesheet">
+        <script src="../../../../assets/jekyll-theme-cs50%EF%B9%961775149255.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>人工智能 - CS50 AP</title>
+
+
+    <meta property="og:description" content="Welcome! In computer science and programming circles, rubber ducking or rubber duck debugging is the act of speaking to an inanimate object to be able to...">
+</head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2024-2025</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../../../../../../workshop/2025/index.html">工作坊</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/">Visual Studio Code</a></li>
+  <li data-marker="*"><a href="../../../../new/index.html">What’s 新内容 in 2024?</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">新内容</span></a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2025/communities"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2025/courses"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="artificial-intelligence">人工智能</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#image-generation" id="markdown-toc-image-generation">Image Generation</a></li>
+  <li><a href="#chatgpt" id="markdown-toc-chatgpt">ChatGPT</a></li>
+  <li><a href="#prompt-generation" id="markdown-toc-prompt-generation">Prompt Generation</a></li>
+  <li><a href="#cs50ai" id="markdown-toc-cs50ai">CS50.ai</a></li>
+  <li><a href="#generative-ai" id="markdown-toc-generative-ai">Generative AI</a></li>
+  <li><a href="#decision-trees" id="markdown-toc-decision-trees">Decision Trees</a></li>
+  <li><a href="#minimax" id="markdown-toc-minimax">Minimax</a></li>
+  <li><a href="#machine-learning" id="markdown-toc-machine-learning">机器学习</a></li>
+  <li><a href="#deep-learning" id="markdown-toc-deep-learning">Deep Learning</a></li>
+  <li><a href="#generative-artificial-intelligence" id="markdown-toc-generative-artificial-intelligence">Generative 人工智能</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">In 计算机科学 and 编程 circles, <em>rubber ducking</em> or <em>rubber duck debugging</em> is the act of speaking to an inanimate object to be able to <em>talk through</em> a challenging 问题.</li>
+  <li data-marker="*">Most recently, CS50 created our own rubber duck debugger 在 <a href="https://cs50.ai">cs50.ai</a>, which uses 人工智能 as a way by which to interact with students to help them with their own challenging 问题.</li>
+  <li data-marker="*">Students engaging with this 工具 can begin understanding the potential of what AI can offer the 世界.</li>
+</ul>
+
+<h2 id="image-generation">Image Generation</h2>
+
+<ul>
+  <li data-marker="*">Numerous AI 工具 have created the potential for artificially generated images to enter the 世界.</li>
+  <li data-marker="*">Up until recently, most of these 工具 had numerous tells that might indicate to an observer that an image is AI-generated.</li>
+  <li data-marker="*">However, 工具 are becoming exceedingly good 在 generating these images.</li>
+  <li data-marker="*">Indeed, as technology improves, it will soon be almost, if not entirely, impossible for such images to be detected with the naked eye.</li>
+  <li data-marker="*">Software has also gained the ability to mutate individual images within 视频.</li>
+</ul>
+
+<h2 id="chatgpt">ChatGPT</h2>
+
+<ul>
+  <li data-marker="*">A very well-known bleeding-edge 工具 is the text generation 工具 <em>chatGPT</em>.</li>
+  <li data-marker="*">In CS50, we do not allow the use of ChatGPT. However, we do allow the use of our own rubber duck debugger 在 <a href="https://cs50.ai">cs50.ai</a>.</li>
+  <li data-marker="*">In CS50, we leverage the 工具 of Azure and OpenAI, along with our own vector database that holds very recent information from our most recent 讲座 and offerings, to provide our rubber duck debugger toll.</li>
+</ul>
+
+<h2 id="prompt-generation">Prompt Generation</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Prompt generation</em> is the way by which an individual can communicate with an AI platform.</li>
+  <li data-marker="*">We use a <em>system prompt</em> to teach the AI how to interact with users. We teach the AI how to work with students.</li>
+  <li data-marker="*">
+<em>User prompts</em> are those provided by users to interact with the AI. With these prompts, students interact with the AI.</li>
+</ul>
+
+<h2 id="cs50ai">CS50.ai</h2>
+
+<ul>
+  <li data-marker="*">Our <a href="https://cs50.ai">rubber duck debugger</a> can provide conceptual help with 计算机科学 concepts.</li>
+  <li data-marker="*">Further, the <a href="https://cs50.ai">rubber duck debugger</a> can help students write 更多 efficient code.</li>
+  <li data-marker="*">Additionally, the <a href="https://cs50.ai">rubber duck debugger</a> can help when a student is stuck in one of their 作业. For 示例, students 五月 encounter errors that prevent them from progressing in their 作业. When students hit a wall, they don’t have to wait for support 工作人员 to be available.</li>
+  <li data-marker="*">
+    <p>The <a href="https://cs50.ai">rubber duck debugger</a> does stipulate, however, that it is an AI and that it is experimental. Students should be conscious of the degree to which they blindly trust the AI. Consider the following image:</p>
+
+    <p><img src="cs50AiLectureSlide060.png" alt="rubber duck giving an 答案 with a disclaimer"></p>
+  </li>
+  <li data-marker="*">AI has an inhuman level of patience.</li>
+</ul>
+
+<h2 id="generative-ai">Generative AI</h2>
+
+<ul>
+  <li data-marker="*">AI has been with us for much 时间! Software has long adapted to users. 算法 look for patterns in junk mail, images saved on your 电话, and to play games.</li>
+  <li data-marker="*">In games, for 示例, step-by-step instructions 五月 allow a computerized adversary play a game of Breakout.</li>
+</ul>
+
+<h2 id="decision-trees">Decision Trees</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Decision trees</em> are used by an algorithm to decide what decision to make.</li>
+  <li data-marker="*">
+    <p>For 示例, in Breakout, an algorithm 五月 consider what choice to make based on the instructions in the code:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>While game is ongoing:
+If ball is left of paddle:
+  Move paddle left
+Else if ball is right of padding:
+  Move paddle right
+Else:
+  Don't move paddle
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">With most games, they attempt to minimize the number of calculations 必需 to compete with the player.</li>
+</ul>
+
+<h2 id="minimax">Minimax</h2>
+
+<ul>
+  <li data-marker="*">You can imagine where an algorithm 五月 score outcomes as positive, negative, and neutral.</li>
+  <li data-marker="*">In tic-tac-toe, the AI 五月 consider a board where the computer wins as <code class="language-plaintext highlighter-rouge">1</code> and one where the computer loses as <code class="language-plaintext highlighter-rouge">-1</code>.</li>
+  <li data-marker="*">You can imagine how a computer 五月 look 在 a decision tree of potential outcomes and assign scores to each potential move.</li>
+  <li data-marker="*">The computer will attempt to win by maximizing its own score.</li>
+  <li data-marker="*">
+    <p>In the context of tic-tac-toe, the algorithm 五月 conceptualize this as follows:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>If player is X:
+For each possible move:
+  Calculate score for board
+Choose move with highest score
+
+Else if player is O:
+  For each possible move:
+    Calculate score for board
+  Choose move with lowest score
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>This could be pictured as follows:</p>
+
+    <p><img src="cs50AiLectureSlide132.png" alt="tictactoe with outcomes as 1 or -1 or 0"></p>
+  </li>
+  <li data-marker="*">Because computers are so powerful, they can crunch massive potential outcomes. However, the computers in our pockets or on our desks 五月 not be able to calculate trillions of options. 这是 where 机器学习 can help.</li>
+</ul>
+
+<h2 id="machine-learning">机器学习</h2>
+
+<ul>
+  <li data-marker="*">机器学习 is a way by which a computer can learn through reinforcement.</li>
+  <li data-marker="*">A computer can learn how to flip a pancake.</li>
+  <li data-marker="*">A computer can learn how to play 马里奥.</li>
+  <li data-marker="*">A computer can learn how to play The Floor is Lava.</li>
+  <li data-marker="*">The computer repeats trial after trial after trial to discover what behaviors to repeat and those not to repeat.</li>
+  <li data-marker="*">Within much of AI-based 算法, there are concepts of <em>explore vs. exploit</em>, where the AI 五月 randomly try something that 五月 not be considered optimal. Randomness can yield better outcomes.</li>
+</ul>
+
+<h2 id="deep-learning">Deep Learning</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Deep learning</em> uses neural networks whereby 问题 and solutions are explored.</li>
+  <li data-marker="*">
+    <p>For 示例, deep learning 五月 attempt to predict whether a blue or red dot will appear somewhere on a graph. Consider the following image:</p>
+
+    <p><img src="cs50AiLectureSlide208.png" alt="blue dots and red dots separated by a line"></p>
+  </li>
+  <li data-marker="*">Existing training data is used to predict an outcome. Further, 更多 training data 五月 be created by the AI to discover further patterns.</li>
+  <li data-marker="*">
+    <p>Deep learning creates nodes (pictured below), which associate inputs and outputs.</p>
+
+    <p><img src="cs50AiLectureSlide210.png" alt="Nodes connected to 笔记"></p>
+  </li>
+</ul>
+
+<h2 id="generative-artificial-intelligence">Generative 人工智能</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Large language models</em> are massive models that make predictions based on huge amounts of training.</li>
+  <li data-marker="*">Just a few years ago, AI was not very good 在 completing and generating sentences.</li>
+  <li data-marker="*">The AI encodes words into <em>embeddings</em> to find relationships between words. Thus, through a huge amount of training, a massive neural network can predict the association between words - resulting in the ability for generative AI to generate content and even have conversations with users.</li>
+  <li data-marker="*">These technologies are what is behind our <a href="https://cs50.ai">rubber duck debugger</a>.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+<p>In this lesson, you learned 关于 some of the technology behind our own <a href="https://cs50.ai">rubber duck debugger</a>. Specifically, we discussed…</p>
+<ul>
+  <li data-marker="*">Image Generation</li>
+  <li data-marker="*">ChatGPT</li>
+  <li data-marker="*">Prompt Generation</li>
+  <li data-marker="*">CS50.ai</li>
+  <li data-marker="*">Generative AI</li>
+  <li data-marker="*">Decision Trees</li>
+  <li data-marker="*">Minimax</li>
+  <li data-marker="*">机器学习</li>
+  <li data-marker="*">Deep Learning</li>
+  <li data-marker="*">Generative 人工智能</li>
+</ul>
+
+<p>This was CS50!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../assets/page%EF%B9%961775149255.js"></script>
+
+    
+
+
+</body></html>

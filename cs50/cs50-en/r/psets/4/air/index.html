@@ -1,0 +1,642 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Northwest Air - CS50's Introduction to Programming with R">
+
+        <link href="../../../favicon%EF%B9%961779994625.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961779994625.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961779994625.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994625.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961779994625.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Northwest Air - CS50's Introduction to Programming with R</title>
+
+
+    <meta property="og:description" content="Well the Northwest air brings the fast boys to town Be like fire on the Cascades When our feet touch the ground – Coming Home (Oregon), by Mat Kearney...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../index.html#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-r"><a href="../../../index.html">CS50’s Introduction to Programming with R</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ol>
+  <li><a href="../../../weeks/1/index.html">Representing Data</a></li>
+  <li><a href="../../../weeks/2/index.html">Transforming Data</a></li>
+  <li><a href="../../../weeks/3/index.html">Applying Functions</a></li>
+  <li><a href="../../../weeks/4/index.html">Tidying Data</a></li>
+  <li><a href="../../../weeks/5/index.html">Visualizing Data</a></li>
+  <li><a href="../../../weeks/6/index.html">Testing Programs</a></li>
+  <li><a href="../../../weeks/7/index.html">Packaging Programs</a></li>
+</ol>
+
+<!-- Course Nav -->
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../../../shorts/index.html">Shorts</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50r">Gradebook</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/r">edX</a></li>
+  <li data-marker="*"><a href="https://youtu.be/g_3IKHG-rfA">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382yfNp_-xzX244d-O9W6YmD">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://style.tidyverse.org/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="northwest-air">Northwest Air</h1>
+
+<p><img src="img/pdx.jpeg" alt="Downtown Portland"></p>
+
+<blockquote>
+  <p>Well the Northwest air brings the fast boys to town<br>
+Be like fire on the Cascades<br>
+When our feet touch the ground</p>
+</blockquote>
+
+<p>– <a href="https://www.youtube.com/watch?v=mtwZZGiCGN0">Coming Home (Oregon)</a>, by Mat Kearney</p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>Time to head west! The United States’s “Pacific Northwest” is a northwest region including the states of Oregon, Washington, and Northern Idaho. The region’s cooler temperatures and cloudy skies attract athletes and outdoor adventurers of all kinds. Recently, though, the increasing <a href="https://www.nbcnews.com/news/us-news/seattle-portland-worlds-worst-air-quality-wildfires-rcna53166">prevalence of wild fires</a> has threatened the region’s once pristine air quality.</p>
+
+<p>In this problem, in a file called <code class="language-plaintext highlighter-rouge">air.R</code> in a folder called <code class="language-plaintext highlighter-rouge">air</code>, you’ll learn about indicators of air quality and use R to analyze common air pollutants in the state of Oregon.</p>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download several <code class="language-plaintext highlighter-rouge">.R</code> files and <code class="language-plaintext highlighter-rouge">air.csv</code>.</p>
+
+<details><summary>Download the distribution code</summary><p>Open RStudio per the linked <a href="../../../rstudio/index.html">steps</a> and navigate to the R console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getwd</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to print your working directory. Ensure your current working directory is where you’d like to download this problem’s distribution code. If using RStudio through <a href="https://cs50.dev">cs50.dev</a> the recommended directory is <code class="language-plaintext highlighter-rouge">/workspaces/NUMBER</code> where <code class="language-plaintext highlighter-rouge">NUMBER</code> is a number unique to your codespace.</p>
+
+<p>If you do not see the right working directory, use <code class="language-plaintext highlighter-rouge">setwd</code> to change it! Try typing <code class="language-plaintext highlighter-rouge">setwd("..")</code> if in the working directory of another problem, which will move you one directory higher.</p>
+
+<p>Next execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://cdn.cs50.net/r/2024/x/psets/4/air.zip"</span><span class="p">,</span><span class="w"> </span><span class="s2">"air.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">air.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unzip</span><span class="p">(</span><span class="s2">"air.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">air</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.remove</span><span class="p">(</span><span class="s2">"air.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now type</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">"air"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your working directory should now <strong>end</strong> with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>air/
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list.files</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and see several <code class="language-plaintext highlighter-rouge">.R</code> files alongside <code class="language-plaintext highlighter-rouge">air.csv</code>. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="schema">Schema</h2>
+
+<p>Before jumping in, it will be helpful to get a sense for the “schema” (i.e., organization!) of the data you’re given.</p>
+
+<details><summary>Learn about this data</summary><p>In <code class="language-plaintext highlighter-rouge">air.csv</code>, you’ll find data from the United States Environmental Protection Agency’s <a href="https://awsedap.epa.gov/public/single/?appid=20230c40-026d-494e-903f-3f112761a208&amp;sheet=5d3fdda7-14bc-4284-a9bb-cfd856b9348d&amp;opt=ctxmenu,currsel">National Emissions Inventory</a>. This inventory tracks all emissions of certain pollutants (i.e., harmful substances released into the air).</p>
+
+<p>Some pollutants are called <a href="https://www.epa.gov/criteria-air-pollutants">“criteria air pollutants”</a> (CAPs) by the United States Environmental Protection Agency (EPA). These pollutants are more harmful than others. According to the EPA:</p>
+
+<blockquote>
+  <p>Criteria air pollutants are found all over the U.S. They can harm your health and the environment, and cause property damage.</p>
+</blockquote>
+
+<p>Ozone, carbon monoxide, lead, and nitrogen dioxide are all examples of criteria air pollutants.</p>
+
+<p><code class="language-plaintext highlighter-rouge">air.csv</code> shows the amount of criteria air pollutants emitted in Oregon. The data is very detailed! For each county (i.e., municipality), you can see how much of each pollutant is emitted by different sources, like school buses or wildfires.</p>
+
+<p>Pay attention to these columns:</p>
+
+<ul>
+  <li data-marker="*">
+<strong>State-County</strong>, which is the county in which the emission took place</li>
+  <li data-marker="*">
+<strong>POLLUTANT</strong>, which is the pollutant being emitted</li>
+  <li data-marker="*">
+<strong>Emissions (Tons)</strong>, which is the amount of the pollutant emitted (in tons)</li>
+  <li data-marker="*">
+<strong>SCC Levels 1–4</strong>, which describes the source of the pollutant, from more general (Level 1) to more specific (Level 4)</li>
+</ul></details>
+
+<h2 id="specification">Specification</h2>
+
+<h3 id="1r"><code class="language-plaintext highlighter-rouge">1.R</code></h3>
+
+<p>In <code class="language-plaintext highlighter-rouge">1.R</code>, read <code class="language-plaintext highlighter-rouge">air.csv</code> into a tibble called <code class="language-plaintext highlighter-rouge">air</code>, renaming and selecting the columns you need. In particular, ensure the <code class="language-plaintext highlighter-rouge">air</code> tibble includes only the following columns:</p>
+
+<ul>
+  <li data-marker="*">
+<strong>state</strong>, renamed from <strong>State</strong>
+</li>
+  <li data-marker="*">
+<strong>county</strong>, renamed from <strong>State-County</strong>
+</li>
+  <li data-marker="*">
+<strong>pollutant</strong>, renamed from <strong>POLLUTANT</strong>
+</li>
+  <li data-marker="*">
+<strong>emissions</strong>, renamed from <strong>Emissions (Tons)</strong>
+</li>
+  <li data-marker="*">
+<strong>level_1</strong>, renamed from <strong>SCC LEVEL 1</strong>
+</li>
+  <li data-marker="*">
+<strong>level_2</strong>, renamed from <strong>SCC LEVEL 2</strong>
+</li>
+  <li data-marker="*">
+<strong>level_3</strong>, renamed from <strong>SCC LEVEL 3</strong>
+</li>
+  <li data-marker="*">
+<strong>level_4</strong>, renamed from <strong>SCC LEVEL 4</strong>
+</li>
+</ul>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">air.RData</code>. You’ll use this tibble in the remaining <code class="language-plaintext highlighter-rouge">.R</code> files.</p>
+
+<h3 id="2r"><code class="language-plaintext highlighter-rouge">2.R</code></h3>
+
+<p>To sustainably improve air quality, analysts often focus their efforts on particular sources of pollutants. To identify which sources might need the most attention, find the largest sources of pollutants in Oregon.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">2.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Update the tibble by sorting all rows by the <strong>emissions</strong> column, highest value to lowest.</p>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">2.RData</code>.</p>
+
+<h3 id="3r"><code class="language-plaintext highlighter-rouge">3.R</code></h3>
+
+<p>In addition to focusing on the largest sources of pollutants, analysts might focus on particular geographic regions. Choose one of the counties in Oregon from <a href="https://en.wikipedia.org/wiki/List_of_counties_in_Oregon">this list</a>. Find all sources of pollutants in that county.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">3.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Transform the tibble so that it only includes data for the county of your choice.</p>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">3.RData</code>.</p>
+
+<h3 id="4r"><code class="language-plaintext highlighter-rouge">4.R</code></h3>
+
+<p>Combine your analyses from <code class="language-plaintext highlighter-rouge">2.R</code> and <code class="language-plaintext highlighter-rouge">3.R</code>.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">4.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Transform the tibble so that it only includes data for the county of your choice and sorts the data by the <strong>emissions</strong> column, highest value to lowest.</p>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">4.RData</code>.</p>
+
+<h3 id="5r"><code class="language-plaintext highlighter-rouge">5.R</code></h3>
+
+<p>So far, you’ve identified the largest sources of pollutants across the entire state of Oregon, as well as within a single county. Now, find the single largest pollutant source for each county.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">5.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Transform the tibble so that it includes the single row with the highest value in the <strong>emissions</strong> column for each county.</p>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">5.RData</code>.</p>
+
+<h3 id="6r"><code class="language-plaintext highlighter-rouge">6.R</code></h3>
+
+<p>Some pollutants tend to be emitted at higher rates than others. For each pollutant, find its total emissions across the entire state of Oregon.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">6.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Summarize the data in the tibble to find the total emissions for each pollutant. Sort the pollutants from highest to lowest emissions.</p>
+
+<p>The resulting tibble should have two columns, one called <strong>pollutant</strong> and one called <strong>emissions</strong>. For example:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>pollutant</th>
+      <th>emissions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Carbon Monoxide</td>
+      <td>8070435</td>
+    </tr>
+    <tr>
+      <td>Volatile Organic Compounds</td>
+      <td>2368213</td>
+    </tr>
+    <tr>
+      <td>PM10 Primary (Filt + Cond)</td>
+      <td>1266915</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">6.RData</code>.</p>
+
+<h3 id="7r"><code class="language-plaintext highlighter-rouge">7.R</code></h3>
+
+<p>In professional air quality reports, analysts will often calculate total emissions for broad categories of sources. In fact, the <strong>level_1</strong> column in the <code class="language-plaintext highlighter-rouge">air</code> tibble lists the broad category in which a specific source is included! For each category of source in <strong>level_1</strong>, calculate the total emissions of each pollutant.</p>
+
+<details><summary>Want to learn more about these categories?</summary><p>Among these broad categories are:</p>
+
+<ul>
+  <li data-marker="*">
+<strong>Industrial Processes</strong>, which includes activities such as chemical manufacturing, metal processing, and food production</li>
+  <li data-marker="*">
+<strong>Miscellaneous Area Sources</strong>, which includes small-scale activities like residential heating, lawn mowing, and commercial cooking</li>
+  <li data-marker="*">
+<strong>Mobile Sources</strong>, which includes vehicles such as cars, trucks, airplanes, and ships</li>
+  <li data-marker="*">
+<strong>Natural Sources</strong>, which includes wildfires, volcanic activity, and biogenic emissions from plants and trees</li>
+  <li data-marker="*">
+<strong>Solvent Utilization</strong>, which includes the use of products like paints, coatings, and cleaning agents</li>
+  <li data-marker="*">
+<strong>Stationary Source Fuel Combustion</strong>, which includes the burning of fuels in fixed locations, such as power plants, industrial boilers, and residential heating</li>
+  <li data-marker="*">
+<strong>Storage and Transport</strong>, which includes the handling and movement of fuels and chemicals, leading to evaporative emissions</li>
+  <li data-marker="*">
+<strong>Waste Disposal, Treatment, and Recovery</strong>, which includes landfills, waste treatment facilities, and recycling operations</li>
+</ul></details>
+
+<p>In <code class="language-plaintext highlighter-rouge">7.R</code>, load the <code class="language-plaintext highlighter-rouge">air</code> tibble from <code class="language-plaintext highlighter-rouge">air.RData</code> with <code class="language-plaintext highlighter-rouge">load</code>. Transform the tibble to find the total emissions of each pollutant from each of the <strong>level_1</strong> source categories. Sort the rows first alphabetically by source name, then alphabetically by pollutant name.</p>
+
+<p>The resulting tibble should have three columns, one called <strong>source</strong>, one called <strong>pollutant</strong>, and one called <strong>emissions</strong>. For example:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>source</th>
+      <th>pollutant</th>
+      <th>emissions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Industrial Processes</td>
+      <td>Carbon Monoxide</td>
+      <td>1460</td>
+    </tr>
+    <tr>
+      <td>Industrial Processes</td>
+      <td>Nitrogen Oxides</td>
+      <td>9.96</td>
+    </tr>
+    <tr>
+      <td>Miscellaneous Area Sources</td>
+      <td>Ammonia</td>
+      <td>161756</td>
+    </tr>
+    <tr>
+      <td>Miscellaneous Area Sources</td>
+      <td>Carbon Monoxide</td>
+      <td>7385998</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Save the resulting <code class="language-plaintext highlighter-rouge">air</code> tibble, using <code class="language-plaintext highlighter-rouge">save</code>, in a file called <code class="language-plaintext highlighter-rouge">7.RData</code>.</p>
+
+<h2 id="advice">Advice</h2>
+
+<p>There are a few ways to approach these problems! Consider the below as advice to help you on your way:</p>
+
+<details><summary>Use <code>read_csv</code> to read data directly into a tibble</summary><p>Turns out the tidyverse has a function you can use in place of <code class="language-plaintext highlighter-rouge">read.csv</code>! After loading the tidyverse, try using <code class="language-plaintext highlighter-rouge">read_csv</code> to load a CSV file directly into a tibble.</p></details>
+
+<details><summary>Use <code>summarize</code> to summarize data</summary><p>In lecture, you saw that <code class="language-plaintext highlighter-rouge">summarize</code> can calculate the number of rows in a group, using the function <code class="language-plaintext highlighter-rouge">n</code>. You can use other functions with <code class="language-plaintext highlighter-rouge">summarize</code> too, such as <code class="language-plaintext highlighter-rouge">sum</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">summarize</span><span class="p">(</span><span class="n">DATA</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>where DATA is a data frame.</p>
+
+<p>In fact, you can pass an argument to sum if you’d like to summarize data by summing a particular column for each group in your data:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">summarize</span><span class="p">(</span><span class="n">DATA</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">COLUMN</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>where COLUMN is a column name in your data frame.</p></details>
+
+<h2 id="usage">Usage</h2>
+
+<p>Assuming your <code class="language-plaintext highlighter-rouge">.R</code> files are in your working directory, execute each file individually to test your work:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">source</span><span class="p">(</span><span class="s2">"1.R"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>Here’s how to test your code manually:</p>
+
+<ul>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">1.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with 32,015 rows and 8 columns</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">2.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with 32,015 rows and 8 columns, sorted from highest to lowest value in the <strong>emissions</strong> column</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">3.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with rows for a single county and 8 columns</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">4.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> like the one in <code class="language-plaintext highlighter-rouge">3.R</code>, but with rows sorted from highest to lowest value in the <strong>emissions</strong> column</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">5.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with 36 rows and 8 columns, sorted from highest to lowest value in the <strong>emissions</strong> column</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">6.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with 7 rows and 2 columns, sorted from highest to lowest value in the <strong>emissions</strong> column</li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">7.R</code> should create a tibble named <code class="language-plaintext highlighter-rouge">air</code> with 39 rows and 3 columns, sorted first from highest to lowest value in the <strong>emissions</strong> column and then alphabetically by pollutant name</li>
+</ul>
+
+<h3 id="check50"><code class="language-plaintext highlighter-rouge">check50</code></h3>
+
+<p>You can also check your code using <code class="language-plaintext highlighter-rouge">check50</code>, a program that CS50 will use to test your code when you submit. But be sure to test it yourself as well!</p>
+
+<p>Run the following command in the RStudio console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50("cs50/problems/2024/r/air")
+</code></pre></div></div>
+
+<div class="alert" data-alert="info" role="alert"><p>Be sure that you’ve created each <code class="language-plaintext highlighter-rouge">.R</code> file’s corresponding <code class="language-plaintext highlighter-rouge">.RData</code> file—it’s your <code class="language-plaintext highlighter-rouge">.RData</code> files that <code class="language-plaintext highlighter-rouge">check50</code> will check!</p></div>
+
+<p>Green smilies mean your program has passed a test! Red frownies will indicate your program output something unexpected. Visit the URL that check50 outputs to see the input check50 handed to your program, what output it expected, and what output your program actually gave.</p>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>You can submit your code using <code class="language-plaintext highlighter-rouge">submit50</code>.</p>
+
+<p>Keeping in mind the course’s policy on <a href="../../../honesty/index.html">academic honesty</a>, run the following command in the RStudio console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50("cs50/problems/2024/r/air")
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Data retrieved from the United States Environmental Protection Agency’s <a href="https://awsedap.epa.gov/public/single/?appid=20230c40-026d-494e-903f-3f112761a208&amp;sheet=5d3fdda7-14bc-4284-a9bb-cfd856b9348d&amp;opt=ctxmenu,currsel">National Emissions Inventory</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961779994625.js"></script>
+
+    
+
+
+</body></html>

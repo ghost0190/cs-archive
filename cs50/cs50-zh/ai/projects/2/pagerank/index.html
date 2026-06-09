@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/qK46ET1xk2A/maxresdefault.jpg">
+
+        <meta property="og:title" content="PageRank - CS50&#x27;s Introduction to Artificial Intelligence with Python">
+
+        <link href="../../../favicon%EF%B9%961779994606.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961779994606.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994606.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994606.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994606.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994606.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961779994606.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961779994606.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994606.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994606.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961779994606.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961779994606.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994606.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961779994606.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961779994606.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>PageRank - CS50's Introduction to 人工智能 with Python</title>
+
+
+    <meta property="og:description" content="The latest version of Python you should use in this course is Python 3.12. Write an AI to rank web pages by importance. $ python pagerank.py corpus0...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../index.html#how-to-take-this-course">a verified 证书, a professional 证书, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-artificial-intelligence-with-python"><a href="../../../index.html">CS50’s Introduction to 人工智能 with Python</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://brianyu.me">Brian Yu</a><br>
+<a href="mailto:brian@cs.harvard.edu">brian@cs.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/index.html">搜索</a></li>
+  <li><a href="../../../weeks/1/index.html">Knowledge</a></li>
+  <li><a href="../../../weeks/2/index.html">Uncertainty</a></li>
+  <li><a href="../../../weeks/3/index.html">Optimization</a></li>
+  <li><a href="../../../weeks/4/index.html">Learning</a></li>
+  <li><a href="../../../weeks/5/index.html">Neural Networks</a></li>
+  <li><a href="../../../weeks/6/index.html">Language</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50ai">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ai">edX</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/watch?v=5NgNicANyqM">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/80">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/80">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T381PopUTYtMSstgk-hsTGkVm">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="pagerank">PageRank</h1>
+
+<div class="alert" data-alert="warning" role="alert"><p>The latest version of Python you should use in this 课程 is Python 3.12.</p></div>
+
+<p>Write an AI to rank web pages by importance.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python pagerank.py corpus0
+PageRank Results from Sampling (n = 10000)
+  1.html: 0.2223
+  2.html: 0.4303
+  3.html: 0.2145
+  4.html: 0.1329
+PageRank Results from Iteration
+  1.html: 0.2202
+  2.html: 0.4289
+  3.html: 0.2202
+  4.html: 0.1307
+</code></pre></div></div>
+
+<h2 id="when-to-do-it">When to Do It</h2>
+
+<p>By <a data-local="2026-12-31T23:59:00+00:00" href="https://time.cs50.io/20261231T235900Z">2026-12-31T23:59:00+00:00</a></p>
+
+<h2 id="how-to-get-help">How to Get Help</h2>
+
+<ol>
+  <li>Ask 问题 via <a href="https://cs50.edx.org/ed">Ed</a>!</li>
+  <li>Ask 问题 via any of CS50’s <a href="../../../communities/index.html">社区</a>!</li>
+</ol>
+
+<h2 id="background">背景</h2>
+
+<p>When 搜索 engines like Google display 搜索 results, they do so by placing 更多 “important” and higher-quality pages higher in the 搜索 results than 较少 important pages. But how does the 搜索 engine know which pages are 更多 important than other pages?</p>
+
+<p>One heuristic might be that an “important” page is one that many other pages link to, since it’s reasonable to imagine that 更多 sites will link to a higher-quality webpage than a lower-quality webpage. We could therefore imagine a system where each page is given a rank according to the number of incoming links it has from other pages, and higher ranks would signal higher importance.</p>
+
+<p>But this definition isn’t perfect: if someone wants to make their page seem 更多 important, then under this system, they could simply create many other pages that link to their desired page to artificially inflate its rank.</p>
+
+<p>For that reason, the PageRank algorithm was created by Google’s co-founders (including Larry Page, for whom the algorithm was named). In PageRank’s algorithm, a website is 更多 important if it is linked to by other important websites, and links from 较少 important websites have their links weighted 较少. This definition seems a bit circular, but it turns out that there are multiple strategies for calculating these rankings.</p>
+
+<h3 id="random-surfer-model">Random Surfer Model</h3>
+
+<p>One way to think 关于 PageRank is with the random surfer model, which considers the behavior of a hypothetical surfer on the 互联网 who clicks on links at random. Consider the corpus of web pages below, where an arrow between two pages indicates a link from one page to another.</p>
+
+<p><img src="images/corpus.png" alt="Corpus of web pages"></p>
+
+<p>The random surfer model imagines a surfer who starts with a web page at random, and then randomly chooses links to follow. If the surfer is on Page 2, for 示例, they would randomly choose between Page 1 and Page 3 to visit 下一页 (duplicate links on the same page are treated as a single link, and links from a page to itself are ignored as well). If they chose Page 3, the surfer would then randomly choose between Page 2 and Page 4 to visit 下一页.</p>
+
+<p>A page’s PageRank, then, can be described as the probability that a random surfer is on that page at any given 时间. After all, if there are 更多 links to a particular page, then it’s 更多 likely that a random surfer will end up on that page. Moreover, a link from a 更多 important site is 更多 likely to be clicked on than a link from a 较少 important site that fewer pages link to, so this model handles weighting links by their importance as well.</p>
+
+<p>One way to interpret this model is as a Markov Chain, where each page represents a state, and each page has a transition model that chooses among its links at random. At each 时间 step, the state switches to one of the pages linked to by the current state.</p>
+
+<p>By sampling states randomly from the Markov Chain, we can get an estimate for each page’s PageRank. We can start by choosing a page at random, then keep following links at random, keeping track of how many times we’ve visited each page. After we’ve gathered all of our samples (based on a number we choose in advance), the proportion of the 时间 we were on each page might be an estimate for that page’s rank.</p>
+
+<p>However, this definition of PageRank proves slightly problematic, if we consider a network of pages like the below.</p>
+
+<p><img src="images/network_disconnected.png" alt="Disconnected corpus of web pages"></p>
+
+<p>Imagine we randomly started by sampling Page 5. We’d then have no choice but to go to Page 6, and then no choice but to go to Page 5 after that, and then Page 6 again, and so forth. We’d end up with an estimate of 0.5 for the PageRank for Pages 5 and 6, and an estimate of 0 for the PageRank of all the remaining pages, since we spent all our 时间 on Pages 5 and 6 and never visited any of the other pages.</p>
+
+<p>To ensure we can always get to somewhere else in the corpus of web pages, we’ll introduce to our model a damping factor <code class="language-plaintext highlighter-rouge">d</code>. With probability <code class="language-plaintext highlighter-rouge">d</code> (where <code class="language-plaintext highlighter-rouge">d</code> is usually set around <code class="language-plaintext highlighter-rouge">0.85</code>), the random surfer will choose from one of the links on the current page at random. But otherwise (with probability <code class="language-plaintext highlighter-rouge">1 - d</code>), the random surfer chooses one out of all of the pages in the corpus at random (including the one they are currently on).</p>
+
+<p>Our random surfer now starts by choosing a page at random, and then, for each additional sample we’d like to generate, chooses a link from the current page at random with probability <code class="language-plaintext highlighter-rouge">d</code>, and chooses any page at random with probability <code class="language-plaintext highlighter-rouge">1 - d</code>. If we keep track of how many times each page has shown up as a sample, we can treat the proportion of states that were on a given page as its PageRank.</p>
+
+<h3 id="iterative-algorithm">Iterative Algorithm</h3>
+
+<p>We can also define a page’s PageRank using a recursive mathematical expression. Let <code class="language-plaintext highlighter-rouge">PR(p)</code> be the PageRank of a given page <code class="language-plaintext highlighter-rouge">p</code>: the probability that a random surfer ends up on that page. How do we define <code class="language-plaintext highlighter-rouge">PR(p)</code>? Well, we know there are two ways that a random surfer could end up on the page:</p>
+
+<ol>
+  <li>With probability <code class="language-plaintext highlighter-rouge">1 - d</code>, the surfer chose a page at random and ended up on page <code class="language-plaintext highlighter-rouge">p</code>.</li>
+  <li>With probability <code class="language-plaintext highlighter-rouge">d</code>, the surfer followed a link from a page <code class="language-plaintext highlighter-rouge">i</code> to page <code class="language-plaintext highlighter-rouge">p</code>.</li>
+</ol>
+
+<p>The first condition is fairly straightforward to express mathematically: it’s <code class="language-plaintext highlighter-rouge">1 - d</code> divided by <code class="language-plaintext highlighter-rouge">N</code>, where <code class="language-plaintext highlighter-rouge">N</code> is the total number of pages across the entire corpus. This is because the <code class="language-plaintext highlighter-rouge">1 - d</code> probability of choosing a page at random is split evenly among all <code class="language-plaintext highlighter-rouge">N</code> possible pages.</p>
+
+<p>For the second condition, we need to consider each possible page <code class="language-plaintext highlighter-rouge">i</code> that links to page <code class="language-plaintext highlighter-rouge">p</code>. For each of those incoming pages, let <code class="language-plaintext highlighter-rouge">NumLinks(i)</code> be the number of links on page <code class="language-plaintext highlighter-rouge">i</code>. Each page <code class="language-plaintext highlighter-rouge">i</code> that links to <code class="language-plaintext highlighter-rouge">p</code> has its own PageRank, <code class="language-plaintext highlighter-rouge">PR(i)</code>, representing the probability that we are on page <code class="language-plaintext highlighter-rouge">i</code> at any given 时间. And since from page <code class="language-plaintext highlighter-rouge">i</code> we travel to any of that page’s links with equal probability, we divide <code class="language-plaintext highlighter-rouge">PR(i)</code> by the number of links <code class="language-plaintext highlighter-rouge">NumLinks(i)</code> to get the probability that we were on page <code class="language-plaintext highlighter-rouge">i</code> and chose the link to page <code class="language-plaintext highlighter-rouge">p</code>.</p>
+
+<p>This gives us the following definition for the PageRank for a page <code class="language-plaintext highlighter-rouge">p</code>.</p>
+
+<p><img src="images/formula.png" alt="PageRank formula"></p>
+
+<p>In this formula, <code class="language-plaintext highlighter-rouge">d</code> is the damping factor, <code class="language-plaintext highlighter-rouge">N</code> is the total number of pages in the corpus, <code class="language-plaintext highlighter-rouge">i</code> ranges over all pages that link to page <code class="language-plaintext highlighter-rouge">p</code>, and <code class="language-plaintext highlighter-rouge">NumLinks(i)</code> is the number of links present on page <code class="language-plaintext highlighter-rouge">i</code>.</p>
+
+<p>How would we go 关于 calculating PageRank values for each page, then? We can do so via iteration: start by assuming the PageRank of every page is <code class="language-plaintext highlighter-rouge">1 / N</code> (i.e., equally likely to be on any page). Then, use the above formula to calculate new PageRank values for each page, based on the 上一页 PageRank values. If we keep repeating this process, calculating a new set of PageRank values for each page based on the 上一页 set of PageRank values, eventually the PageRank values will converge (i.e., not change by 更多 than a small threshold with each iteration).</p>
+
+<p>In this 项目, you’ll implement both such approaches for calculating PageRank – calculating both by sampling pages from a Markov Chain random surfer and by iteratively applying the PageRank formula.</p>
+
+<h2 id="getting-started">入门</h2>
+
+<ul>
+  <li data-marker="*">下载 the distribution code from <a href="https://cdn.cs50.net/ai/2023/x/projects/2/pagerank.zip">https://cdn.cs50.net/ai/2023/x/项目/2/pagerank.zip</a> and unzip it.</li>
+</ul>
+
+<h2 id="understanding">Understanding</h2>
+
+<p>打开 up <code class="language-plaintext highlighter-rouge">pagerank.py</code>. Notice first the definition of two constants at the top of the file: <code class="language-plaintext highlighter-rouge">DAMPING</code> represents the damping factor and is initially set to <code class="language-plaintext highlighter-rouge">0.85</code>. <code class="language-plaintext highlighter-rouge">SAMPLES</code> represents the number of samples we’ll use to estimate PageRank using the sampling method, initially set to 10,000 samples.</p>
+
+<p>Now, take a look at the <code class="language-plaintext highlighter-rouge">main</code> function. It expects a command-line argument, which will be the 姓名 of a directory of a corpus of web pages we’d like to compute PageRanks for. The <code class="language-plaintext highlighter-rouge">crawl</code> function takes that directory, parses all of the HTML files in the directory, and returns a dictionary representing the corpus. The keys in that dictionary represent pages (e.g., <code class="language-plaintext highlighter-rouge">"2.html"</code>), and the values of the dictionary are a set of all of the pages linked to by the key (e.g. <code class="language-plaintext highlighter-rouge">{"1.html", "3.html"}</code>).</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">main</code> function then calls the <code class="language-plaintext highlighter-rouge">sample_pagerank</code> function, whose purpose is to estimate the PageRank of each page by sampling. The function takes as arguments the corpus of pages generated by <code class="language-plaintext highlighter-rouge">crawl</code>, as well as the damping factor and number of samples to use. Ultimately, <code class="language-plaintext highlighter-rouge">sample_pagerank</code> should return a dictionary where the keys are each page 姓名 and the values are each page’s estimated PageRank (a number between 0 and 1).</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">main</code> function also calls the <code class="language-plaintext highlighter-rouge">iterate_pagerank</code> function, which will also calculate PageRank for each page, but using the iterative formula method instead of by sampling. The return value is expected to be in the same format, and we would hope that the output of these two functions should be similar when given the same corpus!</p>
+
+<h2 id="specification">规格说明</h2>
+
+<div class="alert" data-alert="danger" role="alert"><p>Many students have had issues with the autograders on this 作业 because of how their dictionaries are constructed (that is to say, <em>improperly</em>). It is imperative that you 阅读 this 规格说明 carefully and implement its requirements <strong>exactly</strong>.</p></div>
+
+<p>Complete the implementation of <code class="language-plaintext highlighter-rouge">transition_model</code>, <code class="language-plaintext highlighter-rouge">sample_pagerank</code>, and <code class="language-plaintext highlighter-rouge">iterate_pagerank</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">transition_model</code> should return a dictionary representing the probability distribution over which page a random surfer would visit 下一页, given a corpus of pages, a current page, and a damping factor.</p>
+
+<ul>
+  <li data-marker="*">The function accepts three arguments: <code class="language-plaintext highlighter-rouge">corpus</code>, <code class="language-plaintext highlighter-rouge">page</code>, and <code class="language-plaintext highlighter-rouge">damping_factor</code>.
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">corpus</code> is a Python dictionary mapping a page 姓名 to a set of all pages linked to by that page.</li>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">page</code> is a string representing which page the random surfer is currently on.</li>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">damping_factor</code> is a floating point number representing the damping factor to be used when generating the probabilities.</li>
+    </ul>
+  </li>
+  <li data-marker="*">The return value of the function should be a Python dictionary with one key for each page in the corpus. Each key should be mapped to a value representing the probability that a random surfer would choose that page 下一页. The values in this returned probability distribution should sum to <code class="language-plaintext highlighter-rouge">1</code>.
+    <ul>
+      <li data-marker="*">With probability <code class="language-plaintext highlighter-rouge">damping_factor</code>, the random surfer should randomly choose one of the links from <code class="language-plaintext highlighter-rouge">page</code> with equal probability.</li>
+      <li data-marker="*">With probability <code class="language-plaintext highlighter-rouge">1 - damping_factor</code>, the random surfer should randomly choose one of all pages in the corpus with equal probability.</li>
+    </ul>
+  </li>
+  <li data-marker="*">For 示例, if the <code class="language-plaintext highlighter-rouge">corpus</code> were <code class="language-plaintext highlighter-rouge">{"1.html": {"2.html", "3.html"}, "2.html": {"3.html"}, "3.html": {"2.html"}}</code>, the <code class="language-plaintext highlighter-rouge">page</code> was <code class="language-plaintext highlighter-rouge">"1.html"</code>, and the <code class="language-plaintext highlighter-rouge">damping_factor</code> was <code class="language-plaintext highlighter-rouge">0.85</code>, then the output of <code class="language-plaintext highlighter-rouge">transition_model</code> should be <code class="language-plaintext highlighter-rouge">{"1.html": 0.05, "2.html": 0.475, "3.html": 0.475}</code>. This is because with probability <code class="language-plaintext highlighter-rouge">0.85</code>, we choose randomly to go from page 1 to either page 2 or page 3 (so each of page 2 or page 3 has probability <code class="language-plaintext highlighter-rouge">0.425</code> to start), but every page gets an additional <code class="language-plaintext highlighter-rouge">0.05</code> because with probability <code class="language-plaintext highlighter-rouge">0.15</code> we choose randomly among all three of the pages.</li>
+  <li data-marker="*">If <code class="language-plaintext highlighter-rouge">page</code> has no outgoing links, then <code class="language-plaintext highlighter-rouge">transition_model</code> should return a probability distribution that chooses randomly among all pages with equal probability. (In other words, if a page has no links, we can pretend it has links to all pages in the corpus, including itself.)</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">sample_pagerank</code> function should accept a corpus of web pages, a damping factor, and a number of samples, and return an estimated PageRank for each page.</p>
+
+<ul>
+  <li data-marker="*">The function accepts three arguments: <code class="language-plaintext highlighter-rouge">corpus</code>, a <code class="language-plaintext highlighter-rouge">damping_factor</code>, and <code class="language-plaintext highlighter-rouge">n</code>.
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">corpus</code> is a Python dictionary mapping a page 姓名 to a set of all pages linked to by that page.</li>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">damping_factor</code> is a floating point number representing the damping factor to be used by the transition model.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">n</code> is an integer representing the number of samples that should be generated to estimate PageRank values.</li>
+    </ul>
+  </li>
+  <li data-marker="*">The return value of the function should be a Python dictionary with one key for each page in the corpus. Each key should be mapped to a value representing that page’s estimated PageRank (i.e., the proportion of all the samples that corresponded to that page). The values in this dictionary should sum to <code class="language-plaintext highlighter-rouge">1</code>.</li>
+  <li data-marker="*">The first sample should be generated by choosing from a page at random.</li>
+  <li data-marker="*">For each of the remaining samples, the 下一页 sample should be generated from the 上一页 sample based on the 上一页 sample’s transition model.
+    <ul>
+      <li data-marker="*">You will likely want to pass the 上一页 sample into your <code class="language-plaintext highlighter-rouge">transition_model</code> function, along with the <code class="language-plaintext highlighter-rouge">corpus</code> and the <code class="language-plaintext highlighter-rouge">damping_factor</code>, to get the probabilities for the 下一页 sample.</li>
+      <li data-marker="*">For 示例, if the transition probabilities are <code class="language-plaintext highlighter-rouge">{"1.html": 0.05, "2.html": 0.475, "3.html": 0.475}</code>, then 5% of the 时间 the 下一页 sample generated should be <code class="language-plaintext highlighter-rouge">"1.html"</code>, 47.5% of the 时间 the 下一页 sample generated should be <code class="language-plaintext highlighter-rouge">"2.html"</code>, and 47.5% of the 时间 the 下一页 sample generated should be <code class="language-plaintext highlighter-rouge">"3.html"</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">You 五月 assume that <code class="language-plaintext highlighter-rouge">n</code> will be at least <code class="language-plaintext highlighter-rouge">1</code>.</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">iterate_pagerank</code> function should accept a corpus of web pages and a damping factor, calculate PageRanks based on the iteration formula described above, and return each page’s PageRank accurate to within <code class="language-plaintext highlighter-rouge">0.001</code>.</p>
+
+<ul>
+  <li data-marker="*">The function accepts two arguments: <code class="language-plaintext highlighter-rouge">corpus</code> and <code class="language-plaintext highlighter-rouge">damping_factor</code>.
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">corpus</code> is a Python dictionary mapping a page 姓名 to a set of all pages linked to by that page.</li>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">damping_factor</code> is a floating point number representing the damping factor to be used in the PageRank formula.</li>
+    </ul>
+  </li>
+  <li data-marker="*">The return value of the function should be a Python dictionary with one key for each page in the corpus. Each key should be mapped to a value representing that page’s PageRank. The values in this dictionary should sum to <code class="language-plaintext highlighter-rouge">1</code>.</li>
+  <li data-marker="*">The function should begin by assigning each page a rank of <code class="language-plaintext highlighter-rouge">1 / N</code>, where <code class="language-plaintext highlighter-rouge">N</code> is the total number of pages in the corpus.</li>
+  <li data-marker="*">The function should then repeatedly calculate new rank values based on all of the current rank values, according to the PageRank formula in the “背景” 小组课. (i.e., calculating a page’s PageRank based on the PageRanks of all pages that link to it).
+    <ul>
+      <li data-marker="*">A page that has no links at all should be interpreted as having one link for every page in the corpus (including itself).</li>
+    </ul>
+  </li>
+  <li data-marker="*">This process should repeat until no PageRank value changes by 更多 than <code class="language-plaintext highlighter-rouge">0.001</code> between the current rank values and the new rank values.</li>
+</ul>
+
+<p>You should not modify anything else in <code class="language-plaintext highlighter-rouge">pagerank.py</code> other than the three functions the 规格说明 calls for you to implement, though you 五月 write additional functions and/or import other Python standard library modules. You 五月 also import <code class="language-plaintext highlighter-rouge">numpy</code> or <code class="language-plaintext highlighter-rouge">pandas</code>, if familiar with them, but you should not use any other third-party Python modules.</p>
+
+<h2 id="hints">提示</h2>
+
+<ul>
+  <li data-marker="*">You 五月 find the functions in Python’s <a href="https://docs.python.org/3/library/random.html"><code class="language-plaintext highlighter-rouge">random</code></a> module helpful for making decisions pseudorandomly.</li>
+</ul>
+
+<h2 id="testing">测试</h2>
+
+<p>If you’d like, you can execute the below (after <a href="https://cs50.readthedocs.io/projects/check50/en/latest/index.html">setting up <code class="language-plaintext highlighter-rouge">check50</code></a> on your system) to evaluate the correctness of your code. This isn’t obligatory; you can simply 提交 following the steps at the end of this 规格说明, and these same tests will run on our server. Either way, be sure to compile and test it yourself as well!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 ai50/projects/2024/x/pagerank
+</code></pre></div></div>
+
+<p>Execute the below to evaluate the style of your code using <code class="language-plaintext highlighter-rouge">style50</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 pagerank.py
+</code></pre></div></div>
+
+<div class="alert" data-alert="warning" role="alert"><p>Remember that <strong>you 五月 not import any modules</strong> (other than those in the Python standard library) <strong>other than those explicitly authorized herein</strong>. Doing so will not only prevent <code class="language-plaintext highlighter-rouge">check50</code> from running, but will also prevent <code class="language-plaintext highlighter-rouge">submit50</code> from scoring your 作业, since it uses <code class="language-plaintext highlighter-rouge">check50</code>. If that happens, you’ve likely imported something disallowed or otherwise modified the distribution code in an unauthorized manner, per the 规格说明. There are certainly 工具 out there that trivialize some of these 项目, but that’s not the goal here; you’re learning things at a lower level. If we don’t say here that you can use them, you can’t use them.</p></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<ol>
+  <li>Visit <a href="https://submit.cs50.io/invites/d03c31aef1984c29b5e7b268c3a87b7b">this link</a>, log in with your GitHub account, and click <strong>Authorize cs50</strong>. Then, check the box indicating that you’d like to grant 课程 工作人员 access to your submissions, and click <strong>Join 课程</strong>.</li>
+  <li>
+<a href="https://git-scm.com/downloads">Install Git</a> and, optionally, <a href="https://cs50.readthedocs.io/submit50/">install <code class="language-plaintext highlighter-rouge">submit50</code></a>.</li>
+  <li>If you’ve installed <code class="language-plaintext highlighter-rouge">submit50</code>, execute
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>submit50 ai50/projects/2024/x/pagerank
+</code></pre></div>    </div>
+    <p>Otherwise, using Git, push your work to <code class="language-plaintext highlighter-rouge">https://github.com/me50/USERNAME.git</code>, where <code class="language-plaintext highlighter-rouge">USERNAME</code> is your GitHub username, on a branch called <code class="language-plaintext highlighter-rouge">ai50/projects/2024/x/pagerank</code>.</p>
+  </li>
+</ol>
+
+<div class="alert" data-alert="danger" role="alert"><p>If you 提交 your code directly using Git, rather than <code class="language-plaintext highlighter-rouge">submit50</code>, <strong>do not</strong> include files or folders other than those you are actually instructed to modify in the 规格说明 above. (That is to say, don’t upload your entire directory!)</p></div>
+
+<p>Work should be graded within five minutes. You can then go to <a href="https://cs50.me/cs50ai">https://cs50.me/cs50ai</a> to view your current progress!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961779994606.js"></script>
+
+    
+
+
+</body></html>

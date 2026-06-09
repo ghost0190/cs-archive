@@ -1,0 +1,975 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 1: Flappy Bird - CS50&#x27;s Introduction to Game Development">
+
+        <link href="../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>讲座 1: Flappy Bird - CS50's Introduction to 游戏开发</title>
+
+
+    <meta property="og:description" content="Today’s Topics Images (Sprites) How can we load images from memory to our game and draw them on the screen? Infinite Scrolling How can we make our game map...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="041bb839c66975fff8371a32ecbe5b29" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>CS50 Games (“CS50G”) was retired on 30 六月 2024 and is officially deprecated. The material remains here for archive purposes only.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-game-development"><a href="../../index.html">CS50’s Introduction to 游戏开发</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+  <li><a href="../../weeks/8/index.html">Helicopter Game 3D</a></li>
+  <li><a href="../../weeks/9/index.html">Dreadhalls</a></li>
+  <li><a href="../../weeks/10/index.html">Portal</a></li>
+  <li><a href="../../weeks/11/index.html">Portal Problems</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50g">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lecture-1-flappy-bird">讲座 1: Flappy Bird</h1>
+
+<h2 id="todays-topics">Today’s Topics</h2>
+
+<ul>
+  <li data-marker="*">Images (Sprites)
+    <ul>
+      <li data-marker="*">How can we load images from 内存 to our game and draw them on the screen?</li>
+    </ul>
+  </li>
+  <li data-marker="*">Infinite Scrolling
+    <ul>
+      <li data-marker="*">How can we make our game map appear to scroll infinitely from left to right without using all our 内存?</li>
+    </ul>
+  </li>
+  <li data-marker="*">“Games Are Illusions”
+    <ul>
+      <li data-marker="*">We’ll see how camera trickery is often the crucial piece for bringing games to life.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Procedural Generation
+    <ul>
+      <li data-marker="*">Going hand in hand with infinite scrolling, we’ll learn how to use procedural generation to draw additional sprites (such as the pipes in Flappy Bird) to the screen as our game map scrolls from left to right.</li>
+    </ul>
+  </li>
+  <li data-marker="*">State Machines
+    <ul>
+      <li data-marker="*">Last 周 we used a rudimentary “state machine” for pong, which was really just a string variable and a few <code class="language-plaintext highlighter-rouge">if</code> statements in our <code class="language-plaintext highlighter-rouge">love.update()</code> function. This 周 we’ll see how we can actually use a state machine class to allow us to transition in and out of different states 更多 cleanly, and abstract this logic away from our <code class="language-plaintext highlighter-rouge">main.lua</code> file and into separate classes.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Mouse Input
+    <ul>
+      <li data-marker="*">Last 周 we worked with keyboard input for pong, and this 周 we’ll see how to process mouse input for Flappy!</li>
+    </ul>
+  </li>
+  <li data-marker="*">Music
+    <ul>
+      <li data-marker="*">Similarly to how we added sound effects to our game last 周, we’ll see how to add music to our game this 周 and ensure that it loops during game execution.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="downloading-demo-code">Downloading demo code</h2>
+
+<ul>
+  <li data-marker="*"><a href="https://github.com/games50/fifty-bird">github.com/games50/fifty-bird</a></li>
+</ul>
+
+<h2 id="optional-readings-for-the-week">可选 readings for the 周</h2>
+
+<ul>
+  <li data-marker="*">How to Make an RPG, by Dan Schuller
+    <ul>
+      <li data-marker="*"><a href="https://howtomakeanrpg.com/">howtomakeanrpg.com</a></li>
+    </ul>
+  </li>
+  <li data-marker="*">Game 编程 Patterns, by Robert Nystrom
+    <ul>
+      <li data-marker="*"><a href="https://gameprogrammingpatterns.com/">gameprogrammingpatterns.com</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="bird0-the-day-0-update">bird0 (“The Day-0 Update”)</h2>
+
+<ul>
+  <li data-marker="*">At this point, you will want to have downloaded the demo code in order to follow along.</li>
+  <li data-marker="*">bird0 simply draws two images to the screen- a foreground and a 背景.</li>
+</ul>
+
+<h3 id="important-functions">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.newImage(path)</code>
+    <ul>
+      <li data-marker="*">This function loads an image from a graphics file (JPEG, PNG, GIF, etc.), storing it in an object that we can draw to the screen.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.draw(drawable, x, y)</code>
+    <ul>
+      <li data-marker="*">This function draws an image to the screen at a given <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code> on our 2D Coordinate System. Recall that last 周 we used <code class="language-plaintext highlighter-rouge">love.graphics.rectangle()</code> to draw our paddles and ball. This 时间, we’ll want to draw actual images, so we’ll be using this function.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We also use many of the functions we used last 周:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.load()</code> and <code class="language-plaintext highlighter-rouge">love.draw()</code> are particularly important for bird0, as they are what allow us to initialize our starting game state and draw our images, respectively.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We are again making use of the <code class="language-plaintext highlighter-rouge">push</code> virtual resolution library, which can be found below:
+    <ul>
+      <li data-marker="*">
+<a href="https://github.com/Ulydev/push">github.com/Ulydev/push</a> (helpful documentation can be found in README.md)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You should be able to recognize most of the code in this update from last 周. As mentioned, at the top of <code class="language-plaintext highlighter-rouge">main.lua</code> we are requiring the <code class="language-plaintext highlighter-rouge">push</code> library, so in addition to initializing variables for our window width and height we also initialize variables for our virtual resolution width and height.
+    <ul>
+      <li data-marker="*">We also define two new variables, which marks a small departure from what we did last 周:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">local</span> <span class="n">background</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'background.png'</span><span class="p">)</span>
+  <span class="kd">local</span> <span class="n">ground</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'ground.png'</span><span class="p">)</span>
+</code></pre></div>        </div>
+        <p>Here we are defining two variables local to this file that contain image objects for our 背景 and our ground. This will come into play shortly.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">Our use of <code class="language-plaintext highlighter-rouge">love.load()</code> and <code class="language-plaintext highlighter-rouge">love.resize()</code> should also look familiar from last 周. In the former we are again using nearest-neighbor filtering, setting the title of our window, and initializing our virtual resolution. Defining the latter allows us to resize our window.</li>
+  <li data-marker="*">We again define <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> so that if the user presses the <code class="language-plaintext highlighter-rouge">escape</code> key, we quit the game.</li>
+  <li data-marker="*">Finally, take a look at <code class="language-plaintext highlighter-rouge">love.draw()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+      <span class="n">push</span><span class="p">:</span><span class="n">start</span><span class="p">()</span>
+
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">background</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ground</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">16</span><span class="p">)</span>
+
+      <span class="n">push</span><span class="p">:</span><span class="n">finish</span><span class="p">()</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>As we did last 周, we make sure to wrap all our rendering logic inside of <code class="language-plaintext highlighter-rouge">push:start()</code> and <code class="language-plaintext highlighter-rouge">push:finish()</code> so that the <code class="language-plaintext highlighter-rouge">push</code> library can treat it with respect to our virtual resolution. The rendering logic, for now, consists of merely drawing our 背景 and group. We draw the 背景 at the top of the screen, and the ground at the bottom.</p>
+  </li>
+</ul>
+
+<h2 id="bird1-the-parallax-update">bird1 (“The Parallax Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird1 allows us to “scroll” the 背景 and foreground along the screen in order to simulate motion.</li>
+</ul>
+
+<h3 id="what-is-parallax-scrolling">What is Parallax Scrolling?</h3>
+
+<ul>
+  <li data-marker="*">Parallax Scrolling is an important concept in 游戏开发. It refers to the illusion of movement given two frames of reference that are moving at different rates.</li>
+  <li data-marker="*">For a real life 示例, consider riding in a car and looking out the window. Suppose you’re driving near mountains and there are railings on the side of the road. You might notice that the railings 五月 appear to be moving much 更多 quickly in your frame of vision than the mountains.</li>
+  <li data-marker="*">We want to simulate this behavior in our game with the ground and 背景 to give the appearance of motion.</li>
+</ul>
+
+<h3 id="important-code-1">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In the code, we are using local variables to keep track of how much each image has scrolled (in order to know at which position to draw them) as well as how quickly each image is scrolling (so that the images can move at different speeds in order to produce Parallax Scrolling):
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">local</span> <span class="n">background</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'background.png'</span><span class="p">)</span>
+  <span class="kd">local</span> <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="kd">local</span> <span class="n">ground</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'ground.png'</span><span class="p">)</span>
+  <span class="kd">local</span> <span class="n">groundScroll</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="kd">local</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">=</span> <span class="mi">30</span>
+  <span class="kd">local</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">=</span> <span class="mi">60</span>
+
+  <span class="kd">local</span> <span class="n">BACKGROUND_LOOPING_POINT</span> <span class="o">=</span> <span class="mi">413</span>
+</code></pre></div>    </div>
+    <p>You 五月 be wondering why <code class="language-plaintext highlighter-rouge">local BACKGROUND_LOOPING_POINT = 413</code>. In short, whenever we “loop” the scrolling of our 背景 image, we need to make sure we choose a point in the image where the loop effect won’t be noticeable. Here, we’ve chosen a point halfway through the width of the 背景 image that looks exactly like the beginning of the 背景 image. If this still seems confusing, be sure to run bird1 and use a different value for this variable (e.g., set <code class="language-plaintext highlighter-rouge">local BACKGROUND_LOOPING_POINT = 270</code>) so that you can observe the difference.</p>
+  </li>
+  <li data-marker="*">We now loop the scrolling effect in <code class="language-plaintext highlighter-rouge">love.update()</code> so that we can continue reusing each image for as long as the game goes on:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">backgroundScroll</span> <span class="o">+</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">%</span> <span class="n">BACKGROUND_LOOPING_POINT</span>
+      <span class="n">groundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">groundScroll</span> <span class="o">+</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">%</span> <span class="n">VIRTUAL_WIDTH</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how we’re updating our scroll position variables for each image by adding the corresponding scroll speed variable (scaled by DeltaTime to ensure consistent movement regardless of our computer’s framerate). The looping occurs by taking the modulo of the scroll position by our looping point. In the case of our ground image, we don’t bother choosing a looping point within the image since it looks so similar at every point, so the looping point is just the width of our virtual resolution.</p>
+  </li>
+  <li data-marker="*">Lastly, we update <code class="language-plaintext highlighter-rouge">love.draw()</code> to use the appropriate variables rather than static coordinates.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+      <span class="n">push</span><span class="p">:</span><span class="n">start</span><span class="p">()</span>
+
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">background</span><span class="p">,</span> <span class="o">-</span><span class="n">backgroundScroll</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ground</span><span class="p">,</span> <span class="o">-</span><span class="n">groundScroll</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">16</span><span class="p">)</span>
+
+      <span class="n">push</span><span class="p">:</span><span class="n">finish</span><span class="p">()</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>In order to “loop” each image, we are rendering a small portion of it at a 时间 and shifting it left each frame, until we reach the looping point and reset it 返回 to (0, 0). This means that as the scrolling takes place, the portions of the images that we’ve already seen will be to the left of the screen at a negative <code class="language-plaintext highlighter-rouge">x</code> coordinate until they are shifted 返回 right to recommence the looping effect.</p>
+  </li>
+</ul>
+
+<h2 id="bird2-the-bird-update">bird2 (“The Bird Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird2 adds a Bird sprite to our game and renders it in the center of the screen.</li>
+</ul>
+
+<h3 id="important-code-2">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We create a Bird class and give it functionality to initialize and render itself.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">Bird</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+  <span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'bird.png'</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getHeight</span><span class="p">()</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>You can see that we create the bird image object from <code class="language-plaintext highlighter-rouge">bird.png</code>, which is our sprite’s image file which is now included in the 项目 directory, along with <code class="language-plaintext highlighter-rouge">class.lua</code>.</p>
+  </li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">main.lua</code>, we only need to add a few lines to instantiate our bird object:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">Class</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'class'</span>
+  <span class="nb">require</span> <span class="s1">'Bird'</span>
+  <span class="kd">local</span> <span class="n">bird</span> <span class="o">=</span> <span class="n">Bird</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">And, inside <code class="language-plaintext highlighter-rouge">love.draw()</code>, we can call our bird object’s <code class="language-plaintext highlighter-rouge">render</code> method to draw it to the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">bird</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="bird3-the-gravity-update">bird3 (“The Gravity Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird3 introduces gravity into our game, which causes our Bird to 秋季 off the screen almost immediately.</li>
+</ul>
+
+<h3 id="important-code-3">Important Code</h3>
+
+<ul>
+  <li data-marker="*">The meat and bones of this update will exist in our Bird class, to which we add an arbitrary gravity attribute and an <code class="language-plaintext highlighter-rouge">update</code> method, which we’ll then call in <code class="language-plaintext highlighter-rouge">main.lua</code>’s <code class="language-plaintext highlighter-rouge">love.update(dt)</code> function.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">local</span> <span class="n">GRAVITY</span> <span class="o">=</span> <span class="mi">20</span>
+  <span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>The trick is to manipulate the bird’s position using DeltaTime, which we discussed in last 周’s 讲座, applying our gravity value to the Bird’s velocity and subsequently applying the updated velocity to the Bird’s position.</p>
+  </li>
+</ul>
+
+<h2 id="bird4-the-anti-gravity-update">bird4 (“The Anti-Gravity Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird4 allows our Bird to jump and thus remain airborne.</li>
+</ul>
+
+<h3 id="important-code-4">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Our approach will be to toggle the <code class="language-plaintext highlighter-rouge">dy</code> attribute between a negative and positive value in order to simulate jumping/flapping and falling.
+    <ul>
+      <li data-marker="*">Recall that our 2D Coordinate System has its origin at the top-left corner of the screen, so a positive <code class="language-plaintext highlighter-rouge">dy</code> value will cause our Bird to 秋季, while a negative <code class="language-plaintext highlighter-rouge">dy</code> value will cause our Bird to rise (since the Bird’s <code class="language-plaintext highlighter-rouge">y</code> value is higher at the bottom of the screen and lower at the top of the screen).</li>
+    </ul>
+  </li>
+  <li data-marker="*">Of special 笔记 is also the creation of a global input table in <code class="language-plaintext highlighter-rouge">main.lua</code> whose purpose is to allow us to check whether particular keys have been pressed by the user without overloading the default <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> function we’ve already defined in <code class="language-plaintext highlighter-rouge">main.lua</code>. As a result, we can check in <code class="language-plaintext highlighter-rouge">Bird.lua</code> whether the user has pressed the space bar without interfering with our check in <code class="language-plaintext highlighter-rouge">main.lua</code> for if the user has pressed <code class="language-plaintext highlighter-rouge">esc</code> to quit the game.</li>
+  <li data-marker="*">We’ll create our global input table in <code class="language-plaintext highlighter-rouge">love.load()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">下一页, we’ll update it in <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> so that whenever a key is pressed, we can add it to the table:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span>
+
+      <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'escape'</span> <span class="k">then</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">At this point we can define a function that returns <code class="language-plaintext highlighter-rouge">true</code> if a given key has been pressed, and <code class="language-plaintext highlighter-rouge">false</code> otherwise:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">then</span>
+          <span class="k">return</span> <span class="kc">true</span>
+      <span class="k">else</span>
+          <span class="k">return</span> <span class="kc">false</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>It’s worth noting that the above function can be equivalently defined as:</p>
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">With this input table, we can now add our jumping functionality to our Bird class such that when the user presses <code class="language-plaintext highlighter-rouge">space</code> by setting the bird’s <code class="language-plaintext highlighter-rouge">dy</code> to an arbitrary negative value:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'space'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+      <span class="k">end</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Finally, we make sure to clear the table after each frame in <code class="language-plaintext highlighter-rouge">love.update()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="bird5-the-infinite-pipe-update">bird5 (“The Infinite Pipe Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird5 adds the Pipe sprite to our game, rendering it an “infinite” number of times.</li>
+</ul>
+
+<h3 id="important-code-5">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Unsurprisingly, we create our Pipe sprite by modeling it with a Pipe class.</li>
+  <li data-marker="*">Inside this class, we create an <code class="language-plaintext highlighter-rouge">init</code> method that spawns a pipe at a random vertical position at the rightmost edge and within the lower quarter of the screen. We also create an <code class="language-plaintext highlighter-rouge">update</code> method that “scrolls” the Pipe to the left of the screen based on its 上一页 position, a negative scroll value, and its <code class="language-plaintext highlighter-rouge">dt</code>. Lastly, we include functionality for rendering the Pipe to the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">Pipe</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+  <span class="kd">local</span> <span class="n">PIPE_IMAGE</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'pipe.png'</span><span class="p">)</span>
+  <span class="kd">local</span> <span class="n">PIPE_SCROLL</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span>
+
+  <span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">PIPE_IMAGE</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_SCROLL</span> <span class="o">*</span> <span class="n">dt</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">PIPE_IMAGE</span><span class="p">,</span> <span class="nb">math.floor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">),</span> <span class="nb">math.floor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>It’s notable to mention that we are never creating multiple Pipe sprites. Rather, we are always re-rendering the same Pipe sprite we created in line 15. This helps us save 内存 while accomplishing the same goal.</p>
+  </li>
+  <li data-marker="*">We also make use of a <code class="language-plaintext highlighter-rouge">spawnTimer</code> value which we create in <code class="language-plaintext highlighter-rouge">main.lua</code> order to determine how often to spawn a new Pipe on the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">local</span> <span class="n">spawnTimer</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">And then, in <code class="language-plaintext highlighter-rouge">love.update()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">spawnTimer</span> <span class="o">=</span> <span class="n">spawnTimer</span> <span class="o">+</span> <span class="n">dt</span>
+
+  <span class="k">if</span> <span class="n">spawnTimer</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">then</span>
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">pipes</span><span class="p">,</span> <span class="n">Pipe</span><span class="p">())</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">'Added new pipe!'</span><span class="p">)</span>
+      <span class="n">spawnTimer</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
+  <span class="o">...</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">pipe</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">pipe</span><span class="p">.</span><span class="n">width</span> <span class="k">then</span>
+          <span class="nb">table.remove</span><span class="p">(</span><span class="n">pipes</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>We spawn a new pipe every two seconds, and remove it from the table once it’s no longer visible past the left edge of the screen.</p>
+  </li>
+  <li data-marker="*">Finally, in <code class="language-plaintext highlighter-rouge">love.draw()</code>, we call the <code class="language-plaintext highlighter-rouge">render</code> function of each pipe currently in the table:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="bird6-the-pipepair-update">bird6 (“The PipePair Update”)</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>bird6 spawns the Pipe sprites in “pairs”, with one Pipe facing up and the other facing down.</p>
+
+    <p><img src="pipe_pairs.png" alt=""></p>
+  </li>
+</ul>
+
+<h3 id="important-code-6">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Previously, in bird5, we were only worried 关于 spawning individual Pipes, so having a simple Pipe class sufficed. However, now that we want to spawn pairs of Pipes, it makes sense to create a PipePair class to tackle this problem.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">PipePair</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+  <span class="kd">local</span> <span class="n">GAP_HEIGHT</span> <span class="o">=</span> <span class="mi">90</span>
+
+  <span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">+</span> <span class="mi">32</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">pipes</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="s1">'top'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">),</span>
+          <span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">PIPE_HEIGHT</span> <span class="o">+</span> <span class="n">GAP_HEIGHT</span><span class="p">)</span>
+      <span class="p">}</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">PIPE_WIDTH</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">PIPE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span>
+      <span class="k">else</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">The result of having a PipePair class is that we replace a lot of our 上一页 Pipe logic in <code class="language-plaintext highlighter-rouge">main.lua</code> with analogous PipePair logic. The implications of this are that the flow of our <code class="language-plaintext highlighter-rouge">main.lua</code> file need not change drastically, but with the caveat that now we need to accommodate for PipePairs rather than individual Pipes.</li>
+  <li data-marker="*">In our case, we can mimic the Pipe class to an extent, as long as we provide logic for ensuring a reasonable gap height between the Pipes, as well as accurate <code class="language-plaintext highlighter-rouge">y</code> values for our sprites, since we will be mirroring the top Pipe. Be sure to 阅读 carefully through the changes in <code class="language-plaintext highlighter-rouge">main.lua</code>, paying 关闭 attention to the comments!</li>
+</ul>
+
+<h2 id="bird7-the-collision-update">bird7 (“The Collision Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird7 introduces collision detection, pausing the game when a collision occurs.</li>
+</ul>
+
+<h3 id="important-code-7">Important Code</h3>
+
+<ul>
+  <li data-marker="*">The pausing of the game is handled by toggling a local boolean variable <code class="language-plaintext highlighter-rouge">scrolling</code> (checked in <code class="language-plaintext highlighter-rouge">love.update(dt)</code>) upon collision detection.</li>
+  <li data-marker="*">The collision detection itself is handled within our Bird class (it’s essentially the same AABB Collision Detection algorithm we saw last 周), but with some leeway in order to give the user a little 更多 leniency.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_WIDTH</span> <span class="k">then</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">PIPE_HEIGHT</span> <span class="k">then</span>
+              <span class="k">return</span> <span class="kc">true</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">return</span> <span class="kc">false</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="bird8-the-state-machine-update">bird8 (“The State Machine Update”)</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>bird8 modularizes our code as a State Machine:</p>
+
+    <p><img src="state_machine.png" alt=""></p>
+
+    <p>While our eventual goal is the above, this update lays the foundations with the following states: BaseState, TitleScreenState, and PlayState.</p>
+  </li>
+</ul>
+
+<h3 id="important-code-8">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We manage all our game states using an overarching StateMachine module, which handles the logic for initializing and transitioning between them.</li>
+  <li data-marker="*">The TitleScreenState will transition to the PlayState via keyboard input. The BaseState is a skeleton for the other states- it defines empty methods and passes them on via 继承.</li>
+  <li data-marker="*">Of particular 笔记 in <code class="language-plaintext highlighter-rouge">main.lua</code> is the creation of our <code class="language-plaintext highlighter-rouge">gStateMachine</code> table to hold function calls to our different states:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="o">...</span>
+  <span class="nb">require</span> <span class="s1">'StateMachine'</span>
+  <span class="nb">require</span> <span class="s1">'states/BaseState'</span>
+  <span class="nb">require</span> <span class="s1">'states/PlayState'</span>
+  <span class="nb">require</span> <span class="s1">'states/TitleScreenState'</span>
+  <span class="o">...</span>
+  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+  <span class="o">...</span>
+  <span class="n">gStateMachine</span> <span class="o">=</span> <span class="n">StateMachine</span> <span class="p">{</span>
+      <span class="p">[</span><span class="s1">'title'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">TitleScreenState</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+      <span class="p">[</span><span class="s1">'play'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">PlayState</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+      <span class="p">[</span><span class="s1">'score'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">ScoreState</span><span class="p">()</span> <span class="k">end</span>
+  <span class="p">}</span>
+  <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'title'</span><span class="p">)</span>
+  <span class="o">...</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>By representing our game states as modules, we vastly simplify the logic in our <code class="language-plaintext highlighter-rouge">main.lua</code> file. Now, each major part of our code will be in its own module, and each state can be accessed through our global state machine table.</p>
+  </li>
+  <li data-marker="*">Be sure to 阅读 carefully through the new modules, paying 关闭 attention to the comments, to understand how our <code class="language-plaintext highlighter-rouge">main.lua</code> has been simplified so cleanly! You should see that the PlayState should contain much of the logic previously in <code class="language-plaintext highlighter-rouge">main.lua</code>.</li>
+</ul>
+
+<h2 id="bird9-the-score-update">bird9 (“The Score Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird9 introduces a new state, ScoreState, to help keep track of the score.</li>
+</ul>
+
+<h3 id="important-code-9">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Once a collision is detected, the PlayState will transition to the ScoreState, which will display the user’s final score and transition 返回 to the PlayState if the “enter” key is pressed. 笔记 our addition to the <code class="language-plaintext highlighter-rouge">PlayState:update()</code> function to implement this transition logic:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pair</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipePairs</span><span class="p">)</span> <span class="k">do</span>
+      <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+          <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">bird</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span> <span class="k">then</span>
+              <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'score'</span><span class="p">,</span> <span class="p">{</span>
+                  <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+              <span class="p">})</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">bird</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">15</span> <span class="k">then</span>
+      <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'score'</span><span class="p">,</span> <span class="p">{</span>
+          <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+      <span class="p">})</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">The score itself is also tracked in <code class="language-plaintext highlighter-rouge">PlayState:update()</code> by incrementing a score counter each 时间 the bird flies successfully through a PipePair.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pair</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipePairs</span><span class="p">)</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">pair</span><span class="p">.</span><span class="n">scored</span> <span class="k">then</span>
+          <span class="k">if</span> <span class="n">pair</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_WIDTH</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">bird</span><span class="p">.</span><span class="n">x</span> <span class="k">then</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">+</span> <span class="mi">1</span>
+              <span class="n">pair</span><span class="p">.</span><span class="n">scored</span> <span class="o">=</span> <span class="kc">true</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="n">pair</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Logic for displaying the score to the screen during the PlayState is added to the <code class="language-plaintext highlighter-rouge">PlayState:render()</code> function:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">PlayState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+  <span class="o">...</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">flappyFont</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="nb">print</span><span class="p">(</span><span class="s1">'Score: '</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">score</span><span class="p">),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+  <span class="o">...</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">The ScoreState itself is implemented as an additional module with logical implementations for the empty methods in BaseState:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">ScoreState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+  <span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">enter</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">params</span><span class="p">.</span><span class="n">score</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'enter'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'return'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'play'</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">flappyFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Oof! You lost!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">mediumFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Score: '</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">score</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Press Enter to Play Again!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="bird10-the-countdown-update">bird10 (“The Countdown Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird10 introduces yet another state, CountdownState, whose purpose is to give the user 时间 to get ready before being thrust into the game.</li>
+</ul>
+
+<h3 id="important-code-10">Important Code</h3>
+
+<ul>
+  <li data-marker="*">First, we add CountdownState to our global state machine in <code class="language-plaintext highlighter-rouge">main.lua</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="o">...</span>
+  <span class="nb">require</span> <span class="s1">'states/CountdownState'</span>
+  <span class="o">...</span>
+  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+  <span class="o">...</span>
+  <span class="n">gStateMachine</span> <span class="o">=</span> <span class="n">StateMachine</span> <span class="p">{</span>
+      <span class="o">...</span>
+      <span class="p">[</span><span class="s1">'countdown'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">CountdownState</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+      <span class="o">...</span>
+  <span class="p">}</span>
+  <span class="o">...</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">The CountdownState is implemented as another module and it merely displays a 3-second countdown on the screen before play begins:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">CountdownState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+  <span class="n">COUNTDOWN_TIME</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">75</span>
+
+  <span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">3</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">+</span> <span class="n">dt</span>
+
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">&gt;</span> <span class="n">COUNTDOWN_TIME</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">%</span> <span class="n">COUNTDOWN_TIME</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
+
+          <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+              <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'play'</span><span class="p">)</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">hugeFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="nb">tostring</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">As such, we modify our code in <code class="language-plaintext highlighter-rouge">TitleScreenState.lua</code> such that TitleScreenState transitions to CountdownState rather than directly to PlayState.</li>
+  <li data-marker="*">Then, in <code class="language-plaintext highlighter-rouge">CountdownState.lua</code> we transition to PlayState once the countdown reaches 0.</li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">PlayState.lua</code>, we ensure that upon collision, we transition to ScoreState.</li>
+  <li data-marker="*">Finally, in <code class="language-plaintext highlighter-rouge">ScoreState.lua</code>, we transition 返回 to CountdownState on keyboard input.</li>
+</ul>
+
+<h2 id="bird11-the-audio-update">bird11 (“The 音频 Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird11 adds some music and sound effects to the game</li>
+</ul>
+
+<h3 id="important-code-11">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We initialize a sounds table in <code class="language-plaintext highlighter-rouge">love.load()</code>, taking care to include the sound files we reference in our 项目 directory, then set the <code class="language-plaintext highlighter-rouge">music</code> sound to loop indefinitely and begin playing it:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">sounds</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">[</span><span class="s1">'jump'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'jump.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'explosion'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'explosion.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'hurt'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'hurt.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'score.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'music'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'marios_way.mp3'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">sounds</span><span class="p">[</span><span class="s1">'music'</span><span class="p">]:</span><span class="n">setLooping</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+  <span class="n">sounds</span><span class="p">[</span><span class="s1">'music'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Lastly, we play the remaining sound effects in the PlayState module (jumps, score increases, collisions, etc.).</li>
+</ul>
+
+<h2 id="bird12-the-mouse-update">bird12 (“The Mouse Update”)</h2>
+
+<ul>
+  <li data-marker="*">bird12 adds mouse interactivity to the game in order to 更多 closely resemble the original Flappy Bird iOS game.</li>
+  <li data-marker="*">This update is left as an at-首页 练习, but do take 笔记 of the following important function:</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.mousepressed(x, y, button)</code>
+    <ul>
+      <li data-marker="*">This function is a callback fired by LÖVE2D every 时间 a mouse button is pressed; it also gives us the <code class="language-plaintext highlighter-rouge">(x, y)</code> of where the mouse cursor was at the 时间 of the button press.</li>
+    </ul>
+  </li>
+  <li data-marker="*">If stuck on this 练习, feel free to 打开 up bird12 to take a look at the 实现细节. Be sure to 阅读 the comments carefully!</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

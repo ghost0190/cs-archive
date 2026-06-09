@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/88391405-e329-495d-bf72-5de13bbf1846-be5135562618.small.png">
+
+        <meta property="og:title" content="Lecture 0 - CS50&#x27;s Introduction to Cybersecurity">
+
+        <link href="../../favicon%EF%B9%961779994618.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994618.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994618.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994618.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994618.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994618.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994618.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994618.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 0 - CS50's Introduction to 网络安全</title>
+
+
+    <meta property="og:description" content="Securing Accounts This is CS50’s introduction to cybersecurity. Today, we will focus on the security of your accounts. Let’s begin by talking about security...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书 or transfer 信用卡 and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-cybersecurity"><a href="../../index.html">CS50’s Introduction to 网络安全</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom 会议<span class="badge ms-2 p-1 text-bg-warning">新内容</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Securing Accounts</a></li>
+  <li><a href="../../weeks/1/index.html">Securing Data</a></li>
+  <li><a href="../../weeks/2/index.html">Securing Systems</a></li>
+  <li><a href="../../weeks/3/index.html">Securing Software</a></li>
+  <li><a href="../../weeks/4/index.html">Preserving 隐私</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cybersecurity">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/cybersecurity">edX</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/watch?v=9HOpanT0GRs">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/159">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/159">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">新内容</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Cqo5I1oRrbC1EKRAKGKUE">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-0">讲座 0</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#securing-accounts" id="markdown-toc-securing-accounts">Securing Accounts</a></li>
+  <li><a href="#security" id="markdown-toc-security">安全</a></li>
+  <li><a href="#defending-against-attacks" id="markdown-toc-defending-against-attacks">Defending Against Attacks</a></li>
+  <li><a href="#national-institute-of-standards-and-technology-nist" id="markdown-toc-national-institute-of-standards-and-technology-nist">National Institute of Standards and Technology (NIST)</a></li>
+  <li><a href="#two-factor-authentication-2fa-or-multi-factor-authentication-mfa" id="markdown-toc-two-factor-authentication-2fa-or-multi-factor-authentication-mfa">Two-Factor Authentication (2FA) or Multi-Factor Authentication (MFA)</a></li>
+  <li><a href="#one-time-password-otp" id="markdown-toc-one-time-password-otp">One-时间 Password (OTP)</a></li>
+  <li><a href="#keylogging" id="markdown-toc-keylogging">Keylogging</a></li>
+  <li><a href="#credential-stuffing" id="markdown-toc-credential-stuffing">Credential Stuffing</a></li>
+  <li><a href="#social-engineering" id="markdown-toc-social-engineering">Social Engineering</a></li>
+  <li><a href="#phishing" id="markdown-toc-phishing">Phishing</a></li>
+  <li><a href="#machine-in-the-middle-attacks" id="markdown-toc-machine-in-the-middle-attacks">Machine-in-the-Middle Attacks</a></li>
+  <li><a href="#single-sign-on-sso" id="markdown-toc-single-sign-on-sso">Single Sign-On (SSO)</a></li>
+  <li><a href="#password-managers" id="markdown-toc-password-managers">Password Managers</a></li>
+  <li><a href="#passkeys" id="markdown-toc-passkeys">Passkeys</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="securing-accounts">Securing Accounts</h2>
+
+<ul>
+  <li data-marker="*">这是 CS50’s introduction to 网络安全.</li>
+  <li data-marker="*">Today, we will focus on the 安全 of your accounts.</li>
+  <li data-marker="*">Let’s begin by talking 关于 安全 itself.</li>
+</ul>
+
+<h2 id="security">安全</h2>
+
+<ul>
+  <li data-marker="*">We might imagine 安全 in the real 世界 as a key to a physical lock.</li>
+  <li data-marker="*">In the digital 世界, there are numerous building blocks to 安全.</li>
+  <li data-marker="*">
+<strong>Authorization</strong> is the act of verifying that you are, indeed, the person who should have access to this account.</li>
+  <li data-marker="*">
+<strong>Usernames</strong> are one way that you attest that you should have access to an account.</li>
+  <li data-marker="*">
+<strong>Passwords</strong> are another way that you attest that you should have access to an account.</li>
+  <li data-marker="*">The idea is that, theoretically, only you should be able to provide both a valid username and password.</li>
+  <li data-marker="*">
+<strong>Dictionary attacks</strong> are one way that bad actors attempt to guess your password. Indeed, hackers 五月 use a “brute-force attack” by trying lengthy lists of possible passwords to attempt to guess your password. Therefore, it’s very important you defend against attacks by having a very good password.</li>
+  <li data-marker="*">When considering 安全, one should consider the tradeoffs between usability and 安全. A highly secure service 五月 become 较少 usable. Hence, as you consider your options for maintaining 安全, think 关于 what makes the most sense for your use case.</li>
+</ul>
+
+<h2 id="defending-against-attacks">Defending Against Attacks</h2>
+<ul>
+  <li data-marker="*">
+    <p>Consider how many possible number combinations you could have if your password (for your 电话 or otherwise) was secured by only a four-digit password. There are 10,000 possible digits. Generally, we could consider the possibilities as follows:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>10 x 10 x 10 x 10
+</code></pre></div>    </div>
+    <p>Notice that, in the worst case, bad actors would need to attempt 10,000 possible passwords.</p>
+  </li>
+  <li data-marker="*">We could attempt to represent this in code. <strong>VS Code</strong> is a development environment whereby we can write and execute code.</li>
+  <li data-marker="*">
+    <p>Consider the following code-based representation of the above 问题:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">string</span> <span class="kn">import</span> <span class="n">digits</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that this code, written in Python, iterates through each possible combination of numbers</p>
+  </li>
+  <li data-marker="*">Executing <code class="language-plaintext highlighter-rouge">crack.py</code> in a <strong>terminal</strong> window (where we can issue commands to our computer), we can see that it takes only a few milliseconds for adversaries to produce all the possible passwords.</li>
+  <li data-marker="*">What would happen if we asked for a password that was four letters?</li>
+  <li data-marker="*">
+    <p>If we allow for both uppercase and lowercase versions of 26 letters, we could represent this mathematically as:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>52 x 52 x 52 x 52
+</code></pre></div>    </div>
+    <p>Notice we have over 7,000,000 possibilities.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can modify our code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">string</span> <span class="kn">import</span> <span class="n">ascii_letters</span>
+ 
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ascii_letters</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ascii_letters</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ascii_letters</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ascii_letters</span><span class="p">:</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we invoke <code class="language-plaintext highlighter-rouge">ascii_letters</code>, which includes uppercase and lowercase versions of each letter. Similar to our 上一页 program, this program iterates through all possible combinations.</p>
+  </li>
+  <li data-marker="*">Executing this code, we discover that it still does not take much effort 在 all for a hacker to discover all possible passwords.</li>
+  <li data-marker="*">What would happen if we asked for a password that was four letters, numbers, or punctuations? We would have over 78,000,000 possibilities 打开 to us!</li>
+  <li data-marker="*">
+    <p>We can modify our code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">string</span> <span class="kn">import</span> <span class="n">ascii_letters</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">punctuation</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">digits</span> <span class="o">+</span> <span class="n">punctuation</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">digits</span> <span class="o">+</span> <span class="n">punctuation</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">digits</span> <span class="o">+</span> <span class="n">punctuation</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">digits</span> <span class="o">+</span> <span class="n">punctuation</span><span class="p">:</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Executing this code, we notice that it takes significantly longer to discover all possible passwords in the worst case.</li>
+  <li data-marker="*">The most important takeaway from the above is that as long as we raise the bar for the adversary in terms of 时间, the 较少 likely the adversary will have the 时间 to crack your password. However, the difficulty for the user is that longer, 更多 complex passwords take longer to type and are 更多 difficult to remember. Therefore, there is a balance between 安全 and usability.</li>
+</ul>
+
+<h2 id="national-institute-of-standards-and-technology-nist">National Institute of Standards and Technology (NIST)</h2>
+
+<ul>
+  <li data-marker="*">NIST issues recommendations on how to protect your accounts 更多 effectively.</li>
+  <li data-marker="*">You can use their recommendations and best practices in your own work and, perhaps, 在 your place of employment or business. Some of their recommendations include the following considering passwords (paraphrased for brevity):
+    <ul>
+      <li data-marker="*">Memorized secrets should be 在 least eight characters in length.</li>
+      <li data-marker="*">Verifiers should allow all printed ASCII characters and Unicode symbols up to 64 characters in length.</li>
+      <li data-marker="*">Verifiers should compare prospective secrets against available dictionary words, repeat sequences, breached password lists, and context-specific words.</li>
+      <li data-marker="*">Verifiers should not allow unauthenticated claimants to access password 提示.</li>
+      <li data-marker="*">Verifiers should not require periodic changes to passwords.</li>
+      <li data-marker="*">Verifiers should limit the number of failed authentication attempts and lock out potential adversaries.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="two-factor-authentication-2fa-or-multi-factor-authentication-mfa">Two-Factor Authentication (2FA) or Multi-Factor Authentication (MFA)</h2>
+
+<ul>
+  <li data-marker="*">There are three components of multi-factor authentication.
+    <ul>
+      <li data-marker="*">Knowledge: Something only you know.</li>
+      <li data-marker="*">Possession: An item or device only possessed by an authorized user.</li>
+      <li data-marker="*">Inherence: Only a factor you could obtain, like your fingerprint, face, or other biometrics.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="one-time-password-otp">One-时间 Password (OTP)</h2>
+
+<ul>
+  <li data-marker="*">One could obtain a special key fob or device that provides one-时间 passwords.</li>
+  <li data-marker="*">Frequently, OTPs are obtained from a device or app.</li>
+  <li data-marker="*">Some of these OTP methods are 更多 secure than others.</li>
+  <li data-marker="*">Text-message-based OTPs can be quite easy to be fooled through SIM swapping, where an adversary obtains and clones a SIM card and gets access to your text messages.</li>
+  <li data-marker="*">更多 secure are OTPs obtained from an app on a secure device, like an authentication app on your 电话.</li>
+</ul>
+
+<h2 id="keylogging">Keylogging</h2>
+
+<ul>
+  <li data-marker="*">Usernames, passwords, and OTPs are vulnerable to adversaries logging your keystrokes.</li>
+  <li data-marker="*">Keylogging is accomplished by installing malicious software on a computer.</li>
+  <li data-marker="*">Best to ensure you are only logging onto devices to which you only have access.</li>
+</ul>
+
+<h2 id="credential-stuffing">Credential Stuffing</h2>
+
+<ul>
+  <li data-marker="*">Another attack, credential stuffing, involves the use of an obtained list of usernames and passwords from a compromised website on another website.</li>
+  <li data-marker="*">If you are using the same password on multiple websites, best to change them to unique passwords.</li>
+</ul>
+
+<h2 id="social-engineering">Social Engineering</h2>
+
+<ul>
+  <li data-marker="*">Rather than a technological attack, a social engineering attack involves the use of social pressure and trust to compromise your credentials.</li>
+  <li data-marker="*">A person 五月 pose as a trusted party to get your credentials or details 关于 your life.</li>
+  <li data-marker="*">Furthermore, adversaries 五月 seek to find details 关于 your life, like your pet’s 姓名, etc.</li>
+</ul>
+
+<h2 id="phishing">Phishing</h2>
+
+<ul>
+  <li data-marker="*">Phishing uses social engineering in a technological way to obtain your credentials and details by posing as a trusted website.</li>
+  <li data-marker="*">For 示例, you 五月 be directed to something that looks like a Google login page but is, in fact, an adversaries page.</li>
+  <li data-marker="*">Never blindly trust links provided in emails. Consider going to a web browser and directly typing a trusted URL there.</li>
+</ul>
+
+<h2 id="machine-in-the-middle-attacks">Machine-in-the-Middle Attacks</h2>
+
+<ul>
+  <li data-marker="*">Devices in between you and the source of the data you are downloading, such as routers and switches, can be compromised by very sophisticated attackers.</li>
+</ul>
+
+<h2 id="single-sign-on-sso">Single Sign-On (SSO)</h2>
+
+<ul>
+  <li data-marker="*">Since so many different services require so many varying password requirements and considering the advice offered earlier 关于 never utilizing the same password for different services, there are many ways you can bolster your 安全.</li>
+  <li data-marker="*">SSO allows you to use Google or Facebook logins to access services not provided by Google or Facebook.</li>
+  <li data-marker="*">Therefore, you have the ability to easily access other services with 较少 friction and greater 安全.</li>
+</ul>
+
+<h2 id="password-managers">Password Managers</h2>
+
+<ul>
+  <li data-marker="*">A password manager is a piece of software that can manage complex passwords and save them for you.</li>
+  <li data-marker="*">This allows you to not memorize the password.</li>
+  <li data-marker="*">Further, many password managers will recognize phishing websites.</li>
+  <li data-marker="*">Different from browser password-saving, which has been available for years, password managers are a separate piece of software that can provide your password in multiple services.</li>
+  <li data-marker="*">The downside is that, effectively, you are “putting all your eggs in one basket.” You will need to remember one password to access all the other passwords.</li>
+</ul>
+
+<h2 id="passkeys">Passkeys</h2>
+
+<ul>
+  <li data-marker="*">An emerging technology, passkeys are automatically generated passwords that leverage 密码学.</li>
+  <li data-marker="*">Passkeys involve a public key and a private key. The public key is held by a service (such as a website), while the private key is held by your device.</li>
+  <li data-marker="*">Passkeys will enable you to log in without the need to type in a password.</li>
+  <li data-marker="*">However, to understand 更多 关于 this technology, we will need to learn 更多 关于 密码学.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned 关于 the tradeoff between 安全 and convenience. You also learned 关于 various attacks that can make you and others vulnerable. Finally, you learned 关于 some ways by which to protect your login credentials. Specifically, you learned…</p>
+<ul>
+  <li data-marker="*">There are tradeoffs between 安全 and convenience.</li>
+  <li data-marker="*">Generally, your behaviors and awareness are what make you 更多 secure from digital adversaries.</li>
+  <li data-marker="*">NIST provides guidelines relating to 安全.</li>
+  <li data-marker="*">2FA, MFA, and OTPs are some ways by which you can be 更多 secure.</li>
+  <li data-marker="*">Common attacks include keylogging, phishing, credential stuffing, and social engineering.</li>
+  <li data-marker="*">You can enjoy further 安全 by utilizing SSO or password managers.</li>
+  <li data-marker="*">Passkeys, in the future, will offer even greater 安全.</li>
+</ul>
+
+<p>See you 下一页 时间!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994618.js"></script>
+
+    
+
+
+</body></html>

@@ -1,0 +1,1495 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/nrB1aMKgjvU/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 3 - CS50's Computer Science for Lawyers">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Lecture 3 - CS50's Computer Science for Lawyers</title>
+
+
+    <meta property="og:description" content="Searching Searching Unsorted Data Each of these boxes (numbered from 0 through 6) has a number in it. We want to find the number 50. 0 1 2 3 4 5 6 X X X X X...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="6f8367eb76bcab826a4ac0a183efe41a" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate, a certificate of completion, or a custom program</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-lawyers"><a href="../../index.html">CS50’s Computer Science for Lawyers</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="text-white"><a href="http://douglloyd.com/">Doug Lloyd</a>, J.D.<br>
+<a href="mailto:lloyd@cs50.harvard.edu">lloyd@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Computational Thinking</a></li>
+  <li><a href="../../weeks/2/index.html">Programming Languages</a></li>
+  <li><a href="../../weeks/3/index.html">Algorithms, Data Structures</a></li>
+  <li><a href="../../weeks/4/index.html">Cryptography</a></li>
+  <li><a href="../../weeks/5/index.html">Cybersecurity I</a></li>
+  <li><a href="../../weeks/6/index.html">Internet Technologies, Cloud Computing</a></li>
+  <li><a href="../../weeks/7/index.html">Web Development</a></li>
+  <li><a href="../../weeks/8/index.html">Database Design</a></li>
+  <li><a href="../../weeks/9/index.html">Cybersecurity II</a></li>
+  <li><a href="../../weeks/10/index.html">Challenges at the Intersection of Law and Technology</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50l">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/law">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://execed.law.harvard.edu/computerscience/">Harvard Law School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380CIOjHCjIAugO3ryncp6IW">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-3">Lecture 3</h1>
+
+<ul class="small" id="markdown-toc">
+  <li>
+<a href="#searching" id="markdown-toc-searching">Searching</a>    <ul>
+      <li><a href="#searching-unsorted-data" id="markdown-toc-searching-unsorted-data">Searching Unsorted Data</a></li>
+      <li><a href="#binary-searching" id="markdown-toc-binary-searching">Binary Searching</a></li>
+    </ul>
+  </li>
+  <li><a href="#efficiency" id="markdown-toc-efficiency">Efficiency</a></li>
+  <li>
+<a href="#sorting" id="markdown-toc-sorting">Sorting</a>    <ul>
+      <li><a href="#bubble-sort" id="markdown-toc-bubble-sort">Bubble Sort</a></li>
+      <li><a href="#selection-sort" id="markdown-toc-selection-sort">Selection Sort</a></li>
+      <li><a href="#merge-sort" id="markdown-toc-merge-sort">Merge Sort</a></li>
+    </ul>
+  </li>
+  <li><a href="#memory" id="markdown-toc-memory">Memory</a></li>
+  <li>
+<a href="#data-structures" id="markdown-toc-data-structures">Data Structures</a>    <ul>
+      <li><a href="#arrays" id="markdown-toc-arrays">Arrays</a></li>
+      <li><a href="#linked-lists" id="markdown-toc-linked-lists">Linked Lists</a></li>
+      <li><a href="#binary-search-trees" id="markdown-toc-binary-search-trees">Binary Search Trees</a></li>
+      <li><a href="#hash-tables" id="markdown-toc-hash-tables">Hash Tables</a></li>
+    </ul>
+  </li>
+  <li><a href="#python" id="markdown-toc-python">Python</a></li>
+</ul>
+
+<h2 id="searching">Searching</h2>
+
+<h3 id="searching-unsorted-data">Searching Unsorted Data</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Each of these boxes (numbered from 0 through 6) has a number in it. We want to find the number 50.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>At each step, we might open the first unopened box and look inside until we find the number 50.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>23</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>23</td>
+          <td>16</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>23</td>
+          <td>16</td>
+          <td>8</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>23</td>
+          <td>16</td>
+          <td>8</td>
+          <td>42</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>23</td>
+          <td>16</td>
+          <td>8</td>
+          <td>42</td>
+          <td>50</td>
+          <td>X</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>We found the number 50 after looking at <code class="language-plaintext highlighter-rouge">n - 1</code> boxes, where <code class="language-plaintext highlighter-rouge">n</code> is the total number of boxes we have. Essentially, we looked at roughly <code class="language-plaintext highlighter-rouge">n</code> boxes.</p>
+  </li>
+</ul>
+
+<h3 id="binary-searching">Binary Searching</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Each of these boxes has a number behind it. The numbers are sorted now, and we want to find the number 50.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>We’d like to use the divide and conquer strategy that we previously used with our phone book.</p>
+  </li>
+  <li data-marker="*">
+    <p>First, we’ll go to the middle box and look at the number.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Since these numbers are back to back to back, we can mathematically determine which index to look at. Then, the computer can jump to that index in constant time.</p>
+      </li>
+      <li data-marker="*">
+        <p>There are 7 boxes, so the middle number must be at index 7/2 = 3.5, rounding down, gives us 3.</p>
+      </li>
+      <li data-marker="*">
+        <p>Remembering that we start with the 0th index, we open the box at the 3rd index.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>0</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>X</td>
+              <td>X</td>
+              <td>X</td>
+              <td>16</td>
+              <td>X</td>
+              <td>X</td>
+              <td>X</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Next, we’ll compare the number 16 to what we’re searching for: 50. 50 is larger, so we know that 50 cannot be located in any box before 16.</p>
+  </li>
+  <li data-marker="*">
+    <p>We’ll now search the remainder of the boxes in a similar manner. We’ll go to the middle box and look at the number.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>There are 3 boxes, so the middle number must be at index 3/2 = 1.5, rounding down, gives us 1.</p>
+      </li>
+      <li data-marker="*">
+        <p>We open the box at the 1st index.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>0</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>X</td>
+              <td>X</td>
+              <td>X</td>
+              <td>16</td>
+              <td>X</td>
+              <td>42</td>
+              <td>X</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We compare the number 42 to what we’re searching for: 50. 50 is larger, so we know that 50 cannot be located in any box before 42.</p>
+  </li>
+  <li data-marker="*">
+    <p>We search the remainder of the boxes.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>There is only 1 box remaining, so the “middle” number is at index 1/2 = 0.5, rounding down, gives us 0.</p>
+      </li>
+      <li data-marker="*">
+        <p>We open the box at the 0th index.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>0</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>X</td>
+              <td>X</td>
+              <td>X</td>
+              <td>16</td>
+              <td>X</td>
+              <td>42</td>
+              <td>50</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Finally, we compare 50 to what we’re searching for: 50. We’ve found it!</p>
+  </li>
+  <li data-marker="*">
+    <p>This arrangement, having data stored back to back to back, is known as an <em>array</em>.</p>
+  </li>
+  <li data-marker="*">
+    <p>Note that this only took us 3 steps. Like dividing and conquering the phone book, this algorithm also has log(n) efficiency.</p>
+  </li>
+</ul>
+
+<h2 id="efficiency">Efficiency</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>When discussing upper bounds on how much time an algorithm takes, we say that an algorithm has a big O of some formula.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Some formulas, where <code class="language-plaintext highlighter-rouge">n</code> is a variable that represents the size of the problem, include</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>n<sup>2</sup></p>
+          </li>
+          <li data-marker="*">
+            <p>nlog(n)</p>
+          </li>
+          <li data-marker="*">
+            <p>n</p>
+          </li>
+          <li data-marker="*">
+            <p>log(n)</p>
+          </li>
+          <li data-marker="*">
+            <p>1</p>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>For example, for linear search, when we’re searching boxes left to right or searching from the beginning of the phone book to the end, in the worst case, it might take as many as <code class="language-plaintext highlighter-rouge">n</code> steps to find the 50 or Mike Smith. Thus, we would say that the linear search algorithm is <code class="language-plaintext highlighter-rouge">O(n)</code>.</p>
+      </li>
+      <li data-marker="*">
+        <p>For binary search, note that we are able to “remove” half the list each time. Thus, if we double the size of the input, it only requires one additional step. The binary search algorithm is <code class="language-plaintext highlighter-rouge">O(log n)</code>.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>When discussing lower bounds on how much time an algorithm takes, we say that algorithm is Ω of some formula.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Using the previous example, if the first few boxes we look at has 50 in it or if one of the first few entries in the phone book is Mike Smith, then the number of steps we take does not depend on <code class="language-plaintext highlighter-rouge">n</code>. In this case, the linear search algorithm is <code class="language-plaintext highlighter-rouge">Ω(1)</code>.</p>
+      </li>
+      <li data-marker="*">
+        <p>The binary search algorithm is <code class="language-plaintext highlighter-rouge">Ω(1)</code> as well.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>When the upper bound and lower bound are the same, we can say that the algorithm is ϴ of some formula.</p>
+  </li>
+</ul>
+
+<h2 id="sorting">Sorting</h2>
+
+<ul>
+  <li data-marker="*">It was more efficient searching a sorted list than an unsorted list. Now, we’ll discuss how we might sort a list.</li>
+</ul>
+
+<h3 id="bubble-sort">Bubble Sort</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>In bubble sort, the larger numbers bubble to the top during the sorting process.</p>
+  </li>
+  <li data-marker="*">
+    <p>Let’s start with these unsorted numbers. Their indexes are shown above. We wish to sort them in ascending order.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2</td>
+          <td>1</td>
+          <td>6</td>
+          <td>5</td>
+          <td>4</td>
+          <td>3</td>
+          <td>8</td>
+          <td>7</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li data-marker="*">First Pass
+        <ul>
+          <li data-marker="*">
+            <p>Looking at the first two numbers (0th and 1st index), 2 &gt; 1, so we swap them.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>6</td>
+                  <td>5</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>8</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Next, looking at 2 and 6 (1st and 2nd index), we note that they are in the right order.</p>
+          </li>
+          <li data-marker="*">
+            <p>Looking at 5 and 6 (2nd and 3rd index), we note that 6 &gt; 5, so we swap them.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>8</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Next, looking at 6 and 4 (3rd and 4th index), we note that 6 &gt; 4, so we swap them.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>4</td>
+                  <td>6</td>
+                  <td>3</td>
+                  <td>8</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Next, looking at 6 and 3 (4th and 5th index), we note that 6 &gt; 3, so we swap them.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>6</td>
+                  <td>8</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Next, looking at 6 and 8 (5th and 6th index), we note that they are in the right order.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>6</td>
+                  <td>8</td>
+                  <td>7</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Next, looking at 8 and 7 (6th and 7th index), we note that 8 &gt; 7, so we swap them.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>6</td>
+                  <td>7</td>
+                  <td>8</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Second Pass</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>We follow the same steps as above, comparing the adjacent numbers.</p>
+          </li>
+          <li data-marker="*">
+            <p>After the second pass, we get</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>7</td>
+                  <td>8</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">We can continue with the passes:  after each pass, the largest unsorted number is placed in its sorted position. After <code class="language-plaintext highlighter-rouge">n</code> passes, we can guarantee that all <code class="language-plaintext highlighter-rouge">n</code> elements are sorted.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>The pseudocode we might write is:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  repeat until no swaps
+      for i from 0 to n-2
+          if i'th and i+1'th elements out of order
+              swap them
+</code></pre></div>    </div>
+
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">i</code> is an integer that represents an index</li>
+      <li data-marker="*">Since we are comparing the <code class="language-plaintext highlighter-rouge">i</code>‘th and <code class="language-plaintext highlighter-rouge">i+1</code>‘th element, we only need to go up to <code class="language-plaintext highlighter-rouge">n-2</code> for i. Then, we swap the two elements if they’re out of order.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We are making <code class="language-plaintext highlighter-rouge">n-1</code> comparisons, or roughly <code class="language-plaintext highlighter-rouge">n</code> comparisons, for each pass. Additionally, we make roughly <code class="language-plaintext highlighter-rouge">n</code> passes. Multiplying, this algorithm is on the order of n<sup>2</sup>.</p>
+  </li>
+  <li data-marker="*">
+    <p>With each step, we are improving the sortedness of the data. Essentially, we are solving local problems to achieve a global result.</p>
+  </li>
+</ul>
+
+<h3 id="selection-sort">Selection Sort</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>In selection sort, in each pass, we select the smallest number.</p>
+  </li>
+  <li data-marker="*">
+    <p>Let’s start with these unsorted numbers. We wish to sort them in ascending order.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2</td>
+          <td>3</td>
+          <td>1</td>
+          <td>5</td>
+          <td>8</td>
+          <td>7</td>
+          <td>6</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li data-marker="*">
+        <p>First pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>We look at the first unsorted number, which is 2. Now, we look at the rest of the list.</p>
+
+            <ul>
+              <li data-marker="*">3 is greater than 2, so 2 is still the smallest.</li>
+              <li data-marker="*">1 is less than 2, so 1 is now the smallest.</li>
+              <li data-marker="*">5 is greater than 1, so 1 is still the smallest.</li>
+              <li data-marker="*">8 is greater than 1, so 1 is still the smallest.</li>
+              <li data-marker="*">…</li>
+              <li data-marker="*">4 is greater than 1, so 1 is still the smallest.</li>
+            </ul>
+          </li>
+          <li data-marker="*">
+            <p>Now, we swap the 1 with the first unsorted number, or 2. We get this list:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>3</td>
+                  <td>2</td>
+                  <td>5</td>
+                  <td>8</td>
+                  <td>7</td>
+                  <td>6</td>
+                  <td>4</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Second pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>We look at the first unsorted number, which is 3. Now, we look at the rest of the list.</p>
+
+            <ul>
+              <li data-marker="*">2 is less than 3, so 2 is now the smallest.</li>
+              <li data-marker="*">5 is greater than 2, so 2 is still the smallest.</li>
+              <li data-marker="*">8 is greater than 2, so 2 is still the smallest.</li>
+              <li data-marker="*">…</li>
+              <li data-marker="*">4 is greater than 2, so 2 is still the smallest.</li>
+            </ul>
+          </li>
+          <li data-marker="*">
+            <p>Now, we swap the 2 with the first unsorted number, or 3. We get this list:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>5</td>
+                  <td>8</td>
+                  <td>7</td>
+                  <td>6</td>
+                  <td>4</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Third pass:</p>
+
+        <ul>
+          <li data-marker="*">We proceed similarly. After the third pass, we find that 3 is the smallest, and it is in the correct position.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Fourth pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>After the fourth pass, we find that 4 is the smallest, and we swap 5 with 4.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>8</td>
+                  <td>7</td>
+                  <td>6</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Fifth pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>After the fifth pass, we find that 5 is the smallest, and we swap 8 with 5.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>7</td>
+                  <td>6</td>
+                  <td>8</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Sixth pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>After the sixth pass, we find that 6 is the smallest, and we swap 7 with 6.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>7</td>
+                  <td>8</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Seventh pass:</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>After the seventh pass, we find that 7 is the smallest, and it is in the correct position.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>0</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>7</td>
+                  <td>8</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>The pseudocode we might write is:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  for i from 0 to n-1
+      find smallest element between i'th and n-1'th
+      swap smallest with i'th element
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>Note that the amount left to be sorted steadily decreases. For the first pass, we look through <code class="language-plaintext highlighter-rouge">n</code> elements. For the second pass, we look through <code class="language-plaintext highlighter-rouge">n-1</code> elements. This continues until we only have 1 element left. Adding these, we get</p>
+
+    <p><code class="language-plaintext highlighter-rouge">n + n-1 + n-2 + ... + 1 = n(n - 1)/2 = n^2/2 - n/2</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can ignore the lower level terms, and this algorithm is on the order of n<sup>2</sup>.</p>
+  </li>
+  <li data-marker="*">
+    <p>Why can we ignore the lower level terms? These terms play an insignificant role once <code class="language-plaintext highlighter-rouge">n</code> is large.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>For example, if n = 1000000, then n<sup>2</sup>/2 - n/2 = 1000000<sup>2</sup>/2 - 1000000/2.</p>
+      </li>
+      <li data-marker="*">
+        <p>This is equivalent to 500000000000 - 500000 = 499999500000. This value is pretty close to 1000000<sup>2</sup>/2 or 500000000000.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="merge-sort">Merge Sort</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Instead of sorting the entire list at once, we can implement a divide and conquer strategy.</p>
+  </li>
+  <li data-marker="*">
+    <p>When we have an unsorted list, we will</p>
+
+    <ol>
+      <li>Sort the left half.</li>
+      <li>Sort the right half.</li>
+      <li>Interweave the two lists together.</li>
+    </ol>
+  </li>
+  <li data-marker="*">
+    <p>For step 1, when sorting the left half, we can apply the same algorithm. We sort the left half of the left half, then the right half of the left half, and then we merge them together.</p>
+  </li>
+  <li data-marker="*">
+    <p>If we continue to halve and halve, we’ll end up with one element as the left half and one element as the right half. We no longer have to do steps 1 and 2 since the halves are already sorted, but we do have to interweave these two in order to merge them.</p>
+  </li>
+  <li data-marker="*">
+    <p>Merge sort takes less time than the previous two sorts, but there is a trade-off. Merge sort takes twice as much space, as it requires additional space to sort the halves before interweaving the halves.</p>
+  </li>
+</ul>
+
+<h2 id="memory">Memory</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Computers store data in RAM or <em>Random Access Memory</em>. The term “Random” in this case refers to a computer’s ability to jump in constant time to a specific byte.</p>
+  </li>
+  <li data-marker="*">
+    <p>Pictured is a memory chip on a RAM stick. The grid is an artist’s rendition of how we can number each of the bytes in the chip.</p>
+
+    <p><img src="https://cs50.harvard.edu/law/notes/3/chip.png" alt="chip"></p>
+  </li>
+  <li data-marker="*">
+    <p>When we store a float, we’re asking the computer for 32 bits. Bytes to the left or right of the allocated memory might already be in use, so we can’t use more than 32 bits for this float. This leads to <em>floating point imprecision</em>, a topic from the previous week.</p>
+  </li>
+</ul>
+
+<h2 id="data-structures">Data Structures</h2>
+
+<h3 id="arrays">Arrays</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>All of the previously mentioned algorithms assume that the values are stored in an array.</p>
+  </li>
+  <li data-marker="*">
+    <p>When we store numbers in an array, each value is back to back, so we can use arithmetic to get an index. Then, we can instantly jump to that address. This gives us random access, which is constant time.</p>
+  </li>
+  <li data-marker="*">
+    <p>Suppose we want to store six values in memory. We then ask our operating system for just enough bytes for six numbers. The indexes are numbered 0 through 7.</p>
+
+    <p><img src="array_memory.png" alt="array_memory"></p>
+
+    <ul>
+      <li data-marker="*">
+        <p>What if we wanted to add the number 50?</p>
+      </li>
+      <li data-marker="*">
+        <p>Since we only asked our operating system for enough bytes for six numbers, the operating system might have already allocated the memory from 6 and beyond to some other aspect of our program.</p>
+      </li>
+      <li data-marker="*">
+        <p>For a temporary fix, we could’ve just asked the operating system for enough space for 7 or 8 or even 100 values.</p>
+
+        <ul>
+          <li data-marker="*">In this case, we’re asking for more memory than we actually need. Then, the computer has less space for other programs to store and run.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>We could also just add 50 where there is free space. Let’s say at index 15, we have space to store 50. Let’s draw an arrow to denote that after 42 comes 50.</p>
+
+        <p><img src="https://cs50.harvard.edu/law/notes/3/pointer50.png" alt="pointer50"></p>
+
+        <ul>
+          <li data-marker="*">
+            <p>The equivalent to drawing an arrow is to store the address of the number 50 alongside 42. This way, once we get to 42, we’ll note that we should go to index 15.</p>
+          </li>
+          <li data-marker="*">
+            <p>We don’t have enough space at index 5 to store both 42 and the address. Instead, we’ll take note of this idea of storing addresses.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="linked-lists">Linked Lists</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>A <em>linked list</em> allows us to store and remove values by linking the values together.</p>
+  </li>
+  <li data-marker="*">
+    <p><img src="linkedlist.jpg" alt="linkedlist"></p>
+
+    <ul>
+      <li data-marker="*">
+        <p>In each node, or box drawn here, we store a value (data) and the address of the next value.</p>
+      </li>
+      <li data-marker="*">
+        <p>For example, the first node contains the value 4. To find the next value, we go to the address stored, which is 4. Then, we go to the 4th index, which has the value 8.</p>
+      </li>
+      <li data-marker="*">
+        <p>As another example, assume we’re at the index 20. It has value 42. To go to the next value, we go to the address indicated on this node, of index 100. We find that at index 100, we have the value 50.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>To remove a node, we can simply snip it out and redirect an arrow, thereby changing an address.</p>
+  </li>
+  <li data-marker="*">
+    <p>To add a node, we can store it somewhere and update the address at index 100 to point to the new node.</p>
+  </li>
+  <li data-marker="*">
+    <p>We’re now able to add and remove values, but we no longer have random access. To search through a linked list, we must traverse in linear time from the first element to the last.</p>
+  </li>
+  <li data-marker="*">
+    <p>Additionally, we are using twice as much space as an array since we also have to store the next node’s address.</p>
+  </li>
+</ul>
+
+<h3 id="binary-search-trees">Binary Search Trees</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>In a <em>binary search tree</em>, each node has two children (hence <em>binary</em>), one child less than it and one child greater than it.</p>
+  </li>
+  <li data-marker="*">
+    <p><img src="binarytree1.png" alt="binarytree"></p>
+
+    <ul>
+      <li data-marker="*">
+        <p>16 is the root of this tree.</p>
+      </li>
+      <li data-marker="*">
+        <p>To the left of 16 is its left child, and to the right of 16 is its right child.</p>
+      </li>
+      <li data-marker="*">
+        <p>Within this tree, we also have many subtrees. The children of 16 are subtrees themselves; for example, rooted at 8 is a child called 4 and a child called 15.</p>
+      </li>
+      <li data-marker="*">
+        <p>Note that for each node <code class="language-plaintext highlighter-rouge">N</code>, its left child is less than <code class="language-plaintext highlighter-rouge">N</code> and its right child is greater than <code class="language-plaintext highlighter-rouge">N</code>.</p>
+      </li>
+      <li data-marker="*">
+        <p>Let’s look for the number 15 in this structure. We’ll start at 16, the root node. 15 is less than 16, so we’ll go to the left child. 15 is greater than 8, so we go to the right child. And we’ve found 15!</p>
+
+        <ul>
+          <li data-marker="*">In searching this binary search tree, we looked at less nodes than we would in a linked list. By having a 2 dimensional data structure, we were able to create more organization.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>We can also easily modify the size of the binary search tree. Suppose we wanted to add the number 50. Starting from the root, we note that 50 is greater than 16, so we go to the right child. 50 is also greater than 42, and 42 does not have a right child yet. Thus, we insert 50 as the right child of 42.</p>
+
+        <p><img src="binarytree2.png" alt="binarytreeadd"></p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Binary trees can become unbalanced if we just keep adding larger and larger values. There exist more complex algorithms that are able to re-balance the tree after adding values.</p>
+  </li>
+  <li data-marker="*">
+    <p>With a binary search tree, we can add and remove values and search quickly. However, the tradeoff is requiring more space, as 2 additional chunks of memory are required to store the 2 children.</p>
+  </li>
+</ul>
+
+<h3 id="hash-tables">Hash Tables</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Hash tables have constant search time. Let’s look at an example.</p>
+  </li>
+  <li data-marker="*">
+    <p>Here, we have an array. Alice is stored at index 0, Bob is stored at index 1, and David is stored at index 3.</p>
+
+    <p><img src="hashtable.png" alt="hashtable.png"></p>
+
+    <ul>
+      <li data-marker="*">
+        <p>A <em>hash function</em> takes some value as input and returns an index where we store the value. The particular hash function we’re using here looks at the first letter of each string. An <code class="language-plaintext highlighter-rouge">A</code> at the first letter will map to the 0th index, a <code class="language-plaintext highlighter-rouge">B</code> at the first letter will map to the 1st index, and so on.</p>
+
+        <ul>
+          <li data-marker="*">The function in this case, takes the ASCII value of the first letter and subtracts 65, which is the ASCII value for <code class="language-plaintext highlighter-rouge">A</code>.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Inserting these names is thus constant time, as hashing is constant time and we can get to that index via random access.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>When we add Doug, we’ll note that David is already in index 3 of this array. This is considered a <em>collision</em>, where multiple inputs map to the same output.</p>
+  </li>
+  <li data-marker="*">
+    <p>To store both values, we’ll use a linked list. It might look like this:</p>
+  </li>
+</ul>
+
+<p><img src="collision.png" alt="collision"></p>
+
+<ul>
+  <li data-marker="*">A hash table approximates constant time—for a good hash function, we’ll have very few collisions, meaning we won’t have to traverse through linked lists to search for, add, or delete a value.</li>
+</ul>
+
+<h2 id="python">Python</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Certain data types in Python are reminiscent of the data structures here.</p>
+  </li>
+  <li data-marker="*">
+    <p>In Python, the <code class="language-plaintext highlighter-rouge">dict</code> type stands for dictionary. This is essentially a hash table.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>The indexes in this case are words.</p>
+      </li>
+      <li data-marker="*">
+        <p>Via these indexes or words, we can return a value.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>In Python, the <code class="language-plaintext highlighter-rouge">list</code> type is an array that we can change the size of, similar to a linked list.</p>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>

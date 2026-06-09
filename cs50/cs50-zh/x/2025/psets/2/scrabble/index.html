@@ -1,0 +1,709 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://cs50.harvard.edu/x/2025/assets/sanders.jpg">
+
+        <meta property="og:title" content="Scrabble - CS50x 2025">
+
+        <link href="../../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Scrabble - CS50x 2025</title>
+
+
+    <meta property="og:description" content="Problem to Solve In the game of Scrabble, players create words to score points, and the number of points is the sum of the point values of each letter in...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="fe2f7c3d1a73c144d76b5f0dcbb682fe" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is CS50x 2025, an older version of the 课程. See <a href="../../../../index.html">cs50.harvard.edu/x/2026</a> for the latest!</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-is-cs50"><a href="../../../index.html">This is CS50</a></h1>
+
+<h2 class="text-white" data-id="cs50s-introduction-to-computer-science">CS50’s 计算机科学导论</h2>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Highlights -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="../../../../../workshop/2025/index.html">CS50 Educator 工作坊</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../new/index.html">What’s new for 2025?</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ul>
+  <li data-marker="*">
+<a href="../../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*">
+<a href="../../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*">
+<a href="../../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*">
+<a href="../../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*">
+<a href="../../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*">
+<a href="../../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*">
+<a href="../../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*">
+<a href="../../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*">
+<a href="../../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*">
+<a href="../../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*">
+<a href="../../../weeks/10/index.html">第 10 周</a> The End</li>
+</ul>
+<ul>
+  <li data-marker="*"><a href="../../../weeks/ai/index.html">人工智能</a></li>
+</ul>
+<ul class="small">
+  <li data-marker="*"><a href="../../../practice/index.html"><i class="fa-solid fa-rocket pe-2 text-decoration-none"></i>Additional Practice</a></li>
+</ul>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../seminars/index.html">研讨课</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50x">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/50">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/50">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383q7Vn8QnTsVgSvyLpsqL_R">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="scrabble">Scrabble</h1>
+
+<p class="w-100"><img src="scrabble.png" alt="Scrabble Board"></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>In the game of <a href="https://en.wikipedia.org/wiki/Scrabble">Scrabble</a>, players create words to score points, and the number of points is the sum of the point values of each letter in the word.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>E</th>
+      <th>F</th>
+      <th>G</th>
+      <th>H</th>
+      <th>I</th>
+      <th>J</th>
+      <th>K</th>
+      <th>L</th>
+      <th>M</th>
+      <th>N</th>
+      <th>O</th>
+      <th>P</th>
+      <th>Q</th>
+      <th>R</th>
+      <th>S</th>
+      <th>T</th>
+      <th>U</th>
+      <th>V</th>
+      <th>W</th>
+      <th>X</th>
+      <th>Y</th>
+      <th>Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>8</td>
+      <td>5</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>10</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+      <td>8</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For 示例, if we wanted to score the word “CODE”, we would 笔记 that the ‘C’ is worth 3 points, the ‘O’ is worth 1 point, the ‘D’ is worth 2 points, and the ‘E’ is worth 1 point. Summing these, we get that “CODE” is worth 7 points.</p>
+
+<p>In a file called <code class="language-plaintext highlighter-rouge">scrabble.c</code> in a folder called <code class="language-plaintext highlighter-rouge">scrabble</code>, implement a program in C that determines the winner of a short Scrabble-like game. Your program should prompt for input twice: once for “Player 1” to input their word and once for “Player 2” to input their word. Then, depending on which player scores the most points, your program should either print “Player 1 wins!”, “Player 2 wins!”, or “Tie!” (in the event the two players score equal points).</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="80" data-loop="1" data-rows="12" id="asciicast-74B4kq3ftleKe6AdN0NxFV8CN" src="https://asciinema.org/a/74B4kq3ftleKe6AdN0NxFV8CN.js"></script>
+
+<h2 id="advice">Advice</h2>
+
+<p>Click the below toggles to 阅读 some advice!</p>
+
+<details><summary>Write some code that you know will compile</summary><div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Notice that you’ve now included a few header files that will give you access to functions which might help you solve this problem.</p></details>
+
+<details><summary>Write some pseudocode before writing 更多 code</summary><p>If unsure how to solve the problem itself, break it down into smaller problems that you can probably solve first. For instance, this problem is really only a handful of problems:</p>
+
+<ol>
+  <li>Prompt for the user for two words</li>
+  <li>Compute the score of each word</li>
+  <li>Print the winner</li>
+</ol>
+
+<p>Let’s write some pseudcode as comments to remind you to do just that:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+
+    <span class="c1">// Compute the score of each word</span>
+
+    <span class="c1">// Print the winner</span>
+<span class="p">}</span>
+</code></pre></div></div></details>
+
+<div class="alert" data-alert="warning" role="alert"><p>Some problems in 问题集, like this one, might contain spoilers (like the 下一页 one) that ultimately walk you through the entire solution. While you are permitted to use this code, we really do strongly encourage you to try things out yourself first! The other problems in the 问题集 won’t have this 排序 of walkthrough, and typically the problem that contains the “full spoiler” is a warm-up version of the bigger problem you’ll later need to tackle.</p></div>
+
+<details><summary>Convert the pseudocode to code</summary><p>First, consider how you might prompt the user for two words. Recall that <code class="language-plaintext highlighter-rouge">get_string</code>, a function in the CS50 library, can prompt the user for a string.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+    <span class="n">string</span> <span class="n">word1</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 1: "</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">word2</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 2: "</span><span class="p">);</span>
+
+    <span class="c1">// Compute the score of each word</span>
+
+    <span class="c1">// Print the winner</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>下一页 consider how to compute the score of each word. Since the same scoring algorithm applies to both words, you have a good opportunity for <em>abstraction</em>. Here we’ll define a function called <code class="language-plaintext highlighter-rouge">compute_score</code> that takes a string, called <code class="language-plaintext highlighter-rouge">word</code>, as input, and then returns <code class="language-plaintext highlighter-rouge">word</code>’s score as an <code class="language-plaintext highlighter-rouge">int</code>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+    <span class="n">string</span> <span class="n">word1</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 1: "</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">word2</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 2: "</span><span class="p">);</span>
+
+    <span class="c1">// Compute the score of each word</span>
+    <span class="kt">int</span> <span class="n">score1</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word1</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">score2</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word2</span><span class="p">);</span>
+
+    <span class="c1">// Print the winner   </span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Compute and return score for word</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now turn to implementing <code class="language-plaintext highlighter-rouge">compute_score</code>. To compute the score of a word, you need to know the point value of each letter in the word. You can associate letters and their point values with an <em>array</em>. Imagine an array of 26 <code class="language-plaintext highlighter-rouge">int</code>s, called <code class="language-plaintext highlighter-rouge">POINTS</code>, in which the first number is the point value for ‘A’, the second number is the point value for ‘B’, and so on. By declaring and initializing such an array outside of any single function, you can ensure this array is accessible to any function, including <code class="language-plaintext highlighter-rouge">compute_score</code>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// Points assigned to each letter of the alphabet</span>
+<span class="kt">int</span> <span class="n">POINTS</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+    <span class="n">string</span> <span class="n">word1</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 1: "</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">word2</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 2: "</span><span class="p">);</span>
+
+    <span class="c1">// Compute the score of each word</span>
+    <span class="kt">int</span> <span class="n">score1</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word1</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">score2</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word2</span><span class="p">);</span>
+
+    <span class="c1">// Print the winner   </span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Compute and return score for word</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To implement <code class="language-plaintext highlighter-rouge">compute_score</code>, first try to find the point value of a single letter in <code class="language-plaintext highlighter-rouge">word</code>.</p>
+
+<ul>
+  <li data-marker="*">Recall that to find the character at the nth index of a string, <code class="language-plaintext highlighter-rouge">s</code>, you can write <code class="language-plaintext highlighter-rouge">s[n]</code>. So <code class="language-plaintext highlighter-rouge">word[0]</code>, for 示例, will give you the first character of <code class="language-plaintext highlighter-rouge">word</code>.</li>
+  <li data-marker="*">Now, recall that computers represent characters using <a href="http://asciitable.com/">ASCII</a>, a standard that represents each character as a number.</li>
+  <li data-marker="*">Recall too that the 0th index of <code class="language-plaintext highlighter-rouge">POINTS</code>, <code class="language-plaintext highlighter-rouge">POINTS[0]</code>, gives you the point value of ‘A’. Think 关于 how you could transform the numeric representation of ‘A’ into the index of its point value. Now, what 关于 ‘a’? You’ll need to apply different transformations to upper- and lower-case letters, so you 五月 find the functions <a href="https://manual.cs50.io/3/isupper"><code class="language-plaintext highlighter-rouge">isupper</code></a> and <a href="https://manual.cs50.io/3/islower"><code class="language-plaintext highlighter-rouge">islower</code></a> to be helpful to you.</li>
+  <li data-marker="*">Keep in mind that characters that are <em>not</em> letters should be given zero points. For 示例, <code class="language-plaintext highlighter-rouge">!</code> is worth 0 points.</li>
+</ul>
+
+<p>If you can properly calculate the value of <em>one</em> character in <code class="language-plaintext highlighter-rouge">word</code>, odds are you can use a loop to sum the points for the rest of the characters. Once you’ve tried the above on your own, consider this (quite revealing!) 提示 below.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// Points assigned to each letter of the alphabet</span>
+<span class="kt">int</span> <span class="n">POINTS</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+    <span class="n">string</span> <span class="n">word1</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 1: "</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">word2</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 2: "</span><span class="p">);</span>
+
+    <span class="c1">// Compute the score of each word</span>
+    <span class="kt">int</span> <span class="n">score1</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word1</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">score2</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word2</span><span class="p">);</span>
+
+    <span class="c1">// Print the winner   </span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Keep track of score</span>
+    <span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// Compute score for each character</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">word</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isupper</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">POINTS</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">islower</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">POINTS</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">score</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Finally, finish your pseudocode’s last step: printing the winner. Recall that an <code class="language-plaintext highlighter-rouge">if</code> statement can be used to check if a condition is true, and that the additional usage of <code class="language-plaintext highlighter-rouge">else if</code> or <code class="language-plaintext highlighter-rouge">else</code> can check for other (exclusive) conditions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="cm">/* Player 1 wins */</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="cm">/* Player 2 wins */</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And once you’ve tried the above, feel free to take a peek at the 提示 (or, rather, complete solution!) below.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// Points assigned to each letter of the alphabet</span>
+<span class="kt">int</span> <span class="n">POINTS</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for two words</span>
+    <span class="n">string</span> <span class="n">word1</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 1: "</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">word2</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Player 2: "</span><span class="p">);</span>
+
+    <span class="c1">// Compute the score of each word</span>
+    <span class="kt">int</span> <span class="n">score1</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word1</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">score2</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">word2</span><span class="p">);</span>
+
+    <span class="c1">// Print the winner   </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">score1</span> <span class="o">&gt;</span> <span class="n">score2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Player 1 wins!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">score1</span> <span class="o">&lt;</span> <span class="n">score2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Player 2 wins!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Tie!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Keep track of score</span>
+    <span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// Compute score for each character</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">word</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isupper</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">POINTS</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">islower</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="n">POINTS</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">score</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div></details>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>Your program should behave per the 示例 below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./scrabble
+Player 1: Question?
+Player 2: Question!
+Tie!
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./scrabble
+Player 1: red
+Player 2: wheelbarrow
+Player 2 wins!
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./scrabble
+Player 1: COMPUTER
+Player 2: science
+Player 1 wins!
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./scrabble
+Player 1: Scrabble
+Player 2: wiNNeR
+Player 1 wins!
+</code></pre></div></div>
+
+<h3 id="correctness">Correctness</h3>
+
+<p>In your terminal, execute the below to check your work’s correctness.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2025/x/scrabble
+</code></pre></div></div>
+
+<h3 id="style">Style</h3>
+
+<p>Execute the below to evaluate the style of your code using <code class="language-plaintext highlighter-rouge">style50</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 scrabble.c
+</code></pre></div></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="alert" data-alert="danger" role="alert">
+<p>As it is now past <a data-local="2025-12-31T23:59:00+00:00" href="https://time.cs50.io/20251231T235900Z">2025-12-31T23:59:00+00:00</a>, you can no longer 提交 this problem!</p>
+
+<p>Best to ensure you are visiting the latest version of CS50x, <a href="../../../../index.html">cs50.harvard.edu/x/2026</a>, and 提交 the 2026 versions of problems from this point</p>
+</div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

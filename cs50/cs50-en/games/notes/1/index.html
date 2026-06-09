@@ -1,0 +1,1142 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 1 - CS50's Introduction to 2D Game Development">
+
+        <link href="../../favicon%EF%B9%961779994616.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994616.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994616.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994616.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Lecture 1 - CS50's Introduction to 2D Game Development</title>
+
+
+    <meta property="og:description" content="Welcome! This is CS50’s introduction to 2D game development, Lecture 1 on Flappy Bird. Flappy Bird was a mobile game by Dong Nguyen that went viral around...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate, a professional certificate, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-2d-game-development"><a href="../../index.html">CS50’s Introduction to 2D Game Development</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs502d">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380FZyaKIkZYuZWe2B1UHilA">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-1">Lecture 1</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">Welcome!</a></li>
+  <li><a href="#infinite-scrolling-and-parallax" id="markdown-toc-infinite-scrolling-and-parallax">Infinite Scrolling and Parallax</a></li>
+  <li><a href="#images-and-sprites" id="markdown-toc-images-and-sprites">Images and Sprites</a></li>
+  <li><a href="#gravity-and-input" id="markdown-toc-gravity-and-input">Gravity and Input</a></li>
+  <li><a href="#procedural-generation" id="markdown-toc-procedural-generation">Procedural Generation</a></li>
+  <li><a href="#pipe-pairs" id="markdown-toc-pipe-pairs">Pipe Pairs</a></li>
+  <li><a href="#collision-detection" id="markdown-toc-collision-detection">Collision Detection</a></li>
+  <li><a href="#state-machines" id="markdown-toc-state-machines">State Machines</a></li>
+  <li><a href="#scoring" id="markdown-toc-scoring">Scoring</a></li>
+  <li><a href="#sound-effects-and-music" id="markdown-toc-sound-effects-and-music">Sound Effects and Music</a></li>
+  <li><a href="#mouse-input" id="markdown-toc-mouse-input">Mouse Input</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">Welcome!</h2>
+
+<ul>
+  <li data-marker="*">This is CS50’s introduction to 2D game development, Lecture 1 on Flappy Bird.</li>
+  <li data-marker="*">Flappy Bird was a mobile game by Dong Nguyen that went viral around 2013 or so. It had a bit of a controversy related to the pipe graphics having been stolen, but a lot of people for a brief period of time were really enjoying it. It utilizes a very simple but effective gameplay mechanic of avoiding pipes indefinitely by just tapping the screen, making the player’s bird avatar flap its wings and move upwards slightly.</li>
+  <li data-marker="*">Flappy Bird is a variant of popular games like “Helicopter Game” that floated around the internet for years prior. It illustrates some of the most basic procedural generation of game levels possible by having pipes stick out of the ground by varying amounts, acting as an infinitely generated obstacle course for the player.</li>
+  <li data-marker="*">This lecture is a bit of a more modern take instead of the Pong, Atari take from last time. Last time when we were looking at Pong, it was just essentially shapes, rectangles, and just white and an off-black color. But this week we want to actually begin looking at a lot more interesting things that will take us to not just shapes, but rather things that are 2D artwork that move around on the screen, namely sprites.</li>
+  <li data-marker="*">The goal today is a recreation of Flappy Bird, not using the original artwork, but rather some open source artwork. It is essentially the same game. It has just a small bird whose goal is to jump up and navigate this randomly generated obstacle course. It’s also got a ground and a background that will scroll at different rates to give us this parallax artificial look as if we’re in a space.</li>
+</ul>
+
+<h2 id="infinite-scrolling-and-parallax">Infinite Scrolling and Parallax</h2>
+
+<ul>
+  <li data-marker="*">Rather than drawing rectangles like we did with Pong, we’re going to be drawing images. A <em>sprite</em> is essentially typically an image that will move around on screen. When people think sprite, they’ll think of a character graphic or maybe a fireball or something versus what might be a background texture or the like. A sprite and an image are a bit interchangeable.</li>
+  <li data-marker="*">The most important function of the day is <code class="language-plaintext highlighter-rouge">love.graphics.newImage()</code>, which takes a path. This allows us to load an image file of any type we want. It supports most image types—PNGs are very common, but you might also have GIFs or JPEGs. We’ll store that in memory, and then we can draw that onto the screen with <code class="language-plaintext highlighter-rouge">love.graphics.draw()</code>.</li>
+  <li data-marker="*">
+<em>Parallax</em> is this idea where, and we can see this in the real world, if we see fences and mountains, for example, back to back, or if you’re driving down the highway and you look out the side, you can see things move at different speeds. Parallax essentially is an illusion that we can use to simulate distance or depth in our game.</li>
+  <li data-marker="*">One of the instructor’s favorite YouTube channels for exploring illusions in games is a series called “Boundary Break.” In Ocarina of Time, there is a shopkeeper in Hyrule Castle that you can visit. If you actually go behind where he’s standing, you’ll see humorously that the developers, because you can’t actually physically move behind him in the game, decided not to model him with legs. Despite the fact that he looks like a real person greeting you, in fact, he’s just a torso without any legs. This is a common theme, and this is typically how you achieve most things in games that feel like you’re living somewhere. Most things, if you can avoid it, aren’t rendered in the background or off the sides of the screen. It’s called <em>culling</em> in 2D and 3D.</li>
+  <li data-marker="*">In Flappy Bird, the background scrolls infinitely to give the illusion of movement. The texture has a looping look to it. You can imagine it as being if you were to almost glue it together and form a ring with it and just spin it around, it would ultimately look like it was infinitely scrolling. In order to achieve this infinitely scrollable world, using just a single texture that loops a couple of times, we can achieve that exact aesthetic.</li>
+  <li data-marker="*">
+    <p>We use <em>delta time</em> (dt) for frame-independent movement, just like in Pong. We multiply the scroll speed by delta time, add it to whatever our background scroll already is. From <code class="language-plaintext highlighter-rouge">bird-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- background image and starting scroll location (X axis)</span>
+<span class="kd">local</span> <span class="n">background</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'background.png'</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1">-- ground image and starting scroll location (X axis)</span>
+<span class="kd">local</span> <span class="n">ground</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'ground.png'</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">groundScroll</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1">-- speed at which we should scroll our images, scaled by dt</span>
+<span class="kd">local</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="kd">local</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">=</span> <span class="mi">60</span>
+
+<span class="c1">-- point at which we should loop our background back to X 0</span>
+<span class="kd">local</span> <span class="n">BACKGROUND_LOOPING_POINT</span> <span class="o">=</span> <span class="mi">413</span>
+</code></pre></div>    </div>
+    <p>Notice that the ground scrolls at 60 pixels per second while the background scrolls at only 30 pixels per second, creating the parallax effect. The slower things move, the farther away they’re going to be perceived to be. These mountains are perceived as a background element, and the ground is perceived as a closer element to the camera.</p>
+  </li>
+  <li data-marker="*">
+    <p>We use the <em>modulo</em> operator to seamlessly loop the images. Modulo is essentially division, but instead of giving us the actual divided number, it’ll give us whatever is leftover. If we modulo by background looping point, once we hit that 413 pixels where it’s really the same exact image, it’s going to modulo it back to zero. From <code class="language-plaintext highlighter-rouge">bird-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- scroll background by preset speed * dt, looping back to 0 after the looping point</span>
+    <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">backgroundScroll</span> <span class="o">+</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">BACKGROUND_LOOPING_POINT</span>
+
+    <span class="c1">-- scroll ground by preset speed * dt, looping back to 0 after the screen width passes</span>
+    <span class="n">groundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">groundScroll</span> <span class="o">+</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">VIRTUAL_WIDTH</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how the modulo operator (%) causes the scroll value to wrap back to 0 once it exceeds the looping point. If we’re at 413 and we modulo by 413, we’ll get back the value of zero because 413 divided by 413 is one, but there’s zero remainder.</p>
+  </li>
+  <li data-marker="*">
+    <p>In the draw function, we draw the images at a negative scroll offset to make them shift to the left. From <code class="language-plaintext highlighter-rouge">bird-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1">-- here, we draw our images shifted to the left by their looping point; eventually,</span>
+    <span class="c1">-- they will revert back to 0 once a certain distance has elapsed, which will make it</span>
+    <span class="c1">-- seem as if they are infinitely scrolling. choosing a looping point that is seamless</span>
+    <span class="c1">-- is key, so as to provide the illusion of looping</span>
+
+    <span class="c1">-- draw the background at the negative looping point</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">background</span><span class="p">,</span> <span class="o">-</span><span class="n">backgroundScroll</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1">-- draw the ground on top of the background, toward the bottom of the screen,</span>
+    <span class="c1">-- at its negative looping point</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">ground</span><span class="p">,</span> <span class="o">-</span><span class="n">groundScroll</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">16</span><span class="p">)</span>
+
+    <span class="c1">-- render our bird to the screen using its own render logic</span>
+    <span class="n">bird</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that choosing a looping point that is seamless is key to providing the illusion of infinite scrolling. This is a technique used in infinite scrolling all throughout 2D games and in 3D games for certain effects for texture scrolling.</p>
+  </li>
+</ul>
+
+<h2 id="images-and-sprites">Images and Sprites</h2>
+
+<ul>
+  <li data-marker="*">Just like last week, we use the <em>push</em> library for virtual resolution and <code class="language-plaintext highlighter-rouge">love.graphics.setDefaultFilter('nearest', 'nearest')</code> for crisp pixel art scaling.</li>
+  <li data-marker="*">
+    <p>We introduce the <em>class</em> library for object-oriented programming. If we know we’re going to need a bird, if in general we know we’re going to need to model some data in some way that we could think of as being real-world entities or the like, it’s good to start off just already getting the class in place. From <code class="language-plaintext highlighter-rouge">bird-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- virtual resolution handling library</span>
+<span class="n">push</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'push'</span>
+
+<span class="c1">-- classic OOP class library</span>
+<span class="n">Class</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'class'</span>
+
+<span class="c1">-- bird class we've written</span>
+<span class="nb">require</span> <span class="s1">'Bird'</span>
+</code></pre></div>    </div>
+    <p>Notice that we require the push library, the class library, and our own Bird class file.</p>
+  </li>
+  <li data-marker="*">
+    <p>Our Bird class encapsulates all the sprite data. The benefit of using variables and methods like <code class="language-plaintext highlighter-rouge">self.image:getWidth()</code> and <code class="language-plaintext highlighter-rouge">self.image:getHeight()</code> instead of actually hard coding the width and the height is that in theory, we could just load in whatever texture we want to. It could be some larger or smaller bird, whatever we feel like. From <code class="language-plaintext highlighter-rouge">bird-2/Bird.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Bird</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+    <span class="c1">-- load bird image from disk and assign its width and height</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'bird.png'</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getHeight</span><span class="p">()</span>
+
+    <span class="c1">-- position bird in the middle of the screen</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how we load the bird image from disk and dynamically get its dimensions. This is quite a bit more readable than having a ton of magic numbers all over the place, which in general we want to avoid.</p>
+  </li>
+  <li data-marker="*">Syntactically, what’s the difference between the colon syntax and the dot notation? A colon render means that we’re going to pass an implicit self to this function called render. Tables can be defined with functions within them. This is the prototypal method of doing object-oriented programming, which Lua does, and JavaScript also does this. The colon essentially performs the equivalent of doing <code class="language-plaintext highlighter-rouge">bird.render(self)</code>. Without the colon, we would need that argument defined. With the colon, we no longer need to do that. We can treat every function as just essentially not even needing that argument defined in its definition.</li>
+</ul>
+
+<h2 id="gravity-and-input">Gravity and Input</h2>
+
+<ul>
+  <li data-marker="*">For the bird to feel like it’s flying, we need to simulate gravity. <em>Gravity</em> is really the element that makes Flappy Bird a game. It is a constant that’s pushing down on things to make them fall down, increase their Y velocity, to make it more positive over time. It’s about 9.8 meters per second squared in real life, and we’re going to model something like that numerically.</li>
+  <li data-marker="*">You’ll notice that we define the gravity variable using this <code class="language-plaintext highlighter-rouge">local</code> word. Everything so far that we’ve defined has just been without local. What that means is that anything throughout the entire application can see that variable. But there are certain situations where you might not want every variable visible across your entire application. If you’re using somewhat simple names for variables, it’s higher likelihood that you accidentally reuse or overwrite a particular variable between files. It’s generally better practice to avoid globals as much as you can.</li>
+  <li data-marker="*">
+    <p>We add a <code class="language-plaintext highlighter-rouge">dy</code> (delta Y) velocity variable to the bird that gets modified by gravity each frame. From <code class="language-plaintext highlighter-rouge">bird-3/Bird.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">GRAVITY</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+    <span class="c1">-- load bird image from disk and assign its width and height</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'bird.png'</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">image</span><span class="p">:</span><span class="n">getHeight</span><span class="p">()</span>
+
+    <span class="c1">-- position bird in the middle of the screen</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1">-- Y velocity; gravity</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- apply gravity to velocity</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="c1">-- apply current velocity to Y position</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that gravity is applied to velocity (<code class="language-plaintext highlighter-rouge">self.dy = self.dy + GRAVITY * dt</code>), and then velocity is applied to position (<code class="language-plaintext highlighter-rouge">self.y = self.y + self.dy</code>). Over a second’s worth of time, our dy will increase by the gravity value. Not only do we have to do that dy operation, we also have to add the dy to our Y value, because that’s what we use to render the bird.</p>
+  </li>
+  <li data-marker="*">The way that Flappy Bird works is that even if we have gravity pulling us down constantly, we can just hard set the velocity negative—the opposite of a positive Y velocity is going to be going negative, which means we’ll just go towards the top of the screen. Rather than do a continuous updating of our velocity, minusing by some delta time amount per frame, we can just hard set it to a high negative value, and it will immediately start going up really fast. But because we’re always applying gravity per frame, it’s going to immediately start to correct for that. That’s what’s going to give us this appearance of jumping. We go up really fast, but within a very short span of time, gravity is already doing its thing again.</li>
+  <li data-marker="*">Tweaking gravity, tweaking the jump velocity, the pipe speed as they move through, and the gap between the pipes—those would all be the balancing variables that you would use if you wanted to tweak how hard or easy your game is.</li>
+  <li data-marker="*">
+    <p>To allow the bird to jump, we implement a global input tracking system. The unfortunate thing is that in LÖVE, most of those callbacks can only be defined in one place, namely your <code class="language-plaintext highlighter-rouge">main.lua</code>. If we want to just have an instant click or an instant key press, the only way that we’ve known to do that so far has been through our actual <code class="language-plaintext highlighter-rouge">love.keypressed</code> callback function in <code class="language-plaintext highlighter-rouge">main.lua</code>. But we can’t just define that in our Bird file. What we want to do is cleverly get around <code class="language-plaintext highlighter-rouge">main.lua</code>’s predefined callbacks. From <code class="language-plaintext highlighter-rouge">bird-4/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="c1">-- initialize our nearest-neighbor filter</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setDefaultFilter</span><span class="p">(</span><span class="s1">'nearest'</span><span class="p">,</span> <span class="s1">'nearest'</span><span class="p">)</span>
+
+    <span class="c1">-- app window title</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">'Fifty Bird'</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">})</span>
+
+    <span class="c1">-- initialize our virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">setupScreen</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">,</span> <span class="p">{</span> <span class="n">upscale</span> <span class="o">=</span> <span class="s1">'normal'</span> <span class="p">})</span>
+
+    <span class="c1">-- initialize input table</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="c1">-- add to our table of keys pressed this frame</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'escape'</span> <span class="k">then</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="cm">--[[
+    New function used to check our global input table for keys we activated during
+    this frame, looked up by their string value.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">then</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- scroll background by preset speed * dt, looping back to 0 after the looping point</span>
+    <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">backgroundScroll</span> <span class="o">+</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">BACKGROUND_LOOPING_POINT</span>
+
+    <span class="c1">-- scroll ground by preset speed * dt, looping back to 0 after the screen width passes</span>
+    <span class="n">groundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">groundScroll</span> <span class="o">+</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="o">%</span> <span class="n">VIRTUAL_WIDTH</span>
+
+    <span class="n">bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1">-- reset input table</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we create a table called <code class="language-plaintext highlighter-rouge">love.keyboard.keysPressed</code> and add our own function <code class="language-plaintext highlighter-rouge">love.keyboard.wasPressed()</code>. Everything in Lua is dynamic—tables are all dynamic. You can just add whatever key you want and put in whatever value you want. In this case, <code class="language-plaintext highlighter-rouge">love.keyboard</code> comes predefined, but it does not have a <code class="language-plaintext highlighter-rouge">keysPressed</code> table or a <code class="language-plaintext highlighter-rouge">wasPressed</code> function. We are adding these ourselves. The important thing that lets this work per frame is that at the end of update, we reinitialize <code class="language-plaintext highlighter-rouge">keysPressed</code> to be an empty table so that everything is essentially emptied out and there is no memory of whatever we pressed this frame on the next frame. Everything’s a blank slate.</p>
+  </li>
+  <li data-marker="*">
+    <p>In the Bird class, we check for the space bar and apply a sudden burst of negative velocity to make the bird jump. From <code class="language-plaintext highlighter-rouge">bird-4/Bird.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- apply gravity to velocity</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="c1">-- add a sudden burst of negative gravity if we hit space</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'space'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- apply current velocity to Y position</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that pressing space sets <code class="language-plaintext highlighter-rouge">self.dy</code> to -5, which is a negative velocity that moves the bird upward. Within about a third of a second, that’s going to be brought to zero from gravity because it’s going at 980 pixels per second (in other examples). Gravity will then gradually pull it back down.</p>
+  </li>
+</ul>
+
+<h2 id="procedural-generation">Procedural Generation</h2>
+
+<ul>
+  <li data-marker="*">In Flappy Bird, pipes spawn at regular intervals and scroll from right to left. This is a form of <em>procedural generation</em> where game content is created algorithmically rather than by hand.</li>
+  <li data-marker="*">We use a timer to spawn pipes and a table to store all active pipes. If we need infinite pipes, we need a way to have some data structure that can store them. We’re not going to define pipe one, pipe two, pipe three, pipe four. We’re going to put them in a table or an array of sorts.</li>
+  <li data-marker="*">Recall from <code class="language-plaintext highlighter-rouge">love.update</code> that the <code class="language-plaintext highlighter-rouge">dt</code> field that it passes in is just a time. It’ll be some 0.016, or depending on what frame you’re running, it might be higher or lower than that. If we just keep adding that fractional value to some variable, once this gets to one, we’ll know that a whole second’s worth of time has passed, or two, we’ll know that two seconds’ worth of time has passed. Through using a timer and adding dt just over time to it and doing a conditional check, we’ll know, “Okay, a second’s passed, two seconds passed. I want a pipe to spawn every 2.5 seconds or every five seconds.” This is how you do that.</li>
+  <li data-marker="*">
+    <p>We use <code class="language-plaintext highlighter-rouge">table.insert()</code> to add pipes to our collection. This is a function that’s in Lua—this isn’t a LÖVE thing. From <code class="language-plaintext highlighter-rouge">bird-5/Pipe.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Pipe</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="c1">-- since we only want the image loaded once, not per instantation, define it externally</span>
+<span class="kd">local</span> <span class="n">PIPE_IMAGE</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'pipe.png'</span><span class="p">)</span>
+
+<span class="kd">local</span> <span class="n">PIPE_SCROLL</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span>
+
+    <span class="c1">-- set the Y to a random value halfway below the screen</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">PIPE_IMAGE</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_SCROLL</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">PIPE_IMAGE</span><span class="p">,</span> <span class="nb">math.floor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">),</span> <span class="nb">math.floor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that pipes spawn at the right edge of the screen (<code class="language-plaintext highlighter-rouge">VIRTUAL_WIDTH</code>) and scroll left at a constant speed. The Y position is randomized to create variety. Every pipe will randomly be tall a certain amount, but they’ll always be moving and eventually getting off screen, and they’ll always start at the right edge of the screen.</p>
+  </li>
+  <li data-marker="*">We iterate over pipes using <code class="language-plaintext highlighter-rouge">pairs()</code> to update and remove them when they go off-screen. This is using a for loop in Lua. There are a few different ways to do for loops, and this is doing an iterative approach using an iterator. What it’s doing is saying <code class="language-plaintext highlighter-rouge">for k, pipe</code> in pairs of pipes—these are variables that we’re choosing. You can say for something comma something, meaning for every key value pair in this table. By default, if you use a table and just do sequential inserts, it’s going to treat it much like an array in C or C++ or Java. One of the quirks of Lua is that it is not zero indexed—tables are one indexed. We’ll start at index one, then index two, then index three.</li>
+  <li data-marker="*">
+    <p>When we call this iterator <code class="language-plaintext highlighter-rouge">for k, pipe</code>, this just means for one pipe, for two pipe, for three pipe. It’s key value pairs. The key is the index, and then the value is going to be what’s actually stored in that table at that index. From <code class="language-plaintext highlighter-rouge">bird-5/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">spawnTimer</span> <span class="o">=</span> <span class="n">spawnTimer</span> <span class="o">+</span> <span class="n">dt</span>
+
+<span class="c1">-- spawn a new Pipe if the timer is past 2 seconds</span>
+<span class="k">if</span> <span class="n">spawnTimer</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">then</span>
+    <span class="nb">table.insert</span><span class="p">(</span><span class="n">pipes</span><span class="p">,</span> <span class="n">Pipe</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Added new pipe!'</span><span class="p">)</span>
+    <span class="n">spawnTimer</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we use <code class="language-plaintext highlighter-rouge">table.insert()</code> to add a new Pipe to the pipes table every 2 seconds. When we call <code class="language-plaintext highlighter-rouge">table.insert(pipes, Pipe())</code>, Lua automatically assigns the next numerical index (1, 2, 3, etc.) to the new pipe.</p>
+  </li>
+  <li data-marker="*">Lua, in addition to storing numerical indices, allows us to store strings and have those be our keys. For example, if we want to have a bunch of sounds and we want to add the particular sound for a crash, you could say at index “crash”, store this audio source. That’s going to be a string index. If we were to do that same thing, for k, sound would be for “crash” would be the key, and then sound would be the actual audio source.</li>
+  <li data-marker="*">We use <code class="language-plaintext highlighter-rouge">table.remove()</code> to clean up pipes that have moved off-screen. If we just kept adding pipes every 2 seconds and stored them forever, our data structure in memory would just keep getting bigger and bigger, and the iteration would take longer and be more processing.</li>
+  <li data-marker="*">
+    <p>When you call <code class="language-plaintext highlighter-rouge">table.remove()</code> to remove a pipe once it’s off screen, Lua’s garbage collector will eventually clean up that memory. It is a garbage collected runtime, just like JavaScript or Python—any of these other scripted languages. It’ll do garbage collection behind the scenes when things are no longer referenceable or keys in tables are removed. From <code class="language-plaintext highlighter-rouge">bird-5/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- for every pipe in the scene...</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">pipe</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1">-- if pipe is no longer visible past left edge, remove it from scene</span>
+    <span class="k">if</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">pipe</span><span class="p">.</span><span class="n">width</span> <span class="k">then</span>
+        <span class="nb">table.remove</span><span class="p">(</span><span class="n">pipes</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that for every pipe in the scene, we call <code class="language-plaintext highlighter-rouge">pipe:update(dt)</code> to move it, then check if it has gone off-screen by comparing its x position to its negative width. If so, we use <code class="language-plaintext highlighter-rouge">table.remove()</code> to clean it up.</p>
+  </li>
+</ul>
+
+<h2 id="pipe-pairs">Pipe Pairs</h2>
+
+<ul>
+  <li data-marker="*">In Flappy Bird, pipes come in pairs with a gap between them for the bird to fly through. You have pipes that are above and below each other, oppositely oriented, but with a space between them that’s just small enough to get through with practice. We create a <em>PipePair</em> class that manages both an upper and lower pipe.</li>
+  <li data-marker="*">This is again another example of an illusion where in real life, you might see pipes that are built into the ground in this way, and it makes sense, but certainly not just floating from the ceiling, from the sky, and not connected to anything. But because they’re rendered off screen and they’re tall enough, we don’t ever really see anything to suggest that they’re not part of the world in some way.</li>
+  <li data-marker="*">The idea of a pipe pair, ultimately, is because they move together, we envision these pipe pairs literally as an entity, even though it’s comprised of two entities. That’s the benefit of object-oriented programming or just more modeled programming. You can have things that are relatively complicated and intricate, have multiple pieces nested within them, and hide the details of how they work so that you can just think in terms of these high-level concepts.</li>
+  <li data-marker="*">One of the bigger issues that you could have, if you were to go purely random with the way that you organize the generation for these pipes, is that they’ll just be all over the place. They’ll be very staggered and crooked, and it’ll be pretty much impossible to play the game no matter how good you are. If we keep a record of our last Y, then we can just simply adjust whatever that value is by just adding or subtracting some small amount from it. That will ensure that we move in a gradation. It’ll look like it’s smooth and intended.</li>
+  <li data-marker="*">
+    <p>To flip the top pipe upside down, we use negative scaling in <code class="language-plaintext highlighter-rouge">love.graphics.draw()</code>. The interesting thing about scale factors is that they will flip something based on the XY coordinate of whatever is being flipped or scaled. By default, everything that has a normal scale factor of one is going to just render down and to the right. If we want to set a negative scale factor, the weird thing about that is that a negative scale factor on the Y-axis means that this upper pipe is going to look as if it is drawing upwards—it’s going to flip. We don’t want that. We want it to essentially do a flip, but we want it to stay in place. To do that, we’re adding the pipe’s height to the Y value when we draw it. From <code class="language-plaintext highlighter-rouge">bird-8/Pipe.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Pipe</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="c1">-- since we only want the image loaded once, not per instantation, define it externally</span>
+<span class="kd">local</span> <span class="n">PIPE_IMAGE</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'pipe.png'</span><span class="p">)</span>
+
+<span class="c1">-- speed at which the pipe should scroll right to left</span>
+<span class="n">PIPE_SPEED</span> <span class="o">=</span> <span class="mi">60</span>
+
+<span class="c1">-- height of pipe image, globally accessible</span>
+<span class="n">PIPE_HEIGHT</span> <span class="o">=</span> <span class="mi">430</span>
+<span class="n">PIPE_WIDTH</span> <span class="o">=</span> <span class="mi">70</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">orientation</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">PIPE_WIDTH</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">PIPE_HEIGHT</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="n">orientation</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">PIPE_IMAGE</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">orientation</span> <span class="o">==</span> <span class="s1">'top'</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">PIPE_HEIGHT</span> <span class="ow">or</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">),</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">orientation</span> <span class="o">==</span> <span class="s1">'top'</span> <span class="ow">and</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice the scale parameter in <code class="language-plaintext highlighter-rouge">love.graphics.draw()</code>. When orientation is ‘top’, we use -1 for the Y scale to flip the pipe vertically, and we offset the Y position by <code class="language-plaintext highlighter-rouge">PIPE_HEIGHT</code>. We’re essentially emulating a center rotation about its midpoint. The result is that even though we flip the pipe vertically, we end up actually shifting it down by that exact same amount, and it has the intended effect of just in-place vertically flipping.</p>
+  </li>
+  <li data-marker="*">
+    <p>The PipePair class manages both pipes together. We defer the updating of those pipes to this function. This function will take care of passing a call to both pipes to render them so that we don’t have to think of them from <code class="language-plaintext highlighter-rouge">main.lua</code>. <code class="language-plaintext highlighter-rouge">main.lua</code> just calls update and render on the pipe pair. The pipe pair manages and wraps over the data of both pipes. From <code class="language-plaintext highlighter-rouge">bird-8/PipePair.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">PipePair</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="c1">-- size of the gap between pipes</span>
+<span class="kd">local</span> <span class="n">GAP_HEIGHT</span> <span class="o">=</span> <span class="mi">90</span>
+
+<span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1">-- initialize pipes past the end of the screen</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">+</span> <span class="mi">32</span>
+
+    <span class="c1">-- y value is for the topmost pipe; gap is a vertical shift of the second lower pipe</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="c1">-- instantiate two pipes that belong to this pair</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">pipes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">[</span><span class="s1">'upper'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="s1">'top'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">),</span>
+        <span class="p">[</span><span class="s1">'lower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">PIPE_HEIGHT</span> <span class="o">+</span> <span class="n">GAP_HEIGHT</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1">-- whether this pipe pair is ready to be removed from the scene</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- remove the pipe from the scene if it's beyond the left edge of the screen,</span>
+    <span class="c1">-- else move it from right to left</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">PIPE_WIDTH</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">PIPE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">[</span><span class="s1">'lower'</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">[</span><span class="s1">'upper'</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span>
+    <span class="k">else</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">PipePair</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pipe</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipes</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">pipe</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we have a table of two pipes with string keys (‘upper’ and ‘lower’). The gap is created by offsetting the lower pipe by <code class="language-plaintext highlighter-rouge">PIPE_HEIGHT + GAP_HEIGHT</code>. We use a remove flag instead of removing immediately, because there’s a problem with removing things from a table while we’re iterating over it.</p>
+  </li>
+  <li data-marker="*">When you remove something in the middle of an iteration, the table is going to essentially skip the next index. If you have three pipes and you delete pipe 2, then as soon as you delete pipe 2, pipe 2 becomes what was pipe 3, and pipe 3 is now nil. Nil is Lua’s way to say nothing. You effectively would skip over that pipe. Typically, anytime you want to do a removal from a table, you either want to do it in this way where we are updating and then removing afterwards with a flag, or you could also iterate from the end of your table to the front and then delete things. Then because things get shifted from the later end of the table to the front, deletions won’t actually impact further iterations.</li>
+</ul>
+
+<h2 id="collision-detection">Collision Detection</h2>
+
+<ul>
+  <li data-marker="*">To detect when the bird hits a pipe, we use <em>AABB</em> (Axis-Aligned Bounding Box) collision detection, the same algorithm we used in Pong. Thankfully, everything that we’re dealing with today is all rectangular. Even the bird, even though it doesn’t look quite rectangular, we can think of it rectangularly.</li>
+  <li data-marker="*">
+    <p>We add a <code class="language-plaintext highlighter-rouge">collides()</code> method to the Bird class that checks for overlaps with pipes. The only difference from last time is that we are checking on a slightly smaller rectangle than the bird’s actual box by offsetting. From <code class="language-plaintext highlighter-rouge">bird-7/Bird.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    AABB collision that expects a pipe, which will have an X and Y and reference
+    global pipe width and height values.
+]]</span>
+<span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>
+    <span class="c1">-- the 2's are left and top offsets</span>
+    <span class="c1">-- the 4's are right and bottom offsets</span>
+    <span class="c1">-- both offsets are used to shrink the bounding box to give the player</span>
+    <span class="c1">-- a little bit of leeway with the collision</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_WIDTH</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">PIPE_HEIGHT</span> <span class="k">then</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we offset the collision box by 2 pixels on each side. This shrinks the effective hitbox slightly, giving the player a little bit of leeway. This is a common thing that you’ll see game designers doing just to try to overall make their games not feel as unfair. If your game gives you just a slight amount of wiggle room, particularly in shoot-em-up games for old arcade games, scrolling shooters like 1942—you want to have just a little bit of wiggle room to navigate projectiles and the like. The way that sprites are modeled, sometimes with slightly transparent pixels and just weird shapes and circular shapes and whatnot, it can feel better sometimes to just shrink your collision box just a little bit.</p>
+  </li>
+  <li data-marker="*">We check for collisions with both pipes in every pipe pair using nested iteration. You have <code class="language-plaintext highlighter-rouge">for k, pair</code> in this outer loop iterating over every pair, but within every pair, we’re also doing an iteration over both pipes. This is using convention <code class="language-plaintext highlighter-rouge">k</code>, <code class="language-plaintext highlighter-rouge">l</code>, and <code class="language-plaintext highlighter-rouge">v</code>, and <code class="language-plaintext highlighter-rouge">m</code>, just whatever letter makes sense. We could call this maybe <code class="language-plaintext highlighter-rouge">p</code> or some other key if we wanted to.</li>
+</ul>
+
+<h2 id="state-machines">State Machines</h2>
+
+<ul>
+  <li data-marker="*">When you just have a flag or a string variable that you’re using to check game state, your <code class="language-plaintext highlighter-rouge">main.lua</code> gets really big and complex, hard to read. It’s just hard to grok to see, “Okay, what state am I in? Am I in the serve state? Am I in the high score state? If I’m in that state, what do I need to do?” It gets to be a little bit cumbersome. Very cumbersome, especially at scale.</li>
+  <li data-marker="*">A <em>state machine</em> is a way to model the transitions in our game. We have states which are modeled by rectangles, which have terms like ducking, diving, jumping, standing. Then we have the transitions between them. If you go from ducking to standing by releasing down, you can see that relationship modeled. This is how you can diagram out the overall flow for your entire game.</li>
+  <li data-marker="*">The benefit of using objects to represent states is they’re their own files. They can have their own objects, their own things that they manage. We don’t need the bird, for example, when we’re in the title menu because we’re not moving a bird around. But we do want it in the play state, but we don’t want it in the score state, maybe. Now each of the states can maintain their own state, their own entities, and so forth, keep things a little bit better encapsulated.</li>
+  <li data-marker="*">
+    <p>We use a global state machine with the <code class="language-plaintext highlighter-rouge">g</code> prefix to indicate it’s global. We’re going to need this accessible anywhere in our code, because every state, especially if we’re going to have individual files that now manage whether we’re in the score state, whether it’s the play state, whatever—if they’re their own files, they need a way to transition to the other states. From <code class="language-plaintext highlighter-rouge">bird-8/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- all code related to game state and state machines</span>
+<span class="nb">require</span> <span class="s1">'StateMachine'</span>
+<span class="nb">require</span> <span class="s1">'states/BaseState'</span>
+<span class="nb">require</span> <span class="s1">'states/PlayState'</span>
+<span class="nb">require</span> <span class="s1">'states/TitleScreenState'</span>
+</code></pre></div>    </div>
+    <p>Notice that we require the StateMachine and all our state files from the states folder. The syntax <code class="language-plaintext highlighter-rouge">states/BaseState</code> is how Lua does directory paths—we have a directory called states within which is a Lua file called BaseState. You do not need the <code class="language-plaintext highlighter-rouge">.lua</code>—that’s automatically inferred by Lua.</p>
+  </li>
+  <li data-marker="*">
+    <p>The StateMachine class manages state transitions. From <code class="language-plaintext highlighter-rouge">bird-8/StateMachine.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">StateMachine</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">StateMachine</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">empty</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="n">render</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+		<span class="n">update</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+		<span class="n">enter</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+		<span class="n">exit</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">end</span>
+	<span class="p">}</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">states</span> <span class="o">=</span> <span class="n">states</span> <span class="ow">or</span> <span class="p">{}</span> <span class="c1">-- [name] -&gt; [function that returns states]</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">empty</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">StateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="n">stateName</span><span class="p">,</span> <span class="n">enterParams</span><span class="p">)</span>
+	<span class="nb">assert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">states</span><span class="p">[</span><span class="n">stateName</span><span class="p">])</span> <span class="c1">-- state must exist!</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span><span class="p">:</span><span class="n">exit</span><span class="p">()</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">states</span><span class="p">[</span><span class="n">stateName</span><span class="p">]()</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span><span class="p">:</span><span class="n">enter</span><span class="p">(</span><span class="n">enterParams</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">StateMachine</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">StateMachine</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+	<span class="n">self</span><span class="p">.</span><span class="n">current</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">change()</code> method calls <code class="language-plaintext highlighter-rouge">exit()</code> on the current state, then calls the function to create a new state instance, and finally calls <code class="language-plaintext highlighter-rouge">enter()</code> on the new state with any parameters we pass in. Part of implementing a state means that all of your functions need to have these methods defined as a contract.</p>
+  </li>
+  <li data-marker="*">
+    <p>We initialize the state machine with anonymous functions that return new state instances. The benefit of using anonymous functions here is that typically when we have states, we want them to be fresh every time, at least for relatively simple games. Depending on the game, you might want your states to preserve certain aspects of themselves when you’re transitioning back and forth. We’ll look at examples of that in Pokémon later towards the end of the course, when we look at something more complicated like the state stack. For right now, we’re just going to look at a very simple state machine. From <code class="language-plaintext highlighter-rouge">bird-8/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- initialize state machine with all state-returning functions</span>
+<span class="n">gStateMachine</span> <span class="o">=</span> <span class="n">StateMachine</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s1">'title'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">TitleScreenState</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">'play'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">PlayState</span><span class="p">()</span> <span class="k">end</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'title'</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we use anonymous functions that return brand new state instances. This is a thing that certain languages like Lua and JavaScript and Python let you do: A function actually in line like this and assign it to something. This is called a <em>first class function</em> or an <em>anonymous function</em>. What this function does is it just returns a brand new state. Every time we do a change and we call this title, we’re going to get a fresh title screen state. There’s going to be no lingering state anywhere. We’re just going to have a completely blank slate to work with.</p>
+  </li>
+  <li data-marker="*">
+    <p>The BaseState class provides empty implementations of all the interface methods. This is also a useful reminder of what the functions are that any given state should implement in order to be valid within the state machine. From <code class="language-plaintext highlighter-rouge">bird-8/states/BaseState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">BaseState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">BaseState</span><span class="p">:</span><span class="n">init</span><span class="p">()</span> <span class="k">end</span>
+<span class="k">function</span> <span class="nf">BaseState</span><span class="p">:</span><span class="n">enter</span><span class="p">()</span> <span class="k">end</span>
+<span class="k">function</span> <span class="nf">BaseState</span><span class="p">:</span><span class="n">exit</span><span class="p">()</span> <span class="k">end</span>
+<span class="k">function</span> <span class="nf">BaseState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="k">end</span>
+<span class="k">function</span> <span class="nf">BaseState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span> <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that all methods are empty. Other states inherit from BaseState using <code class="language-plaintext highlighter-rouge">__includes</code> so they don’t have to implement methods they don’t need. This is a form of <em>inheritance</em>, which is another object-oriented programming concept where we can have some subclass inherit from a parent class.</p>
+  </li>
+  <li data-marker="*">
+    <p>The TitleScreenState is a simple state that waits for Enter to be pressed. The <code class="language-plaintext highlighter-rouge">__includes = BaseState</code> means that it will already come preloaded with all those functions. We don’t have to actually implement them ourselves. From <code class="language-plaintext highlighter-rouge">bird-8/states/TitleScreenState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">TitleScreenState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">TitleScreenState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'enter'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'return'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'play'</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">TitleScreenState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">flappyFont</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Fifty Bird'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">mediumFont</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Press Enter'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that when Enter is pressed, we call <code class="language-plaintext highlighter-rouge">gStateMachine:change('play')</code> to transition to the play state. Notice also that we’ve trimmed things down in main. In update, we still scroll things because this is going to happen no matter what state we’re in. But everything else in <code class="language-plaintext highlighter-rouge">main.lua</code> in update has been moved to <code class="language-plaintext highlighter-rouge">gStateMachine:update()</code>, and everything has been moved to <code class="language-plaintext highlighter-rouge">gStateMachine:render()</code> in the draw function, except for the backgrounds. Anything that you want to apply to all states outside of all states and still happen, you can do outside of your gStateMachine.</p>
+  </li>
+</ul>
+
+<h2 id="scoring">Scoring</h2>
+
+<ul>
+  <li data-marker="*">In Flappy Bird, a score is accrued through clearing pipes. If the bird’s X coordinate goes past the right edge of any pipe pair, we increment the score. We’ve effectively cleared that pipe pair as an obstacle.</li>
+  <li data-marker="*">
+    <p>Since we’re already iterating over every pipe pair to do a collision test and every pipe therein, we can say, “If there’s a collision, let’s just transition to the score state.” We also need to not rescore pipe pairs over and over again—any pipe pair that would be to the left of the bird would still be to the left of the bird for a while before it despawns. We just flag the pipe pair as being scored if we happen to score on it. From <code class="language-plaintext highlighter-rouge">bird-10/states/PlayState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">PlayState</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">bird</span> <span class="o">=</span> <span class="n">Bird</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">pipePairs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1">-- now keep track of our score</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1">-- initialize our last recorded Y value for a gap placement to base other gaps off of</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">lastY</span> <span class="o">=</span> <span class="o">-</span><span class="n">PIPE_HEIGHT</span> <span class="o">+</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span> <span class="o">+</span> <span class="mi">20</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">PlayState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- update timer for pipe spawning</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">+</span> <span class="n">dt</span>
+
+    <span class="c1">-- spawn a new pipe pair every second and a half</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">then</span>
+        <span class="c1">-- modify the last Y coordinate we placed so pipe gaps aren't too far apart</span>
+        <span class="c1">-- no higher than 10 pixels below the top edge of the screen,</span>
+        <span class="c1">-- and no lower than a gap length (90 pixels) from the bottom</span>
+        <span class="kd">local</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">math.max</span><span class="p">(</span><span class="o">-</span><span class="n">PIPE_HEIGHT</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="nb">math.min</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">lastY</span> <span class="o">+</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">PIPE_HEIGHT</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">lastY</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="c1">-- add a new pipe pair at the end of the screen at our new Y</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipePairs</span><span class="p">,</span> <span class="n">PipePair</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="c1">-- reset timer</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- for every pair of pipes..</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">pair</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">pipePairs</span><span class="p">)</span> <span class="k">do</span>
+        <span class="c1">-- score a point if the pipe has gone past the bird to the left all the way</span>
+        <span class="c1">-- be sure to ignore it if it's already been scored</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pair</span><span class="p">.</span><span class="n">scored</span> <span class="k">then</span>
+            <span class="k">if</span> <span class="n">pair</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">PIPE_WIDTH</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">bird</span><span class="p">.</span><span class="n">x</span> <span class="k">then</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">pair</span><span class="p">.</span><span class="n">scored</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="c1">-- update position of pair</span>
+        <span class="n">pair</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we flag each pipe pair as <code class="language-plaintext highlighter-rouge">scored = true</code> once we’ve counted it. This prevents us from rescoring the same pipe pair over and over. Notice also that the bird is now here in the play state, not in <code class="language-plaintext highlighter-rouge">main.lua</code>. The play state is the only place where we need the bird. The more you can take out of <code class="language-plaintext highlighter-rouge">main.lua</code> in a lot of ways, the better, because now that gives you an easier way to see what’s happening at a high level.</p>
+  </li>
+  <li data-marker="*">
+    <p>When we collide, we transition to the score state and pass the score. The score state, or rather the play state, needs to talk to the score state. Because these are separated domains, separated areas of play that don’t know each other’s variables, each other’s state, the score state needs to know the score that we got during our play state. To do that, we pass a table to the <code class="language-plaintext highlighter-rouge">change()</code> method:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'score'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">score</span>
+<span class="p">})</span>
+</code></pre></div>    </div>
+    <p>Notice that we pass a table with the score. This is the handshake of sorts between our states to allow us to pass data back and forth between the two.</p>
+  </li>
+  <li data-marker="*">
+    <p>The ScoreState receives the score through its <code class="language-plaintext highlighter-rouge">enter()</code> method. This gets called on every state change, so it has to exist. We’re going to store the score now in the score state, and we can now render that. From <code class="language-plaintext highlighter-rouge">bird-10/states/ScoreState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">ScoreState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+<span class="cm">--[[
+    When we enter the score state, we expect to receive the score
+    from the play state so we know what to render to the State.
+]]</span>
+<span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">enter</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">params</span><span class="p">.</span><span class="n">score</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- go back to play if enter is pressed</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'enter'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'return'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'countdown'</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">ScoreState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="c1">-- simply render the score to the middle of the screen</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">flappyFont</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Oof! You lost!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">mediumFont</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Score: '</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">score</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Press Enter to Play Again!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how the <code class="language-plaintext highlighter-rouge">enter()</code> function receives params and stores <code class="language-plaintext highlighter-rouge">params.score</code> in <code class="language-plaintext highlighter-rouge">self.score</code>. The score was transferred over through the state machine’s change, and it just has it there as a value. This is the process by which you get state that you can transfer between things while keeping them separate, logically.</p>
+  </li>
+  <li data-marker="*">
+    <p>We also add a CountdownState to give the player time to prepare. It’s a little jarring when it starts off and we just press Enter and we’re just already falling. It’s like, “Oh, shoot, maybe I wasn’t ready for that.” It’s not the title screen, it’s not the play state—it’s like a lead into the play state. From <code class="language-plaintext highlighter-rouge">bird-10/states/CountdownState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">CountdownState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+<span class="c1">-- takes 1 second to count down each time</span>
+<span class="n">COUNTDOWN_TIME</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">75</span>
+
+<span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+
+<span class="cm">--[[
+    Keeps track of how much time has passed and decreases count if the
+    timer has exceeded our countdown time. If we have gone down to 0,
+    we should transition to our PlayState.
+]]</span>
+<span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">+</span> <span class="n">dt</span>
+
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">&gt;</span> <span class="n">COUNTDOWN_TIME</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">%</span> <span class="n">COUNTDOWN_TIME</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+            <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'play'</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">CountdownState</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">hugeFont</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="nb">tostring</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how we use a timer to count down from 3. Every 0.75 seconds, we decrement the count. When it reaches 0, we transition to the play state. One second felt a little bit too long, but it’s about one second. A nice little softening of the process of getting into the game.</p>
+  </li>
+</ul>
+
+<h2 id="sound-effects-and-music">Sound Effects and Music</h2>
+
+<ul>
+  <li data-marker="*">Sound adds a lot of value and makes the game feel immersive and polished. We use <code class="language-plaintext highlighter-rouge">love.audio.newSource()</code> to load sounds, just like in Pong.</li>
+  <li data-marker="*">
+    <p>We create a global sounds table using the <code class="language-plaintext highlighter-rouge">g</code> prefix to designate it’s a global table. Globals can be dangerous—you don’t want to overuse them. But if you’re using a data supply of textures or sounds or what have you, it can be convenient and often the most elegant way to do things. From <code class="language-plaintext highlighter-rouge">bird-11/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- seed the RNG</span>
+<span class="nb">math.randomseed</span><span class="p">(</span><span class="nb">os.time</span><span class="p">())</span>
+
+<span class="c1">-- app window title</span>
+<span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">'Fifty Bird'</span><span class="p">)</span>
+
+<span class="c1">-- initialize our nice-looking retro text fonts</span>
+<span class="n">smallFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'font.ttf'</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">mediumFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'flappy.ttf'</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">flappyFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'flappy.ttf'</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">hugeFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'flappy.ttf'</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
+<span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">flappyFont</span><span class="p">)</span>
+
+<span class="c1">-- initialize our table of sounds</span>
+<span class="n">sounds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s1">'jump'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'jump.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+    <span class="p">[</span><span class="s1">'explosion'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'explosion.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+    <span class="p">[</span><span class="s1">'hurt'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'hurt.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+    <span class="p">[</span><span class="s1">'score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'score.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+
+    <span class="c1">-- https://freesound.org/people/xsgianni/sounds/388079/</span>
+    <span class="p">[</span><span class="s1">'music'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'marios_way.mp3'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">-- kick off music</span>
+<span class="n">sounds</span><span class="p">[</span><span class="s1">'music'</span><span class="p">]:</span><span class="n">setLooping</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="n">sounds</span><span class="p">[</span><span class="s1">'music'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p>Notice that we use <code class="language-plaintext highlighter-rouge">setLooping(true)</code> for music so it plays continuously. Just like we saw looping textures, sometimes you want looping music that is also designed so the end of your track is immediately the same as what would be the front of your music track so you don’t feel a perceived audio gap or a harsh new change. For sound effects, we call <code class="language-plaintext highlighter-rouge">sounds['jump']:play()</code> at the appropriate moments in the code.</p>
+  </li>
+  <li data-marker="*">Sometimes it can work to layer sounds. If you don’t have quite the right sound, it can be easier to just play two sounds at the same time than to try to synthesize the ideal sound. The explosion and hurt sounds are played together when hitting a pipe.</li>
+</ul>
+
+<h2 id="mouse-input">Mouse Input</h2>
+
+<ul>
+  <li data-marker="*">Because Flappy Bird was a mobile game from the outset, we add mouse input support so players can click to flap. This emulates the tap-to-flap gameplay of the original. LÖVE gives us a function called <code class="language-plaintext highlighter-rouge">love.mousepressed()</code>, which is very similar to <code class="language-plaintext highlighter-rouge">love.keypressed()</code>. It will trigger any time that you click the mouse. This is essentially also a deferral to touches on iOS or Android, and this is often how it’s modeled in the web world too.</li>
+  <li data-marker="*">
+    <p>We create a mouse input tracking system similar to our keyboard system. We’re adding to <code class="language-plaintext highlighter-rouge">love.mouse</code> a <code class="language-plaintext highlighter-rouge">buttonsPressed</code> table. We’re doing the same thing here that allows us to do these checks for single clicks, single button presses anywhere in our code. From <code class="language-plaintext highlighter-rouge">bird-12/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- initialize input table</span>
+<span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">-- initialize mouse input table</span>
+<span class="n">love</span><span class="p">.</span><span class="n">mouse</span><span class="p">.</span><span class="n">buttonsPressed</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>    </div>
+    <p>Notice that we create a parallel table for mouse buttons.</p>
+  </li>
+  <li data-marker="*">
+    <p>We add the <code class="language-plaintext highlighter-rouge">love.mousepressed()</code> callback and a custom <code class="language-plaintext highlighter-rouge">wasPressed()</code> function. From <code class="language-plaintext highlighter-rouge">bird-12/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    LÖVE2D callback fired each time a mouse button is pressed; gives us the
+    X and Y of the mouse, as well as the button in question.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mousepressed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">mouse</span><span class="p">.</span><span class="n">buttonsPressed</span><span class="p">[</span><span class="n">button</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="cm">--[[
+    Equivalent to our keyboard function from before, but for the mouse buttons.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">mouse</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">love</span><span class="p">.</span><span class="n">mouse</span><span class="p">.</span><span class="n">buttonsPressed</span><span class="p">[</span><span class="n">button</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">scrolling</span> <span class="k">then</span>
+        <span class="n">backgroundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">backgroundScroll</span> <span class="o">+</span> <span class="n">BACKGROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">%</span> <span class="n">BACKGROUND_LOOPING_POINT</span>
+        <span class="n">groundScroll</span> <span class="o">=</span> <span class="p">(</span><span class="n">groundScroll</span> <span class="o">+</span> <span class="n">GROUND_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">%</span> <span class="n">VIRTUAL_WIDTH</span>
+    <span class="k">end</span>
+
+    <span class="n">gStateMachine</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">keysPressed</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">mouse</span><span class="p">.</span><span class="n">buttonsPressed</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">love.mousepressed()</code> takes x, y, and button parameters. The x and y will be useful when we look at Angry Birds, which uses actual tracking based on where you clicked and moved the mouse or moved the pointer. But in this case, it doesn’t really matter what the X and the Y is. We don’t care about that—if we just click the mouse, we essentially just want the bird to bounce up.</p>
+  </li>
+  <li data-marker="*">
+    <p>In the Bird class, we check for both keyboard and mouse input. From <code class="language-plaintext highlighter-rouge">bird-12/Bird.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">Bird</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'space'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">mouse</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+        <span class="n">sounds</span><span class="p">[</span><span class="s1">'jump'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+    <span class="k">end</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice we check for either space bar OR left mouse click (button 1). One being the integer that maps to left click on computers. This supports multiple input methods, making the game more accessible. Very trivial, ultimately, to add left click support in your game, especially if you were thinking of maybe exporting it to mobile platforms.</p>
+  </li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lecture, you learned to build Flappy Bird from scratch. Specifically, you learned…</p>
+
+<ul>
+  <li data-marker="*">How to load and render images using sprites instead of just rectangles.</li>
+  <li data-marker="*">How to create infinite scrolling with parallax effects using the modulo operator.</li>
+  <li data-marker="*">How to simulate gravity and implement jump mechanics with velocity.</li>
+  <li data-marker="*">About the difference between local and global variables in Lua.</li>
+  <li data-marker="*">About custom input tracking by extending <code class="language-plaintext highlighter-rouge">love.keyboard</code> with your own functions.</li>
+  <li data-marker="*">About procedural generation with timer-based spawning.</li>
+  <li data-marker="*">About table iteration with <code class="language-plaintext highlighter-rouge">pairs()</code> and how Lua tables are one-indexed, not zero-indexed.</li>
+  <li data-marker="*">How to create composite objects like pipe pairs with image flipping using negative scale factors.</li>
+  <li data-marker="*">About the importance of separating removal from iteration when modifying tables.</li>
+  <li data-marker="*">About AABB collision detection with bounding box offsets for player forgiveness.</li>
+  <li data-marker="*">How to implement state machines for clean game architecture using first-class functions.</li>
+  <li data-marker="*">About inheritance in Lua using <code class="language-plaintext highlighter-rouge">__includes</code>.</li>
+  <li data-marker="*">How to pass data between states using enter parameters.</li>
+  <li data-marker="*">How to add sound effects and looping background music.</li>
+  <li data-marker="*">How to support multiple input methods (keyboard and mouse).</li>
+</ul>
+
+<p>Next time we’ll dive into Breakout, which will be a little bit more intricate and visually interesting. We’ll look at sprite sheets, procedural layouts for our actual maps, levels, health, particle systems, fancier collision detection, and persistent save data.</p>
+
+<p>See you next time!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994616.js"></script>
+
+    
+
+
+</body></html>

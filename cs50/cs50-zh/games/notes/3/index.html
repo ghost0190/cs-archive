@@ -1,0 +1,916 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 3 - CS50&#x27;s Introduction to 2D Game Development">
+
+        <link href="../../favicon%EF%B9%961779994616.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994616.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994616.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994616.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 3 - CS50's Introduction to 2D 游戏开发</title>
+
+
+    <meta property="og:description" content="Welcome! Today we explore the Match 3 genre, popularized by games like Bejeweled and Candy Crush. Bejeweled was a game that became very popular in the early...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a professional 证书, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-2d-game-development"><a href="../../index.html">CS50’s Introduction to 2D 游戏开发</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs502d">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380FZyaKIkZYuZWe2B1UHilA">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-3">讲座 3</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#quads-and-sprite-sheets" id="markdown-toc-quads-and-sprite-sheets">Quads and Sprite Sheets</a></li>
+  <li><a href="#timers" id="markdown-toc-timers">Timers</a></li>
+  <li><a href="#tweening" id="markdown-toc-tweening">Tweening</a></li>
+  <li><a href="#chaining-tweens" id="markdown-toc-chaining-tweens">Chaining Tweens</a></li>
+  <li><a href="#tile-swapping" id="markdown-toc-tile-swapping">Tile Swapping</a></li>
+  <li><a href="#calculating-matches" id="markdown-toc-calculating-matches">Calculating Matches</a></li>
+  <li><a href="#falling-tiles" id="markdown-toc-falling-tiles">Falling Tiles</a></li>
+  <li><a href="#state-transitions" id="markdown-toc-state-transitions">State Transitions</a></li>
+  <li><a href="#sprite-art-and-palettes" id="markdown-toc-sprite-art-and-palettes">Sprite Art and Palettes</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">Today we explore the <em>Match 3</em> genre, popularized by games like <em>Bejeweled</em> and <em>Candy Crush</em>. Bejeweled was a game that became very popular in the early 2010s, and Candy Crush followed with almost the same exact idea, just candy-themed.</li>
+  <li data-marker="*">The core mechanic is simple: You have a grid of tiles (jewels, candies, etc.) that are all arranged orthogonally to one another. You can swap any two that are directly adjacent. If you create three or 更多 contiguous tiles of the same color, you complete a match and earn points.</li>
+  <li data-marker="*">When tiles are matched, they disappear and new tiles 秋季 from the top to fill the gaps. This can create chain reactions of additional matches. People who have played these games know that the most fun you probably have is when you get chain after chain of matches and the board is exploding with activity.</li>
+  <li data-marker="*">Looking at the game demo, several elements stand out:
+    <ul>
+      <li data-marker="*">The title letters are rotating their colors on a timer, changing every fraction of a second.</li>
+      <li data-marker="*">When we press Start, we fade to white and then from white into a new state.</li>
+      <li data-marker="*">The level text translates from the top of the screen to the middle, pauses, then moves off the bottom. This is <em>Y position interpolation</em>.</li>
+      <li data-marker="*">A countdown timer decrements every second in the corner.</li>
+      <li data-marker="*">When we swap two tiles, they do not instantly switch positions. They <em>interpolate</em> smoothly between their positions.</li>
+      <li data-marker="*">When a match occurs, the tiles above 秋季 down smoothly, and new tiles tween in from above.</li>
+    </ul>
+  </li>
+  <li data-marker="*">This 讲座 introduces several powerful concepts:
+    <ul>
+      <li data-marker="*">
+<em>Timers</em> allow us to schedule events over 时间, such as “every 1 second, do X” or “after 2 seconds, do Y.”</li>
+      <li data-marker="*">
+<em>Tweening</em> (short for “in-betweening”) allows us to smoothly interpolate values between two points over a period of 时间.</li>
+      <li data-marker="*">We will learn how to detect matches in a grid and handle falling tiles.</li>
+      <li data-marker="*">We will also discuss <em>sprite art</em> and <em>palettes</em>, which are important for game esthetics.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Up until now, we have done everything based on automatic position calculations using physics: Velocity applying to Pong paddles and balls, gravity applying to the Flappy Bird, pipes moving from right to left. Things have been otherwise very discrete and very instantaneous. Now we gain the ability to think of our game as a set of operations over 时间, for things that should animate or transition smoothly.</li>
+</ul>
+
+<h2 id="quads-and-sprite-sheets">Quads and Sprite Sheets</h2>
+
+<ul>
+  <li data-marker="*">Recall from last 周 that a <em>sprite sheet</em> (or <em>texture atlas</em>) is a single image containing multiple smaller images that we can extract using <em>quads</em>.</li>
+  <li data-marker="*">Our Match 3 game uses a sprite sheet where all tiles are uniformly 32x32 pixels. This is much easier to deal with than last 周’s Breakout texture, which had elements of varying sizes. We can split this up into one singular array of quads, all just 32x32 pixels.</li>
+  <li data-marker="*">Each tile can be assigned an <em>ID</em>, which is simply its index in the quads table. If we imagine the texture, the tile at the very top left would be ID 1. The 下一页 tile would be ID 2, then 3, 4, 5, 6, and so on, iterating left to right, top to bottom. This allows us to think of tiles as numbers that we can compare for matches.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">quads-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- quads-0: Simply loading and drawing the texture</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">texture</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'match3.png'</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">texture</span><span class="p">)</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that this just draws the entire texture to the screen. This is our starting point: What do we have to work with?</p>
+  </li>
+  <li data-marker="*">
+    <p>To extract a single tile, we create a quad. Consider the following from <code class="language-plaintext highlighter-rouge">quads-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- quads-1: Creating a single quad</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">texture</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'match3.png'</span><span class="p">)</span>
+    <span class="n">quad</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newQuad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">texture</span><span class="p">:</span><span class="n">getDimensions</span><span class="p">())</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">quad</span><span class="p">)</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">love.graphics.newQuad()</code> creates a 32x32 window into the texture starting at position (0, 0). When we draw the texture with this quad, only that portion is rendered.</p>
+  </li>
+  <li data-marker="*">
+    <p>Rather than creating quads one at a 时间, we can generate all of them using a <code class="language-plaintext highlighter-rouge">GenerateQuads</code> function. Consider the following from <code class="language-plaintext highlighter-rouge">quads-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- GenerateQuads: Slices a texture into uniform quads</span>
+<span class="k">function</span> <span class="nf">GenerateQuads</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">sheetWidth</span> <span class="o">=</span> <span class="n">texture</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span> <span class="o">/</span> <span class="n">width</span>
+    <span class="kd">local</span> <span class="n">sheetHeight</span> <span class="o">=</span> <span class="n">texture</span><span class="p">:</span><span class="n">getHeight</span><span class="p">()</span> <span class="o">/</span> <span class="n">height</span>
+
+    <span class="kd">local</span> <span class="n">quadCounter</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="kd">local</span> <span class="n">quads</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sheetHeight</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sheetWidth</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">do</span>
+            <span class="n">quads</span><span class="p">[</span><span class="n">quadCounter</span><span class="p">]</span> <span class="o">=</span>
+                <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newQuad</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                    <span class="n">texture</span><span class="p">:</span><span class="n">getDimensions</span><span class="p">())</span>
+            <span class="n">quadCounter</span> <span class="o">=</span> <span class="n">quadCounter</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">quads</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that this function iterates through the entire texture, row by row, column by column, creating a quad for each tile and storing them in a table. The <code class="language-plaintext highlighter-rouge">#</code> operator in Lua gives us the length of a table, so we can use <code class="language-plaintext highlighter-rouge">math.random(#quads)</code> to select a random tile.</p>
+  </li>
+  <li data-marker="*">If we try to draw random quads each frame, the screen flickers wildly because a new random tile is selected every frame. We are getting closer to a grid, but this is just ephemeral information that is not preservable. We cannot perform any operations on it.</li>
+  <li data-marker="*">
+    <p>To create a persistent board, we must <em>cache</em> the tile IDs. We need to store the random number rather than generating it every frame. Consider the following from <code class="language-plaintext highlighter-rouge">quads-4/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- quads-4: Caching tile IDs in a 2D table</span>
+<span class="k">function</span> <span class="nf">refreshTiles</span><span class="p">()</span>
+    <span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">288</span> <span class="o">/</span> <span class="mi">32</span> <span class="k">do</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span> <span class="o">/</span> <span class="mi">32</span> <span class="k">do</span>
+            <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">quads</span><span class="p">))</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">288</span> <span class="o">/</span> <span class="mi">32</span> <span class="k">do</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span> <span class="o">/</span> <span class="mi">32</span> <span class="k">do</span>
+            <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">quads</span><span class="p">[</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]],</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">32</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we store the random tile IDs in a 2D table called <code class="language-plaintext highlighter-rouge">tiles</code>. Each <code class="language-plaintext highlighter-rouge">tiles[y][x]</code> holds a number that indexes into our <code class="language-plaintext highlighter-rouge">quads</code> table. This way, the board remains consistent across frames, and we have a data structure that we can iterate through and check for matches.</p>
+  </li>
+  <li data-marker="*">You can envision our grid as essentially an array of arrays of numbers. These IDs allow us to compare tiles: “Is this color the same as that color? Are three of them contiguous?” This mental model of tiles as numbers is the foundation for Match 3 and will be relevant 下一页 周 when we look at Mario and tile-based worlds.</li>
+</ul>
+
+<h2 id="timers">Timers</h2>
+
+<ul>
+  <li data-marker="*">Up until now, movement in our games has been driven by physics (velocity, gravity). But what if we want something to happen after a certain period of 时间, or every N seconds?</li>
+  <li data-marker="*">
+    <p>Consider the following naive approach from <code class="language-plaintext highlighter-rouge">timer-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- timer-0: Manual timer implementation</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">currentSecond</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">secondTimer</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">secondTimer</span> <span class="o">=</span> <span class="n">secondTimer</span> <span class="o">+</span> <span class="n">dt</span>
+
+    <span class="k">if</span> <span class="n">secondTimer</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">then</span>
+        <span class="n">currentSecond</span> <span class="o">=</span> <span class="n">currentSecond</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">secondTimer</span> <span class="o">=</span> <span class="n">secondTimer</span> <span class="o">%</span> <span class="mi">1</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we accumulate <code class="language-plaintext highlighter-rouge">dt</code> (delta 时间) until it exceeds 1 second, then increment our counter and reset the timer using modulo.</p>
+  </li>
+  <li data-marker="*">This approach works for a single timer, but it becomes cumbersome when managing multiple timers with different intervals. Imagine having 5 or 6 timers, each with its own variables and update logic. We would need separate timer variables, separate counters, and separate update logic for each one. The code quickly becomes repetitive, hard to maintain, and not a pleasure to deal with.</li>
+  <li data-marker="*">The <em>Knife</em> library provides a <code class="language-plaintext highlighter-rouge">Timer</code> module that solves this problem elegantly. It allows us to think in terms of “every X seconds, do this” or “after X seconds, do that,” rather than manually managing timer variables and modulo operations.</li>
+  <li data-marker="*">
+    <p>Consider the following from <code class="language-plaintext highlighter-rouge">timer-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- timer-2: Using the Knife Timer library</span>
+<span class="n">Timer</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'knife.timer'</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+    <span class="n">counters</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span> <span class="k">do</span>
+        <span class="n">Timer</span><span class="p">.</span><span class="n">every</span><span class="p">(</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="k">function</span><span class="p">()</span>
+            <span class="n">counters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">end</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">Timer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">Timer.every()</code> takes an interval (in seconds) and an <em>anonymous function</em> that gets called every 时间 that interval elapses. The anonymous function is like data: Timer stores a reference to it and calls it when the 时间 comes. All we need in our <code class="language-plaintext highlighter-rouge">update</code> function is <code class="language-plaintext highlighter-rouge">Timer.update(dt)</code>, and the library handles everything else.</p>
+  </li>
+  <li data-marker="*">The key Timer functions are:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Timer.every(interval, callback)</code>: Execute callback every <code class="language-plaintext highlighter-rouge">interval</code> seconds.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Timer.after(duration, callback)</code>: Execute callback once after <code class="language-plaintext highlighter-rouge">duration</code> seconds.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Timer.tween(duration, definition)</code>: Smoothly interpolate values over <code class="language-plaintext highlighter-rouge">duration</code> seconds.</li>
+    </ul>
+  </li>
+  <li data-marker="*">These two ideas alone, “every X seconds” and “after X seconds,” allow us to do so many different things based on 时间 without having to think in terms of managing timer variables and accumulating delta 时间 manually.</li>
+</ul>
+
+<h2 id="tweening">Tweening</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Tweening</em> (from “in-betweening”) is the process of smoothly interpolating a value between two points over a period of 时间.</li>
+  <li data-marker="*">Rather than instantly teleporting an object from position A to position B, we gradually move it, creating smooth animation. Think 关于 a strategy game where you want to move a unit between two squares. You do not want it to just instantly appear; you want it to move smoothly between the squares.</li>
+  <li data-marker="*">
+    <p>Consider the following manual approach from <code class="language-plaintext highlighter-rouge">tween-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- tween-0: Manual tweening with interpolation</span>
+<span class="n">MOVE_DURATION</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">flappyX</span><span class="p">,</span> <span class="n">flappyY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">8</span>
+    <span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">endX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">timer</span> <span class="o">&lt;</span> <span class="n">MOVE_DURATION</span> <span class="k">then</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">timer</span> <span class="o">+</span> <span class="n">dt</span>
+        <span class="n">flappyX</span> <span class="o">=</span> <span class="nb">math.min</span><span class="p">(</span><span class="n">endX</span><span class="p">,</span> <span class="n">endX</span> <span class="o">*</span> <span class="p">(</span><span class="n">timer</span> <span class="o">/</span> <span class="n">MOVE_DURATION</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we calculate <code class="language-plaintext highlighter-rouge">flappyX</code> as a ratio: <code class="language-plaintext highlighter-rouge">timer / MOVE_DURATION</code> starts at 0 and approaches 1 over 2 seconds. Multiplying this ratio by <code class="language-plaintext highlighter-rouge">endX</code> gives us smooth movement from 0 to <code class="language-plaintext highlighter-rouge">endX</code>. We could change <code class="language-plaintext highlighter-rouge">MOVE_DURATION</code> to 4 seconds, and it would take 4 seconds instead.</p>
+  </li>
+  <li data-marker="*">This formula works when starting from zero, but a 更多 general interpolation formula is: <code class="language-plaintext highlighter-rouge">current = base + (destination - base) * (timer / duration)</code>
+</li>
+  <li data-marker="*">This allows interpolation from any starting point to any ending point. Any value you interpolate needs a base in order for the math to work out such that you go from one position to the other over that span of 时间.</li>
+  <li data-marker="*">Managing tweens manually becomes complex with many objects. If we have new things that start after the timer has already started, there is difficulty coordinating that. It does not scale very well. We are still manually thinking 关于 things in terms of timers.</li>
+  <li data-marker="*">
+    <p>The Knife library’s <code class="language-plaintext highlighter-rouge">Timer.tween()</code> provides a declarative solution. Consider the following from <code class="language-plaintext highlighter-rouge">tween-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- tween-2: Using Timer.tween for multiple objects</span>
+<span class="n">Timer</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'knife.timer'</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">birds</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span> <span class="k">do</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">birds</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">24</span><span class="p">),</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">()</span> <span class="o">+</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">TIMER_MAX</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="p">})</span>
+    <span class="k">end</span>
+
+    <span class="n">endX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getWidth</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">bird</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">birds</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="n">bird</span><span class="p">.</span><span class="n">rate</span><span class="p">,</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">bird</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=</span> <span class="n">endX</span><span class="p">,</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">255</span> <span class="p">}</span>
+        <span class="p">})</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">Timer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">Timer.tween()</code> takes a duration and a definition table. The syntax <code class="language-plaintext highlighter-rouge">[bird] = { x = endX, opacity = 255 }</code> means “tween the bird’s <code class="language-plaintext highlighter-rouge">x</code> to <code class="language-plaintext highlighter-rouge">endX</code> and its <code class="language-plaintext highlighter-rouge">opacity</code> to 255.” Lua allows tables as keys, enabling this elegant syntax for describing interpolations.</p>
+  </li>
+  <li data-marker="*">With <code class="language-plaintext highlighter-rouge">Timer.tween()</code>, we can interpolate multiple properties simultaneously (position, opacity, scale, etc.) without manually managing timers or interpolation math. We get X movement and opacity changes “for free,” plus any other attribute we want to add. This is very important for all future 讲座.</li>
+</ul>
+
+<h2 id="chaining-tweens">Chaining Tweens</h2>
+
+<ul>
+  <li data-marker="*">What if we want to perform a sequence of movements: Move right, then move down, then move left, then move up? Like an old screensaver bouncing around the screen.</li>
+  <li data-marker="*">We could manage this manually with flags and multiple timers, keeping track of destinations and whether each was reached, but it becomes complex quickly. We would have to think in terms of the actual interpolation, not in terms of “the bird is going to move here, then here, then there.”</li>
+  <li data-marker="*">The Knife library provides a <code class="language-plaintext highlighter-rouge">:finish()</code> function that can be chained onto any timer operation. This is similar to the concept of <em>promises</em> in Web 编程, where you are promised that after some operation finishes, a callback function will be called. In the web 世界, you might see <code class="language-plaintext highlighter-rouge">.then()</code>; here we see <code class="language-plaintext highlighter-rouge">:finish()</code>.</li>
+  <li data-marker="*">
+    <p>Consider the following from <code class="language-plaintext highlighter-rouge">chain-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- chain-1: Chaining tweens with :finish()</span>
+<span class="n">Timer</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'knife.timer'</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">flappySprite</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'flappy.png'</span><span class="p">)</span>
+    <span class="n">flappy</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">255</span><span class="p">}</span>
+
+    <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="n">MOVEMENT_TIME</span><span class="p">,</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">flappy</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getWidth</span><span class="p">(),</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="p">})</span>
+    <span class="p">:</span><span class="n">finish</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+        <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="n">MOVEMENT_TIME</span><span class="p">,</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">flappy</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getWidth</span><span class="p">(),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getHeight</span><span class="p">(),</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">255</span><span class="p">}</span>
+        <span class="p">})</span>
+        <span class="p">:</span><span class="n">finish</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+            <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="n">MOVEMENT_TIME</span><span class="p">,</span> <span class="p">{</span>
+                <span class="p">[</span><span class="n">flappy</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">flappySprite</span><span class="p">:</span><span class="n">getHeight</span><span class="p">(),</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">}</span>
+            <span class="p">})</span>
+            <span class="p">:</span><span class="n">finish</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+                <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="n">MOVEMENT_TIME</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="p">[</span><span class="n">flappy</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">opacity</span> <span class="o">=</span> <span class="mi">255</span><span class="p">}</span>
+                <span class="p">})</span>
+            <span class="k">end</span><span class="p">)</span>
+        <span class="k">end</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">Timer</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that each <code class="language-plaintext highlighter-rouge">:finish()</code> callback contains another <code class="language-plaintext highlighter-rouge">Timer.tween()</code>, creating a chain of sequential animations. The bird moves to the top-right (fading out), then bottom-right (fading in), then bottom-left (fading out), then 返回 to the origin (fading in), like a ghost in Mario.</p>
+  </li>
+  <li data-marker="*">This pattern allows us to describe sequential operations in a linear, readable way. We are thinking 关于 时间 in a linear fashion: “after this, do that.” Once one tween finishes, the 下一页 one begins automatically. Timer stores the callback function and triggers it once its 时间 operation finishes.</li>
+  <li data-marker="*">This is one of the bigger pieces of this 讲座: The ability to think 关于 时间 through your game, to do smoother animations and transitions between states, but also between objects interacting within your states.</li>
+</ul>
+
+<h2 id="tile-swapping">Tile Swapping</h2>
+
+<ul>
+  <li data-marker="*">Now we can apply these concepts to our Match 3 game. We need a board data structure that stores tile information, and the ability to swap tiles.</li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">swap-0/main.lua</code>, we create an 8x8 board where each tile is a table containing:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code>: The pixel coordinates for drawing.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">gridX</code> and <code class="language-plaintext highlighter-rouge">gridY</code>: The tile’s position in the grid (1-8).</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">tile</code>: The ID of the tile (index into our quads table).</li>
+    </ul>
+  </li>
+  <li data-marker="*">The distinction between grid coordinates and pixel coordinates is crucial:
+    <ul>
+      <li data-marker="*">
+<em>Grid coordinates</em> (<code class="language-plaintext highlighter-rouge">gridX</code>, <code class="language-plaintext highlighter-rouge">gridY</code>) are discrete (1-8) and determine the tile’s position in the board data structure. These are used for checking matches and swapping positions in the array.</li>
+      <li data-marker="*">
+<em>Pixel coordinates</em> (<code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>) are continuous and can be tweened for smooth animation. These are what actually move left and right, top to bottom as tiles are swapped.</li>
+    </ul>
+  </li>
+  <li data-marker="*">When we swap two tiles, their positions in the board array must be swapped instantly (so the data structure is correct for match checking), but we tween their pixel coordinates so the visual swap happens smoothly.</li>
+  <li data-marker="*">
+    <p>Consider the swap logic from <code class="language-plaintext highlighter-rouge">swap-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- swap-2: Animated tile swapping with Timer.tween</span>
+<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'enter'</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'return'</span> <span class="k">then</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">highlightedTile</span> <span class="k">then</span>
+        <span class="n">highlightedTile</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">highlightedX</span><span class="p">,</span> <span class="n">highlightedY</span> <span class="o">=</span> <span class="n">selectedTile</span><span class="p">.</span><span class="n">gridX</span><span class="p">,</span> <span class="n">selectedTile</span><span class="p">.</span><span class="n">gridY</span>
+    <span class="k">else</span>
+        <span class="kd">local</span> <span class="n">tile1</span> <span class="o">=</span> <span class="n">selectedTile</span>
+        <span class="kd">local</span> <span class="n">tile2</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">highlightedY</span><span class="p">][</span><span class="n">highlightedX</span><span class="p">]</span>
+
+        <span class="kd">local</span> <span class="n">tempX</span><span class="p">,</span> <span class="n">tempY</span> <span class="o">=</span> <span class="n">tile2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">tile2</span><span class="p">.</span><span class="n">y</span>
+        <span class="kd">local</span> <span class="n">tempgridX</span><span class="p">,</span> <span class="n">tempgridY</span> <span class="o">=</span> <span class="n">tile2</span><span class="p">.</span><span class="n">gridX</span><span class="p">,</span> <span class="n">tile2</span><span class="p">.</span><span class="n">gridY</span>
+
+        <span class="kd">local</span> <span class="n">tempTile</span> <span class="o">=</span> <span class="n">tile1</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">tile1</span><span class="p">.</span><span class="n">gridY</span><span class="p">][</span><span class="n">tile1</span><span class="p">.</span><span class="n">gridX</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile2</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">tile2</span><span class="p">.</span><span class="n">gridY</span><span class="p">][</span><span class="n">tile2</span><span class="p">.</span><span class="n">gridX</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempTile</span>
+
+        <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">,</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">tile2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="n">tile1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">tile1</span><span class="p">.</span><span class="n">y</span><span class="p">},</span>
+            <span class="p">[</span><span class="n">tile1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="o">=</span> <span class="n">tempX</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">tempY</span><span class="p">}</span>
+        <span class="p">})</span>
+
+        <span class="n">tile2</span><span class="p">.</span><span class="n">gridX</span><span class="p">,</span> <span class="n">tile2</span><span class="p">.</span><span class="n">gridY</span> <span class="o">=</span> <span class="n">tile1</span><span class="p">.</span><span class="n">gridX</span><span class="p">,</span> <span class="n">tile1</span><span class="p">.</span><span class="n">gridY</span>
+        <span class="n">tile1</span><span class="p">.</span><span class="n">gridX</span><span class="p">,</span> <span class="n">tile1</span><span class="p">.</span><span class="n">gridY</span> <span class="o">=</span> <span class="n">tempgridX</span><span class="p">,</span> <span class="n">tempgridY</span>
+
+        <span class="n">highlightedTile</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="n">selectedTile</span> <span class="o">=</span> <span class="n">tile2</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we swap the tiles’ positions in the board array <em>instantly</em>, but we <em>tween</em> their pixel coordinates over 0.2 seconds. This creates the smooth sliding animation while keeping the board state accurate for match detection.</p>
+  </li>
+</ul>
+
+<h2 id="calculating-matches">Calculating Matches</h2>
+
+<ul>
+  <li data-marker="*">The core of Match 3 is detecting when three or 更多 tiles of the same color are aligned horizontally or vertically. This is the underpinning of what makes Match 3 work.</li>
+  <li data-marker="*">The algorithm is relatively simple. For any match, we define it as three or 更多 contiguous tiles of the same color on either the X axis or Y axis (not diagonals, just orthogonal). We first calculate all horizontal matches, then do the same thing 90 degrees rotated to calculate vertical matches.</li>
+  <li data-marker="*">For horizontal matches:
+    <ol>
+      <li>Start at the first tile in a row. 笔记 its color.</li>
+      <li>Check the 下一页 tile. Is it the same color? If yes, we are currently in a match. Increment our match count.</li>
+      <li>If it is a different color, check: Did we have at least 3 in a row? If so, record the match.</li>
+      <li>Set the new color to match against. Continue.</li>
+      <li>At the end of the row, check again: We cannot check the 下一页 color because there is none, so check if we have at least 3.</li>
+      <li>Repeat for every row.</li>
+    </ol>
+  </li>
+  <li data-marker="*">Then do the same thing for vertical matches, crawling through columns instead of rows.</li>
+  <li data-marker="*">
+    <p>Consider the following from <code class="language-plaintext highlighter-rouge">match-3/src/Board.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- Board:calculateMatches: Detecting horizontal and vertical matches</span>
+<span class="k">function</span> <span class="nf">Board</span><span class="p">:</span><span class="n">calculateMatches</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">matches</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="kd">local</span> <span class="n">matchNum</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1">-- horizontal matches first</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span> <span class="k">do</span>
+        <span class="kd">local</span> <span class="n">colorToMatch</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">color</span>
+        <span class="n">matchNum</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span> <span class="k">do</span>
+            <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">].</span><span class="n">color</span> <span class="o">==</span> <span class="n">colorToMatch</span> <span class="k">then</span>
+                <span class="n">matchNum</span> <span class="o">=</span> <span class="n">matchNum</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span>
+                <span class="n">colorToMatch</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">].</span><span class="n">color</span>
+
+                <span class="k">if</span> <span class="n">matchNum</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">then</span>
+                    <span class="kd">local</span> <span class="n">match</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">matchNum</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="k">do</span>
+                        <span class="nb">table.insert</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x2</span><span class="p">])</span>
+                    <span class="k">end</span>
+                    <span class="nb">table.insert</span><span class="p">(</span><span class="n">matches</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span>
+                <span class="k">end</span>
+
+                <span class="n">matchNum</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">7</span> <span class="k">then</span>
+                    <span class="k">break</span>
+                <span class="k">end</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="k">if</span> <span class="n">matchNum</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">then</span>
+            <span class="kd">local</span> <span class="n">match</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span> <span class="o">-</span> <span class="n">matchNum</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="k">do</span>
+                <span class="nb">table.insert</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">])</span>
+            <span class="k">end</span>
+            <span class="nb">table.insert</span><span class="p">(</span><span class="n">matches</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- vertical matches follow same pattern...</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">matches</span> <span class="o">=</span> <span class="n">matches</span>
+    <span class="k">return</span> <span class="o">#</span><span class="n">self</span><span class="p">.</span><span class="n">matches</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">matches</span> <span class="ow">or</span> <span class="kc">false</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we track <code class="language-plaintext highlighter-rouge">colorToMatch</code> and <code class="language-plaintext highlighter-rouge">matchNum</code> as we scan. When the color changes, we check if we had a match and go backwards from the current position to collect those tiles. We also check at the end of each row in case the match extends to the edge. The optimization <code class="language-plaintext highlighter-rouge">if x &gt;= 7 then break</code> means we do not need to check the last two tiles if they are not already part of a match.</p>
+  </li>
+  <li data-marker="*">When the board is initialized, we call <code class="language-plaintext highlighter-rouge">calculateMatches()</code> repeatedly. If matches exist, we reinitialize the board. This ensures the player always starts with a clean slate with no pre-existing matches.</li>
+</ul>
+
+<h2 id="falling-tiles">Falling Tiles</h2>
+
+<ul>
+  <li data-marker="*">After matches are removed (by setting tiles to nil in the board), we cannot just leave empty spaces. We need to:
+    <ol>
+      <li>Let existing tiles “秋季” down to fill the gaps.</li>
+      <li>Generate new tiles at the top to fill the remaining spaces.</li>
+    </ol>
+  </li>
+  <li data-marker="*">The algorithm for falling tiles works column by column, from the bottom up:
+    <ol>
+      <li>Start at the bottom of a column. Is there a tile? If yes, move up.</li>
+      <li>If we find a space (nil), flag it. Continue upward looking for a tile.</li>
+      <li>When we find a tile above a space, move that tile down to fill the space. Then continue from where that tile was.</li>
+      <li>Repeat until we reach the top of the grid.</li>
+    </ol>
+  </li>
+  <li data-marker="*">After shifting existing tiles down, we count how many spaces remain at the top of each column. We create new tiles above the visible area (at y = -32) and tween them down to their resting positions.</li>
+  <li data-marker="*">
+    <p>Consider the following from <code class="language-plaintext highlighter-rouge">match-3/src/Board.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- Board:getFallingTiles: Shifting tiles down and generating new ones</span>
+<span class="k">function</span> <span class="nf">Board</span><span class="p">:</span><span class="n">getFallingTiles</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">tweens</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span> <span class="k">do</span>
+        <span class="kd">local</span> <span class="n">space</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="kd">local</span> <span class="n">spaceY</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="kd">local</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="k">while</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">do</span>
+            <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">space</span> <span class="k">then</span>
+                <span class="k">if</span> <span class="n">tile</span> <span class="k">then</span>
+                    <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">spaceY</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span>
+                    <span class="n">tile</span><span class="p">.</span><span class="n">gridY</span> <span class="o">=</span> <span class="n">spaceY</span>
+                    <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="kc">nil</span>
+
+                    <span class="n">tweens</span><span class="p">[</span><span class="n">tile</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">tile</span><span class="p">.</span><span class="n">gridY</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">32</span>
+                    <span class="p">}</span>
+
+                    <span class="n">space</span> <span class="o">=</span> <span class="kc">false</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="n">spaceY</span>
+                    <span class="n">spaceY</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">end</span>
+            <span class="k">elseif</span> <span class="n">tile</span> <span class="o">==</span> <span class="kc">nil</span> <span class="k">then</span>
+                <span class="n">space</span> <span class="o">=</span> <span class="kc">true</span>
+                <span class="k">if</span> <span class="n">spaceY</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+                    <span class="n">spaceY</span> <span class="o">=</span> <span class="n">y</span>
+                <span class="k">end</span>
+            <span class="k">end</span>
+
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- create replacement tiles at the top</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span> <span class="k">do</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="k">do</span>
+            <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">tile</span> <span class="k">then</span>
+                <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+                <span class="n">tile</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">32</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span>
+
+                <span class="n">tweens</span><span class="p">[</span><span class="n">tile</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">tile</span><span class="p">.</span><span class="n">gridY</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">32</span>
+                <span class="p">}</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">tweens</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that this function returns a table of tween operations. Each tile that needs to move has an entry specifying its target Y position. We can pass this directly to <code class="language-plaintext highlighter-rouge">Timer.tween()</code> to animate all the falling tiles simultaneously. The new tiles start at y = -32 (above the visible area) and tween down to their grid positions.</p>
+  </li>
+  <li data-marker="*">After tiles 秋季, we must check for matches again. This is done recursively: If new matches are found, we remove them, let tiles 秋季, and check again until the board is stable. This is how chain reactions work, and it is the source of much of the fun in these games.</li>
+</ul>
+
+<h2 id="state-transitions">State Transitions</h2>
+
+<ul>
+  <li data-marker="*">To create polished transitions between game states, we can use a simple technique: Draw a full-screen rectangle and tween its opacity.</li>
+  <li data-marker="*">How do we make the screen fully white? There is no easy way other than drawing a rectangle on top of everything else that starts transparent and transitions to full opacity.</li>
+  <li data-marker="*">For a “fade to white” effect:
+    <ol>
+      <li>Start with a white rectangle at opacity 0 (transparent).</li>
+      <li>Tween the opacity to 1 (fully opaque).</li>
+      <li>Change to the 下一页 state.</li>
+      <li>In the new state, the rectangle already exists at opacity 1.</li>
+      <li>Tween the opacity 返回 to 0.</li>
+    </ol>
+  </li>
+  <li data-marker="*">This creates the illusion of a smooth transition, even though the state change is still instantaneous and abrupt. We are tricking the viewer into not seeing the abrupt change through clever use of timers.</li>
+  <li data-marker="*">
+    <p>In the game’s start state, when the player presses Enter:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- Transition to begin game state with fade effect</span>
+<span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">transitionAlpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">})</span>
+<span class="p">:</span><span class="n">finish</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+    <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'begin-game'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="p">})</span>
+<span class="k">end</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we tween <code class="language-plaintext highlighter-rouge">transitionAlpha</code> from 0 to 1. The <code class="language-plaintext highlighter-rouge">:finish()</code> callback contains our state machine transition, so we change states only after the fade completes.</p>
+  </li>
+  <li data-marker="*">The begin game state has its own <code class="language-plaintext highlighter-rouge">transitionAlpha</code> that starts at 1. On enter, it immediately begins tweening to 0. Then, using <code class="language-plaintext highlighter-rouge">:finish()</code>, it tweens the level label Y position to the middle of the screen. After a <code class="language-plaintext highlighter-rouge">Timer.after(1, ...)</code>, it tweens the label to the bottom, and finally transitions to the play state.</li>
+  <li data-marker="*">Everything is very smoothly and cleanly transitioned using nothing but Timer operations and chained callbacks.</li>
+</ul>
+
+<h2 id="sprite-art-and-palettes">Sprite Art and Palettes</h2>
+
+<ul>
+  <li data-marker="*">The esthetics of our game benefit from using a limited <em>color palette</em>. Our Match 3 art uses the <em>Dawnbringer 32</em> palette, a famous 32-color palette designed for pixel art by an artist known as Dawnbringer.</li>
+  <li data-marker="*">With only 32 carefully chosen colors, artists can achieve a surprising range of tones through <em>dithering</em>: Alternating pixels of different colors in a pattern to create the illusion of intermediate shades. If you create a 32x32 matrix showing all color combinations with dithering, it looks like a full range of color, but it is still only 32 colors.</li>
+  <li data-marker="*">Limited palettes offer several advantages:
+    <ul>
+      <li data-marker="*">
+<em>Coherence</em>: All colors work well together by design. There is a reduced risk of overly harsh contrasts or clashing colors.</li>
+      <li data-marker="*">
+<em>Reduced decision fatigue</em>: Fewer color choices means fewer opportunities for mistakes. When you have just a set of well-designed colors, your risk of poor esthetic choices is minimal.</li>
+      <li data-marker="*">
+<em>Nostalgia</em>: This approach mirrors the hardware limitations of classic consoles like the NES and SNES, where color size was limited by bit depth.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<em>Palette swapping</em> is a related technique where the same sprite can be recolored by changing the palette. In older consoles like the NES or Super Nintendo, the 视频 processor would look at a range of 内存 addresses for colors. By pointing to different palette 内存, you could instantly change the colors of sprites on the fly. This allowed games to have multiple enemy colors or player skins without storing separate sprite sheets.</li>
+  <li data-marker="*">As an 练习, try limiting yourself to 8, 16, or 32 colors when creating game art. Try two colors like the Game Boy, or four colors. Constraints often spark creativity, and it is interesting what comes 关于 through limitations.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<ul>
+  <li data-marker="*">This 周 we learned several powerful techniques:
+    <ul>
+      <li data-marker="*">Using the <em>Knife Timer library</em> to schedule events with <code class="language-plaintext highlighter-rouge">Timer.every()</code>, <code class="language-plaintext highlighter-rouge">Timer.after()</code>, and <code class="language-plaintext highlighter-rouge">Timer.tween()</code>.</li>
+      <li data-marker="*">
+<em>Tweening</em> to smoothly interpolate values over 时间, creating fluid animations.</li>
+      <li data-marker="*">
+<em>Chaining tweens</em> with <code class="language-plaintext highlighter-rouge">:finish()</code> to create sequential animations, thinking 关于 时间 in a linear fashion.</li>
+      <li data-marker="*">Representing a game board as a 2D array of tile objects with both grid coordinates (for logic) and pixel coordinates (for animation).</li>
+      <li data-marker="*">
+<em>Calculating matches</em> by scanning rows and columns for consecutive tiles of the same color.</li>
+      <li data-marker="*">
+<em>Falling tiles</em> logic to fill gaps after matches are removed, with recursive checking for chain reactions.</li>
+      <li data-marker="*">
+<em>State transitions</em> using full-screen rectangles with tweened opacity.</li>
+      <li data-marker="*">The importance of <em>color palettes</em> in pixel art and the technique of palette swapping.</li>
+    </ul>
+  </li>
+  <li data-marker="*">These concepts apply far beyond Match 3. Timers and tweening are fundamental to creating polished, professional-feeling games with smooth animations and transitions. The ability to think 关于 时间 through your game is one of the bigger takeaways from this 讲座.</li>
+  <li data-marker="*">See you 下一页 时间!</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994616.js"></script>
+
+    
+
+
+</body></html>

@@ -1,0 +1,726 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/tT9VMlXRkwE/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 0 - CS50&#x27;s Computer Science for Business">
+
+        <link href="../../favicon%EF%B9%961779994617.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994617.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994617.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994617.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 0 - CS50's 计算机科学 for Business</title>
+
+
+    <meta property="og:description" content="Welcome! Welcome to CS50 for Business, an introduction to computer science focused on interpreting information. This is an introduction to computer science...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a professional 证书, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-business"><a href="../../index.html">CS50’s 计算机科学 for Business</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Interpreting Information</a></li>
+  <li><a href="../../weeks/1/index.html">Analyzing 算法</a></li>
+  <li><a href="../../weeks/2/index.html">Designing 数据结构</a></li>
+  <li><a href="../../weeks/3/index.html">Practicing 编程</a></li>
+  <li><a href="../../weeks/4/index.html">Approaching 人工智能</a></li>
+  <li><a href="../../weeks/5/index.html">Implementing the 互联网</a></li>
+  <li><a href="../../weeks/6/index.html">Weaving the Web</a></li>
+  <li><a href="../../weeks/7/index.html">Deploying 数据库</a></li>
+  <li><a href="../../weeks/8/index.html">Securing Systems</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50b">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/business">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/1b">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/1b">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T381d32c80DEQZOR-IWcINyP8">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-0">讲座 0</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#computer-science-and-problem-solving" id="markdown-toc-computer-science-and-problem-solving">计算机科学 and Problem Solving</a></li>
+  <li><a href="#representing-information" id="markdown-toc-representing-information">Representing Information</a></li>
+  <li><a href="#unary-and-binary" id="markdown-toc-unary-and-binary">Unary and Binary</a></li>
+  <li><a href="#representing-numbers" id="markdown-toc-representing-numbers">Representing Numbers</a></li>
+  <li><a href="#representing-text" id="markdown-toc-representing-text">Representing Text</a></li>
+  <li><a href="#representing-images-videos-and-music" id="markdown-toc-representing-images-videos-and-music">Representing Images, 视频, and Music</a></li>
+  <li><a href="#algorithms" id="markdown-toc-algorithms">算法</a></li>
+  <li><a href="#searching" id="markdown-toc-searching">Searching</a></li>
+  <li><a href="#linear-search" id="markdown-toc-linear-search">Linear 搜索</a></li>
+  <li><a href="#binary-search" id="markdown-toc-binary-search">二分搜索</a></li>
+  <li><a href="#running-time" id="markdown-toc-running-time">Running 时间</a></li>
+  <li><a href="#pseudocode" id="markdown-toc-pseudocode">Pseudocode</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">欢迎 to CS50 for Business, an 计算机科学导论 focused on interpreting information.</li>
+  <li data-marker="*">This is an 计算机科学导论 for business, for law, for medicine, really for anyone working in the real 世界 who wants to better understand this increasingly technological 世界 of ours.</li>
+  <li data-marker="*">Ultimately, and dare say most importantly, the goal is to be able to make 更多 informed, better decisions as it relates to technology.</li>
+  <li data-marker="*">计算机科学 itself is all 关于 information. Indeed, the focus of today’s 讲座 is going to be on <em>interpreting information</em>.</li>
+  <li data-marker="*">By the end of today’s 讲座, you yourself will be able to speak and 阅读 binary, if a little slowly and with some practice.</li>
+</ul>
+
+<h2 id="computer-science-and-problem-solving">计算机科学 and Problem Solving</h2>
+
+<ul>
+  <li data-marker="*">What really is 计算机科学 beyond information? Well, it’s really the study of that information. How do you represent it? How do you process it?</li>
+  <li data-marker="*">With 计算机科学, of 课程, there’s this association with code and 编程. But in this 课程, we’ll focus far 更多 than on code and on <em>first principles</em> instead: underlying germs of ideas that underlie today’s technologies, today’s code, today’s systems, and 更多.</li>
+  <li data-marker="*">At the end of the day, 计算机科学 really is 关于 solving problems, sometimes with code, sometimes with paper and pencil, sometimes with other techniques as well.</li>
+  <li data-marker="*">
+<em>Code</em> is really the translation of a lot of the ideas we’ll focus on in this 课程 to a language that a computer can understand.</li>
+  <li data-marker="*">Among the takeaways of 计算机科学 as a field is to equip you with techniques, namely <em>abstraction</em> being among them, via which you can solve problems in the real 世界.</li>
+  <li data-marker="*">Abstraction allows you to take a step 返回 at what seems to be a very large problem, perhaps decompose it into smaller problems, but at different levels of complexity.</li>
+  <li data-marker="*">Among the things we’ll do in this 课程 is get you 更多 comfortable thinking at different levels of abstraction: high level, low level, and everything in between.</li>
+</ul>
+
+<h2 id="representing-information">Representing Information</h2>
+
+<ul>
+  <li data-marker="*">Any problem in the 世界, by definition, has some input, like the actual problem you want to solve. The whole point of problem solving is to solve that problem, and that, therefore, we’ll call the output.</li>
+  <li data-marker="*">The secret sauce in the middle, the proverbial black box, is where all of the interesting hard work gets done: the step by step process that takes that input and turns it into output.</li>
+  <li data-marker="*">
+    <p>This is true, really, of any piece of software, any problem in life. You could simplify it into this mental model:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>input → [ ] → output
+</code></pre></div>    </div>
+    <p>Notice that the box in the middle represents whatever process or algorithm converts the input to the output.</p>
+  </li>
+  <li data-marker="*">We need to agree first on how we’re going to represent those inputs and outputs. The spoiler, of 课程, is that we are just going to use <em>binary</em>, ultimately zeros and ones.</li>
+</ul>
+
+<h2 id="unary-and-binary">Unary and Binary</h2>
+
+<ul>
+  <li data-marker="*">Let’s first rewind one step further from binary to <em>unary</em>, which is an even simpler system, a mechanism for representing information.</li>
+  <li data-marker="*">The simplest way to count, say, the people in a room would be 1, 2, 3, 4, 5, simply using your fingers, your digits, if you will. That’s unary notation, because each finger in this model represents one person.</li>
+  <li data-marker="*">更多 mathematically, unary is also called <em>base-1</em> because you only have one symbol in your alphabet, one digit, if you will. However many fingers you have is how high you can count in that system.</li>
+  <li data-marker="*">Computers use not unary, but <em>binary</em>. Mathematically, the base system is actually <em>base-2</em>. Instead of just having fingers at their disposal, computers have zeros and ones by convention, otherwise known as binary.</li>
+  <li data-marker="*">A <em>binary digit</em> is just literally a zero or one. You’ve probably heard a simplified version of that phrase: <em>bit</em>, which is binary digit for short.</li>
+  <li data-marker="*">A bit is just literally a zero or one. What computers are really storing inside their 内存 is a whole bunch of zeros and ones, a.k.a. bits. They’re storing these bits to represent information.</li>
+  <li data-marker="*">How does a computer store a zero? At the end of the day, how do these devices work? Well, you have to charge your laptop or phone or plug it into the wall in order to use it. There’s going to be some flow of electrons that we could capture or hold on to.</li>
+  <li data-marker="*">Maybe the simplest way to store information in binary using zeros and ones is just to leverage that electricity. If there’s no electricity and you’re not holding on to any of that electrical current, well, that’s how we represent a zero.</li>
+  <li data-marker="*">You can imagine using one light bulb to represent a zero by just keeping it off with a switch. Meanwhile, if we want to store a one, we just grab some of the electricity, let it flow, and hang on to it. In order to represent a one, we can use the metaphor of a light bulb that is on.</li>
+  <li data-marker="*">In short, just by toggling switches in a device that’s connected to some source of electricity, we can represent a zero or a one just by turning that thing off or on.</li>
+</ul>
+
+<h2 id="representing-numbers">Representing Numbers</h2>
+
+<ul>
+  <li data-marker="*">Suppose that we want to count higher than one. We’re going to need 更多 light bulbs, 更多 switches, 更多 bits. Suppose we have as many as three.</li>
+  <li data-marker="*">We could represent the number zero by just leaving all three light bulbs off. To represent one, we turn on one light bulb. To represent two, turn on two light bulbs. To represent three, turn on a third.</li>
+  <li data-marker="*">But this isn’t really the most scalable system for representing information. If you want to count to four, you need a fourth bit. If you want to count to five, you need a fifth bit, and so forth. That doesn’t feel very efficient.</li>
+  <li data-marker="*">In fact, with three light bulbs you can count much higher than three alone. You can count as high as seven: 0, 1, 2, 3, 4, 5, 6, 7. But you need to take into account <em>which</em> of the light bulbs is on and when.</li>
+  <li data-marker="*">You and I are familiar with a similar system. We use everyday <em>base-10</em>, where you actually have 10 digits in your vocabulary: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9. That, of 课程, is the so-called <em>decimal</em> system, “dec” implying 10.</li>
+  <li data-marker="*">How do we represent numbers using the decimal system? Consider three digits: 1, 2, 3. All of us probably immediately think “123.” But why?</li>
+  <li data-marker="*">
+    <p>The rightmost column is generally known as the ones place, then the tens place, then the hundreds place. The position of each symbol implies some magnitude:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>100</th>
+          <th>10</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that 100 × 1 + 10 × 2 + 1 × 3 = 100 + 20 + 3 = 123.</p>
+  </li>
+  <li data-marker="*">How is a computer getting away with just zeros and ones? It uses a very similar approach, ever so slightly tweaked.</li>
+  <li data-marker="*">In the decimal system, the columns are 10 to the zero power (which is 1), 10 to the one (which is 10), 10 to the two (which is 100). The base is 10, but the exponent varies by the position.</li>
+  <li data-marker="*">The binary system, “bi” implying two because it only uses zeros and ones, simply has a different base: base-2. But those exponents are the same: 2 to the zero, 2 to the one, 2 to the two.</li>
+  <li data-marker="*">If you do out that math, you get the ones column, twos column, and fours column. You could keep going: 8, 16, 32, 64, 128, and so on ad infinitum.</li>
+  <li data-marker="*">
+    <p>With three bits, we have:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that this represents the number zero: 4 × 0 + 2 × 0 + 1 × 0 = 0.</p>
+  </li>
+  <li data-marker="*">
+    <p>To represent the number one, flip on one light bulb in the ones place:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that 4 × 0 + 2 × 0 + 1 × 1 = 1.</p>
+  </li>
+  <li data-marker="*">
+    <p>To represent the number two, turn off the ones place and turn on the twos place:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that 4 × 0 + 2 × 1 + 1 × 0 = 2.</p>
+  </li>
+  <li data-marker="*">And so the pattern continues: 011 is 3, 100 is 4, 101 is 5, 110 is 6, and 111 is 7.</li>
+  <li data-marker="*">Simply by using three light bulbs or three bits, simply by turning them on in some order, you can represent eight different numbers (0 through 7). For the mathematically curious, that happens to be 2 to the third power.</li>
+  <li data-marker="*">But you can’t represent the number 8 with just three bits. You can only represent eight total patterns, the largest being 7 if you start counting from zero. To represent 8, you’d need another bit, an eights place.</li>
+  <li data-marker="*">If you don’t have enough bits at your disposal, you might accidentally wrap 返回 around to zero when counting. We’ve seen this multiple times over the years, the Y2K problem, for those familiar. There’s another one on the horizon in 2038.</li>
+  <li data-marker="*">It tends to be 更多 useful to use bits in increments of eight. If you’ve ever heard the phrase <em>byte</em>, perhaps in the context of kilobyte, megabyte, gigabyte, even terabyte, you’re actually referring to units of eight bits. One byte is eight bits.</li>
+  <li data-marker="*">
+    <p>With eight bits, all zeros represents the number zero. If you flip all those bits to ones, you can count as high as 255. Why? Because 2 to the eighth power is 256, and if you start counting from zero, you can only count as high as 255.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>128</th>
+          <th>64</th>
+          <th>32</th>
+          <th>16</th>
+          <th>8</th>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that this represents zero.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>128</th>
+          <th>64</th>
+          <th>32</th>
+          <th>16</th>
+          <th>8</th>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that this represents 255: 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255.</p>
+  </li>
+</ul>
+
+<h2 id="representing-text">Representing Text</h2>
+
+<ul>
+  <li data-marker="*">How might a computer represent information like letters of the alphabet? At the end of the day, all a computer has is zeros and ones, whether implemented in light bulbs or, 更多 realistically, using tiny little switches known as <em>transistors</em>.</li>
+  <li data-marker="*">Today’s computers have millions of transistors, which can store millions of bits and in turn lots of bytes underneath the hood.</li>
+  <li data-marker="*">If all you have is this vocabulary of numbers, well, that’s going to be the solution to every problem. Why don’t we just agree to represent the letter A in English with some pattern of zeros and ones?</li>
+  <li data-marker="*">
+    <p>This pattern of eight bits could represent, if we want, the letter A in uppercase:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>128</th>
+          <th>64</th>
+          <th>32</th>
+          <th>16</th>
+          <th>8</th>
+          <th>4</th>
+          <th>2</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Notice that 64 × 1 + 1 × 1 = 65.</p>
+  </li>
+  <li data-marker="*">This is indeed how, decades ago, a bunch of humans sitting in a room essentially decided to represent the capital letter A in English using the decimal number 65.</li>
+  <li data-marker="*">They did something pretty reasonable and decided to represent the letter B as 66, the letter C as 67, and so forth.</li>
+  <li data-marker="*">They came up with a whole system known as <em>ASCII</em>, the American Standard Code for Information Interchange, which really just represents a mapping of numbers to letters: 65 to A, 66 to B, 67 to C, and so forth.</li>
+  <li data-marker="*">
+    <p>Here is a pattern of three bytes:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>01001000 01001001 00100001
+</code></pre></div>    </div>
+
+    <p>Notice that if you do out the math, this gives you the decimal numbers 72, 73, and 33.</p>
+  </li>
+  <li data-marker="*">If you receive a text message, an 电子邮件, a letter using this encoding, what was the message? Looking at an ASCII chart: 72 is H, 73 is I, and 33 is an exclamation point. The message is “HI!”</li>
+  <li data-marker="*">Literally right now, if you text your best friend “HI!”, your phone is sending 72, 73, 33 as some pattern of zeros and ones to the recipient’s device. Because your device and their device supports ASCII, they see the exact same message.</li>
+  <li data-marker="*">Of 课程, this only gives us the ability to express so many characters. There’s a bit of an English bias in the American Standard Code for Information Interchange. Eight bits (256 total possibilities) is not nearly enough possible patterns to represent all human languages in the 世界.</li>
+  <li data-marker="*">If we want to represent accented characters, or emoji that are omnipresent nowadays, we’re going to need 更多 patterns of zeros and ones than just 256 total, 更多 than single bytes, and 更多 than ASCII was designed to support.</li>
+  <li data-marker="*">Thus was born a different mapping known as <em>Unicode</em>, where a different group of people decided ASCII is no longer sufficient. Unicode is a superset of ASCII.</li>
+  <li data-marker="*">In Unicode, at the end of the day, it’s still just a mapping of numbers to letters, but using 更多 bits as needed. Rather than only use eight bits per character, you might use 16 bits, 24 bits, or as many as 32 bits for some characters.</li>
+  <li data-marker="*">The folks who designed Unicode made it a superset of ASCII so that A is still 65, B is still 66, and so forth. Now we just have 更多 bits at our disposal to represent even 更多 characters.</li>
+  <li data-marker="*">What we know as <em>emoji</em>, which are certainly pictures on the screen, are technically characters. Even though we see them as pictures, we’re seeing them because Apple, Google, and others have designed their software in such a way that when they see that pattern of zeros and ones, they show you that picture.</li>
+  <li data-marker="*">If you send an emoji to someone on a different platform, the display is actually up to the recipient. This has caused potential problems over the years because different companies interpret the definition of these emoji characters differently. It might not only look different, it might convey a different meaning.</li>
+  <li data-marker="*">The aspiration of Unicode as an organization, a consortium, is to be able to represent digitally all current, past, and future human languages.</li>
+</ul>
+
+<h2 id="representing-images-videos-and-music">Representing Images, 视频, and Music</h2>
+
+<ul>
+  <li data-marker="*">What if we want to paint a picture with a computer and store an image, whether it’s a GIF or a PNG or a JPEG? We need to decide using these same zeros and ones how to store every color of the rainbow so that the computer can store that pattern in its 内存 to represent colors.</li>
+  <li data-marker="*">One of the most common ways for storing colors inside of a computer is something called <em>RGB</em>: red, green, blue. We can represent every color of the rainbow by mixing together a bit of red, a bit of green, a bit of blue in different amounts. That can give us everything from black to white and every color in between.</li>
+  <li data-marker="*">If we take those same three numbers as before (72, 73, and 33) we could instead interpret them not as numbers, not even as letters, but as representing some amount of red, some amount of green, some amount of blue.</li>
+  <li data-marker="*">If each value is represented with a byte (eight bits), and we can count from 0 to 255, it would seem that 72 is in the middle of that range, 73 is in the middle, and 33 is toward the lower end. This is a medium amount of red, medium green, and a little bit of blue mixed together.</li>
+  <li data-marker="*">If you view these bits using a graphical program like Photoshop, you’re going to see, combined into one dot on the screen, this amount of red, green, and blue, which in this case gives you roughly a shade of yellow.</li>
+  <li data-marker="*">You’ve probably seen tiny little dots on your phone, computer screen, or TV called <em>pixels</em>. Each of those pixels takes on a specific color.</li>
+  <li data-marker="*">Whenever you see an image of a photograph, a TV show, or a film on the screen, what you’re seeing are thousands, if not millions, of tiny little dots, each taking on a certain color, which is painting that picture on the screen.</li>
+  <li data-marker="*">Every one of these dots is being represented as a color using typically three bytes: some amount of red, green, and blue. Using 24 bits per dot is therefore called <em>24-bit color</em>. Using 24 bits, you can represent millions of different colors.</li>
+  <li data-marker="*">How do you represent a 视频? If you think 返回 to your childhood, you might recall flipbooks, tiny little books that you flip through quickly, and because your eyes see a whole bunch of pictures quickly, it creates the illusion of motion.</li>
+  <li data-marker="*">That’s in fact how today’s modern 视频 work. You’re just seeing a whole bunch of frames, a whole bunch of pictures, again and again, maybe 24 of them per second, maybe 30, nowadays maybe 60. It’s technically still just a sequence of images, but you and I perceive it as fluid motion.</li>
+  <li data-marker="*">You might think of a 视频 as just being 30 images, 60 images, thousands of images, each on the screen for a split second. But each of those images is composed of thousands, if not millions of pixels, and therefore amounts of red, green, and blue.</li>
+  <li data-marker="*">How might we represent musical 笔记? In simplest form, we just need to agree as a society what number represents the musical 笔记 A, B, C, and so on. What number represents a sharp or a flat?</li>
+  <li data-marker="*">The pitch of the 笔记 is maybe not sufficient. We should probably use a second number to represent the volume of a 笔记, like how hard you’re hitting the keyboard. And maybe a third number to represent the duration of each 笔记, how long your finger is on the keyboard.</li>
+  <li data-marker="*">With those three numbers, we could play a tune simply by teaching the computer what pitch to play based on the numbers it’s seeing.</li>
+  <li data-marker="*">At the end of the day, today’s computers typically use binary, zeros and ones. We’re leveraging electricity and tiny little switches to turn things on and off and to store patterns of zeros and ones.</li>
+  <li data-marker="*">Those zeros and ones can represent numbers, letters (so long as the 世界 agrees on what numbers represent what letters), colors, 视频, and music.</li>
+  <li data-marker="*">At the end of the day, what a file is on your computer or phone is just a whole bunch of zeros and ones stored somehow electronically. Inside those zeros and ones are patterns that represent maybe numbers, maybe letters, maybe colors, maybe images, maybe music, maybe 视频.</li>
+  <li data-marker="*">Depending on what program you’re using, those same patterns might be interpreted differently. The context matters when viewing those zeros and ones.</li>
+</ul>
+
+<h2 id="algorithms">算法</h2>
+
+<ul>
+  <li data-marker="*">Let’s now focus on this proverbial black box. How do we actually convert our inputs to outputs? For this, in the 世界 of 计算机科学 and problem solving 更多 broadly, we need what we’d call <em>算法</em>.</li>
+  <li data-marker="*">算法 is a phrase that’s everywhere these days in computing. It’s really just step by step instructions for solving some problem.</li>
+  <li data-marker="*">Those step by step instructions can be in English or any human language. It could be implemented in code instead, whether it’s in languages like C, C++, Java, JavaScript, or any number of other 编程 languages.</li>
+  <li data-marker="*">Code is just an implementation of an algorithm in a way that a computer can understand.</li>
+</ul>
+
+<h2 id="searching">Searching</h2>
+
+<ul>
+  <li data-marker="*">One such algorithm might be looking someone up in a phone book. A phone book is really just a collection of names and numbers, a modern incarnation of which is the contacts app on your phone.</li>
+  <li data-marker="*">How might we look someone up? For instance, John Harvard. How does your phone actually go 关于 finding John Harvard? It’s so darn fast nowadays, whether you have tens of friends and family or hundreds or thousands.</li>
+  <li data-marker="*">You could certainly imagine starting at the A names, looking at the Bs, the Cs, the Ds, all the way down to the Js for John Harvard. Here’s one algorithm: step by step, look at the first page, look for John Harvard. If you don’t see him, turn the page. Repeat. Repeat. Repeat.</li>
+  <li data-marker="*">If the phone book has a thousand pages, it might take, in the worst case, one thousand page turns to find John Harvard. This algorithm is indeed correct. It’s just stupidly slow. But it is correct because so long as you pay attention and look on each page, if he’s here, you will find him, if slowly.</li>
+</ul>
+
+<h2 id="linear-search">Linear 搜索</h2>
+
+<ul>
+  <li data-marker="*">What could you do that’s a little 更多 intelligent and efficient? You could go two pages at a 时间: 2, 4, 6, 8, 10, 12, and so forth.</li>
+  <li data-marker="*">Is that algorithm correct? Not really, because you could get unlucky. John Harvard might be sandwiched between two pages, and you’d just blow past him.</li>
+  <li data-marker="*">But you don’t have to throw out that algorithm entirely. If you ever get past the J 小组课, you can just go 返回 one page. It’s twice as fast plus one extra step.</li>
+  <li data-marker="*">If the phone book has a thousand pages, that first algorithm could take a thousand steps. The second algorithm might take 500 steps, maybe 501 if you have to double 返回. That’s twice as fast, give or take.</li>
+</ul>
+
+<h2 id="binary-search">二分搜索</h2>
+
+<ul>
+  <li data-marker="*">But that’s probably not what your phone is doing. What you and I probably did 返回 in the day was 打开 the phone book roughly to the middle.</li>
+  <li data-marker="*">If you’re looking at the middle of the phone book, you’re probably going to see the M 小组课. You realize you’ve gone too far. But what do you know 关于 John Harvard’s position? John, starting with J, is clearly to the left if you’ve opened to the M 小组课.</li>
+  <li data-marker="*">You can literally and figuratively tear this problem in half. You can throw half of the problem away because you know that the J names are in the other half.</li>
+  <li data-marker="*">What’s compelling 关于 this is that you’ve whittled down a thousand-page problem in just one step to 500 pages.</li>
+  <li data-marker="*">You might 打开 roughly to the middle of the remaining phone book. Maybe you went too far. You’re in the E 小组课. You know John Harvard is to the right. So you tear this half away too.</li>
+  <li data-marker="*">You can do this again and again, <em>dividing and conquering</em>, so to speak, until John Harvard is hopefully on the one final page.</li>
+  <li data-marker="*">How many times can you tear a thousand-page phone book in half? If you do it once, you go from 1000 to 500. Again, to 250. Again, to 125. How many times until you get to just one page remaining? It’s roughly 10 steps total.</li>
+  <li data-marker="*">Ten steps instead of 501 instead of 1,000. That is an order of magnitude faster than either of those first two 算法.</li>
+  <li data-marker="*">This is exactly what Google and Apple and others have implemented in your phones and laptops to 搜索 not just address books, but large amounts of information 更多 generally.</li>
+</ul>
+
+<h2 id="running-time">Running 时间</h2>
+
+<ul>
+  <li data-marker="*">How can we think 关于 how much faster that third algorithm was? Here’s a very abstract picture where on the x-axis we have the size of the problem (small problem to big problem), and on the y-axis we have 时间 to solve (little 时间 to a lot of 时间).</li>
+  <li data-marker="*">A red line represents the first algorithm. It’s a straight line because there’s a one-to-one relationship between the number of pages in the phone book and how many times you have to turn them. This line essentially represents <em>n</em> steps to find someone if they happen to be at the end.</li>
+  <li data-marker="*">The second algorithm is still a straight line, but faster, roughly <em>n/2</em> steps. It’s definitely faster, but still a straight line.</li>
+  <li data-marker="*">But that third algorithm, whereby you were dividing the phone book in half and then the half in half and the half of the half in half, is fundamentally faster. If we draw the same relationship between size and 时间, we see a curve represented as a <em>logarithm</em>.</li>
+  <li data-marker="*">
+    <p><em>Log base 2 of n</em> is the way to mathematically capture the fact that the problem is decaying exponentially. It’s going from big to half to half to half.</p>
+
+    <p><img src="lecture0_slide102.png" alt="Running 时间 graph showing n, n/2, and log n" title="Running 时间 comparison"></p>
+  </li>
+  <li data-marker="*">What’s powerful 关于 this third algorithm is that even if the phone book gets twice as big, say, 2000 pages instead of 1000, it’s not going to take that much 更多 时间. You just tear it in half one 更多 时间, not 500 更多 times.</li>
+  <li data-marker="*">In 计算机科学 and in the study of 算法, we ask: how can we solve our problem not just correctly, but 更多 efficiently?</li>
+  <li data-marker="*">What makes one algorithm better than another might be that it takes 较少 时间, or uses 较少 space, or uses 较少 of some other 资源.</li>
+  <li data-marker="*">算法 can be compared even without getting into specific numbers, with broad strokes using what’s called <em>asymptotic notation</em>. This is how theoreticians argue that one algorithm is better or worse than another by capturing how that algorithm behaves when n gets large: millions, billions, trillions of pages.</li>
+</ul>
+
+<h2 id="pseudocode">Pseudocode</h2>
+
+<ul>
+  <li data-marker="*">Code that programmers write is really just a translation of 算法 into a language that a computer itself understands. But for today, let’s give you a taste of code in the sense of <em>pseudocode</em>.</li>
+  <li data-marker="*">Pseudocode has no formal definition, but is just a terse, succinct way of expressing your thoughts step by step in the form of an algorithm using English or whatever your human language is.</li>
+  <li data-marker="*">When writing pseudocode, there’s no one way to write it, but it’s meant to be succinct and terse, but ideally as precise as possible nonetheless.</li>
+  <li data-marker="*">
+    <p>What might have been the pseudocode for searching for John Harvard in that phone book using the third algorithm? How could you translate that algorithm into step by step instructions?</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Pick up phone book
+2   Open to middle of phone book
+3   Look at page
+4   If person is on page
+5       Call person
+6   Else if person is earlier in book
+7       Open to middle of left half of book
+8       Go back to line 3
+9   Else if person is later in book
+10      Open to middle of right half of book
+11      Go back to line 3
+12  Else
+13      Quit
+</code></pre></div>    </div>
+
+    <p>Notice the step by step instructions that capture the divide-and-conquer algorithm.</p>
+  </li>
+  <li data-marker="*">There’s a fourth scenario to consider: if John is not on the page or earlier or later, because maybe you’ve divided the thing in half so many times that you’re at the last page and he’s not there, then you should just quit. If he’s not there or to the left or to the right, logically, it must be the case that John Harvard is not there.</li>
+  <li data-marker="*">This is actually a key detail. Forgetting 关于 or not realizing that some other scenario could happen is a common source for today’s problems in software. If your Mac or PC or phone has ever frozen, or a spinning beach ball persists forever, or it reboots entirely, it’s possible that some human at whatever company wrote that software forgot to tell the device what to do in that case.</li>
+  <li data-marker="*">Notice that in some of these lines, there are verbs or a call to action: pick up, 打开 to, look at, call, quit. Those verbs in the 世界 of computing have a term of art associated with them, namely <em>functions</em>, borrowed from mathematics. A function is an action or verb that tells the computer to do something specific.</li>
+  <li data-marker="*">The terms “if,” “else if,” and “else” represent what a computer scientist and any programmer call a <em>conditional</em>. These are forks in the road that you take only based on the 答案 to some 问题.</li>
+  <li data-marker="*">“Else,” as is the semantics, means a catch-all. If none of the 答案 to those 问题 are yes or true, at least there’s that fourth and final catch-all that just says quit.</li>
+  <li data-marker="*">The highlighted expressions, these 问题 to which the 答案 must be yes or no, or true or false, are generally known as <em>Boolean expressions</em>, named after a mathematician, Boole. A Boolean expression has an 答案 that is either true or false, yes or no.</li>
+  <li data-marker="*">Notice that this algorithm didn’t keep looking for John by having dozens or hundreds of lines. Rather, you told yourself in some cases to “go 返回 to” another line so that you could reuse code you had already written. This is a key principle of computing: don’t repeat yourself.</li>
+  <li data-marker="*">Highlighted here are what we might call in computing <em>loops</em>, a way of inducing some cycle that hopefully is not infinite. Hopefully, eventually, we stop doing this. Otherwise, you might get the equivalent of a spinning beach ball.</li>
+  <li data-marker="*">Sometimes infinite loops are good. Your phone or computer typically has a clock that always tells you the 时间. Hopefully, the clock is implemented with some infinite loop so that it loops 返回 around and does it again.</li>
+  <li data-marker="*">
+<em>Functions</em> are the actions we can take. <em>Conditionals</em> can guide which direction we go. And <em>Boolean expressions</em> are how we might decide which path to take when we encounter that fork in the road.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned 关于 interpreting information, how computers represent and process data using zeros and ones. Specifically, you learned…</p>
+
+<ul>
+  <li data-marker="*">How 计算机科学 is fundamentally 关于 problem solving.</li>
+  <li data-marker="*">How abstraction allows us to think at different levels of complexity.</li>
+  <li data-marker="*">How computers represent information using binary (zeros and ones).</li>
+  <li data-marker="*">关于 bits and bytes, and how they relate to each other.</li>
+  <li data-marker="*">How text is represented using ASCII and Unicode.</li>
+  <li data-marker="*">How images, 视频, and music are represented digitally.</li>
+  <li data-marker="*">What 算法 are and why they matter.</li>
+  <li data-marker="*">关于 linear 搜索 and 二分搜索 算法.</li>
+  <li data-marker="*">How to analyze and compare the running 时间 of 算法.</li>
+  <li data-marker="*">How pseudocode can express 算法 in human-readable form.</li>
+  <li data-marker="*">关于 functions, conditionals, Boolean expressions, and loops.</li>
+</ul>
+
+<p>See you 下一页 时间!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994617.js"></script>
+
+    
+
+
+</body></html>

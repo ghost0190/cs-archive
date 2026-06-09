@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Week 3 Algorithms - CS50">
+
+        <link href="../../favicon%EF%B9%961777478330.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961777478330.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961777478330.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961777478330.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961777478330.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961777478330.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961777478330.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961777478330.js"></script>
+
+        <!-- https://www.algolia.com/doc/guides/building-search-ui/installation/js/ -->
+        <script src="../../assets/algoliasearch/dist/algoliasearch.umd%EF%B9%961777478330.js"></script>
+        <script src="../../assets/instantsearch.js/dist/instantsearch.production.min%EF%B9%961777478330.js"></script>
+
+        <link href="../../assets/page%EF%B9%961777478330.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961777478330.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"short","timeZoneName":"short","weekday":"short"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Week 3 Algorithms - CS50</title>
+
+
+    <meta property="og:description" content="Searching: Linear Search, Binary Search. Sorting: Bubble Sort, Selection Sort, Merge Sort. Asymptotic Notation: \(O\), \(\Omega\), \(\Theta\). Recursion....">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="warning dismissible" data-hash="501cb0a7f73ece091083d0a2adff1fd2" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is Fall 2025 of CS50 at Harvard College. Looking for <a href="../../../../2026/spring/index.html">Spring 2026</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-was-cs50"><a href="../../index.html">This was CS50</a></h1>
+
+<p><a href="https://www.college.harvard.edu/">Harvard College</a><br>
+Fall 2025</p></header>
+
+                    <button class="btn btn-link d-block ps-0 pt-0" data-search="" data-bs-target="#search" data-bs-toggle="modal" type="button">
+                        <i class="fas fa-search pe-2"></i>Search
+                    </button>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvardshop.com/"><i class="fa-solid fa-shirt pe-2 text-decoration-none"></i>CS50 Shop</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.courses/"><i class="fa-solid fa-books pe-2 text-decoration-none"></i>CS50.courses</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="../../ed/index.html"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a></li>
+  <li data-marker="*"><a href="https://www.gradescope.com/courses/1070265"><i class="fa-solid fa-pen pe-2 text-decoration-none"></i>Gradescope</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*">
+<a href="../0/index.html">Week 0</a> Scratch</li>
+  <li data-marker="*">
+<a href="../1/index.html">Week 1</a> C</li>
+  <li data-marker="*">
+<a href="../2/index.html">Week 2</a> Arrays</li>
+  <li data-marker="*">
+<a href="index.html">Week 3</a> Algorithms</li>
+  <li data-marker="*">
+<a href="../4/index.html">Week 4</a> Memory</li>
+  <li data-marker="*">
+<a href="../5/index.html">Week 5</a> Data Structures</li>
+  <li data-marker="*">
+<a href="../6/index.html">Week 6</a> Python</li>
+  <li data-marker="*">
+<a href="../7/index.html">Week 7</a> SQL</li>
+  <li data-marker="*"><a href="../ai/index.html" class="small">Artificial Intelligence</a></li>
+  <li data-marker="*">
+<a href="../8/index.html">Week 8</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*">
+<a href="../9/index.html">Week 9</a> Flask</li>
+  <li data-marker="*">
+<a href="../10/index.html">Week 10</a> The End</li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../index.html#announcements">Announcements</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="../../project/index.html">Final Project</a></li>
+  <li data-marker="*"><a href="../../hours/index.html">Office Hours</a></li>
+  <li data-marker="*"><a href="../../psets/index.html">Problem Sets</a></li>
+  <li data-marker="*"><a href="../../quizzes/index.html">Quizzes</a></li>
+  <li data-marker="*"><a href="../../sections/index.html">Sections</a></li>
+  <li data-marker="*"><a href="../../seminars/index.html">Seminars</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*"><a href="https://cs50.ly/studybuddy">Study Buddies</a></li>
+  <li data-marker="*"><a href="../../syllabus/index.html">Syllabus</a></li>
+  <li data-marker="*"><a href="../../test/index.html">Test</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">CS50 Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">CS50 Status Page</a></li>
+</ul></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="week-3-algorithms">Week 3 <em>Algorithms</em>
+</h1>
+
+<p>Searching: Linear Search, Binary Search. Sorting: Bubble Sort, Selection Sort, Merge Sort. Asymptotic Notation: \(O\), \(\Omega\), \(\Theta\). Recursion.</p>
+
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/4eN3_kbbhSY?start=1085"></iframe>
+
+<ul>
+  <li data-marker="-">Lecture
+    <ul>
+      <li data-marker="*"><a href="../../notes/3/index.html">Notes</a></li>
+      <li data-marker="-">Slides
+        <ul>
+          <li data-marker="*"><a href="https://docs.google.com/presentation/d/18hLMy4Qw8fKjwnz4oQtcoTdUnMFxFxx6PBjm4b7ekgo/edit?usp=sharing">Google Slides</a></li>
+          <li data-marker="*"><a href="https://cdn.cs50.net/2025/fall/lectures/3/lecture3.pdf">PDF</a></li>
+        </ul>
+      </li>
+      <li data-marker="-">Source Code
+        <ul>
+          <li data-marker="*"><a href="https://cdn.cs50.net/2025/fall/lectures/3/src3/">Index</a></li>
+          <li data-marker="*"><a href="https://cdn.cs50.net/2025/fall/lectures/3/src3.pdf">PDF</a></li>
+          <li data-marker="*"><a href="https://github.com/cs50/lectures/tree/2025/fall/3/src3">Repository</a></li>
+          <li data-marker="*"><a href="https://cdn.cs50.net/2025/fall/lectures/3/src3.zip">Zip</a></li>
+        </ul>
+      </li>
+      <li data-marker="-">Video
+        <ul>
+          <li data-marker="*"><a href="https://video.cs50.io/4eN3_kbbhSY?start=1085">CS50 Video Player</a></li>
+          <li data-marker="*"><a href="https://youtu.be/4eN3_kbbhSY?t=1085">YouTube</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="-">Shorts
+    <ol>
+      <li><a href="../../shorts/linear_search/index.html">Linear Search</a></li>
+      <li><a href="../../shorts/binary_search/index.html">Binary Search</a></li>
+      <li><a href="../../shorts/bubble_sort/index.html">Bubble Sort</a></li>
+      <li><a href="../../shorts/selection_sort/index.html">Selection Sort</a></li>
+      <li><a href="../../shorts/recursion/index.html">Recursion</a></li>
+      <li><a href="../../shorts/merge_sort/index.html">Merge Sort</a></li>
+    </ol>
+  </li>
+  <li data-marker="*"><a href="../../quizzes/3/index.html">Quiz 3</a></li>
+  <li data-marker="*"><a href="../../psets/3/index.html">Problem Set 3</a></li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="searchTitle" class="markdown-body modal" id="search" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pe-3 w-100" id="searchbox"></div>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="hits"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            // Before showing searchbox
+            $('#search').on('show.bs.modal', function (e) {
+
+                // Client
+                const searchClient = algoliasearch.algoliasearch('5RYPGI69HZ', '53d709e59d833870a6886f6fcf0b0bfe');
+                const search = instantsearch({
+                    indexName: 'cs50-2025-fall-college',
+                    searchClient: searchClient,
+                    searchFunction: function(helper) { // https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/js/#handling-empty-queries
+                        const hits = $('#hits');
+                        if (helper.state.query === '') {
+                            hits.hide();
+                            return;
+                        }
+                        helper.search();
+                        hits.show();
+                    }
+                });
+
+                // searchBox
+                // https://www.algolia.com/doc/api-reference/widgets/search-box/js/
+                search.addWidget(
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        cssClasses: {
+                            input: 'form-control'
+                        },
+                        placeholder: 'Search',
+                        showLoadingIndicator: false,
+                        showReset: false,
+                        showSubmit: false
+                    })
+                );
+
+                // hits
+                // https://www.algolia.com/doc/api-reference/widgets/hits/js/
+                search.addWidget(
+                    instantsearch.widgets.hits({
+                        container: '#hits',
+                        templates: {
+                            item: function(hit) {
+
+                                // url
+                                if (window.baseurl) {
+                                    var url = window.baseurl + hit.url;
+                                }
+                                else {
+                                    var url = hit.url;
+                                }
+                                if (hit.anchor) {
+                                    url += '#' + hit.anchor;
+                                }
+
+                                // title
+                                if (hit._highlightResult && hit._highlightResult.headings) {
+                                    var title = hit._highlightResult.headings[hit._highlightResult.headings.length - 1].value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var title = hit._highlightResult.title.value;
+                                }
+                                else if (hit.headings) {
+                                    var title = hit.headings[hit.headings.length - 1].value;
+                                }
+                                else if (hit.title) {
+                                    var title = hit.title;
+                                }
+                                else {
+                                    var title = url;
+                                }
+
+                                // content
+                                if (hit._highlightResult && hit._highlightResult.content) {
+                                    var content = hit._highlightResult.content.value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var content = hit._highlightResult.title.value;
+                                }
+                                else {
+                                    var content = hit.excerpt_text;
+                                }
+
+                                // Template for hit
+                                return '<h2 class="font-weight-bold h3 mb-0">' +
+                                       '<a href="' + url + '">' +
+                                       title +
+                                       '</a>' +
+                                       '</h2>' +
+                                       '<p class="mb-0">' +
+                                       '<a class="text-muted" href="' + url + '">' +
+                                       url +
+                                       '</a>' +
+                                       '</p>' +
+                                       '<p>' + 
+                                       content +
+                                       '</p>';
+                            }
+                        }
+                    })
+                );
+
+                // poweredBy
+                search.addWidget(
+                    instantsearch.widgets.poweredBy({
+                        container: '#search .modal-footer'
+                    })
+                );
+
+                // Let user start searching
+                search.start();
+
+                // Resize form
+                $(window).trigger('resize');
+            });
+
+            // After showing searchbox
+            $('#search').on('shown.bs.modal', function (e) {
+                $('#searchbox input[type=search]').focus();
+            });
+
+        </script>
+        
+ 
+        <script src="../../assets/page%EF%B9%961777478330.js"></script>
+
+    
+
+
+</body></html>

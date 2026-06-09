@@ -1,0 +1,1094 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 4 - CS50&#x27;s Introduction to 2D Game Development">
+
+        <link href="../../favicon%EF%B9%961779994616.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994616.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994616.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994616.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 4 - CS50's Introduction to 2D 游戏开发</title>
+
+
+    <meta property="og:description" content="Welcome! Today, we’ll be looking at Super Mario Brothers, which is a very famous, possibly the most famous, franchise of games that we’ll be looking at...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a professional 证书, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-2d-game-development"><a href="../../index.html">CS50’s Introduction to 2D 游戏开发</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs502d">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380FZyaKIkZYuZWe2B1UHilA">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-4">讲座 4</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#tile-maps" id="markdown-toc-tile-maps">Tile Maps</a></li>
+  <li><a href="#camera-scrolling" id="markdown-toc-camera-scrolling">Camera Scrolling</a></li>
+  <li><a href="#character-sprites" id="markdown-toc-character-sprites">Character Sprites</a></li>
+  <li><a href="#character-movement" id="markdown-toc-character-movement">Character Movement</a></li>
+  <li><a href="#animation" id="markdown-toc-animation">Animation</a></li>
+  <li><a href="#jumping-and-gravity" id="markdown-toc-jumping-and-gravity">Jumping and Gravity</a></li>
+  <li><a href="#tile-sets-and-toppers" id="markdown-toc-tile-sets-and-toppers">Tile Sets and Toppers</a></li>
+  <li><a href="#procedural-level-generation" id="markdown-toc-procedural-level-generation">Procedural Level Generation</a></li>
+  <li><a href="#platformer-collision" id="markdown-toc-platformer-collision">Platformer Collision</a></li>
+  <li><a href="#entities-and-entity-states" id="markdown-toc-entities-and-entity-states">Entities and Entity States</a></li>
+  <li><a href="#game-objects" id="markdown-toc-game-objects">Game Objects</a></li>
+  <li><a href="#enemies-and-ai" id="markdown-toc-enemies-and-ai">Enemies and AI</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">Today, we’ll be looking at Super Mario Brothers, which is a very famous, possibly the most famous, franchise of games that we’ll be looking at through this term. As you can see by the slide, we won’t be necessarily using the exact Mario assets today. We’ll be looking at a really cool Creative Commons version of the same platformer tile set, but we’ll be exploring all the ideas that ultimately make up Mario.</li>
+  <li data-marker="*">This is, in a lot of ways, a great transition to this idea of a <em>virtual 世界</em> in our game, as opposed to the abstract games we’ve looked at so far. We have Pong, which is these rectangles moving through space. Flappy Bird, we looked at illusions, but there is no really a 世界 representation per se. Even last 周, when we looked at Match 3 and Breakout, these are relatively abstract, not so much worlds.</li>
+  <li data-marker="*">But today we’ll be actually looking at how to model something similar to Mario. We see we have enemies moving around. We have a ground point at some part. We have Mario jumping, which we have looked at through Flappy Bird. We have blocks, pipes, and we have a 背景. All these things make us feel like we’re in a space, which is super cool.</li>
+  <li data-marker="*">Some of the things we’ll be looking at today:
+    <ul>
+      <li data-marker="*">
+<em>Tile maps</em> - We looked at tile maps last 周 with Match 3. We’re going to be looking at the same idea this 周, except instead of having a puzzle board, we can use the same idea of IDs mapping to quads that we draw onto the screen as being tiles that matter in terms of whether they’re collidable, what they look like, and so on.</li>
+      <li data-marker="*">
+<em>2D animation</em> - Mario, when he’s jumping, has a different pose than when he’s walking. When he’s walking, he’s going frame by frame from one stepping motion to another. We haven’t really had this idea of sprites that actually change their appearance frame by frame as they move.</li>
+      <li data-marker="*">
+<em>Procedural level generation</em> - This 周 has one of the 更多 representative procedural level generation focuses, where we actually will make all of our levels in code. We won’t actually hand-create our levels.</li>
+      <li data-marker="*">
+<em>Platformer physics</em> - We’ll talk 关于 how platformer physics differs from AABB and allows us to detect whether our Mario avatar is hitting blocks when he’s jumping or moving.</li>
+      <li data-marker="*">
+<em>AI</em> - A very simple version of AI for the moving Goomba-esque creature we’ll have today, which will be a snail.</li>
+      <li data-marker="*">
+<em>Power-ups</em> - Lastly, how to have things like power-ups, which will tie into the 问题集.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Play the game! You are now controlling Mario. It’ll be the arrow keys to move. You can press space bar to jump. Some of the blocks will have gems, and then some won’t. By jumping onto a snail, you will defeat it. The terrain is collidable, so you’re walking on top of the terrain.</li>
+  <li data-marker="*">We have all the pieces here: Collision on the snails, the jump, frames changing as you walk. There was quite a lot of pieces there, a lot of new things, and we’ve taken a step forward in that now we are thinking in terms of existing in a 世界.</li>
+</ul>
+
+<h2 id="tile-maps">Tile Maps</h2>
+
+<ul>
+  <li data-marker="*">With Mario, we actually feel like we’re moving. We have a camera tracking Mario. We’ve got an offset into how we’re rendering things. We have this <em>tile map</em>, and essentially, it’s not all that different from what we looked at last 周 with the grid of tiles in Match 3, except last 周 we were using them to render tiles that we could swap and then calculate matches. This 时间 we’ll be actually using them to draw these blocks on the screen that we can walk on, that we can walk up against and butt into.</li>
+  <li data-marker="*">Just with this drawing of these little pieces of a texture and putting them in a data structure that models some level: Where maybe if you envision zero being space, one being the ground (in our 示例, it’s slightly different: Five for the space and three for the ground): You can essentially map that to a level. Then we just calculate, okay, at XY coordinate, there’s a tile there. We should collide with it or not, render it as a tile or not. And then we just feel like we’re in a space now, all of a sudden, magically.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">tiles-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">TILE_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="c1">-- tile ID constants</span>
+<span class="n">SKY</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">GROUND</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setDefaultFilter</span><span class="p">(</span><span class="s1">'nearest'</span><span class="p">,</span> <span class="s1">'nearest'</span><span class="p">)</span>
+    <span class="nb">math.randomseed</span><span class="p">(</span><span class="nb">os.time</span><span class="p">())</span>
+
+    <span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1">-- tilesheet image and quads for it, which will map to our IDs</span>
+    <span class="n">tilesheet</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'tiles.png'</span><span class="p">)</span>
+    <span class="n">quads</span> <span class="o">=</span> <span class="n">GenerateQuads</span><span class="p">(</span><span class="n">tilesheet</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">)</span>
+
+    <span class="n">mapWidth</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">mapHeight</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+            <span class="c1">-- sky and bricks; this ID directly maps to whatever quad we want to render</span>
+            <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="p">{</span>
+                <span class="n">id</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">SKY</span> <span class="ow">or</span> <span class="n">GROUND</span>
+            <span class="p">})</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that the tile size is 16 pixels. We’ve got two IDs that we care 关于, <code class="language-plaintext highlighter-rouge">SKY</code> and <code class="language-plaintext highlighter-rouge">GROUND</code>. We have a <code class="language-plaintext highlighter-rouge">tiles</code> array, which is not all that different from the tiles table that we used last 时间. We’re just going to splice up our tile sheet, which in this case is just a two-tile tile sheet, giving us 返回 just two frames that we can index into and draw with our one texture.</p>
+  </li>
+  <li data-marker="*">Here we’re just populating a 2D array, a 2D table of tiles, which are just IDs: Constants mapping to sky or ground. If <code class="language-plaintext highlighter-rouge">y</code> is 较少 than 5, it’s sky; otherwise, it’s ground.</li>
+  <li data-marker="*">
+    <p>Consider the draw function:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">backgroundR</span><span class="p">,</span> <span class="n">backgroundG</span><span class="p">,</span> <span class="n">backgroundB</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+                <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+                <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">tilesheet</span><span class="p">,</span> <span class="n">quads</span><span class="p">[</span><span class="n">tile</span><span class="p">.</span><span class="n">id</span><span class="p">],</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we have a two-dimensional loop that iterates over this 2D table structure. It grabs the tile, and it draws, indexing into our quads table to get the exact offset: That rectangle from one to two. It’ll get either the one or the two. Then it draws it at the XY minus one to get coordinate space multiplied by tile size as the offset. Very simple, very similar to what we did last 时间 with the Match 3 grid.</p>
+  </li>
+</ul>
+
+<h2 id="camera-scrolling">Camera Scrolling</h2>
+
+<ul>
+  <li data-marker="*">Mario is a scrolling platformer or 2D platformer. We want to be able to move around and feel like we’re in a 世界. To do that, we have to have some way of shifting this map around on the screen. We have a handy way that we can start to do that with a function called <code class="language-plaintext highlighter-rouge">love.graphics.translate</code>.</li>
+  <li data-marker="*">What this will do is rather than everything being drawn just with an assumption that it’s at zero, zero, <code class="language-plaintext highlighter-rouge">love.graphics.translate</code> will take an X and a Y, and then everything that you draw thereafter will essentially be offset by that XY coordinate, such that you can essentially mimic a camera. If you have X 50 here, everything will be shifted 50 pixels forward. You can think of it as an inverse direction of the camera moving. If we were to shift everything 50 pixels to the right, we’re going to feel as if the camera has moved 50 pixels to the left and so on and so forth for every direction on every axis.</li>
+  <li data-marker="*">Through this method, we now have a way to envision a camera: A couple of variables, an X and a Y. Particularly we’ll focus on X, but you can have an X and a Y value that model 更多 or 较少 how we can think of the 世界 shifting in the way that we would think of a camera moving on our scene. This gives us the ability to track a character and move through our 2D 世界.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">tiles-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- camera scroll speed</span>
+<span class="n">CAMERA_SCROLL_SPEED</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="c1">-- amount by which we'll translate the scene to emulate a camera</span>
+<span class="n">cameraScroll</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- update camera scroll based on user input</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'left'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">cameraScroll</span> <span class="o">=</span> <span class="n">cameraScroll</span> <span class="o">-</span> <span class="n">CAMERA_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">cameraScroll</span> <span class="o">=</span> <span class="n">cameraScroll</span> <span class="o">+</span> <span class="n">CAMERA_SCROLL_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c1">-- translate scene by camera scroll amount; negative shifts have the effect of making it seem</span>
+        <span class="c1">-- like we're actually moving right and vice-versa; note the use of math.floor, as rendering</span>
+        <span class="c1">-- fractional camera offsets with a virtual resolution will result in weird pixelation and artifacting</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="o">-</span><span class="nb">math.floor</span><span class="p">(</span><span class="n">cameraScroll</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="n">backgroundR</span><span class="p">,</span> <span class="n">backgroundG</span><span class="p">,</span> <span class="n">backgroundB</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+                <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+                <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">tilesheet</span><span class="p">,</span> <span class="n">quads</span><span class="p">[</span><span class="n">tile</span><span class="p">.</span><span class="n">id</span><span class="p">],</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we have a camera scroll speed and a <code class="language-plaintext highlighter-rouge">cameraScroll</code> variable. We manipulate this variable using delta 时间, just like anything else we’ve done: Some variable that’s going to change based on input. Then right before we do our actual drawing, we translate by the negative camera scroll. We’re rounding down with <code class="language-plaintext highlighter-rouge">math.floor</code> just to keep things from having fractional translations that can cause artifacting and weird lines, especially when using push and other virtual resolution systems.</p>
+  </li>
+  <li data-marker="*">We are negating the variable because we want to make sure that when we press left, we think as if we’re moving the camera left. But recall, we have to move X positive in order to actually get that effect because everything gets drawn with <code class="language-plaintext highlighter-rouge">love.graphics.translate</code> with that offset. We have to negate: If we’re thinking in terms of left and right in our input, we have to negate that in order for that to actually reflect in camera space.</li>
+</ul>
+
+<h2 id="character-sprites">Character Sprites</h2>
+
+<ul>
+  <li data-marker="*">Now we have a 世界 and we can scroll it, but we should also have a character on the screen that we can start to move around. To even get started, we need to have some character on the screen to begin with.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">CHARACTER_WIDTH</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">CHARACTER_HEIGHT</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="c1">-- texture for the character</span>
+<span class="n">characterSheet</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newImage</span><span class="p">(</span><span class="s1">'character.png'</span><span class="p">)</span>
+<span class="n">characterQuads</span> <span class="o">=</span> <span class="n">GenerateQuads</span><span class="p">(</span><span class="n">characterSheet</span><span class="p">,</span> <span class="n">CHARACTER_WIDTH</span><span class="p">,</span> <span class="n">CHARACTER_HEIGHT</span><span class="p">)</span>
+
+<span class="c1">-- place character in middle of the screen, above the top ground tile</span>
+<span class="n">characterX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">CHARACTER_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">characterY</span> <span class="o">=</span> <span class="p">((</span><span class="mi">7</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">-</span> <span class="n">CHARACTER_HEIGHT</span>
+</code></pre></div>    </div>
+    <p>Notice there’s a height and width of the character that we should factor in for positioning. In this particular sprite sheet, our avatar has different frames: There’s one where he’s just standing still, some tiptoeing, walking frames on the right, jumping frames, climbing frames, a ducking one, and then something that looks like he’s unhappy. We’ll use a few of these, in particular the walking one and the jumping one. For right now, we only care 关于 this very first frame.</p>
+  </li>
+  <li data-marker="*">It’s not unlike what we’ve looked at previously for Match 3 and for the tiles: We’re just slicing up this texture into these frames, and then we can just index into this array that we know we’ll get 返回 through <code class="language-plaintext highlighter-rouge">GenerateQuads</code>. Then if we want him to look as if he’s moving, we can just set the ID of that frame to whatever index corresponds to walking, or one will just be standing static.</li>
+  <li data-marker="*">We’re going to set the character X and Y, and we’re going to offset: Basically put him right above tile seven, minus the character height, so that he’s standing right above where the solid ground tiles begin in our 2D tile map.</li>
+</ul>
+
+<h2 id="character-movement">Character Movement</h2>
+
+<ul>
+  <li data-marker="*">Now we want the character to be able to move, and that’s one of the important aspects of Mario. To win a level in Mario, you have to move from the left side of the screen to the right side of the screen.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'left'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">-</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">+</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we’re doing the same thing that we’ve always done historically: We’re just changing the X value by delta 时间 through some constant that we’ve defined as character move speed. Pretty standard.</p>
+  </li>
+  <li data-marker="*">But there’s a problem: If I move the character, the camera doesn’t follow. We have one piece to move the character so the character in the 世界 is moving, but we also have to move the camera along with the character and make sure the camera is statically fastened to the character’s position.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'left'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">-</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">+</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- set the camera's left edge to half the screen to the left of the player's center</span>
+    <span class="n">cameraScroll</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">-</span> <span class="p">(</span><span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">CHARACTER_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we are doing the same thing where we move the character’s position because the character does need to move in the 世界. The difference is that now we need to essentially set the scroll to be equal to what’s effectively the offset of the character to its left side. We take whatever the character’s X position is, subtract half the virtual width (which will put it approximately in the center of the screen), and then add the character’s width divided by two because everything in our games is relative to its top left corner. We need to shift halfway through the character’s width to be properly centered.</p>
+  </li>
+  <li data-marker="*">Now the camera scroll will always be whatever that half screen width is away from the character, meaning that no matter where our character moves, the camera’s position effectively is going to track the character’s position.</li>
+</ul>
+
+<h2 id="animation">Animation</h2>
+
+<ul>
+  <li data-marker="*">Things are a little bit static right now. The fact that we’re just moving this static sprite around feels unnatural. Let’s animate the character.</li>
+  <li data-marker="*">You think of an animation as a set of frames that should play over 时间, and typically, you’ll just loop 返回 through the beginning of them. If you imagine the walking animation, it’s literally just two frames: IDs 10 and 11 or approximately there. If you imagine those flipping 返回 and forth, it’s essentially 10, 11, and then looping 返回 to 10. If your animation was five frames (11, 12, 13, 14, 15), you’d play them in order and then loop 返回 to 11.</li>
+  <li data-marker="*">An animation should have an interval, and it’s usually some very small duration in seconds or fractions of seconds. The walking animation is probably like 0.2 seconds. Then a timer to manage that, and then whatever the current frame is.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-3/Animation.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Animation</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">Animation</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">def</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">frames</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">frames</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">interval</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">interval</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">currentFrame</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Animation</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- no need to update if animation is only one frame</span>
+    <span class="k">if</span> <span class="o">#</span><span class="n">self</span><span class="p">.</span><span class="n">frames</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">+</span> <span class="n">dt</span>
+
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">interval</span> <span class="k">then</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">%</span> <span class="n">self</span><span class="p">.</span><span class="n">interval</span>
+
+            <span class="n">self</span><span class="p">.</span><span class="n">currentFrame</span> <span class="o">=</span> <span class="nb">math.max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">currentFrame</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="o">#</span><span class="n">self</span><span class="p">.</span><span class="n">frames</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Animation</span><span class="p">:</span><span class="n">getCurrentFrame</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">frames</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">currentFrame</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that delta 时间 is often the solution to these sorts of problems. If there is 更多 than one frame in the animation, we update our timer. Assuming that we’ve crossed over that interval, we set the timer 返回 to the modulo of that interval (wrapping it 返回 to zero and starting with whatever the fractional overlap was). Then we set the current frame to be no 较少 than one. The reason we’re adding plus one when we modulo is so that when we get to the last frame in our animation, we still want that frame to finish over that interval. If we were to just set it to <code class="language-plaintext highlighter-rouge">currentFrame % #frames</code>, it would end up skipping the last frame. We’re essentially moduloing by and adding to one frame past the total number of frames such that it loops 返回 to one at that point, and we still get that last frame rendered on its full interval.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-3/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- two animations depending on whether we're moving</span>
+<span class="n">idleAnimation</span> <span class="o">=</span> <span class="n">Animation</span> <span class="p">{</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">},</span>
+    <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">}</span>
+<span class="n">movingAnimation</span> <span class="o">=</span> <span class="n">Animation</span> <span class="p">{</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">},</span>
+    <span class="n">interval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span>
+<span class="p">}</span>
+
+<span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">idleAnimation</span>
+
+<span class="c1">-- direction the character is facing</span>
+<span class="n">direction</span> <span class="o">=</span> <span class="s1">'right'</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- update the animation so it scrolls through the right frames</span>
+    <span class="n">currentAnimation</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'left'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">-</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">movingAnimation</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="s1">'left'</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">characterX</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">+</span> <span class="n">CHARACTER_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">movingAnimation</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="s1">'right'</span>
+    <span class="k">else</span>
+        <span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">idleAnimation</span>
+    <span class="k">end</span>
+
+    <span class="n">cameraScroll</span> <span class="o">=</span> <span class="n">characterX</span> <span class="o">-</span> <span class="p">(</span><span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">CHARACTER_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we can think of our idle position as an animation: Just a one-frame animation that doesn’t actually do anything. But we do have a moving animation which has 10 and 11 as the two frames into our sprite sheet. The interval is 0.2, so every 0.2 seconds, the frame will tick, and then we’ll go to the 下一页 frame and loop 返回 around. We also want to keep track of the direction: If we’re moving left and right, we’re going to also want to flip our graphic left and right.</p>
+  </li>
+  <li data-marker="*">When we draw the character, we need to flip it based on direction. If we scale by negative one on the X axis, that’s what flips the sprite around its origin point. But if your origin is on the top left corner of your character (which is what we do by default), the flip will have weird behavior. We want the character to actually rotate in place. To do that, we have to set the origin point of our character right in the center of the sprite instead of the top left corner.</li>
+  <li data-marker="*">
+    <p>Consider the draw call:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">characterSheet</span><span class="p">,</span> <span class="n">characterQuads</span><span class="p">[</span><span class="n">currentAnimation</span><span class="p">:</span><span class="n">getCurrentFrame</span><span class="p">()],</span>
+    <span class="c1">-- X and Y shifted by half our width/height for proper scaling</span>
+    <span class="nb">math.floor</span><span class="p">(</span><span class="n">characterX</span><span class="p">)</span> <span class="o">+</span> <span class="n">CHARACTER_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">math.floor</span><span class="p">(</span><span class="n">characterY</span><span class="p">)</span> <span class="o">+</span> <span class="n">CHARACTER_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="c1">-- 0 rotation, then the X and Y scales</span>
+    <span class="mi">0</span><span class="p">,</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">'left'</span> <span class="ow">and</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="c1">-- origin offsets relative to 0,0 on the sprite (set to sprite's center)</span>
+    <span class="n">CHARACTER_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CHARACTER_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we set the origin to character width divided by 2, character height divided by 2. We’re shifting in from the top left corner to be directly in the center of the sprite such that scale operations now happen based off of that origin point and not the top left corner. We also shift the character’s X and Y by that value because now all drawing operations occur based on the center point of the sprite. We offset that by drawing inwards by that amount, and then we can flip along its X axis depending on whether we’re moving left or right.</p>
+  </li>
+</ul>
+
+<h2 id="jumping-and-gravity">Jumping and Gravity</h2>
+
+<ul>
+  <li data-marker="*">The last thing to illustrate just the basics of the character is the ability to jump, which is a very core part of Mario. Mario’s signature thing is jumping up and hitting blocks. And what’s cool is we already looked at this in Flappy Bird.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">character-4/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">JUMP_VELOCITY</span> <span class="o">=</span> <span class="o">-</span><span class="mi">300</span>
+<span class="n">GRAVITY</span> <span class="o">=</span> <span class="mi">900</span>
+
+<span class="c1">-- for jumping and applying gravity</span>
+<span class="n">characterDY</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1">-- three animations</span>
+<span class="n">jumpAnimation</span> <span class="o">=</span> <span class="n">Animation</span> <span class="p">{</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">},</span>
+    <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="c1">-- if we hit space and are on the ground...</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'space'</span> <span class="ow">and</span> <span class="n">characterDY</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+        <span class="n">characterDY</span> <span class="o">=</span> <span class="n">JUMP_VELOCITY</span>
+        <span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">jumpAnimation</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- apply velocity to character Y</span>
+    <span class="n">characterDY</span> <span class="o">=</span> <span class="n">characterDY</span> <span class="o">+</span> <span class="n">GRAVITY</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">characterY</span> <span class="o">=</span> <span class="n">characterY</span> <span class="o">+</span> <span class="n">characterDY</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="c1">-- if we've gone below the map limit, set DY to 0</span>
+    <span class="k">if</span> <span class="n">characterY</span> <span class="o">&gt;</span> <span class="p">((</span><span class="mi">7</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">-</span> <span class="n">CHARACTER_HEIGHT</span> <span class="k">then</span>
+        <span class="n">characterY</span> <span class="o">=</span> <span class="p">((</span><span class="mi">7</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">-</span> <span class="n">CHARACTER_HEIGHT</span>
+        <span class="n">characterDY</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- rest of update code...</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that if the key is equal to space and the <code class="language-plaintext highlighter-rouge">dy</code> is zero, meaning that we aren’t already jumping, we check whether we’re already statically set on the ground. We don’t want to allow the character to just keep jumping and going up and up and up. We did that in Flappy Bird where you could just spam space bar. But in Mario, you only get to jump when you’re touching the ground.</p>
+  </li>
+  <li data-marker="*">We apply gravity, very similar to what we did with Flappy Bird. Then we have just a hard check for whether we’re at where the tiles begin on the map (关于 tile seven minus the character’s height) so that when its feet touch the top of that tile, it won’t go any deeper than that.</li>
+</ul>
+
+<h2 id="tile-sets-and-toppers">Tile Sets and Toppers</h2>
+
+<ul>
+  <li data-marker="*">Now we can begin to look at another key aspect of this distro, which is the level generation. We have a quite nice tile sheet that’s Creative Commons: An artist named Kenny did the original version of this, which then had a 16 by 16 version done by somebody else.</li>
+  <li data-marker="*">It has a plethora of tiles. These are all <em>tile sets</em>. We will only use a couple of these throughout today’s 讲座, in particular the empty and the full square version. But you can see there’s slopes and rounded versions and all sorts of fun things you can do with that.</li>
+  <li data-marker="*">In addition to tiles, we also have <em>toppers</em> for them. These don’t really functionally mean anything in terms of gameplay, but they do offer a way to differentiate your levels visually. It allows us to get the sense that, okay, we’re not just in some random plane: Maybe we’re in a candy-themed place or this icy area or this foresty place. This is just drawing a texture on top of another texture, but it does offer a tremendous amount of visual variety that gives your game a lot of pop and makes it feel fun to play.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">level-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- number of tiles in each tile set</span>
+<span class="n">TILE_SET_WIDTH</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">TILE_SET_HEIGHT</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1">-- tile ID constants</span>
+<span class="n">SKY</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">GROUND</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1">-- divide quad tables into tile sets</span>
+<span class="n">tilesets</span> <span class="o">=</span> <span class="n">GenerateTileSets</span><span class="p">(</span><span class="n">quads</span><span class="p">,</span> <span class="n">TILE_SETS_WIDE</span><span class="p">,</span> <span class="n">TILE_SETS_TALL</span><span class="p">,</span> <span class="n">TILE_SET_WIDTH</span><span class="p">,</span> <span class="n">TILE_SET_HEIGHT</span><span class="p">)</span>
+<span class="n">toppersets</span> <span class="o">=</span> <span class="n">GenerateTileSets</span><span class="p">(</span><span class="n">topperQuads</span><span class="p">,</span> <span class="n">TOPPER_SETS_WIDE</span><span class="p">,</span> <span class="n">TOPPER_SETS_TALL</span><span class="p">,</span> <span class="n">TILE_SET_WIDTH</span><span class="p">,</span> <span class="n">TILE_SET_HEIGHT</span><span class="p">)</span>
+
+<span class="c1">-- random tile set and topper set for the level</span>
+<span class="n">tileset</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">tilesets</span><span class="p">)</span>
+<span class="n">topperset</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">toppersets</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that each tile set is a block of 5 by 4 tiles. Tile 3 in each set is our solid tile that we’re going to use for all generation, and tile 5 is just our empty tile: It’s transparent, no pixels being rendered. The toppers line up perfectly such that the topper would align with that tile.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consider the draw function:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+        <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">tilesheet</span><span class="p">,</span> <span class="n">tilesets</span><span class="p">[</span><span class="n">tileset</span><span class="p">][</span><span class="n">tile</span><span class="p">.</span><span class="n">id</span><span class="p">],</span>
+            <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span>
+
+        <span class="c1">-- draw a topper on top of the tile if it contains the flag for it</span>
+        <span class="k">if</span> <span class="n">tile</span><span class="p">.</span><span class="n">topper</span> <span class="k">then</span>
+            <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">topperSheet</span><span class="p">,</span> <span class="n">toppersets</span><span class="p">[</span><span class="n">topperset</span><span class="p">][</span><span class="n">tile</span><span class="p">.</span><span class="n">id</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that when we get our tile, we do our usual draw: We index into the tile set at the ID. The tile stores both the ID and a boolean flag called <code class="language-plaintext highlighter-rouge">topper</code>. If it’s true, then we should draw the topper; otherwise that means it’s going to be below somewhere, under the ground, under that first tile. We don’t want to draw toppers on those: It would look like a glitch.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consider the generate level function:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">generateLevel</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+            <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="p">{</span>
+                <span class="n">id</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">7</span> <span class="ow">and</span> <span class="n">SKY</span> <span class="ow">or</span> <span class="n">GROUND</span><span class="p">,</span>
+                <span class="n">topper</span> <span class="o">=</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">7</span> <span class="ow">and</span> <span class="kc">true</span> <span class="ow">or</span> <span class="kc">false</span>
+            <span class="p">})</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">tiles</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">topper</code> is set equal to whether Y is equal to seven, meaning that’s the point at which we begin to draw solid tiles. We do this ternary expression in Lua: If Y is seven, it’ll be set to true, else it’ll be false.</p>
+  </li>
+</ul>
+
+<h2 id="procedural-level-generation">Procedural Level Generation</h2>
+
+<ul>
+  <li data-marker="*">Now we can start to vary up the terrain. If we think 关于 the first step being, instead of just completely flat levels, what if we had some of the terrain actually jetting up from the ground?</li>
+  <li data-marker="*">If we imagine our level as this set of tiles that we place in a line going left to right, top to bottom, we can envision that maybe we want to say, “Okay, on this particular column, I decide that instead of starting the terrain at seven, we’ll start it at four.” That’s going to result in tile four getting to be solid and then all of the tiles below it being ground, and tile four there getting set to <code class="language-plaintext highlighter-rouge">topper = true</code> instead of seven. Then that sticks up as a pillar.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">level-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">generateLevel</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1">-- create 2D array completely empty first</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+        <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+            <span class="nb">table.insert</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="p">{</span>
+                <span class="n">id</span> <span class="o">=</span> <span class="n">SKY</span><span class="p">,</span>
+                <span class="n">topper</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="p">})</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- iterate over X to generate the level in columns instead of rows</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+        <span class="c1">-- random chance for a pillar</span>
+        <span class="kd">local</span> <span class="n">spawnPillar</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">spawnPillar</span> <span class="k">then</span>
+            <span class="k">for</span> <span class="n">pillar</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span> <span class="k">do</span>
+                <span class="n">tiles</span><span class="p">[</span><span class="n">pillar</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">id</span> <span class="o">=</span> <span class="n">GROUND</span><span class="p">,</span>
+                    <span class="n">topper</span> <span class="o">=</span> <span class="n">pillar</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="kc">true</span> <span class="ow">or</span> <span class="kc">false</span>
+                <span class="p">}</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="c1">-- always generate ground</span>
+        <span class="k">for</span> <span class="n">ground</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">mapHeight</span> <span class="k">do</span>
+            <span class="n">tiles</span><span class="p">[</span><span class="n">ground</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">id</span> <span class="o">=</span> <span class="n">GROUND</span><span class="p">,</span>
+                <span class="n">topper</span> <span class="o">=</span> <span class="p">(</span><span class="ow">not</span> <span class="n">spawnPillar</span> <span class="ow">and</span> <span class="n">ground</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="ow">and</span> <span class="kc">true</span> <span class="ow">or</span> <span class="kc">false</span>
+            <span class="p">}</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">tiles</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we create our entire level with sky tiles to start with: We completely populate the whole thing with sky. Then we’re going to start from the left, going all the way to the right of the screen. We create a one in five chance to spawn a pillar. If we do have that, then from rows 4 to 6, we create that as ground and set <code class="language-plaintext highlighter-rouge">topper = true</code> only on row 4. We always 秋季 返回 to the ground from row 7 down.</p>
+  </li>
+  <li data-marker="*">In the event that we did spawn a pillar, we don’t want to also set the topper on seven. But if we didn’t spawn a pillar, we do want to set it to true if we are at seven. The result: Pillars throughout our level space, which makes things varied.</li>
+  <li data-marker="*">In Mario, one of the big perils is falling into <em>chasms</em>. A chasm is just essentially not drawing any tiles at all in that particular part of the level. Really, it’s as simple as just choosing not to do the whole bit of logic.</li>
+  <li data-marker="*">
+    <p>Consider the following code from <code class="language-plaintext highlighter-rouge">level-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mapWidth</span> <span class="k">do</span>
+    <span class="c1">-- random chance to not spawn anything on this column; a chasm</span>
+    <span class="k">if</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+        <span class="n">goto</span> <span class="n">continue</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- pillar and ground generation code...</span>
+
+    <span class="p">::</span><span class="n">continue</span><span class="p">::</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we use the <code class="language-plaintext highlighter-rouge">goto continue</code> way that Lua does continue. If <code class="language-plaintext highlighter-rouge">math.random(7)</code> is equal to one, we just go to the continue label at the very bottom of the block below where we actually add tiles. If we just skip the tiles, they’ll remain pre-populated as sky. And so now we just get chasms for free by simply not generating anything.</p>
+  </li>
+  <li data-marker="*">The sky is the limit for what’s possible with procedural generation. As long as your logic is such that you never overly put the player into a position that’s unwinnable, you end up having a pretty robust system for creating infinite levels.</li>
+</ul>
+
+<h2 id="platformer-collision">Platformer Collision</h2>
+
+<ul>
+  <li data-marker="*">We’ve been able to walk through our level and the levels generated just fine, but collision is a little bit weird. We’re not quite colliding with the level at all, except for the ground, and that’s essentially a hack: We’re hard-coding where we stop on the ground. We’re not actually performing any collision detection.</li>
+  <li data-marker="*">There are benefits to being able to simplify the collision for something like this, given that there are so many tiles in the space of the game. It’s easy, actually, if we know that we’re in a tile map and all the tiles are static in their placement, we can essentially just determine at a given pixel what particular tile is there based on Mario’s position and determine, okay, that’s a ground tile, that is a collidable tile. We should shift Mario to be to the right or left of that tile versus having to do AABB for maybe every tile in the whole screen.</li>
+  <li data-marker="*">There’s benefit to being able to just isolate your checks to wherever you’re moving, whether you’re walking, jumping: To just the immediately surrounded tiles based on the character’s position. We can get a lot of shortcuts and processing advantage by doing that. So we won’t be using AABB for tiles. We’ll be using a function called <em>point to tile</em>, which allows us to just say, okay, at this XY coordinate, divide by the map’s tile size, and then whatever tile is there at that index in our tile map, we can determine whether it’s collidable.</li>
+  <li data-marker="*">When we test for collision in this new model:
+    <ul>
+      <li data-marker="*">If we’re colliding with something that’s above our head (which is typically only when we’re jumping), we check whatever the tiles exist at the character’s top left coordinate and top right coordinate. We don’t want to just check the top left because if there’s a tile on the right and we’re only checking top left, we’d clip through it. We want to check both edges to ensure we don’t collide with whatever both edges are.</li>
+      <li data-marker="*">Same thing for below us: If we’re falling down or walking, we want to check the bottom left and bottom right of our character.</li>
+      <li data-marker="*">For moving left, we check top left and bottom left.</li>
+      <li data-marker="*">For moving right, top right and bottom right.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Consider the point to tile function from <code class="language-plaintext highlighter-rouge">mario/src/TileMap.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">TileMap</span><span class="p">:</span><span class="n">pointToTile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="k">then</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="nb">math.floor</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="nb">math.floor</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that there’s a bounds check to ensure we’re within our map: We don’t want to index outside of our array of tiles. We divide Y by tile size, add one because everything is one-indexed in Lua. Same thing with our X. Then we can directly translate pixel space into tile space into our 2D array. You’re only ever checking, pretty much depending on your direction, two to four tiles at any one 时间, instead of maybe hundreds or thousands of tiles. It’s a very O(1) type of operation.</p>
+  </li>
+</ul>
+
+<h2 id="entities-and-entity-states">Entities and Entity States</h2>
+
+<ul>
+  <li data-marker="*">An <em>entity</em> is something that has an X, Y, does behavior, and interacts in your 世界. The benefit of having entities is that they can be generalizable in a sense that you can isolate certain types of underlying shared behavior. For 示例, every entity has an X and a Y. Every entity has a width and a height. Every entity has some collision detection capability with another entity, assuming that everything is axis-aligned.</li>
+  <li data-marker="*">Then you can instantiate things that inherit from those behaviors and have 更多 specific types of entities. For 示例, a player is an entity that we just happen to be able to steer. A snail is an entity that is going to be able to target the player with its own states.</li>
+  <li data-marker="*">What’s cool is that we can also think of entities as containers for behaviors: We can visualize them the same way we visualize game states. We can envision entities as their own state machines that are engaged in a particular behavior. You can envision the diagram of Mario jumping and doing all these different things. That’s essentially what an entity can do.</li>
+  <li data-marker="*">
+    <p>Consider the <code class="language-plaintext highlighter-rouge">Entity</code> class from <code class="language-plaintext highlighter-rouge">mario/src/Entity.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Entity</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">Entity</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">def</span><span class="p">)</span>
+    <span class="c1">-- position</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">x</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">y</span>
+
+    <span class="c1">-- velocity</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1">-- dimensions</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">width</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">height</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">texture</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">texture</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">stateMachine</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">stateMachine</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="s1">'left'</span>
+
+    <span class="c1">-- reference to tile map so we can check collisions</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">map</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">map</span>
+
+    <span class="c1">-- reference to level for tests against other entities + objects</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">level</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Entity</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">stateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that the entity is just a wrapper class. It takes in a definition and has a position and velocity. Most any entity we’ve ever interacted with has an X and a Y and a velocity and a width and a height. They’ll all have a texture. They’ll all have a state machine: A set of states. A direction. A reference to the map so they can see other aspects of the map and the tiles they want to interact with. Then the level itself, which contains all the game objects, entities, and the tile map.</p>
+  </li>
+  <li data-marker="*">The same state machine class that we use for game states, we use for entity states, except that now instead of having game state classes, we implement update, render, enter, exit for every entity we want to model.</li>
+  <li data-marker="*">
+    <p>Consider the <code class="language-plaintext highlighter-rouge">PlayerIdleState</code> from <code class="language-plaintext highlighter-rouge">mario/src/states/entity/PlayerIdleState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">PlayerIdleState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">PlayerIdleState</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">animation</span> <span class="o">=</span> <span class="n">Animation</span> <span class="p">{</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">},</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">animation</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">PlayerIdleState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'left'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'walking'</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'space'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'jump'</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that if we press left or right, we’ll go into walking, and if we press space, we’ll jump. The idle state encapsulates all the behavior of what it means to be idle.</p>
+  </li>
+</ul>
+
+<h2 id="game-objects">Game Objects</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Game objects</em> are interactive items that you can collide with or hit and that will do something for you, but they’re not entities. They don’t have states. They don’t move around as agents.</li>
+  <li data-marker="*">Game objects are perfect for things that are relatively static but should have some behavior that triggers when you interact with them or touch them. In this case, the gems are game objects, as are the blocks when you jump up and hit them, because those have behavior. That behavior being that when you hit the block, a gem has a chance to spawn up and then be claimable.</li>
+  <li data-marker="*">We’ve differentiated between entities and game objects. Some engines will use game object to be literally anything, including an entity. Some will separate them. Some will use what’s called an <em>Entity Component System</em> where literally you just have everything as an entity, and then it contains its behavior not through inheriting from some base class but rather just having some component within it that determines its behavior.</li>
+  <li data-marker="*">
+    <p>Consider the <code class="language-plaintext highlighter-rouge">GameObject</code> class from <code class="language-plaintext highlighter-rouge">mario/src/GameObject.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">GameObject</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="k">function</span> <span class="nf">GameObject</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">def</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">x</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">y</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">texture</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">texture</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">width</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">height</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">frame</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">solid</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">solid</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">collidable</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">collidable</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">consumable</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">consumable</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">onCollide</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">onCollide</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">onConsume</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">onConsume</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">hit</span> <span class="o">=</span> <span class="n">def</span><span class="p">.</span><span class="n">hit</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">GameObject</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="ow">or</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">target</span><span class="p">.</span><span class="n">width</span> <span class="ow">or</span>
+            <span class="n">target</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="ow">or</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">target</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that a game object expects a set of things that will trigger depending on how it’s interacted with. It has <code class="language-plaintext highlighter-rouge">onCollide</code> or <code class="language-plaintext highlighter-rouge">onConsume</code> callbacks that trigger when your entity that is flagged to be capable of consuming those objects indeed does consume them.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consider how jump blocks are created in <code class="language-plaintext highlighter-rouge">mario/src/LevelMaker.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- jump block</span>
+<span class="n">GameObject</span> <span class="p">{</span>
+    <span class="n">texture</span> <span class="o">=</span> <span class="s1">'jump-blocks'</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">blockHeight</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">JUMP_BLOCKS</span><span class="p">),</span>
+    <span class="n">collidable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="n">hit</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="n">solid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="c1">-- collision function takes itself</span>
+    <span class="n">onCollide</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="c1">-- spawn a gem if we haven't already hit the block</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">obj</span><span class="p">.</span><span class="n">hit</span> <span class="k">then</span>
+            <span class="c1">-- chance to spawn gem, not guaranteed</span>
+            <span class="k">if</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+                <span class="kd">local</span> <span class="n">gem</span> <span class="o">=</span> <span class="n">GameObject</span> <span class="p">{</span>
+                    <span class="n">texture</span> <span class="o">=</span> <span class="s1">'gems'</span><span class="p">,</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">blockHeight</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
+                    <span class="n">width</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+                    <span class="n">height</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+                    <span class="n">frame</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">GEMS</span><span class="p">),</span>
+                    <span class="n">collidable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="n">consumable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="n">solid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+
+                    <span class="c1">-- gem has its own function to add to the player's score</span>
+                    <span class="n">onConsume</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">object</span><span class="p">)</span>
+                        <span class="n">gSounds</span><span class="p">[</span><span class="s1">'pickup'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+                        <span class="n">player</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">score</span> <span class="o">+</span> <span class="mi">100</span>
+                    <span class="k">end</span>
+                <span class="p">}</span>
+
+                <span class="c1">-- make the gem move up from the block</span>
+                <span class="n">Timer</span><span class="p">.</span><span class="n">tween</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="p">[</span><span class="n">gem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">blockHeight</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">}</span>
+                <span class="p">})</span>
+                <span class="n">gSounds</span><span class="p">[</span><span class="s1">'powerup-reveal'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+
+                <span class="nb">table.insert</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">gem</span><span class="p">)</span>
+            <span class="k">end</span>
+
+            <span class="n">obj</span><span class="p">.</span><span class="n">hit</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="k">end</span>
+
+        <span class="n">gSounds</span><span class="p">[</span><span class="s1">'empty-block'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">collidable = true</code> means it will perform collision detection. It has a <code class="language-plaintext highlighter-rouge">hit</code> flag that’s false: If it’s been hit already, we don’t want it to generate a gem. <code class="language-plaintext highlighter-rouge">solid = true</code> means it actually has collision detection and pushes us outside of it. You can be collidable and technically not be solid: The collision will trigger, but you won’t get pushed outside of it.</p>
+  </li>
+  <li data-marker="*">The <code class="language-plaintext highlighter-rouge">onCollide</code> function triggers when we jump and hit the block. If the object has not been hit, we have a one in five chance to spawn a gem. The gem itself is consumable and has an <code class="language-plaintext highlighter-rouge">onConsume</code> function that plays a sound and increases the score by 100. We use <code class="language-plaintext highlighter-rouge">Timer.tween</code> to make the gem move up from the block with smooth interpolated Y movement.</li>
+</ul>
+
+<h2 id="enemies-and-ai">Enemies and AI</h2>
+
+<ul>
+  <li data-marker="*">The snail is an entity that gets spawned at level maker creation 时间 based on a random chance. It has its own states: Idle, moving, and chasing.</li>
+  <li data-marker="*">
+    <p>Consider the <code class="language-plaintext highlighter-rouge">SnailIdleState</code> from <code class="language-plaintext highlighter-rouge">mario/src/states/entity/snail/SnailIdleState.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">SnailIdleState</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{</span><span class="n">__includes</span> <span class="o">=</span> <span class="n">BaseState</span><span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">SnailIdleState</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">tilemap</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">snail</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">tilemap</span> <span class="o">=</span> <span class="n">tilemap</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">snail</span> <span class="o">=</span> <span class="n">snail</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">waitTimer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">animation</span> <span class="o">=</span> <span class="n">Animation</span> <span class="p">{</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">51</span><span class="p">},</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">currentAnimation</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">animation</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">SnailIdleState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">waitTimer</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">waitPeriod</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">waitTimer</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">waitTimer</span> <span class="o">+</span> <span class="n">dt</span>
+    <span class="k">else</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'moving'</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- calculate difference between snail and player on X axis</span>
+    <span class="c1">-- and only chase if &lt;= 5 tiles</span>
+    <span class="kd">local</span> <span class="n">diffX</span> <span class="o">=</span> <span class="nb">math.abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">diffX</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'chasing'</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that in the idle state, the snail has its own animation: Just a single frame of it being in the shell. Its behavior is such that it has a wait timer or wait period where it will decide, after that wait period, to change its state to either moving or chasing. Chasing is if the difference between the player’s X and the snail’s X is five tiles or 较少.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consider the <code class="language-plaintext highlighter-rouge">SnailChasingState</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">SnailChasingState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">currentAnimation</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="kd">local</span> <span class="n">diffX</span> <span class="o">=</span> <span class="nb">math.abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">diffX</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'moving'</span><span class="p">)</span>
+    <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="s1">'left'</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">SNAIL_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="c1">-- check for tiles to avoid walking off edges or into walls</span>
+    <span class="k">else</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="s1">'right'</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">snail</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">SNAIL_MOVE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that the chasing state just always looks to see: Is the difference between our X and the player’s X five tiles? If so, keep moving in that direction. Otherwise, change to just moving: The moving state essentially just chooses a random destination.</p>
+  </li>
+  <li data-marker="*">The states take references to the player. If you have any operation that you need to take place within your 世界 between your entities or the player, often the most expeditious thing to do is to just pass in a reference to the player or the map. Sometimes the cleanest, easiest way to get things to talk to each other is to have them passed as references and held and shared between them.</li>
+  <li data-marker="*">This is essentially how you can get some interesting fake lifelike behavior or some interesting interaction in your game without going too crazy.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned how to create a virtual 世界 using tile maps and build a Mario-style platformer. Specifically, you learned…</p>
+
+<ul>
+  <li data-marker="*">How to use tile maps to represent a 2D 世界 as a grid of tile IDs.</li>
+  <li data-marker="*">How to implement camera scrolling using <code class="language-plaintext highlighter-rouge">love.graphics.translate</code>.</li>
+  <li data-marker="*">How to load and display character sprites from a sprite sheet.</li>
+  <li data-marker="*">How to implement character movement with camera tracking.</li>
+  <li data-marker="*">How to create an Animation class that cycles through frames over 时间.</li>
+  <li data-marker="*">How to flip sprites by scaling with a centered origin point.</li>
+  <li data-marker="*">How to implement jumping and gravity for platformer physics.</li>
+  <li data-marker="*">How to use tile sets and toppers for visual variety.</li>
+  <li data-marker="*">How to procedurally generate levels with pillars and chasms.</li>
+  <li data-marker="*">How point-to-tile collision provides O(1) collision detection.</li>
+  <li data-marker="*">How entities and entity state machines encapsulate behavior.</li>
+  <li data-marker="*">How game objects use callbacks for interactive behavior.</li>
+  <li data-marker="*">How to implement basic enemy AI with idle, moving, and chasing states.</li>
+</ul>
+
+<p>See you 下一页 时间!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994616.js"></script>
+
+    
+
+
+</body></html>

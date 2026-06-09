@@ -1,0 +1,1183 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/nrB1aMKgjvU/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 8 - CS50&#x27;s Computer Science for Lawyers">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 8 - CS50's 面向法律人的计算机科学</title>
+
+
+    <meta property="og:description" content="Spreadsheets Let’s create a sample spreadsheet for users in a web application. The first row of a spreadsheet generally includes a header. username name...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="6f8367eb76bcab826a4ac0a183efe41a" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a 证书 of completion, or a custom program</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-lawyers"><a href="../../index.html">CS50’s 面向法律人的计算机科学</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="text-white"><a href="http://douglloyd.com/">Doug Lloyd</a>, J.D.<br>
+<a href="mailto:lloyd@cs50.harvard.edu">lloyd@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Computational Thinking</a></li>
+  <li><a href="../../weeks/2/index.html">编程 Languages</a></li>
+  <li><a href="../../weeks/3/index.html">算法, 数据结构</a></li>
+  <li><a href="../../weeks/4/index.html">密码学</a></li>
+  <li><a href="../../weeks/5/index.html">网络安全 I</a></li>
+  <li><a href="../../weeks/6/index.html">互联网 Technologies, Cloud Computing</a></li>
+  <li><a href="../../weeks/7/index.html">Web Development</a></li>
+  <li><a href="../../weeks/8/index.html">Database Design</a></li>
+  <li><a href="../../weeks/9/index.html">网络安全 II</a></li>
+  <li><a href="../../weeks/10/index.html">Challenges at the Intersection of Law and Technology</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50l">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/law">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://execed.law.harvard.edu/computerscience/">Harvard Law School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380CIOjHCjIAugO3ryncp6IW">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-8">讲座 8</h1>
+
+<ul class="small" id="markdown-toc">
+  <li><a href="#spreadsheets" id="markdown-toc-spreadsheets">Spreadsheets</a></li>
+  <li><a href="#databases" id="markdown-toc-databases">数据库</a></li>
+  <li><a href="#data-types" id="markdown-toc-data-types">Data Types</a></li>
+  <li><a href="#sql" id="markdown-toc-sql">SQL</a></li>
+  <li><a href="#executing-sql-queries" id="markdown-toc-executing-sql-queries">Executing SQL Queries</a></li>
+  <li><a href="#race-conditions" id="markdown-toc-race-conditions">Race Conditions</a></li>
+  <li><a href="#sql-injection-attacks" id="markdown-toc-sql-injection-attacks">SQL Injection Attacks</a></li>
+  <li><a href="#scalability" id="markdown-toc-scalability">Scalability</a></li>
+</ul>
+
+<h2 id="spreadsheets">Spreadsheets</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Let’s create a sample spreadsheet for users in a web application. The first row of a spreadsheet generally includes a header.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>username</th>
+          <th>姓名</th>
+          <th>电子邮件</th>
+          <th>address</th>
+          <th>phone</th>
+          <th>age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>malan</td>
+          <td>David Malan</td>
+          <td>malan@harvard.edu</td>
+          <td>33 Oxford Street, Cambridge, MA 02138</td>
+          <td>617-495-5000</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>Each column has a data type, like a number or some text. For the <code class="language-plaintext highlighter-rouge">username</code> and <code class="language-plaintext highlighter-rouge">email</code> fields, the values are additionally unique.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can also relate spreadsheets with one another by having some 排序 of common identifier; perhaps we would like a spreadsheets with customer information, invoices, products, or any number of other types of data. To relate the data in these spreadsheets, we can use a customer ID.</p>
+  </li>
+  <li data-marker="*">
+    <p>We might start needing larger and larger spreadsheets, and eventually, we might have 更多 rows of data than these programs, like Microsoft Excel or Google Sheets, can handle. In that case, we might want to use a database instead.</p>
+  </li>
+</ul>
+
+<h2 id="databases">数据库</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>A <em>database</em> is a piece of software that can run on our operating systems. Commonly, however, it runs on a server or somewhere else in the cloud to which our software connects.</p>
+  </li>
+  <li data-marker="*">
+    <p><em>Relational 数据库</em> mimic the design of spreadsheets—data is stored in rows and columns, and we get 更多 and 更多 rows as we have 更多 and 更多 data.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Instead of having spreadsheets, we have a database, and instead of calling individual tabs sheets, we call them tables.</p>
+      </li>
+      <li data-marker="*">
+        <p>Additionally, we have to choose between various data types for each column. This will make searching and sorting the data much 更多 efficient.</p>
+      </li>
+      <li data-marker="*">
+        <p>示例 include Oracle, Microsoft Access, SQL Server, My SQL, Postgres, or SQLite.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="data-types">Data Types</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Some of the data types we can use in SQLite include <code class="language-plaintext highlighter-rouge">integer</code>, <code class="language-plaintext highlighter-rouge">real</code>, <code class="language-plaintext highlighter-rouge">numeric</code>, <code class="language-plaintext highlighter-rouge">text</code>, and <code class="language-plaintext highlighter-rouge">blob</code>.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>We can use an <code class="language-plaintext highlighter-rouge">integer</code> if we would like to represent something like 1, 2, 3, or a negative.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can use <code class="language-plaintext highlighter-rouge">real</code> if we’d like to store a floating point value.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can use <code class="language-plaintext highlighter-rouge">numeric</code> if we would like to represent dates, times, or other types that are numbers but have 更多 formal structures.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can use <code class="language-plaintext highlighter-rouge">text</code> if we have words, phrases, or even whole paragraphs.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can use <code class="language-plaintext highlighter-rouge">blob</code> if we would like to store binary large objects, or binary data, like actual files!</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Other 数据库 support 更多 than these data types, which allows the database to make smarter decisions when storing this data, so when we query the data, the database can respond quickly.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>In some 数据库, the <code class="language-plaintext highlighter-rouge">integer</code> type can be subdivided into <code class="language-plaintext highlighter-rouge">smallint</code>, <code class="language-plaintext highlighter-rouge">integer</code>, and <code class="language-plaintext highlighter-rouge">bigint</code>, where the <code class="language-plaintext highlighter-rouge">smallint</code> type takes up 2 bytes, the <code class="language-plaintext highlighter-rouge">integer</code> type takes up 4 bytes, and the <code class="language-plaintext highlighter-rouge">bigint</code> type takes up 8 bytes.</p>
+      </li>
+      <li data-marker="*">
+        <p>The <code class="language-plaintext highlighter-rouge">real</code> data type can be subdivided into <code class="language-plaintext highlighter-rouge">real</code> and <code class="language-plaintext highlighter-rouge">double precision</code>, where a <code class="language-plaintext highlighter-rouge">real</code> type takes up 4 bytes and <code class="language-plaintext highlighter-rouge">double precision</code> takes up 8 bytes.</p>
+      </li>
+      <li data-marker="*">
+        <p>The <code class="language-plaintext highlighter-rouge">numeric</code> data type can include <code class="language-plaintext highlighter-rouge">boolean</code>, <code class="language-plaintext highlighter-rouge">date</code>, <code class="language-plaintext highlighter-rouge">datetime</code>, <code class="language-plaintext highlighter-rouge">numeric(scale, precision)</code>, <code class="language-plaintext highlighter-rouge">time</code>, and <code class="language-plaintext highlighter-rouge">timestamp</code>.</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>An 示例 of <code class="language-plaintext highlighter-rouge">numeric(scale, precision)</code> might be dollar amounts, where we want to store these to two decimal points.</p>
+          </li>
+          <li data-marker="*">
+            <p><code class="language-plaintext highlighter-rouge">timestamp</code> counts the number of milliseconds or seconds from a certain starting point. It became conventional to start counting 时间 from 一月 1st, 1970, and since <code class="language-plaintext highlighter-rouge">timestamp</code> has 4 bytes, when we get to 2038, we’ll run out of bits to represent 时间! To fix this, we’ll just have to use 更多 space.</p>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>The <code class="language-plaintext highlighter-rouge">text</code> data type can be subdivided into <code class="language-plaintext highlighter-rouge">char(n)</code>, <code class="language-plaintext highlighter-rouge">varchar(n)</code>, and <code class="language-plaintext highlighter-rouge">text</code>.</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>We use <code class="language-plaintext highlighter-rouge">char(n)</code> when we would like to store a fixed number of characters, like state abbreviations, for 示例. Storing values as <code class="language-plaintext highlighter-rouge">char</code> can be very efficient, as indexing is a lot simpler knowing that after each <code class="language-plaintext highlighter-rouge">n</code> characters, we have a new value, which allows the database to 排序 and 搜索 with ease.</p>
+          </li>
+          <li data-marker="*">
+            <p>We use <code class="language-plaintext highlighter-rouge">varchar(n)</code> when we would like to store values containing up to <code class="language-plaintext highlighter-rouge">n</code> characters.</p>
+          </li>
+          <li data-marker="*">
+            <p>We use <code class="language-plaintext highlighter-rouge">text</code> whenever we have particularly large text.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Taking a look at our spreadsheet again, we might assign these data types:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>username</th>
+          <th>姓名</th>
+          <th>电子邮件</th>
+          <th>address</th>
+          <th>phone</th>
+          <th>日期 of birth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>varchar(255)</td>
+          <td>varchar(255)</td>
+          <td>varchar(255)</td>
+          <td>varchar(255)</td>
+          <td>char(10)</td>
+          <td>日期</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li data-marker="*">
+        <p>笔记 that we’ve used <code class="language-plaintext highlighter-rouge">varchar(255)</code> for many of these fields. Historically, many 数据库 had limits of 255 for a varchar, so this is used very commonly.</p>
+      </li>
+      <li data-marker="*">
+        <p>These data types are not the only ones that can be used. Based on the data we’re storing, these types can be different.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="sql">SQL</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>SQL, a database language, has some fundamental operations that allow us to work with data inside 数据库. These operations include:</p>
+
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">CREATE</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">SELECT</code></li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">UPDATE</code>, <code class="language-plaintext highlighter-rouge">INSERT</code>
+</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">DELETE</code>, <code class="language-plaintext highlighter-rouge">DROP</code>
+</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We will use SQLite, an implementation of SQL, which stores its tables locally, as a file. Additionally, a number of programs can be used to communicate with a SQL database. We will use DB Browser, which can also be installed on a Mac or PC.</p>
+  </li>
+  <li data-marker="*">
+    <p>When we 打开 DB Browser, we’ll see a list of tables, as shown below.</p>
+
+    <p><img src="listoftables.png" alt="listoftables"></p>
+  </li>
+  <li data-marker="*">
+    <p>If we 打开 a few tables, we can see the columns inside each, as shown.</p>
+
+    <p><img src="idsarecool.png" alt="columns"></p>
+  </li>
+  <li data-marker="*">
+    <p>We might 笔记 that we see a lot of columns with various IDs. This will help us avoid redundancy.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>For 示例, let us reconsider our spreadsheet. We currently have the address of the user “malan” as “33 Oxford Street, Cambridge, MA 02138.”</p>
+      </li>
+      <li data-marker="*">
+        <p>It would be rather inefficient for us to perform simple queries on that address column, like searching for the zip code “02138.” We would have to 搜索 all of the values in the column and also ignore the extraneous information stored in that address.</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>To fix this, we can change the address field to multiple fields. For 示例, we can have this table instead:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>username</th>
+                  <th>姓名</th>
+                  <th>电子邮件</th>
+                  <th>street</th>
+                  <th>city</th>
+                  <th>state</th>
+                  <th>zip</th>
+                  <th>phone</th>
+                  <th>age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>malan</td>
+                  <td>David Malan</td>
+                  <td>malan@harvard.edu</td>
+                  <td>33 Oxford Street</td>
+                  <td>Cambridge</td>
+                  <td>MA</td>
+                  <td>02138</td>
+                  <td>617-495-5000</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>We might assign these data types to the new fields:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>username</th>
+                  <th>姓名</th>
+                  <th>电子邮件</th>
+                  <th>street</th>
+                  <th>city</th>
+                  <th>state</th>
+                  <th>zip</th>
+                  <th>phone</th>
+                  <th>age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>varchar(255)</td>
+                  <td>varchar(255)</td>
+                  <td>varchar(255)</td>
+                  <td>varchar(255)</td>
+                  <td>varchar(255)</td>
+                  <td>char(2)</td>
+                  <td>char(5)</td>
+                  <td>char(10)</td>
+                  <td>日期</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Additionally, it turns out that multiple people have that address (we leave them unnamed here). Then, this address would appear repeatedly in our table.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>姓名</th>
+              <th>电子邮件</th>
+              <th>street</th>
+              <th>city</th>
+              <th>state</th>
+              <th>zip</th>
+              <th>phone</th>
+              <th>age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>malan</td>
+              <td>David Malan</td>
+              <td>malan@harvard.edu</td>
+              <td>33 Oxford Street</td>
+              <td>Cambridge</td>
+              <td>MA</td>
+              <td>02138</td>
+              <td>617-495-5000</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>33 Oxford Street</td>
+              <td>Cambridge</td>
+              <td>MA</td>
+              <td>02138</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>33 Oxford Street</td>
+              <td>Cambridge</td>
+              <td>MA</td>
+              <td>02138</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>33 Oxford Street</td>
+              <td>Cambridge</td>
+              <td>MA</td>
+              <td>02138</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>33 Oxford Street</td>
+              <td>Cambridge</td>
+              <td>MA</td>
+              <td>02138</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ul>
+          <li data-marker="*">
+            <p>To avoid this redundancy, we can create a separate table called “cities.” Inside this table, we’ll have to include an ID to be able to link the 上一页 spreadsheet to this spreadsheet. We might format the cities table like this:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>city</th>
+                  <th>state</th>
+                  <th>zip</th>
+                </tr>
+                <tr>
+                  <th>integer</th>
+                  <th>varchar(255)</th>
+                  <th>char(2)</th>
+                  <th>char(5)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Cambridge</td>
+                  <td>MA</td>
+                  <td>02138</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>Now, if we go 返回 to our original table, we can just write this:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>username</th>
+                  <th>姓名</th>
+                  <th>电子邮件</th>
+                  <th>street</th>
+                  <th>city_id</th>
+                  <th>phone</th>
+                  <th>age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>malan</td>
+                  <td>David Malan</td>
+                  <td>malan@harvard.edu</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>617-495-5000</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>33 Oxford Street</td>
+                  <td>1</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li data-marker="*">
+            <p>It’s much 更多 efficient for the computer to perform operations on and relate these small numbers we’ve used for IDs.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>返回 to our music database, we’ll notice that the <code class="language-plaintext highlighter-rouge">Album</code> table is related to the <code class="language-plaintext highlighter-rouge">Artist</code> table via an ArtistId. This way, multiple albums can have the same artist without storing the artist’s 姓名 multiple times.</p>
+  </li>
+  <li data-marker="*">
+    <p>Additionally, if an artist were to change their 姓名, we can simply change their 姓名 in the <code class="language-plaintext highlighter-rouge">Artist</code> table, without having to go through the entire <code class="language-plaintext highlighter-rouge">Album</code> table, searching for that artist.</p>
+  </li>
+</ul>
+
+<h2 id="executing-sql-queries">Executing SQL Queries</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>If we want to see all the albums in the table, we can write <code class="language-plaintext highlighter-rouge">SELECT * FROM Album;</code> where <code class="language-plaintext highlighter-rouge">SELECT *</code> means to return all columns. After executing, we’ll get a table with the information we would like 返回. The first 5 entries are shown here (the leftmost column is the row number):</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>AlbumId</th>
+          <th>Title</th>
+          <th>ArtistId</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>For Those 关于 To Rock We Salute You</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>2</td>
+          <td>Balls to the Wall</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>3</td>
+          <td>Restless and Wild</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>4</td>
+          <td>Let There Be Rock</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>Big Ones</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>If we’re curious 关于 who wrote “For Those 关于 To Rock We Salute You,” we’ll take 笔记 of the <code class="language-plaintext highlighter-rouge">ArtistId</code> for this song, or 1. Then, we can execute another SQL query: <code class="language-plaintext highlighter-rouge">SELECT * FROM Artist WHERE ArtistId = 1;</code>. This is our result:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>ArtistId</th>
+          <th>姓名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>AC/DC</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li data-marker="*">笔记 that we used <code class="language-plaintext highlighter-rouge">WHERE ArtistId = 1</code> as a predicate in this case.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We can also join data on different tables. Suppose we wanted to know the artist’s 姓名 for every album. Our SQL query might look like this (the spacing is for 可读性):</p>
+
+    <pre><code class="language-SQL">  SELECT * FROM Album
+  JOIN Artist ON Album.ArtistId = Artist.ArtistId;
+</code></pre>
+
+    <ul>
+      <li data-marker="*">
+        <p>In this case, we’re joining the <code class="language-plaintext highlighter-rouge">Album</code> table and the <code class="language-plaintext highlighter-rouge">Artist</code> table. To join them, we’re matching the <code class="language-plaintext highlighter-rouge">ArtistId</code> column of the <code class="language-plaintext highlighter-rouge">Album</code> table with the <code class="language-plaintext highlighter-rouge">ArtistId</code> column of the <code class="language-plaintext highlighter-rouge">Artist</code> table. Our first five rows might look like this:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>AlbumId</th>
+              <th>Title</th>
+              <th>ArtistId</th>
+              <th>ArtistId</th>
+              <th>姓名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>For Those 关于 to Rock We Salute You</td>
+              <td>1</td>
+              <td>1</td>
+              <td>AC/DC</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>2</td>
+              <td>Balls to the Wall</td>
+              <td>2</td>
+              <td>2</td>
+              <td>Accept</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>3</td>
+              <td>Restless and Wild</td>
+              <td>2</td>
+              <td>2</td>
+              <td>Accept</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>4</td>
+              <td>Let There Be Rock</td>
+              <td>1</td>
+              <td>1</td>
+              <td>AC/DC</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>5</td>
+              <td>Big Ones</td>
+              <td>3</td>
+              <td>3</td>
+              <td>Aerosmith</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li data-marker="*">
+        <p>We might not want to see all the columns in the middle, though. Instead, we can write:</p>
+
+        <pre><code class="language-SQL">SELECT Title, Name FROM Album
+JOIN Artist ON Album.ArtistId = Artist.ArtistId;
+</code></pre>
+
+        <ul>
+          <li data-marker="*">Our first five rows now look like this:</li>
+        </ul>
+
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>Title</th>
+              <th>姓名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>For Those 关于 to Rock We Salute You</td>
+              <td>AC/DC</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Balls to the Wall</td>
+              <td>Accept</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Restless and Wild</td>
+              <td>Accept</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Let There Be Rock</td>
+              <td>AC/DC</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Big Ones</td>
+              <td>Aerosmith</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>To return a table with album counts for each artist, we can execute this SQL query:</p>
+
+    <pre><code class="language-SQL">SELECT Name, COUNT(Name) FROM Album
+JOIN Artist ON Album.ArtistId = Artist.ArtistId
+GROUP BY Name;
+</code></pre>
+
+    <ul>
+      <li data-marker="*">
+        <p>We use the <code class="language-plaintext highlighter-rouge">GROUP BY</code> keyword to group albums with the same artist 姓名 together.</p>
+      </li>
+      <li data-marker="*">
+        <p>We use the <code class="language-plaintext highlighter-rouge">SELECT COUNT(Name)</code> function to return the number of times this artist appears.</p>
+      </li>
+      <li data-marker="*">
+        <p>The first five rows look like this:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>姓名</th>
+              <th>COUNT(姓名)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>AC/DC</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Aaron Copland &amp; London Symphony Orchestra</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Aaron Goldberg</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Academy of St. Martin in the Fields &amp; Sir Nevil…</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Academy of St. Martin in the Fields Chamber …</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>To return the same table as above but only for counts greater than 1, we can write:</p>
+
+    <pre><code class="language-SQL">SELECT Name, COUNT(Name) FROM Album
+JOIN Artist ON Album.ArtistId = Artist.ArtistId
+GROUP BY Name HAVING COUNT(Name) &gt; 1;
+</code></pre>
+    <ul>
+      <li data-marker="*">
+        <p>The first five rows look like this:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>姓名</th>
+              <th>COUNT(姓名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>AC/DC</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Accept</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Amy Winehouse</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Antonio Carlos Jobim</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Audioslave</td>
+              <td>3</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li data-marker="*">
+        <p>There are 56 rows in this table, and they were returned in 1 millisecond!</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We’ve provided some specifications that help the computer respond to these queries quickly.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>If we designate a column as a <em>primary key</em>, then this column uniquely identifies every row. Generally, the primary key is an integer, since it is much easier to ensure that there are no duplicates with integers than with characters, for 示例.</p>
+
+        <ul>
+          <li data-marker="*">For 示例, the <code class="language-plaintext highlighter-rouge">id</code> column in the <code class="language-plaintext highlighter-rouge">cities</code> table is a primary key.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>If we define a column to be a primary key in one table, in another table, a column with the same value is called a <em>foreign key</em>.</p>
+
+        <ul>
+          <li data-marker="*">For 示例, we had an <code class="language-plaintext highlighter-rouge">Album</code> table and an <code class="language-plaintext highlighter-rouge">Artist</code> table earlier. The <code class="language-plaintext highlighter-rouge">Artist</code> table had an <code class="language-plaintext highlighter-rouge">ArtistID</code> column. Within the <code class="language-plaintext highlighter-rouge">Artist</code> table, that column is the primary key. In the <code class="language-plaintext highlighter-rouge">Album</code> table, there was also an <code class="language-plaintext highlighter-rouge">ArtistID</code> column, and that column, in this context, is a foreign key.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>These two keys in conjunction help the database know how to link the two tables efficiently.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can also specify that a column is <em>unique</em>. This doesn’t have to be the primary key; for 示例, for the <code class="language-plaintext highlighter-rouge">users</code> table we created, we would like the usernames and emails to be unique.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can <em>index</em> a column, which will allow future queries on that column to be much quicker. By indexing a column, we’re telling the database beforehand that we plan to 搜索 and 排序 this column frequently. The database will then create a 2D tree structure from the data in that column, thereby ensuring that it doesn’t take as many steps for searching or sorting in the future.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can also <em>autoincrement</em> a column. Instead of manually assigning Cambridge the <code class="language-plaintext highlighter-rouge">id</code> of 1 and the 下一页 city the <code class="language-plaintext highlighter-rouge">id</code> of 2, the autoincrement function will, each 时间 we add a row, increment the 上一页 value. This provides us with unique values that we can use as our primary key.</p>
+      </li>
+      <li data-marker="*">
+        <p>The <em>not null</em> keyword will ensure that the rows being added to our database aren’t only sparsely filled with real data.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>SQL also provides functions like <code class="language-plaintext highlighter-rouge">AVG</code>, <code class="language-plaintext highlighter-rouge">COUNT</code>, <code class="language-plaintext highlighter-rouge">MAX</code>, <code class="language-plaintext highlighter-rouge">MIN</code>, <code class="language-plaintext highlighter-rouge">SUM</code>, among many others. We can simply pass in data to these functions to return the value we would like.</p>
+  </li>
+</ul>
+
+<h2 id="race-conditions">Race Conditions</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>We’ll introduce race conditions with an 示例. Suppose Alice and Bob exist on this planet, and both have just seen David’s latest Instagram post.</p>
+  </li>
+  <li data-marker="*">
+    <p>First, we’ll look at what Instagram can do with a “like.” When someone likes a post, Instagram can use a <code class="language-plaintext highlighter-rouge">SELECT</code> statement to see how many likes this post currently has. Then, an <code class="language-plaintext highlighter-rouge">UPDATE</code> statement can be executed to increment that number.</p>
+  </li>
+  <li data-marker="*">
+    <p>Now, suppose that Alice and Bob both like David’s instagram post at the same 时间. Suppose David’s latest post has 2141 likes.</p>
+  </li>
+  <li data-marker="*">
+    <p>Separately, the <code class="language-plaintext highlighter-rouge">SELECT</code> statements are processed. Since the likes were sent at the same 时间, both <code class="language-plaintext highlighter-rouge">SELECT</code> statements return 2141, for the current number of likes. Then, both <code class="language-plaintext highlighter-rouge">UPDATE</code> statements will change David’s post’s number of likes to 2141 + 1 = 2142, instead of 2143.</p>
+  </li>
+  <li data-marker="*">
+    <p>In this case, Alice and Bob’s inputs triggered a “race” to update data.</p>
+  </li>
+  <li data-marker="*">
+    <p>Now, let’s consider a different 示例. Suppose Alice and Bob are roommates, and Alice comes 首页, opens the fridge and finds that there is no milk. She goes to the store to buy some milk. Bob comes 首页 while Alice is gone and finds that there is no milk. He, then, goes to the store and buys some milk. Now, they have twice as much milk.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>This problem occurred because both Alice and Bob inspected the state of some value and made a decision on it before the other person was done acting on that information.</p>
+      </li>
+      <li data-marker="*">
+        <p>To fix this problem, Alice could write a 笔记 on the fridge, notifying Bob that she is gone for milk. Or, 更多 dramatically, Alice could simply lock the fridge, so Bob can’t even inspect that state.</p>
+      </li>
+      <li data-marker="*">
+        <p>数据库 provide <em>atomicity</em>, or the ability to do multiple things together or nothing at all. This means that the database cannot be interrupted by someone else’s update.</p>
+      </li>
+      <li data-marker="*">
+        <p>SQL 数据库 also support <em>transactions</em>, where one can execute one or 更多 commands again and again, 返回 to 返回. All of these transactions have to go through before another person’s command is allowed to get executed.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="sql-injection-attacks">SQL Injection Attacks</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>An adversary can trick our database into executing a query that we did not intend. This type of attack is a SQL injection attack.</p>
+  </li>
+  <li data-marker="*">
+    <p>Suppose we have a program such that when a user types in an album title, it searches our database for that title.</p>
+  </li>
+  <li data-marker="*">
+    <p>If someone queries our database and types in “Let There Be Rock; Delete” as the title, then, our entire table might be gone! SQL 五月 interpret the semicolon in the input as the end of that line and 阅读 “Delete” as its own line, thereby dropping our table.</p>
+  </li>
+  <li data-marker="*">
+    <p>People have designed many packages to prevent SQL injection attacks. These packages often “escape” these dangerous characters, such as semicolons or apostrophes, by adding a backslash before it. Now, if a user were to type in “Let There Be Rock; Delete”, the query will be changed to “Let There Be Rock\; Delete.” This query will be literally interpreted, and the database will 搜索 for an album with the title “Let There Be Rock; Delete,” which would likely not return any results.</p>
+  </li>
+</ul>
+
+<h2 id="scalability">Scalability</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>If we have only one database, then we have a single point of failure. We could fix this by having two 数据库, but 笔记 that if we store half of our data in one database and half in the other, we’ll actually have two single points of failure. The second database will have to be a duplicate of the first database to resolve this issue.</p>
+
+    <ul>
+      <li data-marker="*">笔记 that the second database is a <em>duplicate</em> of the first, not a <em>backup</em> of the first. We don’t want to waste 时间 restoring from backup, as we’d like to maintain uptime. As a duplicate, whenever we write data to one database, we write this data to the other as well.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>If we have 更多 and 更多 data to store, we’ll require 更多 than one primary database. Then, we’ll have to duplicate this additional database as well. Eventually, we might hit a ceiling on vertical scaling—there is only so much space on our servers. We might employ a different method of scaling.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Currently, our 数据库 are doing both reading and writing. To 阅读 data from a database means to take data from its 内存. To write data into a database means to save such data into the database.</p>
+      </li>
+      <li data-marker="*">
+        <p>If we have two primary 数据库, we can connect 数据库 to each, as their replicas. However, instead of having both 阅读 and write capabilities on these replicas, we can simply have 阅读 capabilities. Then, these 数据库 exist solely for the purpose to 阅读 from them again and again.</p>
+      </li>
+      <li data-marker="*">
+        <p>An 示例 of when this might be useful is on social media. On Facebook, there are likely 更多 reads than there are writes. If the data for a business follows this pattern, where reads are way 更多 common than writes, we can use this model instead.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="Harvard University&#x27;s introduction to the intellectual enterprises of computer science and the art of programming.">
+
+        <meta property="og:image" content="https://cs50.harvard.edu/x/2024/assets/sanders.jpg"><meta property="og:title" content="Starting from Scratch - CS50x 2024">
+
+        <link href="../../../favicon%EF%B9%961755873453.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755873453.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961755873453.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961755873453.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961755873453.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961755873453.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Starting from Scratch - CS50x 2024</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="b89f15c6df91ddbc7a90011065bdc5aa" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is CS50x 2024, an older version of the 课程. See <a href="../../../../2025/index.html">cs50.harvard.edu/x/2025</a> for the latest!</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-is-cs50"><a href="../../../index.html">This is CS50</a></h1>
+
+<h2 class="text-white" data-id="cs50s-introduction-to-computer-science">CS50’s 计算机科学导论</h2>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day 2025</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Highlights -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="../../../../../workshop/2025/index.html">CS50 Educator 工作坊</a></li>
+  <li data-marker="*"><a href="../../../puzzles/index.html">CS50x Puzzle Day 2024</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../new/index.html">What’s new for 2024?</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*"><a href="../../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*"><a href="../../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*"><a href="../../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*"><a href="../../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*"><a href="../../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*"><a href="../../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*"><a href="../../../weeks/ai/index.html">第 6 周.5</a> 人工智能</li>
+  <li data-marker="*"><a href="../../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*"><a href="../../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*"><a href="../../../weeks/10/index.html">第 10 周</a> 网络安全</li>
+</ul>
+<ul>
+  <li data-marker="*"><a href="../../../practice/index.html"><i class="fa-solid fa-rocket pe-2 text-decoration-none"></i>Additional Practice</a></li>
+</ul>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../seminars/index.html">研讨课</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50x">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/50">哈佛继续教育学院</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/50">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="http://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="starting-from-scratch">Starting from Scratch</h1>
+
+<p>It’s 时间 to choose your own adventure! Your 作业, quite simply, is to implement in Scratch, at <a href="https://scratch.mit.edu">scratch.mit.edu</a>, any 项目 of your choice, be it an interactive story, game, animation, or anything else, subject only to the following requirements:</p>
+
+<ul>
+  <li data-marker="*">Your 项目 must use at least two sprites, at least one of which must not be a cat.</li>
+  <li data-marker="*">Your 项目 must have at least three scripts total (i.e., not necessarily three per sprite).</li>
+  <li data-marker="*">Your 项目 must use at least one conditional, at least one loop, and at least one variable.</li>
+  <li data-marker="*">Your 项目 must use at least one custom block that you have made yourself (via <strong>Make a Block</strong>), which must take at least one input.</li>
+  <li data-marker="*">Your 项目 should be 更多 complex than most of those demonstrated in 讲座 (many of which, though instructive, were quite short) but it can be 较少 complex than <a href="https://scratch.mit.edu/projects/277537196">Oscartime</a> and <a href="https://scratch.mit.edu/projects/326129433">Ivy’s Hardest Game</a>.</li>
+</ul>
+
+<p>To meet these requirements, your 项目 should probably use a few dozen puzzle pieces overall. And your code should ideally be not only correct but also well-designed. If one of your scripts is getting a bit long, try to break it up into multiple scripts (each of which does something specific). And try to leverage “abstraction” where possible: if you can imagine giving a descriptive 姓名 to a sequence of blocks (e.g., <strong>meow</strong>), those could probably be moved to a custom block!</p>
+
+<p>If you’d like some inspiration from past students, here are just a few:</p>
+
+<ul>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/37412/">It’s Raining Men</a>, from 讲座</li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/37413/">Soccer</a>, a game</li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/26329196/">Cookie Love Story</a>, an animation</li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/277536784/">Gingerbread tales</a>, an interactive story</li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/75390754/">Intersection</a>, a game</li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/projects/422258685">Hogwarts</a>, a game</li>
+</ul>
+
+<p>You might find these <a href="https://scratch.mit.edu/projects/editor/?tutorial=all">tutorials</a> or <a href="https://scratch.mit.edu/starter-projects">starter 项目</a> helpful. And you’re 欢迎 to explore <a href="https://scratch.mit.edu/explore/projects/all">scratch.mit.edu</a> for inspiration. But try to think of an idea on your own, and then set out to implement it. However, don’t try to implement the entirety of your 项目 all at once: tackle one piece at a 时间, just as we did in 讲座. In other words, take baby steps: write a bit of code (i.e., drag and drop a few puzzle pieces), test, write a bit 更多, test, and so forth. And select <strong>File &gt; Save now</strong> every few minutes so that you don’t lose any work!</p>
+
+<p>If, along the way, you find it too difficult to implement some feature, try not to fret; alter your design or work around the problem. If you set out to implement an idea that you find fun, odds are you won’t find it too hard to satisfy the above requirements.</p>
+
+<p>Alright, off you go. Make us proud!</p>
+
+<p>Once finished with your 项目, select <strong>File &gt; Save now</strong> one last 时间. Then select <strong>File &gt; Save to your computer</strong> and keep that file so that you can 提交 it. If prompted by your computer to <strong>打开</strong> or <strong>Save</strong> the file, be sure to <strong>Save</strong> it.</p>
+
+<div class="alert" data-alert="info" role="alert"><p>For this problem, it is <strong>reasonable</strong> to 提交 a Scratch 项目 that you have previously submitted to another CS50 课程, so long as it meets the above requirements.</p></div>
+
+<h2 id="hello-world">你好, 世界</h2>
+
+<p>Suffice it to say it’s a bit harder to meet classmates when taking a 课程 online. But, thanks to technology, everyone can at least say 你好!</p>
+
+<p>If you have a phone (or digital camera) and would like to say 你好 to classmates, record a 1- to 2-minute 视频 of yourself saying 你好, perhaps stating where in the 世界 you are, why you’re taking CS50x, and something interesting 关于 you! Try to begin your 视频 by saying “你好, 世界” and end it with “my 姓名 is…, and this is CS50.” But, ultimately, it’s totally up to you.</p>
+
+<p>If you do record a 视频, upload it to YouTube (unless blocked in your country, in which case you’re 欢迎 to upload it elsewhere) so that you can provide us with its URL when you 提交!</p>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="alert" data-alert="warning" role="alert"><p>Be sure to complete <strong>both</strong> steps below, in order!</p></div>
+
+<h3 id="step-1-of-2">Step 1 of 2</h3>
+
+<p>提交 <a href="https://forms.cs50.io/afc127b8-dc14-4395-a2d9-ac9a922dc17b">this form</a>.</p>
+
+<h3 id="step-2-of-2">Step 2 of 2</h3>
+
+<p>This step assumes that you’ve downloaded your Scratch 项目 as a file whose 姓名 ends in <code class="language-plaintext highlighter-rouge">.sb3</code>. And this step also assumes that you’ve signed up for a GitHub account, per the above form.</p>
+
+<ol>
+  <li>Visit <a href="https://submit.cs50.io/invites/9770b67479384c4d8c37790779e466d9">this link</a>, log in with your GitHub account, and click <strong>Authorize cs50</strong>.</li>
+  <li>Check the box indicating that you’d like to grant 课程 工作人员 access to your submissions, and click <strong>Join 课程</strong>.</li>
+  <li>Go to <a href="https://submit.cs50.io/upload/cs50/problems/2024/x/scratch">提交.cs50.io/upload/cs50/problems/2024/x/scratch</a>.</li>
+  <li>Click “Choose File” and choose your <code class="language-plaintext highlighter-rouge">.sb3</code> file. Click <strong>提交</strong>.</li>
+</ol>
+
+<div class="alert" data-alert="warning" role="alert"><p>If you encounter the error “No files in this directory are expected by cs50/problems/2024/x/scratch”, please make sure your scratch 项目 file 姓名 indeed ends with <code class="language-plaintext highlighter-rouge">.sb3</code>!</p></div>
+
+<p>That’s it! Once your submission uploads, you should be redirected to your submission page. Click the submission link and then the <strong>check50</strong> link to see which requirements your 项目 met. You are 欢迎 to resubmit as many times as you’d like (before the 截止时间)! 笔记 that if you upload a file whose size is larger than 10MB (which is quite large for a Scratch 项目) <code class="language-plaintext highlighter-rouge">check50</code> 五月 struggle to process it. Best to make sure your file is smaller than that limit.</p>
+
+<p>To view your current progress in the 课程, visit the 课程 成绩册 at <a href="https://cs50.me/cs50x">cs50.me/cs50x</a>!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961755873453.js"></script>
+
+    
+
+
+</body></html>

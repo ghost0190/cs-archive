@@ -1,0 +1,531 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="Harvard University&#x27;s introduction to the intellectual enterprises of computer science and the art of programming.">
+
+        <meta property="og:image" content="https://cs50.harvard.edu/x/2024/assets/sanders.jpg"><meta property="og:title" content="Plurality - CS50x 2024">
+
+        <link href="../../../favicon%EF%B9%961755873453.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755873453.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961755873453.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer%EF%B9%961755873453.js"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min%EF%B9%961755873453.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961755873453.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961755873453.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961755873453.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>多数制 - CS50x 2024</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="b89f15c6df91ddbc7a90011065bdc5aa" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is CS50x 2024, an older version of the 课程. See <a href="../../../../2025/index.html">cs50.harvard.edu/x/2025</a> for the latest!</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-is-cs50"><a href="../../../index.html">This is CS50</a></h1>
+
+<h2 class="text-white" data-id="cs50s-introduction-to-computer-science">CS50’s 计算机科学导论</h2>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day 2025</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Highlights -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="../../../../../workshop/2025/index.html">CS50 Educator 工作坊</a></li>
+  <li data-marker="*"><a href="../../../puzzles/index.html">CS50x Puzzle Day 2024</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../new/index.html">What’s new for 2024?</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*"><a href="../../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*"><a href="../../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*"><a href="../../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*"><a href="../../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*"><a href="../../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*"><a href="../../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*"><a href="../../../weeks/ai/index.html">第 6 周.5</a> 人工智能</li>
+  <li data-marker="*"><a href="../../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*"><a href="../../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*"><a href="../../../weeks/10/index.html">第 10 周</a> 网络安全</li>
+</ul>
+<ul>
+  <li data-marker="*"><a href="../../../practice/index.html"><i class="fa-solid fa-rocket pe-2 text-decoration-none"></i>Additional Practice</a></li>
+</ul>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../seminars/index.html">研讨课</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50x">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/50">哈佛继续教育学院</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/50">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="http://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="plurality">多数制</h1>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>Elections come in all shapes and sizes. In the UK, the <a href="https://www.parliament.uk/education/about-your-parliament/general-elections/">素数 Minister</a> is officially appointed by the monarch, who generally chooses the leader of the political party that wins the most seats in the House of Commons. The United States uses a multi-step <a href="https://www.archives.gov/federal-register/electoral-college/about.html">Electoral College</a> process where citizens vote on how each state should allocate Electors who then elect the President.</p>
+
+<p>Perhaps the simplest way to hold an election, though, is via a method commonly known as the “多数制 vote” (also known as “first-past-the-post” or “winner take all”). In the 多数制 vote, every voter gets to vote for one candidate. At the end of the election, whichever candidate has the greatest number of votes is declared the winner of the election.</p>
+
+<p>For this problem, you’ll implement a program that runs a 多数制 election, per the below.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-o2EXEqiz7iqfDB31wYxBOWjs8" src="https://asciinema.org/a/o2EXEqiz7iqfDB31wYxBOWjs8.js"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll extend the functionality of “distribution code” provided to you by CS50’s 工作人员.</p>
+
+<details><summary>下载 the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/2023/fall/psets/3/plurality.zip
+</code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">plurality.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip plurality.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">plurality</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm plurality.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd plurality
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plurality/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a file named <code class="language-plaintext highlighter-rouge">plurality.c</code>. Executing <code class="language-plaintext highlighter-rouge">code plurality.c</code> should 打开 the file where you will type your code for this 问题集. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<details><summary>Understand the code in <code>plurality.c</code></summary><p>Whenever you’ll extend the functionality of existing code, it’s best to be sure you first understand it in its present state.</p>
+
+<p>Look first at the top of the file. The line <code class="language-plaintext highlighter-rouge">#define MAX 9</code> is some syntax used here to mean that <code class="language-plaintext highlighter-rouge">MAX</code> is a constant (equal to <code class="language-plaintext highlighter-rouge">9</code>) that can be used throughout the program. Here, it represents the maximum number of candidates an election can have.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Max number of candidates</span>
+<span class="cp">#define MAX 9
+</span></code></pre></div></div>
+
+<p>Notice that <code class="language-plaintext highlighter-rouge">plurality.c</code> then uses this constant to define a global array—that is, an array that any function can access.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Array of candidates</span>
+<span class="n">candidate</span> <span class="n">candidates</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>But what, in this case, is a <code class="language-plaintext highlighter-rouge">candidate</code>? In <code class="language-plaintext highlighter-rouge">plurality.c</code>, a <code class="language-plaintext highlighter-rouge">candidate</code> is a <code class="language-plaintext highlighter-rouge">struct</code>. Each <code class="language-plaintext highlighter-rouge">candidate</code> has two fields: a <code class="language-plaintext highlighter-rouge">string</code> called <code class="language-plaintext highlighter-rouge">name</code> representing the candidate’s 姓名, and an <code class="language-plaintext highlighter-rouge">int</code> called <code class="language-plaintext highlighter-rouge">votes</code> representing the number of votes the candidate has.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Candidates have name and vote count</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">votes</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">candidate</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Now, take a look at the <code class="language-plaintext highlighter-rouge">main</code> function itself. See if you can find where the program sets a global variable <code class="language-plaintext highlighter-rouge">candidate_count</code> representing the number of candidates in the election.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Number of candidates</span>
+<span class="kt">int</span> <span class="n">candidate_count</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>What 关于 where it copies command-line arguments into the array <code class="language-plaintext highlighter-rouge">candidates</code>?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Populate array of candidates</span>
+<span class="n">candidate_count</span> <span class="o">=</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">candidate_count</span> <span class="o">&gt;</span> <span class="n">MAX</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Maximum number of candidates is %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">MAX</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">candidate_count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">votes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And where it asks the user to type in the number of voters?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">voter_count</span> <span class="o">=</span> <span class="n">get_int</span><span class="p">(</span><span class="s">"Number of voters: "</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Then, the program lets every voter type in a vote, calling the <code class="language-plaintext highlighter-rouge">vote</code> function on each candidate voted for. Finally, <code class="language-plaintext highlighter-rouge">main</code> makes a call to the <code class="language-plaintext highlighter-rouge">print_winner</code> function to print out the winner (or winners) of the election. We’ll leave it to you to identify the code that implements this functionality.</p>
+
+<p>If you look further down in the file, though, you’ll notice that the <code class="language-plaintext highlighter-rouge">vote</code> and <code class="language-plaintext highlighter-rouge">print_winner</code> functions have been left blank.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Update vote totals given a new vote</span>
+<span class="n">bool</span> <span class="nf">vote</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// TODO</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Print the winner (or winners) of the election</span>
+<span class="kt">void</span> <span class="nf">print_winner</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// TODO</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This part is up to you to complete! <strong>You should not modify anything else in <code class="language-plaintext highlighter-rouge">plurality.c</code> other than the implementations of the <code class="language-plaintext highlighter-rouge">vote</code> and <code class="language-plaintext highlighter-rouge">print_winner</code> functions (and the inclusion of additional header files, if you’d like).</strong></p></details>
+
+<h2 id="hints">提示</h2>
+
+<p>Click the below toggles to 阅读 some advice!</p>
+
+<details><summary>Complete the <code>vote</code> function</summary><p>下一页, complete the <code class="language-plaintext highlighter-rouge">vote</code> function.</p>
+
+<ul>
+  <li data-marker="*">Consider that <code class="language-plaintext highlighter-rouge">vote</code>’s signature, <code class="language-plaintext highlighter-rouge">bool vote(string name)</code>, shows it takes a single argument, a <code class="language-plaintext highlighter-rouge">string</code> called <code class="language-plaintext highlighter-rouge">name</code>, representing the 姓名 of the candidate who was voted for.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">vote</code> should return a <code class="language-plaintext highlighter-rouge">bool</code>, where <code class="language-plaintext highlighter-rouge">true</code> indicates a vote was successfully cast and <code class="language-plaintext highlighter-rouge">false</code> indicates it was not.</li>
+</ul>
+
+<p>One way to approach this problem is to do the following:</p>
+
+<ol>
+  <li>Iterate over each candidate
+    <ol>
+      <li>Check if candidate’s 姓名 matches the input, <code class="language-plaintext highlighter-rouge">name</code>
+        <ol>
+          <li>If yes, increment that candidate’s votes and return <code class="language-plaintext highlighter-rouge">true</code></li>
+          <li>If no, continue checking</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>If no matches after checking each candidate, return <code class="language-plaintext highlighter-rouge">false</code></li>
+</ol>
+
+<p>Let’s write some pseudocode to remind you to do just that:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Update vote totals given a new vote</span>
+<span class="n">bool</span> <span class="nf">vote</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Iterate over each candidate</span>
+        <span class="c1">// Check if candidate's name matches given name</span>
+            <span class="c1">// If yes, increment candidate's votes and return true</span>
+
+    <span class="c1">// If no match, return false</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We’ll leave the implementation in code, though, up to you!</p></details>
+
+<details><summary>Complete the <code>print_winner</code> function</summary><p>Finally, complete the <code class="language-plaintext highlighter-rouge">print_winner</code> function.</p>
+
+<ul>
+  <li data-marker="*">The function should print out the 姓名 of the candidate who received the most votes in the election, and then print a newline.</li>
+  <li data-marker="*">The election could end in a tie if multiple candidates each have the maximum number of votes. In that case, you should output the names of each of the winning candidates, each on a separate line.</li>
+</ul>
+
+<p>You might think a sorting algorithm would best solve this problem: imagine sorting candidates by their vote totals and printing the top candidate (or candidates). Recall, though, that sorting can be expensive: even 归并排序, one of the fastest sorting 算法, runs in \(O(N \space log(N))\).</p>
+
+<p>Consider that you need only two pieces of information to solve this problem:</p>
+
+<ol>
+  <li>The maximum number of votes</li>
+  <li>The candidate (or candidates) with that number of votes</li>
+</ol>
+
+<p>As such, a good solution might require only two searches. Write some pseudocode to remind yourself to do just that:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Print the winner (or winners) of the election</span>
+<span class="kt">void</span> <span class="nf">print_winner</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Find the maximum number of votes</span>
+
+    <span class="c1">// Print the candidate (or candidates) with maximum votes</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We’ll leave the code, though, up to you!</p></details>
+
+<h2 id="walkthrough">Walkthrough</h2>
+
+<div class="ratio ratio-16x9" data-video=""><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://www.youtube.com/embed/ftOapzDjEb8?modestbranding=0&amp;rel=0&amp;showinfo=0"></iframe></div>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>Be sure to test your code to make sure it handles…</p>
+
+<ul>
+  <li data-marker="*">An election with any number of candidate (up to the <code class="language-plaintext highlighter-rouge">MAX</code> of <code class="language-plaintext highlighter-rouge">9</code>)</li>
+  <li data-marker="*">Voting for a candidate by 姓名</li>
+  <li data-marker="*">Invalid votes for candidates who are not on the ballot</li>
+  <li data-marker="*">Printing the winner of the election if there is only one</li>
+  <li data-marker="*">Printing the winner of the election if there are multiple winners</li>
+</ul>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2024/x/plurality
+</code></pre></div></div>
+
+<h3 id="style">Style</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 plurality.c
+</code></pre></div></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2024/x/plurality
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961755873453.js"></script>
+
+    
+
+
+</body></html>

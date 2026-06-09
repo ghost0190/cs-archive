@@ -1,0 +1,1007 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 0 - CS50&#x27;s Introduction to 2D Game Development">
+
+        <link href="../../favicon%EF%B9%961779994616.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994616.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994616.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994616.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994616.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994616.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994616.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 0 - CS50's Introduction to 2D 游戏开发</title>
+
+
+    <meta property="og:description" content="Welcome! This is CS50’s introduction to 2D game development, also known as CS50 2D. What got many into programming to begin with was, as a kid, really...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a professional 证书, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-2d-game-development"><a href="../../index.html">CS50’s Introduction to 2D 游戏开发</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs502d">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380FZyaKIkZYuZWe2B1UHilA">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-0">讲座 0</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#lua-and-l%C3%B6ve2d" id="markdown-toc-lua-and-löve2d">Lua and LÖVE2D</a></li>
+  <li><a href="#game-loops" id="markdown-toc-game-loops">Game Loops</a></li>
+  <li><a href="#2d-coordinate-systems" id="markdown-toc-2d-coordinate-systems">2D Coordinate Systems</a></li>
+  <li><a href="#virtual-resolution" id="markdown-toc-virtual-resolution">Virtual Resolution</a></li>
+  <li><a href="#drawing-shapes" id="markdown-toc-drawing-shapes">Drawing Shapes</a></li>
+  <li><a href="#delta-time-and-velocity" id="markdown-toc-delta-time-and-velocity">Delta 时间 and Velocity</a></li>
+  <li><a href="#object-oriented-programming" id="markdown-toc-object-oriented-programming">Object-Oriented 编程</a></li>
+  <li><a href="#collision-detection" id="markdown-toc-collision-detection">Collision Detection</a></li>
+  <li><a href="#scoring-and-game-states" id="markdown-toc-scoring-and-game-states">Scoring and Game States</a></li>
+  <li><a href="#sound-effects" id="markdown-toc-sound-effects">Sound Effects</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">This is CS50’s introduction to 2D 游戏开发, also known as CS50 2D.</li>
+  <li data-marker="*">What got many into 编程 to begin with was, as a kid, really loving 视频 games: Going to the bookstore and looking for whatever book seemed the most appealing or the most likely to help in the endeavor to learn 视频 游戏开发. Unfortunately for me, opening the book and seeing dollar signs and ampersands and pipes and all these things was very overwhelming. But by happenstance, finding “C for Dummies” sparked in me a different mindset and led to really enjoying 编程 in general, not just related to game 编程.</li>
+  <li data-marker="*">When putting this 课程 together, the thinking was 关于 all those iconic games from those game systems of my childhood: Super Nintendo, Game Boy, NES, Legend of Zelda, Final Fantasy, Pokémon, Mario. Most people that want to learn how to program games are probably keeping these sorts of games in mind. In building this 课程, we decided to go with this whole smorgasbord of 视频 games: replications of famous games from Pong, which is what today’s 讲座 is 关于, all the way to Flappy Bird, Angry Birds, Pokémon, Mario, and Zelda.</li>
+  <li data-marker="*">Really, Pong and today’s topics set the stage really well for game 编程 in general. Even though on the surface Pong is such a simple game, most of the fundamentals of 2D 游戏开发 exist within Pong, and then they transcend Pong to all the other 示例, all the other games that we’ll be building in this 课程.</li>
+</ul>
+
+<h2 id="lua-and-löve2d">Lua and LÖVE2D</h2>
+
+<ul>
+  <li data-marker="*">The two main key 工具 we’ll be using are <em>Lua</em> and <em>LÖVE2D</em>. Lua is the 编程 language we’ll use. LÖVE2D is a micro engine framework, a runtime that uses Lua. LÖVE2D is what gives us the ability to draw things to the screen and do 音频, all the things that a game typically needs.</li>
+  <li data-marker="*">Lua is a Portuguese 姓名, which means “moon.” It’s used very often in the industry. It’s very flexible and lightweight. A lot of engines use it for scripting. If anybody has used JavaScript, Lua is very similar actually in syntax to JavaScript, although it does introduce its own syntax. Just like JavaScript, it’s very easy to store data. JavaScript has JSON. Lua itself stores everything in what are called <em>tables</em>, which are like JavaScript’s objects, and it makes for very clean, easy storage of information.</li>
+  <li data-marker="*">LÖVE2D is a very fast, lightweight C++ compiled framework/binary for developing games, but it’s coded and scripted in Lua. It’s got all the modules that you could hope to want for 2D 游戏开发: graphics, keyboard input, everything. It even comes with modules for math and is going to start incorporating networking in upcoming releases. It’s completely free, 打开 source, and portable. It has a very readable API, which is great for learning and great for real-世界 项目.</li>
+  <li data-marker="*">Baletro is a very popular game released last year that was written in LÖVE2D. It might be the most popular, well-known game as of right now in LÖVE2D. This is an amazing game, and it’s testament to the fact that you can make full games in LÖVE2D. It’s not just for prototyping.</li>
+  <li data-marker="*">Everything that you run in LÖVE2D needs a <code class="language-plaintext highlighter-rouge">main.lua</code> file that has all of the code that bootstraps your program. You can either drag your folder onto the LÖVE executable, or you can install a VS Code extension called “Love 2D Support” by Pixelbyte Studios, which allows you to conveniently just press Command or Control L to run your code.</li>
+  <li data-marker="*">In Lua, the <code class="language-plaintext highlighter-rouge">function</code> keyword declares a function, and the <code class="language-plaintext highlighter-rouge">end</code> keyword terminates a block. This applies to function blocks, if statements, and loops. The <code class="language-plaintext highlighter-rouge">end</code> keyword is used for terminating the definition of a block, while parentheses are used for function invocations to actually trigger a function call.</li>
+  <li data-marker="*">Lua supports both single quotes and double quotes for strings. Use whichever you prefer. You might want to use double quotes if you have an apostrophe in your string, and vice versa. Single quotes are commonly used for consistency.</li>
+  <li data-marker="*">
+    <p>Here is a demonstration of Lua’s syntax. From <code class="language-plaintext highlighter-rouge">lua_demo.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">--</span>
+<span class="c1">-- Variables</span>
+<span class="c1">--</span>
+
+<span class="c1">-- global (accessible from other Lua modules)</span>
+<span class="n">hello</span> <span class="o">=</span> <span class="s1">'hello'</span>
+
+<span class="c1">-- local (accessible only in this scope)</span>
+<span class="kd">local</span> <span class="n">world</span> <span class="o">=</span> <span class="s1">' world!'</span>
+
+<span class="c1">--</span>
+<span class="c1">-- Functions</span>
+<span class="c1">--</span>
+
+<span class="c1">-- declaring our function</span>
+<span class="k">function</span> <span class="nf">say</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1">-- calling our function (note the .. operator to concatenate strings!)</span>
+<span class="n">say</span><span class="p">(</span><span class="n">hello</span> <span class="o">..</span> <span class="n">world</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that global variables are declared without a specifier, while local variables use the <code class="language-plaintext highlighter-rouge">local</code> keyword. String concatenation in Lua is done with <code class="language-plaintext highlighter-rouge">..</code> (dot dot), and comments are written with two hyphens. All of these variables that are declared without a specifier in front of them are all global variables, meaning that we can declare them anywhere we want to, and they’ll just be accessible anywhere we want to.</p>
+  </li>
+</ul>
+
+<h2 id="game-loops">Game Loops</h2>
+
+<ul>
+  <li data-marker="*">All games, whether 2D or 3D, are going to have some inner <em>game loop</em>. A game loop is a really simple series of steps when you look at it diagrammed out. It gets complicated, and there’s obviously very many permutations of this, and the engineering of it gets complicated. But in a nutshell, we can look at a game loop as a series of pretty simple steps.</li>
+  <li data-marker="*">The first step is <em>processing of input</em>. This means we need to check which keys have been pressed on any given frame. A game will run between one to 60, ideally, frames per second on most computers. A game is essentially like a flipbook that you just run constantly. By processing input each frame, each one-sixtieth of a second, you’re checking what the player is doing. You can think of this as a while loop that just runs, and it tries to run 关于 60 frames a second on average. It can fluctuate. 30 frames is console standard, 60 frames for PC. But if you have a higher hertz monitor, your graphics card will fit that refresh rate, assuming the engine supports it.</li>
+  <li data-marker="*">After processing input, you’ll then <em>update</em> the game based on that input. If you pressed the Enter key, do something. If you pressed W or S, move or set the velocity of some object. That’s typically what happens, or it could change based on AI decision making.</li>
+  <li data-marker="*">Based on what we’ve just updated, you’ll want to <em>render</em> those changes. That’s what essentially gives us this illusion of things happening on the screen: we’ve taken our input, we’ve made changes to state variables, and then we have made those changes visible through rendering, through drawing sprites, through drawing shapes, through moving those shapes and sprites that are all contingent on the state variables, these X and Y values that we’ll see shortly.</li>
+  <li data-marker="*">Sometimes, depending on your game’s architecture or the speed of your computer, you might repeatedly update in one frame. Maybe your computer is too slow to render 60 times a second, and so you need to update multiple times in between frames. Or maybe you need to update multiple times per frame to account for particular physics calculations that have to ensure that no matter what your frame rate is, they stay consistent.</li>
+  <li data-marker="*">A <em>sprite</em> is simply an image that we draw to the screen and can move around and do things with. Unlike shapes, which is the focus of today for Pong and simplicity, generally 2D engines will show sprite art much 更多 than just shapes being drawn.</li>
+  <li data-marker="*">
+    <p>LÖVE2D embraces this paradigm elegantly with its function structure. From <code class="language-plaintext highlighter-rouge">pong-0/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    Runs when the game first starts up, only once; used to initialize the game.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">})</span>
+<span class="k">end</span>
+
+<span class="cm">--[[
+    Called after update by LÖVE2D, used to draw anything to the screen, updated or otherwise.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span>
+        <span class="s1">'Hello Pong!'</span><span class="p">,</span>          <span class="c1">-- text to render</span>
+        <span class="mi">0</span><span class="p">,</span>                      <span class="c1">-- starting X (0 since we're going to center it based on width)</span>
+        <span class="n">WINDOW_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span>  <span class="c1">-- starting Y (halfway down the screen)</span>
+        <span class="n">WINDOW_WIDTH</span><span class="p">,</span>           <span class="c1">-- number of pixels to center within (the entire screen here)</span>
+        <span class="s1">'center'</span><span class="p">)</span>               <span class="c1">-- alignment mode, can be 'center', 'left', or 'right'</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">love.load</code> runs once at the very beginning when you run your <code class="language-plaintext highlighter-rouge">main.lua</code>. It’s good for setup and initialization. <code class="language-plaintext highlighter-rouge">love.draw</code> is the render part of our loop that LÖVE calls for us every frame. These are functions it expects to exist in your code. It will call these for you. It maintains its own game loop that’s always running, aspiring for the refresh rate of your monitor, 60 frames a second.</p>
+  </li>
+</ul>
+
+<h2 id="2d-coordinate-systems">2D Coordinate Systems</h2>
+
+<ul>
+  <li data-marker="*">When we’re looking at 2D games, we’re dealing with <em>2D coordinate systems</em>. This is essentially just a way of looking at the 世界 as a series of X,Y coordinate pairs. Different engines and frameworks will implement this in different ways. Some will have Y going up instead of down, and so forth.</li>
+  <li data-marker="*">In LÖVE2D, positive Y goes down, negative Y goes up, positive X goes right, and negative X goes left. The origin (0,0) is at the top-left corner of the screen.</li>
+  <li data-marker="*">All 2D 编程, especially when looking at coordinates, essentially maps to the actual pixels on your screen. In order to draw anything on your screen, whether it’s a sprite, whether it’s text, whether it’s a shape, the pixels on your screen are essentially following this coordinate system.</li>
+  <li data-marker="*">To set up a window, we use <code class="language-plaintext highlighter-rouge">love.window.setMode</code>, which takes a width, height, and a table of options. When you pass a table as an argument, it doesn’t matter what order you pass the key value pairs in. <em>V-Sync</em> syncs the game’s rendering to your monitor’s refresh rate so that you don’t see screen tearing, which is when half of the screen or some portion of it seems slightly off because the rendering was interrupted in the middle.</li>
+</ul>
+
+<h2 id="virtual-resolution">Virtual Resolution</h2>
+
+<ul>
+  <li data-marker="*">The fact that we’re only drawing text right now is somewhat on the austere side. In order to get that pixelated retro look, especially for older games like Pong, we need virtual resolution.</li>
+  <li data-marker="*">Most games 返回 in the day were programmed with a maximum size of around 300 by 200 pixels, plus or minus. Now we’re dealing with 1080p or 4K resolutions. If you try to render something at that resolution, it’s going to be tiny. We want the ability to fill our 1280 by 720 window, but we want it to look pixelated just like we were on a CRT or full screen TV playing a classic retro 视频 game.</li>
+  <li data-marker="*">By default, graphics libraries apply <em>bilinear</em> or <em>trilinear filtering</em> to fonts and images, which makes things look blurry when scaled. The N64 is notorious for having bilinear filtering on everything. It had very tiny texture cache, very tiny textures in general. Developers would have to be stretching these very tiny textures over these large surfaces. For pixel art, we want <em>nearest-neighbor filtering</em> (also called <em>point filtering</em>), which preserves crisp, sharp pixels.</li>
+  <li data-marker="*">Point filtering can be used for aesthetic positives. Minecraft does not have filtering on its textures. It is notorious for this, but it’s to its benefit because it has this reputation now where things that are pixelated look like Minecraft textures. This is an 示例 of using point 滤镜 textures for actual aesthetic positive.</li>
+  <li data-marker="*">
+    <p>There’s a library called <em>push</em> that allows us to spoof as if we were drawing to a virtual canvas of whatever size we want to, while keeping it within a window size we prefer. This is really important, especially for this 课程 and its aesthetic. One of the things that can turn people off to 2D 游戏开发 in certain learning contexts is that things look very “programmer art” at times, where there just isn’t a coherence to the fonts versus the art. Pixelated fonts and appealing 更多 to that retro aesthetic solves this problem pretty elegantly. From <code class="language-plaintext highlighter-rouge">pong-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- push is a library that will allow us to draw our game at a virtual</span>
+<span class="c1">-- resolution, instead of however large our window is; used to provide</span>
+<span class="c1">-- a more retro aesthetic</span>
+<span class="c1">--</span>
+<span class="c1">-- https://github.com/Ulydev/push</span>
+<span class="n">push</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'push'</span>
+
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">1280</span>
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">720</span>
+
+<span class="n">VIRTUAL_WIDTH</span> <span class="o">=</span> <span class="mi">432</span>
+<span class="n">VIRTUAL_HEIGHT</span> <span class="o">=</span> <span class="mi">243</span>
+
+<span class="cm">--[[
+    Runs when the game first starts up, only once; used to initialize the game.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="c1">-- use nearest-neighbor filtering on upscaling and downscaling to prevent blurring of text</span>
+    <span class="c1">-- and graphics; try removing this function to see the difference!</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setDefaultFilter</span><span class="p">(</span><span class="s1">'nearest'</span><span class="p">,</span> <span class="s1">'nearest'</span><span class="p">)</span>
+
+    <span class="c1">-- sets up the actual window within the OS, before we virtualize our resolution</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">})</span>
+
+    <span class="c1">-- initialize our virtual resolution, which will be rendered within our</span>
+    <span class="c1">-- actual window no matter its dimensions</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">setupScreen</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">,</span> <span class="p">{</span> <span class="n">upscale</span> <span class="o">=</span> <span class="s1">'normal'</span> <span class="p">})</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">love.graphics.setDefaultFilter('nearest', 'nearest')</code> applies nearest-neighbor filtering to everything, whether it’s textures or fonts. The <code class="language-plaintext highlighter-rouge">push.setupScreen</code> function takes the virtual resolution first, then the actual window resolution, and finally options. Now we’re pretending that instead of a 1280 by 720 screen, we’re at a 432 by 243, and we want to also be thinking in terms of those XY coordinates.</p>
+  </li>
+  <li data-marker="*">
+    <p>To handle keyboard input and quit the application, we use <code class="language-plaintext highlighter-rouge">love.keypressed</code>. From <code class="language-plaintext highlighter-rouge">pong-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    Keyboard handling, called by LÖVE2D each frame;
+    passes in the key we pressed so we can access.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="c1">-- keys can be accessed by string name</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'escape'</span> <span class="k">then</span>
+        <span class="c1">-- function LÖVE gives us to terminate application</span>
+        <span class="n">love</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">love.keypressed</code> fires once when a key is pressed, and we can check which key using the <code class="language-plaintext highlighter-rouge">key</code> parameter. If statements in Lua use the <code class="language-plaintext highlighter-rouge">then</code> keyword to specify the beginning of a block, and then these then blocks will end with an <code class="language-plaintext highlighter-rouge">end</code>, just like function blocks do.</p>
+  </li>
+  <li data-marker="*">
+    <p>In the draw function, we wrap everything in <code class="language-plaintext highlighter-rouge">push.start()</code> and <code class="language-plaintext highlighter-rouge">push.finish()</code>. From <code class="language-plaintext highlighter-rouge">pong-1/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    Called after update by LÖVE2D, used to draw anything to the screen,
+    updated or otherwise.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="c1">-- begin rendering at virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1">-- condensed onto one line from last example</span>
+    <span class="c1">-- note we are now using virtual width and height now for text placement</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Pong!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+    <span class="c1">-- end rendering at virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">push.start()</code> puts us in virtual resolution mode, essentially saying “okay, everything you draw right now is going to be drawn to this virtual screen.” Then <code class="language-plaintext highlighter-rouge">push.finish()</code> turns off push, so whatever you draw after is going to be native resolution. All calculations should be done in virtual width and height terms.</p>
+  </li>
+</ul>
+
+<h2 id="drawing-shapes">Drawing Shapes</h2>
+
+<ul>
+  <li data-marker="*">Pong is essentially just rectangles and a little bit of text. In order to draw rectangles, LÖVE2D gives us <code class="language-plaintext highlighter-rouge">love.graphics.rectangle</code>, which takes a mode (‘fill’ or ‘line’), an X and Y position, and a width and height. Fill rectangles are literally filled in. Line rectangles can be useful for rendering 调试 collision boxes for your sprites, which we’ll see uses of in the future.</li>
+  <li data-marker="*">To change the 背景 color, we use <code class="language-plaintext highlighter-rouge">love.graphics.clear</code> with RGBA values. RGB is very prevalent historically and still today in 游戏开发 and CSS. You have three different lights that go from zero to one or zero to 255 that if you combine them in different ways, you produce many millions of colors. It expects zero-to-one floating point values, but RGB is traditionally thought of as zero to 255, so we divide by 255 to normalize them.</li>
+  <li data-marker="*">Aesthetics matter a good deal. Font, meaningfully, is a good aesthetic thing to take into consideration. There’s even a Final Fantasy One remaster that initially had a lot of complaints 关于 the font because it was using some Arial or Helvetica that was very tightly smashed together, and aesthetically it just didn’t quite mesh with the pixel JRPG look.</li>
+  <li data-marker="*">
+    <p>To create custom fonts, we use <code class="language-plaintext highlighter-rouge">love.graphics.newFont</code> and <code class="language-plaintext highlighter-rouge">love.graphics.setFont</code>. From <code class="language-plaintext highlighter-rouge">pong-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setDefaultFilter</span><span class="p">(</span><span class="s1">'nearest'</span><span class="p">,</span> <span class="s1">'nearest'</span><span class="p">)</span>
+
+    <span class="c1">-- more "retro-looking" font object we can use for any text</span>
+    <span class="n">smallFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'font.ttf'</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+    <span class="c1">-- set LÖVE2D's active font to the smallFont obect</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">smallFont</span><span class="p">)</span>
+
+    <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">resizable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">})</span>
+
+    <span class="c1">-- initialize window with virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">setupScreen</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">,</span> <span class="p">{</span> <span class="n">upscale</span> <span class="o">=</span> <span class="s1">'normal'</span> <span class="p">})</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we can create font objects at different sizes and switch between them using <code class="language-plaintext highlighter-rouge">love.graphics.setFont</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>To draw the paddles and ball, everything gets drawn by its top-left coordinate. When we say 10 pixels by 30 pixels for the first paddle, we’re saying the top-left corner of that rectangle should start at that position, and then it will draw its width and height towards the right and down. From <code class="language-plaintext highlighter-rouge">pong-2/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+    <span class="c1">-- begin rendering at virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1">-- clear the screen with a specific color; in this case, a color similar</span>
+    <span class="c1">-- to some versions of the original Pong</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="mi">40</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">45</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">52</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="c1">-- draw welcome text toward the top of the screen</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Pong!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+    <span class="c1">--</span>
+    <span class="c1">-- paddles are simply rectangles we draw on the screen at certain points,</span>
+    <span class="c1">-- as is the ball</span>
+    <span class="c1">--</span>
+
+    <span class="c1">-- render first paddle (left side)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+    <span class="c1">-- render second paddle (right side)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+    <span class="c1">-- render ball (center)</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1">-- end rendering at virtual resolution</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that for the right paddle, we use <code class="language-plaintext highlighter-rouge">VIRTUAL_WIDTH - 15</code> to accommodate for not only the 10 pixels away from the edge, but also the 5 pixels of the width because we have to remember to accommodate for the fact that we’re drawing based on the top-left coordinate. If we want to show it 10 pixels from the right, it actually has to be drawn 15 pixels from that right side because the width of the rectangle is baked into that calculation.</p>
+  </li>
+</ul>
+
+<h2 id="delta-time-and-velocity">Delta 时间 and Velocity</h2>
+
+<ul>
+  <li data-marker="*">Now that we have a visual skeleton of Pong, the 问题 is how to get the game to behave 更多 like a game. We need things to move.</li>
+  <li data-marker="*">If we want to press and hold a key to move a paddle up and down consistently, <code class="language-plaintext highlighter-rouge">love.keypressed</code> won’t work because it only fires once per key press. You can hold it all day, but it’s just only going to fire the one 时间. Instead, we use <code class="language-plaintext highlighter-rouge">love.keyboard.isDown</code>, which will just continuously do a check whenever you call it.</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.update</code> takes a <code class="language-plaintext highlighter-rouge">dt</code> parameter, which stands for <em>delta 时间</em>. This is the 时间 in seconds that has passed since the last frame. This will be some fraction, some zero point zero or zero one six or something, which is a very small value.</li>
+  <li data-marker="*">Delta 时间 is maybe the most crucial value we use because it’s the driver for how we get consistent behavior across different computers. If a computer runs at 30 fps or 144 fps, we need to normalize movement across all frame rates. If we’re just doing things every frame, well, in one second, 60 iterations could happen, 144 iterations could happen, 10, 20 iterations could happen. We need some way to normalize across all possible frame rates. The way we do this is with this DT variable. LÖVE keeps track of this, processes it, and sends it to us via this parameter. That Delta value will be smaller the 更多 frames run in a given second, and therefore, those things will move 更多 times, but smaller increments, and everything will be normalized across variable frame rates.</li>
+  <li data-marker="*">
+    <p>From <code class="language-plaintext highlighter-rouge">pong-3/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- speed at which we will move our paddle; multiplied by dt in update</span>
+<span class="n">PADDLE_SPEED</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="cm">--[[
+    Runs every frame, with "dt" passed in, our delta in seconds
+    since the last frame, which LÖVE2D supplies us.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- player 1 movement</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="c1">-- add negative paddle speed to current Y scaled by deltaTime</span>
+        <span class="n">player1Y</span> <span class="o">=</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="o">-</span><span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="c1">-- add positive paddle speed to current Y scaled by deltaTime</span>
+        <span class="n">player1Y</span> <span class="o">=</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- player 2 movement</span>
+    <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'up'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="c1">-- add negative paddle speed to current Y scaled by deltaTime</span>
+        <span class="n">player2Y</span> <span class="o">=</span> <span class="n">player2Y</span> <span class="o">+</span> <span class="o">-</span><span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'down'</span><span class="p">)</span> <span class="k">then</span>
+        <span class="c1">-- add positive paddle speed to current Y scaled by deltaTime</span>
+        <span class="n">player2Y</span> <span class="o">=</span> <span class="n">player2Y</span> <span class="o">+</span> <span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we multiply <code class="language-plaintext highlighter-rouge">PADDLE_SPEED</code> by <code class="language-plaintext highlighter-rouge">dt</code>. Every one-sixtieth of a second (assuming 60 fps), it will decrease the Y value by some fraction of 200 pixels. By the 时间 60 frames have passed, we will have moved 200 pixels regardless of frame rate. If only one frame passed between this second and the last second, this DT value would just be one, which would effectively mean your computer could be horrendously slow, and the movement is going to always scale by this delta in 时间.</p>
+  </li>
+  <li data-marker="*">
+    <p>To prevent paddles from going off-screen, we use <code class="language-plaintext highlighter-rouge">math.max</code> and <code class="language-plaintext highlighter-rouge">math.min</code> to clamp values. These functions allow us to effectively clamp values. We can take the greater or the lesser of two numbers. From <code class="language-plaintext highlighter-rouge">pong-4/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- player 1 movement</span>
+<span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">then</span>
+    <span class="c1">-- add negative paddle speed to current Y scaled by deltaTime</span>
+    <span class="c1">-- now, we clamp our position between the bounds of the screen</span>
+    <span class="c1">-- math.max returns the greater of two values; 0 and player Y</span>
+    <span class="c1">-- will ensure we don't go above it</span>
+    <span class="n">player1Y</span> <span class="o">=</span> <span class="nb">math.max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="o">-</span><span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span> <span class="k">then</span>
+    <span class="c1">-- add positive paddle speed to current Y scaled by deltaTime</span>
+    <span class="c1">-- math.min returns the lesser of two values; bottom of the egde minus paddle height</span>
+    <span class="c1">-- and player Y will ensure we don't go below it</span>
+    <span class="n">player1Y</span> <span class="o">=</span> <span class="nb">math.min</span><span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">20</span><span class="p">,</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">math.max</code> prevents the paddle from going above the screen (较少 than 0). In the case that player 1 Y goes 较少 than zero, math.max is always going to choose zero. And <code class="language-plaintext highlighter-rouge">math.min</code> prevents it from going below (更多 than <code class="language-plaintext highlighter-rouge">VIRTUAL_HEIGHT - 20</code>, accounting for paddle height). It will always ever be virtual height minus 20 at the lowest point. Through this means, we end up ensuring that our paddles are always hard-clamped to the screen.</p>
+  </li>
+  <li data-marker="*">
+    <p>For the ball, we need both X and Y velocity since it can move all over the place. It can bounce, go left and right, bounce off the top, bounce off the bottom. Because it’s going to need this velocity that can be on the X and/or the Y axis, we need to keep track of both DX and DY variables. We also use a game state variable. From <code class="language-plaintext highlighter-rouge">pong-4/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- velocity and position variables for our ball when play starts</span>
+<span class="n">ballX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+<span class="n">ballY</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+
+<span class="c1">-- math.random returns a random value between the left and right number</span>
+<span class="n">ballDX</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">100</span> <span class="ow">or</span> <span class="o">-</span><span class="mi">100</span>
+<span class="n">ballDY</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1">-- game state variable used to transition between different parts of the game</span>
+<span class="c1">-- (used for beginning, menus, main game, high score list, etc.)</span>
+<span class="c1">-- we will use this to determine behavior during render and update</span>
+<span class="n">gameState</span> <span class="o">=</span> <span class="s1">'start'</span>
+</code></pre></div>    </div>
+    <p>Notice that we seed the random number generator with <code class="language-plaintext highlighter-rouge">math.randomseed(os.time())</code> so it’s different every 时间 we run the game. <code class="language-plaintext highlighter-rouge">os.time()</code> returns that value in seconds since the start of the Unix operating system, which is always going to be an incrementing value throughout 时间, so our random number generator will always be different every 时间 we run the 源代码. The <code class="language-plaintext highlighter-rouge">and ... or</code> pattern is Lua’s way of doing a ternary expression. If the first value is true, then the <code class="language-plaintext highlighter-rouge">and</code> will result and return that value. Otherwise, it will 秋季 to the <code class="language-plaintext highlighter-rouge">or</code> value. If you see this and/or pattern, that’s essentially what we’re doing: a ternary.</p>
+  </li>
+</ul>
+
+<h2 id="object-oriented-programming">Object-Oriented 编程</h2>
+
+<ul>
+  <li data-marker="*">Rather than continue to add variables for every paddle, ball, or entity, we should look at <em>object-oriented 编程</em> (or OOP). A <em>class</em> is like a blueprint that defines the shape of an object. An object is a way to containerize data and methods. Think of all the velocities and XY position and everything, and then functions that those entities might apply to that data inside them.</li>
+  <li data-marker="*">The fact that we can just have all of the data compartmentalized inside of something rather than have an X, Y variable for every paddle or ball or entity, Delta X, Delta Y, and all these different global variables, gets to be very unwieldy, especially if you can imagine having like 100 creatures in your game. A class allows us to think: how can I define maybe the idea of a paddle as a piece of data that has all of its own information and also functions that deal with that information together in one place that I can just reference and call and not bog up my <code class="language-plaintext highlighter-rouge">main.lua</code> file?</li>
+  <li data-marker="*">Games are essentially just this big collection of entities doing things, working and sending messages to each other, invoking methods between one another in order to accomplish things. 游戏开发 lends itself well to object-oriented 编程.</li>
+  <li data-marker="*">
+    <p>We use a library called <code class="language-plaintext highlighter-rouge">class</code> that helps with OOP in Lua. From <code class="language-plaintext highlighter-rouge">pong-5/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- the "Class" library we're using will allow us to represent anything in</span>
+<span class="c1">-- our game as code, rather than keeping track of many disparate variables and</span>
+<span class="c1">-- methods</span>
+<span class="c1">--</span>
+<span class="c1">-- https://github.com/vrld/hump/blob/master/class.lua</span>
+<span class="n">Class</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'class'</span>
+
+<span class="c1">-- our Paddle class, which stores position and dimensions for each Paddle</span>
+<span class="c1">-- and the logic for rendering them</span>
+<span class="nb">require</span> <span class="s1">'Paddle'</span>
+
+<span class="c1">-- our Ball class, which isn't much different than a Paddle structure-wise</span>
+<span class="c1">-- but which will mechanically function very differently</span>
+<span class="nb">require</span> <span class="s1">'Ball'</span>
+</code></pre></div>    </div>
+    <p>Notice that we require the class library and then our own class files. The syntax <code class="language-plaintext highlighter-rouge">require 'Paddle'</code> means Lua will look for a <code class="language-plaintext highlighter-rouge">Paddle.lua</code> file. You don’t need to specify <code class="language-plaintext highlighter-rouge">.lua</code>; it’s automatically inferred by Lua. We’re defining those as globals within those modules, so we don’t actually have to say <code class="language-plaintext highlighter-rouge">something = require 'Paddle'</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>A Paddle class contains all its own data and methods. From <code class="language-plaintext highlighter-rouge">pong-5/Paddle.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">Paddle</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+<span class="cm">--[[
+    The `init` function on our class is called just once, when the object
+    is first created. Used to set up all variables in the class and get it
+    ready for use.
+
+    Our Paddle should take an X and a Y, for positioning, as well as a width
+    and height for its dimensions.
+
+    Note that `self` is a reference to *this* object, whichever object is
+    instantiated at the time this function is called. Different objects can
+    have their own x, y, width, and height values, thus serving as containers
+    for data. In this sense, they're very similar to structs in C.
+]]</span>
+<span class="k">function</span> <span class="nf">Paddle</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">Paddle</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- math.max here ensures that we're the greater of 0 or the player's</span>
+    <span class="c1">-- current calculated Y position when pressing up so that we don't</span>
+    <span class="c1">-- go into the negatives; the movement calculation is simply our</span>
+    <span class="c1">-- previously-defined paddle speed scaled by dt</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">math.max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="c1">-- similar to before, this time we use math.min to ensure we don't</span>
+    <span class="c1">-- go any farther than the bottom of the screen minus the paddle's</span>
+    <span class="c1">-- height (or else it will go partially below, since position is</span>
+    <span class="c1">-- based on its top left corner)</span>
+    <span class="k">else</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">math.min</span><span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="cm">--[[
+    To be called by our main function in `love.draw`, ideally. Uses
+    LÖVE2D's `rectangle` function, which takes in a draw mode as the first
+    argument as well as the position and dimensions for the rectangle. To
+    change the color, one must call `love.graphics.setColor`. As of the
+    newest version of LÖVE2D, you can even draw rounded rectangles!
+]]</span>
+<span class="k">function</span> <span class="nf">Paddle</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice the <code class="language-plaintext highlighter-rouge">self</code> keyword, which refers to whichever paddle is calling the method. Self is just going to be whatever the object is that’s being defined with the call. When we say <code class="language-plaintext highlighter-rouge">Paddle(10, 30, 5, 20)</code>, the init function gets called by default as part of the class library, and self is going to be that Paddle object that becomes player1. The <code class="language-plaintext highlighter-rouge">init</code> function is called a <em>constructor</em>. This is just something that will flesh out our paddle with initial values and create it as an actual thing. All of these self variables, these <em>fields</em> as they’re called, will be referenceable later in any other function.</p>
+  </li>
+  <li data-marker="*">
+    <p>In <code class="language-plaintext highlighter-rouge">main.lua</code>, we create paddle and ball objects. From <code class="language-plaintext highlighter-rouge">pong-5/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- initialize our player paddles; make them global so that they can be</span>
+<span class="c1">-- detected by other functions and modules</span>
+<span class="n">player1</span> <span class="o">=</span> <span class="n">Paddle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">player2</span> <span class="o">=</span> <span class="n">Paddle</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">-- place a ball in the middle of the screen</span>
+<span class="n">ball</span> <span class="o">=</span> <span class="n">Ball</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice how we now think in terms of paddles and a ball. We’re not thinking in terms of 8, 10, 12 different variables that we’re trying to juggle altogether. We’ve condensed our code highly down now.</p>
+  </li>
+  <li data-marker="*">
+    <p>The colon syntax in Lua (e.g., <code class="language-plaintext highlighter-rouge">player1:update(dt)</code>) is different from dot in that it will take an object, take a table or a piece of data, and actually implicitly pass itself to a function defined on the class. It allows us to call methods on ball, player1, and player2 that are a part of that blueprint definition. Every paddle has a function that that paddle can use by itself to reference. This ball’s update will know 关于 ball’s information. This player1 update will know 关于 player1’s information. From <code class="language-plaintext highlighter-rouge">pong-5/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- update our ball based on its DX and DY only if we're in play state;</span>
+<span class="c1">-- scale the velocity by dt so movement is framerate-independent</span>
+<span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'play'</span> <span class="k">then</span>
+    <span class="n">ball</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">player1</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">player2</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice the 可读性 of this code. We’ve abstracted out the details into the class definitions. No longer do we have to put all of the logic needed to update them inside of <code class="language-plaintext highlighter-rouge">love.update</code>. In fact, it’s better practice to keep all the LÖVE functions in your main.lua as clean and concise as possible and defer the heavy lifting to other modules.</p>
+  </li>
+</ul>
+
+<h2 id="collision-detection">Collision Detection</h2>
+
+<ul>
+  <li data-marker="*">A game isn’t a game if you can’t lose. We have to talk 关于 collision detection. In the 世界 of 2D collision detection, we use <em>AABB</em> (Axis-Aligned Bounding Box) collision detection.</li>
+  <li data-marker="*">AABB is simply 测试 to see if two boxes that are axis-aligned (not rotated) are overlapping. You can think of it as checking: do my two rectangles have a gap between them? If we want the paddle and the ball to collide with each other, to get a message that they have collided, and then set the velocity of the ball to invert on the X axis if it hits a paddle and on the Y axis if it hits the ceiling or floor, we need this algorithm.</li>
+  <li data-marker="*">
+    <p>The algorithm checks if any edge of rectangle A is outside the bounds of rectangle B. Basically checking to see is there no gap on all four sides? Is the left edge of one to the right of the right edge of the other? If any of these conditions is true, there’s a gap, so no collision. Only if none are true do we have a collision. From <code class="language-plaintext highlighter-rouge">pong-7/Ball.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    Expects a paddle as an argument and returns true or false, depending
+    on whether their rectangles overlap.
+]]</span>
+<span class="k">function</span> <span class="nf">Ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">paddle</span><span class="p">)</span>
+    <span class="c1">-- first, check to see if the left edge of either is farther to the right</span>
+    <span class="c1">-- than the right edge of the other</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">paddle</span><span class="p">.</span><span class="n">width</span> <span class="ow">or</span> <span class="n">paddle</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="k">then</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- then check to see if the bottom edge of either is higher than the top</span>
+    <span class="c1">-- edge of the other</span>
+    <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">paddle</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">paddle</span><span class="p">.</span><span class="n">height</span> <span class="ow">or</span> <span class="n">paddle</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">then</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="k">end</span>
+
+    <span class="c1">-- if the above aren't true, they're overlapping</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we check both the X axis and Y axis for gaps. If none of them return false, then that means we have a collision. The gaps are completely closed in.</p>
+  </li>
+  <li data-marker="*">
+    <p>When a collision occurs, we need to respond by reversing the ball’s velocity and moving it outside the paddle. This is important. Anytime you do collision detection resolving, you have to move the thing that collided outside of the rectangle it collided with. Because as you’re moving things, the ball is moving, it can be moving pretty quickly, and frame by frame it’s going to clip into the paddle some amount, maybe several pixels. We want to make sure that on the 下一页 frame, as it’s updating, it’s not still inside the paddle because then it’ll just be infinitely colliding with the paddle. We want to essentially knock it out of the bounds, nudge it in a correct position. From <code class="language-plaintext highlighter-rouge">pong-7/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- detect ball collision with paddles, reversing dx if true and</span>
+<span class="c1">-- slightly increasing it, then altering the dy based on the position of collision</span>
+<span class="k">if</span> <span class="n">ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">player1</span><span class="p">)</span> <span class="k">then</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">03</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">player1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+
+    <span class="c1">-- keep velocity going in the same direction, but randomize it</span>
+    <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that we reverse the X velocity, multiply by 1.03 to gradually increase speed (the escalation of difficulty helps spur the game along), and move the ball just outside the paddle. Whether it’s positive or negative, it’s just going to grow faster with 时间 with every collision until somebody gets scored on. This “nudging” prevents the ball from getting stuck inside the paddle.</p>
+  </li>
+  <li data-marker="*">
+    <p>For wall collisions (top and bottom of screen), we flip the Y velocity. If we’re going up and we hit the top of the screen, we want it to bounce down. Then if we’re going down and it hits the bottom, we want it to bounce 返回 up. From <code class="language-plaintext highlighter-rouge">pong-7/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- detect upper and lower screen boundary collision and reverse if collided</span>
+<span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">then</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+<span class="k">end</span>
+
+<span class="c1">-- -4 to account for the ball's size</span>
+<span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">4</span> <span class="k">then</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">4</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how we also set the ball’s position to exactly at the boundary to prevent it from going past.</p>
+  </li>
+</ul>
+
+<h2 id="scoring-and-game-states">Scoring and Game States</h2>
+
+<ul>
+  <li data-marker="*">The ball collides with the ceiling, the floor, and the paddles, but we still need scoring. When the ball goes past the left or right edge of the screen, the opponent scores. A game doesn’t really make sense if you can play to infinity but you can’t win.</li>
+  <li data-marker="*">We use a <em>game state</em> variable to track what phase of the game we’re in. A <em>state machine</em> is a way to model all the transitions between states. All of the transitions between whether we’re playing, whether we’re serving, whether we’re in a victory, whether it’s game over, all those are essentially just states. A game can be looked at as just this big state machine with all these complicated transitions. If you duck and release down, you stand. If you press B, you jump. The actual transitions are modeled and what they represent.</li>
+  <li data-marker="*">We’re doing it in a simplistic way for now, just a string variable, but we’ll build up a much better abstraction for state machines 下一页 讲座.</li>
+  <li data-marker="*">
+    <p>To detect scoring, we check if the ball passes an edge. If somebody scores against the other player, it’s probably fair that the player who had just gotten scored on gets to serve. The ball will move first towards the opponent rather than them. It’s an arbitrary decision, but it feels like good sportsmanship. From <code class="language-plaintext highlighter-rouge">pong-10/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- if we reach the left or right edge of the screen,</span>
+<span class="c1">-- go back to start and update the score</span>
+<span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+    <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">player2Score</span> <span class="o">=</span> <span class="n">player2Score</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1">-- if we've reached a score of 10, the game is over; set the</span>
+    <span class="c1">-- state to done so we can show the victory message</span>
+    <span class="k">if</span> <span class="n">player2Score</span> <span class="o">==</span> <span class="mi">10</span> <span class="k">then</span>
+        <span class="n">winningPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'done'</span>
+    <span class="k">else</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+        <span class="c1">-- places the ball in the middle of the screen, no velocity</span>
+        <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">VIRTUAL_WIDTH</span> <span class="k">then</span>
+    <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">player1Score</span> <span class="o">=</span> <span class="n">player1Score</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">player1Score</span> <span class="o">==</span> <span class="mi">10</span> <span class="k">then</span>
+        <span class="n">winningPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'done'</span>
+    <span class="k">else</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+        <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that when the ball passes an edge, we increment the opponent’s score, reset the ball, and go to the serve state. The player who got scored on becomes the serving player.</p>
+  </li>
+  <li data-marker="*">
+    <p>In the serve state, we set the ball’s initial velocity based on who’s serving. The ball moves toward the opponent of whoever is serving. From <code class="language-plaintext highlighter-rouge">pong-10/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'serve'</span> <span class="k">then</span>
+    <span class="c1">-- before switching to play, initialize ball's velocity based</span>
+    <span class="c1">-- on player who last scored</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">servingPlayer</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that this influences what direction the ball starts off DX-wise.</p>
+  </li>
+  <li data-marker="*">
+    <p>Different states display different messages and allow different actions. The ball is locked behind the play state, but the paddle moving is not locked behind anything. You can move at any 时间. This is a choice that you can make. From <code class="language-plaintext highlighter-rouge">pong-10/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'escape'</span> <span class="k">then</span>
+    <span class="n">love</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="c1">-- if we press enter during either the start or serve phase, it should</span>
+<span class="c1">-- transition to the next appropriate state</span>
+<span class="k">elseif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'enter'</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'return'</span> <span class="k">then</span>
+    <span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'start'</span> <span class="k">then</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+    <span class="k">elseif</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'serve'</span> <span class="k">then</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'play'</span>
+    <span class="k">elseif</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'done'</span> <span class="k">then</span>
+        <span class="c1">-- game is simply in a restart phase here, but will set the serving</span>
+        <span class="c1">-- player to the opponent of whomever won for fairness!</span>
+        <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+
+        <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+
+        <span class="c1">-- reset scores to 0</span>
+        <span class="n">player1Score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">player2Score</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1">-- decide serving player as the opposite of who won</span>
+        <span class="k">if</span> <span class="n">winningPlayer</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+            <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">else</span>
+            <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how pressing Enter transitions us through the states. In the ‘done’ state, we reset the scores and whoever won, the opposite person gets to serve for the first 时间 as an arbitrary fun thing.</p>
+  </li>
+</ul>
+
+<h2 id="sound-effects">Sound Effects</h2>
+
+<ul>
+  <li data-marker="*">The game works, but it’s dead quiet. It feels a little bit stifling, to be honest. Sound is a very important function, and thankfully LÖVE makes it super easy with <code class="language-plaintext highlighter-rouge">love.audio.newSource</code>. You load a file, it can be a music file or a sound file, and then you can trigger this sound to play, stop, loop whenever you want.</li>
+  <li data-marker="*">There are cool free 工具 online for creating sound effects. <em>BFXR</em> and <em>ChipTone</em> are browser-based 工具 that let you create custom retro sounds. ChipTone is on sfbgames.itch.io/chiptone. If you’re thinking 关于 classic Mario games, you’ve got coins, jumps, the sound when you run into an enemy, when you grab a mushroom and grow larger. A lot of the categories of sounds you can generate are modeled off of that.</li>
+  <li data-marker="*">When thinking 关于 what sounds you want, think 关于 the semantic meaning. We want minimally a sound when the ball bounces off the paddles, something bright, not too high pitch, nice and almost metallic and plasticy. When it bounces off the top and bottom, something 更多 dull. When it goes off the left or right side, something harsher that sounds like “Oh, I just suffered some loss.” There’s a lot of information that you can bake into sounds. The semantic meaning of a sound in the game can be a subtle but very effective thing that gives it a lot of life.</li>
+  <li data-marker="*">
+    <p>We load sounds in <code class="language-plaintext highlighter-rouge">love.load</code> using a table. This is a good opportunity to see how tables can work in a basic way in Lua as key value pairs. From <code class="language-plaintext highlighter-rouge">pong-11/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">-- set up our sound effects; later, we can just index this table and</span>
+<span class="c1">-- call each entry's `play` method</span>
+<span class="n">sounds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s1">'paddle_hit'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/paddle_hit.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+    <span class="p">[</span><span class="s1">'score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/score.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+    <span class="p">[</span><span class="s1">'wall_hit'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/wall_hit.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that we use ‘static’ for small sound files that load into 内存 immediately. For larger files like music, you’d use ‘stream’, which allows us to stream it over 时间 and give our 内存 更多 leg room. The square brackets around the keys are not strictly necessary for alphanumeric keys, but if you wanted hyphens or other special syntax, you would not be able to use those as keys because they’d be interpreted by Lua as not valid variable names. Just for consistency and flexibility, it’s good to keep it consistent with strings.</p>
+  </li>
+  <li data-marker="*">
+    <p>To play a sound, we call the <code class="language-plaintext highlighter-rouge">:play()</code> method. Sounds are objects, so they take colon syntax, and play is a method on that sound object. From <code class="language-plaintext highlighter-rouge">pong-11/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">player1</span><span class="p">)</span> <span class="k">then</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">03</span>
+    <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">player1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+
+    <span class="c1">-- keep velocity going in the same direction, but randomize it</span>
+    <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="n">sounds</span><span class="p">[</span><span class="s1">'paddle_hit'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice how we play appropriate sounds at different game events. Just with that very small adjustment, adding a few sounds in specific places for the things that interact in our game 世界, we now can feel the game in a way that’s different. It feels very immersive. It feels a lot 更多 polished and complete.</p>
+  </li>
+  <li data-marker="*">
+    <p>To handle window resizing with the push library, we implement <code class="language-plaintext highlighter-rouge">love.resize</code>. Push does things with the resizing of a virtual canvas that it uses that has to be synced up with the window, and that occurs during LÖVE’s own callback function. From <code class="language-plaintext highlighter-rouge">pong-12/main.lua</code>:</p>
+
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cm">--[[
+    Called by LÖVE whenever we resize the screen; here, we just want to pass in the
+    width and height to push so our virtual resolution can be resized as needed.
+]]</span>
+<span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">push</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Notice that push needs to be told when the window resizes so it can adjust the virtual resolution scaling accordingly. Make sure <code class="language-plaintext highlighter-rouge">resizable = true</code> is set in your window options.</p>
+  </li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned the fundamentals of 2D 游戏开发 by building Pong from scratch. Specifically, you learned…</p>
+
+<ul>
+  <li data-marker="*">关于 Lua as a 编程 language and LÖVE2D as a game framework.</li>
+  <li data-marker="*">How game loops work: input, update, and render running every frame, like a flipbook.</li>
+  <li data-marker="*">关于 2D coordinate systems where Y goes down and X goes right.</li>
+  <li data-marker="*">How to use virtual resolution with the push library for a retro pixelated look.</li>
+  <li data-marker="*">关于 the difference between bilinear/trilinear filtering and nearest-neighbor (point) filtering.</li>
+  <li data-marker="*">How to draw shapes, text, and use custom fonts.</li>
+  <li data-marker="*">关于 delta 时间 and why multiplying velocity by dt creates frame-rate independent movement.</li>
+  <li data-marker="*">How to use object-oriented 编程 with classes to organize game code and avoid having many disparate variables.</li>
+  <li data-marker="*">关于 AABB (Axis-Aligned Bounding Box) collision detection and the importance of nudging collided objects out of bounds.</li>
+  <li data-marker="*">How to implement game states and state transitions, which form a state machine.</li>
+  <li data-marker="*">How to add sound effects to make the game feel polished and immersive.</li>
+</ul>
+
+<p>下一页 时间 we’re going to transition away from the 世界 of just shapes and simple colors and take a look at our very first images. The 下一页 讲座 is going to be Flappy Bird, where we’ll look at images, infinite scrolling, the idea that games are illusions in various ways, procedural generation, state machines in a 更多 elegant way, and mouse input.</p>
+
+<p>See you 下一页 时间!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994616.js"></script>
+
+    
+
+
+</body></html>

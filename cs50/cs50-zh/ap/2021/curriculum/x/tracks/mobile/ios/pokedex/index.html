@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta property="og:description" content="This is CS50 AP, Harvard University&#x27;s introduction to the intellectual enterprises of computer science and the art of programming for students in high school, which satisfies the College Board&#x27;s AP Computer Science Principles (CSP) curriculum framework. Students in high school may receive AP credit for this course provided their school approves the credit and administers the College Board&#x27;s Create Performance Task by Friday, April 30, 2021, 11:59 PM Eastern Time, and End-of-Course Multiple-Choice Exam on Thursday, May 13, 2021, 8:00 AM local time. Students should make all such arrangements in advance with their school directly. Students who earn a satisfactory score on all problem sets and a final project are also eligible to receive a verified certificate from HarvardX.">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg"><meta property="og:title" content="Pokédex - CS50 AP">
+
+        <link href="../../../../../../favicon%EF%B9%961627956442.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- http://getbootstrap.com/docs/4.6/getting-started/introduction/ -->
+        <script src="../../../../../../assets/jquery/dist/jquery.min%EF%B9%961627956442.js"></script>
+        <script src="../../../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961627956442.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961627956442.css" rel="stylesheet">
+        <script src="../../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961627956442.js"></script>
+        <script src="../../../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961627956442.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        <link href="../../../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961627956442.css" rel="stylesheet">
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../../../assets/luxon.min%EF%B9%961627956442.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- https://www.jsdelivr.com/package/npm/mathjax?path=es5 -->
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-chtml.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <!-- https://www.jsdelivr.com/package/npm/iframe-resizer?path=js -->
+        <script src="https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.1/js/iframeResizer.min.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks -->
+        <script src="../../../../../../assets/scratchblocks-v3.5.2-min%EF%B9%961627956442.js"></script>
+
+        
+
+        <link href="../../../../../../assets/page%EF%B9%961627956442.css" rel="stylesheet">
+        <script src="../../../../../../assets/jekyll-theme-cs50%EF%B9%961627956442.js"></script>
+
+        <script>
+            window.CS50 = {
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Pokédex - CS50 AP</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0 shadow" data-alert="success" data-hash="b8090b9f8b7f2cf886097098c2016d0b" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>If interested in <a href="https://www.edx.org/verified-certificate">verified certificates</a> from <a href="https://www.edx.org/">edX</a>, enroll 在 <a href="https://cs50.edx.org/ap">cs50.edx.org/ap</a>.</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-md">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2020–2021</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fab fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fab fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://orcid.org/0000-0001-5338-2522"><i aria-hidden="true" class="fab fa-orcid" title="ORCID"></i><span class="sr-only">ORCID</span></a>
+<a class="mr-1" href="https://www.quora.com/profile/David-J-Malan"><i aria-hidden="true" class="fab fa-quora" title="Quora"></i><span class="sr-only">Quora</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fab fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fab fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-md-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../../../../../../workshop/index.html">工作坊</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://ide.cs50.io/">CS50 IDE</a></li>
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.noticeable.news/">Changelog</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2021/communities">社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://i.imgur.com/GGMdcKt.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-md">
+
+                    <h1 id="pokédex">Pokédex</h1>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>下载 this 项目’s <a href="https://cdn.cs50.net/2019/fall/tracks/ios/pokedex/pokedex.zip">distribution code</a>.</p>
+
+<h2 id="what-to-do">What To Do</h2>
+
+<ul>
+  <li data-marker="*">Searching</li>
+  <li data-marker="*">Catching</li>
+  <li data-marker="*">Saving State</li>
+  <li data-marker="*">Sprites</li>
+  <li data-marker="*">Description</li>
+</ul>
+
+<h2 id="searching">Searching</h2>
+
+<p>Let’s add some 新内容 functionality to our Pokédex app! First, let’s give users the ability to 搜索 the Pokédex for their favorite Pokémon.</p>
+
+<p>First, add a 搜索 bar to the top of our <code class="language-plaintext highlighter-rouge">UITableView</code>. 打开 up your Storyboard, and then add a 新内容 UI element. 搜索 for <code class="language-plaintext highlighter-rouge">search bar</code>, and then drag the 搜索 bar onto your <code class="language-plaintext highlighter-rouge">UITableView</code>, just above where it says <code class="language-plaintext highlighter-rouge">Prototype Cells</code>. You should now see a 搜索 bar above the <code class="language-plaintext highlighter-rouge">UITableView</code>—nice!</p>
+
+<p>下一页, create an <code class="language-plaintext highlighter-rouge">@IBOutlet</code>, and wire it up, as you did with other UI elements.</p>
+
+<p>Now, let’s implement the 搜索 functionality. We want to 搜索 over Pokémon names as the user types, and only display the ones that match. Specifically, your 搜索 should match any substring in a Pokémon’s 姓名. For instance, the 搜索 “saur” should match Bulbasaur, Ivysaur, and Venusaur; the 搜索 “v” should only match Ivysaur and Venusaur; an empty 搜索 should match everything.</p>
+
+<p>To get started, you’ll want to make your <code class="language-plaintext highlighter-rouge">PokemonListViewController</code> inherit from <code class="language-plaintext highlighter-rouge">UISearchBarDelegate</code>. Recall that <em>delegation</em> is one way for objects to pass information between each other. In this case, whenever the text changes in the 搜索 bar, we’d like to delegate that to our <code class="language-plaintext highlighter-rouge">PokemonListViewController</code>.</p>
+
+<p>So, your class declaration should look something like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class PokemonListViewController: UITableViewController, UISearchBarDelegate {
+</code></pre></div></div>
+
+<p>下一页, we want to set the <code class="language-plaintext highlighter-rouge">delegate</code> property of our 搜索 bar to be the instance of our <code class="language-plaintext highlighter-rouge">PokemonListViewController</code>. You can use the <code class="language-plaintext highlighter-rouge">viewDidLoad</code> method to do so. Assuming you called your 搜索 bar variable <code class="language-plaintext highlighter-rouge">searchBar</code>, you can do something like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>override func viewDidLoad() {
+  super.viewDidLoad()
+  searchBar.delegate = self
+}
+</code></pre></div></div>
+
+<p>Now, whenever the user changes the text in the 搜索 bar, the below method will be called:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+  // implement your search here!
+}
+</code></pre></div></div>
+
+<p>We can implement our 搜索 inside of this method. (Don’t forget to call <code class="language-plaintext highlighter-rouge">tableView.reloadData</code>!) You probably want to store the results of the 搜索 in another class variable (whose type is a list of <code class="language-plaintext highlighter-rouge">PokemonListResult</code>s), so you don’t lose your copy of the list containing all Pokémon (i.e., the <code class="language-plaintext highlighter-rouge">pokemon</code> variable). Then, rather than using <code class="language-plaintext highlighter-rouge">pokemon</code> inside of methods like <code class="language-plaintext highlighter-rouge">tableView(</code><code class="language-plaintext highlighter-rouge">**_**</code> <code class="language-plaintext highlighter-rouge">tableView: UITableView, numberOfRowsInSection section: Int)</code> and <code class="language-plaintext highlighter-rouge">tableView(</code><code class="language-plaintext highlighter-rouge">**_**</code> <code class="language-plaintext highlighter-rouge">tableView: UITableView, cellForRowAt indexPath: IndexPath)</code>, use your newly created variable, which should only contain the matching Pokémon.</p>
+
+<h2 id="catching">Catching</h2>
+
+<p>Any good Pokédex keeps track of which Pokémon have been caught and which haven’t. Let’s add that functionality to our Pokédex as well.</p>
+
+<p>First, add a button (a <code class="language-plaintext highlighter-rouge">UIButton</code> to be specific) to <code class="language-plaintext highlighter-rouge">PokemonViewController</code> storyboard. You can set the text of this button to whatever you’d like, but we’ll go with <code class="language-plaintext highlighter-rouge">Catch</code> for simplicity. You’ll also want to create a corresponding <code class="language-plaintext highlighter-rouge">@IBOutlet</code> and wire it up.</p>
+
+<p>下一页, create a method that will be called when the button is tapped. We’ll need to mark this method as an <code class="language-plaintext highlighter-rouge">@IBAction</code> so that we can use it in our storyboard. Let’s call it <code class="language-plaintext highlighter-rouge">toggleCatch</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@IBAction func toggleCatch() {
+  // gotta catch 'em all!
+}
+</code></pre></div></div>
+
+<p>To wire up this <code class="language-plaintext highlighter-rouge">@IBAction</code>, head 返回 to your storyboard, click on your button, hold Control, and click and drag from the button to <code class="language-plaintext highlighter-rouge">Pokemon View Controller</code> on the left. When you unclick, you should see a popover with <code class="language-plaintext highlighter-rouge">toggleCatch</code> under <code class="language-plaintext highlighter-rouge">Sent Events</code>. Click on that, and this method will be called each 时间 the button is pressed.</p>
+
+<p>Now, we can implement catching. To 开始, add a 新内容 boolean class variable that keeps track of whether or not the Pokémon is caught. If a Pokémon is caught, change the text of the button to something like <code class="language-plaintext highlighter-rouge">Release</code>, and vice-versa when it’s released. The <code class="language-plaintext highlighter-rouge">UIButton</code> method <code class="language-plaintext highlighter-rouge">setTitle(_ title: String?, for: UIControl.State)</code> method will come in handy.</p>
+
+<h2 id="saving-state">Saving State</h2>
+
+<p>You’ll notice that if you stop running your app and then run it again, your Pokédex will forget which Pokémon are caught and which aren’t! Let’s fix that by saving that state to disk.</p>
+
+<p>As your last task, use the <code class="language-plaintext highlighter-rouge">UserDefaults</code> class to save which Pokémon are caught. With this class, you can store state that will be remembered each 时间 your app launches, which is just what you need. How you store this state is up to you—you might consider storing a list of all Pokémon that are caught, or you might consider using a map from Pokémon to boolean values.</p>
+
+<p>Here’s an 示例:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UserDefaults.standard.set("cs50", forKey: "course")
+let course = UserDefaults.standard.string(forKey: "course")
+print(course) // will print "cs50"
+</code></pre></div></div>
+
+<p>To test saving state, you should be able to catch a Pokémon, stop the simulator, 开始 the simulator again, and still see that Pokémon as caught.</p>
+
+<h2 id="sprites">Sprites</h2>
+
+<p>Every Pokémon aficionado has noticed by now that our Pokédex doesn’t yet have arguably its most important feature: the ability to display what each Pokémon looks like! Luckily for us, the API we chose contains links to images for each Pokémon.</p>
+
+<p>Let’s add that functionality to our app. First, add a 新内容 <code class="language-plaintext highlighter-rouge">UIImageView</code> to your storyboard, and wire it up to an <code class="language-plaintext highlighter-rouge">@IBOutlet</code>.</p>
+
+<p>下一页, when parsing the response from the API call, take a look 在 the key called <code class="language-plaintext highlighter-rouge">sprites</code>. You’ll notice that it’s a dictionary, and the key <code class="language-plaintext highlighter-rouge">front_default</code> contains a URL pointing to an image of a Pokémon. Use the value of that key to load in an image to your <code class="language-plaintext highlighter-rouge">UIImageView</code>. You’ll want to follow a similar pattern—create structs with types that match the keys and types returned by the API.</p>
+
+<p>Here are a few methods you might find useful:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">UIImage(data: Data)</code></li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">Data(contentsOf: URL)</code></li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">URL(string: String)</code></li>
+</ul>
+
+<h2 id="description">Description</h2>
+
+<p>Let’s add one last feature to our Pokédex: a description of each Pokémon. From the API documentation, we can see that we can use /api/v2/pokemon-species/{id} to retrieve a description for a given Pokémon: <a href="https://pokeapi.co/docs/v2.html#pokemon-species">https://pokeapi.co/docs/v2.HTML#pokemon-species</a>. For instance, the URL <code class="language-plaintext highlighter-rouge">https://pokeapi.co/api/v2/pokemon-species/133/</code> will give you the description text for everyone’s favorite Pokémon.</p>
+
+<p>Specifically, what we’re 在找 can be found in the key called <code class="language-plaintext highlighter-rouge">flavor_text_entries</code>. This key happens to contain entries for several different languages, but we’re just concerned with English for now. You might need a few additional structs to model the data for these 新内容 keys.</p>
+
+<p>After a user selects a Pokémon from the list, make a separate API call to this second endpoint to retrieve the description of the selected Pokémon. 滤镜 for just the first English description, and then display it somewhere on the screen. (Some Pokémon have 更多 than one English description, and it suffices to just display the first one.) You’ll probably want to wire up a 新内容 <code class="language-plaintext highlighter-rouge">UILabel</code> or <code class="language-plaintext highlighter-rouge">UITextView</code> to display this final piece of data.</p>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<p>To 提交 your code with <code class="language-plaintext highlighter-rouge">submit50</code>, you 五月 either: (1) upload your code to CS50 IDE and run <code class="language-plaintext highlighter-rouge">submit50</code> from inside of your IDE, or (2) install <code class="language-plaintext highlighter-rouge">submit50</code> on your own computer by running <code class="language-plaintext highlighter-rouge">pip3 install submit50</code> (assuming you have <a href="https://www.python.org/downloads/">Python 3</a> installed).</p>
+
+<p>Execute the below, logging in with your GitHub username and password when prompted. For 安全, you’ll see asterisks (<code class="language-plaintext highlighter-rouge">*</code>) instead of the actual characters in your password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2020/x/tracks/ios/pokedex
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../../../assets/page%EF%B9%961627956442.js"></script>
+
+    
+
+
+</body></html>

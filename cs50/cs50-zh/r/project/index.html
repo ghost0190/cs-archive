@@ -1,0 +1,527 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Final Project - CS50&#x27;s Introduction to Programming with R">
+
+        <link href="../favicon%EF%B9%961779994625.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../assets/jquery/dist/jquery.min%EF%B9%961779994625.js"></script>
+        <script src="../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.js"></script>
+        <script src="../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../assets/luxon/build/global/luxon.min%EF%B9%961779994625.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../assets/mathjax/tex-mml-chtml%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../assets/scratchblocks.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../assets/mermaid/dist/mermaid.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994625.js"></script>
+
+        
+
+        <link href="../assets/page%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../assets/jekyll-theme-cs50%EF%B9%961779994625.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>最终项目 - CS50's Introduction to 编程 with R</title>
+
+
+    <meta property="og:description" content="The climax of this course is its final project. The final project is your opportunity to take your newfound savvy with R for a spin and develop your very...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../index.html#how-to-take-this-course">a verified 证书 or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-r"><a href="../index.html">CS50’s Introduction to 编程 with R</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ol>
+  <li><a href="../weeks/1/index.html">Representing Data</a></li>
+  <li><a href="../weeks/2/index.html">Transforming Data</a></li>
+  <li><a href="../weeks/3/index.html">Applying Functions</a></li>
+  <li><a href="../weeks/4/index.html">Tidying Data</a></li>
+  <li><a href="../weeks/5/index.html">Visualizing Data</a></li>
+  <li><a href="../weeks/6/index.html">测试 Programs</a></li>
+  <li><a href="../weeks/7/index.html">Packaging Programs</a></li>
+</ol>
+
+<!-- Course Nav -->
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../shorts/index.html">短视频</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50r">成绩册</a></li>
+  <li data-marker="*"><a href="../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/r">edX</a></li>
+  <li data-marker="*"><a href="https://youtu.be/g_3IKHG-rfA">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382yfNp_-xzX244d-O9W6YmD">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://style.tidyverse.org/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="final-project">最终项目</h1>
+
+<p>The climax of this 课程 is its 最终项目. The 最终项目 is your opportunity to take your newfound savvy with R for a spin and develop your very own package. We ask that you build something of interest to you, that you solve a substantive problem, that you positively impact others, or that you change the 世界. Strive to create something you’re proud of.</p>
+
+<p>Since software development is rarely a one-person effort, you are allowed an opportunity to collaborate with one or two classmates for this 最终项目. Needless to say, it is expected that every student in any such group contribute equally to the design and implementation of the 项目. Moreover, it is expected that the scope of a two- or three-person group’s 项目 be, respectively, twice or thrice that of a typical one-person 项目. Although no 更多 than three students 五月 design and implement a given 项目, you are 欢迎 to solicit advice from others, so long as you respect the 课程’s policy on 学术诚信.</p>
+
+<div class="alert" data-alert="warning" role="alert"><p>笔记 that CS50’s 工作人员 audits submissions to CS50R, including this 最终项目. Students found to be in violation of <a href="../honesty/index.html">the 学术诚信 policy</a> will be removed from the 课程 and deemed ineligible for a 证书. Students who have already completed CS50R, if found to be in violation, will have their CS50 证书 (and edX 证书, if applicable) revoked.</p></div>
+
+<h2 id="when-to-do-it">When To Do It</h2>
+
+<p>By <a data-local="2026-12-31T23:59:00+00:00" href="https://time.cs50.io/20261231T235900Z">2026-12-31T23:59:00+00:00</a>.</p>
+
+<h2 id="ideas">Ideas</h2>
+
+<p>The ideas for what you could build are endless, though to get your thinking started, a few others have attempted 项目 like the below!</p>
+
+<ul>
+  <li data-marker="*">A package to speed up data analysis tasks you find yourself commonly repeating (à la the <a href="https://www.tidyverse.org/">tidyverse</a> or <a href="https://sfirke.github.io/janitor/">janitor</a> packages)</li>
+  <li data-marker="*">A package to create or analyze music files (à la the <a href="https://cran.r-project.org/web/packages/gm/vignettes/gm.html">gm</a> or <a href="https://r-forge.r-project.org/projects/tuner/">tuneR</a> packages)</li>
+  <li data-marker="*">A package to do something whimsical, surprising, or fun (à la the <a href="https://cran.r-project.org/web/packages/fortunes/index.html">fortunes</a> or <a href="https://cran.r-project.org/web/packages/spongebob/index.html">spongebob</a> packages)</li>
+</ul>
+
+<h2 id="getting-started">入门</h2>
+
+<h3 id="project-folder">项目 Folder</h3>
+
+<p>To provide you some structure with which to start building your package, we’ll give you a folder that contains the <code class="language-plaintext highlighter-rouge">DESCRIPTION</code>, <code class="language-plaintext highlighter-rouge">LICENSE</code>, and <code class="language-plaintext highlighter-rouge">NAMESPACE</code> files you need. Start by downloading the 项目 folder.</p>
+
+<details><summary>下载 the 项目 folder</summary><p>打开 RStudio per the linked <a href="../rstudio/index.html">steps</a> and navigate to the R console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getwd</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to print your working directory. Ensure your current working directory is where you’d like to 下载 this problem’s distribution code. If using RStudio through <a href="https://cs50.dev">cs50.dev</a> the recommended directory is <code class="language-plaintext highlighter-rouge">/workspaces/NUMBER</code> where <code class="language-plaintext highlighter-rouge">NUMBER</code> is a number unique to your codespace.</p>
+
+<p>If you do not see the right working directory, use <code class="language-plaintext highlighter-rouge">setwd</code> to change it! Try typing <code class="language-plaintext highlighter-rouge">setwd("..")</code> if in the working directory of another problem, which will move you one directory higher.</p>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://cdn.cs50.net/r/2024/x/project/project.zip"</span><span class="p">,</span><span class="w"> </span><span class="s2">"project.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">project.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unzip</span><span class="p">(</span><span class="s2">"project.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">project</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.remove</span><span class="p">(</span><span class="s2">"project.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now type</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">"project"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your working directory should now <strong>end</strong> with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project/
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list.files</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and see <code class="language-plaintext highlighter-rouge">DESCRIPTION</code>, <code class="language-plaintext highlighter-rouge">LICENSE</code>, and <code class="language-plaintext highlighter-rouge">NAMESPACE</code>. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<p>Of 课程, you’ll likely want to rename your 最终项目’s folder from <code class="language-plaintext highlighter-rouge">project</code> to the 姓名 of your package. You can do so by using:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.rename</span><span class="p">(</span><span class="s2">"OLD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NEW"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>where “OLD” is the old folder 姓名 and “NEW” is the new folder 姓名, each in quotes. When you do this, just be sure your 项目 folder is <em>in</em> your working directory and is <em>not</em> your current working directory itself.</p>
+
+<h2 id="specification">规格说明</h2>
+
+<p>At a high level, your 最终项目 should be an R package that includes at least 3 functions, with documentation and rigorous tests. To be 更多 specific, your 最终项目 should include all of the following:</p>
+
+<ul>
+  <li data-marker="*">A complete <code class="language-plaintext highlighter-rouge">DESCRIPTION</code> file</li>
+  <li data-marker="*">A complete <code class="language-plaintext highlighter-rouge">NAMESPACE</code> file</li>
+  <li data-marker="*">A complete <code class="language-plaintext highlighter-rouge">LICENSE</code> file, if appropriate</li>
+  <li data-marker="*">At least 3 <code class="language-plaintext highlighter-rouge">.R</code> files in a folder named <code class="language-plaintext highlighter-rouge">R</code>, each one defining 1 function that is part of your package</li>
+  <li data-marker="*">At least 3 <code class="language-plaintext highlighter-rouge">.Rd</code> files in a folder named <code class="language-plaintext highlighter-rouge">man</code>, each one documenting 1 of the functions you’ve implemented</li>
+  <li data-marker="*">At least 3 <code class="language-plaintext highlighter-rouge">.R</code> files in a folder named <code class="language-plaintext highlighter-rouge">tests</code>, each one 测试 1 of the functions you’ve implemented</li>
+  <li data-marker="*">A 视频 overview of your package</li>
+</ul>
+
+<p>The requirements for each of these components are described in 更多 detail below.</p>
+
+<h3 id="description"><code class="language-plaintext highlighter-rouge">DESCRIPTION</code></h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">DESCRIPTION</code> file should be at least 100 characters long and contain the URL to your <a href="#video-overview">视频 overview</a> in the <code class="language-plaintext highlighter-rouge">Video</code> field.</p>
+
+<h3 id="namespace"><code class="language-plaintext highlighter-rouge">NAMESPACE</code></h3>
+
+<p>You <code class="language-plaintext highlighter-rouge">NAMESPACE</code> file should <code class="language-plaintext highlighter-rouge">export</code> all functions from your package you’d like others to be able to use.</p>
+
+<h3 id="license"><code class="language-plaintext highlighter-rouge">LICENSE</code></h3>
+
+<p>If needed, your <code class="language-plaintext highlighter-rouge">LICENSE</code> file should provide additional information 关于 the 许可协议 you’ve chosen.</p>
+
+<h3 id="r-folder">
+<code class="language-plaintext highlighter-rouge">R</code> folder</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">R</code> folder should include at least 3 <code class="language-plaintext highlighter-rouge">.R</code> files, each with a function definition inside of them.</p>
+
+<h3 id="man-folder">
+<code class="language-plaintext highlighter-rouge">man</code> folder</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">man</code> folder should include at least 3 <code class="language-plaintext highlighter-rouge">.Rd</code> files, with at least these 必需 components:</p>
+
+<ul>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">name</code> attribute</li>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">description</code> attribute</li>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">usage</code> attribute</li>
+  <li data-marker="*">An <code class="language-plaintext highlighter-rouge">arguments</code> attribute</li>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">value</code> attribute</li>
+  <li data-marker="*">An <code class="language-plaintext highlighter-rouge">examples</code> attribute</li>
+</ul>
+
+<h3 id="tests-folder">
+<code class="language-plaintext highlighter-rouge">tests</code> folder</h3>
+
+<p>Your <code class="language-plaintext highlighter-rouge">tests</code> folder (or a subfolder of it) should contain at least 3 <code class="language-plaintext highlighter-rouge">.R</code> files to test your functions from your <code class="language-plaintext highlighter-rouge">R</code> folder.</p>
+
+<h3 id="video-overview">视频 Overview</h3>
+
+<p>Create a short 视频 (that’s no 更多 than 3 minutes in length) in which you present your 项目 to the 世界, as with 幻灯片, screenshots, voiceover, and/or live action. Your 视频 must begin with an opening 小组课 that displays:</p>
+
+<ul>
+  <li data-marker="*">your 项目’s title;</li>
+  <li data-marker="*">your 姓名;</li>
+  <li data-marker="*">your GitHub and edX usernames;</li>
+  <li data-marker="*">your city and country;</li>
+  <li data-marker="*">and, the 日期 you have recorded this 视频.</li>
+  <li data-marker="*">See <a href="https://www.howtogeek.com/205742/how-to-record-your-windows-mac-linux-android-or-ios-screen/">howtogeek.com/205742/how-to-record-your-windows-mac-linux-android-or-ios-screen</a> for tips on how to make a “screencast,” though you’re 欢迎 to use an actual camera. Upload your 视频 to YouTube (or, if blocked in your country, a similar site) and take 笔记 of its URL; it’s fine to flag it as “unlisted,” but don’t flag it as “private.”</li>
+</ul>
+
+<h2 id="sample-project">Sample 项目</h2>
+
+<p>If you’d find it helpful to see a sample 项目, consider exploring the 工作人员’s own! The sample 项目 is a package called <code class="language-plaintext highlighter-rouge">ducksay</code>, which gives users access to functions like <code class="language-plaintext highlighter-rouge">ducksay</code>, <code class="language-plaintext highlighter-rouge">cowsay</code>, and <code class="language-plaintext highlighter-rouge">fishsay</code>.</p>
+
+<details><summary>下载 the sample 项目</summary><p>打开 RStudio per the linked <a href="../rstudio/index.html">steps</a> and navigate to the R console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getwd</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to print your working directory. Ensure your current working directory is where you’d like to 下载 this problem’s distribution code. If using RStudio through <a href="https://cs50.dev">cs50.dev</a> the recommended directory is <code class="language-plaintext highlighter-rouge">/workspaces/NUMBER</code> where <code class="language-plaintext highlighter-rouge">NUMBER</code> is a number unique to your codespace.</p>
+
+<p>If you do not see the right working directory, use <code class="language-plaintext highlighter-rouge">setwd</code> to change it! Try typing <code class="language-plaintext highlighter-rouge">setwd("..")</code> if in the working directory of another problem, which will move you one directory higher.</p>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://cdn.cs50.net/r/2024/x/project/ducksay.zip"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ducksay.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">ducksay.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unzip</span><span class="p">(</span><span class="s2">"ducksay.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">ducksay</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.remove</span><span class="p">(</span><span class="s2">"ducksay.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now type</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">"ducksay"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your working directory should now <strong>end</strong> with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ducksay/
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list.files</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and see the package’s 目录. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="alert" data-alert="primary" role="alert"><p><strong>You must complete all three steps!</strong></p></div>
+
+<h4 id="step-1-of-3">Step 1 of 3</h4>
+
+<p>提交 <a href="https://forms.cs50.io/8eb93d0b-f2cb-412e-ad58-badf60b4d37a">this form</a>!</p>
+
+<h4 id="step-2-of-3">Step 2 of 3</h4>
+
+<p>Keeping in mind the 课程’s policy on 学术诚信, run the following command in the RStudio console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50("cs50/problems/2024/r/project")
+</code></pre></div></div>
+
+<h4 id="step-3-of-3">Step 3 of 3</h4>
+
+<p>Be sure to visit your 成绩册 at <a href="https://cs50.me/cs50r">cs50.me/cs50r</a> a few minutes after you 提交. It’s only by loading your 成绩册 that the system can check to see whether you have completed the 课程, and that is also what triggers the (instant) generation of your free CS50 证书 and the (within 30 days) generation of the Verified 证书 from edX, if you’ve completed all of the other 作业. Be sure to claim your free 证书 (by following the link at the top of your 成绩册) before <a data-local="2026-12-31T23:59:00+00:00" href="https://time.cs50.io/20261231T235900Z">2026-12-31T23:59:00+00:00</a>.</p>
+
+<p>That’s it! Your 项目 should be graded within a few minutes. If you don’t see any results in your 成绩册, best to resubmit (running the above <code class="language-plaintext highlighter-rouge">submit50</code> command). No need to resubmit your form.</p>
+
+<p>This was CS50R!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../assets/page%EF%B9%961779994625.js"></script>
+
+    
+
+
+</body></html>

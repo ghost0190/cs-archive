@@ -1,0 +1,588 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/tT9VMlXRkwE/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 1 - CS50's Computer Science for Business">
+
+        <link href="../../favicon%EF%B9%961779994617.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994617.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994617.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994617.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Lecture 1 - CS50's Computer Science for Business</title>
+
+
+    <meta property="og:description" content="Welcome! In our previous session, we learned about interpreting information: How computers represent data using binary, how text is encoded using ASCII and...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success" data-hash="f5fa231a8b697cc591f0d91b0b1ea768" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate, a professional certificate, or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-computer-science-for-business"><a href="../../index.html">CS50’s Computer Science for Business</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Interpreting Information</a></li>
+  <li><a href="../../weeks/1/index.html">Analyzing Algorithms</a></li>
+  <li><a href="../../weeks/2/index.html">Designing Data Structures</a></li>
+  <li><a href="../../weeks/3/index.html">Practicing Programming</a></li>
+  <li><a href="../../weeks/4/index.html">Approaching Artificial Intelligence</a></li>
+  <li><a href="../../weeks/5/index.html">Implementing the Internet</a></li>
+  <li><a href="../../weeks/6/index.html">Weaving the Web</a></li>
+  <li><a href="../../weeks/7/index.html">Deploying Databases</a></li>
+  <li><a href="../../weeks/8/index.html">Securing Systems</a></li>
+</ol>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50b">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/business">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/1b">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/1b">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T381d32c80DEQZOR-IWcINyP8">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-1">Lecture 1</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">Welcome!</a></li>
+  <li><a href="#what-is-an-algorithm" id="markdown-toc-what-is-an-algorithm">What is an Algorithm</a></li>
+  <li><a href="#analyzing-algorithms" id="markdown-toc-analyzing-algorithms">Analyzing Algorithms</a></li>
+  <li><a href="#big-o-notation" id="markdown-toc-big-o-notation">Big O Notation</a></li>
+  <li><a href="#omega-notation" id="markdown-toc-omega-notation">Omega Notation</a></li>
+  <li><a href="#searching" id="markdown-toc-searching">Searching</a></li>
+  <li><a href="#linear-search" id="markdown-toc-linear-search">Linear Search</a></li>
+  <li><a href="#binary-search" id="markdown-toc-binary-search">Binary Search</a></li>
+  <li><a href="#sorting" id="markdown-toc-sorting">Sorting</a></li>
+  <li><a href="#selection-sort" id="markdown-toc-selection-sort">Selection Sort</a></li>
+  <li><a href="#bubble-sort" id="markdown-toc-bubble-sort">Bubble Sort</a></li>
+  <li><a href="#insertion-sort" id="markdown-toc-insertion-sort">Insertion Sort</a></li>
+  <li><a href="#recursion" id="markdown-toc-recursion">Recursion</a></li>
+  <li><a href="#merge-sort" id="markdown-toc-merge-sort">Merge Sort</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">Welcome!</h2>
+
+<ul>
+  <li data-marker="*">In our previous session, we learned about interpreting information: How computers represent data using binary, how text is encoded using ASCII and Unicode, how images and videos are represented, and how algorithms solve problems.</li>
+  <li data-marker="*">This week, we are going to analyze algorithms, the step by step instructions for solving some problems.</li>
+  <li data-marker="*">Among today’s problems are searching, sorting, and more.</li>
+  <li data-marker="*">By the end of this lecture, you will understand how to evaluate and compare algorithms using formal notation, and you will have a vocabulary to communicate with technical members of your team about algorithm efficiency.</li>
+</ul>
+
+<h2 id="what-is-an-algorithm">What is an Algorithm</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Algorithms</em> are processes that are designed to complete a specific task. You may not have called it by this name in the past. Maybe you’ve referred to it as a recipe or a routine. That’s basically the idea for what an algorithm is.</li>
+  <li data-marker="*">For example, you might have a morning routine or a morning algorithm. Even going through the process of solving a Wordle is an algorithm. Most folks who do so choose a starting word and always go off of that word. Then you go step by step, iterating through, trying to solve that puzzle. That is an algorithm.</li>
+  <li data-marker="*">Algorithms complete specific tasks. They also have well-defined inputs and outputs.</li>
+  <li data-marker="*">Consider the idea of a recipe. If you’re trying to make scrambled eggs for breakfast, you have all of your ingredients at the beginning and you’re trying to accomplish some objective at the end, namely a nice warm plate of scrambled eggs.</li>
+  <li data-marker="*">In order to do so, you need to go through a sequence of steps that are clear and ordered and unambiguous. You don’t, for example, put your eggs in the pan immediately. First you have to crack the eggs into a bowl and then add seasonings. Turn the oven on, and you’re going through these steps in a particular order.</li>
+  <li data-marker="*">If you do things out of order, you end up with a cold pan or eggshells in your breakfast, which is probably not ideal.</li>
+  <li data-marker="*">Ideally, an algorithm does not go on forever. This does not preclude the opportunity to repeat something over and over. For example, if you have an algorithm to count out numbers, the algorithm might be: Say the number you’re starting at, add one to that number in your head, say the next number out loud, and you go back and forth through those two steps over and over.</li>
+  <li data-marker="*">The algorithm itself has a finite number of steps, in this case two. But this algorithm will run forever. So algorithms can take an infinite amount of time to run, but they have a finite number of steps associated with them.</li>
+</ul>
+
+<h2 id="analyzing-algorithms">Analyzing Algorithms</h2>
+
+<ul>
+  <li data-marker="*">Now that we have this idea of what an algorithm is, a set of instructions for completing a task, let’s talk about how we analyze algorithms in a computer science context.</li>
+  <li data-marker="*">There are basically two ways that we will do so. The first is based on how much <em>time</em> that algorithm takes to run. The other way is how much <em>space</em> or how much memory on your computer this algorithm takes up.</li>
+  <li data-marker="*">Sometimes we’ll see that the trade-off can be very important. We may take up far more memory on our computer in order to save time doing something.</li>
+  <li data-marker="*">There’s a catch here: We don’t exactly use time as a metric because different computers have different processors. The first computer from the 90s was a lot slower than computers today. The same algorithm running on both of those machines would run at very different amounts of time.</li>
+  <li data-marker="*">So instead of using time literally like seconds, minutes, hours, we instead consider how many <em>steps</em> an algorithm might take. In particular, we care about how many steps an algorithm might take as the data set gets bigger and bigger.</li>
+  <li data-marker="*">We care about what an algorithm will tend to do as some huge data set is thrown at it to give us a sense of how it will generally perform. Different processors, different computers are all going to handle things slightly differently. And so we only care about the general idea, the general number of steps it might take.</li>
+  <li data-marker="*">We also have to consider different situations. What if this data is in the worst possible shape and we need to do something to it? And what if this data is in the best possible shape?</li>
+  <li data-marker="*">The run times, or how many steps it takes to deal with that data, may vary based on whether that data is in good shape or in bad shape. These are the <em>worst case</em> and <em>best case</em> scenarios.</li>
+  <li data-marker="*">Whenever we’re talking about an algorithm, algorithms are always operating on some data, some inputs, and yielding some output. We use the letter <em>n</em> or the variable \(n\) to represent the size of the data that we are working with.</li>
+</ul>
+
+<h2 id="big-o-notation">Big O Notation</h2>
+
+<ul>
+  <li data-marker="*">Consider three hypothetical algorithms. The first runs in \(n^3\) time, meaning it takes \(n^3\) steps to run. The second runs in \(n^3 + n^2\) time. The third runs in \(n^3 - 8n^2 + 20n - 13\) time.</li>
+  <li data-marker="*">If we have a data set of size 1, the first algorithm takes 1 step, the second takes 2 steps, and the third takes 13 steps. So the last algorithm seems pretty bad, taking 13 times the amount of time compared to the first one.</li>
+  <li data-marker="*">But as the data set gets bigger, things change. With a data set of size 10, the first takes 1,000 steps, the second takes 1,100 steps, but the third only takes 400 steps.</li>
+  <li data-marker="*">With a data set of size 1,000, the first takes a billion steps, the second takes a billion and a million steps, and the third takes just shy of a billion steps (992 million).</li>
+  <li data-marker="*">What we’re seeing is that as the data set tends to get bigger, the algorithm tends to stop caring about the lower order terms. It’s really the \(n^3\) term that matters.</li>
+  <li data-marker="*">When we say an algorithm runs in \(n^3\) time, what we usually mean is that’s generally the term that’s going to dominate how many steps it takes to do something. We don’t concern ourselves with lower order terms like \(n^2\), and we don’t concern ourselves with constant factors.</li>
+  <li data-marker="*">If those times represented the worst case scenario runtimes, we may describe them as \(O(n^3)\). Big O means “on the order of.” We would describe that as an upper bound on how many steps that algorithm would take in the worst case.</li>
+  <li data-marker="*">There are different categories of running time that we might consider, in order of increasing steps:</li>
+  <li data-marker="*">
+<em>Constant time</em>, \(O(1)\): an algorithm that, irrespective of the size of the data, runs in one step or some constant number of steps. For example, an algorithm that always outputs the first element of a list, or an algorithm that adds two numbers together.</li>
+  <li data-marker="*">
+<em>Logarithmic time</em>, \(O(\log n)\): an algorithm proportional to log base 2 of \(n\). We’re basically dividing a problem in half repeatedly.</li>
+  <li data-marker="*">
+<em>Linear time</em>, \(O(n)\): an algorithm proportional to the size of the data set. One step for every one element, or three steps for every one element, but directly proportional to the size.</li>
+  <li data-marker="*">
+<em>Log linear time</em>, \(O(n \log n)\): we’ll talk about this later with merge sort.</li>
+  <li data-marker="*">
+<em>Polynomial time</em>, \(O(n^2)\): quadratic time is a special case.</li>
+  <li data-marker="*">
+<em>Exponential time</em>: the constant is in the base and the number of elements is in the exponent. This is rough territory. These algorithms take a lot of time to run and are generally to be avoided.</li>
+  <li data-marker="*">
+<em>Factorial time</em>, \(O(n!)\): even worse. With a data set of size 10, it takes 3 million steps. With size 1,000, it’s \(4 \times 10^{2567}\).</li>
+  <li data-marker="*">
+<em>Unbounded</em>: algorithms that may take infinite time in the worst case.</li>
+</ul>
+
+<h2 id="omega-notation">Omega Notation</h2>
+
+<ul>
+  <li data-marker="*">If the times we discussed represented the best case scenario, we would represent them with the symbol <em>omega</em>, as in \(\Omega(n^3)\).</li>
+  <li data-marker="*">Omega represents the lower bound on how many steps it may take for that algorithm to run.</li>
+  <li data-marker="*">We can classify an algorithm by both its upper bound (Big O) and its lower bound (Omega), depending on whether we’re discussing the worst case or best case scenarios.</li>
+</ul>
+
+<h2 id="searching">Searching</h2>
+
+<ul>
+  <li data-marker="*">Searching for a value is one of the most fundamental things that we can do with a data set. This is true in computer science, but this is true for any business operation.</li>
+  <li data-marker="*">If you have a client list you need to go through, or you have a product list of SKUs that you need to go through, you’re going to be searching through that data set quite a bit.</li>
+  <li data-marker="*">There are a couple of ways to solve this problem with basic lists. They behave differently and they require slightly different situations to be true. One of them can be done on any list. One of them requires us to tweak that list a little bit in order to take advantage of an efficiency.</li>
+</ul>
+
+<h2 id="linear-search">Linear Search</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Linear search</em> is the more fundamental approach. We have some list of data and we have some target that we’re trying to find in that list.</li>
+  <li data-marker="*">
+    <p>Here is the pseudocode for linear search:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   As long as we have not gone past the end of the list
+2       Check if the current item matches the target
+3       If so, stop (search was successful)
+4       Otherwise, go to the next item and return to step 1
+5   If we reach here, the search was unsuccessful
+</code></pre></div>    </div>
+    <p>Notice that this is a finite number of steps, but there is a looping procedure where we keep going back to the beginning until we run out of data to check.</p>
+  </li>
+  <li data-marker="*">Imagine a list of 15 items. In computer science, we typically start our counting from zero. So there are 15 elements in the list numbered from index 0 up through index 14.</li>
+  <li data-marker="*">We step through the list one element at a time. We check each element against our target. If we find it, the search is successful. If we reach the end without finding it, the search is unsuccessful.</li>
+  <li data-marker="*">If we search for an element that isn’t in the list, we still go through the entire list. The algorithm was still correct. We exhaustively made sure that the element did not exist in the data set.</li>
+  <li data-marker="*">In the worst case scenario, we have to look through the entire list to find either that the item is in the last spot, or that the item wasn’t in the list at all.</li>
+  <li data-marker="*">In the best case scenario, the target is at the very beginning of the list. We only have to look at one element.</li>
+  <li data-marker="*">Using our notation, we could say that linear search runs in \(O(n)\) (worst case), and \(\Omega(1)\) (best case, finding it on the first step).</li>
+</ul>
+
+<h2 id="binary-search">Binary Search</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Binary search</em> is different because it has a special condition: The list must be sorted.</li>
+  <li data-marker="*">
+    <p>If the list is sorted, we can take advantage of an efficiency. Here is the pseudocode:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Note the start and end positions of the list
+2   As long as start is less than or equal to end
+3       Find the midpoint of those two values
+4       Check if the midpoint matches the target
+5       If so, stop (search was successful)
+6       If target is less than current element
+7           Change endpoint to look at smaller subset (left half)
+8       Else (target is greater than current element)
+9           Change start point to look at larger subset (right half)
+10  If we reach here, the search was unsuccessful
+</code></pre></div>    </div>
+    <p>Notice that we can throw away half of the list with each comparison because we know things are sorted.</p>
+  </li>
+  <li data-marker="*">If you’re looking for something smaller than what you found in the middle, you don’t need to look at everything bigger. If you’re looking for something bigger, you don’t need to look at everything smaller.</li>
+  <li data-marker="*">This is like tearing a phone book in half. You open to the middle, find that the name you’re looking for is on one side or the other, rip the phone book in half and throw away the portion that doesn’t have the name. You can keep tearing that part in half over and over.</li>
+  <li data-marker="*">With a list of 15 elements, instead of looking at all 15 elements, we might only iterate through the loop 3 or 4 times. That feels faster, and it is faster.</li>
+  <li data-marker="*">In the worst case scenario, we have to cut the list in half repeatedly, as many times as possible, down to a single element. This is \(O(\log n)\).</li>
+  <li data-marker="*">In the best case scenario, the very first time we calculate a midpoint, we found what we’re looking for. This is \(\Omega(1)\).</li>
+  <li data-marker="*">Binary search, with the caveat that it requires a sorted list, is more efficient than linear search.</li>
+</ul>
+
+<h2 id="sorting">Sorting</h2>
+
+<ul>
+  <li data-marker="*">If we need a sorted list for binary search, how do we get one? Organizing data is very important for any business operation. We need to keep client lists maintained, SKUs maintained, databases in order.</li>
+  <li data-marker="*">There are many ways to sort. There are far more ways to sort than there are to search through lists. We’re going to talk about several options, but they are non-exhaustive.</li>
+</ul>
+
+<h2 id="selection-sort">Selection Sort</h2>
+
+<ul>
+  <li data-marker="*">With <em>selection sort</em>, consider that we have an unsorted list. Our objective is to find the smallest item left in the list, then swap that item so it becomes the beginning of the list.</li>
+  <li data-marker="*">If we walk through the entire list and find the smallest thing and put it at the front, we can now declare that first item sorted. Then we repeat the process with the remaining elements.</li>
+  <li data-marker="*">
+    <p>Here is the pseudocode:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Find the smallest item remaining in the unsorted portion
+2   Swap it with the first element of the unsorted portion
+3   Repeat until the entire list is sorted
+</code></pre></div>    </div>
+    <p>Notice that we went through the list multiple times, not just once from beginning to end.</p>
+  </li>
+  <li data-marker="*">We went through \(n\) elements roughly \(n\) times (the list got a little smaller as we went). So the worst case scenario is \(O(n^2)\).</li>
+  <li data-marker="*">In the best case scenario, it’s exactly the same. We have no way to check if things are already in the right position. We still have to step through. So the lower bound is also \(\Omega(n^2)\): Both are \(n^2\) algorithms.</li>
+</ul>
+
+<h2 id="bubble-sort">Bubble Sort</h2>
+
+<ul>
+  <li data-marker="*">With <em>bubble sort</em>, we look at two elements at a time, and if they are out of order, we swap their positions. This effectively bubbles the bigger element further and further to the right.</li>
+  <li data-marker="*">We also keep track of how many times we make a swap. This will be useful.</li>
+  <li data-marker="*">
+    <p>Here is the pseudocode:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Set swap counter to 0
+2   Look at each pair of adjacent elements
+3       If they are out of order, swap them and increment counter
+4   If swap counter is greater than 0, reset and repeat
+5   If swap counter is 0, the list is sorted
+</code></pre></div>    </div>
+    <p>Notice that if we didn’t have to change the position of any values in a pass, everything must be correct.</p>
+  </li>
+  <li data-marker="*">In the example, we pushed the largest element to the end on each pass. After a few passes, when we made no swaps, we could declare everything sorted without going through all \(n\) iterations.</li>
+  <li data-marker="*">In the worst case (a completely backwards list), we would have to keep bubbling just the first element over, then the next, and so on. This is \(O(n^2)\).</li>
+  <li data-marker="*">In the best case (a completely sorted list), when we went through it one time, our swap counter would be zero, so we only need one pass. This is \(\Omega(n)\).</li>
+  <li data-marker="*">Bubble sort is an improvement over selection sort in the best case.</li>
+</ul>
+
+<h2 id="insertion-sort">Insertion Sort</h2>
+
+<ul>
+  <li data-marker="*">With <em>insertion sort</em>, we declare the first element sorted. Then we look at the next element, and if it’s out of order, we shift the sorted elements to fit that one into place.</li>
+  <li data-marker="*">
+    <p>Here is the pseudocode:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Declare the first element sorted
+2   Look at the next unsorted element
+3   If it's larger than the largest sorted element, append it
+4   Otherwise, shift sorted elements to make room and insert it
+5   Repeat until all elements are sorted
+</code></pre></div>    </div>
+    <p>Notice that we made one pass through the list, but every time we looked at one element, we maybe had to push many things out of the way.</p>
+  </li>
+  <li data-marker="*">If we have \(n\) elements, we might need to push \(n-1\) of them out of the way to make room for just one. That’s the same math as bubble sort.</li>
+  <li data-marker="*">Worst case scenario: The list is in reverse order, and we have to push up to \(n\) elements out of the way. This is \(O(n^2)\).</li>
+  <li data-marker="*">Best case scenario: Everything’s in the right order, and we just keep appending to the end. This is \(\Omega(n)\).</li>
+  <li data-marker="*">Insertion sort has the same runtime classification as bubble sort, but the process is very different. This is an example of how two algorithms that appear quite different can have the same effect and run in the same amount of time.</li>
+</ul>
+
+<h2 id="recursion">Recursion</h2>
+
+<ul>
+  <li data-marker="*">The algorithms we’ve talked about so far have done an <em>iterative</em> process: We go through the steps, start at the beginning, continue on, and often go back to the beginning again.</li>
+  <li data-marker="*">In order to talk about the next sorting algorithm, we need to discuss <em>recursion</em>, which is also a very important problem-solving technique in computer science.</li>
+  <li data-marker="*">In a recursive algorithm, we try to make the problem a tiny bit smaller and just solve a teeny portion of that problem. Then we call the algorithm again on a slightly modified version of the problem and wait for its response to answer the question.</li>
+  <li data-marker="*">Consider the <em>factorial</em> function in math. The factorial of a number is the product of all integers from one up to and including that number. So factorial of 4 is 4 × 3 × 2 × 1 = 24.</li>
+  <li data-marker="*">
+    <p>Here is the iterative approach:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Set product to 1
+2   Set counter to 1
+3   While counter is less than or equal to n
+4       Multiply product by counter
+5       Increment counter
+6   Return product
+</code></pre></div>    </div>
+    <p>Notice that we loop through, multiplying as we go.</p>
+  </li>
+  <li data-marker="*">
+    <p>Here is the recursive approach:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   If n is less than or equal to 1
+2       Return 1 (this is the base case)
+3   Otherwise
+4       Return n × factorial(n - 1)
+</code></pre></div>    </div>
+    <p>Notice that we call the same function on a smaller version of the problem.</p>
+  </li>
+  <li data-marker="*">The <em>base case</em> is the simplest problem we can definitely solve. The factorial of 1 is 1.</li>
+  <li data-marker="*">Otherwise, we return whatever we’re currently operating on multiplied by the factorial of the number one smaller. We’re trying to get towards that base case.</li>
+  <li data-marker="*">It’s like a game of telephone. We call somebody up on a smaller problem and wait for their response. Factorial of 4 asks for factorial of 3, which asks for factorial of 2, which asks for factorial of 1 (which we know is 1). Then the answers flow back up: 1, then 2, then 6, then 24.</li>
+</ul>
+
+<h2 id="merge-sort">Merge Sort</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Merge sort</em> requires us to think outside the box and come back to the trade-off between time and space. We’re going to use more memory to solve the problem as opposed to more time.</li>
+  <li data-marker="*">Every algorithm we’ve talked about has been done “in place,” working on that same array, just exchanging values. In merge sort, we have to make duplicates and do work elsewhere in memory, then put the pieces back together.</li>
+  <li data-marker="*">
+    <p>Here is the pseudocode for merge sort:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1   Sort the left half of the list
+2   Sort the right half of the list
+3   Merge the two halves together
+</code></pre></div>    </div>
+    <p>Notice that this alone seems to outsource the problem. But we recursively apply this algorithm until we get to a list of size 1, which is trivially sorted.</p>
+  </li>
+  <li data-marker="*">A list of size 1 is automatically sorted. It’s the only thing in it. Once we reach lists of size 1, we start merging the pieces together.</li>
+  <li data-marker="*">When merging, we look at the first element of both sorted lists, compare them, put the smaller one into position, and repeat until both lists are exhausted.</li>
+  <li data-marker="*">We keep breaking the problem down into smaller and smaller pieces until we get to pieces we know how to solve (lists of size 1). Then we reassemble. It’s like taking a set of blocks, tearing it all apart, and rebuilding it back together in a different order.</li>
+  <li data-marker="*">In the worst case scenario, the list is in completely reverse order. The algorithm will never know this because the only thing it knows how to do is sort lists of size 1 and then put them back together. There are no shortcuts. This is \(O(n \log n)\).</li>
+  <li data-marker="*">In the best case scenario, it’s exactly the same. The algorithm knows nothing about the list, so there are no tricks or efficiencies. This is also \(\Omega(n \log n)\).</li>
+  <li data-marker="*">The upper bound (\(O(n \log n)\)) is better than the \(O(n^2)\) algorithms. But the lower bound (\(\Omega(n \log n)\)) is actually higher than the \(\Omega(n)\) we saw with bubble sort and insertion sort.</li>
+  <li data-marker="*">Why is it \(n \log n\)? We have \(n\) elements, and we may need to merge a single element back in \(\log n\) times (the number of times we can divide the list in half). So it’s \(n \log n\).</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned about analyzing algorithms, the step by step instructions for solving problems. Specifically, you learned…</p>
+
+<ul>
+  <li data-marker="*">What algorithms are and their key characteristics: well-defined inputs and outputs, clear and ordered steps, and a finite number of steps.</li>
+  <li data-marker="*">How to analyze algorithms by considering time (number of steps) and space (memory usage).</li>
+  <li data-marker="*">About Big O notation for describing the upper bound (worst case) runtime of algorithms.</li>
+  <li data-marker="*">About Omega notation for describing the lower bound (best case) runtime of algorithms.</li>
+  <li data-marker="*">About different runtime categories: constant, logarithmic, linear, log linear, polynomial, exponential, factorial, and unbounded.</li>
+  <li data-marker="*">About linear search and how it runs in \(O(n)\) time and \(\Omega(1)\) time.</li>
+  <li data-marker="*">About binary search, which requires a sorted list but runs in \(O(\log n)\) time.</li>
+  <li data-marker="*">About selection sort, bubble sort, and insertion sort, which all run in \(O(n^2)\) time but have different best case behaviors.</li>
+  <li data-marker="*">About recursion as a problem-solving technique where we solve smaller versions of the same problem.</li>
+  <li data-marker="*">About merge sort, which uses extra memory but achieves \(O(n \log n)\) time.</li>
+</ul>
+
+<p>See you next time!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994617.js"></script>
+
+    
+
+
+</body></html>

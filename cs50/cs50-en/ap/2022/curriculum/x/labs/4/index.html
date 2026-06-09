@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="This is CS50 AP, Harvard University's introduction to the intellectual enterprises of computer science and the art of programming for students in high school, which satisfies the College Board's AP Computer Science Principles (CSP) curriculum framework. Students in high school may receive AP credit for this course provided their school approves the credit and administers the College Board's Create Performance Task by Friday, April 30, 2021, 11:59 PM Eastern Time, and End-of-Course Multiple-Choice Exam on Thursday, May 13, 2021, 8:00 AM local time. Students should make all such arrangements in advance with their school directly. Students who earn a satisfactory score on all problem sets and a final project are also eligible to receive a verified certificate from HarvardX.">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg"><meta property="og:title" content="Lab 4: Volume - CS50 AP">
+
+        <link href="../../../../favicon%EF%B9%961724893223.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../assets/jquery/dist/jquery.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961724893223.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../assets/luxon/build/global/luxon.min%EF%B9%961724893223.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../../assets/mathjax/es5/tex-chtml%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../assets/intersection-observer/intersection-observer%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../assets/scratchblocks.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../assets/mermaid.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../assets/twemoji/dist/twemoji.min%EF%B9%961724893223.js"></script>
+
+        
+
+        <link href="../../../../assets/page%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/jekyll-theme-cs50%EF%B9%961724893223.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Lab 4: Volume - CS50 AP</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2021–2022</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../syllabus/index.html">Syllabus</a></li>
+  <li data-marker="*"><a href="../../../../workshop/index.html">Workshop</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://ide.cs50.io/">CS50 IDE</a></li>
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<hr>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/staff">Staff</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/communities"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter Account</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/i/communities/1722308663522594923">Twitter Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/courses"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lab-4-volume">Lab 4: Volume</h1>
+
+<div class="alert" data-alert="warning" role="alert"><p>You are welcome to collaborate with one or two classmates on this lab, though it is expected that every student in any such group contribute equally to the lab.</p></div>
+
+<div class="alert" data-alert="info" role="alert"><p>GitHub now requires that you use SSH or a personal access token instead of a password to log in, but you can still use <code class="language-plaintext highlighter-rouge">check50</code> and <code class="language-plaintext highlighter-rouge">submit50</code>! See <a href="https://cs50.ly/github">cs50.ly/github</a> for instructions if you haven’t already!</p></div>
+
+<p>Write a program to modify the volume of an audio file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./volume input.wav output.wav 2.0
+</code></pre></div></div>
+
+<h2 id="when-to-do-it">When to Do It</h2>
+
+<p>By <a data-local="2021-12-31T23:59:00-05:00" href="https://time.cs50.io/20211231T235900-0500">2021-12-31T23:59:00-05:00</a>.</p>
+
+<h2 id="wav-files">WAV Files</h2>
+
+<p><a href="https://docs.fileformat.com/audio/wav/">WAV files</a> are a common file format for representing audio. WAV files store audio as a sequence of “samples”: numbers that represent the value of some audio signal at a particular point in time. WAV files begin with a 44-byte “header” that contains information about the file itself, including the size of the file, the number of samples per second, and the size of each sample. After the header, the WAV file contains a sequence of samples, each a single 2-byte (16-bit) integer representing the audio signal at a particular point in time.</p>
+
+<p>Scaling each sample value by a given factor has the effect of changing the volume of the audio. Multiplying each sample value by 2.0, for example, will have the effect of doubling the volume of the origin audio. Multiplying each sample by 0.5, meanwhile, will have the effect of cutting the volume in half.</p>
+
+<h2 id="types">Types</h2>
+
+<p>So far, we’ve seen a number of different types in C, including <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">bool</code>, <code class="language-plaintext highlighter-rouge">char</code>, <code class="language-plaintext highlighter-rouge">double</code>, <code class="language-plaintext highlighter-rouge">float</code>, and <code class="language-plaintext highlighter-rouge">long</code>. Inside a header file called <code class="language-plaintext highlighter-rouge">stdint.h</code> are the declarations of a number of other types that allow us to very precisely define the size (in bits) and sign (signed or unsigned) of an integer. Two types in particular will be useful to us in this lab.</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">uint8_t</code> is a type that stores an 8-bit unsigned (i.e., not negative) integer. We can treat each byte of a WAV file’s header as a <code class="language-plaintext highlighter-rouge">uint8_t</code> value.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">int16_t</code> is a type that stores a 16-bit signed (i.e., positive or negative) integer. We can treat each sample of audio in a WAV file as an <code class="language-plaintext highlighter-rouge">int16_t</code> value.</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<ol>
+  <li>Log into <a href="https://ide.cs50.io/">ide.cs50.io</a> using your GitHub account.</li>
+  <li>In your terminal window, run <code class="language-plaintext highlighter-rouge">wget https://cdn.cs50.net/2020/fall/labs/4/lab4.zip</code> to download a Zip file of the lab distribution code.</li>
+  <li>In your terminal window, run <code class="language-plaintext highlighter-rouge">unzip lab4.zip</code> to unzip (i.e., decompress) that Zip file.</li>
+  <li>In your terminal window, run <code class="language-plaintext highlighter-rouge">cd lab4</code> to change directories into your <code class="language-plaintext highlighter-rouge">lab4</code> directory.</li>
+</ol>
+
+<h2 id="implementation-details">Implementation Details</h2>
+
+<p>Complete the implementation of <code class="language-plaintext highlighter-rouge">volume.c</code>, such that it changes the volume of a sound file by a given factor.</p>
+
+<ul>
+  <li data-marker="*">The program accepts three command-line arguments: <code class="language-plaintext highlighter-rouge">input</code> represents the name of the original audio file, <code class="language-plaintext highlighter-rouge">output</code> represents the name of the new audio file that should be generated, and <code class="language-plaintext highlighter-rouge">factor</code> is the amount by which the volume of the original audio file should be scaled.
+    <ul>
+      <li data-marker="*">For example, if <code class="language-plaintext highlighter-rouge">factor</code> is <code class="language-plaintext highlighter-rouge">2.0</code>, then your program should double the volume of the audio file in <code class="language-plaintext highlighter-rouge">input</code> and save the newly generated audio file in <code class="language-plaintext highlighter-rouge">output</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Your program should first read the header from the input file and write the header to the output file. Recall that this header is always exactly 44 bytes long.
+    <ul>
+      <li data-marker="*">Note that <code class="language-plaintext highlighter-rouge">volume.c</code> already defines a variable for you called <code class="language-plaintext highlighter-rouge">HEADER_SIZE</code>, equal to the number of bytes in the header.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Your program should then read the rest of the data from the WAV file, one 16-bit (2-byte) sample at a time. Your program should multiply each sample by the <code class="language-plaintext highlighter-rouge">factor</code> and write the new sample to the output file.
+    <ul>
+      <li data-marker="*">You may assume that the WAV file will use 16-bit signed values as samples. In practice, WAV files can have varying numbers of bits per sample, but we’ll assume 16-bit samples for this lab.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Your program, if it uses <code class="language-plaintext highlighter-rouge">malloc</code>, must not leak any memory.</li>
+</ul>
+
+<h3 id="walkthrough">Walkthrough</h3>
+
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/LiGhjz9ColQ"></iframe>
+
+<h3 id="hints">Hints</h3>
+
+<ul>
+  <li data-marker="*">You’ll likely want to create an array of bytes to store the data from the WAV file header that you’ll read from the input file. Using the <code class="language-plaintext highlighter-rouge">uint8_t</code> type to represent a byte, you can create an array of <code class="language-plaintext highlighter-rouge">n</code> bytes for your header with syntax like</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uint8_t header[n];
+</code></pre></div></div>
+
+<p>replacing <code class="language-plaintext highlighter-rouge">n</code> with the number of bytes. You can then use <code class="language-plaintext highlighter-rouge">header</code> as an argument to <code class="language-plaintext highlighter-rouge">fread</code> or <code class="language-plaintext highlighter-rouge">fwrite</code> to read into or write from the header.</p>
+
+<ul>
+  <li data-marker="*">You’ll likely want to create a “buffer” in which to store audio samples that you read from the WAV file. Using the <code class="language-plaintext highlighter-rouge">int16_t</code> type to store an audio sample, you can create a buffer variable with syntax like</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int16_t buffer;
+</code></pre></div></div>
+
+<p>You can then use <code class="language-plaintext highlighter-rouge">&amp;buffer</code> as an argument to <code class="language-plaintext highlighter-rouge">fread</code> or <code class="language-plaintext highlighter-rouge">fwrite</code> to read into or write from the buffer. (Recall that the <code class="language-plaintext highlighter-rouge">&amp;</code> operator is used to get the address of the variable.)</p>
+
+<ul>
+  <li data-marker="*">You may find the documentation for <a href="https://man.cs50.io/3/fread"><code class="language-plaintext highlighter-rouge">fread</code></a> and <a href="https://man.cs50.io/3/fwrite"><code class="language-plaintext highlighter-rouge">fwrite</code></a> helpful here.
+    <ul>
+      <li data-marker="*">In particular, note that both functions accept the following arguments:
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">ptr</code>: a pointer to the location in memory to store data (when reading from a file) or from which to write data (when writing data to a file)</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">size</code>: the number of bytes in an item of data</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">nmemb</code>: the number of items of data (each of <code class="language-plaintext highlighter-rouge">size</code> bytes) to read or write</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">stream</code>: the file pointer to be read from or written to</li>
+        </ul>
+      </li>
+      <li data-marker="*">Per its documentation, <code class="language-plaintext highlighter-rouge">fread</code> will return the number of items of data successfully read. You may find this useful to check for when you’ve reached the end of the file!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="how-to-test-your-code">How to Test Your Code</h3>
+
+<p>Your program should behave per the examples below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./volume input.wav output.wav 2.0
+</code></pre></div></div>
+
+<p>When you listen to <code class="language-plaintext highlighter-rouge">output.wav</code> (as by double-clicking on <code class="language-plaintext highlighter-rouge">output.wav</code> in the file browser or running <code class="language-plaintext highlighter-rouge">open output.wav</code> from the terminal), it should be twice as loud as <code class="language-plaintext highlighter-rouge">input.wav</code>!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./volume input.wav output.wav 0.5
+</code></pre></div></div>
+
+<p>When you listen to <code class="language-plaintext highlighter-rouge">output.wav</code>, it should be half as loud as <code class="language-plaintext highlighter-rouge">input.wav</code>!</p>
+
+<details><summary>Not sure how to solve?</summary><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/-rtZkTAK2gg"></iframe></details>
+
+<p>Execute the below to evaluate the correctness of your code using <code class="language-plaintext highlighter-rouge">check50</code>. But be sure to compile and test it yourself as well!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/labs/2021/x/volume
+</code></pre></div></div>
+
+<p>Execute the below to evaluate the style of your code using <code class="language-plaintext highlighter-rouge">style50</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 volume.c
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>Execute the below, logging in with your GitHub username and password when prompted. For security, you’ll see asterisks (<code class="language-plaintext highlighter-rouge">*</code>) instead of the actual characters in your password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/labs/2021/x/volume
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../assets/page%EF%B9%961724893223.js"></script>
+
+    
+
+
+</body></html>

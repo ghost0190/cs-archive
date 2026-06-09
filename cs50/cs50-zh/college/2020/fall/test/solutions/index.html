@@ -1,0 +1,794 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="Introduction to the intellectual enterprises of computer science and the art of programming. This course teaches students how to think algorithmically and solve problems efficiently. Topics include abstraction, algorithms, data structures, encapsulation, resource management, security, and software engineering. Languages include C, Python, and SQL plus HTML, CSS, and JavaScript. Problem sets inspired by the arts, humanities, social sciences, and sciences. Course culminates in a final project.">
+
+        <meta property="og:image" content=""><meta property="og:title" content="Test: Sample Solutions - CS50">
+
+        <link href="../../favicon%EF%B9%961635732766.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- http://getbootstrap.com/docs/4.6/getting-started/introduction/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961635732766.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961635732766.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961635732766.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961635732766.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961635732766.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        <link href="../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961635732766.css" rel="stylesheet">
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon.min%EF%B9%961635732766.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- https://www.jsdelivr.com/package/npm/mathjax?path=es5 -->
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-chtml.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <!-- https://www.jsdelivr.com/package/npm/iframe-resizer?path=js -->
+        <script src="https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.1/js/iframeResizer.min.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks -->
+        <script src="../../assets/scratchblocks-v3.5.2-min%EF%B9%961635732766.js"></script>
+
+        <!-- https://www.algolia.com/doc/guides/building-search-ui/installation/js/ -->
+        <script src="../../assets/algoliasearch/dist/algoliasearch-lite.umd%EF%B9%961635732766.js"></script>
+        <script src="../../assets/instantsearch.js/dist/instantsearch.production.min%EF%B9%961635732766.js"></script>
+
+        <link href="../../assets/page%EF%B9%961635732766.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961635732766.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Test: Sample Solutions - CS50</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0 shadow" data-alert="danger" data-hash="6288be8ac1658dbea3c7a20459a6de93" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is 秋季 2020 of CS50 at 哈佛学院. Looking for <a href="../../../../2021/spring/index.html">春季 2021</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-md">
+ 
+                    <header><h1 style="font-size: 2rem" data-id="this-was-cs50"><a href="../../index.html">This was CS50</a></h1>
+
+<p><a href="https://www.college.harvard.edu/">哈佛学院</a><br>
+秋季 2020</p></header>
+
+                    <button class="btn btn-link d-block ps-0 pt-0" data-search="" data-bs-target="#search" data-bs-toggle="modal" type="button">
+                        <i class="fas fa-search pe-2"></i>搜索
+                    </button>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-md-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*"><a href="../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*"><a href="../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*"><a href="../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*"><a href="../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*"><a href="../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*"><a href="../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*"><a href="../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*"><a href="../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*"><a href="../../weeks/10/index.html">第 10 周</a> Ethics</li>
+</ul>
+
+<p class="small"><a href="../../weeks/security/index.html">安全</a><br>
+<a href="../../weeks/ai/index.html">人工智能</a></p>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://vault.cs50.io/6027a62f-c1c6-42db-8b79-25c3e09eb10c">Ed</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../index.html#announcements">Announcements</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../orientation/index.html">Orientation</a></li>
+  <li data-marker="*"><a href="../about/index.html#review-session">Review Session</a></li>
+  <li data-marker="*"><a href="../../sections/index.html">小组课</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../index.html">Test</a></li>
+  <li data-marker="*"><a href="../../tutorials/index.html">Tutorials</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://ide.cs50.io/">CS50 IDE</a></li>
+  <li data-marker="*"><a href="https://www.w3schools.com/css/">CSS Tutorial</a></li>
+  <li data-marker="*"><a href="https://flask.palletsprojects.com/en/1.1.x/quickstart/">Flask Quickstart</a></li>
+  <li data-marker="*"><a href="https://www.w3schools.com/html/">HTML Tutorial</a></li>
+  <li data-marker="*"><a href="https://jinja.palletsprojects.com/en/2.11.x/templates/">Jinja Template Designer Documentation</a></li>
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://scratch.mit.edu/">Scratch</a></li>
+  <li data-marker="*"><a href="https://www.w3schools.com/sql/">SQL Tutorial</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<hr>
+
+<p style="font-size: initial">With <a href="../../thanks/index.html">thanks</a> to CS50’s alumni and friends</p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-md">
+
+                    <h1 id="test-sample-solutions">Test: Sample Solutions</h1>
+
+<ul>
+  <li data-marker="*"><a href="#baby-shark-dance">Baby Shark Dance</a></li>
+  <li data-marker="*"><a href="#complexities-of-space">Complexities of Space</a></li>
+  <li data-marker="*"><a href="#cracking-passwords">Cracking Passwords</a></li>
+  <li data-marker="*"><a href="#dont-be-evil">Don’t Be Evil</a></li>
+  <li data-marker="*"><a href="#finsta">Finsta</a></li>
+  <li data-marker="*"><a href="#flaskless">Flaskless</a></li>
+  <li data-marker="*"><a href="#getting-input">Getting Input</a></li>
+  <li data-marker="*"><a href="#happy-cats">Happy Cats</a></li>
+  <li data-marker="*"><a href="#logical-questions">Logical 问题</a></li>
+  <li data-marker="*"><a href="#nom-nom-nom">Nom Nom Nom</a></li>
+  <li data-marker="*"><a href="#programming-in-b">编程 in B</a></li>
+</ul>
+
+<h2 id="baby-shark-dance">Baby Shark Dance</h2>
+
+<ol start="1">
+  <li>A 32-bit <code class="language-plaintext highlighter-rouge">int</code> in C can only represent numbers as high as 2,147,483,647 (which is \(2^{31} - 1\)). If YouTube were to store a view count larger than that in an <code class="language-plaintext highlighter-rouge">int</code>, integer overflow would result, and the view count would likely no longer be accurate.</li>
+</ol>
+
+<ol start="2">
+  <li>Yes. Integers larger than the maximum possible <code class="language-plaintext highlighter-rouge">int</code> value can be represented using this representation, but can’t be represented with an <code class="language-plaintext highlighter-rouge">int</code> alone. For 示例, the number 3,000,000,000 is larger than would fit in an <code class="language-plaintext highlighter-rouge">int</code>, but could be represented using a linked list.</li>
+</ol>
+
+<ol start="3">
+  <li>Yes. Negative integers can be represented with an <code class="language-plaintext highlighter-rouge">int</code>, but cannot be represented using this representation. Since each node can only store a <code class="language-plaintext highlighter-rouge">digit</code> from 0 to 9, there’s no way this representation can be used to store negative numbers. For 示例, <code class="language-plaintext highlighter-rouge">-1</code> can be represented in an <code class="language-plaintext highlighter-rouge">int</code>, but has no representation using this linked list representation.</li>
+</ol>
+
+<ol start="4">
+  <li>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">divisible_by_three</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Keep track of sum of digits so far</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// Iterate through linked list nodes</span>
+    <span class="n">node</span> <span class="o">*</span><span class="n">tmp</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Add current digit to total sum</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">digit</span><span class="p">;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Check if total sum is divisible by 3</span>
+    <span class="k">return</span> <span class="n">sum</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="5">
+  <li>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">equal</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">node</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Iterate over both lists in parallel</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">a</span> <span class="o">&amp;&amp;</span> <span class="n">b</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// If current digits differ, integers aren't equal</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">!=</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">digit</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Move on to next nodes</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Integers are equal if we made it to end of both lists</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">equal</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">node</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Base case: both values are NULL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Check for different lengths</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">b</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Check current digit and recursively check other digits</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">==</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">&amp;&amp;</span> <span class="n">equal</span><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="6">
+  <li>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">increment</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Base case, when digit is less than 9</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Increment least-significant digit</span>
+        <span class="n">n</span><span class="o">-&gt;</span><span class="n">digit</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Recursive case</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Change 9 to 0 and recursively add one to the next digit</span>
+        <span class="n">n</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">increment</span><span class="p">(</span><span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Base case: additional digit needed</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="c1">// Set current digit to 0</span>
+        <span class="n">n</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="c1">// Add a new digit set to 1</span>
+        <span class="n">node</span> <span class="o">*</span><span class="n">tmp</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">node</span><span class="p">));</span>
+        <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">digit</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+        <span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="complexities-of-space">Complexities of Space</h2>
+
+<ol start="1">
+  <li>\(O(1)\). 选择排序 only requires a constant amount of space to iterate over its input (as with <code class="language-plaintext highlighter-rouge">i</code>) and perhaps some space for a temporary variable via which to swap two items. That amount of space is independent of <code class="language-plaintext highlighter-rouge">n</code>.</li>
+</ol>
+
+<ol start="2">
+  <li>\(O(n)\). Given an array of size <code class="language-plaintext highlighter-rouge">n</code> as input, 归并排序 requires space for a second array, which itself is of size <code class="language-plaintext highlighter-rouge">n</code> (i.e., \(O(n)\)), into which it can merge sorted halves from its input. The input array as well as that second array can alternately be reused for subsequent merges.</li>
+</ol>
+
+<ol start="3">
+  <li>Because this function calls itself <code class="language-plaintext highlighter-rouge">n</code> times recursively, <code class="language-plaintext highlighter-rouge">n</code> (i.e., \(O(n)\)) frames accumulate on the stack (before the last of those calls returns), each of which contains space for, at least, one argument (an <code class="language-plaintext highlighter-rouge">int</code>).</li>
+</ol>
+
+<ol start="4">
+  <li>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">sum</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">total</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">sum</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="cracking-passwords">Cracking Passwords</h2>
+
+<ol start="1">
+  <li>\(O(n)\). In the worst case, the adversary might have to try hashing all \(n\) words in the dictionary.</li>
+</ol>
+
+<ol start="2">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>For each word, w, in dictionary
+    For each character, c, in ASCII
+        Call check_password_hash on concatenation of w and c
+</code></pre></div>    </div>
+
+    <p>\(O(n)\). Since there are 128 ASCII characters (or 256 in Extended ASCII), the adversary might now have to try hashing \(128 \times n\) (or \(256 \times n\)) strings instead, but that’s still in \(O(n)\). Or, if unsure whether <code class="language-plaintext highlighter-rouge">c</code> was prepended or appended to <code class="language-plaintext highlighter-rouge">w</code>, the adversary might now have to try hashing \(2 \times 128 \times n\) (or \(2 \times 256 \times n\)) strings instead, but that’s in \(O(n)\) too.</p>
+  </li>
+</ol>
+
+<ol start="3">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>For each word, w1, in dictionary
+    For each word, w2, in dictionary
+        Call check_password_hash on w1 + " " + w2
+</code></pre></div>    </div>
+
+    <p>\(O(n^2)\), because there are \(n^2\) possible pairs of \(n\) English words.</p>
+  </li>
+</ol>
+
+<ol start="4">
+  <li>\(O(10^n)\), because there are \(10^n\) possible combinations of \(10\) decimal digits.</li>
+</ol>
+
+<h2 id="dont-be-evil">Don’t Be Evil</h2>
+
+<ol start="1">
+  <li>Changing a page’s HTML and CSS via Chrome’s Developer 工具 only affects your local (cached) copy of a page’s HTML and CSS; it does not affect the HTML and CSS on the server, which other users will continue to see.</li>
+</ol>
+
+<ol start="2">
+  <li>This feature allows users (who know 关于 the route) to impersonate (i.e., log in as) other users, without knowing their passwords.</li>
+</ol>
+
+<ol start="3">
+  <li>
+    <p>An adversary might have a form on their site that submits to your site via POST, a la:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"https://www.example.com/buy"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"shares"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"symbol"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"NFLX"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"mwah ha ha"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div>    </div>
+
+    <p>An adversary might even have a form on their site that submits <em>automatically</em> to your site via POST using JavaScript, a la:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"https://www.example.com/buy"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"shares"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"symbol"</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">value=</span><span class="s">"NFLX"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"mwah ha ha"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">form</span><span class="dl">'</span><span class="p">).</span><span class="nx">submit</span><span class="p">();</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>    </div>
+
+    <p>Or no form at all, using Ajax instead:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://www.example.com/buy</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span><span class="na">shares</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">NFLX</span><span class="dl">'</span><span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="4">
+  <li>Code can do anything on your computer that you can do, including delete files and worse. If that code is compiled, you can’t (easily) see what it might do. And even if you compile innocuous code that itself doesn’t do anything bad, the compiler you use to compile it might very well inject malicious code into it!</li>
+</ol>
+
+<h2 id="finsta">Finsta</h2>
+
+<ol start="1">
+  <li>Whereas <code class="language-plaintext highlighter-rouge">id</code> is a 4-byte <code class="language-plaintext highlighter-rouge">INTEGER</code>, <code class="language-plaintext highlighter-rouge">username</code> is <code class="language-plaintext highlighter-rouge">TEXT</code>, the values of which might take up 更多 space and thus be slower to 搜索. And if Instagram wants to let users change their usernames, it’s faster (and 较少 redundant) to update usernames in one table than in multiple tables, as might happen if they were used as primary and foreign keys.</li>
+</ol>
+
+<ol start="2">
+  <li>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">message</span> <span class="k">FROM</span> <span class="n">messages</span>
+<span class="k">WHERE</span> <span class="n">sender</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">id</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'@harvard'</span><span class="p">)</span>
+<span class="k">AND</span> <span class="n">recipient</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">id</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">username</span> <span class="o">=</span> <span class="s1">'@yale'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="3">
+  <li>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">messages</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1636</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="4">
+  <li>Instagram could add a column to <code class="language-plaintext highlighter-rouge">messages</code> called, e.g., <code class="language-plaintext highlighter-rouge">unsent</code>, the default value of which is <code class="language-plaintext highlighter-rouge">0</code>, which could be set to <code class="language-plaintext highlighter-rouge">1</code> when a message is unsent.</li>
+</ol>
+
+<ol start="5">
+  <li>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="n">messages</span> <span class="k">SET</span> <span class="n">unsent</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1701</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="6">
+  <li>
+    <p>Instagram could remove <code class="language-plaintext highlighter-rouge">recipient</code> from <code class="language-plaintext highlighter-rouge">messages</code> and instead create a new table, <code class="language-plaintext highlighter-rouge">recipients</code>, each of whose rows associates a message with a receipient:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">recipients</span> <span class="p">(</span>
+    <span class="n">message_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+    <span class="n">user_id</span> <span class="nb">INTEGER</span><span class="p">,</span>
+    <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">message_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">messages</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+    <span class="k">FOREIGN</span> <span class="k">KEY</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>    </div>
+
+    <p>Multiple rows (with the same <code class="language-plaintext highlighter-rouge">message_id</code>) could thus associate a message with multiple recipients.</p>
+  </li>
+</ol>
+
+<h2 id="flaskless">Flaskless</h2>
+
+<ol start="1">
+  <li>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+
+    <span class="c1"># Keep track of parameters
+</span>    <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Check for "?"
+</span>    <span class="k">if</span> <span class="s">"?"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">url</span><span class="p">,</span> <span class="n">args</span><span class="p">]</span>
+
+    <span class="c1"># Limit search to just query string
+</span>    <span class="n">path</span><span class="p">,</span> <span class="n">query_string</span> <span class="o">=</span> <span class="n">url</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"?"</span><span class="p">)</span>
+
+    <span class="c1"># Iterate over parameters
+</span>    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">query_string</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"&amp;"</span><span class="p">):</span>
+        <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">param</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"="</span><span class="p">)</span>
+        <span class="n">args</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="c1"># Return path and parameters
+</span>    <span class="k">return</span> <span class="p">[</span><span class="n">path</span><span class="p">,</span> <span class="n">args</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="2">
+  <li>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">render_template</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+    <span class="c1"># Open template
+</span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+
+        <span class="c1"># Read template
+</span>        <span class="n">html</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="c1"># Iterate over args
+</span>        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"{{ "</span> <span class="o">+</span> <span class="n">arg</span> <span class="o">+</span> <span class="s">" }}"</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">])</span>
+
+        <span class="c1"># Return HTML
+</span>        <span class="k">return</span> <span class="n">html</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="getting-input">Getting Input</h2>
+
+<ol start="1">
+  <li>Just like <code class="language-plaintext highlighter-rouge">swap</code> in 第 4 周, the input to <code class="language-plaintext highlighter-rouge">scanf</code> must be passed by reference (i.e., address) rather than by value (i.e., copy) so that <code class="language-plaintext highlighter-rouge">scanf</code> can actually modify its value.</li>
+</ol>
+
+<ol start="2">
+  <li>No. If a user inputs an integer larger than <code class="language-plaintext highlighter-rouge">2147483647</code> (which is \(2^{31} - 1\)), <code class="language-plaintext highlighter-rouge">n</code> will overflow within <code class="language-plaintext highlighter-rouge">scanf</code>, before the function’s condition is even checked.</li>
+</ol>
+
+<ol start="3">
+  <li>While this implementation allocates space for <code class="language-plaintext highlighter-rouge">s</code> (which is a pointer), it doesn’t actually allocate space for any characters. And this implementation doesn’t even initialize <code class="language-plaintext highlighter-rouge">s</code> to <code class="language-plaintext highlighter-rouge">NULL</code>, in which case its value is unknown (i.e., garbage). As a result, <code class="language-plaintext highlighter-rouge">scanf</code> will try to store characters at an unknown 地点 in 内存, none of whose subsequent bytes have been allocated for that purpose, thereby triggering segmentation faults.</li>
+</ol>
+
+<ol start="4">
+  <li>Even if this implementation had allocated a buffer of bytes for characters (as via <code class="language-plaintext highlighter-rouge">malloc</code>) and assigned <code class="language-plaintext highlighter-rouge">s</code> the address of the first byte, the user might still input 更多 characters than there are bytes, overflowing the buffer, in which case the function might still trigger segmentation faults.</li>
+</ol>
+
+<ol start="5">
+  <li>You could first allocate a buffer of some size with <code class="language-plaintext highlighter-rouge">malloc</code>. You could then use <code class="language-plaintext highlighter-rouge">getchar</code> to get the user’s input one character at a 时间, growing the buffer with <code class="language-plaintext highlighter-rouge">realloc</code> as needed in order to fit each additional character. You could then NUL-terminate the buffer and return the address of its first character, instead returning <code class="language-plaintext highlighter-rouge">NULL</code> if <code class="language-plaintext highlighter-rouge">malloc</code> or <code class="language-plaintext highlighter-rouge">realloc</code> return <code class="language-plaintext highlighter-rouge">NULL</code> at any point.</li>
+</ol>
+
+<ol start="6">
+  <li>Whereas <code class="language-plaintext highlighter-rouge">scanf</code> doesn’t know the size of the buffer passed in as its input (and might thus write beyond its boundary), <code class="language-plaintext highlighter-rouge">getchar</code> only gets and returns one character at a 时间, which can be safely stored in a single <code class="language-plaintext highlighter-rouge">char</code>. The caller (e.g., <code class="language-plaintext highlighter-rouge">get_string</code>) can then decide whether it needs to (try to) allocate 更多 内存 to store that <code class="language-plaintext highlighter-rouge">char</code> along with others already 阅读.</li>
+</ol>
+
+<h2 id="happy-cats">Happy Cats</h2>
+
+<ol start="1">
+  <li>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#count</span><span class="dl">'</span><span class="p">).</span><span class="nx">value</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="2">
+  <li>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#cat</span><span class="dl">'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">audio</span><span class="dl">'</span><span class="p">).</span><span class="nx">play</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="logical-questions">Logical 问题</h2>
+
+<ol start="1">
+  <li>This circuit outputs a 1 when both inputs are 0. Under all other circumstances, the circuit outputs a 0. This is also known as a NAND operation.</li>
+</ol>
+
+<ol start="2">
+  <li>This circuit outputs a 1 when both inputs are the same (in other words, both 1s or both 0s).</li>
+</ol>
+
+<ol start="3">
+  <li>This circuit outputs a 1 when both inputs are different (when A is 1 and B is 0, or when A is 0 and B is 1). This is also known as an XOR (exclusive or) operation.</li>
+</ol>
+
+<h2 id="nom-nom-nom">Nom Nom Nom</h2>
+
+<ol start="1">
+  <li>Even in incognito mode, your computer will still send your IP address to LinkedIn, and your browser will still send HTTP headers like <code class="language-plaintext highlighter-rouge">User-Agent</code> (which identifies your OS and browser and versions thereof). If LinkedIn thus sees similar requests within a narrow window of 时间, some with cookies and some without, they might infer that the requests are from the same user.</li>
+</ol>
+
+<ol start="2">
+  <li>If first-party cookies are disabled, websites that rely on them to implement sessions might no longer be able to remember that a user is logged in or that users have items in their shopping carts.</li>
+</ol>
+
+<ol start="3">
+  <li>Third-party cookies can be used to track users. For instance, if two websites, A and B, embed advertisements from <code class="language-plaintext highlighter-rouge">ad.doubleclick.net</code> (which sets a cookie), and a user visits A followed by B, then the advertiser will know that the user has visited both of those websites because when the user visits B, the advertiser will see the same cookie that it set when the user visited A!</li>
+</ol>
+
+<ol start="4">
+  <li>Duo is likely trying to set a third-party cookie when a user checks that box, to remember that a user has checked it. But because Safari and Brave are blocking that cookie, Duo never sees the value of its <code class="language-plaintext highlighter-rouge">Set-Cookie</code> header again, unable as a result to remember who has checked that box.</li>
+</ol>
+
+<h2 id="programming-in-b">编程 in B</h2>
+
+<ol start="1">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function or($a, $b)
+{
+    if ($a)
+    {
+        return(true)
+    }
+    if ($b)
+    {
+        return(true)
+    }
+    return(false)
+}
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="2">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function and($a, $b)
+{
+    if ($a)
+    {
+        if ($b)
+        {
+            return(true)
+        }
+    }
+    return(false)
+}
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="3">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function remainder($a, $b)
+{
+    return(subtract($a, multiply(divide($a, $b), $b)))
+}
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ol start="4">
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function meow($n)
+{
+    if (greater($n, 0))
+    {
+        print("meow")
+        meow(subtract($n, 1))
+    }
+}
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="searchTitle" class="markdown-body modal" id="search" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pe-3 w-100" id="searchbox"></div>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="hits"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            // Before shwoing searchbox
+            $('#search').on('show.bs.modal', function (e) {
+
+                // Client
+                const searchClient = algoliasearch('5RYPGI69HZ', '53d709e59d833870a6886f6fcf0b0bfe');
+                const search = instantsearch({
+                    indexName: 'cs50-2020-fall-college',
+                    searchClient: searchClient,
+                    searchFunction: function(helper) { // https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/js/#handling-empty-queries
+                        const hits = $('#hits');
+                        if (helper.state.query === '') {
+                            hits.hide();
+                            return;
+                        }
+                        helper.search();
+                        hits.show();
+                    }
+                });
+
+                // searchBox
+                // https://www.algolia.com/doc/api-reference/widgets/search-box/js/
+                search.addWidget(
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        cssClasses: {
+                            input: 'form-control'
+                        },
+                        placeholder: 'Search',
+                        showLoadingIndicator: false,
+                        showReset: false,
+                        showSubmit: false
+                    })
+                );
+
+                // hits
+                // https://www.algolia.com/doc/api-reference/widgets/hits/js/
+                search.addWidget(
+                    instantsearch.widgets.hits({
+                        container: '#hits',
+                        templates: {
+                            item: function(hit) {
+
+                                // url
+                                if (window.baseurl) {
+                                    var url = window.baseurl + hit.url;
+                                }
+                                else {
+                                    var url = hit.url;
+                                }
+                                if (hit.anchor) {
+                                    url += '#' + hit.anchor;
+                                }
+
+                                // title
+                                if (hit._highlightResult && hit._highlightResult.headings) {
+                                    var title = hit._highlightResult.headings[hit._highlightResult.headings.length - 1].value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var title = hit._highlightResult.title.value;
+                                }
+                                else if (hit.headings) {
+                                    var title = hit.headings[hit.headings.length - 1].value;
+                                }
+                                else if (hit.title) {
+                                    var title = hit.title;
+                                }
+                                else {
+                                    var title = url;
+                                }
+
+                                // content
+                                if (hit._highlightResult && hit._highlightResult.content) {
+                                    var content = hit._highlightResult.content.value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var content = hit._highlightResult.title.value;
+                                }
+                                else {
+                                    var content = hit.excerpt_text;
+                                }
+
+                                // Template for hit
+                                return '<h2 class="font-weight-bold h3 mb-0">' +
+                                       '<a href="' + url + '">' +
+                                       title +
+                                       '</a>' +
+                                       '</h2>' +
+                                       '<p class="mb-0">' +
+                                       '<a class="text-muted" href="' + url + '">' +
+                                       url +
+                                       '</a>' +
+                                       '</p>' +
+                                       '<p>' + 
+                                       content +
+                                       '</p>';
+                            }
+                        }
+                    })
+                );
+
+                // poweredBy
+                search.addWidget(
+                    instantsearch.widgets.poweredBy({
+                        container: '#search .modal-footer'
+                    })
+                );
+
+                // Let user start searching
+                search.start();
+
+                // Resize form
+                $(window).trigger('resize');
+            });
+
+            // After showing searchbox
+            $('#search').on('shown.bs.modal', function (e) {
+                $('#searchbox input[type=search]').focus();
+            });
+
+        </script>
+        
+ 
+        <script src="../../assets/page%EF%B9%961635732766.js"></script>
+
+    
+
+
+</body></html>

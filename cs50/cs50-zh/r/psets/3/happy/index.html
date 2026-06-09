@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Happy - CS50&#x27;s Introduction to Programming with R">
+
+        <link href="../../../favicon%EF%B9%961779994625.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961779994625.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961779994625.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994625.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961779994625.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Happy - CS50's Introduction to 编程 with R</title>
+
+
+    <meta property="og:description" content="Problem to Solve Since 2012, The World Happiness Report has sought to understand the state of global happiness and the factors that most influence it. On a...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../index.html#how-to-take-this-course">a verified 证书 or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-r"><a href="../../../index.html">CS50’s Introduction to 编程 with R</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ol>
+  <li><a href="../../../weeks/1/index.html">Representing Data</a></li>
+  <li><a href="../../../weeks/2/index.html">Transforming Data</a></li>
+  <li><a href="../../../weeks/3/index.html">Applying Functions</a></li>
+  <li><a href="../../../weeks/4/index.html">Tidying Data</a></li>
+  <li><a href="../../../weeks/5/index.html">Visualizing Data</a></li>
+  <li><a href="../../../weeks/6/index.html">测试 Programs</a></li>
+  <li><a href="../../../weeks/7/index.html">Packaging Programs</a></li>
+</ol>
+
+<!-- Course Nav -->
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../../../shorts/index.html">短视频</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50r">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/r">edX</a></li>
+  <li data-marker="*"><a href="https://youtu.be/g_3IKHG-rfA">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382yfNp_-xzX244d-O9W6YmD">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://style.tidyverse.org/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="happy">Happy</h1>
+
+<div class="ratio ratio-16x9" data-video=""><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://www.youtube.com/embed/jO0P-HTyYiw?modestbranding=0&amp;rel=0&amp;showinfo=0"></iframe></div>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>Since 2012, <a href="https://worldhappiness.report/">The 世界 Happiness Report</a> has sought to understand the state of global happiness and the factors that most influence it. On a country-by-country basis, the report has focused on several factors that tend to increase people’s self-reported happiness: a higher <strong>gross domestic product</strong> (one way of measuring economic prosperity), a higher level of <strong>social support</strong>, a longer <strong>life expectancy</strong>, 更多 <strong>freedom in life choices</strong>, a tendency toward <strong>generosity</strong>, and lower <strong>perceptions of governmental corruption</strong>. Using survey responses from participants in 140+ countries, The 世界 Happiness report generates a happiness “score” for each country.</p>
+
+<p><strong>To be clear, there’s 更多 to happiness than these scores:</strong> a single number can’t tell the full story of a country’s mood. At the same 时间, data in The 世界 Happiness Report can reveal inequalities in self-reported happiness to which it 五月 be worth paying attention.</p>
+
+<p>In a program called <code class="language-plaintext highlighter-rouge">happy.R</code>, in a folder called <code class="language-plaintext highlighter-rouge">happy</code>, write a program to return a given country’s self-reported happiness “score” out of 10 across multiple years of The 世界 Happiness Report’s data.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" src="https://asciinema.org/a/4HRiucT8ZICKo4LShynJkTpJP.js" id="asciicast-4HRiucT8ZICKo4LShynJkTpJP"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to 下载 <code class="language-plaintext highlighter-rouge">happy.R</code> and several CSV files.</p>
+
+<details><summary>下载 the distribution code</summary><p>打开 RStudio per the linked <a href="../../../rstudio/index.html">steps</a> and navigate to the R console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getwd</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to print your working directory. Ensure your current working directory is where you’d like to 下载 this problem’s distribution code. If using RStudio through <a href="https://cs50.dev">cs50.dev</a> the recommended directory is <code class="language-plaintext highlighter-rouge">/workspaces/NUMBER</code> where <code class="language-plaintext highlighter-rouge">NUMBER</code> is a number unique to your codespace.</p>
+
+<p>If you do not see the right working directory, use <code class="language-plaintext highlighter-rouge">setwd</code> to change it! Try typing <code class="language-plaintext highlighter-rouge">setwd("..")</code> if in the working directory of another problem, which will move you one directory higher.</p>
+
+<p>下一页 execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://cdn.cs50.net/r/2024/x/psets/3/happy.zip"</span><span class="p">,</span><span class="w"> </span><span class="s2">"happy.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">happy.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unzip</span><span class="p">(</span><span class="s2">"happy.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">happy</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.remove</span><span class="p">(</span><span class="s2">"happy.zip"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now type</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">"happy"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your working directory should now <strong>end</strong> with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>happy/
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list.files</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and see <code class="language-plaintext highlighter-rouge">happy.R</code> alongside several CSV files. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="schema">Schema</h2>
+
+<p>Before jumping in, it will be helpful to get a sense for the “schema” (i.e., organization!) of the data you’re given.</p>
+
+<details><summary>Learn 关于 this data</summary><p>In this problem, you are given several CSV files. Each file contains data directly from past years’ issues of <a href="https://worldhappiness.report/">The 世界 Happiness Report</a>. For 示例, <code class="language-plaintext highlighter-rouge">2024.csv</code> contains data from 2024.</p>
+
+<p>Each row in each CSV reflects an observation of a country’s self-reported happiness, as captured by polling participants in each country. A country’s self-reported happiness “score” is distributed across a number of factors:</p>
+
+<ul>
+  <li data-marker="*">
+<strong>gdp</strong>, represents the amount of self-reported happiness explained by a country’s gross domestic product (GDP).</li>
+  <li data-marker="*">
+<strong>support</strong>, represents the amount of self-reported happiness explained by participants’ perceived level of social support.</li>
+  <li data-marker="*">
+<strong>life_expectancy</strong>, represents the amount of self-reported happiness explained by a country’s life expectancy.</li>
+  <li data-marker="*">
+<strong>freedom</strong>, represents the amount of self-reported happiness explained by participants’ perceived freedom in life choices.</li>
+  <li data-marker="*">
+<strong>generosity</strong>, represents the amount of self-reported happiness explained by participants’ perceived tendency towards generosity.</li>
+  <li data-marker="*">
+<strong>corruption</strong>, represents the amount of self-reported happiness explained by participants’ lack of perceived governmental corruption.</li>
+  <li data-marker="*">
+<strong>residual</strong>, represents the amount of self-reported happiness explained by factors beyond the above.</li>
+</ul>
+
+<p>To find a country’s total happiness “score,” then, you must sum each of these factors, including <code class="language-plaintext highlighter-rouge">residual</code>. The maximum score a country can achieve is 10.</p>
+
+<p>How does The 世界 Happiness Report determine how much happiness is influenced by each of these factors? Feel free to 阅读 更多 关于 their <a href="https://worldhappiness.report/ed/2024/happiness-of-the-younger-the-older-and-those-in-between/">methodology</a>.</p></details>
+
+<h2 id="specification">规格说明</h2>
+
+<p>As per the <a href="#demo">demo</a>, in <code class="language-plaintext highlighter-rouge">happy.R</code>, write a program that:</p>
+
+<ul>
+  <li data-marker="*">Prompts the user for a country’s 姓名</li>
+  <li data-marker="*">Outputs, for each year of data:
+    <ul>
+      <li data-marker="*">The country’s total happiness “score,” rounded to two decimal places</li>
+      <li data-marker="*">The year in which the country achieved that score</li>
+    </ul>
+  </li>
+</ul>
+
+<p>If a country is not included in a given year’s data, your program should instead output that data is “unavailable” for that year. Your program should still print data for other years in which there is data available.</p>
+
+<h2 id="advice">Advice</h2>
+
+<p>Consider the below as advice to help you on your way:</p>
+
+<details><summary>Use a loop to iterate over years</summary><p>Keep in mind that, for each year of data, you’ll need to compute a country’s happiness score. A <code class="language-plaintext highlighter-rouge">for</code> loop is especially helpful when you want to accomplish a task a certain number of times (e.g., for each year of data).</p></details>
+
+<details><summary>Use <code>apply</code> to compute happiness scores</summary><p>Recall that computing a country’s happiness score is as simple as summing the factors that contribute to that score. Since each row in each CSV file represents a single country’s happiness score, consider applying the <code class="language-plaintext highlighter-rouge">sum</code> function on each row.</p>
+
+<p>If there are columns you’d like to exclude from your calculation, consider temporarily dropping them from your data frame: for instance <code class="language-plaintext highlighter-rouge">df[, -1]</code> and <code class="language-plaintext highlighter-rouge">df[, -2]</code> will drop the first or second columns of a data frame, respectively.</p></details>
+
+<details><summary>Use <code>%in%</code> to check if a country exists</summary><p>Recall that <code class="language-plaintext highlighter-rouge">%in%</code> is useful for determining if a value is part of a vector. You could, then, check if the country the user has entered is <code class="language-plaintext highlighter-rouge">%in%</code> a given year’s vector of countries.</p></details>
+
+<h2 id="usage">Usage</h2>
+
+<p>Assuming <code class="language-plaintext highlighter-rouge">happy.R</code> is in your working directory, enter the below in the R console to test your program:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">source</span><span class="p">(</span><span class="s2">"happy.R"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>Here’s how to test your code manually:</p>
+
+<ul>
+  <li data-marker="*">Run your program with <code class="language-plaintext highlighter-rouge">source("happy.R")</code>. Type “United States.” Your program should output a score of 6.94 for 2020, 6.95 for 2021, 6.98 for 2022, 6.89 for 2023, and 6.72 for 2024.</li>
+  <li data-marker="*">Run your program with <code class="language-plaintext highlighter-rouge">source("happy.R")</code>. Type “Finland.” Your program should output a score of 7.81 for 2020, 7.84 for 2021, 7.82 for 2022, 7.80 for 2023, and 7.74 for 2024.</li>
+  <li data-marker="*">Run your program with <code class="language-plaintext highlighter-rouge">source("happy.R")</code>. Type “Bhutan.” Your program should output that data is “unavailable” across all years.</li>
+</ul>
+
+<h3 id="check50"><code class="language-plaintext highlighter-rouge">check50</code></h3>
+
+<p>You can also check your code using <code class="language-plaintext highlighter-rouge">check50</code>, a program that CS50 will use to test your code when you 提交. But be sure to test it yourself as well!</p>
+
+<p>Run the following command in the RStudio console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50("cs50/problems/2024/r/happy")
+</code></pre></div></div>
+
+<p>Green smilies mean your program has passed a test! Red frownies will indicate your program output something unexpected. Visit the URL that check50 outputs to see the input check50 handed to your program, what output it expected, and what output your program actually gave.</p>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<p>You can 提交 your code using <code class="language-plaintext highlighter-rouge">submit50</code>.</p>
+
+<p>Keeping in mind the 课程’s policy on <a href="../../../honesty/index.html">学术诚信</a>, run the following command in the RStudio console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50("cs50/problems/2024/r/happy")
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Data adapted from <a href="https://worldhappiness.report/">worldhappiness.report</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961779994625.js"></script>
+
+    
+
+
+</body></html>

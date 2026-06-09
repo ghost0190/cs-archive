@@ -1,0 +1,443 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg">
+
+        <meta property="og:title" content="DNA - CS50 AP">
+
+        <link href="../../../../../favicon%EF%B9%961774189397.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../../assets/jquery/dist/jquery.min%EF%B9%961774189397.js"></script>
+        <script src="../../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189397.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189397.css" rel="stylesheet">
+        <script src="../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189397.js"></script>
+        <script src="../../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189397.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961774189397.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../../assets/luxon/build/global/luxon.min%EF%B9%961774189397.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../../../assets/mathjax/tex-mml-chtml%EF%B9%961774189397.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189397.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189397.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../../assets/scratchblocks.min%EF%B9%961774189397.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="https://cs50.harvard.edu/ap/2024/assets/mermaid/dist/mermaid.min.js?1774189397"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189397.js"></script>
+
+        
+
+        <link href="../../../../../assets/page%EF%B9%961774189397.css" rel="stylesheet">
+        <script src="../../../../../assets/jekyll-theme-cs50%EF%B9%961774189397.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>DNA - CS50 AP</title>
+
+
+    <meta property="og:description" content="Implement a program that identifies a person based on their DNA, per the below. $ python dna.py databases/large.csv sequences/5.txt Lavender Getting Started...">
+</head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2023-2024</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../../../../../../../workshop/2025/index.html">工作坊</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/">Visual Studio Code</a></li>
+  <li data-marker="*"><a href="../../../../../new/index.html">What’s 新内容 in 2023?</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://cs50.harvard.edu/ap/2024/staff">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">新内容</span></a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2024/communities"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2024/courses"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="dna">DNA</h1>
+
+<p>Implement a program that identifies a person based on their DNA, per the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python dna.py databases/large.csv sequences/5.txt
+Lavender
+</code></pre></div></div>
+
+<h2 id="getting-started">入门</h2>
+
+<p>Log into <a href="https://code.cs50.io/">code.cs50.io</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/2022/fall/psets/6/dna.zip
+</code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">dna.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip dna.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">dna</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm dna.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter 在 the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd dna
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dna/ $
+</code></pre></div></div>
+
+<p>Execute <code class="language-plaintext highlighter-rouge">ls</code> by itself, and you should see a few files and folders:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>databases/ dna.py sequences/
+</code></pre></div></div>
+
+<p>If you run into any trouble, follow these same steps again and see if you can determine where you went wrong!</p>
+
+<h2 id="background">背景</h2>
+
+<p>DNA, the carrier of genetic information in living things, has been used in criminal justice for decades. But how, exactly, does DNA profiling work? Given a sequence of DNA, how can forensic investigators identify to whom it belongs?</p>
+
+<p>Well, DNA is really just a sequence of molecules called nucleotides, arranged into a particular shape (a double helix). Every human cell has billions of nucleotides arranged in sequence. Each nucleotide of DNA contains one of four different bases: adenine (A), cytosine (C), guanine (G), or thymine (T). Some portions of this sequence (i.e., genome) are the same, or 在 least very similar, across almost all humans, but other portions of the sequence have a higher genetic diversity and thus vary 更多 across the population.</p>
+
+<p>One place where DNA tends to have high genetic diversity is in Short Tandem Repeats (STRs). An STR is a short sequence of DNA bases that tends to repeat consecutively numerous times 在 specific locations inside of a person’s DNA. The number of times any particular STR repeats varies a lot among individuals. In the DNA samples below, for 示例, Alice has the STR <code class="language-plaintext highlighter-rouge">AGAT</code> repeated four times in her DNA, while Bob has the same STR repeated five times.</p>
+
+<p><img src="strs.png" alt="Sample STRs"></p>
+
+<p>Using multiple STRs, rather than just one, can improve the accuracy of DNA profiling. If the probability that two people have the same number of repeats for a single STR is 5%, and the analyst looks 在 10 different STRs, then the probability that two DNA samples match purely by chance is 关于 1 in 1 quadrillion (assuming all STRs are independent of each other). So if two DNA samples match in the number of repeats for each of the STRs, the analyst can be pretty confident they came from the same person. CODIS, the FBI’s <a href="https://www.fbi.gov/services/laboratory/biometric-analysis/codis/codis-and-ndis-fact-sheet">DNA database</a>, uses 20 different STRs as part of its DNA profiling process.</p>
+
+<p>What might such a DNA database look like? Well, in its simplest form, you could imagine formatting a DNA database as a CSV file, wherein each row corresponds to an individual, and each column corresponds to a particular STR.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name,AGAT,AATG,TATC
+Alice,28,42,14
+Bob,17,22,19
+Charlie,36,18,25
+</code></pre></div></div>
+
+<p>The data in the above file would suggest that Alice has the sequence <code class="language-plaintext highlighter-rouge">AGAT</code> repeated 28 times consecutively somewhere in her DNA, the sequence <code class="language-plaintext highlighter-rouge">AATG</code> repeated 42 times, and <code class="language-plaintext highlighter-rouge">TATC</code> repeated 14 times. Bob, meanwhile, has those same three STRs repeated 17 times, 22 times, and 19 times, respectively. And Charlie has those same three STRs repeated 36, 18, and 25 times, respectively.</p>
+
+<p>So given a sequence of DNA, how might you identify to whom it belongs? Well, imagine that you looked through the DNA sequence for the longest consecutive sequence of repeated <code class="language-plaintext highlighter-rouge">AGAT</code>s and found that the longest sequence was 17 repeats long. If you then found that the longest sequence of <code class="language-plaintext highlighter-rouge">AATG</code> is 22 repeats long, and the longest sequence of <code class="language-plaintext highlighter-rouge">TATC</code> is 19 repeats long, that would provide pretty good evidence that the DNA was Bob’s. Of 课程, it’s also possible that once you take the counts for each of the STRs, it doesn’t match anyone in your DNA database, in which case you have no match.</p>
+
+<p>In practice, since analysts know on which chromosome and 在 which 地点 in the DNA an STR will be found, they can localize their 搜索 to just a narrow 小组课 of DNA. But we’ll ignore that detail for this 问题.</p>
+
+<p>Your task is to write a program that will take a sequence of DNA and a CSV file containing STR counts for a list of individuals and then output to whom the DNA (most likely) belongs.</p>
+
+<h2 id="specification">规格说明</h2>
+
+<p>In a file called <code class="language-plaintext highlighter-rouge">dna.py</code>, implement a program that identifies to whom a sequence of DNA belongs.</p>
+
+<ul>
+  <li data-marker="*">The program should require as its first command-line argument the 姓名 of a CSV file containing the STR counts for a list of individuals and should require as its second command-line argument the 姓名 of a text file containing the DNA sequence to identify.
+    <ul>
+      <li data-marker="*">If your program is executed with the incorrect number of command-line arguments, your program should print an error message of your choice (with <code class="language-plaintext highlighter-rouge">print</code>). If the correct number of arguments are provided, you 五月 assume that the first argument is indeed the filename of a valid CSV file and that the second argument is the filename of a valid text file.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Your program should 打开 the CSV file and 阅读 its 目录 into 内存.
+    <ul>
+      <li data-marker="*">You 五月 assume that the first row of the CSV file will be the column names. The first column will be the word <code class="language-plaintext highlighter-rouge">name</code> and the remaining columns will be the STR sequences themselves.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Your program should 打开 the DNA sequence and 阅读 its 目录 into 内存.</li>
+  <li data-marker="*">For each of the STRs (from the first line of the CSV file), your program should compute the longest run of consecutive repeats of the STR in the DNA sequence to identify. Notice that we’ve defined a helper function for you, <code class="language-plaintext highlighter-rouge">longest_match</code>, which will do just that!</li>
+  <li data-marker="*">If the STR counts match exactly with any of the individuals in the CSV file, your program should print out the 姓名 of the matching individual.
+    <ul>
+      <li data-marker="*">You 五月 assume that the STR counts will not match 更多 than one individual.</li>
+      <li data-marker="*">If the STR counts do not match exactly with any of the individuals in the CSV file, your program should print <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="walkthrough">Walkthrough</h2>
+
+<div class="ratio ratio-16x9" data-video=""><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://www.youtube.com/embed/j84b_EgntcQ?modestbranding=0&amp;rel=0&amp;showinfo=0"></iframe></div>
+
+<h2 id="usage">Usage</h2>
+
+<p>Your program should behave per the 示例 below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python dna.py databases/large.csv sequences/5.txt
+Lavender
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python dna.py
+Usage: python dna.py data.csv sequence.txt
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python dna.py data.csv
+Usage: python dna.py data.csv sequence.txt
+</code></pre></div></div>
+
+<h2 id="hints">提示</h2>
+
+<ul>
+  <li data-marker="*">You 五月 find Python’s <a href="https://docs.python.org/3/library/csv.html"><code class="language-plaintext highlighter-rouge">csv</code></a> module helpful for reading CSV files into 内存. You 五月 want to take advantage of either <a href="https://docs.python.org/3/library/csv.html#csv.reader"><code class="language-plaintext highlighter-rouge">csv.reader</code></a> or <a href="https://docs.python.org/3/library/csv.html#csv.DictReader"><code class="language-plaintext highlighter-rouge">csv.DictReader</code></a>.</li>
+  <li data-marker="*">The <a href="https://docs.python.org/3.3/tutorial/inputoutput.html#reading-and-writing-files"><code class="language-plaintext highlighter-rouge">open</code></a> and <a href="https://docs.python.org/3.3/tutorial/inputoutput.html#methods-of-file-objects"><code class="language-plaintext highlighter-rouge">read</code></a> functions 五月 prove useful for reading text files into 内存.</li>
+  <li data-marker="*">Consider what 数据结构 might be helpful for keeping tracking of information in your program. A <a href="https://docs.python.org/3/tutorial/introduction.html#lists"><code class="language-plaintext highlighter-rouge">list</code></a> or a <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries"><code class="language-plaintext highlighter-rouge">dict</code></a> 五月 prove useful.</li>
+  <li data-marker="*">Remember we’ve defined a function (<code class="language-plaintext highlighter-rouge">longest_match</code>) that, given both a DNA sequence and an STR as inputs, returns the maximum number of times that the STR repeats. You can then use that function in other parts of your program!</li>
+</ul>
+
+<h2 id="testing">测试</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this 问题, you’re encouraged to first test your code on your own for each of the following.</p>
+
+<ul>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/small.csv sequences/1.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Bob</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/small.csv sequences/2.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/small.csv sequences/3.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/small.csv sequences/4.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Alice</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/5.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Lavender</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/6.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Luna</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/7.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Ron</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/8.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Ginny</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/9.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Draco</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/10.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Albus</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/11.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Hermione</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/12.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Lily</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/13.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/14.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Severus</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/15.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Sirius</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/16.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/17.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Harry</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/18.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/19.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">Fred</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python dna.py databases/large.csv sequences/20.txt</code>. Your program should output <code class="language-plaintext highlighter-rouge">No match</code>.</li>
+</ul>
+
+<p>Execute the below to evaluate the correctness of your code using <code class="language-plaintext highlighter-rouge">check50</code>. But be sure to compile and test it yourself as well!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/x/dna
+</code></pre></div></div>
+
+<p>Execute the below to evaluate the style of your code using <code class="language-plaintext highlighter-rouge">style50</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 dna.py
+</code></pre></div></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<p>In your terminal, execute the below to 提交 your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/x/dna
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../../assets/page%EF%B9%961774189397.js"></script>
+
+    
+
+
+</body></html>

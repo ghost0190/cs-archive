@@ -1,0 +1,739 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="Introduction to the intellectual enterprises of computer science and the art of programming. This course teaches students how to think algorithmically and solve problems efficiently. Topics include abstraction, algorithms, data structures, encapsulation, resource management, security, and software engineering. Languages include C, Python, and SQL plus HTML, CSS, and JavaScript. Problem sets inspired by the arts, humanities, social sciences, and sciences. Course culminates in a final project.">
+
+        <meta property="og:image" content=""><meta property="og:title" content="Speller - CS50">
+
+        <link href="../../../favicon%EF%B9%961755717393.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961755717393.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755717393.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961755717393.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961755717393.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml%EF%B9%961755717393.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer%EF%B9%961755717393.js"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961755717393.js"></script>
+
+        <!-- https://www.algolia.com/doc/guides/building-search-ui/installation/js/ -->
+        <script src="../../../assets/algoliasearch/dist/algoliasearch.umd%EF%B9%961755717393.js"></script>
+        <script src="../../../assets/instantsearch.js/dist/instantsearch.production.min%EF%B9%961755717393.js"></script>
+
+        <link href="../../../assets/page%EF%B9%961755717393.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961755717393.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"short","timeZoneName":"short","weekday":"short"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>拼写检查器 - CS50</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="warning dismissible" data-hash="4cae9bd5235c7924faffb683d163d1ef" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is 春季 2025 of CS50 at 哈佛学院. Looking for <a href="../../../../fall/index.html">秋季 2025</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-was-cs50"><a href="../../../index.html">This was CS50</a></h1>
+
+<p><a href="https://www.college.harvard.edu/">哈佛学院</a><br>
+春季 2025</p></header>
+
+                    <button class="btn btn-link d-block ps-0 pt-0" data-search="" data-bs-target="#search" data-bs-toggle="modal" type="button">
+                        <i class="fas fa-search pe-2"></i>搜索
+                    </button>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.courses/"><i class="fa-solid fa-books pe-2 text-decoration-none"></i>CS50.课程</a></li>
+</ul>
+
+<hr>
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="../../../ed/index.html"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a></li>
+  <li data-marker="*"><a href="https://www.gradescope.com/courses/921763"><i class="fa-solid fa-pen pe-2 text-decoration-none"></i>Gradescope</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*"><a href="../../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*"><a href="../../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*"><a href="../../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*"><a href="../../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*"><a href="../../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*"><a href="../../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*"><a href="../../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*"><a href="../../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*"><a href="../../../weeks/10/index.html">第 10 周</a> 人工智能</li>
+  <li data-marker="*"><a href="../../../weeks/11/index.html">周 11</a> The End</li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html#announcements">Announcements</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../../hours/index.html">答疑时间</a></li>
+  <li data-marker="*"><a href="../../index.html">问题集</a></li>
+  <li data-marker="*"><a href="../../../quizzes/index.html">Quizzes</a></li>
+  <li data-marker="*"><a href="../../../sections/index.html">小组课</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="https://cs50.ly/studybuddy">Study Buddies</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">CS50 Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">CS50 Status Page</a></li>
+</ul></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="speller">拼写检查器</h1>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>For this problem, you’ll implement a program that spell-checks a file, a la the below, using a hash table.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-o01nuZNSBSH2khVokTs2GEPtP" src="https://asciinema.org/a/o01nuZNSBSH2khVokTs2GEPtP.js"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll extend the functionality of code provided to you by CS50’s 工作人员.</p>
+
+<details><summary>下载 the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>下一页 execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/2024/fall/psets/5/speller.zip
+</code></pre></div></div>
+
+<p>in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">speller.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip speller.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">speller</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm speller.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd speller
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>speller/ $
+</code></pre></div></div>
+
+<p>Execute <code class="language-plaintext highlighter-rouge">ls</code> by itself, and you should see a few files and folders:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dictionaries/  dictionary.c  dictionary.h  keys/  Makefile  speller.c  speller50  texts/
+</code></pre></div></div>
+
+<p>If you run into any trouble, follow these same steps again and see if you can determine where you went wrong!</p></details>
+
+<h2 id="background">背景</h2>
+
+<div class="alert" data-alert="danger" role="alert"><p><strong>Given the many files in this program, it’s important to 阅读 this 小组课 in its entirety before starting. You’ll then know what to do and how to do it!</strong></p></div>
+
+<p>Theoretically, on input of size <em>n</em>, an algorithm with a running 时间 of <em>n</em> is “asymptotically equivalent,” in terms of <em>O</em>, to an algorithm with a running 时间 of <em>2n</em>. Indeed, when describing the running 时间 of an algorithm, we typically focus on the dominant (i.e., most impactful) term (i.e., <em>n</em> in this case, since <em>n</em> could be much larger than 2). In the real 世界, though, the fact of the matter is that <em>2n</em> feels twice as slow as <em>n</em>.</p>
+
+<p>The challenge ahead of you is to implement the fastest spell checker you can! By “fastest,” though, we’re talking actual “wall-clock,” not asymptotic, 时间.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">speller.c</code>, we’ve put together a program that’s designed to spell-check a file after loading a dictionary of words from disk into 内存. That dictionary, meanwhile, is implemented in a file called <code class="language-plaintext highlighter-rouge">dictionary.c</code>. (It could just be implemented in <code class="language-plaintext highlighter-rouge">speller.c</code>, but as programs get 更多 complex, it’s often convenient to break them into multiple files.) The prototypes for the functions therein, meanwhile, are defined not in <code class="language-plaintext highlighter-rouge">dictionary.c</code> itself but in <code class="language-plaintext highlighter-rouge">dictionary.h</code> instead. That way, both <code class="language-plaintext highlighter-rouge">speller.c</code> and <code class="language-plaintext highlighter-rouge">dictionary.c</code> can <code class="language-plaintext highlighter-rouge">#include</code> the file. Unfortunately, we didn’t quite get around to implementing the loading part. Or the checking part. Both (and a bit 更多) we leave to you! But first, a tour.</p>
+
+<h3 id="understanding">Understanding</h3>
+
+<h4 id="dictionaryh"><code class="language-plaintext highlighter-rouge">dictionary.h</code></h4>
+
+<p>打开 up <code class="language-plaintext highlighter-rouge">dictionary.h</code>, and you’ll see some new syntax, including a few lines that mention <code class="language-plaintext highlighter-rouge">DICTIONARY_H</code>. No need to worry 关于 those, but, if curious, those lines just ensure that, even though <code class="language-plaintext highlighter-rouge">dictionary.c</code> and <code class="language-plaintext highlighter-rouge">speller.c</code> (which you’ll see in a moment) <code class="language-plaintext highlighter-rouge">#include</code> this file, <code class="language-plaintext highlighter-rouge">clang</code> will only compile it once.</p>
+
+<p>下一页 notice how we <code class="language-plaintext highlighter-rouge">#include</code> a file called <code class="language-plaintext highlighter-rouge">stdbool.h</code>. That’s the file in which <code class="language-plaintext highlighter-rouge">bool</code> itself is defined. You’ve not needed it before, since the CS50 Library used to <code class="language-plaintext highlighter-rouge">#include</code> that for you.</p>
+
+<p>Also notice our use of <code class="language-plaintext highlighter-rouge">#define</code>, a “preprocessor directive” that defines a “constant” called <code class="language-plaintext highlighter-rouge">LENGTH</code> that has a value of <code class="language-plaintext highlighter-rouge">45</code>. It’s a constant in the sense that you can’t (accidentally) change it in your own code. In fact, <code class="language-plaintext highlighter-rouge">clang</code> will replace any mentions of <code class="language-plaintext highlighter-rouge">LENGTH</code> in your own code with, literally, <code class="language-plaintext highlighter-rouge">45</code>. In other words, it’s not a variable, just a find-and-replace trick.</p>
+
+<p>Finally, notice the prototypes for five functions: <code class="language-plaintext highlighter-rouge">check</code>, <code class="language-plaintext highlighter-rouge">hash</code>, <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">size</code>, and <code class="language-plaintext highlighter-rouge">unload</code>. Notice how three of those take a pointer as an argument, per the <code class="language-plaintext highlighter-rouge">*</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">check</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">word</span><span class="p">);</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">hash</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">word</span><span class="p">);</span>
+<span class="n">bool</span> <span class="nf">load</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dictionary</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Recall that <code class="language-plaintext highlighter-rouge">char *</code> is what we used to call <code class="language-plaintext highlighter-rouge">string</code>. So those three prototypes are essentially just:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">check</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">hash</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="n">word</span><span class="p">);</span>
+<span class="n">bool</span> <span class="nf">load</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="n">dictionary</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>And <code class="language-plaintext highlighter-rouge">const</code>, meanwhile, just says that those strings, when passed in as arguments, must remain constant; you won’t be able to change them, accidentally or otherwise!</p>
+
+<h4 id="dictionaryc"><code class="language-plaintext highlighter-rouge">dictionary.c</code></h4>
+
+<p>Now 打开 up <code class="language-plaintext highlighter-rouge">dictionary.c</code>. Notice how, atop the file, we’ve defined a <code class="language-plaintext highlighter-rouge">struct</code> called <code class="language-plaintext highlighter-rouge">node</code> that represents a node in a hash table. And we’ve declared a global pointer array, <code class="language-plaintext highlighter-rouge">table</code>, which will (soon) represent the hash table you will use to keep track of words in the dictionary. The array contains <code class="language-plaintext highlighter-rouge">N</code> node 指针, and we’ve set <code class="language-plaintext highlighter-rouge">N</code> equal to <code class="language-plaintext highlighter-rouge">26</code> for now, to match with the default <code class="language-plaintext highlighter-rouge">hash</code> function as described below. You will likely want to increase this depending on your own implementation of <code class="language-plaintext highlighter-rouge">hash</code>.</p>
+
+<p>下一页, notice that we’ve implemented <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">check</code>, <code class="language-plaintext highlighter-rouge">size</code>, and <code class="language-plaintext highlighter-rouge">unload</code>, but only barely, just enough for the code to compile. Notice too that we’ve implemented <code class="language-plaintext highlighter-rouge">hash</code> with a sample algorithm based on the first letter of the word. Your job, ultimately, is to re-implement those functions as cleverly as possible so that this spell checker works as advertised. And fast!</p>
+
+<h4 id="spellerc"><code class="language-plaintext highlighter-rouge">speller.c</code></h4>
+
+<p>Okay, 下一页 打开 up <code class="language-plaintext highlighter-rouge">speller.c</code> and spend some 时间 looking over the code and comments therein. You won’t need to change anything in this file, and you don’t need to understand its entirety, but do try to get a sense of its functionality nonetheless. Notice how, by way of a function called <code class="language-plaintext highlighter-rouge">getrusage</code>, we’ll be “benchmarking” (i.e., timing the execution of) your implementations of <code class="language-plaintext highlighter-rouge">check</code>, <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">size</code>, and <code class="language-plaintext highlighter-rouge">unload</code>. Also notice how we go 关于 passing <code class="language-plaintext highlighter-rouge">check</code>, word by word, the 目录 of some file to be spell-checked. Ultimately, we report each misspelling in that file along with a bunch of statistics.</p>
+
+<p>Notice, incidentally, that we have defined the usage of <code class="language-plaintext highlighter-rouge">speller</code> to be</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Usage: speller [dictionary] text
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">dictionary</code> is assumed to be a file containing a list of lowercase words, one per line, and <code class="language-plaintext highlighter-rouge">text</code> is a file to be spell-checked. As the brackets suggest, provision of <code class="language-plaintext highlighter-rouge">dictionary</code> is 可选; if this argument is omitted, <code class="language-plaintext highlighter-rouge">speller</code> will use <code class="language-plaintext highlighter-rouge">dictionaries/large</code> by default. In other words, running</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller text
+</code></pre></div></div>
+
+<p>will be equivalent to running</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller dictionaries/large text
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">text</code> is the file you wish to spell-check. Suffice it to say, the former is easier to type! (Of 课程, <code class="language-plaintext highlighter-rouge">speller</code> will not be able to load any dictionaries until you implement <code class="language-plaintext highlighter-rouge">load</code> in <code class="language-plaintext highlighter-rouge">dictionary.c</code>! Until then, you’ll see <code class="language-plaintext highlighter-rouge">Could not load</code>.)</p>
+
+<p>Within the default dictionary, mind you, are 143,091 words, all of which must be loaded into 内存! In fact, take a peek at that file to get a sense of its structure and size. Notice that every word in that file appears in lowercase (even, for simplicity, proper nouns and acronyms). From top to bottom, the file is sorted lexicographically, with only one word per line (each of which ends with <code class="language-plaintext highlighter-rouge">\n</code>). No word is longer than 45 characters, and no word appears 更多 than once. During development, you 五月 find it helpful to provide <code class="language-plaintext highlighter-rouge">speller</code> with a <code class="language-plaintext highlighter-rouge">dictionary</code> of your own that contains far fewer words, lest you struggle to 调试 an otherwise enormous structure in 内存. In <code class="language-plaintext highlighter-rouge">dictionaries/small</code> is one such dictionary. To use it, execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller dictionaries/small text
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">text</code> is the file you wish to spell-check. Don’t move on until you’re sure you understand how <code class="language-plaintext highlighter-rouge">speller</code> itself works!</p>
+
+<p>Odds are, you didn’t spend enough 时间 looking over <code class="language-plaintext highlighter-rouge">speller.c</code>. Go 返回 one square and walk yourself through it again!</p>
+
+<h4 id="texts"><code class="language-plaintext highlighter-rouge">texts/</code></h4>
+
+<p>So that you can test your implementation of <code class="language-plaintext highlighter-rouge">speller</code>, we’ve also provided you with a whole bunch of texts, among them the script from <em>La La Land</em>, the text of the Affordable Care Act, three million bytes from Tolstoy, some excerpts from <em>The Federalist Papers</em> and Shakespeare, and 更多. So that you know what to expect, 打开 and skim each of those files, all of which are in a directory called <code class="language-plaintext highlighter-rouge">texts</code> within your <code class="language-plaintext highlighter-rouge">pset5</code> directory.</p>
+
+<p>Now, as you should know from having 阅读 over <code class="language-plaintext highlighter-rouge">speller.c</code> carefully, the output of <code class="language-plaintext highlighter-rouge">speller</code>, if executed with, say,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller texts/lalaland.txt
+</code></pre></div></div>
+
+<p>will eventually resemble the below.</p>
+
+<p>Below’s some of the output you’ll see. For information’s sake, we’ve excerpted some 示例 of “misspellings.” And lest we spoil the fun, we’ve omitted our own statistics for now.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MISSPELLED WORDS
+
+[...]
+AHHHHHHHHHHHHHHHHHHHHHHHHHHHT
+[...]
+Shangri
+[...]
+fianc
+[...]
+Sebastian's
+[...]
+
+WORDS MISSPELLED:
+WORDS IN DICTIONARY:
+WORDS IN TEXT:
+TIME IN load:
+TIME IN check:
+TIME IN size:
+TIME IN unload:
+TIME IN TOTAL:
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TIME IN load</code> represents the number of seconds that <code class="language-plaintext highlighter-rouge">speller</code> spends executing your implementation of <code class="language-plaintext highlighter-rouge">load</code>. <code class="language-plaintext highlighter-rouge">TIME IN check</code> represents the number of seconds that <code class="language-plaintext highlighter-rouge">speller</code> spends, in total, executing your implementation of <code class="language-plaintext highlighter-rouge">check</code>. <code class="language-plaintext highlighter-rouge">TIME IN size</code> represents the number of seconds that <code class="language-plaintext highlighter-rouge">speller</code> spends executing your implementation of <code class="language-plaintext highlighter-rouge">size</code>. <code class="language-plaintext highlighter-rouge">TIME IN unload</code> represents the number of seconds that <code class="language-plaintext highlighter-rouge">speller</code> spends executing your implementation of <code class="language-plaintext highlighter-rouge">unload</code>. <code class="language-plaintext highlighter-rouge">TIME IN TOTAL</code> is the sum of those four measurements.</p>
+
+<p><strong>笔记 that these times 五月 vary somewhat across executions of <code class="language-plaintext highlighter-rouge">speller</code>, depending on what else your codespace is doing, even if you don’t change your code.</strong></p>
+
+<p>Incidentally, to be clear, by “misspelled” we simply mean that some word is not in the <code class="language-plaintext highlighter-rouge">dictionary</code> provided.</p>
+
+<h4 id="makefile"><code class="language-plaintext highlighter-rouge">Makefile</code></h4>
+
+<p>And, lastly, recall that <code class="language-plaintext highlighter-rouge">make</code> automates compilation of your code so that you don’t have to execute <code class="language-plaintext highlighter-rouge">clang</code> manually along with a whole bunch of switches. However, as your programs grow in size, <code class="language-plaintext highlighter-rouge">make</code> won’t be able to infer from context anymore how to compile your code; you’ll need to start telling <code class="language-plaintext highlighter-rouge">make</code> how to compile your program, particularly when they involve multiple source (i.e., <code class="language-plaintext highlighter-rouge">.c</code>) files, as in the case of this problem. And so we’ll utilize a <code class="language-plaintext highlighter-rouge">Makefile</code>, a configuration file that tells <code class="language-plaintext highlighter-rouge">make</code> exactly what to do. 打开 up <code class="language-plaintext highlighter-rouge">Makefile</code>, and you should see four lines:</p>
+
+<ol>
+  <li>The first line tells <code class="language-plaintext highlighter-rouge">make</code> to execute the subsequent lines whenever you yourself execute <code class="language-plaintext highlighter-rouge">make speller</code> (or just <code class="language-plaintext highlighter-rouge">make</code>).</li>
+  <li>The second line tells <code class="language-plaintext highlighter-rouge">make</code> how to compile <code class="language-plaintext highlighter-rouge">speller.c</code> into machine code (i.e., <code class="language-plaintext highlighter-rouge">speller.o</code>).</li>
+  <li>The third line tells <code class="language-plaintext highlighter-rouge">make</code> how to compile <code class="language-plaintext highlighter-rouge">dictionary.c</code> into machine code (i.e., <code class="language-plaintext highlighter-rouge">dictionary.o</code>).</li>
+  <li>The fourth line tells <code class="language-plaintext highlighter-rouge">make</code> to link <code class="language-plaintext highlighter-rouge">speller.o</code> and <code class="language-plaintext highlighter-rouge">dictionary.o</code> in a file called <code class="language-plaintext highlighter-rouge">speller</code>.</li>
+</ol>
+
+<p><strong>Be sure to compile <code class="language-plaintext highlighter-rouge">speller</code> by executing <code class="language-plaintext highlighter-rouge">make speller</code> (or just <code class="language-plaintext highlighter-rouge">make</code>). Executing <code class="language-plaintext highlighter-rouge">make dictionary</code> won’t work!</strong></p>
+
+<h2 id="specification">规格说明</h2>
+
+<p>Alright, the challenge now before you is to implement, in order, <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">hash</code>, <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">check</code>, and <code class="language-plaintext highlighter-rouge">unload</code> as efficiently as possible using a hash table in such a way that <code class="language-plaintext highlighter-rouge">TIME IN load</code>, <code class="language-plaintext highlighter-rouge">TIME IN check</code>, <code class="language-plaintext highlighter-rouge">TIME IN size</code>, and <code class="language-plaintext highlighter-rouge">TIME IN unload</code> are all minimized. To be sure, it’s not obvious what it even means to be minimized, inasmuch as these benchmarks will certainly vary as you feed <code class="language-plaintext highlighter-rouge">speller</code> different values for <code class="language-plaintext highlighter-rouge">dictionary</code> and for <code class="language-plaintext highlighter-rouge">text</code>. But therein lies the challenge, if not the fun, of this problem. This problem is your chance to design. Although we invite you to minimize space, your ultimate enemy is 时间. But before you dive in, some specifications from us.</p>
+
+<ul>
+  <li data-marker="*">You 五月 not alter <code class="language-plaintext highlighter-rouge">speller.c</code> or <code class="language-plaintext highlighter-rouge">Makefile</code>.</li>
+  <li data-marker="*">You 五月 alter <code class="language-plaintext highlighter-rouge">dictionary.c</code> (and, in fact, must in order to complete the implementations of <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">hash</code>, <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">check</code>, and <code class="language-plaintext highlighter-rouge">unload</code>), but you 五月 not alter the declarations (i.e., prototypes) of <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">hash</code>, <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">check</code>, or <code class="language-plaintext highlighter-rouge">unload</code>. You 五月, though, add new functions and (local or global) variables to <code class="language-plaintext highlighter-rouge">dictionary.c</code>.</li>
+  <li data-marker="*">You 五月 change the value of <code class="language-plaintext highlighter-rouge">N</code> in <code class="language-plaintext highlighter-rouge">dictionary.c</code>, so that your hash table can have 更多 buckets.</li>
+  <li data-marker="*">You 五月 alter <code class="language-plaintext highlighter-rouge">dictionary.h</code>, but you 五月 not alter the declarations of <code class="language-plaintext highlighter-rouge">load</code>, <code class="language-plaintext highlighter-rouge">hash</code>, <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">check</code>, or <code class="language-plaintext highlighter-rouge">unload</code>.</li>
+  <li data-marker="*">Your implementation of <code class="language-plaintext highlighter-rouge">check</code> must be case-insensitive. In other words, if <code class="language-plaintext highlighter-rouge">foo</code> is in dictionary, then <code class="language-plaintext highlighter-rouge">check</code> should return true given any capitalization thereof; none of <code class="language-plaintext highlighter-rouge">foo</code>, <code class="language-plaintext highlighter-rouge">foO</code>, <code class="language-plaintext highlighter-rouge">fOo</code>, <code class="language-plaintext highlighter-rouge">fOO</code>, <code class="language-plaintext highlighter-rouge">fOO</code>, <code class="language-plaintext highlighter-rouge">Foo</code>, <code class="language-plaintext highlighter-rouge">FoO</code>, <code class="language-plaintext highlighter-rouge">FOo</code>, and <code class="language-plaintext highlighter-rouge">FOO</code> should be considered misspelled.</li>
+  <li data-marker="*">Capitalization aside, your implementation of <code class="language-plaintext highlighter-rouge">check</code> should only return <code class="language-plaintext highlighter-rouge">true</code> for words actually in <code class="language-plaintext highlighter-rouge">dictionary</code>. Beware hard-coding common words (e.g., <code class="language-plaintext highlighter-rouge">the</code>), lest we pass your implementation a <code class="language-plaintext highlighter-rouge">dictionary</code> without those same words. Moreover, the only possessives allowed are those actually in <code class="language-plaintext highlighter-rouge">dictionary</code>. In other words, even if <code class="language-plaintext highlighter-rouge">foo</code> is in <code class="language-plaintext highlighter-rouge">dictionary</code>, <code class="language-plaintext highlighter-rouge">check</code> should return <code class="language-plaintext highlighter-rouge">false</code> given <code class="language-plaintext highlighter-rouge">foo's</code> if <code class="language-plaintext highlighter-rouge">foo's</code> is not also in <code class="language-plaintext highlighter-rouge">dictionary</code>.</li>
+  <li data-marker="*">You 五月 assume that any <code class="language-plaintext highlighter-rouge">dictionary</code> passed to your program will be structured exactly like ours, alphabetically sorted from top to bottom with one word per line, each of which ends with <code class="language-plaintext highlighter-rouge">\n</code>. You 五月 also assume that <code class="language-plaintext highlighter-rouge">dictionary</code> will contain at least one word, that no word will be longer than <code class="language-plaintext highlighter-rouge">LENGTH</code> (a constant defined in <code class="language-plaintext highlighter-rouge">dictionary.h</code>) characters, that no word will appear 更多 than once, that each word will contain only lowercase alphabetical characters and possibly apostrophes, and that no word will start with an apostrophe.</li>
+  <li data-marker="*">You 五月 assume that <code class="language-plaintext highlighter-rouge">check</code> will only be passed words that contain (uppercase or lowercase) alphabetical characters and possibly apostrophes.</li>
+  <li data-marker="*">Your spell checker 五月 only take <code class="language-plaintext highlighter-rouge">text</code> and, optionally, <code class="language-plaintext highlighter-rouge">dictionary</code> as input. Although you might be inclined (particularly if among those 更多 comfortable) to “pre-process” our default dictionary in order to derive an “ideal hash function” for it, you 五月 not save the output of any such pre-processing to disk in order to load it 返回 into 内存 on subsequent runs of your spell checker in order to gain an advantage.</li>
+  <li data-marker="*">Your spell checker must not leak any 内存. Be sure to check for leaks with <code class="language-plaintext highlighter-rouge">valgrind</code>.</li>
+  <li data-marker="*"><strong>The hash function you write should ultimately be your own, not one you 搜索 for online.</strong></li>
+</ul>
+
+<p>Alright, ready to go?</p>
+
+<ul>
+  <li data-marker="*">Implement <code class="language-plaintext highlighter-rouge">load</code>.</li>
+  <li data-marker="*">Implement <code class="language-plaintext highlighter-rouge">hash</code>.</li>
+  <li data-marker="*">Implement <code class="language-plaintext highlighter-rouge">size</code>.</li>
+  <li data-marker="*">Implement <code class="language-plaintext highlighter-rouge">check</code>.</li>
+  <li data-marker="*">Implement <code class="language-plaintext highlighter-rouge">unload</code>.</li>
+</ul>
+
+<h2 id="hints">提示</h2>
+
+<details><summary>Implement <code>load</code></summary><p>Complete the <code class="language-plaintext highlighter-rouge">load</code> function. <code class="language-plaintext highlighter-rouge">load</code> should load the dictionary into 内存 (in particular, into a hash table!). <code class="language-plaintext highlighter-rouge">load</code> should return <code class="language-plaintext highlighter-rouge">true</code> if successful and <code class="language-plaintext highlighter-rouge">false</code> otherwise.</p>
+
+<p>Consider that this problem is just composed of smaller problems:</p>
+
+<ol>
+  <li>打开 the dictionary file</li>
+  <li>阅读 each word in the file
+    <ol>
+      <li>Add each word to the hash table</li>
+    </ol>
+  </li>
+  <li>关闭 the dictionary file</li>
+</ol>
+
+<p>Write some pseudocode to remind yourself to do just that:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">load</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dictionary</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Open the dictionary file</span>
+
+    <span class="c1">// Read each word in the file</span>
+
+        <span class="c1">// Add each word to the hash table</span>
+
+    <span class="c1">// Close the dictionary file</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Consider first how to 打开 the dictionary file. <a href="https://manual.cs50.io/3/fopen"><code class="language-plaintext highlighter-rouge">fopen</code></a> is a natural choice. You can use mode <code class="language-plaintext highlighter-rouge">r</code>, given that you need only <em>阅读</em> words from the dictionary file (not <em>write</em> or <em>append</em> them).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">load</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dictionary</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Open the dictionary file</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">source</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+
+    <span class="c1">// Read each word in the file</span>
+
+        <span class="c1">// Add each word to the hash table</span>
+
+    <span class="c1">// Close the dictionary file</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Before moving on, you should write code to check whether the file opened correctly. That’s up to you! It’s also best to ensure you 关闭 every file you 打开, so now’s a good 时间 to write the code to 关闭 the dictionary file:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">load</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dictionary</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Open the dictionary file</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">source</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+
+    <span class="c1">// Read each word in the file</span>
+
+        <span class="c1">// Add each word to the hash table</span>
+
+    <span class="c1">// Close the dictionary file</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>What remains is to 阅读 each word in the file and to add each word to the hash table. Return <code class="language-plaintext highlighter-rouge">true</code> when the entire operation is successful and <code class="language-plaintext highlighter-rouge">false</code> if it ever fails. Consider following this problem’s walkthrough and continue to break sub-problems into even smaller problems. For 示例, adding each word to the hash table might only be a matter of implementing a few, even smaller, steps:</p>
+
+<ol>
+  <li>Create space for a new hash table node</li>
+  <li>Copy the word into the new node</li>
+  <li>Hash the word to obtain its hash value</li>
+  <li>Insert the new node into the hash table (using the index specified by its hash value)</li>
+</ol>
+
+<p>Of 课程, there’s 更多 one way to approach this problem, each with their own design trade-offs. For that reason, the rest of the code is up to you!</p></details>
+
+<details><summary>Implement <code>hash</code></summary><p>Complete the <code class="language-plaintext highlighter-rouge">hash</code> function. <code class="language-plaintext highlighter-rouge">hash</code> should take a string, <code class="language-plaintext highlighter-rouge">word</code>, as input and return a positive (“unsigned”) <code class="language-plaintext highlighter-rouge">int</code>.</p>
+
+<p>The hash function given to you returns an <code class="language-plaintext highlighter-rouge">int</code> between 0 and 25, inclusive, based on the first character of <code class="language-plaintext highlighter-rouge">word</code>. However, there are many ways to implement a hash function beyond using the first character (or <em>characters</em>) of a word. Consider a hash function that uses a sum of ASCII values or the length of a word. A good hash function reduces “collisions” and has a (mostly!) even distribution across hash table “buckets”.</p></details>
+
+<details><summary>Implement <code>size</code></summary><p>Complete the <code class="language-plaintext highlighter-rouge">size</code> function. <code class="language-plaintext highlighter-rouge">size</code> should return the number of words loaded in the dictionary. Consider two approaches to this problem:</p>
+
+<ul>
+  <li data-marker="*">Count each word as you load it into the dictionary. Return that count when <code class="language-plaintext highlighter-rouge">size</code> is called.</li>
+  <li data-marker="*">Each 时间 <code class="language-plaintext highlighter-rouge">size</code> is called, iterate through the words in the hash table to count them up. Return that count.</li>
+</ul>
+
+<p>Which seems most efficient to you? Whichever you choose, we’ll leave the code up to you.</p></details>
+
+<details><summary>Implement <code>check</code></summary><p>Complete the <code class="language-plaintext highlighter-rouge">check</code> function. <code class="language-plaintext highlighter-rouge">check</code> should return <code class="language-plaintext highlighter-rouge">true</code> if a word is located in the dictionary, otherwise <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p>Consider that this problem is also composed of smaller problems. If you’ve implemented a hash table, finding a word takes only a few steps:</p>
+
+<ol>
+  <li>Hash the word to obtain its hash value</li>
+  <li>搜索 the hash table at the 地点 specified by the word’s hash value
+    <ol>
+      <li>Return <code class="language-plaintext highlighter-rouge">true</code> if the word is found</li>
+    </ol>
+  </li>
+  <li>Return <code class="language-plaintext highlighter-rouge">false</code> if no word is found</li>
+</ol>
+
+<p>To compare two strings case-insensitively, you 五月 find <a href="https://man.cs50.io/3/strcasecmp"><code class="language-plaintext highlighter-rouge">strcasecmp</code></a> (declared in <code class="language-plaintext highlighter-rouge">strings.h</code>) useful! You’ll likely also want to ensure that your hash function is case-insensitive, such that <code class="language-plaintext highlighter-rouge">foo</code> and <code class="language-plaintext highlighter-rouge">FOO</code> have the same hash value.</p></details>
+
+<details><summary>Implement <code>unload</code></summary><p>Complete the <code class="language-plaintext highlighter-rouge">unload</code> function. Be sure to <code class="language-plaintext highlighter-rouge">free</code> in <code class="language-plaintext highlighter-rouge">unload</code> any 内存 that you allocated in <code class="language-plaintext highlighter-rouge">load</code>!</p>
+
+<p>Recall that <code class="language-plaintext highlighter-rouge">valgrind</code> is your newest best friend. Know that <code class="language-plaintext highlighter-rouge">valgrind</code> watches for leaks while your program is actually running, so be sure to provide command-line arguments if you want <code class="language-plaintext highlighter-rouge">valgrind</code> to analyze <code class="language-plaintext highlighter-rouge">speller</code> while you use a particular <code class="language-plaintext highlighter-rouge">dictionary</code> and/or text, as in the below. Best to use a small text, though, else <code class="language-plaintext highlighter-rouge">valgrind</code> could take quite a while to run.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>valgrind ./speller texts/cat.txt
+</code></pre></div></div>
+
+<p>If you run <code class="language-plaintext highlighter-rouge">valgrind</code> without specifying a <code class="language-plaintext highlighter-rouge">text</code> for <code class="language-plaintext highlighter-rouge">speller</code>, your implementations of <code class="language-plaintext highlighter-rouge">load</code> and <code class="language-plaintext highlighter-rouge">unload</code> won’t actually get called (and thus analyzed).</p>
+
+<p>If unsure how to interpret the output of <code class="language-plaintext highlighter-rouge">valgrind</code>, do just ask <code class="language-plaintext highlighter-rouge">help50</code> for help:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>help50 valgrind ./speller texts/cat.txt
+</code></pre></div></div></details>
+
+<h2 id="walkthroughs">Walkthroughs</h2>
+
+<div class="alert" data-alert="danger" role="alert"><p><strong>笔记 that there are 6 视频 in this playlist.</strong></p></div>
+
+<div class="ratio ratio-16x9" data-video=""><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://www.youtube.com/embed/_z57x5PGF4w?modestbranding=0&amp;rel=0&amp;showinfo=1&amp;list=PLhQjrBD2T382T4b6jjwX_qbU23E_Unwcz"></iframe></div>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>How to check whether your program is outting the right misspelled words? Well, you’re 欢迎 to consult the “答案 keys” that are inside of the <code class="language-plaintext highlighter-rouge">keys</code> directory that’s inside of your <code class="language-plaintext highlighter-rouge">speller</code> directory. For instance, inside of <code class="language-plaintext highlighter-rouge">keys/lalaland.txt</code> are all of the words that your program <em>should</em> think are misspelled.</p>
+
+<p>You could therefore run your program on some text in one window, as with the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller texts/lalaland.txt
+</code></pre></div></div>
+
+<p>And you could then run the 工作人员’s solution on the same text in another window, as with the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller50 texts/lalaland.txt
+</code></pre></div></div>
+
+<p>And you could then compare the windows visually side by side. That could get tedious quickly, though. So you might instead want to “redirect” your program’s output to a file, as with the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller texts/lalaland.txt &gt; student.txt
+./speller50 texts/lalaland.txt &gt; staff.txt
+</code></pre></div></div>
+
+<p>You can then compare both files side by side in the same window with a program like <code class="language-plaintext highlighter-rouge">diff</code>, as with the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diff -y student.txt staff.txt
+</code></pre></div></div>
+
+<p>Alternatively, to save 时间, you could just compare your program’s output (assuming you redirected it to, e.g., <code class="language-plaintext highlighter-rouge">student.txt</code>) against one of the 答案 keys without running the 工作人员’s solution, as with the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diff -y student.txt keys/lalaland.txt
+</code></pre></div></div>
+
+<p>If your program’s output matches the 工作人员’s, <code class="language-plaintext highlighter-rouge">diff</code> will output two columns that should be identical except for, perhaps, the running times at the bottom. If the columns differ, though, you’ll see a <code class="language-plaintext highlighter-rouge">&gt;</code> or <code class="language-plaintext highlighter-rouge">|</code> where they differ. For instance, if you see</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MISSPELLED WORDS                                                MISSPELLED WORDS
+
+TECHNO                                                          TECHNO
+L                                                               L
+                                                              &gt; Thelonious
+Prius                                                           Prius
+                                                              &gt; MIA
+L                                                               L
+</code></pre></div></div>
+
+<p>that means your program (whose output is on the left) does not think that <code class="language-plaintext highlighter-rouge">Thelonious</code> or <code class="language-plaintext highlighter-rouge">MIA</code> is misspelled, even though the 工作人员’s output (on the right) does, as is implied by the absence of, say, <code class="language-plaintext highlighter-rouge">Thelonious</code> in the lefthand column and the presence of <code class="language-plaintext highlighter-rouge">Thelonious</code> in the righthand column.</p>
+
+<p>Finally, be sure to test with both the default large and small dictionaries. Be careful not to assume that if your solution runs successfully with the large dictionary it will also run successfully with the small one. Here’s how to try the small dictionary:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller dictionaries/small texts/cat.txt 
+</code></pre></div></div>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2025/spring/speller
+</code></pre></div></div>
+
+<h3 id="style">Style</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 dictionary.c
+</code></pre></div></div>
+
+<h2 id="staffs-solution">工作人员’s Solution</h2>
+
+<p>How to assess just how fast (and correct) your code is? Well, as always, feel free to play with the 工作人员’s solution, as with the below, and compare its numbers against yours.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./speller50 texts/lalaland.txt
+</code></pre></div></div>
+
+<h2 id="big-board">Big Board</h2>
+
+<p>If you’d like to put your code to the test against classmates’ code (just for fun), follow the below steps to challenge the <a href="https://speller.cs50.net/cs50/problems/2025/spring/challenges/speller">Big Board</a> before or after you 提交.</p>
+
+<details><summary>提交 to Big Board</summary><p>First, run <code class="language-plaintext highlighter-rouge">update50</code>. When prompted, click <strong>rebuild now</strong>.</p>
+
+<p>After rebuilding your codespace, execute the below to 提交 your work to the Big Board.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2025/spring/challenges/speller
+</code></pre></div></div>
+
+<p>Then visit the URL that <code class="language-plaintext highlighter-rouge">submit50</code> outputs to see where you rank! It 五月 take a few minutes for your result to be available.</p></details>
+
+<p><strong>Important 笔记: Submitting to the Big Board is not the same thing as submitting the 问题集 itself. To 提交 the 问题集, complete the 如何提交 instructions in the 下一页 小组课.</strong></p>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="alert" data-alert="danger" role="alert"><p>Per Step 4 below, after you 提交, be sure to check your autograder results. If you see <code class="language-plaintext highlighter-rouge">SUBMISSION ERROR: missing files (0.0/1.0)</code>, it means your file was not named exactly as prescribed (or you uploaded it to the wrong problem).</p>
+
+<p>Correctness in submissions entails everything from reading the 规格说明, writing code that is compliant with it, and submitting files with the correct 姓名. If you see this error, you should resubmit right away, making sure your submission is fully compliant with the 规格说明. The 工作人员 will not adjust your filenames for you after the fact!</p></div>
+
+<ol>
+  <li>下载 your <code class="language-plaintext highlighter-rouge">dictionary.c</code> and <code class="language-plaintext highlighter-rouge">dictionary.h</code> files by control-clicking or right-clicking on the file in your codespace’s file browser and choosing <strong>下载</strong>.</li>
+  <li>Go to CS50’s <a href="https://www.gradescope.com/courses/921763">Gradescope page</a>.</li>
+  <li>Click <strong>问题集 5: 拼写检查器</strong>.</li>
+  <li>Drag and drop your <code class="language-plaintext highlighter-rouge">dictionary.c</code> and <code class="language-plaintext highlighter-rouge">dictionary.h</code> files to the area that says <strong>Drag &amp; Drop</strong>. Be sure they have those <em>exact</em> filenames! If you upload a file with a different 姓名, the autograder likely will fail when trying to run it. Ensuring you have uploaded files with the correct filename is your responsibility!</li>
+  <li>Click <strong>Upload</strong>.</li>
+</ol>
+
+<p>You should see a message that says “问题集 5: 拼写检查器 submitted successfully!”</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="searchTitle" class="markdown-body modal" id="search" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pe-3 w-100" id="searchbox"></div>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="hits"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            // Before showing searchbox
+            $('#search').on('show.bs.modal', function (e) {
+
+                // Client
+                const searchClient = algoliasearch('5RYPGI69HZ', '53d709e59d833870a6886f6fcf0b0bfe');
+                const search = instantsearch({
+                    indexName: 'cs50-2024-fall-college',
+                    searchClient: searchClient,
+                    searchFunction: function(helper) { // https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/js/#handling-empty-queries
+                        const hits = $('#hits');
+                        if (helper.state.query === '') {
+                            hits.hide();
+                            return;
+                        }
+                        helper.search();
+                        hits.show();
+                    }
+                });
+
+                // searchBox
+                // https://www.algolia.com/doc/api-reference/widgets/search-box/js/
+                search.addWidget(
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        cssClasses: {
+                            input: 'form-control'
+                        },
+                        placeholder: 'Search',
+                        showLoadingIndicator: false,
+                        showReset: false,
+                        showSubmit: false
+                    })
+                );
+
+                // hits
+                // https://www.algolia.com/doc/api-reference/widgets/hits/js/
+                search.addWidget(
+                    instantsearch.widgets.hits({
+                        container: '#hits',
+                        templates: {
+                            item: function(hit) {
+
+                                // url
+                                if (window.baseurl) {
+                                    var url = window.baseurl + hit.url;
+                                }
+                                else {
+                                    var url = hit.url;
+                                }
+                                if (hit.anchor) {
+                                    url += '#' + hit.anchor;
+                                }
+
+                                // title
+                                if (hit._highlightResult && hit._highlightResult.headings) {
+                                    var title = hit._highlightResult.headings[hit._highlightResult.headings.length - 1].value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var title = hit._highlightResult.title.value;
+                                }
+                                else if (hit.headings) {
+                                    var title = hit.headings[hit.headings.length - 1].value;
+                                }
+                                else if (hit.title) {
+                                    var title = hit.title;
+                                }
+                                else {
+                                    var title = url;
+                                }
+
+                                // content
+                                if (hit._highlightResult && hit._highlightResult.content) {
+                                    var content = hit._highlightResult.content.value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var content = hit._highlightResult.title.value;
+                                }
+                                else {
+                                    var content = hit.excerpt_text;
+                                }
+
+                                // Template for hit
+                                return '<h2 class="font-weight-bold h3 mb-0">' +
+                                       '<a href="' + url + '">' +
+                                       title +
+                                       '</a>' +
+                                       '</h2>' +
+                                       '<p class="mb-0">' +
+                                       '<a class="text-muted" href="' + url + '">' +
+                                       url +
+                                       '</a>' +
+                                       '</p>' +
+                                       '<p>' + 
+                                       content +
+                                       '</p>';
+                            }
+                        }
+                    })
+                );
+
+                // poweredBy
+                search.addWidget(
+                    instantsearch.widgets.poweredBy({
+                        container: '#search .modal-footer'
+                    })
+                );
+
+                // Let user start searching
+                search.start();
+
+                // Resize form
+                $(window).trigger('resize');
+            });
+
+            // After showing searchbox
+            $('#search').on('shown.bs.modal', function (e) {
+                $('#searchbox input[type=search]').focus();
+            });
+
+        </script>
+        
+ 
+        <script src="../../../assets/page%EF%B9%961755717393.js"></script>
+
+    
+
+
+</body></html>

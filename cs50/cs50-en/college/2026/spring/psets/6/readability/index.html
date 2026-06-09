@@ -1,0 +1,404 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Readability - CS50">
+
+        <link href="../../../favicon%EF%B9%961779248576.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961779248576.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779248576.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779248576.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961779248576.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961779248576.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779248576.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779248576.js"></script>
+
+        <!-- https://www.algolia.com/doc/guides/building-search-ui/installation/js/ -->
+        <script src="../../../assets/algoliasearch/dist/algoliasearch.umd%EF%B9%961779248576.js"></script>
+        <script src="../../../assets/instantsearch.js/dist/instantsearch.production.min%EF%B9%961779248576.js"></script>
+
+        <link href="../../../assets/page%EF%B9%961779248576.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961779248576.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"short","timeZoneName":"short","weekday":"short"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Readability - CS50</title>
+
+
+    <meta property="og:description" content="Problem to Solve Write, in a file called readability.py in a folder called sentimental-readability, a program that first asks the user to type in some text,...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="1a4b4f2ea4de58f7305bfb3617018d09" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is Spring 2026 of CS50 at Harvard College.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-was-cs50"><a href="../../../index.html">This was CS50</a></h1>
+
+<p><a href="https://www.college.harvard.edu/">Harvard College</a><br>
+Spring 2026</p></header>
+
+                    <button class="btn btn-link d-block ps-0 pt-0" data-search="" data-bs-target="#search" data-bs-toggle="modal" type="button">
+                        <i class="fas fa-search pe-2"></i>Search
+                    </button>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.courses/"><i class="fa-solid fa-books pe-2 text-decoration-none"></i>CS50.courses</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../feedback/index.html">Feedback from Past Students</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="../../../ed/index.html"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a></li>
+  <li data-marker="*"><a href="https://www.gradescope.com/courses/1191826"><i class="fa-solid fa-pen pe-2 text-decoration-none"></i>Gradescope</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*">
+<a href="../../../weeks/0/index.html">Week 0</a> Scratch</li>
+  <li data-marker="*">
+<a href="../../../weeks/1/index.html">Week 1</a> C</li>
+  <li data-marker="*">
+<a href="../../../weeks/2/index.html">Week 2</a> Arrays</li>
+  <li data-marker="*">
+<a href="../../../weeks/3/index.html">Week 3</a> Algorithms</li>
+  <li data-marker="*">
+<a href="../../../weeks/4/index.html">Week 4</a> Memory</li>
+  <li data-marker="*">
+<a href="../../../weeks/5/index.html">Week 5</a> Data Structures</li>
+  <li data-marker="*">
+<a href="../../../weeks/6/index.html">Week 6</a> Python</li>
+  <li data-marker="*">
+<a href="../../../weeks/7/index.html">Week 7</a> SQL</li>
+  <li data-marker="*">
+<a href="../../../weeks/8/index.html">Week 8</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*">
+<a href="../../../weeks/9/index.html">Week 9</a> Flask</li>
+  <li data-marker="*">
+<a href="../../../weeks/10/index.html">Week 10</a> Artificial Intelligence</li>
+  <li data-marker="*">
+<a href="../../../weeks/11/index.html">Week 11</a> The End</li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html#announcements">Announcements</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="../../../project/index.html">Final Project</a></li>
+  <li data-marker="*"><a href="../../../hours/index.html">Office Hours</a></li>
+  <li data-marker="*"><a href="../../index.html">Problem Sets</a></li>
+  <li data-marker="*"><a href="../../../quizzes/index.html">Quizzes</a></li>
+  <li data-marker="*"><a href="../../../sections/index.html">Sections</a></li>
+  <li data-marker="*"><a href="../../../seminars/index.html">Seminars</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">Staff</a></li>
+  <li data-marker="*"><a href="https://cs50.ly/studybuddy">Study Buddies</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">Syllabus</a></li>
+  <li data-marker="*"><a href="../../../test/index.html">Test</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">CS50 Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">CS50 Status Page</a></li>
+</ul></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="readability">Readability</h1>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>Write, in a file called <code class="language-plaintext highlighter-rouge">readability.py</code> in a folder called <code class="language-plaintext highlighter-rouge">sentimental-readability</code>, a program that first asks the user to type in some text, and then outputs the grade level for the text, according to the Coleman-Liau formula, exactly as you did in <a href="../../2/index.html">Problem Set 2</a>, except that your program this time should be written in Python.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-WnE6pZNnDkDm8NtuxrTqY1Nu4" src="https://asciinema.org/a/WnE6pZNnDkDm8NtuxrTqY1Nu4.js"></script>
+
+<h2 id="specification">Specification</h2>
+
+<ul>
+  <li data-marker="*">Recall that the Coleman-Liau index is computed as <code class="language-plaintext highlighter-rouge">0.0588 * L - 0.296 * S - 15.8</code>, where <code class="language-plaintext highlighter-rouge">L</code> is the average number of letters per 100 words in the text, and <code class="language-plaintext highlighter-rouge">S</code> is the average number of sentences per 100 words in the text.</li>
+  <li data-marker="*">Use <code class="language-plaintext highlighter-rouge">get_string</code> from the CS50 Library to get the user’s input, and <code class="language-plaintext highlighter-rouge">print</code> to output your answer.</li>
+  <li data-marker="*">Your program should count the number of letters, words, and sentences in the text. You may assume that a letter is any lowercase character from <code class="language-plaintext highlighter-rouge">a</code> to <code class="language-plaintext highlighter-rouge">z</code> or any uppercase character from <code class="language-plaintext highlighter-rouge">A</code> to <code class="language-plaintext highlighter-rouge">Z</code>, any sequence of characters separated by spaces should count as a word, and that any occurrence of a period, exclamation point, or question mark indicates the end of a sentence.</li>
+  <li data-marker="*">Your program should print as output <code class="language-plaintext highlighter-rouge">"Grade X"</code> where <code class="language-plaintext highlighter-rouge">X</code> is the grade level computed by the Coleman-Liau formula, rounded to the nearest integer.</li>
+  <li data-marker="*">If the resulting index number is 16 or higher (equivalent to or greater than a senior undergraduate reading level), your program should output <code class="language-plaintext highlighter-rouge">"Grade 16+"</code> instead of giving the exact index number. If the index number is less than 1, your program should output <code class="language-plaintext highlighter-rouge">"Before Grade 1"</code>.</li>
+</ul>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to first test your code on your own for each of the following.</p>
+
+<ul>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">One fish. Two fish. Red fish. Blue fish.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Before Grade 1</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">Would you like them here or there? I would not like them here or there. I would not like them anywhere.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 2</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">Congratulations! Today is your day. You're off to Great Places! You're off and away!</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 3</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">Harry Potter was a highly unusual boy in many ways. For one thing, he hated the summer holidays more than any other time of year. For another, he really wanted to do his homework, but was forced to do it in secret, in the dead of the night. And he also happened to be a wizard.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 5</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 7</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, "and what is the use of a book," thought Alice "without pictures or conversation?"</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 8</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">When he was nearly thirteen, my brother Jem got his arm badly broken at the elbow. When it healed, and Jem's fears of never being able to play football were assuaged, he was seldom self-conscious about his injury. His left arm was somewhat shorter than his right; when he stood or walked, the back of his hand was at right angles to his body, his thumb parallel to his thigh.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 8</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">There are more things in Heaven and Earth, Horatio, than are dreamt of in your philosophy.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 9</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 10</code>.</li>
+  <li data-marker="*">Run your program as <code class="language-plaintext highlighter-rouge">python readability.py</code>, and wait for a prompt for input. Type in <code class="language-plaintext highlighter-rouge">A large class of computational problems involve the determination of properties of graphs, digraphs, integers, arrays of integers, finite families of finite sets, boolean formulas and elements of other countable domains.</code> and press enter. Your program should output <code class="language-plaintext highlighter-rouge">Grade 16+</code>.</li>
+</ul>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2026/spring/sentimental/readability
+</code></pre></div></div>
+
+<h3 id="style">Style</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 readability.py
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<div class="alert" data-alert="danger" role="alert"><p>After you submit, wait a few minutes and then be sure to check your autograder results. If you see <code class="language-plaintext highlighter-rouge">SUBMISSION ERROR: missing files (0.0/1.0)</code>, <code class="language-plaintext highlighter-rouge">MissingFilesError</code>, or the like, it means your file was not named exactly as prescribed (or you uploaded it to the wrong problem). Correctness in submissions entails everything from reading the specification, writing code that is compliant with it, and submitting files with the correct name. If you see this error, you should resubmit right away, making sure your submission is fully compliant with the specification. The staff will not adjust your filenames for you after the fact!</p></div>
+
+<ol>
+  <li>Download your <code class="language-plaintext highlighter-rouge">readability.py</code> file by control-clicking or right-clicking on the file in your codespace’s file browser and choosing <strong>Download</strong>.</li>
+  <li>Go to CS50’s <a href="https://www.gradescope.com/courses/1191826">Gradescope page</a>.</li>
+  <li>Click <strong>Problem Set 6: Sentimental (Readability)</strong>.</li>
+  <li>Drag and drop your <code class="language-plaintext highlighter-rouge">readability.py</code> file to the area that says <strong>Drag &amp; Drop</strong>. Be sure it has that <em>exact</em> filename! If you upload a file with a different name, the autograder likely will fail when trying to run it. Ensuring you have uploaded files with the correct filename is your responsibility!</li>
+  <li>Click <strong>Upload</strong>.</li>
+</ol>
+
+<p>You should see a message that says “Problem Set 6: Sentimental (Readability) submitted successfully!”</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="searchTitle" class="markdown-body modal" id="search" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pe-3 w-100" id="searchbox"></div>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="hits"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            // Before showing searchbox
+            $('#search').on('show.bs.modal', function (e) {
+
+                // Client
+                const searchClient = algoliasearch.algoliasearch('5RYPGI69HZ', '53d709e59d833870a6886f6fcf0b0bfe');
+                const search = instantsearch({
+                    indexName: 'cs50-2026-spring-college',
+                    searchClient: searchClient,
+                    searchFunction: function(helper) { // https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/js/#handling-empty-queries
+                        const hits = $('#hits');
+                        if (helper.state.query === '') {
+                            hits.hide();
+                            return;
+                        }
+                        helper.search();
+                        hits.show();
+                    }
+                });
+
+                // searchBox
+                // https://www.algolia.com/doc/api-reference/widgets/search-box/js/
+                search.addWidget(
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        cssClasses: {
+                            input: 'form-control'
+                        },
+                        placeholder: 'Search',
+                        showLoadingIndicator: false,
+                        showReset: false,
+                        showSubmit: false
+                    })
+                );
+
+                // hits
+                // https://www.algolia.com/doc/api-reference/widgets/hits/js/
+                search.addWidget(
+                    instantsearch.widgets.hits({
+                        container: '#hits',
+                        templates: {
+                            item: function(hit) {
+
+                                // url
+                                if (window.baseurl) {
+                                    var url = window.baseurl + hit.url;
+                                }
+                                else {
+                                    var url = hit.url;
+                                }
+                                if (hit.anchor) {
+                                    url += '#' + hit.anchor;
+                                }
+
+                                // title
+                                if (hit._highlightResult && hit._highlightResult.headings) {
+                                    var title = hit._highlightResult.headings[hit._highlightResult.headings.length - 1].value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var title = hit._highlightResult.title.value;
+                                }
+                                else if (hit.headings) {
+                                    var title = hit.headings[hit.headings.length - 1].value;
+                                }
+                                else if (hit.title) {
+                                    var title = hit.title;
+                                }
+                                else {
+                                    var title = url;
+                                }
+
+                                // content
+                                if (hit._highlightResult && hit._highlightResult.content) {
+                                    var content = hit._highlightResult.content.value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var content = hit._highlightResult.title.value;
+                                }
+                                else {
+                                    var content = hit.excerpt_text;
+                                }
+
+                                // Template for hit
+                                return '<h2 class="font-weight-bold h3 mb-0">' +
+                                       '<a href="' + url + '">' +
+                                       title +
+                                       '</a>' +
+                                       '</h2>' +
+                                       '<p class="mb-0">' +
+                                       '<a class="text-muted" href="' + url + '">' +
+                                       url +
+                                       '</a>' +
+                                       '</p>' +
+                                       '<p>' + 
+                                       content +
+                                       '</p>';
+                            }
+                        }
+                    })
+                );
+
+                // poweredBy
+                search.addWidget(
+                    instantsearch.widgets.poweredBy({
+                        container: '#search .modal-footer'
+                    })
+                );
+
+                // Let user start searching
+                search.start();
+
+                // Resize form
+                $(window).trigger('resize');
+            });
+
+            // After showing searchbox
+            $('#search').on('shown.bs.modal', function (e) {
+                $('#searchbox input[type=search]').focus();
+            });
+
+        </script>
+        
+ 
+        <script src="../../../assets/page%EF%B9%961779248576.js"></script>
+
+    
+
+
+</body></html>

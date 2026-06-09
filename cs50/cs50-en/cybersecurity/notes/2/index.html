@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/88391405-e329-495d-bf72-5de13bbf1846-be5135562618.small.png">
+
+        <meta property="og:title" content="Lecture 2 - CS50's Introduction to Cybersecurity">
+
+        <link href="../../favicon%EF%B9%961779994618.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994618.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994618.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994618.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994618.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994618.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994618.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994618.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994618.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Lecture 2 - CS50's Introduction to Cybersecurity</title>
+
+
+    <meta property="og:description" content="Securing Systems This is CS50’s Introduction to Cybersecurity. This week, we are going to focus on networks and systems. Last time, we introduced encryption...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-cybersecurity"><a href="../../index.html">CS50’s Introduction to Cybersecurity</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Securing Accounts</a></li>
+  <li><a href="../../weeks/1/index.html">Securing Data</a></li>
+  <li><a href="../../weeks/2/index.html">Securing Systems</a></li>
+  <li><a href="../../weeks/3/index.html">Securing Software</a></li>
+  <li><a href="../../weeks/4/index.html">Preserving Privacy</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cybersecurity">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/cybersecurity">edX</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/watch?v=9HOpanT0GRs">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/159">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/159">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Cqo5I1oRrbC1EKRAKGKUE">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-2">Lecture 2</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#securing-systems" id="markdown-toc-securing-systems">Securing Systems</a></li>
+  <li><a href="#wi-fi" id="markdown-toc-wi-fi">Wi-Fi</a></li>
+  <li><a href="#http" id="markdown-toc-http">HTTP</a></li>
+  <li><a href="#https" id="markdown-toc-https">HTTPS</a></li>
+  <li><a href="#vpn" id="markdown-toc-vpn">VPN</a></li>
+  <li><a href="#ssh" id="markdown-toc-ssh">SSH</a></li>
+  <li><a href="#ports" id="markdown-toc-ports">Ports</a></li>
+  <li><a href="#malware" id="markdown-toc-malware">Malware</a></li>
+  <li><a href="#antivirus" id="markdown-toc-antivirus">Antivirus</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="securing-systems">Securing Systems</h2>
+
+<ul>
+  <li data-marker="*">This is CS50’s Introduction to Cybersecurity.</li>
+  <li data-marker="*">This week, we are going to focus on networks and systems.</li>
+  <li data-marker="*">Last time, we introduced encryption as a way by which to secure information.</li>
+</ul>
+
+<h2 id="wi-fi">Wi-Fi</h2>
+
+<ul>
+  <li data-marker="*">Chances are, you have recognized that there are secured and unsecured networks.</li>
+  <li data-marker="*">Secured networks utilize encryption to protect data between you and other devices.</li>
+  <li data-marker="*">
+<em>Wi-Fi Protected Access</em> or <em>WPA</em> is a form of encryption utilized to secure networks.</li>
+</ul>
+
+<h2 id="http">HTTP</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Hypertext Transfer Protocol</em>, or <em>HTTP</em>, is an unencrypted way by which to transfer data.</li>
+  <li data-marker="*">Utilizing HTTP, one is vulnerable to <em>Man-in-the-Middle</em> attacks where an adversary could inject additional HTML code into what one is downloading. Advertisements could be injected into all the web pages you are accessing via HTTP. Further, malicious code could be inserted as well.</li>
+  <li data-marker="*">Indeed, there are other threats too. <em>Packet sniffing</em> is a way by which an adversary may look inside data that is being transferred between parties. You can imagine how a credit card number placed within an unsecured packet could indeed be detected and stolen by an adversary.</li>
+  <li data-marker="*">
+<em>Cookies</em> are small files that websites put on your computer. Cookies may be used by websites to keep track of who you are, present your emails, or keep track of your shopping cart. Cookies make one vulnerable to <em>session hijacking</em>, whereby an adversary could inject a <em>supercookie</em> to track you.</li>
+  <li data-marker="*">How might one defend against such a threat?</li>
+</ul>
+
+<h2 id="https">HTTPS</h2>
+
+<ul>
+  <li data-marker="*">
+<em>HTTPS</em> is a secure protocol for HTTP.</li>
+  <li data-marker="*">Traffic between parties is encrypted.</li>
+  <li data-marker="*">This is accomplished through <em>TLS</em> through public key cryptography.</li>
+  <li data-marker="*">A website has a public key that is signed by a third-party called a <em>certificate</em> of type <em>X.509</em>. These websites also have a private key.</li>
+  <li data-marker="*">
+<em>Certificate authorities</em> or <em>CAs</em> are trusted third-party companies that issue certificates.</li>
+  <li data-marker="*">When you visit a website, your browser downloads the certificate of that website, runs it through an algorithm, and creates a hash.</li>
+  <li data-marker="*">Then, it uses the public key of the website and the signature of that certificate provided to an algorithm to verify that it creates the exact hash found prior.</li>
+  <li data-marker="*">If these match, the web browser application is satisfied that this is a secured website.</li>
+  <li data-marker="*">HTTPS mathematically does keep us secure, but there are exceptions.</li>
+  <li data-marker="*">
+<em>SSL Stripping</em> is an attack by which an adversary uses HTTP on a website to redirect traffic to a malicious website. An adversary may even redirect one to an HTTPS-secured domain that is not the intended website.</li>
+  <li data-marker="*">One way of mitigating this threat is by implementing <em>HSTS</em> or <em>HTTP strict transport security</em>, whereby the server tells the browser to direct all traffic to a secure connection.</li>
+</ul>
+
+<h2 id="vpn">VPN</h2>
+
+<ul>
+  <li data-marker="*">A <em>VPN</em>, or <em>virtual private network</em>, establishes an encrypted channel between two points.</li>
+  <li data-marker="*">Within a VPN, all traffic is encrypted.</li>
+  <li data-marker="*">However, there are some side effects.</li>
+  <li data-marker="*">Because the pipeline between two parties results in receiving an IP address from the second party, it will appear to services throughout the web that your IP address is that of the second party: not your original IP address!</li>
+  <li data-marker="*">Indeed, people often use a VPN to masquerade as being in another country.</li>
+</ul>
+
+<h2 id="ssh">SSH</h2>
+
+<ul>
+  <li data-marker="*">
+<em>SSH</em> is a secure protocol by which you can execute commands on a remote server.</li>
+  <li data-marker="*">
+    <p>If one wants to communicate with a remote computer and execute commands there, one may issue an <code class="language-plaintext highlighter-rouge">ssh</code> command. The following is an example of using the SSH command to connect to a server at Stanford University. You would still need appropriate credentials and permissions to successfully connect.</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>ssh stanford.edu
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">If one has the appropriate access rights, one can execute commands directly on a remote server.</li>
+</ul>
+
+<h2 id="ports">Ports</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Port</em> numbers are used to direct web traffic toward specific services on a server.</li>
+  <li data-marker="*">For example, port <code class="language-plaintext highlighter-rouge">80</code> directs to HTTP, <code class="language-plaintext highlighter-rouge">443</code> to HTTPS, and <code class="language-plaintext highlighter-rouge">22</code> to SSH.</li>
+  <li data-marker="*">Servers listen to these ports for incoming traffic.</li>
+  <li data-marker="*">Accordingly, adversaries may engage in <em>port scanning</em> where all potential ports are tried to see if they are accepting traffic.</li>
+  <li data-marker="*">
+<em>Penetration testing</em> is an activity that a professional may engage in to check for port-related security vulnerabilities.</li>
+  <li data-marker="*">
+<em>Ethical hacking</em> is the legal business of testing for such vulnerabilities.</li>
+  <li data-marker="*">A <em>firewall</em> is a piece of software that protects various services by blocking unauthorized access, including from compromised services on a device.</li>
+  <li data-marker="*">Firewalls utilize <em>IP addresses</em>, unique numbers assigned to each computer on a network, to prevent outsiders from participating in traffic.</li>
+  <li data-marker="*">Firewalls can also use <em>deep packet inspection</em>, where they examine the data within packets for material that may be of interest to your company. This can be used to check to see if you are emailing the press or other parties that may be considered adversaries by your company.</li>
+  <li data-marker="*">Deep packet inspection is used via <em>proxy</em>, where a device in the middle is used as the path by which traffic comes in an out of the network. It is on this proxy that your school or company may change URLs, log what URL you are attempting to browse to, and, hopefully, protect you against potentially harmful behavior.</li>
+</ul>
+
+<h2 id="malware">Malware</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Malware</em> is malicious software that damages a computer or compromises its security.</li>
+  <li data-marker="*">A <em>virus</em> is a piece of software that attaches itself to your computer. Once installed, it can do nearly anything!</li>
+  <li data-marker="*">A <em>worm</em> is a malicious piece of software that can move from one computer to another via holes in security.</li>
+  <li data-marker="*">A <em>botnet</em> is malicious software that, once installed on your computer, infects other computers and can be used by an adversary to issue commands to thousands of infected computers.</li>
+  <li data-marker="*">Computers infected by botnets can be used to issue <em>denial-of-service attacks</em> whereby lots of requests can be issued to a server for the purpose of slowing or shutting it down. Because so many computers are in a botnet, this type of attack can be called <em>distributed denial-of-service attacks</em> from thousands of IP addresses.</li>
+</ul>
+
+<h2 id="antivirus">Antivirus</h2>
+
+<ul>
+  <li data-marker="*">
+<em>Antivirus</em> software detects viruses and hopefully can remove them.</li>
+  <li data-marker="*">
+<em>Automatic updates</em> must be enabled to fix security holes in previous iterations of the software.</li>
+  <li data-marker="*">Still, one may be vulnerable to <em>zero-day attacks</em>, which exploit unknown vulnerabilities in software before the software company has had a chance to create a fix.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned about securing systems. You learned…</p>
+<ul>
+  <li data-marker="*">How networks are secured in wireless networks;</li>
+  <li data-marker="*">How unsecured and secured protocols can be used to send and receive data within a network;</li>
+  <li data-marker="*">How virtual private networks can encrypt network traffic;</li>
+  <li data-marker="*">About ports and the vulnerabilities that adversaries use to exploit them;</li>
+  <li data-marker="*">About malware of various kinds;</li>
+  <li data-marker="*">How antivirus software can assist in preventing malicious software from being installed on your computer.</li>
+</ul>
+
+<p>See you next time!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994618.js"></script>
+
+    
+
+
+</body></html>

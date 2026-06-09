@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 10: Portal - CS50&#x27;s Introduction to Game Development">
+
+        <link href="../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>讲座 10: Portal - CS50's Introduction to 游戏开发</title>
+
+
+    <meta property="og:description" content="Today’s Topics Holding a Weapon We used a First-Person Controller last week, and we’ll explore that a bit further today with “Parenting.” Raycasting We’ll...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="041bb839c66975fff8371a32ecbe5b29" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>CS50 Games (“CS50G”) was retired on 30 六月 2024 and is officially deprecated. The material remains here for archive purposes only.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-game-development"><a href="../../index.html">CS50’s Introduction to 游戏开发</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+  <li><a href="../../weeks/8/index.html">Helicopter Game 3D</a></li>
+  <li><a href="../../weeks/9/index.html">Dreadhalls</a></li>
+  <li><a href="../../weeks/10/index.html">Portal</a></li>
+  <li><a href="../../weeks/11/index.html">Portal Problems</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50g">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lecture-10-portal">讲座 10: Portal</h1>
+
+<h2 id="todays-topics">Today’s Topics</h2>
+
+<ul>
+  <li data-marker="*">Holding a Weapon
+    <ul>
+      <li data-marker="*">We used a First-Person Controller last 周, and we’ll explore that a bit further today with “Parenting.”</li>
+    </ul>
+  </li>
+  <li data-marker="*">Raycasting
+    <ul>
+      <li data-marker="*">We’ll see how to shoot a ray from our weapon!</li>
+    </ul>
+  </li>
+  <li data-marker="*">RenderTexture
+    <ul>
+      <li data-marker="*">This is essentially a texture that we’re rendering to with a camera.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Texture Masking
+    <ul>
+      <li data-marker="*">How will we actually create the portal effect? This is where Texture Masking comes in.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Decals
+    <ul>
+      <li data-marker="*">Decals are just something that you fix to a surface - in this case, our portals will be decals.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Teleporting
+    <ul>
+      <li data-marker="*">We’ll see how to implement teleporting, which will require us to overwrite some default behavior for the First-Person Controller.</li>
+    </ul>
+  </li>
+  <li data-marker="*">ProBuilder and ProGrids
+    <ul>
+      <li data-marker="*">We’ll take a look at some additional 工具 that Unity offers us, which will allow us to model geometry in each scene.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="downloading-demo-code">Downloading demo code</h2>
+
+<ul>
+  <li data-marker="*"><a href="https://github.com/games50/portal">github.com/games50/portal</a></li>
+</ul>
+
+<h2 id="holding-a-weapon">Holding a Weapon</h2>
+
+<ul>
+  <li data-marker="*">The main issues to tackle when it comes to having our first-person character hold a weapon are: getting a weapon Prefab, actually holding the weapon, and keeping the weapon in front of the FPS camera.</li>
+  <li data-marker="*">As you might’ve guessed, we can easily find a weapon Prefab from the Asset Store, and holding the weapon is as easy as positioning it in front of our character… but how might we track the weapon’s movement such that it’s consistent with our character’s camera?
+    <ul>
+      <li data-marker="*">The 答案 is quite simple, actually, as one solution might be to simply make the weapon object a Child of the character object. This automatically assigns the Transport component of the weapon to mirror that of the character’s Transport component, which includes translations, rotations, etc.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="raycasting">Raycasting</h2>
+
+<ul>
+  <li data-marker="*">Raycasting is a nice feature that Unity provides for free.</li>
+  <li data-marker="*">It’s part of the physics namespace and scripting API, and what it allows us to do is shoot “rays” (i.e., straight lines), given that we provide a Transform as the source for the ray’s direction vector (in our case, we’re using <code class="language-plaintext highlighter-rouge">Transform.forward</code>, which is a straight line in the forward direction from the center of our camera).
+    <ul>
+      <li data-marker="*">The casting is done by using <code class="language-plaintext highlighter-rouge">Physics.Raycast</code>, which requires the declaration of a <code class="language-plaintext highlighter-rouge">RaycastHit</code> struct object to store the collision information (e.g., was there a hit? Where was the hit? What was the collision angle?, etc.).</li>
+    </ul>
+  </li>
+  <li data-marker="*">Additionally, Unity provides a <code class="language-plaintext highlighter-rouge">Debug.DrawRay</code> function that is helpful for debugging purposes, as it allows us to actually draw the rays onto the scene and check whether they’re working properly.</li>
+</ul>
+
+<h2 id="rendertexture">RenderTexture</h2>
+
+<ul>
+  <li data-marker="*">Recall that a RenderTexture is simply a texture in Unity (can be created as an asset) that can additionally be rendered to.
+    <ul>
+      <li data-marker="*">For 示例, a camera can be attached to a RenderTexture. This is how we create our portals!</li>
+    </ul>
+  </li>
+  <li data-marker="*">Once we create a RenderTexture using the Unity editor, we can render a camera to it by selecting the camera we’d like to render to it from our Scene dropdown, which will display the camera’s settings on the right-most column, and then drag our RenderTexture from the Textures folder to the camera’s “Target Texture” setting.</li>
+</ul>
+
+<h2 id="texture-masking">Texture Masking</h2>
+
+<ul>
+  <li data-marker="*">As we see in our game, our portals are round, but almost everything else in the game 世界 is rectangular.</li>
+  <li data-marker="*">Since our portals are supposed to reflect 返回 an image of the game 世界, we have to use Texture Masking in order to properly render our rectangular 世界 within the camera view of our round portals.</li>
+  <li data-marker="*">This means that we must somehow select pixels from our other textures that we do want to render in our portal textures, as well as pixels that we don’t want to render.</li>
+  <li data-marker="*">To do this, we have to cheat a little bit and select a rectangular texture for our portals, such that we make the edges invisible using a shader and display only an oval-shaped interior.</li>
+  <li data-marker="*">This makes it easy to map which pixels we want to display on our portal camera.</li>
+</ul>
+
+<h2 id="teleporting">Teleporting</h2>
+
+<ul>
+  <li data-marker="*">To implement teleporting when the player enters a portal, we simply create a Mesh Collider on the PortalMesh.</li>
+  <li data-marker="*">If we then define this collider as a trigger, we can implement the behavior we want within an <code class="language-plaintext highlighter-rouge">OnTriggerEnter</code> callback in the <code class="language-plaintext highlighter-rouge">Portal</code> script.</li>
+  <li data-marker="*">It’s then simple enough to simply change the player’s position to “teleport” them to the desired 地点, making sure to specify a <code class="language-plaintext highlighter-rouge">linkedPortal</code> if we want to teleport from one portal to another, and setting a <code class="language-plaintext highlighter-rouge">portalActive</code> flag so that we’re not stuck infinitely teleporting from one place to the other.</li>
+</ul>
+
+<h2 id="probuilder-and-progrids">ProBuilder and ProGrids</h2>
+
+<ul>
+  <li data-marker="*">ProBuilder and ProGrids are two new 工具 that you can use to create geometry within the Unity scene editor, which eliminates the need for using external 3rd party applications when developing games in Unity.</li>
+  <li data-marker="*">As you might imagine, this allows you to immediately test out your creations within the Unity scene without needing to waste 时间 importing them from somewhere else.</li>
+  <li data-marker="*">ProBuilder tutorial:
+    <ul>
+      <li data-marker="*"><a href="https://www.youtube.com/watch?v=PUSOg5YEflM">youtube.com/观看?v=PUSOg5YEflM</a></li>
+    </ul>
+  </li>
+  <li data-marker="*">ProGrids tutorial:
+    <ul>
+      <li data-marker="*"><a href="https://www.youtube.com/watch?v=UtNvtIrJcNc">youtube.com/观看?v=UtNvtIrJcNc</a></li>
+    </ul>
+  </li>
+  <li data-marker="*">To install ProBuilder and ProGrids, a quick 搜索 in the Asset Store will suffice.</li>
+  <li data-marker="*">ProBuilder and ProGrids are particularly good for creating levels for 3D games, so play around with them to see all the features they have to offer!</li>
+</ul>
+
+<h2 id="shader-graph">Shader Graph</h2>
+
+<ul>
+  <li data-marker="*">In a similar vein, do check out Shader Graph, another new 工具 offered in Unity 2018.1, which you might find useful moving forward!
+    <ul>
+      <li data-marker="*"><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/shader-graph.html">docs.unity3d.com/6000.3/Documentation/Manual/shader-graph.html</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

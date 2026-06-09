@@ -1,0 +1,747 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/2cc794d0-316d-42f7-bbfd-25c34e4cd5df-033e46d516c0.small.png">
+
+        <meta property="og:title" content="Lecture 6 - CS50&#x27;s Introduction to Programming with Python">
+
+        <link href="../../favicon%EF%B9%961779994617.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994617.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994617.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994617.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994617.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994617.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994617.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 6 - CS50's Introduction to 编程 with Python</title>
+
+
+    <meta property="og:description" content="File I/O Up until now, everything we’ve programmed has stored information in memory. That is, once the program is ended, all information gathered from the...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="7effc11d8ee370d9f3e0a53f1b0b1824" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书 or a professional 证书</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-python"><a href="../../index.html">CS50’s Introduction to 编程 with Python</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Functions, Variables</a></li>
+  <li><a href="../../weeks/1/index.html">Conditionals</a></li>
+  <li><a href="../../weeks/2/index.html">Loops</a></li>
+  <li><a href="../../weeks/3/index.html">Exceptions</a></li>
+  <li><a href="../../weeks/4/index.html">Libraries</a></li>
+  <li><a href="../../weeks/5/index.html">Unit Tests</a></li>
+  <li><a href="../../weeks/6/index.html">File I/O</a></li>
+  <li><a href="../../weeks/7/index.html">Regular Expressions</a></li>
+  <li><a href="../../weeks/8/index.html">Object-Oriented 编程</a></li>
+  <li><a href="../../weeks/9/index.html">Et Cetera</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="../../shorts/index.html">短视频</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50p">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/python">edX</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/watch?v=nLRL_NcnK-4">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://youtube.com/playlist?list=PLhQjrBD2T3817j24-GogXmWqO5Q5vYy0V">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-6">讲座 6</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#file-io" id="markdown-toc-file-io">File I/O</a></li>
+  <li><a href="#open" id="markdown-toc-open"><code class="language-plaintext highlighter-rouge">open</code></a></li>
+  <li><a href="#with" id="markdown-toc-with"><code class="language-plaintext highlighter-rouge">with</code></a></li>
+  <li><a href="#csv" id="markdown-toc-csv">CSV</a></li>
+  <li><a href="#binary-files-and-pil" id="markdown-toc-binary-files-and-pil">Binary Files and <code class="language-plaintext highlighter-rouge">PIL</code></a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="file-io">File I/O</h2>
+
+<ul>
+  <li data-marker="*">Up until now, everything we’ve programmed has stored information in 内存. That is, once the program is ended, all information gathered from the user or generated by the program is lost.</li>
+  <li data-marker="*">File I/O is the ability of a program to take a file as input or create a file as output.</li>
+  <li data-marker="*">
+    <p>To begin, in the terminal window type <code class="language-plaintext highlighter-rouge">code names.py</code> and code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name?</span><span class="sh">"</span> <span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that running this code has the desired output. The user can input a 姓名. The output is as expected.</p>
+  </li>
+  <li data-marker="*">
+    <p>However, what if we wanted to allow multiple names to be inputted? How might we achieve this? Recall that a <code class="language-plaintext highlighter-rouge">list</code> is a data structure that allows us to store multiple values into a single variable. Code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name?</span><span class="sh">"</span> <span class="p">)</span>
+    <span class="n">names</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that the user will be prompted three times for input. The <code class="language-plaintext highlighter-rouge">append</code> method is used to add the <code class="language-plaintext highlighter-rouge">name</code> to our <code class="language-plaintext highlighter-rouge">names</code> list.</p>
+  </li>
+  <li data-marker="*">
+    <p>This code could be simplified to the following:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">names</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name?</span><span class="sh">"</span> <span class="p">))</span>
+</code></pre></div>    </div>
+    <p>Notice that this has the same result as the prior block of code.</p>
+
+    <ul>
+      <li data-marker="*">Now, let’s enable the ability to print the list of names as a sorted list. Code as follows:</li>
+    </ul>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">names</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name?</span><span class="sh">"</span> <span class="p">))</span>
+
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that once this program is executed, all information is lost. File I/O allows your program to store this information such that it can be used later.</p>
+  </li>
+  <li data-marker="*">You can learn 更多 in Python’s documentation of <a href="https://docs.python.org/3/library/functions.html#sorted">sorted</a>.</li>
+</ul>
+
+<h2 id="open"><code class="language-plaintext highlighter-rouge">open</code></h2>
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">open</code> is a functionality built into Python that allows you to 打开 a file and utilize it in your program. The <code class="language-plaintext highlighter-rouge">open</code> function allows you to 打开 a file such that you can 阅读 from it or write to it.</li>
+  <li data-marker="*">
+    <p>To show you how to enable file I/O in your program, let’s rewind a bit and code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nb">file</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">open</code> function opens a file called <code class="language-plaintext highlighter-rouge">names.txt</code> with writing enabled, as signified by the <code class="language-plaintext highlighter-rouge">w</code>. The code above assigns that opened file to a variable called <code class="language-plaintext highlighter-rouge">file</code>. The line <code class="language-plaintext highlighter-rouge">file.write(name)</code> writes the 姓名 to the text file. The line after that closes the file.</p>
+  </li>
+  <li data-marker="*">测试 out your code by typing <code class="language-plaintext highlighter-rouge">python names.py</code>, you can input a 姓名 and it saves to the text file. However, if you run your program multiple times using different names, you will notice that this program will entirely rewrite the <code class="language-plaintext highlighter-rouge">names.txt</code> file each 时间.</li>
+  <li data-marker="*">
+    <p>Ideally, we want to be able to append each of our names to the file. Remove the existing text file by typing <code class="language-plaintext highlighter-rouge">rm names.txt</code> in the terminal window. Then, modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nb">file</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p>Notice that the only change to our code is that the <code class="language-plaintext highlighter-rouge">w</code> has been changed to <code class="language-plaintext highlighter-rouge">a</code> for “append”. Rerunning this program multiple times, you will notice that names will be added to the file. However, you will notice a new problem!</p>
+  </li>
+  <li data-marker="*">
+    <p>Examining your text file after running your program multiple times, you’ll notice that the names are running together. The names are being appended without any gaps between each of the names. You can fix this issue. Again, remove the existing text file by typing <code class="language-plaintext highlighter-rouge">rm names.txt</code> in the terminal window. Then, modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nb">file</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p>Notice that the line with <code class="language-plaintext highlighter-rouge">file.write</code> has been modified to add a line break at the end of each 姓名.</p>
+  </li>
+  <li data-marker="*">
+    <p>This code is working quite well. However, there are ways to improve this program. It so happens that it’s quite easy to forget to 关闭 the file.</p>
+  </li>
+  <li data-marker="*">You can learn 更多 in Python’s documentation of <a href="https://docs.python.org/3/library/functions.html#open">打开</a>.</li>
+</ul>
+
+<h2 id="with"><code class="language-plaintext highlighter-rouge">with</code></h2>
+
+<ul>
+  <li data-marker="*">The keyword <code class="language-plaintext highlighter-rouge">with</code> allows you to automate the closing of a file.</li>
+  <li data-marker="*">
+    <p>Modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nb">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that the line below <code class="language-plaintext highlighter-rouge">with</code> is indented.</p>
+  </li>
+  <li data-marker="*">
+    <p>Up until this point, we have been exclusively writing to a file. What if we want to 阅读 from a file? To enable this functionality, modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">file</span><span class="p">.</span><span class="nf">readlines</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">readlines</code> has a special ability to 阅读 all the lines of a file and store them in a list called <code class="language-plaintext highlighter-rouge">lines</code>. Running your program, you will notice that the output is quite ugly. There seem to be multiple line breaks where there should be only one.</p>
+  </li>
+  <li data-marker="*">
+    <p>There are many approaches to fix this issue. However, here is a simple way to fix this error in our code:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">file</span><span class="p">.</span><span class="nf">readlines</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">())</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">rstrip</code> has the effect of removing the extraneous line break at the end of each line.</p>
+  </li>
+  <li data-marker="*">
+    <p>Still, this code could be simplified even further:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">())</span>
+</code></pre></div>    </div>
+    <p>Notice that running this code, it is correct. However, notice that we are not sorting the names.</p>
+  </li>
+  <li data-marker="*">
+    <p>This code could be further improved to allow for the sorting of the names:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">names.txt</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">names</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">names</code> is a blank list where we can collect the names. Each 姓名 is appended to the <code class="language-plaintext highlighter-rouge">names</code> list in 内存. Then, each 姓名 in the sorted list in 内存 is printed. Running your code, you will see that the names are now properly sorted.</p>
+  </li>
+  <li data-marker="*">What if we wanted the ability to store 更多 than just the names of students? What if we wanted to store both the student’s 姓名 and their house as well?</li>
+</ul>
+
+<h2 id="csv">CSV</h2>
+
+<ul>
+  <li data-marker="*">CSV stands for “comma separated values”.</li>
+  <li data-marker="*">
+    <p>In your terminal window, type <code class="language-plaintext highlighter-rouge">code students.csv</code>. Ensure your new CSV file looks like the following:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>Hermione,Gryffindor
+Harry,Gryffindor
+Ron,Gryffindor
+Draco,Slytherin
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>Let’s create a new program by typing <code class="language-plaintext highlighter-rouge">code students.py</code> and code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">rstrip</code> removes the end of each line in our CSV file. <code class="language-plaintext highlighter-rouge">split</code> tells the interpreter where to find the end of each of our values in our CSV file. <code class="language-plaintext highlighter-rouge">row[0]</code> is the first element in each line of our CSV file. <code class="language-plaintext highlighter-rouge">row[1]</code> is the second element in each line in our CSV file.</p>
+  </li>
+  <li data-marker="*">
+    <p>The above code is effective at dividing each line or “record” of our CSV file. However, it’s a bit cryptic to look at if you are unfamiliar with this type of syntax. Python has built-in ability that could further simplify this code. Modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">house</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">split</code> function actually returns two values: The one before the comma and the one after the comma. Accordingly, we can rely upon that functionality to assign two variables at once instead of one!</p>
+  </li>
+  <li data-marker="*">
+    <p>Imagine that we would again like to provide this list as sorted output? You can modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">house</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we create a <code class="language-plaintext highlighter-rouge">list</code> called <code class="language-plaintext highlighter-rouge">students</code>. We <code class="language-plaintext highlighter-rouge">append</code> each string to this list. Then, we output a sorted version of our list.</p>
+  </li>
+  <li data-marker="*">
+    <p>Recall that Python allows for <code class="language-plaintext highlighter-rouge">dictionaries</code> where a key can be associated with a value. This code could be further improved</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">student</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">house</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">house</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="n">students</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">house</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we create an empty dictionary called <code class="language-plaintext highlighter-rouge">student</code>. We add the values for each student, including their 姓名 and house into the <code class="language-plaintext highlighter-rouge">student</code> dictionary. Then, we append that student to the <code class="language-plaintext highlighter-rouge">list</code> called <code class="language-plaintext highlighter-rouge">students</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can improve our code to illustrate this as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">student</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="sh">"</span><span class="s">house</span><span class="sh">"</span><span class="p">:</span> <span class="n">house</span><span class="p">}</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="n">students</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">house</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that this produces the desired outcome, minus the sorting of students.</p>
+  </li>
+  <li data-marker="*">Unfortunately, we cannot 排序 the students as we had prior because each student is now a dictionary inside of a list. It would be helpful if Python could 排序 the <code class="language-plaintext highlighter-rouge">students</code> list of <code class="language-plaintext highlighter-rouge">student</code> dictionaries that sorts this list of dictionaries by the student’s 姓名.</li>
+  <li data-marker="*">
+    <p>To implement this in our code, make the following changes:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="sh">"</span><span class="s">house</span><span class="sh">"</span><span class="p">:</span> <span class="n">house</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="n">student</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">get_name</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">house</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">sorted</code> needs to know how to get the key of each student. Python allows for a parameter called <code class="language-plaintext highlighter-rouge">key</code> where we can define on what “key” the list of students will be sorted. Therefore, the <code class="language-plaintext highlighter-rouge">get_name</code> function simply returns the key of <code class="language-plaintext highlighter-rouge">student["name"]</code>. Running this program, you will now see that the list is now sorted by 姓名.</p>
+  </li>
+  <li data-marker="*">
+    <p>Still, our code can be further improved upon. It just so happens that if you are only going to use a function like <code class="language-plaintext highlighter-rouge">get_name</code> once, you can simplify your code in the manner presented below. Modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">house</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="sh">"</span><span class="s">house</span><span class="sh">"</span><span class="p">:</span> <span class="n">house</span><span class="p">})</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">house</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice how we use a <code class="language-plaintext highlighter-rouge">lambda</code> function, an anonymous function, that says “Hey Python, here is a function that has no 姓名: Given a <code class="language-plaintext highlighter-rouge">student</code>, access their <code class="language-plaintext highlighter-rouge">name</code> and return that to the <code class="language-plaintext highlighter-rouge">key</code>.</p>
+  </li>
+  <li data-marker="*">Unfortunately, our code is a bit fragile. Suppose that we changed our CSV file such that we indicated where each student grew up. What would be the impact of this upon our program? First, modify your <code class="language-plaintext highlighter-rouge">students.csv</code> file as follows:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Harry,"Number Four, Privet Drive"
+Ron,The Burrow
+Draco,Malfoy Manor
+</code></pre></div></div>
+<p>Notice how running our program how will produce a number of errors.</p>
+
+<ul>
+  <li data-marker="*">
+    <p>Now that we’re dealing with homes instead of houses, modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">home</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">rstrip</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">,</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">:</span> <span class="n">home</span><span class="p">})</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">home</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that running our program still does not work properly. Can you guess why?</p>
+  </li>
+  <li data-marker="*">
+    <p>The <code class="language-plaintext highlighter-rouge">ValueError: too many values to unpack</code> error produced by the interpreter is a result of the fact that we previously created this program expecting the CSV file is <code class="language-plaintext highlighter-rouge">split</code> using a <code class="language-plaintext highlighter-rouge">,</code> (comma). We could spend 更多 时间 addressing this, but indeed someone else has already developed a way to “parse” (that is, to 阅读) CSV files!</p>
+  </li>
+  <li data-marker="*">Python’s built-in <code class="language-plaintext highlighter-rouge">csv</code> library comes with an object called a <code class="language-plaintext highlighter-rouge">reader</code>. As the 姓名 suggests, we can use a <code class="language-plaintext highlighter-rouge">reader</code> to 阅读 our CSV file despite the extra comma in “Number Four, Privet Drive”. A <code class="language-plaintext highlighter-rouge">reader</code> works in a <code class="language-plaintext highlighter-rouge">for</code> loop, where each iteration the <code class="language-plaintext highlighter-rouge">reader</code> gives us another row from our CSV file. This row itself is a list, where each value in the list corresponds to an element in that row. <code class="language-plaintext highlighter-rouge">row[0]</code>, for 示例, is the first element of the given row, while <code class="language-plaintext highlighter-rouge">row[1]</code> is the second element.
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nf">reader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is from </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">home</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that our program now works as expected.</p>
+  </li>
+  <li data-marker="*">Up until this point, we have been relying upon our program to specifically decide what parts of our CSV file are the names and what parts are the homes. It’s better design, though, to bake this directly into our CSV file by editing it as follows:
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>name,home
+Harry,"Number Four, Privet Drive"
+Ron,The Burrow
+Draco,Malfoy Manor
+</code></pre></div>    </div>
+    <p>Notice how we are explicitly saying in our CSV file that anything reading it should expect there to be a 姓名 value and a 首页 value in each line.</p>
+  </li>
+  <li data-marker="*">We can modify our code to use a part of the <code class="language-plaintext highlighter-rouge">csv</code> library called a <code class="language-plaintext highlighter-rouge">DictReader</code> to treat our CSV file with even 更多 flexibilty:
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">students</span><span class="p">.</span><span class="nf">append</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">],</span> <span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">]})</span>
+
+<span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">]):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s"> is in </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="sh">'</span><span class="s">home</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>Notice that we have replaced <code class="language-plaintext highlighter-rouge">reader</code> with <code class="language-plaintext highlighter-rouge">DictReader</code>, which returns one dictionary at a 时间. Also, notice that the interpreter will directly access the <code class="language-plaintext highlighter-rouge">row</code> dictionary, getting the <code class="language-plaintext highlighter-rouge">name</code> and <code class="language-plaintext highlighter-rouge">home</code> of each student. This is an 示例 of coding defensively. As long as the person designing the CSV file has inputted the correct header information on the first line, we can access that information using our program.</p>
+  </li>
+  <li data-marker="*">Up until this point, we have been reading CSV files. What if we want to write to a CSV file?</li>
+  <li data-marker="*">To begin, let’s clean up our files a bit. First, delete the <code class="language-plaintext highlighter-rouge">students.csv</code> file by typing <code class="language-plaintext highlighter-rouge">rm students.csv</code> in the terminal window. This command will only work if you’re in the same folder as your <code class="language-plaintext highlighter-rouge">students.csv</code> file.</li>
+  <li data-marker="*">
+    <p>Then, in <code class="language-plaintext highlighter-rouge">students.py</code>, modify your code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="n">home</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">Where</span><span class="sh">'</span><span class="s">s your home? </span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">students.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">a</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictWriter</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">])</span>
+    <span class="n">writer</span><span class="p">.</span><span class="nf">writerow</span><span class="p">({</span><span class="sh">"</span><span class="s">name</span><span class="sh">"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="sh">"</span><span class="s">home</span><span class="sh">"</span><span class="p">:</span> <span class="n">home</span><span class="p">})</span>
+</code></pre></div>    </div>
+    <p>Notice how we are leveraging the built-in functionality of <code class="language-plaintext highlighter-rouge">DictWriter</code>, which takes two parameters: the <code class="language-plaintext highlighter-rouge">file</code> being written to and the <code class="language-plaintext highlighter-rouge">fieldnames</code> to write. Further, notice how the <code class="language-plaintext highlighter-rouge">writerow</code> function takes a dictionary as its parameter. Quite literally, we are telling the interpreter to write a row with two fields called <code class="language-plaintext highlighter-rouge">name</code> and <code class="language-plaintext highlighter-rouge">home</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>笔记 that there are many types of files that you can 阅读 from and write to.</p>
+  </li>
+  <li data-marker="*">You can learn 更多 in Python’s documentation of <a href="https://docs.python.org/3/library/csv.html">CSV</a>.</li>
+</ul>
+
+<h2 id="binary-files-and-pil">Binary Files and <code class="language-plaintext highlighter-rouge">PIL</code>
+</h2>
+<ul>
+  <li data-marker="*">One 更多 type of file that we will discuss today is a binary file. A binary file is simply a collection of ones and zeros. This type of file can store anything including, music and image data.</li>
+  <li data-marker="*">There is a popular Python library called <code class="language-plaintext highlighter-rouge">PIL</code> that works well with image files.</li>
+  <li data-marker="*">Animated GIFs are a popular type of image file that has many image files within it that are played in sequence over and over again, creating a simplistic animation or 视频 effect.</li>
+  <li data-marker="*">Imagine that we have a series of costumes, as illustrated below.</li>
+  <li data-marker="*">Here is <code class="language-plaintext highlighter-rouge">costume1.gif</code>.</li>
+</ul>
+
+<p><img src="https://cdn.cs50.net/python/2022/x/lectures/6/src6/costume1.gif" alt="Cat number 1." title="costume1.gif"></p>
+
+<ul>
+  <li data-marker="*">Here is another one called <code class="language-plaintext highlighter-rouge">costume2.gif</code>. Notice how the leg positions are slightly different.</li>
+</ul>
+
+<p><img src="https://cdn.cs50.net/python/2022/x/lectures/6/src6/costume2.gif" alt="Cat number 2." title="costume2.gif"></p>
+
+<ul>
+  <li data-marker="*">Before proceeding, please make sure that you have downloaded the 源代码 files from the 课程 website. It will not be possible for you to code the following without having the two images above in your possession and stored in your IDE.</li>
+  <li data-marker="*">
+    <p>In the terminal window type <code class="language-plaintext highlighter-rouge">code costumes.py</code> and code as follows:</p>
+
+    <div class="language-py highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">sys</span>
+
+<span class="kn">from</span> <span class="n">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="n">images</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">save</span><span class="p">(</span>
+    <span class="sh">"</span><span class="s">costumes.gif</span><span class="sh">"</span><span class="p">,</span> <span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">append_images</span><span class="o">=</span><span class="p">[</span><span class="n">images</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">duration</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+</code></pre></div>    </div>
+    <p>Notice that we import the <code class="language-plaintext highlighter-rouge">Image</code> functionality from <code class="language-plaintext highlighter-rouge">PIL</code>. Notice that the first <code class="language-plaintext highlighter-rouge">for</code> loop simply loops through the images provided as command-line arguments and stores theme into the <code class="language-plaintext highlighter-rouge">list</code> called <code class="language-plaintext highlighter-rouge">images</code>. The <code class="language-plaintext highlighter-rouge">1:</code> starts slicing <code class="language-plaintext highlighter-rouge">argv</code> at its second element. The last lines of code saves the first image and also appends a second image to it as well, creating an animated gif. Typing <code class="language-plaintext highlighter-rouge">python costumes.py costume1.gif costume2.gif</code> into the terminal. Now, type <code class="language-plaintext highlighter-rouge">code costumes.gif</code> into the terminal window, and you can now see an animated GIF.</p>
+  </li>
+  <li data-marker="*">You can learn 更多 in Pillow’s documentation of <a href="https://pillow.readthedocs.io/">PIL</a>.</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+<p>Now, we have not only seen that we can write and 阅读 files textually—we can also 阅读 and write files using ones and zeros. We can’t wait to see what you achieve with these new abilities 下一页.</p>
+
+<ul>
+  <li data-marker="*">File I/O</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">open</code></li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">with</code></li>
+  <li data-marker="*">CSV</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">PIL</code></li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994617.js"></script>
+
+    
+
+
+</body></html>

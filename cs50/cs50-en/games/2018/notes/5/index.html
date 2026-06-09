@@ -1,0 +1,955 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 5: Legend of Zelda - CS50's Introduction to Game Development">
+
+        <link href="../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Lecture 5: Legend of Zelda - CS50's Introduction to Game Development</title>
+
+
+    <meta property="og:description" content="Today’s Topics Top-down Perspective With Flappy Bird and Mario, we were looking at the screen from the side. With Zelda, we’ll have a bird’s eye view of the...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="041bb839c66975fff8371a32ecbe5b29" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>CS50 Games (“CS50G”) was retired on 30 June 2024 and is officially deprecated. The material remains here for archive purposes only.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-game-development"><a href="../../index.html">CS50’s Introduction to Game Development</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+  <li><a href="../../weeks/8/index.html">Helicopter Game 3D</a></li>
+  <li><a href="../../weeks/9/index.html">Dreadhalls</a></li>
+  <li><a href="../../weeks/10/index.html">Portal</a></li>
+  <li><a href="../../weeks/11/index.html">Portal Problems</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50g">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lecture-5-legend-of-zelda">Lecture 5: Legend of Zelda</h1>
+
+<h2 id="todays-topics">Today’s Topics</h2>
+
+<ul>
+  <li data-marker="*">Top-down Perspective
+    <ul>
+      <li data-marker="*">With Flappy Bird and Mario, we were looking at the screen from the side. With Zelda, we’ll have a bird’s eye view of the screen, so we’ll discuss the logistics of this today.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Infinite Dungeon Generation
+    <ul>
+      <li data-marker="*">We’ve discussed previously the concept of games as illusions, and we’ll be seeing another example of that today in Zelda, where we’ll seemingly generate an endless dungeon.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Hitboxes/Hurtboxes
+    <ul>
+      <li data-marker="*">We’ll discuss the difference between hitboxes and hurtboxes in the context of collisions. The former allows a character to inflict damage, whereas the latter allows a character to receive damage.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Events
+    <ul>
+      <li data-marker="*">Events are a way of broadcasting some key or message that informs us when something happens, and allows us to call a function in response.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Screen Scrolling
+    <ul>
+      <li data-marker="*">We’ll take a look at how we can use tweening to give the appearance of transitioning from room to room in our dungeon.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Data-Driven Design
+    <ul>
+      <li data-marker="*">Lastly, we’ll see how we can model our game items, entities, and objects as data rather than logic in order to improve the design of our code.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="downloading-demo-code">Downloading demo code</h2>
+
+<ul>
+  <li data-marker="*"><a href="https://github.com/games50/zelda">github.com/games50/zelda</a></li>
+</ul>
+
+<h2 id="zelda-sprites">Zelda Sprites</h2>
+
+<ul>
+  <li data-marker="*">We’ll again need a sprite sheet in order to render our sprites to the screen. It’s helpful for our sprites to be laid out in tile segments of 16x16 pixels, so that we can index into the sheet evenly in order to access particular sprites. However, we will inevitably encounter sprites that do not fit into our sprite sheet in this way, and these sprites will require slightly more complicated rendering logic.
+    <ul>
+      <li data-marker="*">For example, the doors we use in our Zelda program are bigger than 16x16 pixels, so instead of rendering a single quad from our sheet, we must instead render 4 quads in order to properly display each door. This would change how we monitor for collisions as well, since we’d have to adjust each door’s hitbox to cover all 4 quads, or alternatively we’d have to monitor for collisions on each of the 4 quads individually.</li>
+      <li data-marker="*">A more complicated example would be our character sprite sheet, which has padding. Sometimes the sprites in a sheet will not be neatly divided into even segments. For instance, our character sprite in Zelda is 20x16 pixels and also has several animations of different dimensions, such as his sword-swing animation (32x32 pixels).</li>
+      <li data-marker="*">In order to render such a sprite properly to the screen, one often has to associate an <code class="language-plaintext highlighter-rouge">offset</code> with that sprite’s coordinates, such that the sprite is shifted by that <code class="language-plaintext highlighter-rouge">offset</code> on the screen when being rendered.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Fortunately, our sprite sheet for the remaining creatures in our game follows the more ideal layout of each sprite being 16x16 pixels.
+    <ul>
+      <li data-marker="*">It’s quite large, however, so we’ve written a script that will print the index names for each sprite on our sheet. This is something that you may find helpful as you work on future projects with large sprite sheets.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="top-down-perspective">Top-Down Perspective</h2>
+
+<ul>
+  <li data-marker="*">A map in top-down perspective is essentially a tile map like we’ve seen before, but with the subtle difference of looking the map from up above rather than from the side.</li>
+  <li data-marker="*">Some of the main visual differences might be that there’s less of a focus on screen scrolling, and more of a focus on things like shadows on the walls, corners of the screen, lighting, and camera angles (you want your world to be slightly skewed rather than completely vertical, for example).</li>
+</ul>
+
+<h2 id="dungeon-generation">Dungeon Generation</h2>
+
+<ul>
+  <li data-marker="*">In games such as Zelda, dungeons are generally fixed (i.e., they are preemptively created by the programmers in some predetermined layout), but in our version, we will be generating dungeons infinitely.</li>
+  <li data-marker="*">Nevertheless, when done in the Zelda way, dungeons can be represented in a 2D array, such that some indexes are empty (“off”) and others contain rooms (“on”), with each room connected to at least one other.</li>
+  <li data-marker="*">The result is that when transitioning from room to room (via a door), we can display the new room by simply adding or subtracting <code class="language-plaintext highlighter-rouge">1</code> from the <code class="language-plaintext highlighter-rouge">x</code> or <code class="language-plaintext highlighter-rouge">y</code> index of the current room.</li>
+  <li data-marker="*">This allows the programmer to potentially “lock” doors and hide “keys” in certain rooms in the dungeon, such that the player has to visit each room in a particular order to beat the level</li>
+</ul>
+
+<h2 id="world-classes">World Classes</h2>
+
+<ul>
+  <li data-marker="*">Navigate to the <code class="language-plaintext highlighter-rouge">src/world/</code> subdirectory. This is where we’ve saved all files having to do with world generation.</li>
+  <li data-marker="*">Here, we have three classes: <code class="language-plaintext highlighter-rouge">Doorway.lua</code>, <code class="language-plaintext highlighter-rouge">Dungeon.lua</code>, and <code class="language-plaintext highlighter-rouge">Room.lua</code>.
+    <ul>
+      <li data-marker="*">These are fairly self explanatory. We can think of a dungeon as a table of rooms (which themselves contain doorways), such that we have only one active room at a time, and whenever we transition between rooms, a new one is loaded and becomes the active room.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="dungeonlua"><code class="language-plaintext highlighter-rouge">Dungeon.lua</code></h3>
+
+<ul>
+  <li data-marker="*">You’ll notice, here that in our <code class="language-plaintext highlighter-rouge">Dungeon:init()</code> function, we have variables for our <code class="language-plaintext highlighter-rouge">player</code> and our <code class="language-plaintext highlighter-rouge">rooms</code> table, with <code class="language-plaintext highlighter-rouge">currentRoom</code> and <code class="language-plaintext highlighter-rouge">nextRoom</code> also initialized (as well as other relevant information):
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Dungeon</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">currentRoom</span> <span class="o">=</span> <span class="n">Room</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">nextRoom</span> <span class="o">=</span> <span class="kc">nil</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">cameraX</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">cameraY</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">shifting</span> <span class="o">=</span> <span class="kc">false</span>
+
+      <span class="o">...</span>
+
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>You’ll also notice some <code class="language-plaintext highlighter-rouge">Event</code> logic - we’ll revisit this in more detail later.</p>
+  </li>
+</ul>
+
+<h3 id="roomlua"><code class="language-plaintext highlighter-rouge">Room.lua</code></h3>
+
+<ul>
+  <li data-marker="*">Similarly to how a dungeon needs to keep track of its rooms, a room needs to keep track of its components. <code class="language-plaintext highlighter-rouge">Room.lua</code> concerns itself with the <code class="language-plaintext highlighter-rouge">player</code>, the <code class="language-plaintext highlighter-rouge">doorways</code>, other <code class="language-plaintext highlighter-rouge">objects</code> and <code class="language-plaintext highlighter-rouge">entities</code> in the room such as door switches and enemies, as well as a set of <code class="language-plaintext highlighter-rouge">tiles</code> to actually display the room itself:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+      <span class="o">...</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">tiles</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="n">self</span><span class="p">:</span><span class="n">generateWallsAndFloors</span><span class="p">()</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="n">self</span><span class="p">:</span><span class="n">generateEntities</span><span class="p">()</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">objects</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="n">self</span><span class="p">:</span><span class="n">generateObjects</span><span class="p">()</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">doorways</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">,</span> <span class="n">Doorway</span><span class="p">(</span><span class="s1">'top'</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="n">self</span><span class="p">))</span>
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">,</span> <span class="n">Doorway</span><span class="p">(</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="n">self</span><span class="p">))</span>
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">,</span> <span class="n">Doorway</span><span class="p">(</span><span class="s1">'left'</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="n">self</span><span class="p">))</span>
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">,</span> <span class="n">Doorway</span><span class="p">(</span><span class="s1">'right'</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="n">self</span><span class="p">))</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+
+      <span class="o">...</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">In our program, we’ve basically hardcoded the doorway generation such that the doors will always be in the same position in every room, and they will always be locked until the switch is triggered. However, you can imagine that it might be nicer design to vary the doorway generation a bit, which is certainly the case in the real Zelda game.</li>
+  <li data-marker="*">We also include some offset variables to help implement our infinite dungeon algorithm:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">MAP_WIDTH</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">MAP_HEIGHT</span>
+
+  <span class="o">...</span>
+
+  <span class="n">self</span><span class="p">.</span><span class="n">renderOffsetX</span> <span class="o">=</span> <span class="n">MAP_RENDER_OFFSET_X</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">renderOffsetY</span> <span class="o">=</span> <span class="n">MAP_RENDER_OFFSET_Y</span>
+
+  <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="infinite-dungeon-generation">Infinite Dungeon Generation</h4>
+
+<ul>
+  <li data-marker="*">Here’s what we want to do to simulate infinitely transitioning from one room to another: load up a new room whenever the user collides with a doorway, and render it off-screen with some offset depending on which direction the user is going, such that the new room is adjacent to the current room.</li>
+  <li data-marker="*">This offset will be a negative or positive <code class="language-plaintext highlighter-rouge">VIRTUAL_WIDTH</code> or <code class="language-plaintext highlighter-rouge">VIRTUAL_HEIGHT</code> depending on the doorway.</li>
+  <li data-marker="*">At this point, we can tween from the coordinates of the current room to those of the new room, resetting the new room to have the coordinates of the current room (<code class="language-plaintext highlighter-rouge">(0, 0)</code>) once the tweening animation terminates.</li>
+  <li data-marker="*">We can repeat this process the next time a user collides with a doorway.</li>
+</ul>
+
+<h3 id="roomlua-continued">
+<code class="language-plaintext highlighter-rouge">Room.lua</code> (continued)</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">generateWallsAndFloors()</code> (line 113) uses some screen coordinate logic to infer which tile sprite needs to be rendered to the screen.
+    <ul>
+      <li data-marker="*">It loops through each coordinate on the screen, and gives it an <code class="language-plaintext highlighter-rouge">id</code> which will map that coordinate to the appropriate tile sprite.
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">generateWallsAndFloors</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">do</span>
+          <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">,</span> <span class="p">{})</span>
+
+          <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="k">do</span>
+              <span class="kd">local</span> <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_EMPTY</span>
+
+              <span class="o">...</span>
+
+          <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+      <li data-marker="*">First, we check the corners of the screen, since there is only one tile wich maps to each corner, then we check along the edges of the screen, generating a random <code class="language-plaintext highlighter-rouge">id</code> of a wall tile given the constraint that the wall tile correspond to the appropriate side of the screen.
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_TOP_LEFT_CORNER</span>
+  <span class="k">elseif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_BOTTOM_LEFT_CORNER</span>
+  <span class="k">elseif</span> <span class="n">x</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_TOP_RIGHT_CORNER</span>
+  <span class="k">elseif</span> <span class="n">x</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_BOTTOM_RIGHT_CORNER</span>
+
+  <span class="k">elseif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_LEFT_WALLS</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">TILE_LEFT_WALLS</span><span class="p">)]</span>
+  <span class="k">elseif</span> <span class="n">x</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_RIGHT_WALLS</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">TILE_RIGHT_WALLS</span><span class="p">)]</span>
+  <span class="k">elseif</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_TOP_WALLS</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">TILE_TOP_WALLS</span><span class="p">)]</span>
+  <span class="k">elseif</span> <span class="n">y</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">then</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_BOTTOM_WALLS</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">TILE_BOTTOM_WALLS</span><span class="p">)]</span>
+  <span class="k">else</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">TILE_FLOORS</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">TILE_FLOORS</span><span class="p">)]</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+      <li data-marker="*">If all else fails, a floor tile <code class="language-plaintext highlighter-rouge">id</code> is randomly generated in similar fashion:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="p">{</span>
+      <span class="n">id</span> <span class="o">=</span> <span class="n">id</span>
+  <span class="p">})</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">generateEntities()</code> (line 48) uses the <code class="language-plaintext highlighter-rouge">ENTITY_DEFS</code> table in <code class="language-plaintext highlighter-rouge">src/entity_defs.lua</code>, paired with a local <code class="language-plaintext highlighter-rouge">types</code> table containing the different entities in our game, to select 10 random entities and animate them on the screen.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">generateEntities</span><span class="p">()</span>
+      <span class="kd">local</span> <span class="n">types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'skeleton'</span><span class="p">,</span> <span class="s1">'slime'</span><span class="p">,</span> <span class="s1">'bat'</span><span class="p">,</span> <span class="s1">'ghost'</span><span class="p">,</span> <span class="s1">'spider'</span><span class="p">}</span>
+
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span> <span class="k">do</span>
+          <span class="kd">local</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="nb">math.random</span><span class="p">(</span><span class="o">#</span><span class="n">types</span><span class="p">)]</span>
+
+          <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">,</span> <span class="n">Entity</span> <span class="p">{</span>
+              <span class="n">animations</span> <span class="o">=</span> <span class="n">ENTITY_DEFS</span><span class="p">[</span><span class="nb">type</span><span class="p">].</span><span class="n">animations</span><span class="p">,</span>
+              <span class="n">walkSpeed</span> <span class="o">=</span> <span class="n">ENTITY_DEFS</span><span class="p">[</span><span class="nb">type</span><span class="p">].</span><span class="n">walkSpeed</span> <span class="ow">or</span> <span class="mi">20</span><span class="p">,</span>
+
+              <span class="n">x</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">MAP_RENDER_OFFSET_X</span> <span class="o">+</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+                  <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">16</span><span class="p">),</span>
+              <span class="n">y</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">+</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+                  <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">MAP_HEIGHT</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">16</span><span class="p">),</span>
+
+              <span class="n">width</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+              <span class="n">height</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+
+              <span class="n">health</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="p">})</span>
+
+          <span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">stateMachine</span> <span class="o">=</span> <span class="n">StateMachine</span> <span class="p">{</span>
+              <span class="p">[</span><span class="s1">'walk'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">EntityWalkState</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">end</span><span class="p">,</span>
+              <span class="p">[</span><span class="s1">'idle'</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="k">return</span> <span class="n">EntityIdleState</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">end</span>
+          <span class="p">}</span>
+
+          <span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'walk'</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>A particularly nice thing about <code class="language-plaintext highlighter-rouge">entity_defs.lua</code> is that it allows us to store information about our different entities in a file free from any programming logic, such that an Entity object can be instantiated using the information in this file, without needing a separate class for each entity. Be sure to look through it to understand how we’re creating Entities for our game.</p>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">generateObjects()</code> (line 82) behaves very similarly to <code class="language-plaintext highlighter-rouge">generateEntities</code>, but using the <code class="language-plaintext highlighter-rouge">GAME_OBJECT_DEFS</code> table in <code class="language-plaintext highlighter-rouge">src/game_objects.lua</code> to generate objects (e.g., the switch) instead of entities:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">generateObjects</span><span class="p">()</span>
+      <span class="kd">local</span> <span class="n">switch</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span>
+          <span class="n">GAME_OBJECT_DEFS</span><span class="p">[</span><span class="s1">'switch'</span><span class="p">],</span>
+          <span class="nb">math.random</span><span class="p">(</span><span class="n">MAP_RENDER_OFFSET_X</span> <span class="o">+</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+                      <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">16</span><span class="p">),</span>
+          <span class="nb">math.random</span><span class="p">(</span><span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">+</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+                      <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="p">(</span><span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">MAP_HEIGHT</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">16</span><span class="p">)</span>
+      <span class="p">)</span>
+
+      <span class="n">switch</span><span class="p">.</span><span class="n">onCollide</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span>
+          <span class="k">if</span> <span class="n">switch</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="s1">'unpressed'</span> <span class="k">then</span>
+              <span class="n">switch</span><span class="p">.</span><span class="n">state</span> <span class="o">=</span> <span class="s1">'pressed'</span>
+
+              <span class="c1">-- open every door in the room if we press the switch</span>
+              <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+                  <span class="n">doorway</span><span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="kc">true</span>
+              <span class="k">end</span>
+
+              <span class="n">gSounds</span><span class="p">[</span><span class="s1">'door'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="nb">table.insert</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">objects</span><span class="p">,</span> <span class="n">switch</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">update(dt)</code> (line 149) tracks updates in the player, entities, and objects, most notably monitoring collisions and responding appropriately. For example, if the player collides with an entity, the player will take damage and go briefly invulnerable until they run out of lives. On the other hand, if an entity collides with the player’s sword, that entity is marked <code class="language-plaintext highlighter-rouge">dead</code> once its <code class="language-plaintext highlighter-rouge">health</code> reaches <code class="language-plaintext highlighter-rouge">0</code>. If the player collides with an object, that object’s <code class="language-plaintext highlighter-rouge">onCollide()</code> function is called to determine what happens:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span> <span class="o">~=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span> <span class="o">~=</span> <span class="mi">0</span> <span class="k">then</span> <span class="k">return</span> <span class="k">end</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+      <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="o">#</span><span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="k">do</span>
+          <span class="kd">local</span> <span class="n">entity</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+          <span class="k">if</span> <span class="n">entity</span><span class="p">.</span><span class="n">health</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">then</span>
+              <span class="n">entity</span><span class="p">.</span><span class="n">dead</span> <span class="o">=</span> <span class="kc">true</span>
+          <span class="k">elseif</span> <span class="ow">not</span> <span class="n">entity</span><span class="p">.</span><span class="n">dead</span> <span class="k">then</span>
+              <span class="n">entity</span><span class="p">:</span><span class="n">processAI</span><span class="p">({</span><span class="n">room</span> <span class="o">=</span> <span class="n">self</span><span class="p">},</span> <span class="n">dt</span><span class="p">)</span>
+              <span class="n">entity</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+          <span class="k">end</span>
+
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span><span class="p">.</span><span class="n">dead</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">invulnerable</span> <span class="k">then</span>
+              <span class="n">gSounds</span><span class="p">[</span><span class="s1">'hit-player'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">damage</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+              <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">goInvulnerable</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
+
+              <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">health</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+                  <span class="n">gStateMachine</span><span class="p">:</span><span class="n">change</span><span class="p">(</span><span class="s1">'game-over'</span><span class="p">)</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">object</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">objects</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">object</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+          <span class="c1">-- trigger collision callback on object</span>
+          <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">object</span><span class="p">)</span> <span class="k">then</span>
+              <span class="n">object</span><span class="p">:</span><span class="n">onCollide</span><span class="p">()</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">render()</code> (line 188) loops through all the components of the room and draws them on the screen. First the tiles, then the doorways, objects, entities, and finally the player. An interesting tidbit in this function is the use of stenciling, which we’ll cover in more detail briefly. Essentially, the purpose of stenciling here is to aid us in the visual effect of making the player’s transition through each doorway look as realistic as possible:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Room</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="k">do</span>
+          <span class="k">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="k">do</span>
+              <span class="kd">local</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tiles</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+              <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">gTextures</span><span class="p">[</span><span class="s1">'tiles'</span><span class="p">],</span> <span class="n">gFrames</span><span class="p">[</span><span class="s1">'tiles'</span><span class="p">][</span><span class="n">tile</span><span class="p">.</span><span class="n">id</span><span class="p">],</span>
+                  <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">renderOffsetX</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">renderOffsetY</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span><span class="p">)</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">doorway</span><span class="p">:</span><span class="n">render</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">object</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">objects</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">object</span><span class="p">:</span><span class="n">render</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">entity</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">entities</span><span class="p">)</span> <span class="k">do</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span><span class="p">.</span><span class="n">dead</span> <span class="k">then</span> <span class="n">entity</span><span class="p">:</span><span class="n">render</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetX</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">adjacentOffsetY</span><span class="p">)</span> <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">stencil</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="o">-</span><span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">+</span> <span class="p">(</span><span class="n">MAP_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+              <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">MAP_RENDER_OFFSET_X</span> <span class="o">+</span> <span class="p">(</span><span class="n">MAP_WIDTH</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+              <span class="n">MAP_RENDER_OFFSET_Y</span> <span class="o">+</span> <span class="p">(</span><span class="n">MAP_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">MAP_RENDER_OFFSET_X</span> <span class="o">+</span> <span class="p">(</span><span class="n">MAP_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+              <span class="o">-</span><span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">12</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">MAP_RENDER_OFFSET_X</span> <span class="o">+</span> <span class="p">(</span><span class="n">MAP_WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">TILE_SIZE</span><span class="p">,</span>
+              <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">TILE_SIZE</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">12</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">,</span> <span class="s1">'replace'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setStencilTest</span><span class="p">(</span><span class="s1">'less'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">render</span><span class="p">()</span>
+      <span class="k">end</span>
+
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setStencilTest</span><span class="p">()</span>
+
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">A stencil is an arbitrary, invisible shape that you can draw to the screen. It can decide whether anything that gets drawn on top of it, is actually rendered. In the function above, we’ve drawn a stencil on each of the doorways to ensure that the player does not get rendered when walking through doors. This prevents funky visual behavior from happening when the player walks through a door.
+    <ul>
+      <li data-marker="*">To see this more clearly, try commenting out the stenciling logic and notice the weird visual behavior that occurs when walking through doorways, especially the top and bottom ones.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="hitboxes-and-hurtboxes">Hitboxes and Hurtboxes</h2>
+
+<ul>
+  <li data-marker="*">Hitboxes and hurtboxes are two types of collision boxes for sprites that are especially relevant in fighting scenarios.</li>
+  <li data-marker="*">A hitbox would, upon collision with another sprite, register a positive hit (e.g., the player deals damage to an enemy).</li>
+  <li data-marker="*">Conversely, a hurtbox would register a negative hit upon collision (e.g., the player takes damage).</li>
+  <li data-marker="*">In our Zelda program, you can imagine that the player’s hitbox would cover their sword, whereas the hurtbox would cover their body.</li>
+  <li data-marker="*">Open up <code class="language-plaintext highlighter-rouge">Hitbox.lua</code> in <code class="language-plaintext highlighter-rouge">src/</code>. You’ll notice that our Hitbox class only has one method: <code class="language-plaintext highlighter-rouge">init</code>. All it does is instantiate a Hitbox object with an <code class="language-plaintext highlighter-rouge">(x, y)</code> coordinate pair, a <code class="language-plaintext highlighter-rouge">width</code> and a <code class="language-plaintext highlighter-rouge">height</code>. It might seem simple, but when you think about it, this is really all the information needed to create a hitbox!
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">Hitbox</span> <span class="o">=</span> <span class="n">Class</span><span class="p">{}</span>
+
+  <span class="k">function</span> <span class="nf">Hitbox</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Open up <code class="language-plaintext highlighter-rouge">PlayerSwingSwordState.lua</code> in <code class="language-plaintext highlighter-rouge">src/states/entity/player</code>. This file will implement the interactions between the player’s hitbox and the rest of the world.
+    <ul>
+      <li data-marker="*">In the <code class="language-plaintext highlighter-rouge">init</code> method, we set the hitbox boundaries:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">PlayerSwingSwordState</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">dungeon</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">dungeon</span> <span class="o">=</span> <span class="n">dungeon</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">offsetY</span> <span class="o">=</span> <span class="mi">5</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">offsetX</span> <span class="o">=</span> <span class="mi">8</span>
+
+      <span class="kd">local</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">direction</span>
+      <span class="kd">local</span> <span class="n">hitboxX</span><span class="p">,</span> <span class="n">hitboxY</span><span class="p">,</span> <span class="n">hitboxWidth</span><span class="p">,</span> <span class="n">hitboxHeight</span>
+
+      <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">'left'</span> <span class="k">then</span>
+          <span class="n">hitboxWidth</span> <span class="o">=</span> <span class="mi">8</span>
+          <span class="n">hitboxHeight</span> <span class="o">=</span> <span class="mi">16</span>
+          <span class="n">hitboxX</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">hitboxWidth</span>
+          <span class="n">hitboxY</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+      <span class="k">elseif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">'right'</span> <span class="k">then</span>
+          <span class="n">hitboxWidth</span> <span class="o">=</span> <span class="mi">8</span>
+          <span class="n">hitboxHeight</span> <span class="o">=</span> <span class="mi">16</span>
+          <span class="n">hitboxX</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">width</span>
+          <span class="n">hitboxY</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+      <span class="k">elseif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">'up'</span> <span class="k">then</span>
+          <span class="n">hitboxWidth</span> <span class="o">=</span> <span class="mi">16</span>
+          <span class="n">hitboxHeight</span> <span class="o">=</span> <span class="mi">8</span>
+          <span class="n">hitboxX</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span>
+          <span class="n">hitboxY</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">hitboxHeight</span>
+      <span class="k">else</span>
+          <span class="n">hitboxWidth</span> <span class="o">=</span> <span class="mi">16</span>
+          <span class="n">hitboxHeight</span> <span class="o">=</span> <span class="mi">8</span>
+          <span class="n">hitboxX</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">x</span>
+          <span class="n">hitboxY</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">height</span>
+      <span class="k">end</span>
+
+      <span class="n">self</span><span class="p">.</span><span class="n">swordHitbox</span> <span class="o">=</span> <span class="n">Hitbox</span><span class="p">(</span><span class="n">hitboxX</span><span class="p">,</span> <span class="n">hitboxY</span><span class="p">,</span> <span class="n">hitboxWidth</span><span class="p">,</span> <span class="n">hitboxHeight</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">changeAnimation</span><span class="p">(</span><span class="s1">'sword-'</span> <span class="o">..</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">direction</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+      <li data-marker="*">In the <code class="language-plaintext highlighter-rouge">update(dt)</code> method, we loop through all the entities in the map and check if they are colliding with the player’s hitbox while the player is swinging their sword. Once finished swinging, the player is transitioned back to the <code class="language-plaintext highlighter-rouge">idle</code> state. If the player presses <code class="language-plaintext highlighter-rouge">space</code>, they can re-enter the <code class="language-plaintext highlighter-rouge">PlayerSwingSwordState</code>:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">PlayerSwingSwordState</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+      <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">entity</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">dungeon</span><span class="p">.</span><span class="n">currentRoom</span><span class="p">.</span><span class="n">entities</span><span class="p">)</span> <span class="k">do</span>
+          <span class="k">if</span> <span class="n">entity</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">swordHitbox</span><span class="p">)</span> <span class="k">then</span>
+              <span class="n">entity</span><span class="p">:</span><span class="n">damage</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+              <span class="n">gSounds</span><span class="p">[</span><span class="s1">'hit-enemy'</span><span class="p">]:</span><span class="n">play</span><span class="p">()</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">currentAnimation</span><span class="p">.</span><span class="n">timesPlayed</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">.</span><span class="n">currentAnimation</span><span class="p">.</span><span class="n">timesPlayed</span> <span class="o">=</span> <span class="mi">0</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'idle'</span><span class="p">)</span>
+      <span class="k">end</span>
+
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">wasPressed</span><span class="p">(</span><span class="s1">'space'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">player</span><span class="p">:</span><span class="n">changeState</span><span class="p">(</span><span class="s1">'swing-sword'</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="events">Events</h2>
+
+<ul>
+  <li data-marker="*">An event is registered to trigger via some name, implemented via an anonymous function.</li>
+  <li data-marker="*">Events are useful when something in the game warrants an event being triggered, or “dispatched”.</li>
+  <li data-marker="*">The anonymous callback function tied to the Event, the handler, is passed arguments via the event’s dispatch.</li>
+</ul>
+
+<h3 id="important-functions">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">Take note of the following important functions from the Knife Event library:
+    <ul>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Event.on(name, callback)</code>
+        <ul>
+          <li data-marker="*">Calls <code class="language-plaintext highlighter-rouge">callback</code>, which is a function, whenever the message by its <code class="language-plaintext highlighter-rouge">name</code> is dispatched via <code class="language-plaintext highlighter-rouge">Event.dispatch()</code>.</li>
+        </ul>
+      </li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Event.dispatch(name, [params])</code>
+        <ul>
+          <li data-marker="*">Calls the callback function registered to <code class="language-plaintext highlighter-rouge">name</code>, set by <code class="language-plaintext highlighter-rouge">Event.on()</code>, with some optional <code class="language-plaintext highlighter-rouge">params</code> that will be sent to that callback function as arguments.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">For more extensive documentation, do reference the link below:
+    <ul>
+      <li data-marker="*"><a href="https://github.com/airstruck/knife/blob/master/readme/event.md">github.com/airstruck/knife/blob/master/readme/event.md</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Let’s take a look at some examples of events in our Zelda program.</li>
+  <li data-marker="*">Open up <code class="language-plaintext highlighter-rouge">PlayerWalkState.lua</code> in <code class="language-plaintext highlighter-rouge">src/states/entity/player</code>.
+    <ul>
+      <li data-marker="*">In this file, among other things, we’re monitoring player collisions with the room walls, since the only way for the player to move to a new room is by colliding with a doorway.</li>
+      <li data-marker="*">When we do detect a collision between player and doorway, we shift the player to the center of the door and dispatch a <code class="language-plaintext highlighter-rouge">shift-DIRECTION</code> name, where DIRECTION is left, right, up or down:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">bumped</span> <span class="k">then</span>
+      <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">'left'</span> <span class="k">then</span>
+
+          <span class="o">...</span>
+
+          <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">dungeon</span><span class="p">.</span><span class="n">currentRoom</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+              <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">doorway</span><span class="p">)</span> <span class="ow">and</span> <span class="n">doorway</span><span class="p">.</span><span class="n">open</span> <span class="k">then</span>
+                  <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">doorway</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">4</span>
+                  <span class="n">Event</span><span class="p">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">'shift-left'</span><span class="p">)</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+
+          <span class="o">...</span>
+
+      <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">'right'</span> <span class="k">then</span>
+
+          <span class="o">...</span>
+
+          <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">dungeon</span><span class="p">.</span><span class="n">currentRoom</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+              <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">doorway</span><span class="p">)</span> <span class="ow">and</span> <span class="n">doorway</span><span class="p">.</span><span class="n">open</span> <span class="k">then</span>
+
+                  <span class="c1">-- shift entity to center of door to avoid phasing through wall</span>
+                  <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">doorway</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">4</span>
+                  <span class="n">Event</span><span class="p">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">'shift-right'</span><span class="p">)</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+
+          <span class="o">...</span>
+      <span class="k">elseif</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">'up'</span> <span class="k">then</span>
+
+          <span class="o">...</span>
+
+          <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">dungeon</span><span class="p">.</span><span class="n">currentRoom</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+              <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">doorway</span><span class="p">)</span> <span class="ow">and</span> <span class="n">doorway</span><span class="p">.</span><span class="n">open</span> <span class="k">then</span>
+
+                  <span class="c1">-- shift entity to center of door to avoid phasing through wall</span>
+                  <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">doorway</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">8</span>
+                  <span class="n">Event</span><span class="p">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">'shift-up'</span><span class="p">)</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+
+          <span class="o">...</span>
+
+      <span class="k">else</span>
+
+          <span class="o">...</span>
+
+          <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">doorway</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">dungeon</span><span class="p">.</span><span class="n">currentRoom</span><span class="p">.</span><span class="n">doorways</span><span class="p">)</span> <span class="k">do</span>
+              <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">doorway</span><span class="p">)</span> <span class="ow">and</span> <span class="n">doorway</span><span class="p">.</span><span class="n">open</span> <span class="k">then</span>
+
+                  <span class="c1">-- shift entity to center of door to avoid phasing through wall</span>
+                  <span class="n">self</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">doorway</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">8</span>
+                  <span class="n">Event</span><span class="p">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">'shift-down'</span><span class="p">)</span>
+              <span class="k">end</span>
+          <span class="k">end</span>
+
+          <span class="o">...</span>
+
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">Now open up <code class="language-plaintext highlighter-rouge">Dungeon.lua</code> in <code class="language-plaintext highlighter-rouge">src/world/</code>. Here, you’ll notice that we have Event listeners waiting for each Event <code class="language-plaintext highlighter-rouge">name</code> that we dispatch in <code class="language-plaintext highlighter-rouge">PlayerWalkState.lua</code>, with a callback function that will be triggered upon dispatch.
+    <ul>
+      <li data-marker="*">In this case, our callback function begins the shifting process of our room as discussed previously in the infinite dungeon algorithm:
+        <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">Dungeon</span><span class="p">:</span><span class="n">init</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+      <span class="o">...</span>
+
+      <span class="n">Event</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s1">'shift-left'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+          <span class="n">self</span><span class="p">:</span><span class="n">beginShifting</span><span class="p">(</span><span class="o">-</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">)</span>
+
+      <span class="n">Event</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s1">'shift-right'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+          <span class="n">self</span><span class="p">:</span><span class="n">beginShifting</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">)</span>
+
+      <span class="n">Event</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s1">'shift-up'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+          <span class="n">self</span><span class="p">:</span><span class="n">beginShifting</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">VIRTUAL_HEIGHT</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">)</span>
+
+      <span class="n">Event</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s1">'shift-down'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+          <span class="n">self</span><span class="p">:</span><span class="n">beginShifting</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">As you can see, Events are quite powerful tools that we can use to write our code in a modularized way.</li>
+</ul>
+
+<h2 id="stenciling-revisited">Stenciling Revisited</h2>
+
+<ul>
+  <li data-marker="*">Similarly to how stencils in real life can be useful when drawing difficult shapes (such as a perfect circle), so, too, can stencils programmatically facilitate our graphic design.</li>
+</ul>
+
+<h3 id="important-functions-1">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.stencil(func, [action], [value], [keepvals])</code>
+    <ul>
+      <li data-marker="*">Performs all stencil drawing within <code class="language-plaintext highlighter-rouge">func</code>; anything drawn during that time will act as the stencil pixels during <code class="language-plaintext highlighter-rouge">love.graphics.setStencilTest</code>.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">action</code> defines how those pixels will behave with pixels drawn onto them during <code class="language-plaintext highlighter-rouge">love.graphics.setStencilTest</code>.</li>
+      <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">value</code> is the value <code class="language-plaintext highlighter-rouge">action</code> is reliant upon.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.setStencilTest(compare_mode, compare_value)</code>
+    <ul>
+      <li data-marker="*">Compares pixels drawn via <code class="language-plaintext highlighter-rouge">compare_mode</code> with that of <code class="language-plaintext highlighter-rouge">compare_value</code>, only drawing pixels whose result of this mode is true.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="game-design-via-data">Game Design via Data</h2>
+
+<ul>
+  <li data-marker="*">If you’ll recall from earlier, in this project, we’re representing our entities as specific data instantiated by a general class.</li>
+  <li data-marker="*">In other words, instead of having separate classes for each entity in the game, we can have a single <code class="language-plaintext highlighter-rouge">Entity</code> class, with a separate Lua file denoting the properties of each specific entity in a big table.</li>
+  <li data-marker="*">This is great design. Not only does it reduce redundancy in our code, it also serves to separate programming logic from descriptive data regarding our entities.</li>
+  <li data-marker="*">This would facilitate the process of adding more entities or properties to the game, for example, especially if you’re working as part of a team whereby perhaps some members are in charge of game design, and others are in charge of implementation.</li>
+</ul>
+
+<h2 id="nes-homebrew">NES Homebrew</h2>
+
+<ul>
+  <li data-marker="*">Homebrew is a term used to describe games and/or software based on older games/software which were subject to hardware restrictions, that have expanded the function of the previously restricted hardware.
+    <ul>
+      <li data-marker="*">For example, a version of an old NES Mario game on a modern emulator.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Below are some links that you may find useful if curious to learn more:
+    <ul>
+      <li data-marker="*"><a href="http://wiki.nesdev.com/w/index.php/Nesdev_Wiki">wiki.nesdev.com/w/index.php/Nesdev_Wiki</a></li>
+      <li data-marker="*"><a href="http://wiki.nesdev.com/w/index.php/Programming_guide">wiki.nesdev.com/w/index.php/Programming_guide</a></li>
+      <li data-marker="*"><a href="http://wiki.nesdev.com/w/index.php/Installing_CC65">wiki.nesdev.com/w/index.php/Installing_CC65</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

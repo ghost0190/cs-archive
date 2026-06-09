@@ -1,0 +1,344 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="This is CS50 AP, Harvard University's introduction to the intellectual enterprises of computer science and the art of programming for students in high school, which satisfies the College Board's AP Computer Science Principles (CSP) curriculum framework. Students in high school may receive AP credit for this course provided their school approves the credit and administers the College Board's Create Performance Task by Friday, April 30, 2021, 11:59 PM Eastern Time, and End-of-Course Multiple-Choice Exam on Thursday, May 13, 2021, 8:00 AM local time. Students should make all such arrangements in advance with their school directly. Students who earn a satisfactory score on all problem sets and a final project are also eligible to receive a verified certificate from HarvardX.">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg"><meta property="og:title" content="Lab 9: Birthdays - CS50 AP">
+
+        <link href="../../../../favicon%EF%B9%961724893223.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../assets/jquery/dist/jquery.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961724893223.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../assets/luxon/build/global/luxon.min%EF%B9%961724893223.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../../assets/mathjax/es5/tex-chtml%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../assets/intersection-observer/intersection-observer%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../assets/scratchblocks.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../assets/mermaid.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../assets/twemoji/dist/twemoji.min%EF%B9%961724893223.js"></script>
+
+        
+
+        <link href="../../../../assets/page%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/jekyll-theme-cs50%EF%B9%961724893223.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Lab 9: Birthdays - CS50 AP</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2021–2022</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../syllabus/index.html">Syllabus</a></li>
+  <li data-marker="*"><a href="../../../../workshop/index.html">Workshop</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://ide.cs50.io/">CS50 IDE</a></li>
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<hr>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/staff">Staff</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/communities"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter Account</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/i/communities/1722308663522594923">Twitter Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/courses"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lab-9-birthdays">Lab 9: Birthdays</h1>
+
+<div class="alert" data-alert="warning" role="alert"><p>You are welcome to collaborate with one or two classmates on this lab, though it is expected that every student in any such group contribute equally to the lab.</p></div>
+
+<div class="alert" data-alert="info" role="alert"><p>GitHub now requires that you use SSH or a personal access token instead of a password to log in, but you can still use <code class="language-plaintext highlighter-rouge">check50</code> and <code class="language-plaintext highlighter-rouge">submit50</code>! See <a href="https://cs50.ly/github">cs50.ly/github</a> for instructions if you haven’t already!</p></div>
+
+<p>Create a web application to keep track of friends’ birthdays.</p>
+
+<p><img src="birthdays.png" alt="screenshot of birthdays website"></p>
+
+<h2 id="when-to-do-it">When to Do It</h2>
+
+<p>By <a data-local="2021-12-31T23:59:00-05:00" href="https://time.cs50.io/20211231T235900-0500">2021-12-31T23:59:00-05:00</a>.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>Here’s how to download this lab into your own CS50 IDE. Log into <a href="https://ide.cs50.io/">CS50 IDE</a> and then, in a terminal window, execute each of the below.</p>
+
+<ul>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">cd</code> to ensure that you’re in <code class="language-plaintext highlighter-rouge">~/</code> (i.e., your home directory, aka <code class="language-plaintext highlighter-rouge">~</code>).</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">wget https://cdn.cs50.net/2020/fall/labs/9/lab9.zip</code> to download a (compressed) ZIP file with this problem’s distribution.</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">unzip lab9.zip</code> to uncompress that file.</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">rm lab9.zip</code> followed by <code class="language-plaintext highlighter-rouge">yes</code> or <code class="language-plaintext highlighter-rouge">y</code> to delete that ZIP file.</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">ls</code>. You should see a directory called <code class="language-plaintext highlighter-rouge">lab9</code>, which was inside of that ZIP file.</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">cd lab9</code> to change into that directory.</li>
+  <li data-marker="*">Execute <code class="language-plaintext highlighter-rouge">ls</code>. You should see an <code class="language-plaintext highlighter-rouge">application.py</code> file, a <code class="language-plaintext highlighter-rouge">birthdays.db</code> file, a <code class="language-plaintext highlighter-rouge">static</code> directory, and a <code class="language-plaintext highlighter-rouge">templates</code> directory.</li>
+</ul>
+
+<h2 id="understanding">Understanding</h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">application.py</code>, you’ll find the start of a Flask web application. The application has one route (<code class="language-plaintext highlighter-rouge">/</code>) that accepts both <code class="language-plaintext highlighter-rouge">POST</code> requests (after the <code class="language-plaintext highlighter-rouge">if</code>) and <code class="language-plaintext highlighter-rouge">GET</code> requests (after the <code class="language-plaintext highlighter-rouge">else</code>). Currently, when the <code class="language-plaintext highlighter-rouge">/</code> route is requested via <code class="language-plaintext highlighter-rouge">GET</code>, the <code class="language-plaintext highlighter-rouge">index.html</code> template is rendered. When the <code class="language-plaintext highlighter-rouge">/</code> route is requested via <code class="language-plaintext highlighter-rouge">POST</code>, the user is redirected back to <code class="language-plaintext highlighter-rouge">/</code> via <code class="language-plaintext highlighter-rouge">GET</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">birthdays.db</code> is a SQLite database with one table, <code class="language-plaintext highlighter-rouge">birthdays</code>, that has four columns: <code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">month</code>, and <code class="language-plaintext highlighter-rouge">day</code>. There are a few rows already in this table, though ultimately your web application will support the ability to insert rows into this table!</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">static</code> directory is a <code class="language-plaintext highlighter-rouge">styles.css</code> file containing the CSS code for this web application. No need to edit this file, though you’re welcome to if you’d like!</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">templates</code> directory is an <code class="language-plaintext highlighter-rouge">index.html</code> file that will be rendered when the user views your web application.</p>
+
+<h2 id="implementation-details">Implementation Details</h2>
+
+<p>Complete the implementation of a web application to let users store and keep track of birthdays.</p>
+
+<ul>
+  <li data-marker="*">When the <code class="language-plaintext highlighter-rouge">/</code> route is requested via <code class="language-plaintext highlighter-rouge">GET</code>, your web application should display, in a table, all of the people in your database along with their birthdays.
+    <ul>
+      <li data-marker="*">First, in <code class="language-plaintext highlighter-rouge">application.py</code>, add logic in your <code class="language-plaintext highlighter-rouge">GET</code> request handling to query the <code class="language-plaintext highlighter-rouge">birthdays.db</code> database for all birthdays. Pass all of that data to your <code class="language-plaintext highlighter-rouge">index.html</code> template.</li>
+      <li data-marker="*">Then, in <code class="language-plaintext highlighter-rouge">index.html</code>, add logic to render each birthday as a row in the table. Each row should have two columns: one column for the person’s name and another column for the person’s birthday.</li>
+    </ul>
+  </li>
+  <li data-marker="*">When the <code class="language-plaintext highlighter-rouge">/</code> route is requested via <code class="language-plaintext highlighter-rouge">POST</code>, your web application should add a new birthday to your database and then re-render the index page.
+    <ul>
+      <li data-marker="*">First, in <code class="language-plaintext highlighter-rouge">index.html</code>, add an HTML form. The form should let users type in a name, a birthday month, and a birthday day. Be sure the form submits to <code class="language-plaintext highlighter-rouge">/</code> (its “action”) with a method of <code class="language-plaintext highlighter-rouge">post</code>.</li>
+      <li data-marker="*">Then, in <code class="language-plaintext highlighter-rouge">application.py</code>, add logic in your <code class="language-plaintext highlighter-rouge">POST</code> request handling to <code class="language-plaintext highlighter-rouge">INSERT</code> a new row into the <code class="language-plaintext highlighter-rouge">birthdays</code> table based on the data supplied by the user.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Optionally, you may also:</p>
+
+<ul>
+  <li data-marker="*">Add the ability to delete and/or edit birthday entries.</li>
+  <li data-marker="*">Add any additional features of your choosing!</li>
+</ul>
+
+<h3 id="walkthrough">Walkthrough</h3>
+
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/HXwvj8x1Fcs"></iframe>
+
+<h3 id="hints">Hints</h3>
+
+<ul>
+  <li data-marker="*">Recall that you can call <code class="language-plaintext highlighter-rouge">db.execute</code> to execute SQL queries within <code class="language-plaintext highlighter-rouge">application.py</code>.
+    <ul>
+      <li data-marker="*">If you call <code class="language-plaintext highlighter-rouge">db.execute</code> to run a <code class="language-plaintext highlighter-rouge">SELECT</code> query, recall that the function will return to you a list of dictionaries, where each dictionary represents one row returned by your query.</li>
+    </ul>
+  </li>
+  <li data-marker="*">You’ll likely find it helpful to pass in additional data to <code class="language-plaintext highlighter-rouge">render_template()</code> in your <code class="language-plaintext highlighter-rouge">index</code> function so that access birthday data inside of your <code class="language-plaintext highlighter-rouge">index.html</code> template.</li>
+  <li data-marker="*">Recall that the <code class="language-plaintext highlighter-rouge">tr</code> tag can be used to create a table row and the <code class="language-plaintext highlighter-rouge">td</code> tag can be used to create a table data cell.</li>
+  <li data-marker="*">Recall that, with Jinja, you can create a <a href="https://jinja.palletsprojects.com/en/2.11.x/templates/#for"><code class="language-plaintext highlighter-rouge">for</code> loop</a> inside your <code class="language-plaintext highlighter-rouge">index.html</code> file.</li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">application.py</code>, you can obtain the data <code class="language-plaintext highlighter-rouge">POST</code>ed by the user’s form submission via <code class="language-plaintext highlighter-rouge">request.form.get(field)</code> where <code class="language-plaintext highlighter-rouge">field</code> is a string representing the <code class="language-plaintext highlighter-rouge">name</code> attribute of an <code class="language-plaintext highlighter-rouge">input</code> from your form.
+    <ul>
+      <li data-marker="*">For example, if in <code class="language-plaintext highlighter-rouge">index.html</code>, you had an <code class="language-plaintext highlighter-rouge">&lt;input name="foo" type="text"&gt;</code>, you could use <code class="language-plaintext highlighter-rouge">request.form.get("foo")</code> in <code class="language-plaintext highlighter-rouge">application.py</code> to extract the user’s input.</li>
+    </ul>
+  </li>
+</ul>
+
+<details><summary>Not sure how to solve?</summary><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/lVwv4o8vmvI"></iframe></details>
+
+<h3 id="testing">Testing</h3>
+
+<p>No <code class="language-plaintext highlighter-rouge">check50</code> for this lab! But be sure to test your web application by adding some birthdays and ensuring that the data appears in your table as expected.</p>
+
+<p>Run <code class="language-plaintext highlighter-rouge">flask run</code> in your terminal while in your <code class="language-plaintext highlighter-rouge">lab9</code> directory to start a web server that serves your Flask application.</p>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>Execute the below, logging in with your GitHub username and password when prompted. For security, you’ll see asterisks (<code class="language-plaintext highlighter-rouge">*</code>) instead of the actual characters in your password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/labs/2021/x/birthdays
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../assets/page%EF%B9%961724893223.js"></script>
+
+    
+
+
+</body></html>

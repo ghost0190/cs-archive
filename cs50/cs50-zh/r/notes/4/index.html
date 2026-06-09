@@ -1,0 +1,770 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Lecture 4 - CS50&#x27;s Introduction to Programming with R">
+
+        <link href="../../favicon%EF%B9%961779994625.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994625.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994625.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994625.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994625.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994625.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994625.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994625.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>讲座 4 - CS50's Introduction to 编程 with R</title>
+
+
+    <meta property="og:description" content="Welcome! Welcome back to CS50’s Introduction to Programming with R! Today, we will be learning about tidying data. Indeed, you can imagine many times when...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书 or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-r"><a href="../../index.html">CS50’s Introduction to 编程 with R</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Representing Data</a></li>
+  <li><a href="../../weeks/2/index.html">Transforming Data</a></li>
+  <li><a href="../../weeks/3/index.html">Applying Functions</a></li>
+  <li><a href="../../weeks/4/index.html">Tidying Data</a></li>
+  <li><a href="../../weeks/5/index.html">Visualizing Data</a></li>
+  <li><a href="../../weeks/6/index.html">测试 Programs</a></li>
+  <li><a href="../../weeks/7/index.html">Packaging Programs</a></li>
+</ol>
+
+<!-- Course Nav -->
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../../shorts/index.html">短视频</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50r">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/r">edX</a></li>
+  <li data-marker="*"><a href="https://youtu.be/g_3IKHG-rfA">freeCodeCamp</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382yfNp_-xzX244d-O9W6YmD">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://style.tidyverse.org/">Style Guide</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-4">讲座 4</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li>
+<a href="#dplyr" id="markdown-toc-dplyr">dplyr</a>    <ul>
+      <li><a href="#select" id="markdown-toc-select"><code class="language-plaintext highlighter-rouge">select</code></a></li>
+      <li><a href="#filter" id="markdown-toc-filter"><code class="language-plaintext highlighter-rouge">filter</code></a></li>
+      <li><a href="#pipe-operator" id="markdown-toc-pipe-operator">Pipe Operator</a></li>
+      <li><a href="#arrange" id="markdown-toc-arrange"><code class="language-plaintext highlighter-rouge">arrange</code></a></li>
+      <li><a href="#distinct" id="markdown-toc-distinct"><code class="language-plaintext highlighter-rouge">distinct</code></a></li>
+      <li><a href="#writing-data" id="markdown-toc-writing-data">Writing Data</a></li>
+      <li><a href="#group_by" id="markdown-toc-group_by"><code class="language-plaintext highlighter-rouge">group_by</code></a></li>
+      <li><a href="#summarize" id="markdown-toc-summarize"><code class="language-plaintext highlighter-rouge">summarize</code></a></li>
+      <li><a href="#ungroup" id="markdown-toc-ungroup"><code class="language-plaintext highlighter-rouge">ungroup</code></a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#tidyr" id="markdown-toc-tidyr">tidyr</a>    <ul>
+      <li><a href="#tidy-data" id="markdown-toc-tidy-data">Tidy Data</a></li>
+      <li><a href="#normalizing" id="markdown-toc-normalizing">Normalizing</a></li>
+      <li><a href="#pivoting" id="markdown-toc-pivoting">Pivoting</a></li>
+    </ul>
+  </li>
+  <li><a href="#stringr" id="markdown-toc-stringr">stringr</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">欢迎 返回 to CS50’s Introduction to 编程 with R!</li>
+  <li data-marker="*">Today, we will be learning 关于 tidying data. Indeed, you can imagine many times when tables and data 五月 not be in the shape one would hope!</li>
+  <li data-marker="*">
+<em>Packages</em> are bits of code created by developers that we can install and load into our R programs. These packages can give one functionality within R that does not come natively.</li>
+  <li data-marker="*">Packages are stored in R’s <em>library</em>. As such, you can load packages with the <code class="language-plaintext highlighter-rouge">library</code> function.</li>
+</ul>
+
+<h2 id="dplyr">dplyr</h2>
+
+<ul>
+  <li data-marker="*">
+<a href="https://dplyr.tidyverse.org/">dplyr</a> is a package within the <a href="https://www.tidyverse.org/">tidyverse</a> that includes functions to manipulate data.</li>
+  <li data-marker="*">Within dplyr, a data set called <code class="language-plaintext highlighter-rouge">storms</code> is included, which includes observations of storm data from <a href="https://www.noaa.gov/">NOAA</a>, the United States’ National Oceanic and Atmospheric Administration.</li>
+  <li data-marker="*">After loading dplyr or the tidyverse, the <code class="language-plaintext highlighter-rouge">storms</code> data set can be loaded by simply typing <code class="language-plaintext highlighter-rouge">storms</code> in the R console.</li>
+  <li data-marker="*">Upon typing <code class="language-plaintext highlighter-rouge">storms</code> notice that a <em>tibble</em> is displayed. A <em>tibble</em> is tidyverse’s “reimagining” of R’s data frame. Notice how rows, row numbers, and various columns are included and labeled. Further, notice the text color that is employed in the <em>tibble</em>.</li>
+</ul>
+
+<h3 id="select"><code class="language-plaintext highlighter-rouge">select</code></h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Let’s locate the strongest storm in the data set. First, let’s remove the columns we don’t need. Consider the following program:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Remove selected columns</span><span class="w">
+
+</span><span class="n">dplyr</span><span class="o">::</span><span class="n">select</span><span class="p">(</span><span class="w">
+  </span><span class="n">storms</span><span class="p">,</span><span class="w">
+  </span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">tropicalstorm_force_diameter</span><span class="p">,</span><span class="w"> </span><span class="n">hurricane_force_diameter</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how the <code class="language-plaintext highlighter-rouge">select</code> function within dplyr allows one to determine which columns will be included in a data frame or tibble. <code class="language-plaintext highlighter-rouge">select</code>’s first argument is the data frame (or tibble) to operate on: <code class="language-plaintext highlighter-rouge">storms</code>. <code class="language-plaintext highlighter-rouge">select</code>’s second argument is the vector of columns to be selected. In this case, however, a <code class="language-plaintext highlighter-rouge">!</code> is employed: a <code class="language-plaintext highlighter-rouge">!</code> indicates that the proceeding column names are instead to be excluded. Alternatively, a <code class="language-plaintext highlighter-rouge">-</code> has the same functionality. Running this code will simplify the tibble by removing the above columns.</p>
+  </li>
+  <li data-marker="*">Typing out all these columns is a bit cumbersome!</li>
+  <li data-marker="*">
+    <p>Helper functions like <code class="language-plaintext highlighter-rouge">contains</code>, <code class="language-plaintext highlighter-rouge">starts_with</code>, or <code class="language-plaintext highlighter-rouge">ends_with</code> can help with this. Consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Introduce ends_with</span><span class="w">
+
+</span><span class="n">select</span><span class="p">(</span><span class="w">
+  </span><span class="n">storms</span><span class="p">,</span><span class="w">
+  </span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"diameter"</span><span class="p">))</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">ends_with</code> is employed to exclude all columns that end with <em>diameter</em>. 较少 code is employed, but the result is the same as before.</p>
+  </li>
+</ul>
+
+<h3 id="filter"><code class="language-plaintext highlighter-rouge">filter</code></h3>
+
+<ul>
+  <li data-marker="*">Another helpful function is <code class="language-plaintext highlighter-rouge">filter</code>, which can be used to 滤镜 rows from the data frame.</li>
+  <li data-marker="*">
+    <p>Consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Find only rows about hurricanes</span><span class="w">
+
+</span><span class="n">filter</span><span class="p">(</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="w">
+    </span><span class="n">storms</span><span class="p">,</span><span class="w">
+    </span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"diameter"</span><span class="p">))</span><span class="w">
+  </span><span class="p">),</span><span class="w">
+  </span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hurricane"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how the only rows included are those that include <code class="language-plaintext highlighter-rouge">hurricane</code> in the <code class="language-plaintext highlighter-rouge">status</code> column.</p>
+  </li>
+  <li data-marker="*">Notice how the latest 示例 have dropped the <code class="language-plaintext highlighter-rouge">dplyr::</code> syntax in the first 示例. Turns out you don’t need to 姓名 the specific package in which a function is defined, unless two or 更多 packages define a function with the same 姓名. In that case, you’ll need to remove ambiguity by specifying which package’s function you want to use.</li>
+</ul>
+
+<h3 id="pipe-operator">Pipe Operator</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>In R, the <em>pipe operator</em> is signified by <code class="language-plaintext highlighter-rouge">|&gt;</code>, which allows one to “pipe” data into a specific function. For 示例, consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Introduce pipe operator</span><span class="w">
+
+</span><span class="n">storms</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"diameter"</span><span class="p">)))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hurricane"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">storms</code> is piped to <code class="language-plaintext highlighter-rouge">select</code>, implicitly becoming <code class="language-plaintext highlighter-rouge">select</code>’s first argument. Then, notice how the return value of <code class="language-plaintext highlighter-rouge">select</code> is piped to <code class="language-plaintext highlighter-rouge">filter</code>, implicitly becoming <code class="language-plaintext highlighter-rouge">filter</code>’s first argument. When you use the pipe operator, you can avoid nesting function calls and write your code 更多 sequentially.</p>
+  </li>
+</ul>
+
+<h3 id="arrange"><code class="language-plaintext highlighter-rouge">arrange</code></h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Now let’s use the <code class="language-plaintext highlighter-rouge">arrange</code> function to 排序 our rows:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Find only rows about hurricanes, and arrange highest wind speed to least</span><span class="w">
+
+</span><span class="n">storms</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"force_diameter"</span><span class="p">)))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hurricane"</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">wind</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how the return value of the <code class="language-plaintext highlighter-rouge">select</code> function is piped to <code class="language-plaintext highlighter-rouge">filter</code>, the return value of which is then piped to <code class="language-plaintext highlighter-rouge">arrange</code>. The rows in the resulting data frame are arranged in descending order by value of the <code class="language-plaintext highlighter-rouge">wind</code> column.</p>
+  </li>
+</ul>
+
+<h3 id="distinct"><code class="language-plaintext highlighter-rouge">distinct</code></h3>
+
+<ul>
+  <li data-marker="*">You 五月 notice that this tibble includes many rows of the same storm. Because this data includes many observations of the same storms, this is not a surprise. However, would it not be nice to be able to find only <em>distinct</em> storms?</li>
+  <li data-marker="*">The <code class="language-plaintext highlighter-rouge">distinct</code> function allows one to get 返回 distinct items in our tibble.</li>
+  <li data-marker="*">Distinct returns distinct rows finding duplicate rows and returning the first row from the set of duplicates.</li>
+  <li data-marker="*">By default, <code class="language-plaintext highlighter-rouge">distinct</code> will consider rows to be duplicate only if <em>all</em> values in a row match <em>all</em> values in another row.</li>
+  <li data-marker="*">
+    <p>However, you can tell <code class="language-plaintext highlighter-rouge">distinct</code> which values to consider when determining whether rows are duplicates. Consider the following code that leverages this ability:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Keep only first observation about each hurricane</span><span class="w">
+
+</span><span class="n">storms</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"force_diameter"</span><span class="p">)))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hurricane"</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">wind</span><span class="p">),</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">distinct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">.keep_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">distinct</code> is told to only look at the <code class="language-plaintext highlighter-rouge">name</code> and <code class="language-plaintext highlighter-rouge">year</code> of each storm to determine if it is a distinct item. <code class="language-plaintext highlighter-rouge">.keep_all = TRUE</code> tells <code class="language-plaintext highlighter-rouge">distinct</code> to still return all the columns for each row.</p>
+  </li>
+</ul>
+
+<h3 id="writing-data">Writing Data</h3>
+
+<ul>
+  <li data-marker="*">It’s possible for us to save our data for later in a CSV file.</li>
+  <li data-marker="*">
+    <p>Consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Write subset of columns to a CSV</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">storms</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">!</span><span class="nf">c</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">ends_with</span><span class="p">(</span><span class="s2">"force_diameter"</span><span class="p">)))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"hurricane"</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">wind</span><span class="p">),</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">distinct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">.keep_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">wind</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">write.csv</span><span class="p">(</span><span class="s2">"hurricanes.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how the result of the first block of code is stored as <code class="language-plaintext highlighter-rouge">hurricanes</code>. To store <code class="language-plaintext highlighter-rouge">hurricanes</code> as a CSV file, <code class="language-plaintext highlighter-rouge">select</code> first chooses 3 particular columns (<code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">name</code>, and <code class="language-plaintext highlighter-rouge">wind</code>) which are written to a file named <code class="language-plaintext highlighter-rouge">hurricanes.csv</code>.</p>
+  </li>
+</ul>
+
+<h3 id="group_by"><code class="language-plaintext highlighter-rouge">group_by</code></h3>
+
+<ul>
+  <li data-marker="*">Let’s now find the most powerful hurricane in each year.</li>
+  <li data-marker="*">
+    <p>Consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Find most powerful hurricane for each year</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"hurricanes.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">wind</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">slice_head</span><span class="p">()</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">hurricanes.csv</code> is 阅读 into <code class="language-plaintext highlighter-rouge">hurricanes</code>. Then, the function <code class="language-plaintext highlighter-rouge">group_by</code> is employed to group together all hurricanes in each year. For each group, the group is arranged in descending order by <code class="language-plaintext highlighter-rouge">wind</code> using <code class="language-plaintext highlighter-rouge">arrange(desc(wind))</code>. Finally, <code class="language-plaintext highlighter-rouge">slice_head</code> is used to output the top row from each group. Thus, the strongest storm from each year is presented.</p>
+  </li>
+  <li data-marker="*">
+    <p><code class="language-plaintext highlighter-rouge">slice_max</code> selects the largest values within a variable. Consider how this can be employed in our code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Introduce slice_max</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"hurricanes.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">slice_max</span><span class="p">(</span><span class="n">order_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wind</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">hurricanes</code> is grouped by <code class="language-plaintext highlighter-rouge">year</code>. Then, the highest value of <code class="language-plaintext highlighter-rouge">wind</code> is presented using <code class="language-plaintext highlighter-rouge">slice_max</code>. Doing so eliminates the need for <code class="language-plaintext highlighter-rouge">arrange(desc(wind))</code>.</p>
+  </li>
+</ul>
+
+<h3 id="summarize"><code class="language-plaintext highlighter-rouge">summarize</code></h3>
+
+<ul>
+  <li data-marker="*">
+    <p>What if we wanted to know the number of hurricanes each year? Consider the following code:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Find number of hurricanes per year</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"hurricanes.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how the function <code class="language-plaintext highlighter-rouge">summarize</code>, employing <code class="language-plaintext highlighter-rouge">n</code>, counts the number of rows in each group.</p>
+  </li>
+</ul>
+
+<h3 id="ungroup"><code class="language-plaintext highlighter-rouge">ungroup</code></h3>
+
+<ul>
+  <li data-marker="*">
+    <p>Looking at our <code class="language-plaintext highlighter-rouge">hurricanes</code> data frame, you will notice that there are groups present. Indeed, these groups are by <code class="language-plaintext highlighter-rouge">year</code>. There will be times in future activities where you 五月 wish to ungroup items within your data. Accordingly, consider the following:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Show ungroup</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"hurricanes.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">hurricanes</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">slice_max</span><span class="p">(</span><span class="n">order_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wind</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">ungroup</code> command is employed to remove the groups of the tibble.</p>
+  </li>
+</ul>
+
+<h2 id="tidyr">tidyr</h2>
+
+<ul>
+  <li data-marker="*">dplyr is quite useful when data is already well organized.</li>
+  <li data-marker="*">What 关于 situations where the data is not already well organized?</li>
+  <li data-marker="*">For that, the tidyr package can be useful!</li>
+</ul>
+
+<h3 id="tidy-data">Tidy Data</h3>
+
+<ul>
+  <li data-marker="*">
+    <p>According to the philosophy of the tidyverse, there are three principles that guide what we would call <em>tidy data</em>.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1. Each observation is a row; each row is an observation.
+2. Each variable is a column; each column is a variable.
+3. Each value is a cell; each cell is a single value.
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>When evaluating data, best to look at the above three principles to see if they are observed.</p>
+  </li>
+</ul>
+
+<h3 id="normalizing">Normalizing</h3>
+
+<ul>
+  <li data-marker="*">
+<em>Normalizing</em> is the process of converting data such that they fulfill the aforementioned principles.</li>
+  <li data-marker="*">Normalizing can also refer to converting data such that they fulfill better design principles beyond the above guidelines.</li>
+  <li data-marker="*">
+    <p>下载 the <code class="language-plaintext highlighter-rouge">students.csv</code> file from the 课程 files and place it in your working directory. Create new code as follows:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Read CSV</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"students.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">View</span><span class="p">(</span><span class="n">students</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice that this code loads a CSV file called <code class="language-plaintext highlighter-rouge">students.csv</code> and stores these values in <code class="language-plaintext highlighter-rouge">students</code>.</p>
+  </li>
+  <li data-marker="*">Examining this data, you 五月 see how they do not follow the principles we mentioned previously. Which principles do you observe not being followed?</li>
+</ul>
+
+<h3 id="pivoting">Pivoting</h3>
+
+<ul>
+  <li data-marker="*">In the <code class="language-plaintext highlighter-rouge">students</code> data set, you might notice there are row values that should instead be column names: “major” and “GPA.” To be clear, this data set violates the second principle of tidy data: each way a student can vary is <em>not</em> a column.</li>
+  <li data-marker="*">We can <em>pivot</em> the data set to turn those variables into columns, thanks to <code class="language-plaintext highlighter-rouge">pivot_wider</code>! <code class="language-plaintext highlighter-rouge">pivot_wider</code> transforms a data set that is “longer” than it should be (i.e., one with variables as row values) and makes it “wider” (i.e., turns those variables into columns).</li>
+  <li data-marker="*">
+    <p><code class="language-plaintext highlighter-rouge">pivot_wider</code> will transform the <code class="language-plaintext highlighter-rouge">students</code> data set from the below:</p>
+
+    <p><img src="077.png" alt="`students` before pivoting"></p>
+
+    <p>into the following:</p>
+
+    <p><img src="078.png" alt="`students` after pivoting"></p>
+  </li>
+  <li data-marker="*">
+    <p>But how? Consider the following usage:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Demonstrates pivot_wider</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"students.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pivot_wider</span><span class="p">(</span><span class="w">
+  </span><span class="n">students</span><span class="p">,</span><span class="w">
+  </span><span class="n">id_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">student</span><span class="p">,</span><span class="w">
+  </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attribute</span><span class="p">,</span><span class="w">
+  </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">pivot_wider</code> takes several arguments, explained here:</p>
+    <ul>
+      <li data-marker="*">The first is the data set to operate on, <code class="language-plaintext highlighter-rouge">students</code>.</li>
+      <li data-marker="*">The second argument, <code class="language-plaintext highlighter-rouge">id_cols</code>, specifies which column should ultimately be unique in the transformed data set. Notice how, before <code class="language-plaintext highlighter-rouge">pivot_wider</code>’s transformation, there are duplicate values in the <code class="language-plaintext highlighter-rouge">student</code> column. After <code class="language-plaintext highlighter-rouge">pivot_wider</code>’s transformation, there are unique values in the <code class="language-plaintext highlighter-rouge">student</code> column.</li>
+      <li data-marker="*">The third argument, <code class="language-plaintext highlighter-rouge">names_from</code>, specifies which column contains values that should instead be variables (columns). Notice how the values in the <code class="language-plaintext highlighter-rouge">attribute</code> column become columns themselves after <code class="language-plaintext highlighter-rouge">pivot_wider</code>’s transformation.</li>
+      <li data-marker="*">Finally, the fourth argument, <code class="language-plaintext highlighter-rouge">values_from</code>, specifies the column from which to populate the values of the new columns. Notice how the values in the <code class="language-plaintext highlighter-rouge">value</code> column are used to populate the new columns after <code class="language-plaintext highlighter-rouge">pivot_wider</code>’s transformation.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Because our data is so much 更多 tidy, we can do so much 更多 with the data!</li>
+  <li data-marker="*">
+    <p>Consider the following:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Demonstrates calculating average GPA by major</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"students.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pivot_wider</span><span class="p">(</span><span class="w">
+  </span><span class="n">students</span><span class="p">,</span><span class="w">
+  </span><span class="n">id_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">student</span><span class="p">,</span><span class="w">
+  </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attribute</span><span class="p">,</span><span class="w">
+  </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">students</span><span class="o">$</span><span class="n">GPA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">students</span><span class="o">$</span><span class="n">GPA</span><span class="p">)</span><span class="w">
+
+</span><span class="n">students</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">major</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">GPA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">GPA</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how this program leverages <code class="language-plaintext highlighter-rouge">pivot_wider</code> and tidyr to discover the average GPA of the students. <code class="language-plaintext highlighter-rouge">GPA</code> in <code class="language-plaintext highlighter-rouge">students</code> is converted to a numeric value. Then, pipe syntax is used to find the mean of the GPAs.</p>
+  </li>
+</ul>
+
+<h2 id="stringr">stringr</h2>
+
+<ul>
+  <li data-marker="*">The process we described above works well when the values themselves are clean. However, what 关于 when the values themselves aren’t tidy?</li>
+  <li data-marker="*">
+    <p><code class="language-plaintext highlighter-rouge">stringr</code> offers us a means by which to tidy strings. 下载 <code class="language-plaintext highlighter-rouge">shows.csv</code> from the 课程 files and place this file in your working directory. Consider the following program:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Tally votes for favorite shows</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"shows.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">show</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">votes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">votes</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how shows are grouped by <code class="language-plaintext highlighter-rouge">show</code>. Then, the number of <code class="language-plaintext highlighter-rouge">votes</code> is computed. Finally, the <code class="language-plaintext highlighter-rouge">votes</code> are sorted in descending order.</p>
+  </li>
+  <li data-marker="*">
+    <p>Looking at the result of this program, you can see that there are many versions of <em>Avatar: The Last Airbender</em>. We should probably address the whitespace issues first.</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Clean up inner whitespace</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"shows.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_trim</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_squish</span><span class="p">()</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">show</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">votes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">votes</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">str_trim</code> is used to remove whitespace in the front or end of each record. <code class="language-plaintext highlighter-rouge">str_squish</code> is then used to remove extra whitespace <em>between</em> the characters.</p>
+  </li>
+  <li data-marker="*">
+    <p>While all this is very good, there are still some inconsistencies with capitalization. We can resolve as follows:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Clean up capitalization</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"shows.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_trim</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_squish</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_to_title</span><span class="p">()</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">show</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">votes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">votes</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">str_to_title</code> is used to force title casing on each string.</p>
+  </li>
+  <li data-marker="*">
+    <p>Finally, we can address spelling variants of <em>Avatar: The Last Airbender</em>:</p>
+
+    <div class="language-r highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Clean up spelling</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"shows.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_trim</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_squish</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">str_to_title</span><span class="p">()</span><span class="w">
+
+</span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="p">[</span><span class="n">str_detect</span><span class="p">(</span><span class="n">shows</span><span class="o">$</span><span class="n">show</span><span class="p">,</span><span class="w"> </span><span class="s2">"Avatar"</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Avatar: The Last Airbender"</span><span class="w">
+
+</span><span class="n">shows</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">show</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">votes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">votes</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">str_detect</code> is used to locate instances of <code class="language-plaintext highlighter-rouge">Avatar</code>. Each of these is converted to <code class="language-plaintext highlighter-rouge">Avatar: The Last Airbender</code>.</p>
+  </li>
+  <li data-marker="*">While these 工具 can be quite helpful, consider cases where you 五月 need to employ caution and not overwrite correct entries. For 示例, there are many 电影 called <em>Avatar</em>! How do we know whether voters didn’t mean to vote for those 电影?</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+
+<p>In this lesson, you learned how to tidy data in R. Specifically, you learned three new packages, which are each part of the tidyverse:</p>
+
+<ul>
+  <li data-marker="*">dplyr</li>
+  <li data-marker="*">tidyr</li>
+  <li data-marker="*">stringr</li>
+</ul>
+
+<p>See you 下一页 时间 when we discuss how to visualize our data.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994625.js"></script>
+
+    
+
+
+</body></html>

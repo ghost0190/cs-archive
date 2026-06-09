@@ -1,0 +1,852 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="This is CS50 AP, Harvard University&#x27;s introduction to the intellectual enterprises of computer science and the art of programming for students in high school, which satisfies the College Board&#x27;s AP Computer Science Principles (CSP) curriculum framework. Students in high school may receive AP credit for this course provided their school approves the credit and administers the College Board&#x27;s Create Performance Task by Friday, April 30, 2021, 11:59 PM Eastern Time, and End-of-Course Multiple-Choice Exam on Thursday, May 13, 2021, 8:00 AM local time. Students should make all such arrangements in advance with their school directly. Students who earn a satisfactory score on all problem sets and a final project are also eligible to receive a verified certificate from HarvardX.">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg"><meta property="og:title" content="Lecture 7 - CS50 AP">
+
+        <link href="../../../../favicon%EF%B9%961724893223.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../assets/jquery/dist/jquery.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961724893223.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../assets/luxon/build/global/luxon.min%EF%B9%961724893223.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../../assets/mathjax/es5/tex-chtml%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../assets/intersection-observer/intersection-observer%EF%B9%961724893223.js"></script>
+        <script src="../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../assets/scratchblocks.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../assets/mermaid.min%EF%B9%961724893223.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../assets/twemoji/dist/twemoji.min%EF%B9%961724893223.js"></script>
+
+        
+
+        <link href="../../../../assets/page%EF%B9%961724893223.css" rel="stylesheet">
+        <script src="../../../../assets/jekyll-theme-cs50%EF%B9%961724893223.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>讲座 7 - CS50 AP</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2021–2022</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../../../../workshop/index.html">工作坊</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://ide.cs50.io/">CS50 IDE</a></li>
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+</ul>
+
+<hr>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/staff">工作人员</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/communities"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter Account</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/i/communities/1722308663522594923">Twitter 社区</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2022/courses"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-7">讲座 7</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#data-processing" id="markdown-toc-data-processing">Data processing</a>    <ul>
+      <li><a href="#cleaning" id="markdown-toc-cleaning">Cleaning</a></li>
+      <li><a href="#counting" id="markdown-toc-counting">Counting</a></li>
+      <li><a href="#searching" id="markdown-toc-searching">Searching</a></li>
+    </ul>
+  </li>
+  <li><a href="#relational-databases" id="markdown-toc-relational-databases">Relational 数据库</a>    <ul>
+      <li><a href="#sql" id="markdown-toc-sql">SQL</a></li>
+      <li><a href="#tables" id="markdown-toc-tables">Tables</a></li>
+    </ul>
+  </li>
+  <li><a href="#imdb" id="markdown-toc-imdb">IMDb</a></li>
+  <li><a href="#problems" id="markdown-toc-problems">问题</a></li>
+</ul>
+
+<h2 id="data-processing">Data processing</h2>
+
+<ul>
+  <li data-marker="*">Last 周, we collected a survey of <a href="https://en.wikipedia.org/wiki/Hogwarts#Houses">Hogwarts house</a> preferences, and tallied the data from a CSV file with Python.</li>
+  <li data-marker="*">This 周, we’ll collect some 更多 data 关于 your favorite TV shows and their genres.</li>
+  <li data-marker="*">With hundreds of responses, we can 开始 looking 在 the responses on Google Sheets, a web-based spreadsheet application, showing our data in rows and columns:<br>
+<img src="sheets.png" alt="image of Google Sheets spreadsheet with row 1 having cells &quot;Timestamp&quot;, &quot;title&quot;, and &quot;genres&quot;, with row 2 having cells &quot;10/19/2020 1:41:38&quot;, &quot;Punisher&quot;, &quot;Action, Adventure&quot;, and so on">
+    <ul>
+      <li data-marker="*">Some responses show a single genre selected, like “Comedy”, while others, with multiple genres, show them in one cell still but separated by a comma, like “Crime, Drama”.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With a spreadsheet app like Google Sheets, Apple’s Numbers, Microsoft Excel, or others, we can:
+    <ul>
+      <li data-marker="*">排序 our data</li>
+      <li data-marker="*">store data in rows and columns, where each additional entry is a row, and properties of each entry, like title or genre, is a column</li>
+      <li data-marker="*">decide on the <strong>schema</strong>, or format, of our data in advance by choosing the columns</li>
+    </ul>
+  </li>
+  <li data-marker="*">A <strong>database</strong> is a file or program that stores data for us.</li>
+  <li data-marker="*">A CSV file is a <strong>flat-file database</strong> where the data for each column is separated by commas, and each row is on a 新内容 line, saved simply as a file.
+    <ul>
+      <li data-marker="*">If some data in a CSV contains a comma itself, then it’s usually surrounded by quotes as a string to prevent confusion.</li>
+      <li data-marker="*">Formulas and calculations in spreadsheet programs are built into the programs themselves; a CSV file can only store raw, static values.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We’ll 下载 a CSV file with the data from the spreadsheet with “File &gt; 下载”, upload it to our IDE by dragging and dropping it into our file tree, and see that it’s indeed a text file with comma-separated values matching the spreadsheet’s data.</li>
+</ul>
+
+<h3 id="cleaning">Cleaning</h3>
+
+<ul>
+  <li data-marker="*">We’ll 开始 by writing <code class="language-plaintext highlighter-rouge">favorites.py</code>, choosing Python over C as our 工具 of choice for its libraries and abstraction:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nf">reader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+    <span class="nf">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We’re going to 打开 the file and make sure we can print the title of each row, using the <code class="language-plaintext highlighter-rouge">with</code> keyword in Python that will 关闭 our file for us after we leave its scope, based on indentation.</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">open</code> uses 阅读 mode by default, but to be clear in our code we’ll add <code class="language-plaintext highlighter-rouge">r</code> explicitly.</li>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">csv</code> library has a <code class="language-plaintext highlighter-rouge">reader</code> function that will create a <code class="language-plaintext highlighter-rouge">reader</code> variable we can use.</li>
+      <li data-marker="*">We’ll call <code class="language-plaintext highlighter-rouge">next</code> to skip the first row, since that’s the header row, and then use a loop to print the second column in each row, which is the title.</li>
+    </ul>
+  </li>
+  <li data-marker="*">To improve this, we’ll use a <code class="language-plaintext highlighter-rouge">DictReader</code>, dictionary reader, which creates a dictionary from each row, allowing us to access each column by its 姓名. We also don’t need to skip the header row in this case, since the <code class="language-plaintext highlighter-rouge">DictReader</code> will use it automatically.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">])</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Since the first row in our CSV has the names of the columns, it can be used to label each column in our data as well.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now let’s take a look 在 all the unique titles in our responses:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">titles</span> <span class="o">=</span> <span class="nf">set</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">titles</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We’ll create a set called <code class="language-plaintext highlighter-rouge">titles</code>, and add each row’s title value to it. Calling <code class="language-plaintext highlighter-rouge">add</code> on a set will automatically check for duplicates and ensure that there are only unique values.</li>
+      <li data-marker="*">Then, we can iterate over the elements in the set with a <code class="language-plaintext highlighter-rouge">for</code> loop, printing each of them.</li>
+    </ul>
+  </li>
+  <li data-marker="*">To 排序 the titles, we can just change our loop to <code class="language-plaintext highlighter-rouge">for title in sorted(titles)</code>, which will 排序 our set before we iterate over it.</li>
+  <li data-marker="*">We’ll see that our titles are considered different if their capitalization or punctuation is different, so we’ll clean up the capitalization by adding title in all uppercase with <code class="language-plaintext highlighter-rouge">titles.add(row["title"].upper())</code>.</li>
+  <li data-marker="*">We’ll also have to remove spaces before or after, so we can add <code class="language-plaintext highlighter-rouge">titles.add(row["title"].strip().upper())</code> which strips the whitespace from the title, and then converts it to uppercase.</li>
+  <li data-marker="*">Now, we’ve <strong>canonicalized</strong>, or standardized, our data, and our list of titles are much cleaner.</li>
+</ul>
+
+<h3 id="counting">Counting</h3>
+
+<ul>
+  <li data-marker="*">We can use a dictionary, instead of a set, to count the number of times we’ve seen each title, with the keys being the titles and the values being an integer counting the number of times we see each of them:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">titles</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">].</span><span class="nf">strip</span><span class="p">().</span><span class="nf">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
+            <span class="n">titles</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">titles</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">titles</span><span class="p">[</span><span class="n">title</span><span class="p">])</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Here, we first check if we’ve haven’t seen the title before (if it’s <code class="language-plaintext highlighter-rouge">not in titles</code>). We set the initial value to 0 if that’s the case, and then we can safely increment the value by 1 every 时间.</li>
+      <li data-marker="*">Finally, we can print out our dictionary’s keys and values by passing them as arguments to <code class="language-plaintext highlighter-rouge">print</code>, which will separate them by a space for us.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can 排序 by the values in the dictionary by changing our loop to:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">...</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">titles</span><span class="p">[</span><span class="n">title</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<span class="bp">...</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We define a function, <code class="language-plaintext highlighter-rouge">f</code>, which just returns the count of a title in the dictionary with <code class="language-plaintext highlighter-rouge">titles[title]</code>. The <code class="language-plaintext highlighter-rouge">sorted</code> function, in turn, will use that function as the <strong>key</strong> to 排序 the dictionary’s elements. And we’ll also pass in <code class="language-plaintext highlighter-rouge">reverse=True</code> to 排序 from largest to smallest, instead of smallest to largest.</li>
+      <li data-marker="*">So now we’ll see the most popular shows printed.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can actually define our function in the same line, with this syntax:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">title</span><span class="p">:</span> <span class="n">titles</span><span class="p">[</span><span class="n">title</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We pass in a <strong>lambda</strong>, or anonymous function, which has no 姓名 but takes in some argument or arguments, and returns a value immediately.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="searching">Searching</h3>
+
+<ul>
+  <li data-marker="*">We can write a program to 搜索 for a title and report its popularity:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">Title: </span><span class="sh">"</span><span class="p">).</span><span class="nf">strip</span><span class="p">().</span><span class="nf">upper</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">].</span><span class="nf">strip</span><span class="p">().</span><span class="nf">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">title</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We ask the user for input, and then 打开 our CSV file. Since we’re 在找 just one title, we can have one <code class="language-plaintext highlighter-rouge">counter</code> variable that we increment.</li>
+      <li data-marker="*">We check for matches after standardizing both the input and the data as we check each row.</li>
+    </ul>
+  </li>
+  <li data-marker="*">The running 时间 of 这是 <em>O</em>(<em>n</em>), since we need to look 在 every row.</li>
+</ul>
+
+<h2 id="relational-databases">Relational 数据库</h2>
+
+<ul>
+  <li data-marker="*"><strong>Relational 数据库</strong> are programs that store data, ultimately in files, but with additional 数据结构 that allow us to 搜索 and store data 更多 efficiently.</li>
+  <li data-marker="*">With another 编程 language, <strong>SQL</strong> (pronounced like “sequel”), Structured Query Language, we can interact with many relational 数据库 and their <strong>tables</strong>, like spreadsheets, which store data.</li>
+  <li data-marker="*">We’ll use a common database program called <strong>SQLite</strong>, one of many available programs that support SQL. Other database programs include Oracle Database, MySQL, PostgreSQL, and Microsoft Access.</li>
+  <li data-marker="*">SQLite stores our data in a binary file, with 0s and 1s that represent data efficiently. We’ll interact with our tables of data through a command-line program, <code class="language-plaintext highlighter-rouge">sqlite3</code>.</li>
+  <li data-marker="*">We’ll run some commands in the CS50 IDE to import our CSV file into a table called “shows”:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~/</span> <span class="err">$</span> <span class="n">sqlite3</span>
+<span class="n">SQLite</span> <span class="k">version</span> <span class="mi">3</span><span class="p">.</span><span class="mi">22</span><span class="p">.</span><span class="mi">0</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">22</span> <span class="mi">18</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">57</span>
+<span class="n">Enter</span> <span class="nv">".help"</span> <span class="k">for</span> <span class="k">usage</span> <span class="n">hints</span><span class="p">.</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="p">.</span><span class="k">mode</span> <span class="n">csv</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="p">.</span><span class="n">import</span> <span class="s1">'Favorite TV Shows (Responses) - Form Responses 1.csv'</span> <span class="n">shows</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Based on the rows in the CSV file, SQLite will create a table in our database with the data and columns.</li>
+      <li data-marker="*">We’ll set SQLite to CSV mode, and use the <code class="language-plaintext highlighter-rouge">.import</code> command to create a table from our file.</li>
+    </ul>
+  </li>
+  <li data-marker="*">It turns out that, when working with data, we generally need four types of operations supported by relational 数据库:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">CREATE</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">READ</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">UPDATE</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">DELETE</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="sql">SQL</h3>
+
+<ul>
+  <li data-marker="*">In SQL, the commands to perform each of these operations are:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">CREATE</code>, <code class="language-plaintext highlighter-rouge">INSERT</code>
+        <ul>
+          <li data-marker="*">For 示例, to create a 新内容 table, we can use: <code class="language-plaintext highlighter-rouge">CREATE TABLE table (column type, ...);</code> where <code class="language-plaintext highlighter-rouge">table</code> is the 姓名 of our 新内容 table, and <code class="language-plaintext highlighter-rouge">column</code> is the 姓名 of a column, followed by its type.</li>
+        </ul>
+      </li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">SELECT</code>
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">SELECT column FROM table;</code></li>
+        </ul>
+      </li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">UPDATE</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">DELETE</code></li>
+    </ul>
+  </li>
+  <li data-marker="*">We can check the schema of our 新内容 table with <code class="language-plaintext highlighter-rouge">.schema</code>:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="p">.</span><span class="k">schema</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">shows</span><span class="p">(</span>
+  <span class="nv">"Timestamp"</span> <span class="nb">TEXT</span><span class="p">,</span>
+  <span class="nv">"title"</span> <span class="nb">TEXT</span><span class="p">,</span>
+  <span class="nv">"genres"</span> <span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">We see that <code class="language-plaintext highlighter-rouge">.import</code> used the <code class="language-plaintext highlighter-rouge">CREATE TABLE ...</code> command listed to create a table called <code class="language-plaintext highlighter-rouge">shows</code>, with column names automatically copied from the CSV’s header row and types assumed to be text.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can select a column with:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">shows</span><span class="p">;</span>
+<span class="n">title</span>
+<span class="p">...</span>
+<span class="nv">"Madam Secretary"</span>
+<span class="nv">"Game of Thrones"</span>
+<span class="nv">"Still Game"</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Notice that we capitalize SQL keywords by convention, and we’ll see titles from our rows printed in the order from the CSV.</li>
+      <li data-marker="*">We can also select multiple columns with <code class="language-plaintext highlighter-rouge">SELECT Timestamp, title FROM shows;</code> (<code class="language-plaintext highlighter-rouge">Timestamp</code> was capitalized in the CSV), or all columns with <code class="language-plaintext highlighter-rouge">SELECT * FROM shows;</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">SQL supports many functions that we can use to count and summarize data:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">AVG</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">COUNT</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">DISTINCT</code>, for getting distinct values without duplicates</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">LOWER</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">MAX</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">MIN</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">UPPER</code></li>
+      <li data-marker="*">…</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can clean up our titles as before, converting them to uppercase and printing only the unique values:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">))</span> <span class="k">FROM</span> <span class="n">shows</span><span class="p">;</span>
+<span class="n">title</span>
+<span class="p">...</span>
+<span class="nv">"GREY'S ANATOMY"</span>
+<span class="nv">"SCOOBY DOO"</span>
+<span class="nv">"MADAM SECRETARY"</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We can also add 更多 <strong>clauses</strong>, or phrases that modify our query:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">WHERE</code>, matching results on a strict condition</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">LIKE</code>, matching results on a 较少 strict condition</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">ORDER BY</code>, ordering results in some way</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">LIMIT</code>, limiting the number of results</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">GROUP BY</code>, grouping results in some way</li>
+      <li data-marker="*">…</li>
+    </ul>
+  </li>
+  <li data-marker="*">Let’s 滤镜 rows by titles:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">title</span> <span class="o">=</span> <span class="nv">"The Office"</span><span class="p">;</span>
+<span class="n">title</span>
+<span class="p">...</span>
+<span class="nv">"The Office"</span>
+<span class="nv">"The Office"</span>
+<span class="nv">"The Office"</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">But there are other entries we would like to catch, so we can use:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">title</span> <span class="k">LIKE</span> <span class="nv">"%Office%"</span><span class="p">;</span>
+<span class="n">title</span>
+<span class="p">...</span>
+<span class="n">office</span>
+<span class="nv">"The Office"</span>
+<span class="nv">"the office "</span>
+<span class="nv">"The Office"</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">%</code> character is a placeholder for zero or 更多 other characters.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can order our titles:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">))</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="n">X</span><span class="o">-</span><span class="n">FILES</span>
+<span class="nv">"ZETA GUNDAM"</span>
+<span class="nv">"ZONDAG MET LUBACH"</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We can even group the same titles together, and count the number of times they appear:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">),</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="nv">"THE OFFICE"</span><span class="p">,</span><span class="mi">23</span>
+<span class="p">...</span>
+<span class="nv">"TOP GEAR"</span><span class="p">,</span><span class="mi">1</span>
+<span class="p">...</span>
+<span class="nv">"TWIN PEAKS"</span><span class="p">,</span><span class="mi">4</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We can order by the counts:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">),</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="nv">"THE OFFICE"</span><span class="p">,</span><span class="mi">23</span>
+<span class="n">FRIENDS</span><span class="p">,</span><span class="mi">26</span>
+<span class="nv">"GAME OF THRONES"</span><span class="p">,</span><span class="mi">33</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">And if we add <code class="language-plaintext highlighter-rouge">DESC</code> to the 结束, we could see the results in descending order.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With <code class="language-plaintext highlighter-rouge">LIMIT 10</code> added as well, we see the top 10 rows:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">),</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+<span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">),</span><span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+<span class="nv">"GAME OF THRONES"</span><span class="p">,</span><span class="mi">33</span>
+<span class="n">FRIENDS</span><span class="p">,</span><span class="mi">26</span>
+<span class="nv">"THE OFFICE"</span><span class="p">,</span><span class="mi">23</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Finally, we’ll trim whitespace from each title too, nesting that function:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">UPPER</span><span class="p">(</span><span class="k">TRIM</span><span class="p">(</span><span class="n">title</span><span class="p">)),</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="k">UPPER</span><span class="p">(</span><span class="k">TRIM</span><span class="p">(</span><span class="n">title</span><span class="p">))</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+<span class="k">UPPER</span><span class="p">(</span><span class="n">title</span><span class="p">),</span><span class="k">COUNT</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+<span class="nv">"GAME OF THRONES"</span><span class="p">,</span><span class="mi">33</span>
+<span class="n">FRIENDS</span><span class="p">,</span><span class="mi">26</span>
+<span class="nv">"THE OFFICE"</span><span class="p">,</span><span class="mi">23</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Before we finish, we’ll want to save our data into a file with <code class="language-plaintext highlighter-rouge">.save shows.db</code>, which we’ll see in our IDE after running that command.</li>
+  <li data-marker="*">Notice that our program to find the most popular shows from earlier, which took dozens of lines of code in Python, now only requires one (long) line of SQL.</li>
+  <li data-marker="*">We’ve used SQLite’s command-line interface, but there are also graphical programs that support working with SQL queries and viewing results 更多 visually.</li>
+</ul>
+
+<h3 id="tables">Tables</h3>
+
+<ul>
+  <li data-marker="*">Our <code class="language-plaintext highlighter-rouge">genres</code> column has multiple genres in the same field, so we’ll use <code class="language-plaintext highlighter-rouge">LIKE</code> to get all the titles containing some genre:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">genres</span> <span class="k">LIKE</span> <span class="nv">"%Comedy%"</span><span class="p">;</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">But the genres are still stored as a comma-separated list themselves, which is not as clean. For 示例, if our genres included both “Music” and “Musical”, it would be difficult to select  titles with just the “Music” genre.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can insert data into a table manually with <code class="language-plaintext highlighter-rouge">INSERT INTO table (column, ...) VALUES(value, ...);</code>.
+    <ul>
+      <li data-marker="*">For 示例, we can say:
+        <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">shows</span> <span class="p">(</span><span class="nb">Timestamp</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">genres</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="nv">"now"</span><span class="p">,</span> <span class="nv">"The Muppet Show"</span><span class="p">,</span> <span class="nv">"Comedy, Musical"</span><span class="p">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li data-marker="*">We can update a row with <code class="language-plaintext highlighter-rouge">UPDATE table SET column = value WHERE condition;</code>, like:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">UPDATE</span> <span class="n">shows</span> <span class="k">SET</span> <span class="n">genres</span> <span class="o">=</span> <span class="nv">"Comedy, Drama, Musical"</span> <span class="k">WHERE</span> <span class="n">title</span> <span class="o">=</span> <span class="nv">"The Muppet Show"</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We can even remove all rows that match with: <code class="language-plaintext highlighter-rouge">DELETE FROM table WHERE condition;
+</code>:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">title</span> <span class="k">LIKE</span> <span class="nv">"Friends"</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Now let’s write our own Python program that will use SQL to import our CSV data into tables with the following design:<br>
+<img src="shows_genres.png" alt="table named shows with columns id and title, table named genre with columns show_id and genre, with arrow from show_id to id">
+    <ul>
+      <li data-marker="*">This design will 开始 to <strong>normalize</strong> our data, or reduce redundancy and ensure a single source of truth.</li>
+      <li data-marker="*">Here, for 示例, we have a table named <code class="language-plaintext highlighter-rouge">shows</code>, with each show having an <code class="language-plaintext highlighter-rouge">id</code> and <code class="language-plaintext highlighter-rouge">title</code>, and another table, <code class="language-plaintext highlighter-rouge">genre</code>, which uses each’s show’s <code class="language-plaintext highlighter-rouge">id</code> to associate a genre with a show. 笔记 that the show’s <code class="language-plaintext highlighter-rouge">title</code> doesn’t need to be stored multiple times.</li>
+      <li data-marker="*">We can also now add multiple rows in the <code class="language-plaintext highlighter-rouge">genre</code> table, to associate a show with 更多 than one genre.</li>
+    </ul>
+  </li>
+  <li data-marker="*">It turns out that SQL, too, has its own data types to optimize the amount of space used for storing data, which we’ll need to specify when creating a table manually:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">BLOB</code>, for “binary large object”, raw binary data that might represent files</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">INTEGER</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">NUMERIC</code>, number-like but not quite a number, like a 日期 or 时间</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">REAL</code>, for floating-point values</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">TEXT</code>, like strings</li>
+    </ul>
+  </li>
+  <li data-marker="*">Columns can also have additional attributes:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">NOT NULL</code>, which specifies that there must be some value</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">UNIQUE</code>, which means that the value for that column must be unique for every row in the table</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">PRIMARY KEY</code>, like the <code class="language-plaintext highlighter-rouge">id</code> column above that will be used to uniquely identify each row</li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">FOREIGN KEY</code>, like the <code class="language-plaintext highlighter-rouge">show_id</code> column above that refers to a column in some other table</li>
+    </ul>
+  </li>
+  <li data-marker="*">We’ll use the CS50 library’s SQL feature to make queries easily, and there are other libraries for Python as well:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">csv</span>
+
+<span class="kn">from</span> <span class="n">cs50</span> <span class="kn">import</span> <span class="n">SQL</span>
+
+<span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">shows.db</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">).</span><span class="nf">close</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="nc">SQL</span><span class="p">(</span><span class="sh">"</span><span class="s">sqlite:///shows.db</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">CREATE TABLE shows (id INTEGER, title TEXT, PRIMARY KEY(id))</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">CREATE TABLE genres (show_id INTEGER, genre TEXT, FOREIGN KEY(show_id) REFERENCES shows(id))</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Favorite TV Shows - Form Responses 1.csv</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">r</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="nc">DictReader</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="p">].</span><span class="nf">strip</span><span class="p">().</span><span class="nf">upper</span><span class="p">()</span>
+
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">INSERT INTO shows (title) VALUES(?)</span><span class="sh">"</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">genre</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="sh">"</span><span class="s">genres</span><span class="sh">"</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">, </span><span class="sh">"</span><span class="p">):</span>
+            <span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">INSERT INTO genres (show_id, genre) VALUES(?, ?)</span><span class="sh">"</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">genre</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">First, we’ll 打开 a <code class="language-plaintext highlighter-rouge">shows.db</code> file and 关闭 it, to make sure that the file is created.</li>
+      <li data-marker="*">Then, we’ll create a <code class="language-plaintext highlighter-rouge">db</code> variable to store our database created by <code class="language-plaintext highlighter-rouge">SQL</code>, which takes the database file we just created.</li>
+      <li data-marker="*">下一页, we’ll run SQL commands by writing it as a string, and calling <code class="language-plaintext highlighter-rouge">db.execute</code> with it. Here, we’ll create two tables as we designed above, indicating the names, types, and properties of each column we want in each table.</li>
+      <li data-marker="*">Now, we can 阅读 our original CSV file row by row, getting the title and using <code class="language-plaintext highlighter-rouge">db.execute</code> to run an <code class="language-plaintext highlighter-rouge">INSERT</code> command for each row. It turns out that we can use the <code class="language-plaintext highlighter-rouge">?</code> placeholder in a SQL command, and pass in a variable to be substituted. Then, we’ll get 返回 an <code class="language-plaintext highlighter-rouge">id</code> that’s automatically created for us for each row, since we declared it to be a primary key.</li>
+      <li data-marker="*">Finally, we’ll split the genre string in each row by the comma, and insert each of them into the <code class="language-plaintext highlighter-rouge">genres</code> table, using the <code class="language-plaintext highlighter-rouge">id</code> for the show as <code class="language-plaintext highlighter-rouge">show_id</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">After we run this program, we can see the IDs and titles of each show, as well as the genres where the first column is a show’s ID:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">shows</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="mi">511</span> <span class="o">|</span> <span class="n">MADAM</span> <span class="n">SECRETARY</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">GAME</span> <span class="k">OF</span> <span class="n">THRONES</span>
+<span class="mi">513</span> <span class="o">|</span> <span class="n">STILL</span> <span class="n">GAME</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">genres</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="mi">511</span> <span class="o">|</span> <span class="n">Drama</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">Action</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">Adventure</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">History</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">Thriller</span>
+<span class="mi">512</span> <span class="o">|</span> <span class="n">War</span>
+<span class="mi">513</span> <span class="o">|</span> <span class="n">Comedy</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Notice that the show with id 512, “GAME OF THRONES”, now has five genres associated with it.</li>
+    </ul>
+  </li>
+  <li data-marker="*">To find all the musicals, for 示例, we can run:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">show_id</span> <span class="k">FROM</span> <span class="n">genres</span> <span class="k">WHERE</span> <span class="n">genre</span> <span class="o">=</span> <span class="nv">"Musical"</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="mi">422</span>
+<span class="mi">435</span>
+<span class="mi">468</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">And we can nest that query to get titles from the list of show IDs:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">show_id</span> <span class="k">FROM</span> <span class="n">genres</span> <span class="k">WHERE</span> <span class="n">genre</span> <span class="o">=</span> <span class="nv">"Musical"</span><span class="p">);</span>
+<span class="n">title</span>
+<span class="n">BREAKING</span> <span class="n">BAD</span>
+<span class="p">...</span>
+<span class="n">THE</span> <span class="n">LAWYER</span>
+<span class="n">MY</span> <span class="n">BROTHER</span><span class="p">,</span> <span class="n">MY</span> <span class="n">BROTHER</span><span class="p">,</span> <span class="k">AND</span> <span class="n">ME</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">Our first query, in the parentheses, will be executed first, and then used in the outer query.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can find all the rows in <code class="language-plaintext highlighter-rouge">shows</code> with the title of “THE OFFICE”, and find all the genres associated:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="n">genre</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">genres</span> <span class="k">WHERE</span> <span class="n">show_id</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">id</span> <span class="k">FROM</span> <span class="n">shows</span> <span class="k">WHERE</span> <span class="n">title</span> <span class="o">=</span> <span class="nv">"THE OFFICE"</span><span class="p">)</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">genre</span><span class="p">;</span>
+<span class="n">genre</span>
+<span class="p">...</span>
+<span class="n">Comedy</span>
+<span class="n">Documentary</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We could improve on the design of our tables even 更多, with a third table:<br>
+<img src="shows_genres_joined.png" alt="table named shows with columns id and title, table named shows_genres with columns show_id and genre_id, with arrow from show_id to id, and table named genre with columns id and 姓名, with arrow from id to genre_id">
+    <ul>
+      <li data-marker="*">Now, each genre’s 姓名 will only be stored once, with a 新内容 table, a <strong>join table</strong>, called <code class="language-plaintext highlighter-rouge">shows_genres</code> that contains foreign keys that link shows to genres. 这是 a <strong>many-to-many</strong> relationship, where one show can have many genres, and one genre can belong to many shows.</li>
+      <li data-marker="*">If we needed to change a genre’s 姓名, we would only have to change one row now, instead of many.</li>
+    </ul>
+  </li>
+  <li data-marker="*">It turns out that there are subtypes for a column, too, that we can be even 更多 specific with:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">INTEGER</code>
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">smallint</code>, with fewer bits</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">integer</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">bigint</code>, with 更多 bits</li>
+        </ul>
+      </li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">NUMERIC</code>
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">boolean</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">date</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">datetime</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">numeric(scale,precision)</code>, with a fixed number of digits</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">time</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">timestamp</code></li>
+        </ul>
+      </li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">REAL</code>
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">real</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">double precision</code>, with twice as many bits</li>
+        </ul>
+      </li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">TEXT</code>
+        <ul>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">char(n)</code>, a fixed number of characters</li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">varchar(n)</code>, a variable number of characters, up to some limit <code class="language-plaintext highlighter-rouge">n</code></li>
+          <li data-marker="*"><code class="language-plaintext highlighter-rouge">text</code>, a string with no limit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="imdb">IMDb</h2>
+
+<ul>
+  <li data-marker="*">IMDb, or the 互联网 Movie Database, has datasets available for 下载 as TSV (tab-separated values) files.</li>
+  <li data-marker="*">After we import one such dataset, we’ll see tables with the following schema:<br>
+<img src="imdb.png" alt="table named people with columns id, 姓名, birth, table named stars with columns show_id, person_id, table named shows with columns id, title, year, episodes, table named writers with columns show_id, person_id, table named genres with columns show_id, genre, and table named ratings with show_id, rating, and votes, with arrows between foreign key id columns">
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">genres</code> table has some duplication, since the <code class="language-plaintext highlighter-rouge">genre</code> column is repeated, but the <code class="language-plaintext highlighter-rouge">stars</code> and <code class="language-plaintext highlighter-rouge">writers</code> table join rows in the <code class="language-plaintext highlighter-rouge">people</code> and <code class="language-plaintext highlighter-rouge">shows</code> table based on their relationship.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With <code class="language-plaintext highlighter-rouge">SELECT COUNT(*) FROM shows;</code> we can see that there are 更多 than 150,000 shows in our table, so with a large amount of data we can use <strong>indexes</strong>, which tells our database program to create additional 数据结构 so we can 搜索 and 排序 with logarithmic 时间:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">title_index</span> <span class="k">ON</span> <span class="n">shows</span> <span class="p">(</span><span class="n">title</span><span class="p">);</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">It turns out that these 数据结构 are generally <strong>B-trees</strong>, like binary trees we’ve seen in C, with nodes organized such that we can 搜索 faster than linearly.</li>
+      <li data-marker="*">Creating an index takes some 时间, but afterwards we can run queries much 更多 quickly.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With our data spread among different tables, we can use <strong><code class="language-plaintext highlighter-rouge">JOIN</code></strong> commands to combine them in our queries:
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlite3</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">title</span> <span class="k">FROM</span> <span class="n">people</span>
+    <span class="p">...</span><span class="o">&gt;</span> <span class="k">JOIN</span> <span class="n">stars</span> <span class="k">ON</span> <span class="n">people</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">stars</span><span class="p">.</span><span class="n">person_id</span>
+    <span class="p">...</span><span class="o">&gt;</span> <span class="k">JOIN</span> <span class="n">shows</span> <span class="k">ON</span> <span class="n">stars</span><span class="p">.</span><span class="n">show_id</span> <span class="o">=</span> <span class="n">shows</span><span class="p">.</span><span class="n">id</span>
+    <span class="p">...</span><span class="o">&gt;</span> <span class="k">WHERE</span> <span class="n">name</span> <span class="o">=</span> <span class="nv">"Steve Carell"</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">The</span> <span class="n">Morning</span> <span class="k">Show</span>
+<span class="n">LA</span> <span class="n">Times</span><span class="p">:</span> <span class="n">the</span> <span class="n">Envelope</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">With the <code class="language-plaintext highlighter-rouge">JOIN</code> syntax, we can virtually combine tables based on their foreign keys, and use their columns as though they were one table.</li>
+    </ul>
+  </li>
+  <li data-marker="*">After creating some 更多 indexes, our <code class="language-plaintext highlighter-rouge">JOIN</code> command also runs much 更多 quickly.</li>
+</ul>
+
+<h2 id="problems">问题</h2>
+
+<ul>
+  <li data-marker="*">One 问题 in SQL is called a <strong>SQL injection attack</strong>, where an someone can inject, or place, their own commands into inputs that we then run  on our database.</li>
+  <li data-marker="*">Our query for logging a user in might be <code class="language-plaintext highlighter-rouge">rows = db.execute("SELECT * FROM users WHERE username = ? AND password = ?", username, password)</code>. By using the <code class="language-plaintext highlighter-rouge">?</code> placeholders, our SQL library will escape the input, or prevent dangerous characters from being interpreted as part of the command.</li>
+  <li data-marker="*">In contrast, we might have a SQL query that’s a formatted string, such as:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sa">f</span><span class="sh">"</span><span class="s">SELECT * FROM users WHERE username = </span><span class="sh">'</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="sh">'</span><span class="s"> AND password = </span><span class="sh">'</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="sh">'"</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">If a user types in <code class="language-plaintext highlighter-rouge">malan@harvard.edu'--</code>, then the query will 结束 up being:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="sa">f</span><span class="sh">"</span><span class="s">SELECT * FROM users WHERE username = </span><span class="sh">'</span><span class="s">malan@harvard.edu</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="s"> AND password = </span><span class="sh">'</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="sh">'"</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">This query will actually select the row where <code class="language-plaintext highlighter-rouge">username = 'malan@harvard.edu'</code>, without checking the password, since the <code class="language-plaintext highlighter-rouge">--</code> turns the rest of the line into a comment in SQL.</li>
+  <li data-marker="*">Another 问题 with 数据库 is <strong>race conditions</strong>, where code in a multi-threaded environment can be comingled, or mixed together, in each thread.</li>
+  <li data-marker="*">One 示例 is a popular post getting lots of likes. A server might try to increment the number of likes, asking the database for the current number of likes, adding one, and updating the value in the database:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rows</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">SELECT likes FROM posts WHERE id = ?</span><span class="sh">"</span><span class="p">,</span> <span class="nb">id</span><span class="p">);</span>
+<span class="n">likes</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="sh">"</span><span class="s">likes</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">UPDATE posts SET likes = ? WHERE id = ?</span><span class="sh">"</span><span class="p">,</span> <span class="n">likes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="p">);</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">But for applications with multiple servers, each of them might by trying to add likes 在 the same 时间. Two servers, responding to two different users, might get the same starting number of likes since the first line of code runs 在 the same 时间 on each server. Then, both will set the same 新内容 number of likes, even though there should have been two separate increments.</li>
+    </ul>
+  </li>
+  <li data-marker="*">To solve this 问题, SQL supports <strong>transactions</strong>, where we can lock rows in a database, such that a particular set of actions are guaranteed to happen together, with syntax like:
+    <ul>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">BEGIN TRANSACTION</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">COMMIT</code></li>
+      <li data-marker="*"><code class="language-plaintext highlighter-rouge">ROLLBACK</code></li>
+    </ul>
+  </li>
+  <li data-marker="*">For 示例, we can fix our 问题 above with:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">BEGIN TRANSACTION</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">SELECT likes FROM posts WHERE id = ?</span><span class="sh">"</span><span class="p">,</span> <span class="nb">id</span><span class="p">);</span>
+<span class="n">likes</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="sh">"</span><span class="s">likes</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">UPDATE posts SET likes = ? WHERE id = ?</span><span class="sh">"</span><span class="p">,</span> <span class="n">likes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="p">);</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="sh">"</span><span class="s">COMMIT</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <ul>
+      <li data-marker="*">The database will ensure that all the queries in between are executed together.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Another 示例 might be of two roommates and a shared fridge in their dorm. The first roommate comes 首页, and sees that there is no milk in the fridge. So the first roommate leaves to the store to buy milk, and while they are 在 the store, the second roommate comes 首页, sees that there is no milk, and leaves for another store to get milk as well. Later, there will be two jugs of milk in the fridge.</li>
+  <li data-marker="*">We can solve this 问题 by locking the fridge so that our roommate can’t check whether there is milk until we’ve gotten 返回.</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../assets/page%EF%B9%961724893223.js"></script>
+
+    
+
+
+</body></html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://cs50.harvard.edu/x/2026/assets/sanders.jpg">
+
+        <meta property="og:title" content="Readability - CS50x 2026">
+
+        <link href="../../../favicon%EF%B9%961779994636.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min%EF%B9%961779994636.js"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994636.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994636.css" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994636.js"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994636.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min%EF%B9%961779994636.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/tex-mml-chtml%EF%B9%961779994636.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994636.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994636.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min%EF%B9%961779994636.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid/dist/mermaid.min%EF%B9%961779994636.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994636.js"></script>
+
+        
+
+        <link href="../../../assets/page%EF%B9%961779994636.css" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50%EF%B9%961779994636.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>可读性 - CS50x 2026</title>
+
+
+    <meta property="og:description" content="Problem to Solve According to Scholastic, E.B. White’s Charlotte’s Web is between a second- and fourth-grade reading level, and Lois Lowry’s The Giver is...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="c817bbf2dd0768585391bff43302d9c8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>这是 CS50x 2026。🎉 想知道你在 2025 年完成的作业如何计入 2026 课程吗？如果你是在 2025 年或更早开始学习，请查看我们的 <a href="../../../faqs/index.html#if-i-started-cs50x-before-this-calendar-year-can-i-resume">常见问题</a>。对 <a href="../../../index.html#how-to-take-this-course">认证证书、专业证书、转学分或认证</a> 感兴趣吗？</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-is-cs50"><a href="../../../index.html">This is CS50</a></h1>
+
+<h2 class="text-white" data-id="cs50s-introduction-to-computer-science">CS50’s 计算机科学导论</h2>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Highlights -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="../../../../workshop/2025/index.html">CS50 Educator 工作坊</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ul>
+  <li data-marker="*">
+<a href="../../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*">
+<a href="../../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*">
+<a href="../../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*">
+<a href="../../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*">
+<a href="../../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*">
+<a href="../../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*">
+<a href="../../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*">
+<a href="../../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../../weeks/ai/index.html" class="small">人工智能</a></li>
+  <li data-marker="*">
+<a href="../../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*">
+<a href="../../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*">
+<a href="../../../weeks/10/index.html">第 10 周</a> The End</li>
+</ul>
+<ul class="small">
+  <li data-marker="*"><a href="../../../practice/index.html"><i class="fa-solid fa-rocket pe-2 text-decoration-none"></i>Additional Practice</a></li>
+</ul>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../../gallery/index.html">作品集 of Final 项目<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
+  <li data-marker="*"><a href="../../../seminars/index.html">研讨课</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50x">成绩册</a></li>
+  <li data-marker="*"><a href="../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="../../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/50">哈佛继续教育学院</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/50">Harvard 夏季 School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">代码风格指南</a></li>
+</ul>
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="readability">可读性</h1>
+
+<p class="w-25"><img src="charlottes_web.jpg" alt="《夏洛的网》封面"></p>
+
+<h2 id="problem-to-solve">要解决的问题</h2>
+
+<p>根据 <a href="https://www.scholastic.com/teachers/teaching-tools/collections/guided-reading-book-lists-for-every-level.html">Scholastic</a> 的资料，E. B. White 的 <em>Charlotte’s Web</em> 大约适合二到四年级阅读，而 Lois Lowry 的 <em>The Giver</em> 大约适合八到十二年级阅读。不过，一本书处于某个阅读年级水平，究竟是什么意思呢？</p>
+
+<p>很多时候，人类专家可能会读完一本书，然后判断它最适合哪个年级（也就是学校中的哪一年级）。但算法也很可能做到这一点！</p>
+
+<p>请在名为 <code class="language-plaintext highlighter-rouge">readability</code> 的文件夹中创建 <code class="language-plaintext highlighter-rouge">readability.c</code> 文件，并实现一个程序，计算理解某段文本大约需要的年级水平。程序应输出 “Grade X”，其中 “X” 是计算出的年级，四舍五入到最接近的整数。如果年级为 16 或更高（相当于或高于本科高年级阅读水平），程序应输出 “Grade 16+”，而不是精确数字。如果年级低于 1，程序应输出 “Before Grade 1”。</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="80" data-loop="1" data-rows="12" id="asciicast-2YTPtsNbRP2p4bD4drEjHaoRj" src="https://asciinema.org/a/2YTPtsNbRP2p4bD4drEjHaoRj.js"></script>
+
+<h2 id="background">背景</h2>
+
+<p>那么，较高阅读水平的文本通常有什么特征呢？较长的单词很可能与较高阅读水平相关。同样，较长的句子也很可能与较高阅读水平相关。</p>
+
+<p>多年来，人们开发了许多“可读性测试”，用公式计算一段文本的阅读年级。其中一种可读性测试是 <em>Coleman-Liau 指数</em>。Coleman-Liau 指数用于输出理解某段文本所需的（美国）年级水平。公式如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>index = 0.0588 * L - 0.296 * S - 15.8
+</code></pre></div></div>
+
+<p>其中 <code class="language-plaintext highlighter-rouge">L</code> 表示文本中每 100 个单词的平均字母数，<code class="language-plaintext highlighter-rouge">S</code> 表示文本中每 100 个单词的平均句子数。</p>
+
+<h2 id="advice">建议</h2>
+
+<details><summary>先写一些你确定能编译的代码</summary><div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>注意，你现在已经包含了一些头文件，这些头文件会让你能使用一些可能帮助你解决本题的函数。</p></details>
+
+<details><summary>在继续写更多代码前，先写一些伪代码</summary><p>如果你还不确定如何解决这个问题，可以先把它拆成几个你大概能解决的小问题。例如，这个问题其实只包含少数几个步骤：</p>
+
+<ol>
+  <li>提示用户输入一段文本</li>
+  <li>统计文本中的字母数、单词数和句子数</li>
+  <li>计算 Coleman-Liau 指数</li>
+  <li>输出年级水平</li>
+</ol>
+
+<p>我们可以把这些步骤写成注释形式的伪代码，提醒自己要完成什么：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for some text</span>
+
+    <span class="c1">// Count the number of letters, words, and sentences in the text</span>
+
+    <span class="c1">// Compute the Coleman-Liau index</span>
+
+    <span class="c1">// Print the grade level</span>
+<span class="p">}</span>
+</code></pre></div></div></details>
+
+<details><summary>把伪代码转换成代码</summary><p>首先，思考如何提示用户输入一段文本。回忆一下，CS50 库中的 <code class="language-plaintext highlighter-rouge">get_string</code> 函数可以提示用户输入字符串。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for some text</span>
+    <span class="n">string</span> <span class="n">text</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Text: "</span><span class="p">);</span>
+
+    <span class="c1">// Count the number of letters, words, and sentences in the text</span>
+
+    <span class="c1">// Compute the Coleman-Liau index</span>
+
+    <span class="c1">// Print the grade level</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>现在你已经从用户那里收集了输入，可以开始分析它。首先，尝试统计文本中的字母数。这里的字母指大写或小写英文字母，不包括标点、数字或其他符号。</p>
+
+<p>一种做法是创建一个名为 <code class="language-plaintext highlighter-rouge">count_letters</code> 的函数，接受字符串 <code class="language-plaintext highlighter-rouge">text</code> 作为输入，并以 <code class="language-plaintext highlighter-rouge">int</code> 形式返回该文本中的字母数。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of letters in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>你需要自己编写代码来统计文本中的字母数。不过，已经有人写好了用于判断字符是否为字母的函数。这正好是使用 <a href="https://manual.cs50.io/">CS50 manual</a> 的好机会；它汇集了 C 标准库中常用函数的说明。</p>
+
+<p>你可以像下面这样，把 <code class="language-plaintext highlighter-rouge">count_letters</code> 整合进已经写好的代码。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for some text</span>
+    <span class="n">string</span> <span class="n">text</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Text: "</span><span class="p">);</span>
+
+    <span class="c1">// Count the number of letters, words, and sentences in the text</span>
+    <span class="kt">int</span> <span class="n">letters</span> <span class="o">=</span> <span class="n">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+
+    <span class="c1">// Compute the Coleman-Liau index</span>
+
+    <span class="c1">// Print the grade level</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of letters in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>接下来，编写一个统计单词数的函数。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of words in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>在本题中，我们把由空格分隔的任意字符序列视为一个单词（因此像 “sister-in-law” 这样的连字符单词应算作一个单词，而不是三个）。你可以假设一个句子：</p>
+
+<ul>
+  <li data-marker="*">至少包含一个单词；</li>
+  <li data-marker="*">不会以空格开头或结尾；并且</li>
+  <li data-marker="*">不会连续出现多个空格。</li>
+</ul>
+
+<p>在这些假设下，你也许能找出单词数量和空格数量之间的关系。当然，也欢迎你尝试写出能够处理单词之间多个空格，甚至完全没有单词的解法！</p>
+
+<p>现在可以像下面这样，把 <code class="language-plaintext highlighter-rouge">count_words</code> 整合进你的程序：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for some text</span>
+    <span class="n">string</span> <span class="n">text</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Text: "</span><span class="p">);</span>
+
+    <span class="c1">// Count the number of letters, words, and sentences in the text</span>
+    <span class="kt">int</span> <span class="n">letters</span> <span class="o">=</span> <span class="n">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">words</span> <span class="o">=</span> <span class="n">count_words</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+
+    <span class="c1">// Compute the Coleman-Liau index</span>
+
+    <span class="c1">// Print the grade level</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of letters in text</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of words in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>最后，编写一个统计句子数的函数。你可以把任何以 <code class="language-plaintext highlighter-rouge">.</code>、<code class="language-plaintext highlighter-rouge">!</code> 或 <code class="language-plaintext highlighter-rouge">?</code> 结尾的字符序列视为一个句子。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">count_sentences</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of sentences in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>你可以像下面这样，把 <code class="language-plaintext highlighter-rouge">count_sentences</code> 整合进你的程序：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">count_sentences</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Prompt the user for some text</span>
+    <span class="n">string</span> <span class="n">text</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Text: "</span><span class="p">);</span>
+
+    <span class="c1">// Count the number of letters, words, and sentences in the text</span>
+    <span class="kt">int</span> <span class="n">letters</span> <span class="o">=</span> <span class="n">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">words</span> <span class="o">=</span> <span class="n">count_words</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">sentences</span> <span class="o">=</span> <span class="n">count_sentences</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+
+    <span class="c1">// Compute the Coleman-Liau index</span>
+
+    <span class="c1">// Print the grade level</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_letters</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of letters in text</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of words in text</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">count_sentences</span><span class="p">(</span><span class="n">string</span> <span class="n">text</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Return the number of sentences in text</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>最后，计算 Coleman-Liau 指数，并输出得到的年级水平。</p>
+
+<ul>
+  <li data-marker="*">记住，Coleman-Liau 指数使用 <code class="language-plaintext highlighter-rouge">index = 0.0588 * L - 0.296 * S - 15.8</code> 计算。
+</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">L</code> 是文本中每 100 个单词的平均字母数：也就是字母数除以单词数，再乘以 100。</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">S</code> 是文本中每 100 个单词的平均句子数：也就是句子数除以单词数，再乘以 100。</li>
+  <li data-marker="*">你需要把结果四舍五入到最接近的整数；根据 <a href="https://manual.cs50.io/">manual.cs50.io</a>，<code class="language-plaintext highlighter-rouge">round</code> 声明在 <code class="language-plaintext highlighter-rouge">math.h</code> 中。</li>
+  <li data-marker="*">记住，在 C 中对 <code class="language-plaintext highlighter-rouge">int</code> 类型的值做除法，结果也会是 <code class="language-plaintext highlighter-rouge">int</code>，任何余数（也就是小数点后的数字）都会被丢弃。换句话说，结果会被“截断”。在计算 <code class="language-plaintext highlighter-rouge">L</code> 和 <code class="language-plaintext highlighter-rouge">S</code> 时，你可能需要先把一个或多个值转换为 <code class="language-plaintext highlighter-rouge">float</code>！</li>
+</ul>
+
+<p>如果得到的指数为 16 或更高（相当于大学高年级或更高的阅读水平），程序应输出 “Grade 16+”，而不是输出精确的指数。如果指数小于 1，程序应输出 “Before Grade 1”。</p></details>
+
+<h2 id="walkthrough">讲解视频</h2>
+
+<div class="ratio ratio-16x9" data-video=""><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://www.youtube.com/embed/AOVyZEh9zgE?modestbranding=0&amp;rel=0&amp;showinfo=0"></iframe></div>
+
+<h2 id="how-to-test">如何测试</h2>
+
+<p>请用以下文本运行你的程序，确保输出指定的年级水平。复制时请只复制文本本身，不要包含额外空格。</p>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">One fish. Two fish. Red fish. Blue fish.</code> (Before Grade 1)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Would you like them here or there? I would not like them here or there. I would not like them anywhere.</code> (Grade 2)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Congratulations! Today is your day. You're off to Great Places! You're off and away!</code> (Grade 3)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Harry Potter was a highly unusual boy in many ways. For one thing, he hated the summer holidays more than any other time of year. For another, he really wanted to do his homework, but was forced to do it in secret, in the dead of the night. And he also happened to be a wizard.</code> (Grade 5)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.</code> (Grade 7)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, "and what is the use of a book," thought Alice "without pictures or conversation?"</code> (Grade 8)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">When he was nearly thirteen, my brother Jem got his arm badly broken at the elbow. When it healed, and Jem's fears of never being able to play football were assuaged, he was seldom self-conscious about his injury. His left arm was somewhat shorter than his right; when he stood or walked, the back of his hand was at right angles to his body, his thumb parallel to his thigh.</code> (Grade 8)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">There are more things in Heaven and Earth, Horatio, than are dreamt of in your philosophy.</code> (Grade 9)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.</code> (Grade 10)</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">A large class of computational problems involve the determination of properties of graphs, digraphs, integers, arrays of integers, finite families of finite sets, boolean formulas and elements of other countable domains.</code> (Grade 16+)</li>
+</ul>
+
+<h3 id="correctness">正确性</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2026/x/readability
+</code></pre></div></div>
+
+<h3 id="style">代码风格</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>style50 readability.c
+</code></pre></div></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<p>在终端中执行以下命令提交你的作业，并按提示完成操作。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2026/x/readability
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page%EF%B9%961779994636.js"></script>
+
+    
+
+
+</body></html>

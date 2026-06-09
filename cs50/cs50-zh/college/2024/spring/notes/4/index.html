@@ -1,0 +1,1246 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="Introduction to the intellectual enterprises of computer science and the art of programming. This course teaches students how to think algorithmically and solve problems efficiently. Topics include abstraction, algorithms, data structures, encapsulation, resource management, security, and software engineering. Languages include C, Python, and SQL plus HTML, CSS, and JavaScript. Problem sets inspired by the arts, humanities, social sciences, and sciences. Course culminates in a final project.">
+
+        <meta property="og:image" content=""><meta property="og:title" content="Lecture 4 - CS50">
+
+        <link href="../../favicon%EF%B9%961722906954.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961722906954.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961722906954.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961722906954.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961722906954.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/es5/tex-chtml%EF%B9%961722906954.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/intersection-observer/intersection-observer%EF%B9%961722906954.js"></script>
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../assets/iframe-resizer/js/iframeResizer.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/twemoji/dist/twemoji.min%EF%B9%961722906954.js"></script>
+
+        <!-- https://www.algolia.com/doc/guides/building-search-ui/installation/js/ -->
+        <script src="../../assets/algoliasearch/dist/algoliasearch-lite.umd%EF%B9%961722906954.js"></script>
+        <script src="../../assets/instantsearch.js/dist/instantsearch.production.min%EF%B9%961722906954.js"></script>
+
+        <link href="../../assets/page%EF%B9%961722906954.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961722906954.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"short","timeZoneName":"short","weekday":"short"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>讲座 4 - CS50</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="038dc553b38c9652658432753ee61015" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>This is 春季 2024 of CS50 at 哈佛学院. Looking for <a href="../../../fall/index.html">秋季 2024</a>? Or looking for <a href="https://cs50.edx.org/">CS50x on edX</a>? Or <a href="../../../../../x/index.html">CS50’s own OpenCourseWare</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="this-was-cs50"><a href="../../index.html">This was CS50</a></h1>
+
+<p><a href="https://www.college.harvard.edu/">哈佛学院</a><br>
+春季 2024</p></header>
+
+                    <button class="btn btn-link d-block ps-0 pt-0" data-search="" data-bs-target="#search" data-bs-toggle="modal" type="button">
+                        <i class="fas fa-search pe-2"></i>搜索
+                    </button>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="../../ed/index.html"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../weeks/0/index.html">第 0 周</a> Scratch</li>
+  <li data-marker="*"><a href="../../weeks/1/index.html">第 1 周</a> C</li>
+  <li data-marker="*"><a href="../../weeks/2/index.html">第 2 周</a> Arrays</li>
+  <li data-marker="*"><a href="../../weeks/3/index.html">第 3 周</a> 算法</li>
+  <li data-marker="*"><a href="../../weeks/4/index.html">第 4 周</a> 内存</li>
+  <li data-marker="*"><a href="../../weeks/5/index.html">第 5 周</a> 数据结构</li>
+  <li data-marker="*"><a href="../../weeks/6/index.html">第 6 周</a> Python</li>
+  <li data-marker="*"><a href="../../weeks/7/index.html">第 7 周</a> SQL</li>
+  <li data-marker="*"><a href="../../weeks/8/index.html">第 8 周</a> HTML, CSS, JavaScript</li>
+  <li data-marker="*"><a href="../../weeks/9/index.html">第 9 周</a> Flask</li>
+  <li data-marker="*"><a href="../../weeks/10/index.html">第 10 周</a> 网络安全</li>
+  <li data-marker="*"><a href="../../weeks/11/index.html">周 11</a> 人工智能</li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../index.html#announcements">Announcements</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*"><a href="../../hours/index.html">答疑时间</a></li>
+  <li data-marker="*"><a href="../../psets/index.html">问题集</a></li>
+  <li data-marker="*"><a href="../../sections/index.html">小组课</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*"><a href="https://forms.cs50.io/d78507b0-cda6-42cb-8171-a845cfd6ab1f">Study Buddies</a></li>
+  <li data-marker="*"><a href="../../syllabus/index.html">教学大纲</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://manual.cs50.io/">CS50 Manual Pages</a></li>
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">CS50 Status Page</a></li>
+</ul></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 class="no_toc" id="lecture-4">讲座 4</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#welcome" id="markdown-toc-welcome">欢迎!</a></li>
+  <li><a href="#pixel-art" id="markdown-toc-pixel-art">Pixel Art</a></li>
+  <li><a href="#hexadecimal" id="markdown-toc-hexadecimal">Hexadecimal</a></li>
+  <li><a href="#memory" id="markdown-toc-memory">内存</a></li>
+  <li><a href="#pointers" id="markdown-toc-pointers">指针</a></li>
+  <li><a href="#strings" id="markdown-toc-strings">Strings</a></li>
+  <li><a href="#pointer-arithmetic" id="markdown-toc-pointer-arithmetic">Pointer Arithmetic</a></li>
+  <li><a href="#string-comparison" id="markdown-toc-string-comparison">String Comparison</a></li>
+  <li><a href="#copying" id="markdown-toc-copying">Copying</a></li>
+  <li><a href="#malloc-and-valgrind" id="markdown-toc-malloc-and-valgrind">malloc and Valgrind</a></li>
+  <li><a href="#garbage-values" id="markdown-toc-garbage-values">Garbage Values</a></li>
+  <li><a href="#pointer-fun-with-binky" id="markdown-toc-pointer-fun-with-binky">Pointer Fun with Binky</a></li>
+  <li><a href="#swap" id="markdown-toc-swap">Swap</a></li>
+  <li><a href="#overflow" id="markdown-toc-overflow">Overflow</a></li>
+  <li><a href="#scanf" id="markdown-toc-scanf"><code class="language-plaintext highlighter-rouge">scanf</code></a></li>
+  <li><a href="#file-io" id="markdown-toc-file-io">File I/O</a></li>
+  <li><a href="#summing-up" id="markdown-toc-summing-up">Summing Up</a></li>
+</ul>
+
+<h2 id="welcome">欢迎!</h2>
+
+<ul>
+  <li data-marker="*">In 上一页 周次, we talked 关于 images being made of smaller building blocks called pixels.</li>
+  <li data-marker="*">Today, we will go into further detail 关于 the zeros and ones that make up these images. In particular, we will be going deeper into the fundamental building blocks that make up files, including images.</li>
+  <li data-marker="*">Further, we will discuss how to access the underlying data stored in computer 内存.</li>
+</ul>
+
+<h2 id="pixel-art">Pixel Art</h2>
+
+<ul>
+  <li data-marker="*">Pixels are squares, individual dots, of color that are arranged on an up-down, left-right grid.</li>
+  <li data-marker="*">
+    <p>You can imagine as an image as a map of bits, where zeros represent black and ones represent white.</p>
+
+    <p><img src="cs50Week4Slide015.png" alt="Zeros and ones being converted to a black and white smiley" title="smiley"></p>
+  </li>
+  <li data-marker="*">
+    <p><em>RGB</em>, or <em>red, green, blue</em>, are numbers that represent the amount of each of these colors. In Adobe Photoshop, you can see these settings as follows:</p>
+
+    <p><img src="cs50Week4Slide016.png" alt="A photoshop panel with RGB values and hexidecimal input" title="hex in photoshop"></p>
+
+    <p>Notice how the amount of red, blue, and green changes the color selected.</p>
+  </li>
+  <li data-marker="*">You can see by the image above that color is not just represented in three values. At the bottom of the window, there is a special value made up of numbers and characters. <code class="language-plaintext highlighter-rouge">255</code> is represented as <code class="language-plaintext highlighter-rouge">FF</code>. Why might this be?</li>
+</ul>
+
+<h2 id="hexadecimal">Hexadecimal</h2>
+
+<ul>
+  <li data-marker="*">
+    <p><em>Hexadecimal</em> is a system of counting that has 16 counting values. They are as follows:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  0 1 2 3 4 5 6 7 8 9 a b c d e f
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">F</code> represents <code class="language-plaintext highlighter-rouge">15</code>.</p>
+  </li>
+  <li data-marker="*">Hexadecimal is also known as <em>base-16</em>.</li>
+  <li data-marker="*">When counting in hexadecimal, each column is a power of 16.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">0</code> is represented as <code class="language-plaintext highlighter-rouge">00</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">1</code> is represented as <code class="language-plaintext highlighter-rouge">01</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">9</code> is represented by <code class="language-plaintext highlighter-rouge">09</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">10</code> is represented as <code class="language-plaintext highlighter-rouge">0A</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">15</code> is represented as <code class="language-plaintext highlighter-rouge">0F</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">16</code> is represented as <code class="language-plaintext highlighter-rouge">10</code>.</li>
+  <li data-marker="*">The number <code class="language-plaintext highlighter-rouge">255</code> is represented as <code class="language-plaintext highlighter-rouge">FF</code>, because 16 x 15 (or <code class="language-plaintext highlighter-rouge">F</code>) is 240. Add 15 更多 to make 255. This is the highest number you can count using a two-digit hexadecimal system.</li>
+  <li data-marker="*">Hexadecimal is useful because it can be represented using fewer digits. Hexadecimal allows us to represent information 更多 succinctly.</li>
+</ul>
+
+<h2 id="memory">内存</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>In 周次 past, you 五月 recall our artist rendering of concurrent blocks of 内存. Applying hexadecimal numbering to each of these blocks of 内存, you can visualize these as follows:</p>
+
+    <p><img src="cs50Week4Slide065.png" alt="Blocks of 内存 numbered in hex" title="内存 hex"></p>
+  </li>
+  <li data-marker="*">
+    <p>You can imagine how there 五月 be confusion regarding whether the <code class="language-plaintext highlighter-rouge">10</code> block above 五月 represent a 地点 in 内存 or the value <code class="language-plaintext highlighter-rouge">10</code>. Accordingly, by convention, all hexadecimal numbers are often represented with the <code class="language-plaintext highlighter-rouge">0x</code> prefix as follows:</p>
+
+    <p><img src="cs50Week4Slide066.png" alt="blocks of 内存 numbered in hex with 0x" title="0x"></p>
+  </li>
+  <li data-marker="*">
+    <p>In your terminal window, type <code class="language-plaintext highlighter-rouge">code addresses.c</code> and write your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice how <code class="language-plaintext highlighter-rouge">n</code> is stored in 内存 with the value <code class="language-plaintext highlighter-rouge">50</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can visualize how this program stores this value as follows:</p>
+
+    <p><img src="cs50Week4Slide070.png" alt="the value 50 stored in a 内存 地点 with hex" title="hex"></p>
+  </li>
+  <li data-marker="*">
+    <p>The <code class="language-plaintext highlighter-rouge">C</code> language has two powerful operators that relate to 内存:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &amp; Provides the address of something stored in memory.
+  * Instructs the compiler to go to a location in memory.
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">
+    <p>We can leverage this knowledge by modifying our code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice the <code class="language-plaintext highlighter-rouge">%p</code>, which allows us to view the address of a 地点 in 内存. <code class="language-plaintext highlighter-rouge">&amp;n</code> can be literally translated as “the address of <code class="language-plaintext highlighter-rouge">n</code>.” Executing this code will return an address of 内存 beginning with <code class="language-plaintext highlighter-rouge">0x</code>.</p>
+  </li>
+</ul>
+
+<h2 id="pointers">指针</h2>
+
+<ul>
+  <li data-marker="*">A <em>pointer</em> is a variable that contains the address of some value. Most succinctly, a pointer is an address in your computer’s 内存.</li>
+  <li data-marker="*">
+    <p>Consider the following code:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">;</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">p</code> is a pointer that contains the address of an integer <code class="language-plaintext highlighter-rouge">n</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>Modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this code has the same effect as our 上一页 code. We have simply leveraged our new knowledge of the <code class="language-plaintext highlighter-rouge">&amp;</code> and <code class="language-plaintext highlighter-rouge">*</code> operators.</p>
+  </li>
+  <li data-marker="*">
+    <p>To illustrate the use of the <code class="language-plaintext highlighter-rouge">*</code> operator, consider the following:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">printf</code> line prints the integer at the 地点 of <code class="language-plaintext highlighter-rouge">p</code>. <code class="language-plaintext highlighter-rouge">int *p</code> creates a pointer whose job is to store the 内存 address of an integer.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can visualize our code as follows:</p>
+
+    <p><img src="cs50Week4Slide078.png" alt="Same value of 50 in a 内存 地点 with a pointer value stored elsewhere" title="pointer"></p>
+
+    <p>Notice the pointer seems rather large. Indeed, a pointer is usually stored as an 8-byte value. <code class="language-plaintext highlighter-rouge">p</code> is storing the address of the <code class="language-plaintext highlighter-rouge">50</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can 更多 accurately visualize a pointer as one address that points to another:</p>
+
+    <p><img src="cs50Week4Slide079.png" alt="A pointer as an arrow, pointing from one 地点 of 内存 to another" title="pointer"></p>
+  </li>
+</ul>
+
+<h2 id="strings">Strings</h2>
+
+<ul>
+  <li data-marker="*">Now that we have a mental model for 指针, we can peel 返回 a level of simplification that was offered earlier in this 课程.</li>
+  <li data-marker="*">
+    <p>Recall that a string is simply an array of characters. For 示例, <code class="language-plaintext highlighter-rouge">string s = "HI!"</code> can be represented as follows:</p>
+
+    <p><img src="cs50Week4Slide085.png" alt="The string HI with an exclaimation point stored in 内存" title="hi"></p>
+  </li>
+  <li data-marker="*">
+    <p>However, what is <code class="language-plaintext highlighter-rouge">s</code> really? Where is the <code class="language-plaintext highlighter-rouge">s</code> stored in 内存? As you can imagine, <code class="language-plaintext highlighter-rouge">s</code> needs to be stored somewhere. You can visualize the relationship of <code class="language-plaintext highlighter-rouge">s</code> to the string as follows:</p>
+
+    <p><img src="cs50Week4Slide086.png" alt="Same string HI with a pointer pointing to it" title="hi pointer"></p>
+
+    <p>Notice how a pointer called <code class="language-plaintext highlighter-rouge">s</code> tells the compiler where the first byte of the string exists in 内存.</p>
+  </li>
+  <li data-marker="*">
+    <p>Modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"HI!"</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice the above prints the 内存 locations of each character in the string <code class="language-plaintext highlighter-rouge">s</code>. The <code class="language-plaintext highlighter-rouge">&amp;</code> symbol is used to show the address of each element of the string. When running this code, notice that elements <code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">1</code>, <code class="language-plaintext highlighter-rouge">2</code>, and <code class="language-plaintext highlighter-rouge">3</code> are 下一页 to one another in 内存.</p>
+  </li>
+  <li data-marker="*">
+    <p>Likewise, you can modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="s">"HI!"</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this code will present the string that starts at the 地点 of <code class="language-plaintext highlighter-rouge">s</code>. This code effectively removes the training wheels of the <code class="language-plaintext highlighter-rouge">string</code> data type offered by <code class="language-plaintext highlighter-rouge">cs50.h</code>. This is raw C code, without the scaffolding of the cs50 library.</p>
+  </li>
+  <li data-marker="*">You can imagine how a string, as a data type, is created.</li>
+  <li data-marker="*">Last 周, we learned how to create your own data type as a struct.</li>
+  <li data-marker="*">The cs50 library includes a struct as follows: <code class="language-plaintext highlighter-rouge">typedef char *string</code></li>
+  <li data-marker="*">This struct, when using the cs50 library, allows one to use a custom data type called <code class="language-plaintext highlighter-rouge">string</code>.</li>
+</ul>
+
+<h2 id="pointer-arithmetic">Pointer Arithmetic</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>You can modify your code to accomplish the same thing in a longer form as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="s">"HI!"</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that we are printing each character at the 地点 of <code class="language-plaintext highlighter-rouge">s</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>Further, you can modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="s">"HI!"</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">2</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that the first character at the 地点 of <code class="language-plaintext highlighter-rouge">s</code> is printed. Then, the character at the 地点 <code class="language-plaintext highlighter-rouge">s + 1</code> is printed, and so on.</p>
+  </li>
+</ul>
+
+<h2 id="string-comparison">String Comparison</h2>
+
+<ul>
+  <li data-marker="*">A string of characters is simply an array of characters identified by its first byte.</li>
+  <li data-marker="*">
+    <p>Earlier in the 课程, we considered the comparison of integers. We could represent this in code by typing <code class="language-plaintext highlighter-rouge">code compare.c</code> into the terminal window and writing code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get two integers</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">get_int</span><span class="p">(</span><span class="s">"i: "</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">get_int</span><span class="p">(</span><span class="s">"j: "</span><span class="p">);</span>
+
+    <span class="c1">// Compare integers</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Same</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Different</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this code takes two integers from the user and compares them.</p>
+  </li>
+  <li data-marker="*">In the case of strings, however, one cannot compare two strings using the <code class="language-plaintext highlighter-rouge">==</code> operator.</li>
+  <li data-marker="*">Utilizing the <code class="language-plaintext highlighter-rouge">==</code> operator in an attempt to compare strings will attempt to compare the 内存 locations of the strings instead of the characters therein. Accordingly, we recommended the use of <code class="language-plaintext highlighter-rouge">strcmp</code>.</li>
+  <li data-marker="*">
+    <p>To illustrate this, modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get two strings</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"t: "</span><span class="p">);</span>
+
+    <span class="c1">// Compare strings' addresses</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Same</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Different</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Noticing that typing in <code class="language-plaintext highlighter-rouge">HI!</code> for both strings still results in the output of <code class="language-plaintext highlighter-rouge">Different</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>Why are these strings seemingly different? You can use the following to visualize why:</p>
+
+    <p><img src="cs50Week4Slide115.png" alt="two strings stored separately in 内存" title="two strings"></p>
+  </li>
+  <li data-marker="*">Therefore, the code for <code class="language-plaintext highlighter-rouge">compare.c</code> above is actually attempting to see if the 内存 addresses are different: not the strings themselves.</li>
+  <li data-marker="*">
+    <p>Using <code class="language-plaintext highlighter-rouge">strcmp</code>, we can correct our code:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get two strings</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"t: "</span><span class="p">);</span>
+
+    <span class="c1">// Compare strings</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Same</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Different</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">strcmp</code> can return <code class="language-plaintext highlighter-rouge">0</code> if the strings are the same.</p>
+  </li>
+  <li data-marker="*">
+    <p>To further illustrate how these two strings are living in two locations, modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get two strings</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"t: "</span><span class="p">);</span>
+
+    <span class="c1">// Print strings</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice how we now have two separate strings stored likely at two separate locations.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can see the locations of these two stored strings with a small modification:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get two strings</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"t: "</span><span class="p">);</span>
+
+    <span class="c1">// Print strings' addresses</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that the <code class="language-plaintext highlighter-rouge">%s</code> has been changed to <code class="language-plaintext highlighter-rouge">%p</code> in the print statement.</p>
+  </li>
+</ul>
+
+<h2 id="copying">Copying</h2>
+<ul>
+  <li data-marker="*">A common need in 编程 is to copy one string to another.</li>
+  <li data-marker="*">
+    <p>In your terminal window, type <code class="language-plaintext highlighter-rouge">code copy.c</code> and write code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+
+    <span class="c1">// Copy string's address</span>
+    <span class="n">string</span> <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+
+    <span class="c1">// Capitalize first letter in string</span>
+    <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// Print string twice</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">string t = s</code> copies the address of <code class="language-plaintext highlighter-rouge">s</code> to <code class="language-plaintext highlighter-rouge">t</code>. This does not accomplish what we are desiring. The string is not copied – only the address is.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can visualize the above code as follows:</p>
+
+    <p><img src="cs50Week4Slide124.png" alt="two 指针 pointing at the same 内存 地点 with a string" title="two strings"></p>
+
+    <p>Notice that <code class="language-plaintext highlighter-rouge">s</code> and <code class="language-plaintext highlighter-rouge">t</code> are still pointing at the same blocks of 内存. This is not an authentic copy of a string. Instead, these are two 指针 pointing at the same string.</p>
+  </li>
+  <li data-marker="*">
+    <p>Before we address this challenge, it’s important to ensure that we don’t experience a <em>segmentation fault</em> through our code, where we attempt to copy <code class="language-plaintext highlighter-rouge">string s</code> to <code class="language-plaintext highlighter-rouge">string t</code>, where <code class="language-plaintext highlighter-rouge">string t</code> does not exist. We can employ the <code class="language-plaintext highlighter-rouge">strlen</code> function as follows to assist with that:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+
+    <span class="c1">// Copy string's address</span>
+    <span class="n">string</span> <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+
+    <span class="c1">// Capitalize first letter in string</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Print string twice</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">strlen</code> is used to make sure <code class="language-plaintext highlighter-rouge">string t</code> exists. If it does not, nothing will be copied.</p>
+  </li>
+  <li data-marker="*">
+    <p>To be able to make an authentic copy of the string, we will need to introduce two new building blocks. First, <code class="language-plaintext highlighter-rouge">malloc</code> allows you, the programmer, to allocate a block of a specific size of 内存. Second, <code class="language-plaintext highlighter-rouge">free</code> allows you to tell the compiler to <em>free up</em> that block of 内存 you previously allocated.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can modify our code to create an authentic copy of our string as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+
+    <span class="c1">// Allocate memory for another string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// Copy string into memory, including '\0'</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Capitalize copy</span>
+    <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// Print strings</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">malloc(strlen(s) + 1)</code> creates a block of 内存 that is the length of the string <code class="language-plaintext highlighter-rouge">s</code> plus one. This allows for the inclusion of the <em>null</em> <code class="language-plaintext highlighter-rouge">\0</code> character in our final, copied string. Then, the <code class="language-plaintext highlighter-rouge">for</code> loop walks through the string <code class="language-plaintext highlighter-rouge">s</code> and assigns each value to that same 地点 on the string <code class="language-plaintext highlighter-rouge">t</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>It turns out that there is an inefficiency in our code. Modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+
+    <span class="c1">// Allocate memory for another string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// Copy string into memory, including '\0'</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Capitalize copy</span>
+    <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// Print strings</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">n = strlen(s)</code> is defined now in the left-hand side of the <code class="language-plaintext highlighter-rouge">for loop</code>. It’s best not to call unneeded functions in the middle condition of the <code class="language-plaintext highlighter-rouge">for</code> loop, as it will run over and over again. When moving <code class="language-plaintext highlighter-rouge">n = strlen(s)</code> to the left-hand side, the function <code class="language-plaintext highlighter-rouge">strlen</code> only runs once.</p>
+  </li>
+  <li data-marker="*">
+    <p>The <code class="language-plaintext highlighter-rouge">C</code> Language has a built-in function to copy strings called <code class="language-plaintext highlighter-rouge">strcpy</code>. It can be implemented as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+
+    <span class="c1">// Allocate memory for another string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// Copy string into memory</span>
+    <span class="n">strcpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+    <span class="c1">// Capitalize copy</span>
+    <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// Print strings</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that <code class="language-plaintext highlighter-rouge">strcpy</code> does the same work that our <code class="language-plaintext highlighter-rouge">for</code> loop previously did.</p>
+  </li>
+  <li data-marker="*">
+    <p>Both <code class="language-plaintext highlighter-rouge">get_string</code> and <code class="language-plaintext highlighter-rouge">malloc</code> return <code class="language-plaintext highlighter-rouge">NULL</code>, a special value in 内存, in the event that something goes wrong. You can write code that can check for this <code class="language-plaintext highlighter-rouge">NULL</code> condition as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get a string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Allocate memory for another string</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Copy string into memory</span>
+    <span class="n">strcpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+    <span class="c1">// Capitalize copy</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">toupper</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Print strings</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"t: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+
+    <span class="c1">// Free memory</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that if the string obtained is of length <code class="language-plaintext highlighter-rouge">0</code> or malloc fails, <code class="language-plaintext highlighter-rouge">NULL</code> is returned. Further, notice that <code class="language-plaintext highlighter-rouge">free</code> lets the computer know you are done with this block of 内存 you created via <code class="language-plaintext highlighter-rouge">malloc</code>.</p>
+  </li>
+</ul>
+
+<h2 id="malloc-and-valgrind">malloc and Valgrind</h2>
+
+<ul>
+  <li data-marker="*"><em>Valgrind</em> is a 工具 that can check to see if there are 内存-related issues with your programs wherein you utilized <code class="language-plaintext highlighter-rouge">malloc</code>. Specifically, it checks to see if you <code class="language-plaintext highlighter-rouge">free</code> all the 内存 you allocated.</li>
+  <li data-marker="*">
+    <p>Consider the following code for <code class="language-plaintext highlighter-rouge">memory.c</code>:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">x</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">72</span><span class="p">;</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">73</span><span class="p">;</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that running this program does not cause any errors. While <code class="language-plaintext highlighter-rouge">malloc</code> is used to allocate enough 内存 for an array, the code fails to <code class="language-plaintext highlighter-rouge">free</code> that allocated 内存.</p>
+  </li>
+  <li data-marker="*">If you type <code class="language-plaintext highlighter-rouge">make memory</code> followed by <code class="language-plaintext highlighter-rouge">valgrind ./memory</code>, you will get a report from valgrind that will report where 内存 has been lost as a result of your program. One error that valgrind reveals is that we attempted to assign the value of <code class="language-plaintext highlighter-rouge">33</code> at the 4th position of the array, where we only allocated an array of size <code class="language-plaintext highlighter-rouge">3</code>. Another error is that we never freed <code class="language-plaintext highlighter-rouge">x</code>.</li>
+  <li data-marker="*">
+    <p>You can modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">x</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">72</span><span class="p">;</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">73</span><span class="p">;</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span><span class="p">;</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that running valgrind again now results in no 内存 leaks.</p>
+  </li>
+</ul>
+
+<h2 id="garbage-values">Garbage Values</h2>
+
+<ul>
+  <li data-marker="*">When you ask the compiler for a block of 内存, there is no guarantee that this 内存 will be empty.</li>
+  <li data-marker="*">
+    <p>It’s very possible that this 内存 that you allocated was previously utilized by the computer. Accordingly, you 五月 see <em>junk</em> or <em>garbage values</em>. This is a result of you getting a block of 内存 but not initializing it. For 示例, consider the following code for <code class="language-plaintext highlighter-rouge">garbage.c</code>:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that running this code will allocate <code class="language-plaintext highlighter-rouge">1024</code> locations in 内存 for your array, but the <code class="language-plaintext highlighter-rouge">for</code> loop will likely show that not all values therein are <code class="language-plaintext highlighter-rouge">0</code>. It’s always best practice to be aware of the potential for garbage values when you do not initialize blocks of 内存 to some other value like zero or otherwise.</p>
+  </li>
+</ul>
+
+<h2 id="pointer-fun-with-binky">Pointer Fun with Binky</h2>
+
+<ul>
+  <li data-marker="*">We watched a <a href="https://www.youtube.com/watch?v=5VnDaHBi8dM">视频 from Stanford University</a> that helped us visualize and understand 指针.</li>
+</ul>
+
+<h2 id="swap">Swap</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>In the real 世界, a common need in 编程 is to swap two values. Naturally, it’s hard to swap two variables without a temporary holding space. In practice, you can type <code class="language-plaintext highlighter-rouge">code swap.c</code> and write code as follows to see this in action:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x is %i, y is %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+    <span class="n">swap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x is %i, y is %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that while this code runs, it does not work. The values, even after being sent to the <code class="language-plaintext highlighter-rouge">swap</code> function, do not swap. Why?</p>
+  </li>
+  <li data-marker="*">
+    <p>When you pass values to a function, you are only providing copies. In 上一页 周次, we discussed the concept of <em>scope</em>. The values of <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code> created in the curly <code class="language-plaintext highlighter-rouge">{}</code> braces of the <code class="language-plaintext highlighter-rouge">main</code> function only have the scope of the <code class="language-plaintext highlighter-rouge">main</code> function. Consider the following image:</p>
+
+    <p><img src="cs50Week4Slide163.png" alt="a rectangle with machine code at top followed by globals heap and stack" title="stack and heap"></p>
+
+    <p>Notice that <em>global</em> variables, which we have not used in this 课程, live in one place in 内存. Various functions are stored in the <code class="language-plaintext highlighter-rouge">stack</code> in another area of 内存.</p>
+  </li>
+  <li data-marker="*">
+    <p>Now, consider the following image:</p>
+
+    <p><img src="cs50Week4Slide167.png" alt="a rectangle with main function at bottom and swap function directly above it" title="frames"></p>
+
+    <p>Notice that <code class="language-plaintext highlighter-rouge">main</code> and <code class="language-plaintext highlighter-rouge">swap</code> have two separate <em>frames</em> or areas of 内存. Therefore, we cannot simply pass the values from one function to another to change them.</p>
+  </li>
+  <li data-marker="*">
+    <p>Modify your code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">b</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x is %i, y is %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+    <span class="n">swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x is %i, y is %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that variables are not passed by <em>value</em> but by <em>reference</em>. That is, the addresses of <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> are provided to the function. Therefore, the <code class="language-plaintext highlighter-rouge">swap</code> function can know where to make changes to the actual <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> from the main function.</p>
+  </li>
+  <li data-marker="*">
+    <p>You can visualize this as follows:</p>
+
+    <p><img src="cs50Week4Slide198.png" alt="a and b stored in main function being passed by reference to the swap function" title="swap by reference"></p>
+  </li>
+</ul>
+
+<h2 id="overflow">Overflow</h2>
+<ul>
+  <li data-marker="*">A <em>heap overflow</em> is when you overflow the heap, touching areas of 内存 you are not supposed to.</li>
+  <li data-marker="*">A <em>stack overflow</em> is when too many functions are called, overflowing the amount of 内存 available.</li>
+  <li data-marker="*">Both of these are considered <em>buffer overflows</em>.</li>
+</ul>
+
+<h2 id="scanf"><code class="language-plaintext highlighter-rouge">scanf</code></h2>
+
+<ul>
+  <li data-marker="*">In CS50, we have created functions like <code class="language-plaintext highlighter-rouge">get_int</code> to simplify the act of getting input from the user.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">scanf</code> is a built-in function that can get user input.</li>
+  <li data-marker="*">
+    <p>We can reimplement <code class="language-plaintext highlighter-rouge">get_int</code> rather easily using <code class="language-plaintext highlighter-rouge">scanf</code> as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x: "</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%i"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"x: %i</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that the value of <code class="language-plaintext highlighter-rouge">x</code> is stored at the 地点 of <code class="language-plaintext highlighter-rouge">x</code> in the line <code class="language-plaintext highlighter-rouge">scanf("%i", &amp;x)</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>However, attempting to reimplement <code class="language-plaintext highlighter-rouge">get_string</code> is not easy. Consider the following:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that no <code class="language-plaintext highlighter-rouge">&amp;</code> is 必需 because strings are special. Still, this program will not function. Nowhere in this program do we allocate the amount of 内存 必需 for our string. Indeed, we don’t know how long of a string 五月 be inputted by the user!</p>
+  </li>
+  <li data-marker="*">
+    <p>Further, your code could be modified as follows. However, we have to pre-allocate a certain amount of 内存 for a string:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that if a string that is six bytes is provided you <em>might</em> get an error.</p>
+  </li>
+  <li data-marker="*">
+    <p>Simplifying our code as follows we can further understand this essential problem of pre-allocation:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: "</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that if we pre-allocate an array of size <code class="language-plaintext highlighter-rouge">4</code>, we can type <code class="language-plaintext highlighter-rouge">cat</code> and the program functions. However, a string larger than this <em>could</em> create an error.</p>
+  </li>
+  <li data-marker="*">Sometimes, the compiler or the system running it 五月 allocate 更多 内存 than we indicate. Fundamentally, though, the above code is unsafe. We cannot trust that the user will input a string that fits into our pre-allocated 内存.</li>
+</ul>
+
+<h2 id="file-io">File I/O</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>You can 阅读 from and manipulate files. While this topic will be discussed further in a future 周, consider the following code for <code class="language-plaintext highlighter-rouge">phonebook.c</code>:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Open CSV file</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"phonebook.csv"</span><span class="p">,</span> <span class="s">"a"</span><span class="p">);</span>
+
+    <span class="c1">// Get name and number</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Name: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">number</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Number: "</span><span class="p">);</span>
+
+    <span class="c1">// Print to file</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%s,%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
+
+    <span class="c1">// Close file</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this code uses 指针 to access the file.</p>
+  </li>
+  <li data-marker="*">You can create a file called <code class="language-plaintext highlighter-rouge">phonebook.csv</code> in advance of running the above code. After running the above program and inputting a 姓名 and phone number, you will notice that this data persists in your CSV file.</li>
+  <li data-marker="*">
+    <p>If we want to ensure that <code class="language-plaintext highlighter-rouge">phonebook.csv</code> exists prior to running the program, we can modify our code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Open CSV file</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"phonebook.csv"</span><span class="p">,</span> <span class="s">"a"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">file</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Get name and number</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Name: "</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">number</span> <span class="o">=</span> <span class="n">get_string</span><span class="p">(</span><span class="s">"Number: "</span><span class="p">);</span>
+
+    <span class="c1">// Print to file</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%s,%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">number</span><span class="p">);</span>
+
+    <span class="c1">// Close file</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this program protects against a <code class="language-plaintext highlighter-rouge">NULL</code> pointer by invoking <code class="language-plaintext highlighter-rouge">return 1</code>.</p>
+  </li>
+  <li data-marker="*">
+    <p>We can implement our own copy program by typing <code class="language-plaintext highlighter-rouge">code cp.c</code> and writing code as follows:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp">
+</span>
+<span class="k">typedef</span> <span class="kt">uint8_t</span> <span class="n">BYTE</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">"rb"</span><span class="p">);</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">"wb"</span><span class="p">);</span>
+
+    <span class="n">BYTE</span> <span class="n">b</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">fread</span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fwrite</span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">fclose</span><span class="p">(</span><span class="n">dst</span><span class="p">);</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+    <p>Notice that this file creates our own data type called a <code class="language-plaintext highlighter-rouge">BYTE</code> that is the size of a <code class="language-plaintext highlighter-rouge">uint8_t</code>. Then, the file reads a <code class="language-plaintext highlighter-rouge">BYTE</code> and writes it to a file.</p>
+  </li>
+  <li data-marker="*">BMPs are also assortments of data that we can examine and manipulate. This 周, you will be doing just that in your 问题集!</li>
+</ul>
+
+<h2 id="summing-up">Summing Up</h2>
+<p>In this lesson, you learned 关于 指针 that provide you with the ability to access and manipulate data at specific 内存 locations. Specifically, we delved into…</p>
+
+<ul>
+  <li data-marker="*">Pixel art</li>
+  <li data-marker="*">Hexadecimal</li>
+  <li data-marker="*">内存</li>
+  <li data-marker="*">指针</li>
+  <li data-marker="*">Strings</li>
+  <li data-marker="*">Pointer Arithmetic</li>
+  <li data-marker="*">String Comparison</li>
+  <li data-marker="*">Copying</li>
+  <li data-marker="*">malloc and Valgrind</li>
+  <li data-marker="*">Garbage values</li>
+  <li data-marker="*">Swapping</li>
+  <li data-marker="*">Overflow</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">scanf</code></li>
+  <li data-marker="*">File I/O</li>
+</ul>
+
+<p>See you 下一页 时间!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="searchTitle" class="markdown-body modal" id="search" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="pe-3 w-100" id="searchbox"></div>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">关闭</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="hits"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            // Before showing searchbox
+            $('#search').on('show.bs.modal', function (e) {
+
+                // Client
+                const searchClient = algoliasearch('5RYPGI69HZ', '53d709e59d833870a6886f6fcf0b0bfe');
+                const search = instantsearch({
+                    indexName: 'cs50-2024-spring-college',
+                    searchClient: searchClient,
+                    searchFunction: function(helper) { // https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/js/#handling-empty-queries
+                        const hits = $('#hits');
+                        if (helper.state.query === '') {
+                            hits.hide();
+                            return;
+                        }
+                        helper.search();
+                        hits.show();
+                    }
+                });
+
+                // searchBox
+                // https://www.algolia.com/doc/api-reference/widgets/search-box/js/
+                search.addWidget(
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        cssClasses: {
+                            input: 'form-control'
+                        },
+                        placeholder: 'Search',
+                        showLoadingIndicator: false,
+                        showReset: false,
+                        showSubmit: false
+                    })
+                );
+
+                // hits
+                // https://www.algolia.com/doc/api-reference/widgets/hits/js/
+                search.addWidget(
+                    instantsearch.widgets.hits({
+                        container: '#hits',
+                        templates: {
+                            item: function(hit) {
+
+                                // url
+                                if (window.baseurl) {
+                                    var url = window.baseurl + hit.url;
+                                }
+                                else {
+                                    var url = hit.url;
+                                }
+                                if (hit.anchor) {
+                                    url += '#' + hit.anchor;
+                                }
+
+                                // title
+                                if (hit._highlightResult && hit._highlightResult.headings) {
+                                    var title = hit._highlightResult.headings[hit._highlightResult.headings.length - 1].value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var title = hit._highlightResult.title.value;
+                                }
+                                else if (hit.headings) {
+                                    var title = hit.headings[hit.headings.length - 1].value;
+                                }
+                                else if (hit.title) {
+                                    var title = hit.title;
+                                }
+                                else {
+                                    var title = url;
+                                }
+
+                                // content
+                                if (hit._highlightResult && hit._highlightResult.content) {
+                                    var content = hit._highlightResult.content.value;
+                                }
+                                else if (hit._highlightResult && hit._highlightResult.title) {
+                                    var content = hit._highlightResult.title.value;
+                                }
+                                else {
+                                    var content = hit.excerpt_text;
+                                }
+
+                                // Template for hit
+                                return '<h2 class="font-weight-bold h3 mb-0">' +
+                                       '<a href="' + url + '">' +
+                                       title +
+                                       '</a>' +
+                                       '</h2>' +
+                                       '<p class="mb-0">' +
+                                       '<a class="text-muted" href="' + url + '">' +
+                                       url +
+                                       '</a>' +
+                                       '</p>' +
+                                       '<p>' + 
+                                       content +
+                                       '</p>';
+                            }
+                        }
+                    })
+                );
+
+                // poweredBy
+                search.addWidget(
+                    instantsearch.widgets.poweredBy({
+                        container: '#search .modal-footer'
+                    })
+                );
+
+                // Let user start searching
+                search.start();
+
+                // Resize form
+                $(window).trigger('resize');
+            });
+
+            // After showing searchbox
+            $('#search').on('shown.bs.modal', function (e) {
+                $('#searchbox input[type=search]').focus();
+            });
+
+        </script>
+        
+ 
+        <script src="../../assets/page%EF%B9%961722906954.js"></script>
+
+    
+
+
+</body></html>

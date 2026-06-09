@@ -1,0 +1,1174 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/3IdOCxHGMIo/maxresdefault.jpg">
+
+        <meta property="og:title" content="Lecture 0: Pong - CS50's Introduction to Game Development">
+
+        <link href="../../favicon%EF%B9%961774189338.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961774189338.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961774189338.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961774189338.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961774189338.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961774189338.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961774189338.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Lecture 0: Pong - CS50's Introduction to Game Development</title>
+
+
+    <meta property="og:description" content="Today’s Topics Lua This is the programming language that we’ll be using predominantly throughout the course. Lua is a dynamic scripting language similar to...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="danger" data-hash="041bb839c66975fff8371a32ecbe5b29" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>CS50 Games (“CS50G”) was retired on 30 June 2024 and is officially deprecated. The material remains here for archive purposes only.</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-game-development"><a href="../../index.html">CS50’s Introduction to Game Development</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://www.linkedin.com/in/colton-ogden-0514029b/">Colton Ogden</a><br>
+<a href="mailto:cogden@cs50.harvard.edu">cogden@cs50.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../weeks/0/index.html">Pong</a></li>
+  <li><a href="../../weeks/1/index.html">Flappy Bird</a></li>
+  <li><a href="../../weeks/2/index.html">Breakout</a></li>
+  <li><a href="../../weeks/3/index.html">Match 3</a></li>
+  <li><a href="../../weeks/4/index.html">Super Mario Bros.</a></li>
+  <li><a href="../../weeks/5/index.html">Legend of Zelda</a></li>
+  <li><a href="../../weeks/6/index.html">Angry Birds</a></li>
+  <li><a href="../../weeks/7/index.html">Pokémon</a></li>
+  <li><a href="../../weeks/8/index.html">Helicopter Game 3D</a></li>
+  <li><a href="../../weeks/9/index.html">Dreadhalls</a></li>
+  <li><a href="../../weeks/10/index.html">Portal</a></li>
+  <li><a href="../../weeks/11/index.html">Portal Problems</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../final/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50g">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/games">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/23a">Harvard Extension School</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/23a">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T383Vx9-4vJYFsJbvZ_D17Qzh">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="lecture-0-pong">Lecture 0: Pong</h1>
+
+<h2 id="todays-topics">Today’s Topics</h2>
+
+<ul>
+  <li data-marker="*">Lua
+    <ul>
+      <li data-marker="*">This is the programming language that we’ll be using predominantly throughout the course. Lua is a dynamic scripting language similar to Python and JavaScript.</li>
+    </ul>
+  </li>
+  <li data-marker="*">LÖVE2D
+    <ul>
+      <li data-marker="*">The primary game framework we’ll be using throughout the course. It works hand in hand with Lua, and you can find documentation for it at <a href="https://love2d.org/wiki/Main_Page">love2d.org/wiki/Main_Page</a>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Drawing Shapes and Text
+    <ul>
+      <li data-marker="*">Two of the most basic principles of game development, being able to draw shapes and text is what will allow us to render our game on a screen.</li>
+    </ul>
+  </li>
+  <li data-marker="*">DeltaTime and Velocity
+    <ul>
+      <li data-marker="*">DeltaTime, arguably one of the most important variables that we keep track of in any game framework, is the time elapsed since the last frame of execution in our game. LÖVE2D measures DeltaTime in terms of seconds, so we’ll see how this concept relates to velocity.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Game State
+    <ul>
+      <li data-marker="*">Every game is composed of a series of states (e.g., the title screen state, gameplay state, menu state, etc.), so it will be important to understand this concept since we’ll want different rendering logic and update logic for each state.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Basic OOP (Object-Oriented Programming)
+    <ul>
+      <li data-marker="*">The use of Object-Oriented Programming will allow us to encapsulate our data and game objects such that each object in our game will be able to keep track of all the information that is relevant to it, as well as have access to specific functions that are unique to it.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Box Collision (Hitboxes)
+    <ul>
+      <li data-marker="*">Understanding the concept of box collision will be necessary in order to bring Pong to life, since we’ll need to be able to “bounce” a ball back and forth between two paddles. The ball and paddles will be rectangular, so we’ll focus on “Axis-Aligned Bounding Boxes,” which will allow us to calculate collisions more simply.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Sound Effects (with bfxr)
+    <ul>
+      <li data-marker="*">Lastly, we’ll learn how to polish up our game with sound effects in order to make it more enticing and immersive.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installing-löve2d">Installing LÖVE2D</h2>
+
+<ul>
+  <li data-marker="*">Before you start following along with the rest of the lecture, be sure to have LÖVE2D installed on your machine, which you can do through the following link:
+    <ul>
+      <li data-marker="*">
+<a href="https://love2d.org/#download">love2d.org/#download</a>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">It’s available for all major operating systems (Windows, Mac, Linux). If you’re in need of some tips for how to get it started running on your machine, check out this link:
+    <ul>
+      <li data-marker="*">
+<a href="https://love2d.org/wiki/Getting_Started">love2d.org/wiki/Getting_Started</a>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="downloading-demo-code">Downloading Demo Code</h2>
+
+<ul>
+  <li data-marker="*">Next, be sure to download the code for today’s lecture, which you can find at:
+    <ul>
+      <li data-marker="*">
+<a href="https://github.com/games50/pong">github.com/games50/pong</a>.</li>
+    </ul>
+  </li>
+  <li data-marker="*">This should make it easier to follow along without having to focus on matching every keystroke in real time.</li>
+</ul>
+
+<h2 id="what-is-lua">What is Lua?</h2>
+
+<ul>
+  <li data-marker="*">“Lua” is Portuguese for “moon.” It was invented in 1993 in Brazil, and is intended for embedded use in larger applications. Since its invention, it has become very popular in the video game industry.</li>
+  <li data-marker="*">It is a flexible, lightweight scripting language focused around “tables,” which are similar to dictionaries in Python and objects in JavaScript.</li>
+  <li data-marker="*">Lua is excellent for storing data as well as code (it benefits from a data-driven design).</li>
+</ul>
+
+<h2 id="what-is-löve2d">What is LÖVE2D?</h2>
+
+<ul>
+  <li data-marker="*">LÖVE2D is a fast 2D game development framework written in C++ that uses Lua as its scripting language.</li>
+  <li data-marker="*">It contains modules for graphics, keyboard input, math, audio, windowing, physics, and much more.</li>
+  <li data-marker="*">Fortunately, it is completely free and portable to all major desktops and Android/iOS.</li>
+  <li data-marker="*">It’s also great for prototyping if you don’t plan on using LÖVE2D in the final version of your game!</li>
+</ul>
+
+<h2 id="what-is-a-game-loop">What is a game loop?</h2>
+
+<ul>
+  <li data-marker="*">A game, fundamentally, is an infinite loop, like a <code class="language-plaintext highlighter-rouge">while(true)</code> or a <code class="language-plaintext highlighter-rouge">while(1)</code>. During every iteration of that loop, we’re repeatedly performing the following set of steps:
+    <ul>
+      <li data-marker="*">First, we’re processing input. That is to say, we’re constantly checking: has the user pressed a key on the keyboard, moved the joystick, moved/clicked the mouse, etc.?</li>
+      <li data-marker="*">Second, we need to respond to that input from the previous step by updating anything in the game that depends on that input (i.e., tracking movement, detecting collisions, etc.).</li>
+      <li data-marker="*">Third, we need to re-render anything that was updated in the previous step, so that the user can see visually on the screen that the game has changed and feel a sense of interactivity.</li>
+    </ul>
+
+    <p><img src="game_loop.png" alt=""></p>
+
+    <p>Photo taken from <a href="http://gameprogrammingpatterns.com/game-loop.html">gameprogrammingpatterns.com/game-loop.html</a>, where you can read more about game loops.</p>
+  </li>
+</ul>
+
+<h2 id="2d-coordinate-system">2D Coordinate System</h2>
+
+<ul>
+  <li data-marker="*">In the context of 2D games, the most fundamental way of looking at the world is by using the 2D coordinate system.</li>
+  <li data-marker="*">
+    <p>Slightly different from the traditional coordinate system you might’ve used in math class, the 2D coordinate system we’re referring to here is a system in which objects have an X and Y coordinate (X, Y) and are drawn accordingly, with (0,0) being the top-left of the system. This means positive directions moving down and to the right, while negative directions move up and to the left.</p>
+
+    <p><img src="2D_coordinate_system.png" alt=""></p>
+
+    <p>Photo taken from <a href="http://rbwhitaker.wdfiles.com/local--files/monogame-introduction-to-2d-graphics/2DCoordinateSystem.png">rbwhitaker.wdfiles.com/local--files/monogame-introduction-to-2d-graphics/2DCoordinateSystem.png</a>.</p>
+  </li>
+</ul>
+
+<h2 id="todays-goal">Today’s Goal</h2>
+
+<ul>
+  <li data-marker="*">
+    <p>We are aiming to recreate “Pong,” a simple 2 player game in which one player has a paddle on the left side of the screen, the other player has a paddle on the right side of the screen, and the first player to score 10 times on their opponent wins. A player scores by getting the ball past the opponent’s paddle and into their “goal” (i.e., the edge of the screen).</p>
+
+    <p><img src="pong_example.png" alt=""></p>
+  </li>
+</ul>
+
+<h2 id="lectures-scope">Lecture’s Scope</h2>
+
+<ul>
+  <li data-marker="*">First off, we’ll want to draw shapes to the screen (e.g., paddles and ball) so that the user can see the game.</li>
+  <li data-marker="*">Next, we’ll want to control the 2D position of the paddles based on input, and implement collision detection between the paddles and ball so that each player can deflect the ball back toward their opponent.</li>
+  <li data-marker="*">We’ll also need to implement collision detection between the ball and screen boundaries to keep the ball within the vertical bounds of the screen and to detect scoring events (outside horizontal bounds)</li>
+  <li data-marker="*">At that point, we’ll want to add sound effects for when the ball hits paddles and walls, and for when a point is scored.</li>
+  <li data-marker="*">Lastly, we’ll display the score on the screen so that the players don’t have to remember it during the game.</li>
+</ul>
+
+<h2 id="pong-0-the-day-0-update">pong-0 (“The Day-0 Update”)</h2>
+
+<ul>
+  <li data-marker="*">At this point, you will want to have downloaded the demo code in order to follow along. Be sure to pay attention to the comments in the code!</li>
+  <li data-marker="*">pong-0 simply prints “Hello Pong!” exactly in the center of the screen. This is not incredibly exciting, but it does showcase how to use LÖVE2D’s most important functions moving forward.</li>
+</ul>
+
+<h3 id="important-functions">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.load()</code>
+    <ul>
+      <li data-marker="*">This function is used for initializing our game state at the very beginning of program execution. Whatever code we put here will be executed once at the very beginning of the program.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.update(dt)</code>
+    <ul>
+      <li data-marker="*">This function is called by LÖVE at each frame of program execution; <code class="language-plaintext highlighter-rouge">dt</code> (i.e., DeltaTime) will be the elapsed time in seconds since the last frame, and we can use this to scale any changes in our game for even behavior across frame rates.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.draw()</code>
+    <ul>
+      <li data-marker="*">This function is also called at each frame by LÖVE. It is called after the update step completes so that we can draw things to the screen once they’ve changed.</li>
+    </ul>
+  </li>
+  <li data-marker="*">LÖVE2D expects these functions to be implemented in <code class="language-plaintext highlighter-rouge">main.lua</code> and calls them internally; if we don’t define them, it will still function, but our game will be fundamentally incomplete, at least if <code class="language-plaintext highlighter-rouge">update</code> or <code class="language-plaintext highlighter-rouge">draw</code> are missing! We’ll take a look at two more functions below:</li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.printf(text, x, y, [width], [align])</code>
+    <ul>
+      <li data-marker="*">Versatile print function that can align text left, right, or center on the screen</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.window.setMode(width, height, params)</code>
+    <ul>
+      <li data-marker="*">Used to initialize the window’s dimensions and to set parameters like <code class="language-plaintext highlighter-rouge">vsync</code> (vertical sync), whether we’re fullscreen or not, and whether the window is resizeable after startup. We won’t be using this function past this example in favor of the <code class="language-plaintext highlighter-rouge">push</code> virtual resolution library, which has its own method like this, but it is useful to know if encountered in other code.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, with these puzzle pieces in mind, you can see how we’re rendering “Hello Pong!” to the center of the screen:</li>
+</ul>
+
+<h3 id="important-code">Important code</h3>
+
+<ul>
+  <li data-marker="*">We initialize our game by specifying in the <code class="language-plaintext highlighter-rouge">love.load()</code> function that our 1280x720 game window shouldn’t be fullscreen or resizable, but it should be synced to our monitor’s own refresh rate.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">1280</span>
+  <span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">720</span>
+
+  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+          <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="n">resizable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="p">})</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Next, we overwrite <code class="language-plaintext highlighter-rouge">love.draw()</code> so that we can specify the text we’d like to render to the screen, in this case “Hello Pong!”, along with coordinates for where it should be drawn.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span>
+          <span class="s1">'Hello Pong!'</span><span class="p">,</span>          
+          <span class="mi">0</span><span class="p">,</span>                      
+          <span class="n">WINDOW_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span>  
+          <span class="n">WINDOW_WIDTH</span><span class="p">,</span>           
+          <span class="s1">'center'</span><span class="p">)</span>             
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="pong-1-the-low-res-update">pong-1 (“The Low-Res Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-1 exhibits the same behavior as pong-0, but with much blurrier text.</li>
+</ul>
+
+<h3 id="important-functions-1">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.setDefaultFilter(min, mag)</code>
+    <ul>
+      <li data-marker="*">This function sets the texture scaling filter when minimizing and magnifying textures and fonts; LÖVE’s default is bilinear, which causes blurriness, but for our use cases we will typically want nearest-neighbor filtering (<code class="language-plaintext highlighter-rouge">nearest</code>), which results in perfect pixel upscaling and downscaling, simulating a retro feel.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.keypressed(key)</code>
+    <ul>
+      <li data-marker="*">This is a LÖVE2D callback function that executes whenever we press a key, assuming we’ve implemented this in <code class="language-plaintext highlighter-rouge">main.lua</code>, in the same vein as <code class="language-plaintext highlighter-rouge">love.load()</code>, <code class="language-plaintext highlighter-rouge">love.update(dt)</code>, and <code class="language-plaintext highlighter-rouge">love.draw()</code>. It’ll allow us to receive input from the keyboard for our game.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.event.quit()</code>
+    <ul>
+      <li data-marker="*">This is a simple function that terminates the application upon execution.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-1">Important Code</h3>
+
+<ul>
+  <li data-marker="*">When you open pong-1, you’ll notice that we’ve begun using the <code class="language-plaintext highlighter-rouge">push</code> library we referred to earlier. You can “import” other files in your <code class="language-plaintext highlighter-rouge">main.lua</code> file with the <code class="language-plaintext highlighter-rouge">require</code> keyword given that they are in the same directory.</li>
+  <li data-marker="*">In addition, we’ve also added two new variables to the code:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">push</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'push'</span>
+
+  <span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">1280</span>
+  <span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">720</span>
+
+  <span class="n">VIRTUAL_WIDTH</span> <span class="o">=</span> <span class="mi">432</span>
+  <span class="n">VIRTUAL_HEIGHT</span> <span class="o">=</span> <span class="mi">243</span>
+</code></pre></div>    </div>
+    <p>This will allow us to think of our game in more low-res terms, by using the <code class="language-plaintext highlighter-rouge">push</code> library to treat our game as if it were on a 432x243 window, while actually rendering it at our desired 1280x720 window. With this change, we can see we’ve updated our <code class="language-plaintext highlighter-rouge">love.load()</code> function accordingly:</p>
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setDefaultFilter</span><span class="p">(</span><span class="s1">'nearest'</span><span class="p">,</span> <span class="s1">'nearest'</span><span class="p">)</span>
+
+      <span class="n">push</span><span class="p">:</span><span class="n">setupScreen</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+          <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="n">resizable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="p">})</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">We’ve also added a way to quit the game via user input, by using two of the functions discussed above:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">keypressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'escape'</span> <span class="k">then</span>
+          <span class="n">love</span><span class="p">.</span><span class="n">event</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Including this code in <code class="language-plaintext highlighter-rouge">main.lua</code> will ensure that the program is always monitoring whether the user has pressed the <code class="language-plaintext highlighter-rouge">escape</code> key on their keyboard, in which case <code class="language-plaintext highlighter-rouge">love.event.quit()</code> will be called to terminate the program.</p>
+  </li>
+  <li data-marker="*">Lastly, we’ve made a small tweak to our <code class="language-plaintext highlighter-rouge">love.draw()</code> function so as to integrate the <code class="language-plaintext highlighter-rouge">push</code> library into the code.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+      <span class="n">push</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="s1">'start'</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Pong!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+      <span class="n">push</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="s1">'end'</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>You’ll notice that our print statement remains unchanged, but we’ve wrapped it between <code class="language-plaintext highlighter-rouge">push:apply('start')</code> and <code class="language-plaintext highlighter-rouge">push:apply('end')</code> to ensure that its contents will be rendered at our desired virtual resolution.</p>
+  </li>
+  <li data-marker="*">With these changes, you’ll notice that while we’re still printing “Hello Pong!” to the center of the screen, the text is now magnified and rendered at a lower resolution, despite our window size being the same as before.</li>
+</ul>
+
+<h2 id="pong-2-the-rectangle-update">pong-2 (“The Rectangle Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-2 produces a more complete, albeit static image of what our Pong program should look like.</li>
+</ul>
+
+<h3 id="important-functions-2">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.newFont(path, size)</code>
+    <ul>
+      <li data-marker="*">This function loads a font file into memory at a specific path, setting it to a specific size, and storing it in an object we can use to globally change the currently active font that LÖVE2D is using to render text (functioning like a state machine).</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.setFont(font)</code>
+    <ul>
+      <li data-marker="*">This function sets LÖVE2D’s currently active font (of which there can only be one at a time) to a passed-in <code class="language-plaintext highlighter-rouge">font</code> object that we can create using <code class="language-plaintext highlighter-rouge">love.graphics.newFont</code>, per the above.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.clear(r, g, b, a)</code>
+    <ul>
+      <li data-marker="*">This function wipes the entire screen with a color defined by an RGBA set, with each component ranging from 0-255.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.graphics.rectangle(mode, x, y, width, height)</code>
+    <ul>
+      <li data-marker="*">Draws a rectangle onto the screen using whichever our active color is (per <code class="language-plaintext highlighter-rouge">love.graphics.setColor</code>, which we don’t need to use in this particular project since most everything is white, the default LÖVE2D color). The <code class="language-plaintext highlighter-rouge">mode</code> parameter can be set to <code class="language-plaintext highlighter-rouge">fill</code> or <code class="language-plaintext highlighter-rouge">line</code>, which results in a filled or outlined rectangle, respectively, and the other four parameters are its position and size dimensions. This is the cornerstone drawing function of the entirety of our Pong implementation!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-2">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Alongside our <code class="language-plaintext highlighter-rouge">main.lua</code> file and the <code class="language-plaintext highlighter-rouge">push</code> library, you’ll find that we’ve added a font file to our project.</li>
+  <li data-marker="*">On that note, you’ll find a small addition to our <code class="language-plaintext highlighter-rouge">love.load()</code> function:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">smallFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'font.ttf'</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">smallFont</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>This will allow us to create a custom font object (based off the font file we’ve added to our project directory) that we can set as the active font in our game.</p>
+  </li>
+  <li data-marker="*">The only other changes to the code in this update can be found in the <code class="language-plaintext highlighter-rouge">love.draw()</code> function.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="mi">40</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">45</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">52</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Pong!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>As you can see, we are setting the background to a dark color, shifting “Hello Pong!” higher up on the screen, and drawing rectangles for the paddles and the ball. The paddles are positioned on opposing ends of the screen, and the ball in the center.</p>
+  </li>
+</ul>
+
+<h2 id="pong-3-the-paddle-update">pong-3 (“The Paddle Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-3 adds interactivity to the Paddles by letting us move them up and down using the <code class="language-plaintext highlighter-rouge">w</code> and <code class="language-plaintext highlighter-rouge">s</code> keys for the left Paddle and the up and down keys for the right Paddle.</li>
+</ul>
+
+<h3 id="important-functions-3">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.keyboard.isDown(key)</code>
+    <ul>
+      <li data-marker="*">This function returns true or false depending on whether the specified key is currently held down; it differs from <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> in that this can be called arbitrarily and will continuously return true if the key is pressed down, whereas <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> will only fire its code once every time the key is initially pressed down. However, since we want to be able to move our paddles up and down by holding down the appropriate keys, we need a function to test for longer periods of input, hence the use of <code class="language-plaintext highlighter-rouge">love.keyboard.isDown(key)</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-3">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You’ll notice we’ve added a new constant near the top of <code class="language-plaintext highlighter-rouge">main.lua</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">PADDLE_SPEED</span> <span class="o">=</span> <span class="mi">200</span>
+</code></pre></div>    </div>
+    <p>This is an arbitrary value that we’ve chosen for our paddle speed. It will be scaled by DeltaTime, so it’ll be multiplied by how much time has passed (in terms of seconds) since the last frame, so that our paddle movement will remain consistent regardless of how quickly or slowly our computer is running.</p>
+  </li>
+  <li data-marker="*">You’ll also find some new variables in <code class="language-plaintext highlighter-rouge">love.load()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">scoreFont</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">newFont</span><span class="p">(</span><span class="s1">'font.ttf'</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+
+  <span class="n">player1Score</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">player2Score</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="n">player1Y</span> <span class="o">=</span> <span class="mi">30</span>
+  <span class="n">player2Y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">50</span>
+</code></pre></div>    </div>
+    <p>In particular, we’ve created a new font object that is of larger size so that we can display each player’s score more visibly on the screen, and allocated two variables for the purpose of scorekeeping. The last two variables will keep track of each paddle’s vertical position, since the paddles will be able to move up and down.</p>
+  </li>
+  <li data-marker="*">Next, you’ll see that we’ve finally defined behavior for <code class="language-plaintext highlighter-rouge">love.update()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">player1Y</span> <span class="o">=</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="o">-</span><span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">player1Y</span> <span class="o">=</span> <span class="n">player1Y</span> <span class="o">+</span> <span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="k">end</span>
+
+      <span class="k">if</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'up'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">player2Y</span> <span class="o">=</span> <span class="n">player2Y</span> <span class="o">+</span> <span class="o">-</span><span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="k">elseif</span> <span class="n">love</span><span class="p">.</span><span class="n">keyboard</span><span class="p">.</span><span class="n">isDown</span><span class="p">(</span><span class="s1">'down'</span><span class="p">)</span> <span class="k">then</span>
+          <span class="n">player2Y</span> <span class="o">=</span> <span class="n">player2Y</span> <span class="o">+</span> <span class="n">PADDLE_SPEED</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Here, we’ve implemented a way for each player to move their paddle. Recall that our 2D coordinate system is centered at the top left of the screen. Therefore, in order for each paddle to move upwards, its Y position will need to be multiplied by negative velocity (and vice versa), which might seem counterintuitive at first glance, so be sure to take a moment to look at this carefully.</p>
+  </li>
+  <li data-marker="*">Lastly, in <code class="language-plaintext highlighter-rouge">love.draw()</code> you’ll see that we’ve added code for displaying the score on the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">scoreFont</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="nb">print</span><span class="p">(</span><span class="nb">tostring</span><span class="p">(</span><span class="n">player1Score</span><span class="p">),</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="nb">print</span><span class="p">(</span><span class="nb">tostring</span><span class="p">(</span><span class="n">player2Score</span><span class="p">),</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">30</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>First we set the active font to be the larger of the two we’ve created, and then we display each player’s score on their side of the screen.</p>
+  </li>
+</ul>
+
+<h2 id="pong-4-the-ball-update">pong-4 (“The Ball Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-4 adds motion to the Ball upon the user pressing <code class="language-plaintext highlighter-rouge">enter</code>.</li>
+</ul>
+
+<h3 id="important-functions-4">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">math.randomseed(num)</code>
+    <ul>
+      <li data-marker="*">This function “seeds” the random number generator used by Lua (<code class="language-plaintext highlighter-rouge">math.random</code>) with some values such that its randomness is dependent on that supplied value, allowing us to pass in different numbers each playthrough to guarantee non-consistency across different program executions (or uniformity if we want consistent behavior for testing).</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">os.time()</code>
+    <ul>
+      <li data-marker="*">This is a Lua function that returns, in seconds, the time since 00:00:00 UTC, January 1, 1970, also known as Unix epoch time (<a href="https://en.wikipedia.ord/wiki/Unix_time">en.wikipedia.ord/wiki/Unix_time</a>)</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">math.random(min, max)</code>
+    <ul>
+      <li data-marker="*">This function returns a random number, dependent on the seeded random number generator, between <code class="language-plaintext highlighter-rouge">min</code> and <code class="language-plaintext highlighter-rouge">max</code>, inclusive.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">math.min(num1, num2)</code>
+    <ul>
+      <li data-marker="*">Returns the lesser of the two numbers passed in.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">math.max(num1, num2)</code>
+    <ul>
+      <li data-marker="*">Returns the greater of the two numbers passed in.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-4">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You’ll find our first addition to the code at the top of <code class="language-plaintext highlighter-rouge">love.load()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">math.randomseed</span><span class="p">(</span><span class="nb">os.time</span><span class="p">())</span>
+</code></pre></div>    </div>
+    <p>This seeds the random number generator, using the current time to ensure different random numbers each time our game is run. Beyond that, you’ll see a few new variables near the bottom of <code class="language-plaintext highlighter-rouge">love.load()</code>:</p>
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">ballX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+  <span class="n">ballY</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+
+  <span class="n">ballDX</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">100</span> <span class="ow">or</span> <span class="o">-</span><span class="mi">100</span>
+  <span class="n">ballDY</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+  <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'start'</span>
+</code></pre></div>    </div>
+    <p><code class="language-plaintext highlighter-rouge">ballX</code> and <code class="language-plaintext highlighter-rouge">ballY</code> will keep track of the ball position, while <code class="language-plaintext highlighter-rouge">ballDX</code> and <code class="language-plaintext highlighter-rouge">ballDY</code> will keep track of the ball velocity. <code class="language-plaintext highlighter-rouge">gameState</code> will serve as a rudimentary “state machine”, such that we’ll cycle it through the different states of our game (start, play, etc.)</p>
+  </li>
+  <li data-marker="*">In <code class="language-plaintext highlighter-rouge">love.update()</code>, we tweak our code for paddle movement by wrapping it around the <code class="language-plaintext highlighter-rouge">math.max()</code> and <code class="language-plaintext highlighter-rouge">math.min</code> functions to ensure that the paddles can’t move beyond the edges of the screen:</li>
+  <li data-marker="*">We also add new code to ensure the ball can only move when we are in the “play” state:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'play'</span> <span class="k">then</span>
+      <span class="n">ballX</span> <span class="o">=</span> <span class="n">ballX</span> <span class="o">+</span> <span class="n">ballDX</span> <span class="o">*</span> <span class="n">dt</span>
+      <span class="n">ballY</span> <span class="o">=</span> <span class="n">ballY</span> <span class="o">+</span> <span class="n">ballDY</span> <span class="o">*</span> <span class="n">dt</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Following this, in <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code>, we add functionality to launch the game (thus transitioning from the “start” state to the “play” state) and implement ball movement mechanics:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">elseif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'enter'</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'return'</span> <span class="k">then</span>
+      <span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'start'</span> <span class="k">then</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'play'</span>
+      <span class="k">else</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'start'</span>
+
+          <span class="n">ballX</span> <span class="o">=</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+          <span class="n">ballY</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span>
+
+          <span class="n">ballDX</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">100</span> <span class="ow">or</span> <span class="o">-</span><span class="mi">100</span>
+          <span class="n">ballDY</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">5</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Once in the “play state,” we start the ball’s position in the center of the screen and assign it a random starting velocity.</p>
+  </li>
+  <li data-marker="*">Lastly, we tweak our <code class="language-plaintext highlighter-rouge">love.draw()</code> function so that we can see the changes from <code class="language-plaintext highlighter-rouge">love.update()</code> at each frame:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'start'</span> <span class="k">then</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Start State!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+  <span class="k">else</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Hello Play State!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">player1Y</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="n">player2Y</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">rectangle</span><span class="p">(</span><span class="s1">'fill'</span><span class="p">,</span> <span class="n">ballX</span><span class="p">,</span> <span class="n">ballY</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>The only changes of note are the displaying of different messages depending on the game state, and updating the previous print statements to use the variables dynamically keeping track of position, rather than static values.</p>
+  </li>
+</ul>
+
+<h2 id="pong-5-the-class-update">pong-5 (“The Class Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-5 behaves exactly like pong-4. The biggest advantage we gain from this update is in the design of our code.</li>
+  <li data-marker="*">Open up pong-5 to take a look at how we’ve reorganized the code using classes and objects.</li>
+</ul>
+
+<h3 id="what-is-a-class">What is a class?</h3>
+
+<ul>
+  <li data-marker="*">A class is essentially a container for attributes (i.e., values or fields) and methods (i.e., functions). You can think of it as a blueprint for creating bundles of data and code that are related to each other.</li>
+  <li data-marker="*">Ex: A “Car” class can have “attributes” that describe its brand, model, color, miles, and anything else descriptive. Similarly, a “Car” class can also have “methods” that define its behavior, such as “accelerate”, “turn”, “honk”, and more, which take the form of functions.</li>
+  <li data-marker="*">Objects are instantiated from these class blueprints, and it’s these concrete objects that are the physical “cars” you see on the road, as opposed to the blueprints that may exist in the factory.</li>
+  <li data-marker="*">Our Paddles and Ball are perfect simple use cases for taking some of our code and bundling it together into classes and objects.</li>
+  <li data-marker="*">In Lua, class filenames are capitalized by convention, which helps you differentiate between any classes and libraries which you might be including in the same directory as your <code class="language-plaintext highlighter-rouge">main.lua</code> file.</li>
+  <li data-marker="*">Also note that we <code class="language-plaintext highlighter-rouge">require</code> our class files in <code class="language-plaintext highlighter-rouge">main.lua</code> just as we do for libraries. Additionally, we <code class="language-plaintext highlighter-rouge">require</code> a <code class="language-plaintext highlighter-rouge">class</code> library which contains helpful functionality for object-oriented programming in Lua.</li>
+</ul>
+
+<h3 id="important-code-5">Important Code</h3>
+
+<ul>
+  <li data-marker="*">The main takeaway from this update is that we now have abstracted away from <code class="language-plaintext highlighter-rouge">main.lua</code> the logic relevant to paddle and ball mechanics. These are now in their own classes, so you’ll see a few new files in the project directory. <code class="language-plaintext highlighter-rouge">Ball.lua</code> contains all the logic specific to the ball, while <code class="language-plaintext highlighter-rouge">Paddle.lua</code> contains all the logic specific to each paddle. You’ll also find <code class="language-plaintext highlighter-rouge">class.lua</code> which is what allows us to do this.</li>
+  <li data-marker="*">This not only gives us greater flexibility moving forward, it also makes our <code class="language-plaintext highlighter-rouge">main.lua</code> file cleaner and more readable.</li>
+</ul>
+
+<h2 id="pong-6-the-fps-update">pong-6 (“The FPS Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-6 adds a title to our screen and displays the FPS of our application on the screen as well</li>
+</ul>
+
+<h3 id="important-functions-5">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.window.setTitle(title)</code>
+    <ul>
+      <li data-marker="*">This function sets the title of our application window, adding a slight level of polish.</li>
+    </ul>
+  </li>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.timer.getFPS()</code>
+    <ul>
+      <li data-marker="*">Returns the current FPS (frames per second) of our application, making it easy to monitor when printed.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-6">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Our first addition to the code is in <code class="language-plaintext highlighter-rouge">love.load()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">love</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">'Pong'</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p>This quick and easy one-liner sets the title of our window.</p>
+  </li>
+  <li data-marker="*">Our second addition to the code is at the very bottom of <code class="language-plaintext highlighter-rouge">main.lua</code>. We define a helper function to display our FPS onto the screen:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nf">displayFPS</span><span class="p">()</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">smallFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="nb">print</span><span class="p">(</span><span class="s1">'FPS: '</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">love</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">getFPS</span><span class="p">()),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>We then call this helper function in <code class="language-plaintext highlighter-rouge">love.draw()</code>.</p>
+  </li>
+</ul>
+
+<h2 id="pong-7-the-collision-update">pong-7 (“The Collision Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-7 allows for the Ball to bounce off the Paddles and window boundaries.</li>
+  <li data-marker="*">Open up pong-7 to take a look at how we’ve incorporated AABB Collision Detection into our Pong program.</li>
+</ul>
+
+<h3 id="aabb-collision-detection">AABB Collision Detection</h3>
+
+<ul>
+  <li data-marker="*">AABB Collision Detection relies on all colliding entities to have “axis-aligned bounding boxes”, which simply means their collision boxes contain no rotation in our world space, which allows us to use a simple math formula to test for collision:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">rect1</span><span class="p">.</span><span class="n">x</span> <span class="n">is</span> <span class="ow">not</span> <span class="o">&gt;</span> <span class="n">rect2</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">rect2</span><span class="p">.</span><span class="n">width</span> <span class="ow">and</span>
+      <span class="n">rect1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">rect1</span><span class="p">.</span><span class="n">width</span> <span class="n">is</span> <span class="ow">not</span> <span class="o">&lt;</span> <span class="n">rect2</span><span class="p">.</span><span class="n">x</span> <span class="ow">and</span>
+      <span class="n">rect1</span><span class="p">.</span><span class="n">y</span> <span class="n">is</span> <span class="ow">not</span> <span class="o">&gt;</span> <span class="n">rect2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">rect2</span><span class="p">.</span><span class="n">height</span> <span class="ow">and</span>
+      <span class="n">rect1</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">rect1</span><span class="p">.</span><span class="n">height</span> <span class="n">is</span> <span class="ow">not</span> <span class="o">&lt;</span> <span class="n">rect2</span><span class="p">.</span><span class="n">y</span><span class="p">:</span>
+      <span class="n">collision</span> <span class="n">is</span> <span class="kc">true</span>
+  <span class="k">else</span>
+      <span class="n">collision</span> <span class="n">is</span> <span class="kc">false</span>
+</code></pre></div>    </div>
+    <p>Essentially, the formula is merely checking if the two boxes are colliding in any way.</p>
+  </li>
+  <li data-marker="*">We can use AABB Collision Detection to detect whether our Ball is colliding with our Paddles and react accordingly.</li>
+  <li data-marker="*">We can apply similar logic to detect if the Ball collides with a window boundary.</li>
+</ul>
+
+<h3 id="important-code-7">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Notice how we’ve added a <code class="language-plaintext highlighter-rouge">collides</code> function to our Ball class. It uses the above algorithm to determine whether there has been a collision, returning <code class="language-plaintext highlighter-rouge">true</code> if so and <code class="language-plaintext highlighter-rouge">false</code> otherwise.</li>
+  <li data-marker="*">We can use this function in <code class="language-plaintext highlighter-rouge">love.update()</code> to keep track of the ball’s changing position and velocity after each collision with a paddle:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">player1</span><span class="p">)</span> <span class="k">then</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">03</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">player1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+
+      <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+      <span class="k">else</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">if</span> <span class="n">ball</span><span class="p">:</span><span class="n">collides</span><span class="p">(</span><span class="n">player2</span><span class="p">)</span> <span class="k">then</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">03</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">player2</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
+
+      <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+      <span class="k">else</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>Take special note of how we shift the ball away from the paddle first before reversing its direction if we detect a collision in which the ball and paddle’s edges overlap! This prevents an infinite collision loop between the ball and paddle.</p>
+  </li>
+  <li data-marker="*">We also implement similar logic for collisions with the window edges:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">4</span> <span class="k">then</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">VIRTUAL_HEIGHT</span> <span class="o">-</span> <span class="mi">4</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball</span><span class="p">.</span><span class="n">dy</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="pong-8-the-score-update">pong-8 (“The Score Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-8 allows us to keep track of the score.</li>
+</ul>
+
+<h3 id="important-code-8">Important Code</h3>
+
+<ul>
+  <li data-marker="*">Essentially, all we need to do is increment the score variables for each player whenever the ball collides with their goal boundary:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">player2Score</span> <span class="o">=</span> <span class="n">player2Score</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+      <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'start'</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">VIRTUAL_WIDTH</span> <span class="k">then</span>
+      <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+      <span class="n">player1Score</span> <span class="o">=</span> <span class="n">player1Score</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+      <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'start'</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="pong-9-the-serve-update">pong-9 (“The Serve Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-9 introduces a new state, “serve”, to our game.</li>
+</ul>
+
+<h3 id="what-is-a-state-machine">What is a State Machine?</h3>
+
+<ul>
+  <li data-marker="*">Currently in our Pong program we’ve only talked about state a little bit. We have our “start” state, which means the game is ready for us to press “enter” so that the ball will start moving, and our “play” state, which means the game is currently underway.</li>
+  <li data-marker="*">A state machine concerns itself with monitoring what is the current state and what transitions take place between possible states, such that each individual state is produced by a specific transition and has its own logic.</li>
+  <li data-marker="*">In pong-9, we allow a player to “serve” the ball by not having to defend during their first turn.</li>
+  <li data-marker="*">We transition from the “play” state to the “serve” state by scoring, and from the “serve” state to the “play” state by pressing <code class="language-plaintext highlighter-rouge">enter</code>. The game begins in the “start” state, and transitions to the serve state by pressing <code class="language-plaintext highlighter-rouge">enter</code>.</li>
+</ul>
+
+<h3 id="important-code-9">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We can essentially add our new “serve” state by making an additional condition within our <code class="language-plaintext highlighter-rouge">love.update()</code> function:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'serve'</span> <span class="k">then</span>
+      <span class="n">ball</span><span class="p">.</span><span class="n">dy</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">servingPlayer</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="nb">math.random</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+      <span class="k">else</span>
+          <span class="n">ball</span><span class="p">.</span><span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+      <span class="k">end</span>
+  <span class="k">elseif</span> <span class="o">...</span>
+</code></pre></div>    </div>
+    <p>The idea is that when a player gets scored on, they should get to serve the ball, so as to not be immediately on defense. We do this by adjusting the ball velocity in the “serve” state based off which player is serving.</p>
+  </li>
+</ul>
+
+<h2 id="pong-10-the-victory-update">pong-10 (“The Victory Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-10 allows a player to win the game.</li>
+</ul>
+
+<h3 id="important-code-10">Important Code</h3>
+
+<ul>
+  <li data-marker="*">We introduce a new state: “done”, and then we set a maximum score (in our case, 10). Within <code class="language-plaintext highlighter-rouge">love.update()</code>, we modify our code that checks whether a point has been scored as follows:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span>
+      <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">player2Score</span> <span class="o">=</span> <span class="n">player2Score</span> <span class="o">+</span> <span class="mi">1</span>
+
+      <span class="k">if</span> <span class="n">player2Score</span> <span class="o">==</span> <span class="mi">10</span> <span class="k">then</span>
+          <span class="n">winningPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'done'</span>
+      <span class="k">else</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+          <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">ball</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">VIRTUAL_WIDTH</span> <span class="k">then</span>
+      <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+      <span class="n">player1Score</span> <span class="o">=</span> <span class="n">player1Score</span> <span class="o">+</span> <span class="mi">1</span>
+
+      <span class="k">if</span> <span class="n">player1Score</span> <span class="o">==</span> <span class="mi">10</span> <span class="k">then</span>
+          <span class="n">winningPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'done'</span>
+      <span class="k">else</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+          <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">When a player reaches the maximum score, the game state transitions to “done” and we produce a victory screen in <code class="language-plaintext highlighter-rouge">love.draw()</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">elseif</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'done'</span> <span class="k">then</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">largeFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Player '</span> <span class="o">..</span> <span class="nb">tostring</span><span class="p">(</span><span class="n">winningPlayer</span><span class="p">)</span> <span class="o">..</span> <span class="s1">' wins!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">smallFont</span><span class="p">)</span>
+      <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s1">'Press Enter to restart!'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">Finally, we add some code to <code class="language-plaintext highlighter-rouge">love.keypressed(key)</code> to transition back to the “serve” state and reset the scores in case the player(s) would like to play again.
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">elseif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'enter'</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">'return'</span> <span class="k">then</span>
+      <span class="o">...</span>
+      <span class="k">elseif</span> <span class="n">gameState</span> <span class="o">==</span> <span class="s1">'done'</span> <span class="k">then</span>
+          <span class="n">gameState</span> <span class="o">=</span> <span class="s1">'serve'</span>
+
+          <span class="n">ball</span><span class="p">:</span><span class="n">reset</span><span class="p">()</span>
+
+          <span class="n">player1Score</span> <span class="o">=</span> <span class="mi">0</span>
+          <span class="n">player2Score</span> <span class="o">=</span> <span class="mi">0</span>
+
+          <span class="k">if</span> <span class="n">winningPlayer</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+              <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">2</span>
+          <span class="k">else</span>
+              <span class="n">servingPlayer</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="pong-11-the-audio-update">pong-11 (“The Audio Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-11 adds sound to the game</li>
+</ul>
+
+<h3 id="important-functions-6">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.audio.newSource(path, [type])</code>
+    <ul>
+      <li data-marker="*">This function creates a LÖVE2D Audio object that we can play back at any point in our program. It can also be given a “type” of “stream” or “static”; streamed assets will be streamed from disk as needed, whereas static assets will be preserved in memory. For larger sound effects and music tracks, streaming is more memory-effective; in our examples, audio assets are static, since they’re so small that they won’t take up much memory at all</li>
+      <li data-marker="*">We will use this functionality to play a sound whenever there is a collision.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="what-is-bfxr">What is bfxr?</h3>
+
+<ul>
+  <li data-marker="*">bfxr is a simple program for generating random sounds, freely-available on all major Operating Systems.</li>
+  <li data-marker="*">We will use it to generate all sound effects for our Pong example and most other examples going forward.</li>
+  <li data-marker="*"><a href="https://www.bfxr.net/">bfxr.net</a></li>
+  <li data-marker="*">We’ve created 3 sound files and stored them in a sub-directory within pong-11.</li>
+</ul>
+
+<h3 id="important-code-11">Important Code</h3>
+
+<ul>
+  <li data-marker="*">You’ll notice in <code class="language-plaintext highlighter-rouge">love.load()</code> that we’ve created a table with references to the 3 sound files we’ve added to our project directory:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">sounds</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">[</span><span class="s1">'paddle_hit'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/paddle_hit.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/score.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">),</span>
+      <span class="p">[</span><span class="s1">'wall_hit'</span><span class="p">]</span> <span class="o">=</span> <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">newSource</span><span class="p">(</span><span class="s1">'sounds/wall_hit.wav'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">)</span>
+  <span class="p">}</span>
+</code></pre></div>    </div>
+    <p>In this case, we are storing each sound as a “static” audio file because of how small they are. In the future, if using larger audio files, you might consider storing them as “stream” audio files so as to save on memory.</p>
+  </li>
+  <li data-marker="*">You should be able to find throughout the rest of <code class="language-plaintext highlighter-rouge">main.lua</code> function calls such as <code class="language-plaintext highlighter-rouge">sounds['paddle_hit']:play()</code> in locations corresponding to playing sound upon paddle collisions, wall collisions, and scoring points.</li>
+</ul>
+
+<h2 id="pong-12-the-resize-update">pong-12 (“The Resize Update”)</h2>
+
+<ul>
+  <li data-marker="*">pong-12 allows our Pong program to support resizing the window.</li>
+</ul>
+
+<h3 id="important-functions-7">Important Functions</h3>
+
+<ul>
+  <li data-marker="*">
+<code class="language-plaintext highlighter-rouge">love.resize(width, height)</code>
+    <ul>
+      <li data-marker="*">This function is called by LÖVE every time we resize the application; logic should go in here if anything in the game (like a UI) is sized dynamically based on the window size. <code class="language-plaintext highlighter-rouge">push:resize()</code> needs to be called here for our use case so that it can dynamically rescale its internal canvas to fit our new window dimensions.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="important-code-12">Important Code</h3>
+
+<ul>
+  <li data-marker="*">In order to support resizing the game window, we’ll first need to edit our window initialization in <code class="language-plaintext highlighter-rouge">love.load()</code> such that <code class="language-plaintext highlighter-rouge">resizable = true</code>:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">push</span><span class="p">:</span><span class="n">setupScreen</span><span class="p">(</span><span class="n">VIRTUAL_WIDTH</span><span class="p">,</span> <span class="n">VIRTUAL_HEIGHT</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="p">{</span>
+      <span class="n">fullscreen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="n">resizable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="n">vsync</span> <span class="o">=</span> <span class="kc">true</span>
+  <span class="p">})</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*">The next step is to overwrite <code class="language-plaintext highlighter-rouge">love.resize()</code> with its analog from the <code class="language-plaintext highlighter-rouge">push</code> library:
+    <div class="language-lua highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+      <span class="n">push</span><span class="p">:</span><span class="n">resize</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+    <p>And with that, we have a fully functioning game of Pong!</p>
+  </li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961774189338.js"></script>
+
+    
+
+
+</body></html>

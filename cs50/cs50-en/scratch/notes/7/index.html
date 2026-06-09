@@ -1,0 +1,545 @@
+<!DOCTYPE html><html lang="en-us"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Variables - CS50's Introduction to Programming with Scratch">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Variables - CS50's Introduction to Programming with Scratch</title>
+
+
+    <meta property="og:description" content="So far, we’ve used values that are pieces of information in our program that we can use to make decisions or as input to functions. When these values are...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-scratch"><a href="../../index.html">CS50’s Introduction to Programming with Scratch</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://brianyu.me">Brian Yu</a><br>
+<a href="mailto:brian@cs.harvard.edu">brian@cs.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Sprites</a></li>
+  <li><a href="../../weeks/2/index.html">Functions</a></li>
+  <li><a href="../../weeks/3/index.html">Events</a></li>
+  <li><a href="../../weeks/4/index.html">Values</a></li>
+  <li><a href="../../weeks/5/index.html">Conditions</a></li>
+  <li><a href="../../weeks/6/index.html">Loops</a></li>
+  <li><a href="../../weeks/7/index.html">Variables</a></li>
+  <li><a href="../../weeks/8/index.html">Abstraction</a></li>
+  <li><a href="../../weeks/9/index.html">Building from Scratch</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">Final Project</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50s">Gradebook</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">Staff</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/scratch">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382zj9BoaP-7Nu7w9t_QDZx5">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X Community</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="variables">Variables</h1>
+
+<ul>
+  <li data-marker="*">So far, we’ve used values that are pieces of information in our program that we can use to make decisions or as input to functions.</li>
+  <li data-marker="*">When these values are stored in our program so we can use them later on, they can be called <strong>variables</strong>.</li>
+</ul>
+
+<h2 id="counting-cat">Counting Cat</h2>
+
+<ul>
+  <li data-marker="*">Let’s build the <a href="https://scratch.mit.edu/projects/507459074/">Counting Cat</a> example.</li>
+  <li data-marker="*">We’ll look in the Variables section of blocks, and we see this button labeled “Make a Variable”:<br>
+  <img src="make_a_variable.png" alt="Make a Variable button" width="316">
+    <ul>
+      <li data-marker="*">When we click this, we are asked for the name of the variable, so we’ll type in “count”, since we want to use it to store a count.</li>
+      <li data-marker="*">We can also decide whether this variable is available for all sprites to use or change, often called a <strong>global variable</strong>. Or, we could make this variable available only for this sprite, also called a <strong>local variable</strong>. We’ll choose “For all sprites” for this “count” variable.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, we see an oval “count” block available, with a check box to its left. The check box will tell Scratch to show the value, or what’s stored inside our variable, on the upper left of the stage. We can uncheck it so that the value is hidden on the stage.</li>
+  <li data-marker="*">We can add blocks for our cat to count the number of times it is clicked:
+    <pre><code class="language-scratch">  when this sprite clicked
+  change [count v] by (1)
+  say (count) for (1) seconds
+</code></pre>
+    <ul>
+      <li data-marker="*">The “change” block will increase the value of the “count” variable by 1.</li>
+      <li data-marker="*">Then, our cat will say the value of the variable.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can add another sprite, “Button2”, which will be a button we can use to set the count back to 0. We’ll use the Costumes tab to add text to our button, so it’s labeled “Reset”:<br>
+  <img src="reset_button.png" alt="Costume for button with text Reset in black" width="930">
+</li>
+  <li data-marker="*">We’ll add these blocks for the reset button:
+    <pre><code class="language-scratch">  when this sprite clicked
+  set [count v] to (0)
+</code></pre>
+    <ul>
+      <li data-marker="*">Now, when this button is pressed, the value of 0 will be placed inside the “count” variable, replacing whatever was there before.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chase-the-star">Chase the Star</h2>
+
+<ul>
+  <li data-marker="*">Now, we can make a game with the hedgehog that tracks our score, <a href="https://scratch.mit.edu/projects/507459780/">Chase the Star</a>.</li>
+  <li data-marker="*">We’ll delete our sprites, and right-click or control-click on the “count” variable, and choose the “Delete” option to remove it as well.</li>
+  <li data-marker="*">We’ll add our hedgehog, and tell it to point and move towards the mouse pointer:
+    <pre><code class="language-scratch">  when green flag clicked
+  forever
+  point towards (mouse-pointer v)
+  move (5) steps
+</code></pre>
+  </li>
+  <li data-marker="*">We’ll add another sprite, the star, and have it increase our score by one every time the hedgehog touches it. We’ll also have it go to a random position after it’s been touched:
+    <pre><code class="language-scratch">  when green flag clicked
+  forever
+  if &lt;touching (Hedgehog v) ?&gt; then
+  change [score v] by (1)
+  go to (random position v)
+</code></pre>
+    <ul>
+      <li data-marker="*">First, we need to make a new variable, and we’ll call it “score”.</li>
+      <li data-marker="*">We’ll have the star constantly check if it’s touching the hedgehog with a forever loop, and whenever it is, we’ll increase score by 1.</li>
+      <li data-marker="*">Finally, we’ll tell our star to go to a random position after.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, we have a game where we can try to collect stars with our hedgehog.</li>
+  <li data-marker="*">When the program starts, we probably want to set our score back to 0. We’ll do that with the hedgehog:
+    <pre><code class="language-scratch">  when green flag clicked
+  set [score v] to (0)
+  forever
+  point towards (mouse-pointer v)
+  move (5) steps
+</code></pre>
+    <ul>
+      <li data-marker="*">Notice that we want our “set” block outside of the “forever” loop. This way, it’s only set to 0 once, and be changed by the star after that.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can have our program change the backdrop and stop when we have a certain number of points, too.</li>
+  <li data-marker="*">First, we’ll click on the Stage panel in the bottom right, and go to the Backdrops tab. Then we’ll click on the button with a plus sign on the bottom left, and choose “Paint” to create our own backdrop:<br>
+  <img src="paint_backdrop.png" alt="Paint button in Backdrop tab" width="368">
+</li>
+  <li data-marker="*">We’ll add a green rectangle that covers the backdrop, and some text that says “You win!”. We’ll change the name of the backdrop to “Win”.</li>
+  <li data-marker="*">Now, we want to make sure that the backdrop starts with the plain white backdrop, “backdrop1”, so we’ll add that to our hedgehog:
+    <pre><code class="language-scratch">  when green flag clicked
+  set [score v] to (0)
+  switch backdrop to (backdrop1 v)
+  forever
+  point towards (mouse-pointer v)
+  move (5) steps
+</code></pre>
+  </li>
+  <li data-marker="*">Then, in our star’s code blocks, we want to change the backdrop and stop our program once we’ve reached a score of 10:
+    <pre><code class="language-scratch">  when green flag clicked
+  forever
+  if &lt;touching (Hedgehog v) ?&gt; then
+  change [score v] by (1)
+  if &lt;(score) = (10)&gt; then
+  switch backdrop to (Win v)
+  stop [all v]
+  end
+  go to (random position v)
+</code></pre>
+    <ul>
+      <li data-marker="*">After we change the score, we want to add a condition that checks the value of “score”. If it’s equal to 10, then we’ll switch the backdrop. We’ll also use the “stop” block, under the Control section, which will stop everything in our program.</li>
+      <li data-marker="*">Recall that we can get the “=” block in the Operators section, and the “score” block in the Variables section.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="bouncing-ball">Bouncing Ball</h2>
+
+<ul>
+  <li data-marker="*">We’ll remove these sprites, and choose another backdrop, “Blue Sky”, for our next example, <a href="https://scratch.mit.edu/projects/507460802/">Bouncing Ball</a>.</li>
+  <li data-marker="*">We’ll add the ball sprite, and tell it to start falling, or moving downwards, until it reaches the ground:
+    <pre><code class="language-scratch">  when green flag clicked
+  forever
+  change y by (-5)
+  if &lt;touching color [#663600] ?&gt; then
+  stop [all v]
+</code></pre>
+    <ul>
+      <li data-marker="*">We’ll change the y position by negative 5, which makes our ball move down.</li>
+      <li data-marker="*">Then, we’ll stop our program if the ball is touching the brown color in the ground of the backdrop. We’ll click the color and then the eyedropper in order to select the brown color.</li>
+      <li data-marker="*">Now, when we click the flag, our ball falls. We can drag our ball back up to the top of the stage, and try it again.</li>
+    </ul>
+  </li>
+  <li data-marker="*">But this falling isn’t very realistic. A real ball starts falling slowly at first, and then faster and faster.</li>
+  <li data-marker="*">Let’s have our ball move a variable number of steps every time. We’ll create a new variable called “speed”, since it will store the speed of falling, and we can make this variable available “for this sprite only”, since no other sprite needs to use it.
+    <ul>
+      <li data-marker="*">Now, in the top left of our stage, we see that the variable is labeled “Ball: speed”, telling us what sprite it belongs to.</li>
+    </ul>
+  </li>
+  <li data-marker="*">For our ball’s code, we’ll increase the value of the “speed” variable as it falls:
+    <pre><code class="language-scratch">  when green flag clicked
+  set [speed v] to (0)
+  forever
+  change y by (speed)
+  change [speed v] by (-1)
+  if &lt;touching color [#663600] ?&gt; then
+  stop [all v]
+</code></pre>
+    <ul>
+      <li data-marker="*">First, we’ll set “speed” to 0. Then, we’ll change our ball’s y position by whatever that value is, which will be 0 at first.</li>
+      <li data-marker="*">After that, we’ll change the value of “speed” by negative 1, which makes it more negative, so our ball moves down the stage more quickly.</li>
+      <li data-marker="*">Our forever loop will run over and over, until the “stop all” block tells our program to stop.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can have our ball move up after it touches the ground, too:
+    <pre><code class="language-scratch">  when green flag clicked
+  set [speed v] to (0)
+  forever
+  change y by (speed)
+  change [speed v] by (-1)
+  if &lt;touching color [#663600] ?&gt; then
+  set [speed v] to ((speed) * (-1))
+</code></pre>
+    <ul>
+      <li data-marker="*">We can change the value of our “speed” variable from a negative number to a positive number by multiplying it by negative 1. Then, our ball will start moving up on the stage, but the “speed” variable will decrease by 1 every time again.</li>
+      <li data-marker="*">Eventually, our ball’s “speed” will be 0, and then negative, and then it will start moving down the stage again.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can also have our ball lose a little bit of speed every time it bounces:
+    <pre><code class="language-scratch">  if &lt;touching color [#663600] ?&gt; then
+  set [speed v] to (((speed) * (-1)) - (2))
+</code></pre>
+    <ul>
+      <li data-marker="*">When the speed changes from negative to positive, we can also subtract 2 from it, so the new speed is always a little less than before.</li>
+      <li data-marker="*">Eventually, we’ll want the ball to stop moving, so we’ll need to add some more code for that.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With variables, we can approximate the speed of a bouncing ball, to make its movement more realistic.</li>
+</ul>
+
+<h2 id="balloon">Balloon</h2>
+
+<ul>
+  <li data-marker="*">Let’s look at an example where the user can control the size of a ballon in <a href="https://scratch.mit.edu/projects/507461727/editor/">Balloon</a>.</li>
+  <li data-marker="*">We have a ballon sprite, and we’ll create a new variable called “air”. On the stage, we can right-click, or control-click the variable, and change what the readout looks like:<br>
+  <img src="readout.png" alt="variable with normal readout, large readout, slider" width="289">
+    <ul>
+      <li data-marker="*">We can choose to show a large readout, but for now we’ll choose slider.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, the user can move the slider to change the value of the variable. We can right-click, or control-click the slider, and choose “change slider range” so that there is a minimum and maximum value. For this, we’ll set the minimum value to 100 and the maximum value to 200, since the size should be somewhere between those two values.</li>
+  <li data-marker="*">We’ll add code blocks to our balloon sprite that tell it to change its size:
+    <pre><code class="language-scratch">  when green flag clicked
+  forever
+  set size to (air) %
+</code></pre>
+    <ul>
+      <li data-marker="*">Now, after we click the green flag, our balloon will set its size to the value of the “air” variable, over and over again, even as we change the value with the slider on the stage.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With these ideas, we can allow the user to control a variable directly to interact with our project or sprites.</li>
+</ul>
+
+<h2 id="spiral">Spiral</h2>
+
+<ul>
+  <li data-marker="*">Let’s see an example with the Pen extension, <a href="https://scratch.mit.edu/projects/507462011/editor/">Spiral</a>.</li>
+  <li data-marker="*">We’ll have our cat move in a circle:
+    <pre><code class="language-scratch">  when green flag clicked
+  go to x: (0) y: (0)
+  point in direction (90)
+  forever
+  move (10) steps
+  turn right (15) degrees
+</code></pre>
+    <ul>
+      <li data-marker="*">We’ll start in the center of the screen facing right, and move and turn to get the effect of moving in a circle.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We’ll add the Pen extension by using the blue button in the bottom left of the interface. Then we’ll erase everything, and put the pen down to start drawing:
+    <pre><code class="language-scratch">  when green flag clicked
+  go to x: (0) y: (0)
+  point in direction (90)
+  erase all
+  pen down
+  forever
+  move (10) steps
+  turn right (15) degrees
+  wait (0.05) seconds
+</code></pre>
+    <ul>
+      <li data-marker="*">We’ll also have our cat wait just a fraction of a second between each step, so we can see how it draws a circle.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, let’s create a new variable called “steps”. We’ll set it to 0 at first, and tell our cat to move by the value of the variable:
+    <pre><code class="language-scratch">  when green flag clicked
+  go to x: (0) y: (0)
+  point in direction (90)
+  erase all
+  pen down
+  set [steps v] to (0)
+  forever
+  move (steps) steps
+  change [steps v] by (0.5)
+  turn right (15) degrees
+  wait (0.05) seconds
+</code></pre>
+    <ul>
+      <li data-marker="*">Notice that we’re also increasing the value of the “steps” variable a little bit, by 0.5, every time we move. So each time we move, we’re moving a bit further. And this turns out to look like a spiral.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With loops, variables, and the pen, we can draw some interesting art in our programs.</li>
+  <li data-marker="*">More generally, with variables, we can keep track of information in our programs and change or use them later, to make even more powerful games, animations, and stories than before.</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>

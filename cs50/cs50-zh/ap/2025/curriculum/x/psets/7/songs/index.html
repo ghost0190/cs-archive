@@ -1,0 +1,539 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="https://img.youtube.com/vi/e9Eds2Rc_x8/maxresdefault.jpg">
+
+        <meta property="og:title" content="Songs - CS50 AP">
+
+        <link href="../../../../../favicon%EF%B9%961775149255.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../../assets/jquery/dist/jquery.min%EF%B9%961775149255.js"></script>
+        <script src="../../../../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961775149255.css" rel="stylesheet">
+        <script src="../../../../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961775149255.js"></script>
+        <script src="../../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="../../../../../assets/@fortawesome/fontawesome-free/css/all.min%EF%B9%961775149255.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../../assets/luxon/build/global/luxon.min%EF%B9%961775149255.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../../../../assets/mathjax/tex-mml-chtml%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../../../../assets/@iframe-resizer/parent/index.umd%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../../assets/scratchblocks.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../../assets/mermaid/dist/mermaid.min%EF%B9%961775149255.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961775149255.js"></script>
+
+        
+
+        <link href="../../../../../assets/page%EF%B9%961775149255.css" rel="stylesheet">
+        <script src="../../../../../assets/jekyll-theme-cs50%EF%B9%961775149255.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>歌曲 - CS50 AP</title>
+
+
+    <meta property="og:description" content="Problem to Solve Write SQL queries to answer questions about a database of the 100 most-streamed songs on Spotify in 2018. Demo Getting Started For this...">
+</head>
+
+    <body class="invisible">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50-ap"><a href="../../../../../index.html">CS50 AP</a></h1>
+
+<p class="d-print-none">OpenCourseWare<br>
+2024-2025</p>
+
+<p class="d-print-none"><a href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/classroom-resources/curricula-pedagogical-support"><img src="../../../../../assets/AP-CSP-Blue-180px.png" alt="AP CSP Endorsed" style="height: 4rem"></a></p>
+
+<p class="d-print-none"><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="d-print-none"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../index.html"><strong>Curriculum</strong></a></li>
+  <li data-marker="*"><a href="../../../../../syllabus/index.html">教学大纲</a></li>
+  <li data-marker="*"><a href="../../../../../../../workshop/2025/index.html">工作坊</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://man.cs50.io/">Manual Pages</a></li>
+  <li data-marker="*"><a href="https://docs.python.org/3.7/search.html">Python Documentation</a></li>
+  <li data-marker="*"><a href="https://cs50.readthedocs.io/style/c/">Style Guide</a></li>
+  <li data-marker="*"><a href="https://cs50.dev/">Visual Studio Code</a></li>
+  <li data-marker="*"><a href="../../../../../new/index.html">What’s 新内容 in 2024?</a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="../../../../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">新内容</span></a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2025/communities"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/ap/2025/courses"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../scratch/index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../../../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../../../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="songs">歌曲</h1>
+
+<p><img src="wrapped.png" alt="Spotify Wrapped &#x27;22 Logo"></p>
+
+<h2 id="problem-to-solve">问题 to Solve</h2>
+
+<p>Write SQL queries to 答案 问题 关于 a database of the 100 most-streamed 歌曲 on <a href="https://en.wikipedia.org/wiki/Spotify">Spotify</a> in 2018.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-DsiNSGFrMq2J6t9aDYhIQUQHy" src="https://asciinema.org/a/DsiNSGFrMq2J6t9aDYhIQUQHy.js"></script>
+
+<h2 id="getting-started">入门</h2>
+
+<p>For this 问题, you’ll use a database provided to you by CS50’s 工作人员.</p>
+
+<details><summary>下载 the distribution code</summary><p>打开 <a href="https://cs50.dev/">VS Code</a>.</p>
+
+<p>开始 by clicking inside your terminal window, then execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that its “prompt” resembles the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Click inside of that terminal window and then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/2023/fall/psets/7/songs.zip
+</code></pre></div></div>
+
+<p>followed by Enter in order to 下载 a ZIP called <code class="language-plaintext highlighter-rouge">songs.zip</code> in your codespace. Take care not to overlook the space between <code class="language-plaintext highlighter-rouge">wget</code> and the following URL, or any other character for that matter!</p>
+
+<p>Now execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip songs.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">songs</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm songs.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter 在 the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd songs
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., 打开) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>songs/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and you should see 8 .SQL files, <code class="language-plaintext highlighter-rouge">songs.db</code>, and <code class="language-plaintext highlighter-rouge">answers.txt</code>.</p>
+
+<p>If you run into any trouble, follow these same steps again and see if you can determine where you went wrong!</p></details>
+
+<h2 id="understanding">Understanding</h2>
+
+<p>Provided to you is a file called <code class="language-plaintext highlighter-rouge">songs.db</code>, a SQLite database that stores data from <a href="https://developer.spotify.com/documentation/web-api/">Spotify</a> 关于 歌曲 and their artists. This dataset contains the top 100 streamed 歌曲 on Spotify in 2018. In a terminal window, run <code class="language-plaintext highlighter-rouge">sqlite3 songs.db</code> so that you can begin executing queries on the database.</p>
+
+<p>First, when <code class="language-plaintext highlighter-rouge">sqlite3</code> prompts you to provide a query, type <code class="language-plaintext highlighter-rouge">.schema</code> and press enter. This will output the <code class="language-plaintext highlighter-rouge">CREATE TABLE</code> statements that were used to generate each of the tables in the database. By examining those statements, you can identify the columns present in each table.</p>
+
+<p>Notice that every <code class="language-plaintext highlighter-rouge">artist</code> has an <code class="language-plaintext highlighter-rouge">id</code> and a <code class="language-plaintext highlighter-rouge">name</code>. Notice, too, that every song has a <code class="language-plaintext highlighter-rouge">name</code>, an <code class="language-plaintext highlighter-rouge">artist_id</code> (corresponding to the <code class="language-plaintext highlighter-rouge">id</code> of the artist of the song), as well as values for the danceability, energy, key, loudness, speechiness (presence of spoken words in a track), valence, tempo, and duration of the song (measured in milliseconds).</p>
+
+<p>The challenge ahead of you is to write SQL queries to 答案 a variety of different 问题 by selecting data from one or 更多 of these tables. After you do so, you’ll reflect on the ways Spotify might use this same data in their annual <a href="https://en.wikipedia.org/wiki/Spotify_Wrapped">Spotify Wrapped</a> campaign to characterize listeners’ habits.</p>
+
+<h2 id="implementation-details">实现细节</h2>
+
+<p>For each of the following 问题, you should write a single SQL query that outputs the results specified by each 问题. Your response must take the form of a single SQL query, though you 五月 nest other queries inside of your query. You <strong>should not</strong> assume anything 关于 the <code class="language-plaintext highlighter-rouge">id</code>s of any particular 歌曲 or artists: your queries should be accurate even if the <code class="language-plaintext highlighter-rouge">id</code> of any particular song or person were different. Finally, each query should return only the data necessary to 答案 the 问题: if the 问题 only asks you to output the names of 歌曲, for 示例, then your query should not also output each song’s tempo.</p>
+
+<ol>
+  <li>In <code class="language-plaintext highlighter-rouge">1.sql</code>, write a SQL query to list the names of all 歌曲 in the database.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">2.sql</code>, write a SQL query to list the names of all 歌曲 in increasing order of tempo.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">3.sql</code>, write a SQL query to list the names of the top 5 longest 歌曲, in descending order of length.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">4.sql</code>, write a SQL query that lists the names of any 歌曲 that have danceability, energy, and valence greater than 0.75.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">5.sql</code>, write a SQL query that returns the average energy of all the 歌曲.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column and a single row containing the average energy.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">6.sql</code>, write a SQL query that lists the names of 歌曲 that are by Post Malone.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+      <li data-marker="*">You should not make any assumptions 关于 what Post Malone’s <code class="language-plaintext highlighter-rouge">artist_id</code> is.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">7.sql</code>, write a SQL query that returns the average energy of 歌曲 that are by Drake.
+    <ul>
+      <li data-marker="*">Your query should output a table with a single column and a single row containing the average energy.</li>
+      <li data-marker="*">You should not make any assumptions 关于 what Drake’s <code class="language-plaintext highlighter-rouge">artist_id</code> is.</li>
+    </ul>
+  </li>
+  <li>In <code class="language-plaintext highlighter-rouge">8.sql</code>, write a SQL query that lists the names of the 歌曲 that feature other artists.
+    <ul>
+      <li data-marker="*">歌曲 that feature other artists will include “feat.” in the 姓名 of the song.</li>
+      <li data-marker="*">Your query should output a table with a single column for the 姓名 of each song.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="hints">提示</h2>
+
+<p>See <a href="https://www.w3schools.com/sql/sql_ref_keywords.asp">this SQL keywords reference</a> for some SQL syntax that 五月 be helpful!</p>
+
+<details><summary>List the names of all 歌曲 in the database</summary><p>Recall that, to select all values in a table’s column, you can use SQL’s <code class="language-plaintext highlighter-rouge">SELECT</code> keyword. <code class="language-plaintext highlighter-rouge">SELECT</code> is followed by the column (or columns) you’d like to select, which is in turn followed by <code class="language-plaintext highlighter-rouge">FROM table</code> where <code class="language-plaintext highlighter-rouge">table</code> is the 姓名 of the table you’d like to select from.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">1.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- All songs in the database.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>List the names of all 歌曲 in increasing order of tempo</summary><p>Recall that SQL has an <code class="language-plaintext highlighter-rouge">ORDER BY</code> keyword, by which you can order the results of your query by the value in a certain column. For 示例, <code class="language-plaintext highlighter-rouge">ORDER BY tempo</code> will order results by the column <code class="language-plaintext highlighter-rouge">tempo</code>.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">2.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- All songs in increasing order of tempo.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">tempo</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>List the names of the top 5 longest 歌曲, in descending order of length</summary><p>Recall that <code class="language-plaintext highlighter-rouge">ORDER BY</code> need not always 排序 in ascending order. You can specify that your results be sorted in <em>descending</em> order by appending <code class="language-plaintext highlighter-rouge">DESC</code>. For 示例, <code class="language-plaintext highlighter-rouge">ORDER BY duration_ms DESC</code> will list results in descending order, by duration.</p>
+
+<p>And recall, too, that <code class="language-plaintext highlighter-rouge">LIMIT n</code> can specify that you only want the first \(n\) rows that match a specific query. For 示例, <code class="language-plaintext highlighter-rouge">LIMIT 5</code> will return only the first five results of the query.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">3.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The names of the top 5 longest songs, in descending order of length.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration_ms</span> <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="mi">5</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>List the names of any 歌曲 that have danceability, energy, and valence greater than 0.75</summary><p>Recall that you can 滤镜 results in SQL with <code class="language-plaintext highlighter-rouge">WHERE</code> clauses, which are followed by some condition which typically tests the values in a row’s columns.</p>
+
+<p>Recall, too, that SQL’s operators function much the same way as C’s. For 示例, <code class="language-plaintext highlighter-rouge">&gt;</code> evaluates to “true” when the value on the left is greater than the value on the right. You 五月 chain these expressions together, using <code class="language-plaintext highlighter-rouge">AND</code> or <code class="language-plaintext highlighter-rouge">OR</code>, to form one larger condition.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">4.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The names of any songs that have danceability, energy, and valence greater than 0.75.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">WHERE</span> <span class="n">danceability</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">75</span> <span class="k">AND</span> <span class="n">energy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">75</span> <span class="k">AND</span> <span class="n">valence</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">75</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>Find average energy of all the 歌曲</summary><p>Recall that SQL supports keywords not just to select particular rows, but also to <em>aggregate</em> the data in those rows. In particular, you might find the <code class="language-plaintext highlighter-rouge">AVG</code> keyword (to compute averages) useful. To aggregate the results of a column, just apply the aggregation function to that column. For 示例, <code class="language-plaintext highlighter-rouge">SELECT AVG(energy)</code> will find the average of the values in the energy column for the given query.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">5.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The average energy of all the songs.</span>
+<span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">songs</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>List the names of 歌曲 that are by Post Malone</summary><p>Notice that, if you execute <code class="language-plaintext highlighter-rouge">.schema songs</code> in your sqlite prompt, the <code class="language-plaintext highlighter-rouge">songs</code> table has song names but not artist names! Instead, <code class="language-plaintext highlighter-rouge">songs</code> has an <code class="language-plaintext highlighter-rouge">artist_id</code> column. To list the names of 歌曲 by Post Malone, then, you’ll first need to identify Post Malone’s artist id.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Identify Post Malone's artist id</span>
+<span class="k">SELECT</span> <span class="n">id</span>
+<span class="k">FROM</span> <span class="n">artists</span>
+<span class="k">WHERE</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'Post Malone'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>This query returns 54. Now, you could query the <code class="language-plaintext highlighter-rouge">songs</code> table for any song with Post Malone’s id.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">WHERE</span> <span class="n">artist_id</span> <span class="o">=</span> <span class="mi">54</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>But, per the 规格说明, you should be mindful not to assume knowledge of any ids. You could improve the design of this query by <em>nesting</em> your two queries.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">6.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The names of songs that are by Post Malone.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">WHERE</span> <span class="n">artist_id</span> <span class="o">=</span>
+<span class="p">(</span>
+    <span class="k">SELECT</span> <span class="n">id</span>
+    <span class="k">FROM</span> <span class="n">artists</span>
+    <span class="k">WHERE</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'Post Malone'</span>
+<span class="p">);</span>
+</code></pre></div></div></details>
+
+<details><summary>Find the average energy of 歌曲 that are by Drake</summary><p>Notice that, similar to the 上一页 query, you’ll need to combine multiple tables to successfully run this query. You could again use nested subqueries, but consider another approach too!</p>
+
+<p>Recall that you can use SQL’s <code class="language-plaintext highlighter-rouge">JOIN</code> keyword to combine multiple tables into one, so long as you specify which columns across those tables should ultimately match. For 示例, the following query joins the <code class="language-plaintext highlighter-rouge">songs</code> and <code class="language-plaintext highlighter-rouge">artists</code> tables, indicating that the <code class="language-plaintext highlighter-rouge">artist_id</code> column in the <code class="language-plaintext highlighter-rouge">songs</code> table and the <code class="language-plaintext highlighter-rouge">id</code> column in the <code class="language-plaintext highlighter-rouge">artists</code> table should match:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">JOIN</span> <span class="n">artists</span> <span class="k">ON</span> <span class="n">songs</span><span class="p">.</span><span class="n">artist_id</span> <span class="o">=</span> <span class="n">artists</span><span class="p">.</span><span class="n">id</span>
+</code></pre></div></div>
+
+<p>With these two tables combined, it’s only a matter of filtering your selection to find the average energy of 歌曲 by Drake.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">7.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The average energy of songs that are by Drake</span>
+<span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">JOIN</span> <span class="n">artists</span> <span class="k">ON</span> <span class="n">songs</span><span class="p">.</span><span class="n">artist_id</span> <span class="o">=</span> <span class="n">artists</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span> <span class="n">artists</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'Drake'</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>List the names of the 歌曲 that feature other artists</summary><p>For this query, 笔记 that 歌曲 which feature other artists typically have some mention of “feat.” in their title. Recall that SQL’s <code class="language-plaintext highlighter-rouge">LIKE</code> keyword can be used to match strings with certain phrases (like “feat.”!). To do so, you can use <code class="language-plaintext highlighter-rouge">%</code>: a wildcard character that matches any sequence of characters.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">8.sql</code>, then, try writing the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The names of songs that feature other artists.</span>
+<span class="k">SELECT</span> <span class="n">name</span>
+<span class="k">FROM</span> <span class="n">songs</span>
+<span class="k">WHERE</span> <span class="n">name</span> <span class="k">LIKE</span> <span class="s1">'%feat.%'</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<h2 id="walkthrough">Walkthrough</h2>
+
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/wgKPUd_95AA"></iframe>
+
+<details><summary>Not sure how to solve?</summary><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="border" data-video="" src="https://video.cs50.io/7hydPL9ZswE"></iframe></details>
+
+<h2 id="spotify-wrapped">Spotify Wrapped</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Spotify_Wrapped">Spotify Wrapped</a> is a feature presenting Spotify users’ 100 most played 歌曲 from the past year. In 2021, Spotify Wrapped calculated an <a href="https://newsroom.spotify.com/2021-12-01/learn-more-about-the-audio-aura-in-your-spotify-2021-wrapped-with-aura-reader-mystic-michaela/">“音频 Aura”</a> for each user, a “reading of [their] two most prominent moods as dictated by [their] top 歌曲 and artists of the year.” Suppose Spotify determines an 音频 aura by looking 在 the average energy, valence, and danceability of a person’s top 100 歌曲 from the past year. In <code class="language-plaintext highlighter-rouge">answers.txt</code>, reflect on the following 问题:</p>
+
+<ul>
+  <li data-marker="*">If <code class="language-plaintext highlighter-rouge">songs.db</code> contains the top 100 歌曲 of one listener from 2018, how would you characterize their 音频 aura?</li>
+  <li data-marker="*">Hypothesize 关于 why the way you’ve calculated this aura might <em>not</em> be very representative of the listener. What better ways of calculating this aura would you propose?</li>
+</ul>
+
+<p>Be sure to 提交 <code class="language-plaintext highlighter-rouge">answers.txt</code> along with each of your <code class="language-plaintext highlighter-rouge">.sql</code> files!</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2024/x/songs
+</code></pre></div></div>
+
+<h2 id="how-to-submit">如何提交</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2024/x/songs
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Dataset from <a href="https://www.kaggle.com/nadintamer/top-spotify-tracks-of-2018">Kaggle</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../../assets/page%EF%B9%961775149255.js"></script>
+
+    
+
+
+</body></html>

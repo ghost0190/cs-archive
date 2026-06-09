@@ -1,0 +1,521 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <meta property="og:image" content="">
+
+        <meta property="og:title" content="Abstraction - CS50&#x27;s Introduction to Programming with Scratch">
+
+        <link href="../../favicon%EF%B9%961779994621.ico" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../assets/jquery/dist/jquery.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap/dist/js/bootstrap.bundle.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/bootstrap-table/dist/bootstrap-table.min%EF%B9%961779994621.js"></script>
+        <script src="../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../assets/luxon/build/global/luxon.min%EF%B9%961779994621.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <!-- https://docs.mathjax.org/en/latest/output/fonts.html -->
+        <script>
+            MathJax = {
+                loader: {
+                    paths: {
+                        'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+                    }
+                },
+                output: {
+                    displayAlign: 'left'
+                }
+            };
+        </script>
+        <script src="../../assets/mathjax/tex-mml-chtml%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../assets/vanilla-lazyload/dist/lazyload.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://iframe-resizer.com/ -->
+        <script src="../../assets/@iframe-resizer/parent/index.umd%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../assets/scratchblocks.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../assets/mermaid/dist/mermaid.min%EF%B9%961779994621.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../assets/@twemoji/api/dist/twemoji.min%EF%B9%961779994621.js"></script>
+
+        
+
+        <link href="../../assets/page%EF%B9%961779994621.css" rel="stylesheet">
+        <script src="../../assets/jekyll-theme-cs50%EF%B9%961779994621.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Abstraction - CS50's Introduction to 编程 with Scratch</title>
+
+
+    <meta property="og:description" content="So far, we’ve seen many features of Scratch, with blocks that let us add loops, variables, and conditions to our projects. Now, let’s think about how we...">
+</head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="关闭" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../index.html#how-to-take-this-course">a verified 证书 or transfer credit and accreditation</a>?</p>
+</div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-scratch"><a href="../../index.html">CS50’s Introduction to 编程 with Scratch</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://brianyu.me">Brian Yu</a><br>
+<a href="mailto:brian@cs.harvard.edu">brian@cs.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="visually-hidden">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="visually-hidden">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="visually-hidden">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="visually-hidden">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="visually-hidden">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="visually-hidden">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="visually-hidden">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        菜单
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../x/puzzles/index.html"><i class="fas fa-puzzle-piece pe-2"></i>CS50x Puzzle Day</a></li>
+  <li data-marker="*"><a href="../../zoom/index.html"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*">
+<a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed 讨论</a> for Q&amp;A</li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol>
+  <li><a href="../../weeks/1/index.html">Sprites</a></li>
+  <li><a href="../../weeks/2/index.html">Functions</a></li>
+  <li><a href="../../weeks/3/index.html">Events</a></li>
+  <li><a href="../../weeks/4/index.html">Values</a></li>
+  <li><a href="../../weeks/5/index.html">Conditions</a></li>
+  <li><a href="../../weeks/6/index.html">Loops</a></li>
+  <li><a href="../../weeks/7/index.html">Variables</a></li>
+  <li><a href="../../weeks/8/index.html">Abstraction</a></li>
+  <li><a href="../../weeks/9/index.html">Building from Scratch</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../project/index.html">最终项目</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+</li></ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../honesty/index.html">学术诚信</a></li>
+  <li data-marker="*"><a href="../../certificate/index.html">CS50 证书</a></li>
+  <li data-marker="*"><a href="../../faqs/index.html">常见问题</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50s">成绩册</a></li>
+  <li data-marker="*"><a href="../../staff/index.html">工作人员</a></li>
+  <li data-marker="*">
+</li></ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/scratch">edX</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*">
+  </li><li data-marker="*"><a href="https://channelstore.roku.com/details/e338f60adfb133abc19eac2da9e5c505:40cee2a1909355bc4496086c8fa4a86f/cs50">Roku <span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382zj9BoaP-7Nu7w9t_QDZx5">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../communities/index.html"><strong>社区</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://bsky.app/profile/cs50.harvard.edu">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small">
+<a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small">
+<a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small">
+<a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small">
+<a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span>
+</li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/cs50">X Account</a></li>
+  <li data-marker="*" class="small"><a href="https://x.com/i/communities/1722308663522594923">X 社区</a></li>
+  <li data-marker="*" class="small"><a href="https://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../courses/index.html"><strong>课程</strong></a></li>
+  <li data-marker="*" class="small"><a href="../../../x/index.html">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
+  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 网络安全</a></li>
+  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="../../index.html">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="../../../x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../license/index.html" class="small"><i class="fab fa-creative-commons me-1"></i>许可协议</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="abstraction">Abstraction</h1>
+
+<ul>
+  <li data-marker="*">So far, we’ve seen many features of Scratch, with blocks that let us add loops, variables, and conditions to our 项目.</li>
+  <li data-marker="*">Now, let’s think 关于 how we might be able to improve upon the way that we’ve designed the blocks inside of our Scratch 项目.</li>
+</ul>
+
+<h2 id="dinosaur-game">Dinosaur Game</h2>
+
+<ul>
+  <li data-marker="*">Let’s start by adding a dinosaur sprite to start building our <a href="https://scratch.mit.edu/projects/507462509/">Dinosaur Game</a> 示例.</li>
+  <li data-marker="*">We’ll add blocks so that it can move when the arrow keys are pressed:
+    <pre><code class="language-scratch">  when [up arrow v] key pressed
+  change y by (10)
+
+  when [down arrow v] key pressed
+  change y by (-10)
+
+  when [right arrow v] key pressed
+  change x by (10)
+
+  when [left arrow v] key pressed
+  change x by (-10)
+</code></pre>
+  </li>
+  <li data-marker="*">We’ll add another sprite, the star, and we can say that we’ve won the game when our dinosaur touches the star.</li>
+  <li data-marker="*">Let’s tell our dinosaur to check if it’s touching the star after we’ve moved up:
+    <pre><code class="language-scratch">  when [up arrow v] key pressed
+  change y by (10)
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+</code></pre>
+    <ul>
+      <li data-marker="*">Recall that the “if” block is under the Control 小组课 of blocks, and “touching?” block is under the Sensing 小组课.</li>
+      <li data-marker="*">We’ll also add a “say” block along with the “timer” variable, so that our dinosaur can tell us how long it took to find the star.</li>
+    </ul>
+  </li>
+  <li data-marker="*">But this doesn’t work if we reach the star after we pressed right to get to it.</li>
+  <li data-marker="*">We want our dinosaur to check if we’ve reached the star no matter which key we used for it, so we need to right-click, or control-click, on the “if” block, and choose “Duplicate” to make a copy for each key:
+    <pre><code class="language-scratch">  when [up arrow v] key pressed
+  change y by (10)
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+
+  when [down arrow v] key pressed
+  change y by (-10)
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+
+  when [right arrow v] key pressed
+  change x by (10)
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+
+  when [left arrow v] key pressed
+  change x by (-10)
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+</code></pre>
+  </li>
+  <li data-marker="*">We’ll also add some code to our star so it moves to a random position every 时间 the program is started:
+    <pre><code class="language-scratch">  when green flag clicked
+  go to (random position v)
+</code></pre>
+  </li>
+  <li data-marker="*">Now, we can use the arrow keys to move our dinosaur to the star, and every 时间 it will tell us how long we took.</li>
+  <li data-marker="*">It looks like the 时间 is reported with decimals, like 9.70. So we can round this 时间 to the nearest number of seconds, with the “round” block in the Operators 小组课.</li>
+  <li data-marker="*">But now, we’d have to drag the “round” block into the scripts for each of the four directions.</li>
+  <li data-marker="*">When we’re copying a lot of code in our 项目, it’s often the case that there’s a better solution.</li>
+  <li data-marker="*">In this case, it turns out we can create a new block of our own, and refer 返回 to it every 时间 we need to.</li>
+  <li data-marker="*">We’ll look in the 小组课 of blocks called “My Blocks”, and click “Make a Block” to make a new block. We’ll 姓名 this “check if won”, since that’s what we’re trying to do. Then, we’ll see this block appear:
+    <pre><code class="language-scratch">  define check if won
+</code></pre>
+    <ul>
+      <li data-marker="*">Now, we can add blocks underneath, that will run every 时间 we use the “check if won” block.</li>
+    </ul>
+  </li>
+  <li data-marker="*">So we’ll take the condition and the “say” block, and move them to it:
+    <pre><code class="language-scratch">  define check if won
+  if &lt;touching (Star v) ?&gt; then
+  say (timer) for (2) seconds
+</code></pre>
+  </li>
+  <li data-marker="*">And for our other scripts, we’ll drag out our own “check if won” block:
+    <pre><code class="language-scratch">  when [up arrow v] key pressed
+  change y by (10)
+  check if won
+
+  when [down arrow v] key pressed
+  change y by (-10)
+  check if won
+
+  when [right arrow v] key pressed
+  change x by (10)
+  check if won
+
+  when [left arrow v] key pressed
+  change x by (-10)
+  check if won
+</code></pre>
+    <ul>
+      <li data-marker="*">Now, we’re using fewer blocks to achieve the same effect.</li>
+    </ul>
+  </li>
+  <li data-marker="*">If we wanted to round the value of the timer, we can change it just one place now, instead of four:
+    <pre><code class="language-scratch">  define check if won
+  if &lt;touching (Star v) ?&gt; then
+  say (round(timer)) for (2) seconds
+</code></pre>
+  </li>
+  <li data-marker="*">The ability to create our own blocks will allow us to improve the overall design and 可读性 of our 项目.</li>
+</ul>
+
+<h2 id="balloon">Balloon</h2>
+
+<ul>
+  <li data-marker="*">Let’s add a balloon sprite for <a href="https://scratch.mit.edu/projects/507463302/">Balloon 1</a>, and add blocks for it to inflate and deflate itself:
+    <pre><code class="language-scratch">  when green flag clicked
+  set size to (50) %
+  repeat (10)
+  change size by (10)
+  end
+  wait (1) seconds
+  repeat (10)
+  change size by (-10)
+  end
+</code></pre>
+    <ul>
+      <li data-marker="*">Our balloon will start at a size of 50%, increase its size by 10 ten times, wait a second, and then decrease its size by 10 (changing it by negative 10) ten times.</li>
+    </ul>
+  </li>
+  <li data-marker="*">But this code would require someone else to think 关于 what the numbers and loops are doing, to understand what will happen. We can make our code easier to 阅读 by adding 更多 blocks.</li>
+  <li data-marker="*">We can make a new block called “inflate”, that will increase the size of our balloon by 10 ten times:
+    <pre><code class="language-scratch">  define inflate
+  repeat (10)
+  change size by (10)
+  end
+</code></pre>
+  </li>
+  <li data-marker="*">And we’ll make another block called “deflate”, that will decrease the size of our balloon:
+    <pre><code class="language-scratch">  define deflate
+  repeat (10)
+  change size by (-10)
+  end
+</code></pre>
+  </li>
+  <li data-marker="*">For the main script, we’ll use our new blocks:
+    <pre><code class="language-scratch">  when green flag clicked
+  set size to (50) %
+  inflate
+  wait (1) seconds
+  deflate
+</code></pre>
+    <ul>
+      <li data-marker="*">笔记 that our program does the exact same thing still, but the script under “when flag clicked” is easier to 阅读.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We can call these custom blocks <strong>abstractions</strong>, or taking 更多 complex ideas or actions, and giving them a 姓名 that we can refer to and use over and over.</li>
+  <li data-marker="*">We can give ourselves even 更多 control in <a href="https://scratch.mit.edu/projects/507463768/">Balloon 2</a>. Let’s right-click, or control-click, the “inflate” block we have, and choose “Edit”. Then, we’ll click “Add an input” to give this block the ability to accept some input, and we’ll call it “n”:<br>
+  <img src="block_input.png" alt="Make a Block with inflate and n as input" width="717">
+    <ul>
+      <li data-marker="*">“n” will be the 姓名 of the input, and since it will be some number, we can use “n” by convention.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We’ll also click “Add a label”, and change that to say “times”, so our block will look like this:<br>
+  <img src="inflate_n_times.png" alt="block with inflate n times" width="272">
+    <ul>
+      <li data-marker="*">The label lets us add 更多 words to describe what the block will do.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Notice that our “define” block for “inflate” will show an “n” in an oval that we can use in our block below, so we’ll drag it into the “repeat” block:
+    <pre><code class="language-scratch">  define inflate (n) times
+  repeat (n)
+  change size by (10)
+</code></pre>
+    <ul>
+      <li data-marker="*">Now, “inflate” will increase the balloon’s size by 10 for “n” times.</li>
+    </ul>
+  </li>
+  <li data-marker="*">We’ll do this with deflate as well. Then, in our script for “when flag clicked”, we’ll need to type a number into each of our custom blocks:
+    <pre><code class="language-scratch">  when green flag clicked
+  set size to (50) %
+  inflate () times
+  wait (1) seconds
+  deflate () times
+</code></pre>
+    <ul>
+      <li data-marker="*">We can type in 10 so the balloon is inflated 10 times, or we can change that to 20, or any other value.</li>
+    </ul>
+  </li>
+  <li data-marker="*">By giving our functions the ability to take inputs, we can make them 更多 flexible.</li>
+</ul>
+
+<h2 id="walking-bear">Walking Bear</h2>
+
+<ul>
+  <li data-marker="*">Let’s take a look at a function that can take multiple inputs in <a href="https://scratch.mit.edu/projects/507464163/">Walking Bear</a>.</li>
+  <li data-marker="*">We’ll add our bear sprite, and rename our costumes for the bear on four legs to “4”, and the costume for the bear on two legs “2”.</li>
+  <li data-marker="*">Let’s make a new block called “walk”, and give it an input called “m”. We’ll add a label “steps on”, and then another input, “n”. Finally, we’ll add another label, “feet”:<br>
+  <img src="walk_m_steps.png" alt="block labeled walk m steps on n feet" width="349">
+    <ul>
+      <li data-marker="*">We could call the inputs anything we’d like, but we’ll use “m” and “n”.</li>
+    </ul>
+  </li>
+  <li data-marker="*">What we want this block to do is to make our bear walk “m” steps on “n” feet, so we’ll define it as:
+    <pre><code class="language-scratch">  define walk (m) steps on (n) feet
+  switch costume to (n)
+  repeat (m)
+  move (1) steps
+</code></pre>
+    <ul>
+      <li data-marker="*">We’ll first switch our costume to “n”, and then move 1 step “m” times.</li>
+    </ul>
+  </li>
+  <li data-marker="*">Now, in our main script, we can tell our bear to walk any number of steps, on two or four feet:
+    <pre><code class="language-scratch">  when green flag clicked
+  walk (30) steps on (4) feet
+  walk (30) steps on (2) feet
+</code></pre>
+    <ul>
+      <li data-marker="*">Notice that it’s easier to understand what our bear will do when the flag is clicked. And we’ve saved ourselves from having to repeat multiple blocks over and over again.</li>
+    </ul>
+  </li>
+  <li data-marker="*">With our own custom blocks, we can define complex behaviors that we can reuse and keep our 项目 better organized.</li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../assets/page%EF%B9%961779994621.js"></script>
+
+    
+
+
+</body></html>
