@@ -291,7 +291,7 @@
 
 <p>Unencrypted text is generally called <em>plaintext</em>. Encrypted text is generally called <em>ciphertext</em>. And the secret used is called a <em>key</em>.</p>
 
-<p>To be clear, then, here’s how encrypting <code class="language-plaintext highlighter-rouge">HELLO</code> with a key of \(1\) yields <code class="language-plaintext highlighter-rouge">IFMMP</code>:</p>
+<p>To be clear, then, here’s how encrypting <code class="language-plaintext highlighter-rouge">HELLO</code> with a key of 1 yields <code class="language-plaintext highlighter-rouge">IFMMP</code>:</p>
 
 <table>
   <thead>
@@ -307,11 +307,11 @@
   <tbody>
     <tr>
       <td>+ key</td>
-      <td>\(1\)</td>
-      <td>\(1\)</td>
-      <td>\(1\)</td>
-      <td>\(1\)</td>
-      <td>\(1\)</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
     </tr>
     <tr>
       <td>= ciphertext</td>
@@ -324,11 +324,11 @@
   </tbody>
 </table>
 
-<p>More formally, Caesar’s algorithm (i.e., cipher) encrypts messages by “rotating” each letter by \(k\) positions. More formally, if \(p\) is some plaintext (i.e., an unencrypted message), \(p_i\) is the \(i^{th}\) character in \(p\), and \(k\) is a secret key (i.e., a non-negative integer), then each letter, \(c_i\), in the ciphertext, \(c\), is computed as</p>
+<p>More formally, Caesar’s algorithm (i.e., cipher) encrypts messages by “rotating” each letter by <em>k</em> positions. More formally, if <em>p</em> is some plaintext (i.e., an unencrypted message), <em>p<sub>i</sub></em> is the <em>i</em><sup>th</sup> character in <em>p</em>, and <em>k</em> is a secret key (i.e., a non-negative integer), then each letter, <em>c<sub>i</sub></em>, in the ciphertext, <em>c</em>, is computed as</p>
 
 \[c_i = (p_i + k)\space\%\space26\]
 
-<p>wherein \(\%\space26\) here means “remainder when dividing by 26.” This formula perhaps makes the cipher seem more complicated than it is, but it’s really just a concise way of expressing the algorithm precisely. Indeed, for the sake of discussion, think of A (or a) as \(0\), B (or b) as \(1\), …, H (or h) as \(7\), I (or i) as \(8\), …, and Z (or z) as \(25\). Suppose that Caesar just wants to say <code class="language-plaintext highlighter-rouge">Hi</code> to someone confidentially using, this time, a key, \(k\), of 3. And so his plaintext, \(p\), is <code class="language-plaintext highlighter-rouge">Hi</code>, in which case his plaintext’s first character, \(p_0\), is <code class="language-plaintext highlighter-rouge">H</code> (aka 7), and his plaintext’s second character, \(p_1\), is <code class="language-plaintext highlighter-rouge">i</code> (aka 8). His ciphertext’s first character, \(c_0\), is thus <code class="language-plaintext highlighter-rouge">K</code>, and his ciphertext’s second character, \(c_1\), is thus <code class="language-plaintext highlighter-rouge">L</code>. Make sense?</p>
+<p>wherein \%\space26 here means “remainder when dividing by 26.” This formula perhaps makes the cipher seem more complicated than it is, but it’s really just a concise way of expressing the algorithm precisely. Indeed, for the sake of discussion, think of A (or a) as 0, B (or b) as 1, …, H (or h) as 7, I (or i) as 8, …, and Z (or z) as 25. Suppose that Caesar just wants to say <code class="language-plaintext highlighter-rouge">Hi</code> to someone confidentially using, this time, a key, <em>k</em>, of 3. And so his plaintext, <em>p</em>, is <code class="language-plaintext highlighter-rouge">Hi</code>, in which case his plaintext’s first character, <em>p<sub>0</sub></em>, is <code class="language-plaintext highlighter-rouge">H</code> (aka 7), and his plaintext’s second character, <em>p<sub>1</sub></em>, is <code class="language-plaintext highlighter-rouge">i</code> (aka 8). His ciphertext’s first character, <em>c<sub>0</sub></em>, is thus <code class="language-plaintext highlighter-rouge">K</code>, and his ciphertext’s second character, <em>c<sub>1</sub></em>, is thus <code class="language-plaintext highlighter-rouge">L</code>. Make sense?</p>
 
 <p>In a file called <code class="language-plaintext highlighter-rouge">caesar.c</code> in a folder called <code class="language-plaintext highlighter-rouge">caesar</code>, write a program that enables you to encrypt messages using Caesar’s cipher. At the time the user executes the program, they should decide, by providing a command-line argument, what the key should be in the secret message they’ll provide at runtime. We shouldn’t necessarily assume that the user’s key is going to be a number; though you may assume that, if it is a number, it will be a positive integer.</p>
 
@@ -342,10 +342,10 @@
 
 <ul>
   <li data-marker="*">Implement your program in a file called <code class="language-plaintext highlighter-rouge">caesar.c</code> in a directory called <code class="language-plaintext highlighter-rouge">caesar</code>.</li>
-  <li data-marker="*">Your program must accept a single command-line argument, a non-negative integer. Let’s call it \(k\) for the sake of discussion.</li>
+  <li data-marker="*">Your program must accept a single command-line argument, a non-negative integer. Let’s call it <em>k</em> for the sake of discussion.</li>
   <li data-marker="*">If your program is executed without any command-line arguments or with more than one command-line argument, your program should print an error message of your choice (with <code class="language-plaintext highlighter-rouge">printf</code>) and return from <code class="language-plaintext highlighter-rouge">main</code> a value of <code class="language-plaintext highlighter-rouge">1</code> (which tends to signify an error) immediately.</li>
   <li data-marker="*">If any of the characters of the command-line argument is not a decimal digit, your program should print the message <code class="language-plaintext highlighter-rouge">Usage: ./caesar key</code> and return from <code class="language-plaintext highlighter-rouge">main</code> a value of <code class="language-plaintext highlighter-rouge">1</code>.</li>
-  <li data-marker="*">Do not assume that \(k\) will be less than or equal to 26. Your program should work for all non-negative integral values of \(k\) less than \(2^{31} - 26\). In other words, you don’t need to worry if your program eventually breaks if the user chooses a value for \(k\) that’s too big or almost too big to fit in an <code class="language-plaintext highlighter-rouge">int</code>. (Recall that an <code class="language-plaintext highlighter-rouge">int</code> can overflow.) But, even if \(k\) is greater than \(26\), alphabetical characters in your program’s input should remain alphabetical characters in your program’s output. For instance, if \(k\) is \(27\), <code class="language-plaintext highlighter-rouge">A</code> should not become <code class="language-plaintext highlighter-rouge">\</code> even though <code class="language-plaintext highlighter-rouge">\</code> is \(27\) positions away from <code class="language-plaintext highlighter-rouge">A</code> in ASCII, per <a href="https://www.asciitable.com/">asciitable.com</a>; <code class="language-plaintext highlighter-rouge">A</code> should become <code class="language-plaintext highlighter-rouge">B</code>, since <code class="language-plaintext highlighter-rouge">B</code> is \(27\) positions away from <code class="language-plaintext highlighter-rouge">A</code>, provided you wrap around from <code class="language-plaintext highlighter-rouge">Z</code> to <code class="language-plaintext highlighter-rouge">A</code>.</li>
+  <li data-marker="*">Do not assume that <em>k</em> will be less than or equal to 26. Your program should work for all non-negative integral values of <em>k</em> less than 2^{31} - 26. In other words, you don’t need to worry if your program eventually breaks if the user chooses a value for <em>k</em> that’s too big or almost too big to fit in an <code class="language-plaintext highlighter-rouge">int</code>. (Recall that an <code class="language-plaintext highlighter-rouge">int</code> can overflow.) But, even if <em>k</em> is greater than 26, alphabetical characters in your program’s input should remain alphabetical characters in your program’s output. For instance, if <em>k</em> is 27, <code class="language-plaintext highlighter-rouge">A</code> should not become <code class="language-plaintext highlighter-rouge">\</code> even though <code class="language-plaintext highlighter-rouge">\</code> is 27 positions away from <code class="language-plaintext highlighter-rouge">A</code> in ASCII, per <a href="https://www.asciitable.com/">asciitable.com</a>; <code class="language-plaintext highlighter-rouge">A</code> should become <code class="language-plaintext highlighter-rouge">B</code>, since <code class="language-plaintext highlighter-rouge">B</code> is 27 positions away from <code class="language-plaintext highlighter-rouge">A</code>, provided you wrap around from <code class="language-plaintext highlighter-rouge">Z</code> to <code class="language-plaintext highlighter-rouge">A</code>.</li>
   <li data-marker="*">Your program must output <code class="language-plaintext highlighter-rouge">plaintext:  </code> (with two spaces but without a newline) and then prompt the user for a <code class="language-plaintext highlighter-rouge">string</code> of plaintext (using <code class="language-plaintext highlighter-rouge">get_string</code>).</li>
   <li data-marker="*">Your program must output <code class="language-plaintext highlighter-rouge">ciphertext: </code> (with one space but without a newline) followed by the plaintext’s corresponding ciphertext, with each alphabetical character in the plaintext “rotated” by <em>k</em> positions; non-alphabetical characters should be outputted unchanged.</li>
   <li data-marker="*">Your program must preserve case: capitalized letters, though rotated, must remain capitalized letters; lowercase letters, though rotated, must remain lowercase letters.</li>

@@ -618,9 +618,9 @@
 </code></pre></div>    </div>
     <p>Notice that what the user inputs at the command line is put into the <code class="language-plaintext highlighter-rouge">number</code> field of a node called <code class="language-plaintext highlighter-rouge">n</code>, and then that node is added to the <code class="language-plaintext highlighter-rouge">list</code>. For example, <code class="language-plaintext highlighter-rouge">./list 1 2</code> will put the number <code class="language-plaintext highlighter-rouge">1</code> into the <code class="language-plaintext highlighter-rouge">number</code> field of a node called <code class="language-plaintext highlighter-rouge">n</code>, then put a pointer to <code class="language-plaintext highlighter-rouge">list</code> into the <code class="language-plaintext highlighter-rouge">next</code> field of the node, and then update <code class="language-plaintext highlighter-rouge">list</code> to point to <code class="language-plaintext highlighter-rouge">n</code>. That same process is repeated for <code class="language-plaintext highlighter-rouge">2</code>. Next, <code class="language-plaintext highlighter-rouge">node *ptr = list</code> creates a temporary variable that points at the same spot that <code class="language-plaintext highlighter-rouge">list</code> points to. The <code class="language-plaintext highlighter-rouge">while</code> prints what at the node <code class="language-plaintext highlighter-rouge">ptr</code> points to, and then updates <code class="language-plaintext highlighter-rouge">ptr</code> to point to the <code class="language-plaintext highlighter-rouge">next</code> node in the list. Finally, all the memory is freed.</p>
   </li>
-  <li data-marker="*">In this example, inserting into the list is always in the order of \(O(1)\), as it only takes a very small number of steps to insert at the front of a list.</li>
-  <li data-marker="*">Considering the amount of time required to search this list, it is in the order of \(O(n)\), as in the worst case the entire list must always be searched to find an item. The time complexity for adding a new element to the list will depend on where that element is added. This is illustrated in the examples below.</li>
-  <li data-marker="*">Linked lists are not stored in a contiguous block of memory. They can grow as large as you wish, provided that enough system resources exist. The downside, however, is that more memory is required to keep track of the list instead of an array. This is because for each element, you must store not just the value of the element, but also a pointer to the next node. Further, linked lists cannot be indexed into like is possible in an array because we need to pass through the first \(n - 1\) elements to find the location of the \(n\)th element. Because of this, the list pictured above must be linearly searched. Binary search, therefore, is not possible in a list constructed as above.</li>
+  <li data-marker="*">In this example, inserting into the list is always in the order of <em>O</em>(1), as it only takes a very small number of steps to insert at the front of a list.</li>
+  <li data-marker="*">Considering the amount of time required to search this list, it is in the order of <em>O</em>(<em>n</em>), as in the worst case the entire list must always be searched to find an item. The time complexity for adding a new element to the list will depend on where that element is added. This is illustrated in the examples below.</li>
+  <li data-marker="*">Linked lists are not stored in a contiguous block of memory. They can grow as large as you wish, provided that enough system resources exist. The downside, however, is that more memory is required to keep track of the list instead of an array. This is because for each element, you must store not just the value of the element, but also a pointer to the next node. Further, linked lists cannot be indexed into like is possible in an array because we need to pass through the first n - 1 elements to find the location of the <em>n</em>th element. Because of this, the list pictured above must be linearly searched. Binary search, therefore, is not possible in a list constructed as above.</li>
   <li data-marker="*">
     <p>Further, you could place numbers at the end of the list as illustrated in this code:</p>
 
@@ -697,7 +697,7 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>    </div>
-    <p>Notice how this code <em>walks down</em> this list to find the end. When appending an element, (adding to the end of the list) our code will run in \(O(n)\), as we have to go through our entire list before we can add the final element.</p>
+    <p>Notice how this code <em>walks down</em> this list to find the end. When appending an element, (adding to the end of the list) our code will run in <em>O</em>(<em>n</em>), as we have to go through our entire list before we can add the final element.</p>
   </li>
   <li data-marker="*">
     <p>Further, you could sort your list as items are added:</p>
@@ -789,7 +789,7 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>    </div>
-    <p>Notice how this list is sorted as it is built. To insert an element in this specific order, our code will still run in \(O(n)\) for each insertion, as in the worst case we will have to look through all current elements.</p>
+    <p>Notice how this list is sorted as it is built. To insert an element in this specific order, our code will still run in <em>O</em>(<em>n</em>) for each insertion, as in the worst case we will have to look through all current elements.</p>
   </li>
 </ul>
 
@@ -905,7 +905,7 @@
     <p>Notice this search function begins by going to the location of <code class="language-plaintext highlighter-rouge">tree</code>. Then, it uses recursion to search for <code class="language-plaintext highlighter-rouge">number</code>. The <code class="language-plaintext highlighter-rouge">free_tree</code> function recursively frees the tree. <code class="language-plaintext highlighter-rouge">print_tree</code> recursively prints the tree.</p>
   </li>
   <li data-marker="*">A tree like the above offers dynamism that an array does not offer. It can grow and shrink as we wish.</li>
-  <li data-marker="*">Further, this structure offers a search time of \(O(log n)\).</li>
+  <li data-marker="*">Further, this structure offers a search time of O(log n).</li>
 </ul>
 
 <h2 id="dictionaries">Dictionaries</h2>
@@ -914,7 +914,7 @@
   <li data-marker="*"><em>Dictionaries</em> are another data structure.</li>
   <li data-marker="*">Dictionaries, like actual book-form dictionaries that have a word and a definition, have a <em>key</em> and a <em>value</em>.</li>
   <li data-marker="*">
-    <p>The <em>holy grail</em> of algorithmic time complexity is \(O(1)\) or <em>constant time</em>. That is, the ultimate is for access to be instantaneous.</p>
+    <p>The <em>holy grail</em> of algorithmic time complexity is <em>O</em>(1) or <em>constant time</em>. That is, the ultimate is for access to be instantaneous.</p>
 
     <p><img src="cs50Week5Slide151.png" alt="a graph of various time comlexities where O of log n is second best and O of 1 is best" title="time complexity"></p>
   </li>
@@ -972,7 +972,7 @@
 <ul>
   <li data-marker="*"><em>Tries</em> are another form of data structure.</li>
   <li data-marker="*"><em>Tries</em> are always searchable in constant time.</li>
-  <li data-marker="*">One downside to <em>Tries</em> is that they tend to take up a large amount of memory. Notice that we need \(26 \times 4 = 104\) <code class="language-plaintext highlighter-rouge">node</code>s just to store <em>Toad</em>!</li>
+  <li data-marker="*">One downside to <em>Tries</em> is that they tend to take up a large amount of memory. Notice that we need 26 \times 4 = 104 <code class="language-plaintext highlighter-rouge">node</code>s just to store <em>Toad</em>!</li>
   <li data-marker="*">
     <p><em>Toad</em> would be stored as follows:</p>
 

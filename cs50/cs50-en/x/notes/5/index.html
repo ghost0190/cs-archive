@@ -182,6 +182,7 @@
 <!-- Final project spec, seminars, shorts -->
 <ul>
   <li data-marker="*"><a href="../../project/index.html">Final Project</a></li>
+  <li data-marker="*"><a href="../../psets/index.html">Problem Sets</a></li>
   <li data-marker="*"><a href="../../gallery/index.html">Gallery of Final Projects<span aria-hidden="true" class="ps-2 text-decoration-none">🖼️ </span></a></li>
   <li data-marker="*"><a href="../../seminars/index.html">Seminars</a></li>
   <li data-marker="*">
@@ -281,16 +282,6 @@
 <ul>
   <li data-marker="*"><a href="../../courses/index.html"><strong>Courses</strong></a></li>
   <li data-marker="*" class="small"><a href="../../index.html">CS50x</a></li>
-  <li data-marker="*" class="small"><a href="../../../games/index.html">CS50 2D</a></li>
-  <li data-marker="*" class="small"><a href="../../../ai/index.html">CS50 AI</a></li>
-  <li data-marker="*" class="small"><a href="../../../business/index.html">CS50 Business</a></li>
-  <li data-marker="*" class="small"><a href="../../../cybersecurity/index.html">CS50 Cybersecurity</a></li>
-  <li data-marker="*" class="small"><a href="../../../law/index.html">CS50 for Lawyers</a></li>
-  <li data-marker="*" class="small"><a href="../../../python/index.html">CS50 Python</a></li>
-  <li data-marker="*" class="small"><a href="../../../r/index.html">CS50 R</a></li>
-  <li data-marker="*" class="small"><a href="../../../scratch/index.html">CS50 Scratch</a></li>
-  <li data-marker="*" class="small"><a href="../../../sql/index.html">CS50 SQL</a></li>
-  <li data-marker="*" class="small"><a href="../../../web/index.html">CS50 Web</a></li>
 </ul>
 
 <!-- Harvard Shop -->
@@ -763,9 +754,9 @@
 </code></pre></div>    </div>
     <p>Notice that <code class="language-plaintext highlighter-rouge">node *ptr = list</code> creates a temporary variable that points at the same spot that <code class="language-plaintext highlighter-rouge">list</code> points to. The <code class="language-plaintext highlighter-rouge">while</code> loop prints what the node <code class="language-plaintext highlighter-rouge">ptr</code> points to, and then updates <code class="language-plaintext highlighter-rouge">ptr</code> to point to the <code class="language-plaintext highlighter-rouge">next</code> node in the list. You can download this code <a href="https://cdn.cs50.net/2025/fall/lectures/5/src5/list4.c?download">here</a>.</p>
   </li>
-  <li data-marker="*">In this example, inserting into the list is always in the order of \(O(1)\), as it only takes a very small number of steps to insert at the front of a list.</li>
-  <li data-marker="*">Considering the amount of time required to search this list, it is in the order of \(O(n)\), because in the worst case the entire list must always be searched to find an item. The time complexity for adding a new element to the list will depend on where that element is added. This is illustrated in the examples below.</li>
-  <li data-marker="*">Linked lists are not stored in a contiguous block of memory. They can grow as large as you wish, provided that enough system resources exist. The downside, however, is that more memory is required to keep track of the list instead of an array. For each element you must store not just the value of the element, but also a pointer to the next node. Further, linked lists cannot be indexed into like is possible in an array because we need to pass through the first \(n - 1\) elements to find the location of the \(n\)th element. Because of this, the list pictured above must be linearly searched. Binary search, therefore, is not possible in a list constructed as above.</li>
+  <li data-marker="*">In this example, inserting into the list is always in the order of <em>O</em>(1), as it only takes a very small number of steps to insert at the front of a list.</li>
+  <li data-marker="*">Considering the amount of time required to search this list, it is in the order of <em>O</em>(<em>n</em>), because in the worst case the entire list must always be searched to find an item. The time complexity for adding a new element to the list will depend on where that element is added. This is illustrated in the examples below.</li>
+  <li data-marker="*">Linked lists are not stored in a contiguous block of memory. They can grow as large as you wish, provided that enough system resources exist. The downside, however, is that more memory is required to keep track of the list instead of an array. For each element you must store not just the value of the element, but also a pointer to the next node. Further, linked lists cannot be indexed into like is possible in an array because we need to pass through the first n - 1 elements to find the location of the <em>n</em>th element. Because of this, the list pictured above must be linearly searched. Binary search, therefore, is not possible in a list constructed as above.</li>
   <li data-marker="*">
     <p>Further, you could place numbers at the end of the list as illustrated in this code:</p>
 
@@ -841,7 +832,7 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>    </div>
-    <p>Notice how this code <em>walks down</em> this list to find the end. When appending an element (adding to the end of the list) our code will run in \(O(n)\), as we have to go through our entire list before we can add the final element. Further, notice that a temporary variable called <code class="language-plaintext highlighter-rouge">next</code> is used to track <code class="language-plaintext highlighter-rouge">ptr-&gt;next</code>. You can download this code <a href="https://cdn.cs50.net/2025/fall/lectures/5/src5/list7.c?download">here</a>.</p>
+    <p>Notice how this code <em>walks down</em> this list to find the end. When appending an element (adding to the end of the list) our code will run in <em>O</em>(<em>n</em>), as we have to go through our entire list before we can add the final element. Further, notice that a temporary variable called <code class="language-plaintext highlighter-rouge">next</code> is used to track <code class="language-plaintext highlighter-rouge">ptr-&gt;next</code>. You can download this code <a href="https://cdn.cs50.net/2025/fall/lectures/5/src5/list7.c?download">here</a>.</p>
   </li>
   <li data-marker="*">
     <p>Further, you could sort your list as items are added:</p>
@@ -932,7 +923,7 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>    </div>
-    <p>Notice how this list is sorted as it is built. To insert an element in this specific order, our code will still run in \(O(n)\) for each insertion, as in the worst case we will have to look through all current elements. You can download this code <a href="https://cdn.cs50.net/2025/fall/lectures/5/src5/list8.c?download">here</a>.</p>
+    <p>Notice how this list is sorted as it is built. To insert an element in this specific order, our code will still run in <em>O</em>(<em>n</em>) for each insertion, as in the worst case we will have to look through all current elements. You can download this code <a href="https://cdn.cs50.net/2025/fall/lectures/5/src5/list8.c?download">here</a>.</p>
   </li>
   <li data-marker="*">
     <p>As a final flourish, one could create a function by which to unload the linked list:</p>
@@ -1085,7 +1076,7 @@
     <p>Notice how this search function recursively searches the tree. If the searched number is less than the current node’s number, it searches the left subtree. If greater, it searches the right subtree. This recursive approach allows for efficient searching with a time complexity of O(log n) when the tree is balanced.</p>
   </li>
   <li data-marker="*">A tree offers dynamism that an array does not offer. It can grow and shrink as we wish.</li>
-  <li data-marker="*">Further, this structure offers a search time of \(O(log n)\) when the tree is balanced.</li>
+  <li data-marker="*">Further, this structure offers a search time of O(log n) when the tree is balanced.</li>
 </ul>
 
 <h2 id="hashing-and-hash-tables">Hashing and Hash Tables</h2>
@@ -1095,7 +1086,7 @@
 * Dictionaries can offer this speed of access through hashing. -->
 <ul>
   <li data-marker="*">
-    <p>The <em>holy grail</em> of algorithmic time complexity is \(O(1)\) or <em>constant time</em>. That is, the ultimate is for access to be instantaneous.</p>
+    <p>The <em>holy grail</em> of algorithmic time complexity is <em>O</em>(1) or <em>constant time</em>. That is, the ultimate is for access to be instantaneous.</p>
 
     <p><img src="cs50Week5Slide151.png" alt="a graph of various time complexities where O of log n is second best and O of 1 is best" title="time complexity"></p>
   </li>
@@ -1143,7 +1134,7 @@
     <p>Notice how the hash function returns the value of <code class="language-plaintext highlighter-rouge">toupper(word[0]) - 'A'</code>.</p>
   </li>
   <li data-marker="*">You, as the programmer, have to make a decision about the advantages of using more memory to have a large hash table and potentially reducing search time or using less memory and potentially increasing search time.</li>
-  <li data-marker="*">This structure offers a search time of \(O(n)\).</li>
+  <li data-marker="*">This structure offers a search time of <em>O</em>(<em>n</em>).</li>
 </ul>
 
 <h2 id="tries">Tries</h2>
@@ -1153,7 +1144,7 @@
 <em>Tries</em> are another form of data structure. Tries are trees of arrays.</li>
   <li data-marker="*">
 <em>Tries</em> are always searchable in constant time.</li>
-  <li data-marker="*">One downside to <em>Tries</em> is that they tend to take up a large amount of memory. Notice that we need \(26 \times 4 = 104\) nodes just to store <em>Toad</em>!</li>
+  <li data-marker="*">One downside to <em>Tries</em> is that they tend to take up a large amount of memory. Notice that we need 26 \times 4 = 104 nodes just to store <em>Toad</em>!</li>
   <li data-marker="*">
     <p><em>Toad</em> would be stored as follows:</p>
 
@@ -1164,7 +1155,7 @@
 
     <p><img src="cs50Week5Slide209.png" alt="toad being spelled with one letter at a time where one letter is associated with one list T from one list O from another and so on and tom being spelled similarly where toad and tom share two common letters T and O" title="tries"></p>
   </li>
-  <li data-marker="*">This structure offers a search time of \(O(1)\).</li>
+  <li data-marker="*">This structure offers a search time of <em>O</em>(1).</li>
   <li data-marker="*">The downside of this structure is how many resources are required to use it.</li>
 </ul>
 
