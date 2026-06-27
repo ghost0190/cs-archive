@@ -1,0 +1,1451 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  
+
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+
+
+  <link rel="stylesheet" href="../../assets/css/just-the-docs-default.css">
+
+  
+
+  
+    <script src="../../assets/js/vendor/lunr.min.js"></script>
+  
+
+  
+
+  <script src="../../assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project 3: BYOW | CS 61B Spring 2024</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Project 3: BYOW" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Project 3 spec." />
+<meta property="og:description" content="Project 3 spec." />
+<link rel="canonical" href="index.html" />
+<meta property="og:url" content="https://sp24.datastructur.es/projects/proj3/" />
+<meta property="og:site_name" content="CS 61B Spring 2024" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project 3: BYOW" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Project 3 spec.","headline":"Project 3: BYOW","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj3/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link rel="preload" href="../../assets/css/just-the-docs-dark.css" as="style" />
+
+<!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+<link id="jtdThemeCSS" rel="stylesheet" href="../../assets/css/just-the-docs-default.css">
+
+<script>
+  /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+</script>
+
+<!-- Script for LaTeX rendering. -->
+<link rel="stylesheet" href="../../assets/katex/katex.min.css">
+<script defer src="../../assets/katex/katex.min.js"></script>
+<script>
+function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+</script>
+<script defer src="../../assets/katex/contrib/auto-render.min.js" onload="renderKaTeX();"></script>
+
+
+</head>
+
+<body>
+  <a class="skip-to-main" href="#main-content">Skip to main content</a>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="svg-link" viewBox="0 0 24 24">
+      <title>Link</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+    </symbol>
+    <symbol id="svg-search" viewBox="0 0 24 24">
+      <title>Search</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-menu" viewBox="0 0 24 24">
+      <title>Menu</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+      <title>Expand</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </symbol>
+    <symbol id="svg-doc" viewBox="0 0 24 24">
+      <title>Document</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline>
+      </svg>
+    </symbol>
+    <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+<symbol id="svg-external-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link">
+  <title id="svg-external-link-title">(external link)</title>
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
+</symbol>
+
+  </svg>
+
+  <div class="side-bar">
+    <div class="site-header">
+      <a href="../../index.html" class="site-title lh-tight">
+  <div class="site-logo"></div>
+
+</a>
+      <a href="#" id="menu-button" class="site-button">
+        <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-menu"></use></svg>
+      </a>
+    </div>
+    <nav aria-label="Main" id="site-nav" class="site-nav">
+      
+      
+        <ul class="nav-list"><li class="nav-list-item active"><a href="../../index.html" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="../../calendar/index.html" class="nav-list-link">Calendar</a></li><li class="nav-list-item"><a href="../../policies/index.html" class="nav-list-link">Course Info</a></li><li class="nav-list-item"><a href="../../staff/index.html" class="nav-list-link">Staff</a></li><li class="nav-list-item"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="../../labs/index.html" class="nav-list-link">Labs</a><ul class="nav-list"><li class="nav-list-item ">
+	<a href="../../labs/lab01/index.html" class="nav-list-link">Lab 01: Setup</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab01/faq/index.html" class="nav-list-link">FAQ</a><li class="nav-list-item ">
+	<a href="../../labs/lab01/terminal/index.html" class="nav-list-link">How to Use the Terminal</a><li class="nav-list-item ">
+	<a href="../../labs/lab04/terminal/index.html" class="nav-list-link">How to Use the Terminal</a><li class="nav-list-item ">
+	<a href="../../labs/lab01/linux/index.html" class="nav-list-link">Linux/Unix</a><li class="nav-list-item ">
+	<a href="../../labs/lab01/mac/index.html" class="nav-list-link">Mac OS</a><li class="nav-list-item ">
+	<a href="../../labs/lab01/windows/index.html" class="nav-list-link">Windows</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab02/index.html" class="nav-list-link">Lab 02: Debugging (Part 1)</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab02/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab03/index.html" class="nav-list-link">Lab 03: Debugging (Part 2)</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab03/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab04/index.html" class="nav-list-link">Lab 04: Git</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab04/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab05/index.html" class="nav-list-link">Lab 05: Disjoint Sets</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab05/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab06/index.html" class="nav-list-link">Lab 06: BSTMap</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab06/asymptotics-soln/index.html" class="nav-list-link">Asymptotics Problems Solutions</a><li class="nav-list-item ">
+	<a href="../../labs/lab06/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab07/index.html" class="nav-list-link">Lab 07: LLRBs</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab07/faq/index.html" class="nav-list-link">FAQ</a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab08/index.html" class="nav-list-link">Lab 08: Hashmaps</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab08/faq/index.html" class="nav-list-link">FAQ - Lab08 </a></ul><li class="nav-list-item ">
+	<a href="../../labs/lab09/index.html" class="nav-list-link">Lab 09: Conway's Game of Life</a><ul class="nav-list child"></ul><li class="nav-list-item ">
+	<a href="../../labs/lab10/index.html" class="nav-list-link">Lab 10: Tetris</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../labs/lab10/faq/index.html" class="nav-list-link">FAQ - Lab10</a></ul></ul></li><li class="nav-list-item"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="../../homeworks/index.html" class="nav-list-link">Homeworks</a><ul class="nav-list"><li class="nav-list-item ">
+	<a href="../../homeworks/hw0/index.html" class="nav-list-link">Homework 0</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../homeworks/hw0/hw0a/index.html" class="nav-list-link">Homework 0A: Java Syntax</a><ul class="nav-list child"></ul><li class="nav-list-item ">
+	<a href="../../homeworks/hw0/hw0b/index.html" class="nav-list-link">Homework 0B: Data Structures</a><ul class="nav-list child"></ul></ul><li class="nav-list-item ">
+	<a href="../../homeworks/hw2/index.html" class="nav-list-link">Homework 2: Percolation</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../homeworks/hw2/faq/index.html" class="nav-list-link">Homework 2: Percolation FAQ</a><li class="nav-list-item ">
+	<a href="../../homeworks/hw2/outputs/index.html" class="nav-list-link">"Expected Outputs - HW 2: Percolation"</a></ul></ul></li><li class="nav-list-item active"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="../index.html" class="nav-list-link">Projects</a><ul class="nav-list"><li class="nav-list-item ">
+	<a href="../proj0/index.html" class="nav-list-link">Project 0: 2048</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj0/faq/index.html" class="nav-list-link">FAQ</a><ul class="nav-list child"></ul></ul><li class="nav-list-item ">
+	<a href="../proj1a/index.html" class="nav-list-link">Project 1A: LinkedListDeque61B</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj1a/faq/index.html" class="nav-list-link">FAQ - Project 1A: Linked List Deque 61B</a><li class="nav-list-item ">
+	<a href="../proj1a/flags/index.html" class="nav-list-link">Coverage Tests - Project 1A: Linked List Deque 61B</a></ul><li class="nav-list-item ">
+	<a href="../proj1b/index.html" class="nav-list-link">Project 1B: ArrayDeque61B</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj1b/faq/index.html" class="nav-list-link">FAQ - Project 1B: Array Deque 61B</a><li class="nav-list-item ">
+	<a href="../proj1b/flags/index.html" class="nav-list-link">Coverage Tests - Project 1B: Array Deque 61B</a></ul><li class="nav-list-item ">
+	<a href="../proj1c/index.html" class="nav-list-link">Project 1C: Deque61B Enhancements</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj1c/faq/index.html" class="nav-list-link">FAQ - Project 1C: Deque61B Enhancements</a></ul><li class="nav-list-item ">
+	<a href="../proj2a/index.html" class="nav-list-link">Project 2A: Ngordnet (NGrams)</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj2a/faq/index.html" class="nav-list-link">FAQ - Project 2A</a></ul><li class="nav-list-item ">
+	<a href="../proj2b/index.html" class="nav-list-link">Project 2B: Ngordnet (Wordnet)</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj2b/faq/index.html" class="nav-list-link">FAQ - Project 2B</a></ul><li class="nav-list-item ">
+	<a href="../proj2c/index.html" class="nav-list-link">Project 2C: Ngordnet Enhancements</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../proj2c/faq/index.html" class="nav-list-link">FAQ - Project 2C</a></ul><li class="nav-list-item  active">
+	<a href="index.html" class="nav-list-link active">Project 3: BYOW</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="faq/index.html" class="nav-list-link">FAQ - Project 3: BYOW</a><li class="nav-list-item ">
+	<a href="proj3checkoff/index.html" class="nav-list-link">Checkoff - Project 3: BYOW</a><li class="nav-list-item ">
+	<a href="ui_bugs/index.html" class="nav-list-link">Common UI Bugs - Project 3: BYOW</a></ul></ul></li><li class="nav-list-item"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="../../resources/index.html" class="nav-list-link">Resources</a><ul class="nav-list"><li class="nav-list-item ">
+	<a href="../../resources/guides/index.html" class="nav-list-link">Guides</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../resources/guides/asymptotics/index.html" class="nav-list-link">Asymptotics</a><li class="nav-list-item ">
+	<a href="../../resources/guides/beacon/index.html" class="nav-list-link">Beacon Guide</a><li class="nav-list-item ">
+	<a href="../../resources/guides/debugging/index.html" class="nav-list-link">Debugging Guide</a><li class="nav-list-item ">
+	<a href="../../resources/guides/ed/index.html" class="nav-list-link">Ed Policies and Guidelines</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../resources/guides/ed/ed-guide/index.html" class="nav-list-link">An Ed Guide for New Users</a></ul><li class="nav-list-item ">
+	<a href="../../resources/guides/intellij/index.html" class="nav-list-link">IntelliJ</a><ul class="nav-list child"><li class="nav-list-item ">
+	<a href="../../resources/guides/intellij/plugins/index.html" class="nav-list-link">Installing and Using the IntelliJ Plugins</a><li class="nav-list-item ">
+	<a href="../../resources/guides/intellij/wtfs/index.html" class="nav-list-link">IntelliJ WTFS</a></ul><li class="nav-list-item ">
+	<a href="../../resources/guides/oh/index.html" class="nav-list-link">Online OH Guide</a><li class="nav-list-item ">
+	<a href="../../resources/guides/style/index.html" class="nav-list-link">Style Guide</a><li class="nav-list-item ">
+	<a href="../../resources/guides/git/index.html" class="nav-list-link">Using Git</a><li class="nav-list-item ">
+	<a href="../../resources/guides/soda-machines/index.html" class="nav-list-link">Using the Soda Lab Machines</a></ul><li class="nav-list-item ">
+	<a href="../../resources/academic/index.html" class="nav-list-link">Academic Resources</a><li class="nav-list-item ">
+	<a href="../../resources/conceptual/index.html" class="nav-list-link">Conceptual Resources</a><ul class="nav-list child"></ul><li class="nav-list-item ">
+	<a href="../../resources/exams/index.html" class="nav-list-link">Exam Resources</a><ul class="nav-list child"></ul><li class="nav-list-item ">
+	<a href="../../resources/support/index.html" class="nav-list-link">Support Resources</a><ul class="nav-list child"></ul></ul></li><li class="nav-list-item"><a href="../../summer/index.html" class="nav-list-link">Summer 2024 FAQ</a></li></ul>
+      
+      
+    </nav>
+
+    
+    
+      <footer class="site-footer">
+        This site uses <a href="https://github.com/just-the-docs/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
+      </footer>
+    
+  </div>
+  <div class="main" id="top">
+    <div id="main-header" class="main-header">
+      
+
+        
+
+        <div class="search">
+          <div class="search-input-wrap">
+            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search CS 61B Spring 2024" aria-label="Search CS 61B Spring 2024" autocomplete="off">
+            <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
+          </div>
+          <div id="search-results" class="search-results"></div>
+        </div>
+      
+      <script>
+  // Adding the site logo and title to the navbar like this until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+</script>
+
+      
+        <nav aria-label="Auxiliary" class="aux-nav">
+          <ul class="aux-nav-list">
+            
+              <li class="aux-nav-list-item">
+                <a href="#" class="site-button"
+                  
+                >
+                  Dark Mode
+                </a>
+              </li>
+            
+              <li class="aux-nav-list-item">
+                <a href="https://edstem.org/us/courses/53369/discussion/" class="site-button"
+                  
+                >
+                  Ed
+                </a>
+              </li>
+            
+              <li class="aux-nav-list-item">
+                <a href="https://oh.datastructur.es/" class="site-button"
+                  
+                >
+                  OH Queue
+                </a>
+              </li>
+            
+              <li class="aux-nav-list-item">
+                <a href="https://beacon.datastructur.es/" class="site-button"
+                  
+                >
+                  Beacon
+                </a>
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </div>
+    <div id="main-content-wrap" class="main-content-wrap">
+      
+        
+          <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb-nav-list">
+              
+                <li class="breadcrumb-nav-list-item"><a href="../index.html">Projects</a></li>
+              
+              <li class="breadcrumb-nav-list-item"><span>Project 3: BYOW</span></li>
+            </ol>
+          </nav>
+        
+      
+      <div id="main-content" class="main-content" role="main">
+        
+          <nav class="content-nav ">
+      <ul class="nav-list js-toc"><li class="nav-list-item">Project 3: BYOW<ul><li class="nav-list-item"><a href="#faq" class="nav-list-link">FAQ</a></li><li class="nav-list-item"><a href="#introduction" class="nav-list-link">Introduction</a></li><li class="nav-list-item"><a href="#deliverables" class="nav-list-link">Deliverables</a></li><li class="nav-list-item"><a href="#overview" class="nav-list-link">Overview</a></li><li class="nav-list-item"><a href="#project-setup" class="nav-list-link">Project Setup</a><ul><li class="nav-list-item"><a href="#group-repository-setup" class="nav-list-link">Group Repository Setup</a></li></ul></li><li class="nav-list-item"><a href="#skeleton-code" class="nav-list-link">Skeleton Code</a></li><li class="nav-list-item"><a href="#3a-world-generation" class="nav-list-link">3A: World Generation</a><ul><li class="nav-list-item"><a href="#tileset-and-tile-rendering" class="nav-list-link">Tileset and Tile Rendering</a></li><li class="nav-list-item"><a href="#starting-your-program" class="nav-list-link">Starting Your Program</a></li><li class="nav-list-item"><a href="#requirements" class="nav-list-link">Requirements</a></li></ul></li><li class="nav-list-item"><a href="#design-document" class="nav-list-link">Design Document</a><ul><li class="nav-list-item"><a href="#design-document-guidelines" class="nav-list-link">Design Document Guidelines</a></li></ul></li><li class="nav-list-item"><a href="#3b-interactivity" class="nav-list-link">3B: Interactivity</a><ul><li class="nav-list-item"><a href="#ui-user-interface-appearance" class="nav-list-link">UI (User Interface) Appearance</a></li><li class="nav-list-item"><a href="#ui-behavior" class="nav-list-link">UI Behavior</a></li><li class="nav-list-item"><a href="#saving-and-loading" class="nav-list-link">Saving and Loading</a></li><li class="nav-list-item"><a href="#interacting-with-input-strings" class="nav-list-link">Interacting With Input Strings</a></li></ul></li><li class="nav-list-item"><a href="#3c-ambition--demos" class="nav-list-link">3C: Ambition &amp; Demos</a><ul><li class="nav-list-item"><a href="#21-points-primary-features" class="nav-list-link">21 Points Primary Features</a></li><li class="nav-list-item"><a href="#7-points-secondary-features" class="nav-list-link">7 Points Secondary Features</a></li></ul></li><li class="nav-list-item"><a href="#requirements-summary" class="nav-list-link">Requirements Summary</a></li><li class="nav-list-item"><a href="#submission-and-grading" class="nav-list-link">Submission and Grading</a><ul><li class="nav-list-item"><a href="#partnership-preferences-form-2-points" class="nav-list-link">Partnership Preferences Form: 2 points</a></li><li class="nav-list-item"><a href="#autograders-12-points" class="nav-list-link">Autograders: 12 points</a></li><li class="nav-list-item"><a href="#3a-asynchronous-manual-review-6-points" class="nav-list-link">3A Asynchronous Manual Review: 6 points</a></li><li class="nav-list-item"><a href="#partner-reflection-20-points" class="nav-list-link">Partner Reflection: 20 points</a></li><li class="nav-list-item"><a href="#3c-checkoff-demo-85-points" class="nav-list-link">3C Checkoff Demo: 85 points</a></li></ul></li><li class="nav-list-item"><a href="#checkoff-script-and-form" class="nav-list-link">Checkoff Script and Form</a></li><li class="nav-list-item"><a href="#autograder-details" class="nav-list-link">Autograder Details</a><ul><li class="nav-list-item"><a href="#3a-grader" class="nav-list-link">3A Grader</a></li><li class="nav-list-item"><a href="#3b-grader" class="nav-list-link">3B Grader</a></li></ul></li><li class="nav-list-item"><a href="#large-language-models-llms" class="nav-list-link">Large Language Models (LLMs)</a></li></ul></li></ul>
+    </nav>
+    <div class="content-container">
+      <h1 class="title">
+        
+        
+          Project 3: BYOW
+        
+        
+      </h1>
+    
+      <h2 id="faq">
+        
+        
+          <a href="#faq" class="anchor-heading" aria-labelledby="faq"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <a href="faq/index.html">FAQ</a>
+        
+        
+      </h2>
+    
+
+<p>Each assignment will have an FAQ linked at the top. You can also access it by adding “/faq” to the end of the URL. The
+FAQ for Project 3 is located <a href="faq/index.html">here</a>.</p>
+      <h2 id="introduction">
+        
+        
+          <a href="#introduction" class="anchor-heading" aria-labelledby="introduction"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Introduction
+        
+        
+      </h2>
+    
+
+<p>In Project 3, you will create an engine for generating explorable worlds. This is a large design project that will
+require you and one partner to work through every stage of development from ideation to presentation. The goal of this
+project is to teach you how to handle a larger piece of code with little starter code in the hopes of emulating
+something like a product development cycle. In accordance with this, the grading of this project will be different from
+other projects. Since there is no notion of “the correct answer” when it comes to world design and implementation, you
+will be assessed much like a performance review you might receive at an internship or job in addition to a very general
+autograder. While this means you will be graded slightly subjectively, we promise to be pretty nice bosses and will
+respect you as any boss should respect their hardworking employees. Please talk to us if you feel the grading scheme
+feels unfair.</p>
+
+<p>This project will require you a great deal of exploration and experimentation. Searching the web for answers (not
+solutions from past semesters) should be a regular activity throughout this process. Please know that there are no right
+and wrong answers, as this is a very open-ended project. However, there are some implementations and ideas that are
+better than others. It is ok and expected that you will go through several iterations before settling on something that
+you deem good. That is, this project is about <strong>software engineering</strong>.</p>
+
+<p>You’re not required to use any of the fancy data structures or concepts from class (A*, MSTs, Disjoint Sets, etc.). This
+project is about software engineering, not about data structures or algorithms. The data structures and algorithms we’ve
+learned about in class will make your code significantly simpler and more efficient, but please don’t use things just
+because we learned about them in class. Only use these tools if you feel comfortable using them in your implementation.</p>
+
+<p>A video playlist (from Spring 2018) discussing tips for working on this project can be
+found <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6REWjsJd5jz9fpXO5_3ebY&amp;disable_polymer=true">at this link</a>.
+A walkthrough of the new skeleton code is also available <a href="https://youtu.be/A8NlkICBWL8">here</a>.</p>
+
+<p>Please also note that since the structure of the project has been changed, Phase 1 will refer to part 3A of the project.</p>
+      <h2 id="deliverables">
+        
+        
+          <a href="#deliverables" class="anchor-heading" aria-labelledby="deliverables"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deliverables
+        
+        
+      </h2>
+    
+
+<p>Project 3 is worth 125 points. There are several key deadlines for this assignment:</p>
+
+<ul>
+  <li><strong>Team formation (2 pts): Due 4/3 at 11:59 PM</strong>
+    <ul>
+      <li>You must submit the <a href="https://forms.gle/CUV2iZN1NcPvNo8dA">Project 3 Partnerships Form</a>. You will <strong>not</strong> be able to change your partner later. Read and understand
+the <a href="../../resources/guides/partnerships/index.html">partnership guidelines</a> before starting the assignment.</li>
+      <li>When group repos are released, you <strong>must accept your GitHub invitation</strong>, otherwise they will expire after a week.</li>
+    </ul>
+  </li>
+  <li><strong>Project 3A (19 pts): Due 4/15 at 11:59 PM</strong>
+    <ul>
+      <li>World Generation Autograder (3 pts): Due on Gradescope</li>
+      <li>Asynchronous Manual Review (6 pts): Due at <a href="https://forms.gle/LRBWHnrW7dwr4mV89">3A Asynchronous Review Form</a></li>
+      <li>3A Partner Reflection (10 pts): Due at <a href="https://forms.gle/q5UmLgKHrnRUhD8m8">3A Reflection Form</a></li>
+    </ul>
+  </li>
+  <li><strong>Project 3B (9 pts): Due 4/22 at 11:59 PM</strong>
+    <ul>
+      <li>Interactivity Autograder (9 pts): Due on Gradescope</li>
+    </ul>
+  </li>
+  <li><strong>Project 3C (95 pts): Due 4/22 at 11:59 PM</strong>
+    <ul>
+      <li>Ambition &amp; Demos Checkoff (85 pts): Due at <a href="https://forms.gle/oj8sFgt28aGce41u5">Ambition Checkoff Form</a></li>
+      <li>3BC Partner Reflection (10 pts): Due at <a href="https://forms.gle/Tdq2V8UP11fCEbpN8">3BC Reflection Form</a></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote class="danger">
+  <p>Ambition Demos will be held in person during lab sections the week that Project 3BC is due.
+All group members must arrive on time, otherwise a 20% late penalty will be applied to the group.</p>
+</blockquote>
+
+<blockquote class="danger">
+  <p><strong>Beware: you cannot submit Project 3B &amp; 3C late without extenuating circumstances</strong>. We do not have the same 
+extension policy as previous assignments, so get started early.</p>
+</blockquote>
+
+<p>Notice that Project 3B &amp; 3C are due on the same day. However, since you need to be manually checked off for the “Ambition” 
+part, we made a division between “Interactivity” and “Ambition &amp; Demos”. In your Gradescope submission for 3B, your code 
+should also have “Ambition” features because we will be asking for your Gradescope submission ID from 3B in the 3C Form.</p>
+
+<p><strong>You cannot submit Project 3B &amp; 3C late, as it will be graded during a lab checkoff with a TA.</strong> We strongly discourage submitting 3A and the supporting labs (Lab 9 and Lab 10) late, as
+Project 3B &amp; 3C builds upon these assignments, so it is unlikely that you will be able to submit these
+assignments late and still complete Project 3B on time.</p>
+
+<p>Now on to the assignment spec!</p>
+      <h2 id="overview">
+        
+        
+          <a href="#overview" class="anchor-heading" aria-labelledby="overview"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Overview
+        
+        
+      </h2>
+    
+
+<p>Your task for the next few weeks is to design and implement a 2D tile-based world exploration engine. By “tile-based”,
+we mean the worlds you generate will consist of a 2D grid of tiles. By “world exploration engine” we mean that your
+software will build a world, which the user will be able to explore by walking around and interacting with objects in
+that world. Your world will have an overhead perspective. As an example of a much more sophisticated system than you
+will build, the NES game “Zelda II” is (sometimes) a tile based world exploration engine that happens to be a video
+game:</p>
+
+<p><img src="http://www.mobygames.com/images/shots/l/31358-zelda-ii-the-adventure-of-link-nes-screenshot-an-overhead-view.jpg" alt="Zelda2" /></p>
+
+<p>The system you build can either use graphical tiles (as shown above), or it can use text based tiles, like
+the <a href="https://sites.google.com/site/broguegame/">game shown below</a>:</p>
+
+<p><img src="img/brogue_textbased_example.png" alt="brogue" /></p>
+
+<p>We will provide a tile renderer, a small set of starter tiles, and the headers for a few required methods that must be
+implemented for your world engine and that will be used by the autograder. The project will have two major deadlines. By
+the first deadline, you should be able to generate random worlds that meet the criteria below. By the second deadline, a
+user should be able to explore and interact with the world.</p>
+
+<p>The major goal of this project is to give you a chance to attempt to manage the complexity that comes with building a
+large system. Be warned: The system you build probably isn’t going to be that fun for users! Three weeks is simply not
+enough time, particularly for novice programmers. However, we do hope you will find it to be a fulfilling project, and
+the worlds you generate might even be beautiful.</p>
+      <h2 id="project-setup">
+        
+        
+          <a href="#project-setup" class="anchor-heading" aria-labelledby="project-setup"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Project Setup
+        
+        
+      </h2>
+    
+
+<p class="warning">THE SETUP FOR THIS PROJECT IS DIFFERENT THAN THE OTHER LABS / PROJECTS. PLEASE DO NOT SKIP THIS STEP!</p>
+      <h3 id="group-repository-setup">
+        
+        
+          <a href="#group-repository-setup" class="anchor-heading" aria-labelledby="group-repository-setup"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Group Repository Setup
+        
+        
+      </h3>
+    
+
+<p>You’ll be working exclusively in a group repository for this portion of the project. To set this group repo up on your local computer, follow the instructions below (these are also in the spec):</p>
+
+<ul>
+  <li>Go to your email and accept the GitHub repo invite that you should have received. Please do this as soon as you receive the invite, as they will expire within 7 days. If your invite has expired, please make an Ed post.</li>
+  <li>Log in to Beacon, and click on the “Groups” tab. You should have a group listed here.</li>
+  <li>Click the “View Repository on GitHub” link.</li>
+  <li>You’ll now be taken to your new repository on GitHub. You will have an empty repository. Copy the clone link shown in the text bar (blacked out in the screenshot).</li>
+</ul>
+
+<blockquote class="info">
+  <p>We recommend cloning with <code class="language-plaintext highlighter-rouge">ssh</code> instead of <code class="language-plaintext highlighter-rouge">https</code>. The image below uses <code class="language-plaintext highlighter-rouge">https</code>, which might not mesh well with the Github
+authentication from Lab 1. To swap, you should click the <code class="language-plaintext highlighter-rouge">ssh</code> button and use the link that appears.</p>
+</blockquote>
+
+<p><img src="img/project-repo.png" alt="group-repo" /></p>
+
+<ul>
+  <li>Open a new Terminal window, and navigate to the directory that you store your CS 61B files in (usually, students have a directory called <code class="language-plaintext highlighter-rouge">cs61b</code>).</li>
+</ul>
+
+<p class="warning"><strong>IMPORTANT:</strong> Do not cd into your <code class="language-plaintext highlighter-rouge">sp24-s****</code> repo! You should not be cloning the group repo inside of your personal 61b one.</p>
+
+<ul>
+  <li>Type the following commands into your terminal, and hit Enter after each one:</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone &lt;<span class="nb">paste </span>your <span class="nb">link </span>from GitHub here&gt;
+<span class="nb">cd </span>sp24-proj3-g<span class="k">***</span>  // Replace the <span class="k">***</span> here with your group repo number
+git remote add skeleton https://github.com/Berkeley-CS61B/proj3-skeleton-sp24.git
+git pull skeleton main <span class="nt">--allow-unrelated-histories</span>
+</code></pre></div></div>
+
+<p>Once you’ve completed the above steps, you should see your new group repo called <code class="language-plaintext highlighter-rouge">sp24-proj3-g***</code> in your local files, and if you open this repo, you’ll see the <code class="language-plaintext highlighter-rouge">proj3</code> skeleton folder. From here, you and your partner can proceed as normal, by adding, committing, pushing, and pulling from this repo as you would otherwise.</p>
+      <h2 id="skeleton-code">
+        
+        
+          <a href="#skeleton-code" class="anchor-heading" aria-labelledby="skeleton-code"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Skeleton Code
+        
+        
+      </h2>
+    
+
+<p>A walkthrough of the new skeleton code is available <a href="https://youtu.be/A8NlkICBWL8">here</a>.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">git pull skeleton main</code> in your group repo to pull the skeleton code. The skeleton code
+contains two key packages that you’ll be using: <code class="language-plaintext highlighter-rouge">TileEngine</code>, <code class="language-plaintext highlighter-rouge">Core</code> and <code class="language-plaintext highlighter-rouge">Utils</code>. <code class="language-plaintext highlighter-rouge">TileEngine</code> provides some basic methods for rendering, as well
+as basic code structure for tiles, and contains:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">TERenderer.java</code> - contains rendering-related methods.</li>
+  <li><code class="language-plaintext highlighter-rouge">TETile.java</code> - the type used for representing tiles in the world.</li>
+  <li><code class="language-plaintext highlighter-rouge">Tileset.java</code> - a library of provided tiles.</li>
+</ul>
+
+<blockquote class="danger">
+  <p>Do NOT change TETile.java’s <code class="language-plaintext highlighter-rouge">character</code> field or <code class="language-plaintext highlighter-rouge">character()</code> method as it may lead to bad autograder results. 
+Additionally, if you add new floor or wall tiles, make sure to modify <code class="language-plaintext highlighter-rouge">isBoundaryTile</code> and <code class="language-plaintext highlighter-rouge">isGroundTile</code> so that the 
+autograder recognizes your tiles.</p>
+</blockquote>
+
+<p>The other package <code class="language-plaintext highlighter-rouge">Core</code> contains everything unrelated to tiles. We recommend that you put all of your code for
+this project in the <code class="language-plaintext highlighter-rouge">Core</code> package, though this is not required. The <code class="language-plaintext highlighter-rouge">Core</code> package comes with the following
+classes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">AutograderBuddy.java</code> - Provides two methods for interacting with your system. <code class="language-plaintext highlighter-rouge">TETile[][] getWorldFromInput(String input)</code> simulates the game without rendering by returning the world that would result if the input string had been typed on the keyboard. You should fill this out for autograder.</li>
+  <li><code class="language-plaintext highlighter-rouge">Main.java</code> - How the user starts the entire system. Reads command line arguments and calls the appropriate function
+in <code class="language-plaintext highlighter-rouge">World.java</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">World.java</code> - YOUR WORLD!</li>
+</ul>
+
+<p>This is an open-ended project. As you can see, we gave you just one file called <code class="language-plaintext highlighter-rouge">World.java</code> where you can do necessary things to create your world! The aim of this project is to give you freedom to create your own world with different desing choices. You can create any other classes if you want. Primarly, you can use <code class="language-plaintext highlighter-rouge">World.java</code> for the logic behind your world creation.</p>
+
+<p>The last package <code class="language-plaintext highlighter-rouge">Utils</code> contains everything that you might need to implement your <code class="language-plaintext highlighter-rouge">World.java</code> class.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">RandomUtils.java</code> - Provides handful of functions that might be useful.</li>
+  <li><code class="language-plaintext highlighter-rouge">FileUtils.java</code> - Library of simple file operations. You can find related APIs <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html">here</a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html">here</a>. Be sure to look at lab09 for a refresher on how this works.</li>
+</ul>
+
+<p>This project makes heavy use of <code class="language-plaintext highlighter-rouge">StdDraw</code>, which is a package that has basic graphics rendering capabilities.
+Additionally, it supports user interaction with keyboard and mouse clicks. You will likely need to consult the API
+specification for <code class="language-plaintext highlighter-rouge">StdDraw</code> at some points in the project, which can be
+found <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html">here</a>.</p>
+
+<p>Your project should only use standard java libraries (imported from java.*) or any libraries we provided with your
+repo and <code class="language-plaintext highlighter-rouge">library-sp24</code>. Your final submission for 3B and 3C should not use any external libraries other than the ones provided in the
+skeleton.</p>
+
+<blockquote class="warning">
+  <p>Do NOT use static variables unless they have the final keyword! In 2018, many students ran into major
+debugging issues by trying to use static variables. Static non-final variables add a huge amount of complexity to a
+system. Additionally, do not call <code class="language-plaintext highlighter-rouge">System.exit()</code> in <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> as this will cause the autograder to exit
+and fail.</p>
+</blockquote>
+      <h2 id="3a-world-generation">
+        
+        
+          <a href="#3a-world-generation" class="anchor-heading" aria-labelledby="3a-world-generation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3A: World Generation
+        
+        
+      </h2>
+    
+
+<p>As mentioned above, the first goal of the project will be to write a world generator. Your world must be <strong>valid</strong> and 
+<strong>sufficiently random</strong> The requirements for these criteria are listed below:</p>
+
+<p><strong>Valid</strong></p>
+<ul>
+  <li>The world must be a 2D grid, drawn using our tile engine. The tile engine is described in <a href="../../labs/lab09/index.html">lab 9</a>.</li>
+  <li>The generated world must include distinct rooms and hallways, though it may also include outdoor spaces.</li>
+  <li>At least some rooms should be rectangular, though you may support other shapes as well.</li>
+  <li>Your world generator must be capable of generating hallways that include turns (or equivalently, straight hallways
+that intersect). Random worlds should generate a turning hallway with moderate frequency (20% of worlds or more).</li>
+  <li>Dead-end hallways are not allowed.</li>
+  <li>Rooms and hallways must have walls that are visually distinct from floors. Walls and floors should be visually
+distinct from unused spaces.</li>
+  <li>Corner walls are optional.</li>
+  <li>Rooms and hallways should be connected, i.e. there should not be gaps in the floor between adjacent rooms or hallways.</li>
+  <li>All rooms should be reachable, i.e. there should be no rooms with no way to enter.</li>
+  <li>Rooms cannot clip off the edge of the world. In other words, there should be no floor tiles on the edge of the world.</li>
+  <li>The world must not have excess unused space. While this criterion is inherently subjective, aim to populate above 
+50% of the world with rooms and hallways.</li>
+</ul>
+
+<p><strong>Sufficiently Random</strong></p>
+
+<ul>
+  <li>The world must be pseudo-randomly generated. Pseudo-randomness is discussed in lab 9.</li>
+  <li>The world should contain a random number of rooms and hallways.</li>
+  <li>The locations of the rooms and hallways should be random.</li>
+  <li>The width and height of rooms should be random.</li>
+  <li>Hallways should have a width of 1 tile and a random length.</li>
+  <li>The world should be substantially different each time, i.e. you should <strong>NOT</strong> have the same basic layout with easily
+predictable features.</li>
+</ul>
+
+<p>As an example of a world that meets all of these requirements (click for higher resolution), see the image below. In
+this image, # represents a wall tile, a dot represents a floor tile. All unused spaces are left blank.</p>
+
+<p><a href="img/valid_world.png"><img src="img/valid_world.png" alt="compliant_world_example" /></a></p>
+
+<p>Once you’ve completed lab 9, you can start working on your world generation algorithm.</p>
+
+<p><strong>It is very likely that you will end up throwing away your first world generation algorithm.</strong> This is normal! In real
+world systems, it is common to build several completely new versions before getting something you’re happy with.</p>
+
+<p>You’re welcome to search the web for cool world generation algorithms. You should not copy and paste code from existing
+games or graphical demos online, but you’re welcome to draw inspiration from code on the web. <strong>Make sure to cite your
+sources using @source tags.</strong> For inspiration, you can try playing existing 2D tile based
+games. <a href="https://sites.google.com/site/broguegame/">Brogue</a> is an example of a particularly elegant, beautiful
+game. <a href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a> is an example of an incredibly byzantine, absurdly complex
+world generation engine.</p>
+      <h3 id="tileset-and-tile-rendering">
+        
+        
+          <a href="#tileset-and-tile-rendering" class="anchor-heading" aria-labelledby="tileset-and-tile-rendering"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Tileset and Tile Rendering
+        
+        
+      </h3>
+    
+
+<p>The tile rendering engine we provide takes in a 2D array of <code class="language-plaintext highlighter-rouge">TETile</code> objects and draws it to the screen. Let’s call
+this <code class="language-plaintext highlighter-rouge">TETile[][] world</code> for now. <strong><code class="language-plaintext highlighter-rouge">world[0][0]</code> corresponds to the bottom left tile of the world.</strong> The first coordinate is
+the x coordinate, e.g. <code class="language-plaintext highlighter-rouge">world[9][0]</code> refers to the tile 9 spaces over to the right from the bottom left tile. The second
+coordinate is the y coordinate, and the value increases as we move upwards, e.g. <code class="language-plaintext highlighter-rouge">world[0][5]</code> is 5 tiles up from the
+bottom left tile. All values should be non-null, i.e. make sure to fill them all in before calling <code class="language-plaintext highlighter-rouge">renderFrame</code>. <strong>Make
+sure you understand the orientation of the world grid!</strong> If you’re unsure, write short sample programs that draw to the
+grid to deepen your understanding. <strong>If you mix up x vs. y or up vs. down, you’re going to have an incredibly confusing
+time debugging.</strong></p>
+
+<p>We have provided a small set of default tiles in <code class="language-plaintext highlighter-rouge">Tileset.java</code> and these should serve as a good example of how to
+create <code class="language-plaintext highlighter-rouge">TETile</code> objects. We strongly recommend adding your own tiles as well.</p>
+
+<p>The tile engine also supports graphical tiles! To use graphical tiles, simply provide the filename of the tile as the
+fifth argument to the <code class="language-plaintext highlighter-rouge">TETile</code> constructor. Images must be 16 x 16, and should ideally be in PNG format. There is a
+large number of open source tile-sets available online for tile based games. Feel free to use these.</p>
+
+<p>Any <code class="language-plaintext highlighter-rouge">TETile</code> object you create should be given a unique character that other tiles do not use. Even if you are using
+your own images for rendering the tile, each <code class="language-plaintext highlighter-rouge">TETile</code> should still have its own character representation.</p>
+
+<p>If you do not supply a filename, or the file cannot be opened, then the tile engine will use the unicode character
+provided instead. This means that if someone else does not have the image file locally in the same location you
+specified, your world will still be displayed, but using unicode characters instead of textures you chose.</p>
+
+<p>The tile rendering engine relies on <code class="language-plaintext highlighter-rouge">StdDraw</code>. We recommend against using <code class="language-plaintext highlighter-rouge">StdDraw</code> commands like <code class="language-plaintext highlighter-rouge">setXScale</code>
+or <code class="language-plaintext highlighter-rouge">setYScale</code> unless you really know what you’re doing, as you may considerably alter or damage the <em>a e s t h e t i c</em>
+of the system otherwise.</p>
+      <h3 id="starting-your-program">
+        
+        
+          <a href="#starting-your-program" class="anchor-heading" aria-labelledby="starting-your-program"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Starting Your Program
+        
+        
+      </h3>
+    
+
+<p>Your program will be started by running the <code class="language-plaintext highlighter-rouge">main</code> method of the <code class="language-plaintext highlighter-rouge">Main</code> class. You will see that this method will render your program and will provide interactivity for you in the future. On top of that, in order to test your world, for 3A, your project must
+support <code class="language-plaintext highlighter-rouge">getWorldFromInput</code>. Specifically, you should be able to handle an input of the format <code class="language-plaintext highlighter-rouge">"N#######S"</code>
+where each # is a digit and there can be an arbitrary number of <code class="language-plaintext highlighter-rouge">#</code>s. This corresponds to requesting a new world (<code class="language-plaintext highlighter-rouge">N</code>),
+providing a seed (<code class="language-plaintext highlighter-rouge">#</code>s), and then pressing <code class="language-plaintext highlighter-rouge">S</code> to indicate that the seed has been completely entered. The logic between your world generation in <code class="language-plaintext highlighter-rouge">Main</code> class and <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> method should be similar. While you should render your program in <code class="language-plaintext highlighter-rouge">Main</code>, you should not do that in <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> since this will be used for Autograder.</p>
+
+<!-- ![program_args](/projects/proj3/img/program_args.png)
+
+If you haven't run the `main` method yet, right-click the green arrow next to your main method like shown below, and
+click "Modify Run Configurations" to access the same window as above.
+
+Not needed anymore
+ -->
+
+<!-- ![access_config](/projects/proj3/img/access_config.png) -->
+
+<p>Finally, we recommend that you make minimal modifications to the <code class="language-plaintext highlighter-rouge">core.Main</code> class. It is a much better idea to delegate
+all the work of the program to other classes you will create.</p>
+
+<p>When your <code class="language-plaintext highlighter-rouge">core.Main.main()</code> method is run, your program must display a Main Menu that provides at
+LEAST the options to start a new world, load a previously saved world, and quit. The Main Menu should be fully navigable
+via the keyboard, using N for “new world”, L for “load world”, and Q for quit. You may include additional options or
+methods of navigation if you so choose.</p>
+
+<p><img src="img/mainmenu_example.png" alt="main-menu_example" /></p>
+
+<p>After pressing N on the keyboard for “new world”, the user should be prompted to enter a “random seed”, which is a long
+value of their choosing. This long data type will be used to generate the world randomly (as described later and in lab
+12). The UI should show the seed value that the user has entered so far. After the user has pressed the final number in
+their seed, they should press S to tell the system that they’ve entered the entire seed that they want. Your world
+generator should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for
+seeds larger than this.</p>
+
+<p>The behavior of the “Load” command is described later in this specification.</p>
+
+<p>If the system is being called with <code class="language-plaintext highlighter-rouge">core.AutograderBuddy.getWorldFromInput</code>, no menu should be displayed and nothing
+should be drawn to the screen. The system should process the given String as if a human user was pressing the
+given keys using the <code class="language-plaintext highlighter-rouge">main()</code> method. For example, if we
+call <code class="language-plaintext highlighter-rouge">getWorldFromInput("N3412S")</code>, your program should generate a world with seed 3412 and return the
+generated 2D tile array. <strong>Note that letters in the input string can be upper or lower case and your engine should be
+able to accept either keypress (i.e. “N” and “n” should both initiate the process of world generation).</strong> You should <strong>NOT</strong> render any tiles or play any sound when using <code class="language-plaintext highlighter-rouge">getWorldFromInput</code>.</p>
+
+<p>If you want to allow the user to have additional options, e.g. the ability to pick attributes of their character,
+specify world generation parameters, etc., you should create additional options. For example, you might add a fourth
+option “S” to the main menu for “select creature and create new world” if you want the user to be able to pick what sort
+of creature to play as. These additional options may have arbitrary behavior of your choosing, however, the behavior of
+N, L, and Q must be exactly as described in the spec!</p>
+      <h3 id="requirements">
+        
+        
+          <a href="#requirements" class="anchor-heading" aria-labelledby="requirements"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Requirements
+        
+        
+      </h3>
+    
+
+<p>For 3A, you should be able to run <code class="language-plaintext highlighter-rouge">Main.main</code> by providing an input String, and have your program create a world,
+that adhere to the requirements mentioned above along with our randomness requirements mentioned in the <a href="#submission-and-grading">Submission and
+Grading</a> section below. Note that you should render the world to check your code by writing your own <code class="language-plaintext highlighter-rouge">main</code> method, but
+for the autograder, <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> should not render the world, only returning the world as a <code class="language-plaintext highlighter-rouge">TETile</code> array.
+Worlds should be visibly different for different seeds provided to the program.</p>
+
+<p class="info">For 3A, you do not need to have a Main Menu screen.</p>
+      <h2 id="design-document">
+        
+        
+          <a href="#design-document" class="anchor-heading" aria-labelledby="design-document"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Design Document
+        
+        
+      </h2>
+    
+
+<p>Since we did not provide you with any significant skeleton code for Project 3, and since the project is very open-ended,
+we expect that BYOW implementations will vary a fair amount between students. We recommend that you have a design
+document that reflects the current state of your project.</p>
+
+<p>Before you begin writing any code, use the guidelines listed here to create a plan for every feature of your BYOW
+program, and convince yourself that your design is correct. Writing a design document is an iterative process. After
+coming up with your initial design, you may find some flaws in it, requiring you to revisit your design and update its
+description according to your new findings.</p>
+
+<p>You may find the software engineering lectures helpful for learning how to manage the complex and collaborative nature of this project.</p>
+
+<p class="warning"><strong>We will not be grading this document, but you will need to complete it in order to receive help online and in office hours.</strong></p>
+      <h3 id="design-document-guidelines">
+        
+        
+          <a href="#design-document-guidelines" class="anchor-heading" aria-labelledby="design-document-guidelines"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Design Document Guidelines
+        
+        
+      </h3>
+    
+
+<p>The design document’s main purpose is to serve as a foundation for your project. It is important to think and ideate before coding.
+What we are looking for in the design document:</p>
+<ul>
+  <li>Identify the data structures we have learned in the class that you will be using in your implementation.</li>
+  <li>Pseudocode / general overiview of your algorithm for your implementation.</li>
+</ul>
+
+<p>You may use the following format for your BYOW design document.
+You may create a design doc with your own format, or use <a href="https://docs.google.com/document/d/1Vx7QAz4HFN0rEFFEt5rocY2X5AWVcIFFpRmD8vhegOM/edit?usp=sharing">this template</a>.</p>
+      <h4 id="design-document-sections">
+        
+        
+          <a href="#design-document-sections" class="anchor-heading" aria-labelledby="design-document-sections"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Design Document Sections
+        
+        
+      </h4>
+    
+      <h5 id="1-classes-and-data-structures">
+        
+        
+          <a href="#1-classes-and-data-structures" class="anchor-heading" aria-labelledby="1-classes-and-data-structures"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 1. Classes and Data Structures
+        
+        
+      </h5>
+    
+
+<p>Include here any class definitions. For each class, list the instance variables (if any). Include a brief description of
+each variable and its purpose in the class.</p>
+      <h5 id="2-algorithms">
+        
+        
+          <a href="#2-algorithms" class="anchor-heading" aria-labelledby="2-algorithms"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 2. Algorithms
+        
+        
+      </h5>
+    
+
+<p>This is where you describe how your code works. For each class, include a high-level description of the methods in that
+class. That is, do not include a line-by-line breakdown of your code, but something you would write in a javadoc comment
+above a method, including any edge cases you are accounting for.</p>
+      <h5 id="3-persistence">
+        
+        
+          <a href="#3-persistence" class="anchor-heading" aria-labelledby="3-persistence"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3. Persistence
+        
+        
+      </h5>
+    
+
+<p>You should only tackle this section after you are done with 3A. This section should describe how you are going to
+save the state of a world, and load it again, following the requirements in the spec. Again, try to keep your
+explanations clear and short. Include all the components your program interacts with - classes, specific methods, and
+files you may create. You can check out <a href="../../labs/lab09/index.html">lab 9</a>.</p>
+      <h2 id="3b-interactivity">
+        
+        
+          <a href="#3b-interactivity" class="anchor-heading" aria-labelledby="3b-interactivity"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3B: Interactivity
+        
+        
+      </h2>
+    
+
+<p>In the second part of the project, you’ll add the ability for the user to actually interact with the world, and will
+also add user interface (UI) elements to your world to make it feel more immersive and informative.</p>
+
+<p>The requirements for interactivity are as follows:</p>
+
+<ul>
+  <li>The user must be able to control some sort of “avatar” that can moved around using the W, A, S, and D keys. By “avatar”, we just mean some sort of on-screen representation controlled by the
+user. For example, in my project, I used an “@” that could be moved around.</li>
+  <li>The avatar must be able to interact with the world in some way.</li>
+  <li>Your system must be deterministic in that the same sequence of key-presses from the same seed must result in exactly
+the same behavior every time. Note that a <code class="language-plaintext highlighter-rouge">Random</code> object is guaranteed to output the same random numbers every time.</li>
+  <li>In order to support saving and loading, your program will need to create some files in your <code class="language-plaintext highlighter-rouge">proj3</code> directory (more
+details later in the spec and in the skeleton code). The only files you may create must have the suffix “.txt” (for
+example “save-file.txt”). You will get autograder issues if you do not do this.</li>
+</ul>
+
+<p>Optionally, you may also include game mechanics that allow the user to win or lose.
+Aside from these feature requirements, there will be a few technical requirements for your system, described in more
+detail below.</p>
+      <h3 id="ui-user-interface-appearance">
+        
+        
+          <a href="#ui-user-interface-appearance" class="anchor-heading" aria-labelledby="ui-user-interface-appearance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> UI (User Interface) Appearance
+        
+        
+      </h3>
+    
+
+<p>After the user has entered a seed and pressed S, the world should be displayed with a user interface. The user interface
+of your project must include:</p>
+
+<ul>
+  <li>A 2D grid of tiles showing the current state of the world.</li>
+  <li>A “Heads Up Display” (HUD) that provides additional information that maybe useful to the user. At the bare minimum,
+this should include Text that describes the tile currently under the mouse pointer. <strong>This should not be flickering, if it flickers you won’t be able to receive credit.</strong></li>
+</ul>
+
+<p>As an example of the bare minimum, the simple interface below displays a grid of tiles and a HUD that displays the
+description of the tile under the mouse pointer (click image for higher resolution):</p>
+
+<p><a href="img/valid_UI.png"><img src="img/valid_UI.png" alt="mouseover_example1" /></a></p>
+
+<p>You may include additional features if you choose. In the example below (click image for higher resolution), as with the
+previous example, the mouse cursor is currently over a wall, so the HUD displays the text “wall” in the top right.
+However, this HUD also provides the user with 5 hearts representing the avatar’s “health”. Note that this world does not
+meet the requirements of the spec above, as it is a large erratic cavernous space, as opposed to rooms connected by
+hallways.</p>
+
+<p><a href="img/UI_example1.png"><img src="img/UI_example1.png" alt="mouseover_example1" /></a></p>
+
+<p>As an example, the game below (click image for higher resolution) uses the GUI to list additional valid key presses, and
+provides more verbose information when the user mouses-over a tile (“You see grass-like fungus.”). The image shown below
+is a professional game, so we do not expect your project to have this level of detail (but we encourage you to try for
+some interesting visuals).</p>
+
+<p><a href="img/UI_example2.png"><img src="img/UI_example2.png" alt="mouseover_example2" /></a></p>
+
+<p>For information about how to specify the location of the HUD, see
+the <code class="language-plaintext highlighter-rouge">initialize(int width, int height, int xOffset, int yOffset)</code> method of <code class="language-plaintext highlighter-rouge">TERenderer</code> or see lab 9.</p>
+      <h3 id="ui-behavior">
+        
+        
+          <a href="#ui-behavior" class="anchor-heading" aria-labelledby="ui-behavior"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> UI Behavior
+        
+        
+      </h3>
+    
+
+<p>After the world has been generated, the user must be in control of some sort of avatar that is displayed in the world.
+The user must be able to move up, left, down, and right using the <code class="language-plaintext highlighter-rouge">W</code>, <code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">S</code>, and <code class="language-plaintext highlighter-rouge">D</code> keys, respectively. These keys may also
+do additional things, e.g. pushing objects. You may include additional keys in your engine. The avatar should not move
+when attempting to move into a wall and the program should not error.</p>
+
+<p>The system must behave pseudo-randomly. That is, given a certain seed, the same set of key presses must yield the exact
+same results!</p>
+
+<p>In addition to movement keys, if the user enters <code class="language-plaintext highlighter-rouge">:Q</code> (note the colon), the program should quit and save. The
+description of the saving (and loading) function is described in the next section. <strong>This command must immediately quit
+and save</strong>, and should require no further key-presses to complete, e.g. do not ask them if they are sure before quitting.
+We will call this single action of quitting and saving at the same time “quit/saving”. This command is not case-sensitive,
+so <code class="language-plaintext highlighter-rouge">:q</code> should work as well. Additionally, <code class="language-plaintext highlighter-rouge">:</code> followed by any other letter should not do anything.</p>
+
+<p>This project uses <code class="language-plaintext highlighter-rouge">StdDraw</code> to handle user input. This results in a couple of important limitations:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">StdDraw</code> does not support key combinations. When we say <code class="language-plaintext highlighter-rouge">:Q</code>, we mean <code class="language-plaintext highlighter-rouge">:</code> followed by <code class="language-plaintext highlighter-rouge">Q</code>.</li>
+  <li>It can only register key presses that result in a char. This means any unicode character will be fine but keys such as
+the arrow keys and escape will not work.</li>
+  <li>On some computers, it may not support holding down of keys without some significant modifications; i.e. you can’t hold
+down the e key and keep moving east. If you can figure out how to support holding down of keys in a way that is
+compatible with <code class="language-plaintext highlighter-rouge">getWorldFromInput</code>, you’re welcome to do so.</li>
+</ul>
+
+<p>Because of the requirement that your system must handle String input (via <code class="language-plaintext highlighter-rouge">getWorldFromInput</code>), your engine cannot
+make use of real time, i.e. your system cannot have any mechanic which depends on a certain amount of time passing in
+real life, since that would not be captured in an input string and would not lead to deterministic behavior when using
+that string vs. providing input with the keyboard. Keeping track of the number of turns that have elapsed is a perfectly
+reasonable mechanic, and might be an interesting thing to include in your world, e.g. maybe the world grows steadily
+darker with each step. You’re welcome to include other key presses like allowing the user to press space bar in
+order to wait one turn. The real time behavior is for the autograder. Feel free to ignore real time requirement for 3C and modify your code for that.</p>
+      <h3 id="saving-and-loading">
+        
+        
+          <a href="#saving-and-loading" class="anchor-heading" aria-labelledby="saving-and-loading"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Saving and Loading
+        
+        
+      </h3>
+    
+
+<p>Sometimes, you’ll be exploring your world, and you suddenly notice that it’s time to go to watch a CS 61B lecture. For
+times like these, being able to save your progress and load it later, is very handy. Your system must have the ability
+to save the state of the world while exploring, as well as to subsequently load the world into the exact state it was in
+when last saved.</p>
+
+<p>Within a running Java program, we use variables to store and load values. Keep in mind that when your program ends, all
+the variables will go out of scope. Thus, you will need to persist the state of your program on some files that your
+program should create.</p>
+
+<p>When the user restarts <code class="language-plaintext highlighter-rouge">core.Main</code> and presses <code class="language-plaintext highlighter-rouge">L</code>, the world should be in <strong>exactly the same state as it was before
+the project was terminated</strong>. This state includes the state of the random number generator! More on this in the next
+section. In the case that a user attempts to load but there is no previous save, your system should simply quit and the
+UI interface should close with no errors produced.</p>
+
+<p>In the base requirements, the command <code class="language-plaintext highlighter-rouge">:Q</code> should save and completely terminate the program. This means an input string
+that contains <code class="language-plaintext highlighter-rouge">:Q</code> should not have any more characters after it and loading a world would require the program to be run
+again with an input string starting with <code class="language-plaintext highlighter-rouge">L</code>.</p>
+      <h3 id="interacting-with-input-strings">
+        
+        
+          <a href="#interacting-with-input-strings" class="anchor-heading" aria-labelledby="interacting-with-input-strings"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Interacting With Input Strings
+        
+        
+      </h3>
+    
+
+<p>Your <code class="language-plaintext highlighter-rouge">getWorldFromInput(String input)</code> must be able to handle input strings that include movement.</p>
+
+<p>For example, the string <code class="language-plaintext highlighter-rouge">N543SWWWWAA</code> corresponds to the user creating a world with the seed 543, then moving up four
+times, then left twice. If we called <code class="language-plaintext highlighter-rouge">getWorldFromInput("N543SWWWWAA")</code>, your system would return
+a <code class="language-plaintext highlighter-rouge">TETile[][]</code> representing the world EXACTLY as it would be if we’d used <code class="language-plaintext highlighter-rouge">main</code> and typed these keys in
+manually. Since the system must be deterministic given a seed and a string of inputs, this will allow users to replay
+exactly what happened for a given sequence of inputs. This will also be handy for testing out your code, as well as for
+our autograder.</p>
+
+<p><code class="language-plaintext highlighter-rouge">getWorldFromInput(String s)</code> must also be able to handle saving and loading in a replay string,
+e.g. <code class="language-plaintext highlighter-rouge">N25SDDWD:Q</code> would correspond to starting a new world with seed 25, then moving right, right, up, right, then
+quit/saving. The method would then return the 2D <code class="language-plaintext highlighter-rouge">TETile[][]</code> array at the time of save. If we then started the engine
+with the replay string <code class="language-plaintext highlighter-rouge">LDDDD</code>, we’d reload the world we just saved, move right four times, then return the
+2D <code class="language-plaintext highlighter-rouge">TETile[][]</code> array after the fourth move.</p>
+
+<p><strong>Your world should not change in any way between saves</strong>, i.e. the same exact <code class="language-plaintext highlighter-rouge">TETile[][]</code> should be returned by the
+last call to <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> for all the following scenarios:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput(N999SDDDWWWDDD)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput(N999SDDD:Q)</code>, then <code class="language-plaintext highlighter-rouge">getWorldFromInput(LWWWDDD)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput(N999SDDD:Q)</code>, then <code class="language-plaintext highlighter-rouge">getWorldFromInput(LWWW:Q)</code>, then <code class="language-plaintext highlighter-rouge">getWorldFromInput(LDDD:Q)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput(N999SDDD:Q)</code>, then <code class="language-plaintext highlighter-rouge">getWorldFromInput(L:Q)</code>, then <code class="language-plaintext highlighter-rouge">getWorldFromInput(L:Q)</code>
+then <code class="language-plaintext highlighter-rouge">getWorldFromInput(LWWWDDD)</code></li>
+</ul>
+
+<p>we then called <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> with input <code class="language-plaintext highlighter-rouge">L:Q</code>, we’d expect the exact same world state to be saved and
+returned as <code class="language-plaintext highlighter-rouge">TETile[][]</code> as with the previous call where we provided <code class="language-plaintext highlighter-rouge">LDDDD</code>.</p>
+
+<p>You do not need to worry about replay strings that contain multiple saves, i.e. <code class="language-plaintext highlighter-rouge">N5SDD:QD:QDD:Q</code> is not considered a
+valid replay string, since the program should have terminated before the second <code class="language-plaintext highlighter-rouge">:Q</code>. You do not need to worry about
+invalid replay strings, i.e. you can assume that every replay string provided by the autograder starts with either <code class="language-plaintext highlighter-rouge">N#S</code>
+or <code class="language-plaintext highlighter-rouge">L</code>, where <code class="language-plaintext highlighter-rouge">#</code> represents the user entered seed.</p>
+
+<p>The return value of the <code class="language-plaintext highlighter-rouge">getWorldFromInput</code> method should not depend on whether the input string ends with <code class="language-plaintext highlighter-rouge">:Q</code> or
+not. The only difference is whether the world state is saved or not as a side effect of the method.</p>
+      <h2 id="3c-ambition--demos">
+        
+        
+          <a href="#3c-ambition--demos" class="anchor-heading" aria-labelledby="3c-ambition--demos"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3C: Ambition &amp; Demos
+        
+        
+      </h2>
+    
+
+<p>28 points of your project score will be based on features of your choosing, which we call your “ambition score”. The
+big idea is that beyond the base requirements of this project, we want you to try to polish your product a bit more and
+add some cool features. Below is a list of features worth either 21 points (primary feature) or 7 points (secondary
+feature). From these two categories, you are required to implement at least one primary feature in order to get full
+credit (not implementing a secondary feature is okay). This “ambition” category is only worth 28 points.
+If you do, e.g., 35 points worth, you do not get extra credit.
+However, feel free to add as many features as you’d like if you have the time and inclination.</p>
+
+<p><strong>Your project must still meet the basic requirements described above!</strong> For example, if you allow the user to use mouse
+clicks, the project should still allow keyboard based movement!</p>
+
+<p>Under the description of some primary features, we’ve provided some GIFS that would score full points on their
+respective ambition point items to help clear any confusions. Yours do not need to look exactly like the examples given.</p>
+
+<p>You are not restricted to the features we list below! We strongly encourage you to come up with your own. We will have an Ed megathread where you can run your ideas by us to confirm that it meets our standards.</p>
+      <h3 id="21-points-primary-features">
+        
+        
+          <a href="#21-points-primary-features" class="anchor-heading" aria-labelledby="21-points-primary-features"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 21 Points Primary Features
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>Create a system so that the tile renderer only displays tiles on the screen that are within the line of sight of the avatar. <strong>The line of sight must be able to be toggled on and off with a keypress, otherwise it will interfere with checkoffs.</strong></li>
+</ul>
+
+<p><a href="img/line-of-sight.gif"><img src="img/line-of-sight.gif" alt="line-of-sight" /></a></p>
+
+<ul>
+  <li>Add the ability for light sources to affect how the world is rendered, with at least one light source that can be turned on and off with a keypress. The intensity of the light must diminish in a gradient as the distance from the source increases. Light should also not pass through walls.</li>
+</ul>
+
+<p><a href="img/toggle-lights.gif"><img src="img/toggle-lights.gif" alt="toggle-lights" /></a></p>
+
+<ul>
+  <li>Add entities which chase the avatar/other entities by use of a search algorithm from class, with a toggle to display their projected path.</li>
+</ul>
+
+<p><a href="img/enemy.gif"><img src="img/enemy.gif" alt="enemy" /></a></p>
+
+<ul>
+  <li>Create a system for “encounters”, where a new interface appears when the avatar interacts with entities in the world,
+returning the avatar to the original interface when the encounter ends (e.g. Pokémon).</li>
+</ul>
+
+<p><a href="img/encounter.gif"><img src="img/encounter.gif" alt="encounter" /></a></p>
+
+<ul>
+  <li>
+    <p>Add the ability for the user to change the perspective of their view (first-person, isometric 2.5D, 3D, etc.) (We’ve never seen
+anyone do isometric 2.5D or full 3D before! The Nintendo 64
+game ‘<a href="https://www.youtube.com/watch?v=5uu2TWli-_M">Kirby 64 - The Crystal Shards</a>’ is an example of what an isometric 2.5D world
+looks like). One particularly interesting example is <a href="https://www.youtube.com/watch?v=XJBQYucuAKc&amp;t=94s">Dorottya Urmossy and David Yang’s Fall 2022 submission</a>, which is a 2.5D first-person view, i.e. the world is 3D but the entities are 2D.</p>
+  </li>
+  <li>
+    <p>Implement a battle system that allows players to interact with moving enemies and obstacles. Assign the player a health value, place collectibles that restore health around the map, and create randomly-moving enemies/objects that inflict damage on and receive damage from the player.</p>
+  </li>
+</ul>
+      <h3 id="7-points-secondary-features">
+        
+        
+          <a href="#7-points-secondary-features" class="anchor-heading" aria-labelledby="7-points-secondary-features"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 7 Points Secondary Features
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>Add the ability for the user to “replay” their most recent save, visually displaying all the actions taken since
+the last time a new world was created. This must result in the same final state as would occur if the user had loaded
+the most recent save. This means that the game should be playable once the replay is complete.</li>
+  <li>Add multiple save slots that can be accessed with a new menu option, and a new keyboard shortcut to save to a slot
+other than slot 1. You should be careful to still support the default behavior of saving and loading in order to be
+consistent with the replay string requirements.</li>
+  <li>Add the ability to create a new world without closing and reopening the project, either as a special option you can
+press while exploring, or when you reach a “game over” state if you’ve turned your world into a game.</li>
+  <li>Add a menu option to change your avatar’s appearance to a custom image.</li>
+  <li>Add a menu option or randomly determine what the environment/theme of the world will be.</li>
+  <li>Add a menu option to change all text in the interface to a different language. English should be the default and there
+should be a way to switch it back to English.</li>
+  <li>Add support for mouse clicks on the main menu for anything that can be done with a keypress on the main menu.</li>
+  <li>Make your engine render images instead of unicode characters.</li>
+  <li>Add cool music to your menu and/or exploration interface. Also add sound effects for interactions the avatar makes
+with the world.</li>
+  <li>Add a minimap somewhere which shows the entire map and the current avatar location. This feature is a lot more
+interesting if you also implement a map which is larger than the screen so that you are unable to see the entire map
+normally.</li>
+  <li>Add ability to rotate the world, i.e. turn the board 90 degrees and adjust movement keys accordingly.</li>
+  <li>Add support for movement with mouse clicks on any visible square. You’ll need to implement some sort of algorithm for
+pathfinding.</li>
+  <li>Add support for 2 users to interact at the same time. This will require that you have two avatars on screen which can
+move around, and they should have separate control schemes.</li>
+  <li>Add support for undoing a movement (even moves that occurred in a previous save before the current one was loaded).
+Undoing a movement should reset the world back to before the most recent keypress but should add to the replay string
+instead of removing a character (i.e. undo command should be logged in the replay string).</li>
+</ul>
+      <h2 id="requirements-summary">
+        
+        
+          <a href="#requirements-summary" class="anchor-heading" aria-labelledby="requirements-summary"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Requirements Summary
+        
+        
+      </h2>
+    
+
+<p>Here is a list of the requirements and restrictions on your project. Please note that this section does not substitute
+reading the entire spec since there are a lot of details which are not captured here.</p>
+
+<ul>
+  <li>When using <code class="language-plaintext highlighter-rouge">main</code>, your program must have a menu screen that has New World (N), Load (L), and Quit (Q)
+options, navigable by the keyboard, which are all not case-sensitive.</li>
+  <li>When entering New World, the user should enter an integer seed followed by the S key. Upon pressing S, the world
+should be generated and displayed.</li>
+  <li>The UI should show the numbers entered so far when the user is giving the seed.</li>
+  <li>Must have pseudo-randomly generated worlds/variety in worlds, i.e. the world should be different for every seed.</li>
+  <li>All generated worlds must include all the visual features described in 3A above.</li>
+  <li>Users must be able to move around in the world using W, A, S, and D keys.</li>
+  <li>Users must be able to press “:Q” to quit, and after starting the program up again, the L option on the main menu
+should load the world state <strong>exactly as it was before</strong>.</li>
+  <li>All random events should be pseudorandom. That is, your program gives deterministic behavior given a seed.</li>
+  <li>Users must be able to interact through string inputs using <code class="language-plaintext highlighter-rouge">getWorldFromInput</code>, and behavior other than accepting input and drawing to
+the screen should be identical to <code class="language-plaintext highlighter-rouge">main</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> must return a <code class="language-plaintext highlighter-rouge">TETile[][]</code> array of the world at the time after the last character in the
+string is processed.</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> must be able to handle saving and loading, just like <code class="language-plaintext highlighter-rouge">main</code>.</li>
+  <li>Your program must use our <code class="language-plaintext highlighter-rouge">TileEngine</code> and <code class="language-plaintext highlighter-rouge">StdDraw</code> for displaying graphics.</li>
+  <li>Your program must have a HUD, which displays relevant information somewhere outside the area displaying the
+world/tiles.</li>
+  <li>HUD must display a description of tile upon hovering over the tile.</li>
+  <li>Your program must not use real time. Nothing should be moving if no input is being received. This requirement is <strong>only</strong>
+necessary for the autograders; feel free to have real-time dependent features for <strong>3C</strong>.</li>
+  <li>Your program must include features that make up 28 points from the Ambition categories, <strong>with at least one primary
+feature</strong>.</li>
+</ul>
+      <h2 id="submission-and-grading">
+        
+        
+          <a href="#submission-and-grading" class="anchor-heading" aria-labelledby="submission-and-grading"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Submission and Grading
+        
+        
+      </h2>
+    
+
+<p>As usual, we’ll have a grader for this project on Gradescope. <strong>Remember to add your partner as a group member to your
+Gradescope submission.</strong> In addition, you’ll also submit <a href="https://forms.gle/etpB2gqrX4ji2ryX7">this form</a> when you’ve
+completed the project. More details in the next section about checkoffs. <strong>If you do not submit this form then you will
+receive a 0 on the checkoff portion of the project.</strong> Only one of your partners needs to submit this, but you should
+write the responses together.</p>
+      <h3 id="partnership-preferences-form-2-points">
+        
+        
+          <a href="#partnership-preferences-form-2-points" class="anchor-heading" aria-labelledby="partnership-preferences-form-2-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Partnership Preferences Form: 2 points
+        
+        
+      </h3>
+    
+
+<p>Filling out the <a href="https://forms.gle/sjpi47tAviigtTeKA">Project 3 Partnership Preferences Form</a> is worth 2 points for
+this project. You must fill out the form by <strong>Wednesday, April 3 at 11:59pm</strong> to get these points.</p>
+      <h3 id="autograders-12-points">
+        
+        
+          <a href="#autograders-12-points" class="anchor-heading" aria-labelledby="autograders-12-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Autograders: 12 points
+        
+        
+      </h3>
+    
+
+<p>See <a href="#autograder-details">this section</a> for autograder details.</p>
+
+<ul>
+  <li>3A: 3 points</li>
+  <li>3B: 9 points</li>
+</ul>
+      <h3 id="3a-asynchronous-manual-review-6-points">
+        
+        
+          <a href="#3a-asynchronous-manual-review-6-points" class="anchor-heading" aria-labelledby="3a-asynchronous-manual-review-6-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3A Asynchronous Manual Review: 6 points
+        
+        
+      </h3>
+    
+
+<p>A TA will pull your code, and run your game 5 separate times with 5 separate
+seeds. <strong>They will then check that your 5 different worlds meet our randomness criteria defined below</strong>:</p>
+
+<ul>
+  <li>Locations of rooms should be in different places each time.</li>
+  <li>Sizes of rooms should be different each time.</li>
+  <li>The number of rooms and hallways should be different each time. You must have at least two hallways, one of which is turning.</li>
+  <li>The world should be substantially different each time, i.e. you should not have the same basic layout with easily
+predictable features.</li>
+</ul>
+
+<p>If you have questions or concerns about whether your world matches these criteria, you may ask a TA in Office Hours to confirm.</p>
+
+<p><strong>In order to get credit for the 3A Asynchronous Manual Review, you must fill out <a href="https://forms.gle/262W6vsNAd2dKwt1A">this form</a> by Monday, April 15th at 11:59PM.</strong></p>
+
+<p>You will be able to recover any points you did not get on the 3A Asynchronous Manual Review by fixing any issues before the 3C Checkoff Demo. We will leave detailed feedback on your submission so you know what to work on.</p>
+
+<blockquote class="warning">
+  <p>Asynchronous reviews will take place 3-5 days after the 3A deadline and we will not reviewing 3A submissions after this point. 
+This means that extensions are capped for this part of the project. If you do not make a submission by the time we begin reviews,
+you will have to rely on the 3C Checkoff clobber to recover points.</p>
+</blockquote>
+      <h3 id="partner-reflection-20-points">
+        
+        
+          <a href="#partner-reflection-20-points" class="anchor-heading" aria-labelledby="partner-reflection-20-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Partner Reflection: 20 points
+        
+        
+      </h3>
+    
+
+<ul>
+  <li><a href="https://forms.gle/Bj2no1aaT5YDWKaG7">3A Reflection Form</a>: 10 points (due April 15th at 11:59PM)</li>
+  <li><a href="https://forms.gle/YF7CwmeL2m1y1Si19">3B &amp; 3C Reflection Form</a>: 10 points (due April 22nd at 11:59PM)</li>
+</ul>
+      <h3 id="3c-checkoff-demo-85-points">
+        
+        
+          <a href="#3c-checkoff-demo-85-points" class="anchor-heading" aria-labelledby="3c-checkoff-demo-85-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3C Checkoff Demo: 85 points
+        
+        
+      </h3>
+    
+
+<p>To get credit for the checkoff demo, you <strong>must</strong> submit <a href="https://forms.gle/idHdLNoqanTsU9Gs5">this form</a>.</p>
+
+<ul>
+  <li>57 points: Obeying base spec for 3A and 3B.</li>
+  <li>28 points: Ambition points.</li>
+</ul>
+
+<p><strong>You’ll also need identify a commit</strong> so we can grade it. You should:</p>
+
+<ol>
+  <li>Identify the SHA of the commit that you’d like us to grade for the demo.
+<strong>This SHA must be from the same as the commit you submitted to Gradescope</strong>. It’s OK if they’re not exactly the
+same, though we recommend using the same commit so that you’re sure that it compiles and runs the way you expect it
+to. But if you need to comment some lines out to pass the autograder and then uncomment them for the checkoff, that’s
+OK. You can use
+<code class="language-plaintext highlighter-rouge">git log</code> to help you here. Copy this SHA and save it somewhere.</li>
+  <li>Ensure that this commit is before the deadline, and run your code from this commit to double-check that it is indeed
+the commit you’d like graded. If your commit was from after the deadline, you’ll receive a 50% penalty.</li>
+  <li>Paste it carefully into the form submission.</li>
+  <li><strong>Do not ignore step 3</strong>. If you paste the incorrect SHA, we’ll grade an incorrect version of your code, and if you
+paste an invalid SHA we’ll by default grade the <code class="language-plaintext highlighter-rouge">origin/HEAD</code> commit (which is likely to incur lateness penalties).</li>
+</ol>
+      <h2 id="checkoff-script-and-form">
+        
+        
+          <a href="#checkoff-script-and-form" class="anchor-heading" aria-labelledby="checkoff-script-and-form"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Checkoff Script and Form
+        
+        
+      </h2>
+    
+
+<p>In the hopes of keeping this process as transparent as possible, click
+<a href="proj3checkoff/index.html">here</a> for the exact script the instructor will use when checking your project. Though checkoffs are
+synchronous, we want to have a record of everyone’s project on file in case there are technical difficulties during the
+checkoff, or if we need to look at your project for whatever reason. Please be clear and concise so the grader knows exactly
+how to use your feature. If you find that explaining how to use your feature is too complicated, then consider
+simplifying the work the user must do to use it. If there are any known quirks in using the ambition feature, let us
+know that here: e.g. “After you turn the lights on, you need to press T to change the brightness”.</p>
+
+<p>It’s also extremely important you read over the specifications again and ensure your project fits them exactly. It’s
+easy to miss a specification since there are so many of them, and so we ask that you read through them again right
+before you submit what ambition points they’ve attempted as well as how to use those features. Please be clear and
+concise so the grader knows exactly how to use your feature. If you find that explaining how to use your feature is too
+complicated, then consider simplifying the work the user must do to use it.</p>
+
+<p>Once you’ve ensured that you have:</p>
+
+<ol>
+  <li>Completed the project</li>
+  <li>Read through all the specifications again to ensure you didn’t miss any</li>
+  <li>Identified the commit you want graded (see previous section)</li>
+  <li><strong>Ensure you only use libraries in <code class="language-plaintext highlighter-rouge">library-sp24</code> or <code class="language-plaintext highlighter-rouge">java.*</code></strong></li>
+</ol>
+
+<p><strong>then you are ready to submit the <a href="https://forms.gle/idHdLNoqanTsU9Gs5">Project 3C Checkoff Form</a>.</strong></p>
+      <h2 id="autograder-details">
+        
+        
+          <a href="#autograder-details" class="anchor-heading" aria-labelledby="autograder-details"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Autograder Details
+        
+        
+      </h2>
+    
+
+<p>We have two autograders for BYOW: the 3A grader and the 3B grader. We don’t have token restrictions for these Autograders.</p>
+      <h3 id="3a-grader">
+        
+        
+          <a href="#3a-grader" class="anchor-heading" aria-labelledby="3a-grader"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3A Grader
+        
+        
+      </h3>
+    
+
+<p>3A is due on <strong>April 15th at 11:59 PM</strong> for 3 points. It will test:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> returns a world</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> recreates the same world given the same seed multiple times</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> creates different worlds given different seeds</li>
+</ul>
+
+<p>There will be <strong>no</strong> movement in these tests.</p>
+      <h3 id="3b-grader">
+        
+        
+          <a href="#3b-grader" class="anchor-heading" aria-labelledby="3b-grader"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3B Grader
+        
+        
+      </h3>
+    
+
+<p>3B is due on <strong>April 22nd at 11:59 PM</strong> for 9 points. It will test:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> recreates the same world given the same seed and same movements multiple times</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> creates different worlds given different seeds and different movement</li>
+  <li><code class="language-plaintext highlighter-rouge">getWorldFromInput</code> creates the same world even with saving and loading throughout the input string</li>
+</ul>
+
+<p><strong>Remember to add your partner as a group member when submitting to the autograder.</strong></p>
+      <h2 id="large-language-models-llms">
+        
+        
+          <a href="#large-language-models-llms" class="anchor-heading" aria-labelledby="large-language-models-llms"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Large Language Models (LLMs)
+        
+        
+      </h2>
+    
+
+<p>Recall that in the collaboration policy, we say:</p>
+
+<p>“Use of GitHub Copilot / GPT3 / etc. <strong>is permitted with extreme caution</strong> if you’re just generating some amount of boilerplate code, that’s ok. However, you should not use such tools to generate non-trivial methods. We are trying to build your fundamental skills, and leaning on an AI is going to cause you trouble in circumstances where you don’t have an AI to help, such as exams. Any AI generated code must be cited and explicitly commented as such.”</p>
+
+<p>For project 3B &amp; 3C, we’re relaxing this rule and it’s OK to use large language models (LLMs) like ChatGPT, Bard, Bing, CoPilot, etc. For project 3B &amp; 3C however you want, with the important note that any code generated must be explicitly cited as being AI generated.</p>
+
+<p>If you want LLMs to be useful for project 3B &amp; 3C, you’re going to want to give them small tasks. You should think of LLMs as assistant programmers you’ve hired to help you out on your project — they’re very fast and sloppy programmers who have little common sense, and they often need very specific directions to be useful.</p>
+
+<p>If you give high level prompts like write a “write a lighting engine for my game with the code below”, it’s going to do badly. Prompts like “write a function that takes a Color and a brightness level and returns a new color with the given brightness” are really great use cases for LLMs.</p>
+
+<p><strong>Important:</strong> LLMs are notorious for confidently stating things that are not true. They don’t have any actual understanding, and the code they generate may be buggy or even totally garbage.</p>
+
+<p>Another possible use for LLMs is for debugging! I’ve occasionally given an LLM some code, described my issue, and it’s been able to figure out what was wrong.</p>
+
+
+</div>
+
+        
+
+        
+
+        
+        
+          <hr>
+          <footer>
+            
+
+            <script>
+(function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+</script>
+
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="../../assets/js/clipboard.min.js"></script>
+<script>
+// adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(this).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(this).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+</script>
+
+<script src="../../assets/js/tocbot.min.js"></script>
+<script>
+// Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+</script>
+
+
+            
+          </footer>
+        
+
+      </div>
+    </div>
+
+    
+      
+
+      <div class="search-overlay"></div>
+    
+  </div>
+
+  
+</body>
+</html>
+
