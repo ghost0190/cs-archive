@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验 07：左倾红黑树 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验 07：左倾红黑树" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab07/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验07：左倾红黑树" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验07：左倾红黑树","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab07/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         Academic 资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         Conceptual 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验07：左倾红黑树
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 07：左倾红黑树
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#before-you-begin">
+           Before You Begin
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#learning-goals">
+           Learning Goals
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#links-vs-nodes">
+             Links vs Nodes
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#left-leaning-red-black-trees">
+           Left-Leaning 红黑树s
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#llrb-tree-properties">
+             左倾红黑树 Tree Properties
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#inserting-into-llrb-trees">
+           Inserting Into 左倾红黑树 Trees
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#invariant-if-a-node-has-one-red-child-it-must-be-on-the-left">
+             Invariant: If a node has 一 red child, it must be on the left
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#invariant-no-node-can-have-two-red-children">
+             Invariant: 否 node can have 二 red children
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#invariant-no-red-node-can-have-a-red-parent-every-red-nodes-parent-is-black">
+             Invariant: 否 red node can have a red parent (every red node&rsquo;s parent 是 black)
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#llrb-insertion-summary">
+             左倾红黑树 插入 总结
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#llrb-tree-implementation">
+           左倾红黑树 Tree 实现
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#exercise-color-flip">
+             练习: Color Flip
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#exercise-rotations">
+             练习: Rotations
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#exercise-insert">
+             练习: insert
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#testing">
+           测试
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables">
+           提交内容
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验 07：左倾红黑树
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       本实验的常见问题可以在
+       <a href="faq/index.html">
+        这里
+       </a>
+       找到。
+      </p>
+      <h2 id="before-you-begin">
+       <a aria-labelledby="before-you-begin" class="anchor-heading" href="#before-you-begin">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       开始之前
+      </h2>
+      <p>
+       像往常一样，从
+       <code class="language-plaintext highlighter-rouge">
+        skeleton
+       </code>
+       拉取实验 07 文件并在 IntelliJ 中打开它们。
+      </p>
+      <h2 id="learning-goals">
+       <a aria-labelledby="learning-goals" class="anchor-heading" href="#learning-goals">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       学习目标
+      </h2>
+      <p>
+       在本实验中，我们将实现左倾红黑树。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在之前的实验中，我们分析了二叉搜索树中访问和插入算法的性能。然而，在某些情况下，我们总是假设树是
+       <em>
+        平衡的
+       </em>
+       &mdash;&mdash;正如我们所看到的，有可能产生一棵
+       <em>
+        细长的
+       </em>
+       树，这会影响我们数据结构的性能。
+      </p>
+      <p>
+       非正式地说，一棵树是"平衡的"意味着从根到每个叶子的路径长度都大致相同。任何只查看树的每一层一次的算法&mdash;&mdash;比如在二叉搜索树中搜索一个值&mdash;&mdash;只查看层数。对于二叉搜索树，我们能拥有的最少层数是关于节点数的对数（即 \(\log N\)）。
+      </p>
+      <p>
+       为了保持这种"平衡"的特性，我们想要防止获得一棵"细长"树的最坏情况，这会导致更差的性能时间。这就是平衡搜索树/B树的用武之地&mdash;&mdash;它们实际上是自平衡的，并将保持我们想要的"平衡"特性。
+      </p>
+      <p>
+       然而，在本实验中，我们不会专注于实现平衡搜索树&mdash;&mdash;为什么？虽然它们确实保证从根到任何叶子的路径是 \(O(\log N)\)，但它们的编码也出了名的困难和繁琐，常见操作有许多边界情况。它们仍然被广泛使用并提供很多好处，但它们确实有缺点。
+       <strong>
+        请记住，在整个实验中我们仍会引用平衡搜索树（从现在开始，任何对平衡搜索树的引用都是指 2-3 树）。
+       </strong>
+      </p>
+      <p>
+       然后我们将注意力转向一个相关的数据结构：
+       <strong>
+        左倾红黑树
+       </strong>
+       。我们建议你在开始本实验之前复习相关的课程幻灯片。
+      </p>
+      <h3 id="links-vs-nodes">
+       <a aria-labelledby="links-vs-nodes" class="anchor-heading" href="#links-vs-nodes">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       链接 vs 节点
+      </h3>
+      <p class="danger">
+       <strong>
+        请不要跳过这一部分。在继续实验的其余部分之前，阅读这一部分对你来说很重要。
+       </strong>
+       如果你不阅读这一部分，会困难得多。
+      </p>
+      <p>
+       在课堂上，我们用
+       <strong>
+        链接
+       </strong>
+       介绍了 LLRB 的概念。然而，在本实验中，我们不会用链接来表示我们的 LLRB。相反，我们将使用
+       <strong>
+        节点
+       </strong>
+       。主要原因是用链接实现比用节点实现
+       <strong>
+        困难得多
+       </strong>
+       。为了说明这一点，请看下面我们在课堂上如何介绍它的可视化的例子。
+      </p>
+      <p>
+       <img alt src="img/original_links.png">
+      </p>
+      <p>
+       在本实验中，由于我们将处理有色节点&mdash;&mdash;红色链接与其连接节点之间的关系可以定义如下：
+      </p>
+      <p>
+       <img alt src="img/link_to_node.png">
+      </p>
+      <p>
+       最初，
+       <code class="language-plaintext highlighter-rouge">
+        A
+       </code>
+       通过红色链接连接到
+       <code class="language-plaintext highlighter-rouge">
+        B
+       </code>
+       。但是如果我们在表示中使用有色节点而不是链接，
+       <code class="language-plaintext highlighter-rouge">
+        A
+       </code>
+       本身将被染成红色。上面的可视化是为了展示红色链接如何映射到有色节点，所以请在实验的其余部分记住这一点！
+      </p>
+      <p class="warning">
+       <strong>
+        请注意有色链接和相应有色节点之间的关系，因为在实验的其余部分，我们将在示例和描述中使用有色节点，以使实验实现更容易。
+       </strong>
+      </p>
+      <h2 id="left-leaning-red-black-trees">
+       <a aria-labelledby="left-leaning-red-black-trees" class="anchor-heading" href="#left-leaning-red-black-trees">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       左倾红黑树
+      </h2>
+      <p>
+       本质上，LLRB 只是一棵二叉搜索树，但有一些额外的与将每个节点"染成"红色或黑色相关的不变量。这种"染色"在 2-3 树和 LLRB 之间创建了一对一的映射！
+       <strong>
+        特别是，每棵 2-3 树恰好对应一棵 LLRB，反之亦然。
+       </strong>
+      </p>
+      <p>
+       结果相当惊人：LLRB 保持了 2-3 树的平衡性，同时继承了所有正常的二叉搜索树操作，只需额外的内务处理。
+      </p>
+      <h3 id="llrb-tree-properties">
+       <a aria-labelledby="llrb-tree-properties" class="anchor-heading" href="#llrb-tree-properties">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       左倾红黑树 树属性
+      </h3>
+      <p>
+       我们现在指定 LLRB 树的一些属性。特别是，我们使用有效 LLRB 树和 2-3 树之间的一对一映射来推导其中一些属性。
+      </p>
+      <dl>
+       <dt>
+        使用有色节点作为我们的表示，根节点必须染成黑色。
+       </dt>
+       <dd>
+        我们对红色节点的解释是，它们与父节点在同一个 2-3 节点中。根节点没有父节点，所以它不能是红色的。
+       </dd>
+       <dt>
+        如果一个节点有一个红色子节点，它必须在左边。
+       </dt>
+       <dd>
+        这使得树向左倾斜。
+       </dd>
+       <dt>
+        没有节点可以有两个红色子节点。
+       </dt>
+       <dd>
+        如果一个节点有两个红色子节点，那么两个子节点都与父节点在同一个 2-3 节点中。这意味着相应的 2-3 节点包含 3 个键，这是不允许的。
+       </dd>
+       <dt>
+        没有红色节点可以有红色父节点（每个红色节点的父节点都是黑色的）。
+       </dt>
+       <dd>
+        如果一个红色节点有一个红色父节点，那么红色子节点和红色父节点都与红色父节点的父节点在同一个 2-3 节点中。这意味着相应的 2-3 节点包含 3 个键，这是不允许的。
+       </dd>
+       <dt>
+        在一棵平衡的 LLRB 树中，每条到空引用的路径都经过相同数量的黑色节点。
+       </dt>
+       <dd>
+        在一棵平衡的 2-3 树中，每个空节点到根的距离都相同。我们还知道，LLRB 树中的每个黑色节点恰好对应于等效 2-3 树中的一个节点。因此，LLRB 树中的每个空节点到根的黑色节点数量相同。
+       </dd>
+      </dl>
+      <h2 id="inserting-into-llrb-trees">
+       <a aria-labelledby="inserting-into-llrb-trees" class="anchor-heading" href="#inserting-into-llrb-trees">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       插入 左倾红黑树 树
+      </h2>
+      <p>
+       <strong>
+        插入 LLRB 树从常规的二叉搜索树插入算法开始
+       </strong>
+       ，我们搜索找到适当的叶子位置。
+      </p>
+      <p class="info">
+       <strong>
+        每当我们向 LLRB 插入一个节点时，我们都将其作为红色节点插入。
+       </strong>
+      </p>
+      <p>
+       然而，一旦我们放置了节点，这可能会破坏 LLRB 不变量，所以我们需要可以"恢复"LLRB 属性的额外操作。我们知道有效 LLRB 与 2-3 树之间存在一一对应关系。让我们使用这种对应关系来尝试推导这些操作。
+      </p>
+      <p>
+       我们将介绍不变量被破坏时的不同情况以及修复它们的适当操作。
+      </p>
+      <h3 id="invariant-if-a-node-has-one-red-child-it-must-be-on-the-left">
+       <a aria-labelledby="invariant-if-a-node-has-one-red-child-it-must-be-on-the-left" class="anchor-heading" href="#invariant-if-a-node-has-one-red-child-it-must-be-on-the-left">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       不变量：如果一个节点有一个红色子节点，它必须在左边
+      </h3>
+      <p>
+       如前所述，我们插入的节点将是红色的。假设我们将节点插入到我们的 LLRB 中，它最终成为节点
+       <code class="language-plaintext highlighter-rouge">
+        a
+       </code>
+       的
+       <strong>
+        右子节点
+       </strong>
+       （这意味着我们节点中的值大于
+       <code class="language-plaintext highlighter-rouge">
+        a
+       </code>
+       ）。
+       <strong>
+        让我们假设节点
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        的左子节点是黑色的或不存在。
+       </strong>
+       这破坏了我们的不变量，即"如果一个节点有一个红色子节点，它必须在左边"。由于我们不能有任何右倾红色节点，我们需要在父节点上
+       <strong>
+        左旋
+       </strong>
+       。示例如下：
+      </p>
+      <p>
+       <img alt src="img/rotate_left.png" style="max-height: 250px;">
+      </p>
+      <h3 id="invariant-no-node-can-have-two-red-children">
+       <a aria-labelledby="invariant-no-node-can-have-two-red-children" class="anchor-heading" href="#invariant-no-node-can-have-two-red-children">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       不变量：没有节点可以有两个红色子节点
+      </h3>
+      <p>
+       让我们考虑另一种情况。与上面类似，我们将节点作为红色节点插入 LLRB，它最终成为节点
+       <code class="language-plaintext highlighter-rouge">
+        b
+       </code>
+       的
+       <strong>
+        右子节点
+       </strong>
+       （在本例中）。当节点
+       <code class="language-plaintext highlighter-rouge">
+        b
+       </code>
+       的左子节点是红色节点时会发生什么？这会破坏"没有节点可以有两个红色子节点"的不变量。然后我们对父节点执行"颜色翻转"操作。在这里，我们对
+       <code class="language-plaintext highlighter-rouge">
+        b
+       </code>
+       应用颜色翻转操作，翻转它的颜色和它的子节点的颜色。
+      </p>
+      <p>
+       <img alt src="img/color_flip.png" style="max-height: 250px;">
+      </p>
+      <p>
+       我们稍后会回到这种配置。
+      </p>
+      <h3 id="invariant-no-red-node-can-have-a-red-parent-every-red-nodes-parent-is-black">
+       <a aria-labelledby="invariant-no-red-node-can-have-a-red-parent-every-red-nodes-parent-is-black" class="anchor-heading" href="#invariant-no-red-node-can-have-a-red-parent-every-red-nodes-parent-is-black">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       不变量：没有红色节点可以有红色父节点（每个红色节点的父节点都是黑色的）
+      </h3>
+      <p>
+       这可以分为下面定义的两种情况。
+      </p>
+      <h4 id="two-consecutive-left-leaning-red-nodes">
+       <a aria-labelledby="two-consecutive-left-leaning-red-nodes" class="anchor-heading" href="#two-consecutive-left-leaning-red-nodes">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       两个连续的左倾红色节点。
+      </h4>
+      <p>
+       如果我们插入节点，它最终成为红色节点的左子节点会发生什么？在这种情况下，我们需要调整操作并"右旋"（
+       <strong>
+        换句话说，不可能有两个左倾红色节点
+       </strong>
+       ）。
+      </p>
+      <p>
+       右旋是左旋的反操作！如果应用于新根，它将给我们返回原始子树。
+      </p>
+      <p>
+       在这种情况下，我们在
+       <code class="language-plaintext highlighter-rouge">
+        b
+       </code>
+       上右旋：
+      </p>
+      <p>
+       <img alt src="img/rotate_right.png" style="max-height: 250px;">
+      </p>
+      <p>
+       此时，我们注意到它与之前的情况模式相同，所以我们对
+       <code class="language-plaintext highlighter-rouge">
+        a
+       </code>
+       应用颜色翻转。
+      </p>
+      <h4 id="red-node-with-a-right-leaning-red-childnode">
+       <a aria-labelledby="red-node-with-a-right-leaning-red-childnode" class="anchor-heading" href="#red-node-with-a-right-leaning-red-childnode">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       带有右倾红色子节点的红色节点。
+      </h4>
+      <p>
+       在另一种情况下，我们可能会让我们的节点成为一个已经是红色的节点的右子节点。在这种情况下，我们然后应用我们的左旋操作。
+      </p>
+      <p>
+       如下所示，在这个例子中我们在
+       <code class="language-plaintext highlighter-rouge">
+        a
+       </code>
+       上左旋，我们得到：
+      </p>
+      <p>
+       <img alt src="img/rotate_left2.png" style="max-height: 250px;">
+      </p>
+      <p>
+       <strong>
+        请注意，这与上面提到的不变量有关，即我们不能有右倾红色节点。
+       </strong>
+       在这里，我们又遇到了前面的情况，所以我们知道我们可以在
+       <code class="language-plaintext highlighter-rouge">
+        b
+       </code>
+       上右旋，并对根节点
+       <code class="language-plaintext highlighter-rouge">
+        x
+       </code>
+       应用颜色翻转。
+      </p>
+      <h4 id="upward-propagation">
+       <a aria-labelledby="upward-propagation" class="anchor-heading" href="#upward-propagation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       向上传播
+      </h4>
+      <p>
+       等等&mdash;&mdash;注意我们刚刚讨论的一些情况最终都进行了颜色翻转。如果我们修改的子树是一个
+       <em>
+        右子树
+       </em>
+       ，而树的其余部分看起来像这样会怎样：
+      </p>
+      <p>
+       <img alt src="img/upward_propagation.png" style="max-height: 250px;">
+      </p>
+      <p>
+       就像在 2-3 树中向上推一个键可能导致父节点过满一样，
+       <strong>
+        执行这些转换可能
+        <em>
+         也会
+        </em>
+        违反 左倾红黑树 不变量
+       </strong>
+       ，再次给我们带来这三种情况之一。我们解决这些情况，直到我们：
+      </p>
+      <ul>
+       <li>
+        没有任何被破坏的不变量
+       </li>
+       <li>
+        翻转根节点的颜色
+       </li>
+      </ul>
+      <p class="info">
+       这意味着执行其中一些操作（颜色翻转、右旋或左旋）可能最终会破坏另一个不变量，导致更多操作。当我们尝试解决这些情况时，这些转换实际上会沿着 LLRB 树向上工作，直到我们根据上述条件解决它们。
+       <br>
+       <br>
+       在某些情况下，我们必须记住在我们的表示中将根节点翻回黑色。
+      </p>
+      <h3 id="llrb-insertion-summary">
+       <a aria-labelledby="llrb-insertion-summary" class="anchor-heading" href="#llrb-insertion-summary">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       左倾红黑树 插入总结
+      </h3>
+      <p class="info">
+       这一部分对实验最有帮助，因为你可以参考下面的图表来了解如何执行这三个操作。考虑一下如何将旋转操作和颜色翻转操作转换为涉及节点和指针重新分配的问题。
+      </p>
+      <p>
+       我们讨论了三种操作，可以用来在插入节点后"修复"LLRB 不变量。因为如上所述可能会有向上传播，让我们尝试更直观地概括我们的操作（特别是对于我们的旋转）。
+      </p>
+      <p>
+       我们有两种旋转，可以用来将右子节点或左子节点向上移动到它们父节点的位置：
+      </p>
+      <p>
+       <img alt src="img/rotations_summary.png" style="max-height: 250px;">
+      </p>
+      <p>
+       以下是当我们执行
+       <code class="language-plaintext highlighter-rouge">
+        rotateRight(b)
+       </code>
+       时会发生什么的简要描述：
+      </p>
+      <ul>
+       <li>
+        子树的根已从
+        <code class="language-plaintext highlighter-rouge">
+         b
+        </code>
+        变为
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         b
+        </code>
+        已经移动到"右边"。
+       </li>
+       <li>
+        两个节点交换颜色，以便新根与旧根颜色相同。
+       </li>
+       <li>
+        重组后的子树仍然满足二叉搜索性质。
+       </li>
+      </ul>
+      <p>
+       以下是当我们执行
+       <code class="language-plaintext highlighter-rouge">
+        rotateLeft(a)
+       </code>
+       时会发生什么的简要描述：
+      </p>
+      <ul>
+       <li>
+        子树的根已从
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        变为
+        <code class="language-plaintext highlighter-rouge">
+         b
+        </code>
+        。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         b
+        </code>
+        已经移动到"左边"。
+       </li>
+       <li>
+        两个节点交换颜色，以便新根与旧根颜色相同。
+       </li>
+       <li>
+        重组后的子树仍然满足二叉搜索性质。
+       </li>
+      </ul>
+      <p>
+       我们还有颜色翻转操作：
+      </p>
+      <p>
+       <img alt src="img/color_flip.png" style="max-height: 250px;">
+      </p>
+      <h2 id="llrb-tree-implementation">
+       <a aria-labelledby="llrb-tree-implementation" class="anchor-heading" href="#llrb-tree-implementation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       左倾红黑树 树实现
+      </h2>
+      <p class="warning">
+       <strong>
+        你读过这个
+        <a href="#links-vs-nodes">
+         部分
+        </a>
+        了吗？如果还没有，请在开始实现这个实验之前先读一下。
+       </strong>
+      </p>
+      <p>
+       在开始之前，请确保通读整个类
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       ，特别是提供的嵌套节点类。确保也阅读每个方法的注释！
+      </p>
+      <h3 id="exercise-color-flip">
+       <a aria-labelledby="exercise-color-flip" class="anchor-heading" href="#exercise-color-flip">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       练习：颜色翻转
+      </h3>
+      <p>
+       让我们首先考虑对 LLRB 树实现至关重要的颜色翻转操作。给定一个节点，这个操作只是翻转它的颜色和它的子节点的颜色。
+      </p>
+      <p class="task">
+       在
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       中实现
+       <code class="language-plaintext highlighter-rouge">
+        flipColors
+       </code>
+       方法。
+      </p>
+      <h3 id="exercise-rotations">
+       <a aria-labelledby="exercise-rotations" class="anchor-heading" href="#exercise-rotations">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       练习：旋转
+      </h3>
+      <p>
+       我们已经看到我们可以旋转树来平衡它而不违反二叉搜索树不变量。现在，让我们自己实现它！
+      </p>
+      <p class="info">
+       <strong>
+        对于你的实现，确保交换旧根和新根的颜色！
+       </strong>
+       <br>
+       <br>
+       提示：这两个操作是对称的。代码应该有很大不同吗？如果你发现自己卡住了，看看上面显示的例子！
+      </p>
+      <p class="task">
+       在
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       中，实现
+       <code class="language-plaintext highlighter-rouge">
+        rotateRight
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        rotateLeft
+       </code>
+       。
+      </p>
+      <h3 id="exercise-insert">
+       <a aria-labelledby="exercise-insert" class="anchor-heading" href="#exercise-insert">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       练习：
+       <code class="language-plaintext highlighter-rouge">
+        insert
+       </code>
+      </h3>
+      <p>
+       我们现在将在
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       中实现
+       <code class="language-plaintext highlighter-rouge">
+        insert
+       </code>
+       。我们已经为你提供了一些带有注释的逻辑结构。
+       <code class="language-plaintext highlighter-rouge">
+        insert
+       </code>
+       的第一部分应该处理正常的二叉搜索树插入。然后你需要处理导致其中一个操作（
+       <code class="language-plaintext highlighter-rouge">
+        rotateLeft
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        rotateRight
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        colorFlip
+       </code>
+       ）发生的不同情况。
+       <strong>
+        确保你非常仔细地遵循所有情况的步骤！
+       </strong>
+      </p>
+      <p>
+       确保使用你已经实现的方法（
+       <code class="language-plaintext highlighter-rouge">
+        rotateRight
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        rotateLeft
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        flipColors
+       </code>
+       ）来简化代码编写。
+      </p>
+      <p class="info">
+       <strong>
+        辅助方法
+        <code class="language-plaintext highlighter-rouge">
+         是Red
+        </code>
+        已经在框架代码中提供给你了，所以一定要使用它！
+       </strong>
+      </p>
+      <p class="task">
+       在
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       中实现
+       <code class="language-plaintext highlighter-rouge">
+        insert
+       </code>
+       方法。
+      </p>
+      <h2 id="testing">
+       <a aria-labelledby="testing" class="anchor-heading" href="#testing">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试
+      </h2>
+      <p>
+       所有测试都已在本地提供给你。如果你通过了
+       <code class="language-plaintext highlighter-rouge">
+        TestRedBlackTree.java
+       </code>
+       中的所有测试，你将在 Gradescope 上获得满分。整个测试过程中都提供了注释，以帮助你进一步调试。
+      </p>
+      <h2 id="deliverables">
+       <a aria-labelledby="deliverables" class="anchor-heading" href="#deliverables">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付成果
+      </h2>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        RedBlackTree.java
+       </code>
+       中完成以下方法：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         flipColors
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         rotateRight
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         rotateLeft
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         insert
+        </code>
+       </li>
+      </ul>
+      <p>
+       本实验价值 5 分。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

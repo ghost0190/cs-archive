@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   预期输出 - 作业2：渗透 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="预期输出 - 作业2：渗透" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="作业2预期输出。" name="description">
+  <meta content="作业2预期输出。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/homeworks/hw2/outputs/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="预期输出 - 作业2：渗透" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"作业2预期输出。","headline":"预期输出 - 作业2：渗透","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/homeworks/hw2/outputs/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日程
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       助教
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验08：哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../hw0/hw0a/index.html">
+           作业0A：Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../hw0/hw0b/index.html">
+           作业0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         作业2：渗透
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../faq/index.html">
+           作业2：渗透常见问题
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           "预期输出 - 作业2：渗透"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目1A：链表Deque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目1A：链表Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目1A：链表Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目1B：数组Deque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目1B：数组Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目1B：数组Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目1C：Deque61B增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目1C：Deque61B增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目2A：Ngordnet（NGrams）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目2C：Ngordnet增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           常见UI错误 - 项目3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/beacon/index.html">
+           Beacon使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/ed/index.html">
+           Ed政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/ed/ed-guide/index.html">
+             Ed新用户指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/plugins/index.html">
+             IntelliJ插件安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/style/index.html">
+           风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/git/index.html">
+           Git使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/soda-machines/index.html">
+           Soda实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       2024年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        作业2：渗透
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        预期输出 - 作业2：渗透
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        预期输出 - 作业2：渗透
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#greeting57">
+           greeting57
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#heart25">
+           heart25
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input10-no">
+           input10-no
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input10">
+           input10
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input1-no">
+           input1-no
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input1">
+           input1
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input20">
+           input20
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input2-no">
+           input2-no
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input2">
+           input2
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input3">
+           input3
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input4">
+           input4
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input50">
+           input50
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input5">
+           input5
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input6">
+           input6
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input7">
+           input7
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input8-dups">
+           input8-dups
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input8-no">
+           input8-no
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#input8">
+           input8
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#jerry47">
+           jerry47
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#sedgewick60">
+           sedgewick60
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#snake101">
+           snake101
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#snake13">
+           snake13
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#wayne98">
+           wayne98
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       预期输出 - 作业2：渗透
+      </h1>
+      <h2 id="greeting57">
+       <a aria-labelledby="greeting57" class="anchor-heading" href="#greeting57">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       greeting57
+      </h2>
+      <p>
+       <img alt src="../outputFiles/greeting57.png">
+      </p>
+      <h2 id="heart25">
+       <a aria-labelledby="heart25" class="anchor-heading" href="#heart25">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       heart25
+      </h2>
+      <p>
+       <img alt src="../outputFiles/heart25.png">
+      </p>
+      <h2 id="input10-no">
+       <a aria-labelledby="input10-no" class="anchor-heading" href="#input10-no">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input10-no
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input10-no.png">
+      </p>
+      <h2 id="input10">
+       <a aria-labelledby="input10" class="anchor-heading" href="#input10">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input10
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input10.png">
+      </p>
+      <h2 id="input1-no">
+       <a aria-labelledby="input1-no" class="anchor-heading" href="#input1-no">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input1-no
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input1-no.png">
+      </p>
+      <h2 id="input1">
+       <a aria-labelledby="input1" class="anchor-heading" href="#input1">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input1
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input1.png">
+      </p>
+      <h2 id="input20">
+       <a aria-labelledby="input20" class="anchor-heading" href="#input20">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input20
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input20.png">
+      </p>
+      <h2 id="input2-no">
+       <a aria-labelledby="input2-no" class="anchor-heading" href="#input2-no">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input2-no
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input2-no.png">
+      </p>
+      <h2 id="input2">
+       <a aria-labelledby="input2" class="anchor-heading" href="#input2">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input2
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input2.png">
+      </p>
+      <h2 id="input3">
+       <a aria-labelledby="input3" class="anchor-heading" href="#input3">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input3
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input3.png">
+      </p>
+      <h2 id="input4">
+       <a aria-labelledby="input4" class="anchor-heading" href="#input4">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input4
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input4.png">
+      </p>
+      <h2 id="input50">
+       <a aria-labelledby="input50" class="anchor-heading" href="#input50">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input50
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input50.png">
+      </p>
+      <h2 id="input5">
+       <a aria-labelledby="input5" class="anchor-heading" href="#input5">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input5
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input5.png">
+      </p>
+      <h2 id="input6">
+       <a aria-labelledby="input6" class="anchor-heading" href="#input6">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input6
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input6.png">
+      </p>
+      <h2 id="input7">
+       <a aria-labelledby="input7" class="anchor-heading" href="#input7">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input7
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input7.png">
+      </p>
+      <h2 id="input8-dups">
+       <a aria-labelledby="input8-dups" class="anchor-heading" href="#input8-dups">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input8-dups
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input8-dups.png">
+      </p>
+      <h2 id="input8-no">
+       <a aria-labelledby="input8-no" class="anchor-heading" href="#input8-no">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input8-no
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input8-no.png">
+      </p>
+      <h2 id="input8">
+       <a aria-labelledby="input8" class="anchor-heading" href="#input8">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       input8
+      </h2>
+      <p>
+       <img alt src="../outputFiles/input8.png">
+      </p>
+      <h2 id="jerry47">
+       <a aria-labelledby="jerry47" class="anchor-heading" href="#jerry47">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       jerry47
+      </h2>
+      <p>
+       <img alt src="../outputFiles/jerry47.png">
+      </p>
+      <h2 id="sedgewick60">
+       <a aria-labelledby="sedgewick60" class="anchor-heading" href="#sedgewick60">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       sedgewick60
+      </h2>
+      <p>
+       <img alt src="../outputFiles/sedgewick60.png">
+      </p>
+      <h2 id="snake101">
+       <a aria-labelledby="snake101" class="anchor-heading" href="#snake101">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       snake101
+      </h2>
+      <p>
+       <img alt src="../outputFiles/snake101.png">
+      </p>
+      <h2 id="snake13">
+       <a aria-labelledby="snake13" class="anchor-heading" href="#snake13">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       snake13
+      </h2>
+      <p>
+       <img alt src="../outputFiles/snake13.png">
+      </p>
+      <h2 id="wayne98">
+       <a aria-labelledby="wayne98" class="anchor-heading" href="#wayne98">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       wayne98
+      </h2>
+      <p>
+       <img alt src="../outputFiles/wayne98.png">
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

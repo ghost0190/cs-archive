@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Remember to pull the latest code from the bustub repository. Do not post your code on a public GitHub repository. Overview In this project you will implement a B+Tree index in your database system. A B+Tree is a balanced search tree in which the internal pages direct the …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Project #2 - B+Tree - CMU 15-445/645 :: 数据库系统导论 (2025 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2025/project2/index.html"/>
+    <meta property="article:published_time" content="2025-10-03" />
+    <meta property="og:description" content="Remember to pull the latest code from the bustub repository. Do not post your code on a public GitHub repository. Overview In this project you will implement a B+Tree index in your database system. A B+Tree is a balanced search tree in which the internal pages direct the …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2025">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="../images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="../images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>Project #2 - B+Tree | CMU 15-445/645 :: 数据库系统导论 (2025 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../index.html" title="CMU 15-445/645"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header mb-3 mb-md-4"><i class="fas fa-database"></i> <span class="text-uppercase">Project #2 - B+Tree</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal; text-shadow: none;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-10-03 23:13:46.089175-04:00">最后更新：Oct 03, 2025</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-10-03 23:13:46.089175-04:00">最后更新：Oct 03, 2025</time>
+    </div>
+</div>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    记得从 bustub 仓库拉取最新代码。<u>不要</u>将你的代码发布到公开的 GitHub 仓库。
+</p>
+
+<!-- ========================================================================= -->
+<!-- OVERVIEW                                                                  -->
+<!-- ========================================================================= -->
+<h1 id="overview">概述</h1>
+
+<p>在本项目中，你将在你的数据库系统中实现一个 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/B%2B_tree">B+树</a>索引。
+B+树是一种平衡搜索树，其中内部页引导搜索，叶页包含实际的数据条目。
+该索引提供快速的数据检索，无需搜索数据库表中的每一行，从而实现快速的随机查找和有序记录的高效扫描。
+你的实现需要支持线程安全的搜索、插入、删除（包括节点的分裂和合并），以及一个支持有序叶页扫描的迭代器。你需要完成以下任务：</p>
+<ul class="">
+    <li> <a href="#btree-pages">任务 #1 - B+树页面</a>
+    <li> <a href="#btree-operations">任务 #2 - B+树操作（插入、删除和点查）</a>
+    <li> <a href="#index-iterator">任务 #3 - 索引迭代器</a>
+    <li> <a href="#concurrency-control">任务 #4 - 并发控制</a>
+</ul>
+
+<p>你在项目 #2 中的工作依赖于你在 <a href="../project1/index.html">项目 #1</a> 中实现的缓冲池和页守卫。
+如果你的项目 #1 解决方案不正确，你<b>必须</b>修复它才能成功完成本项目。
+本项目必须<b>独立</b>完成（即不允许组队）。</p>
+<!-- START project2 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Sep 29, 2025</li>
+<li><b>截止日期：</b> Oct 26, 2025 @ 11:59pm</li>
+</ul>
+<!-- END project2 -->
+
+<div class="warning p-2 row justify-content-center align-items-center my-3 bg-secondary rounded">
+    <div class="col-md-auto px-0 mb-2 mb-md-0 d-flex justify-content-center fs-2">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x text-danger"></i>
+            <i class="fa fa-skull-crossbones fa-stack-1x fa-inverse"></i>
+        </span>
+    </div>
+    <div class="col text-light fw-bold">
+        本项目比之前的项目/作业更难！我们强烈建议你<u>尽早开始</u>，否则会遇到问题。已经提醒过你了！
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- PROJECT SPECIFICATION                                                     -->
+<!-- ========================================================================= -->
+<h1 id="project-specification">项目规范</h1>
+<p>我们提供了定义你必须实现的 API 的存根类。你<b><u>不应</u></b>修改这些预定义函数的签名；否则，我们的测试代码将无法工作，你将无法获得本项目的学分。
+同样，你不应从我们提供的代码中删除现有的成员变量。
+你可以向这些类添加函数和成员变量来实现你的解决方案。</p>
+<p>在开始之前，运行 <code>git pull public master</code> 从公共 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub">BusTub 仓库</a>拉取最新代码。</p>
+<!-- **************************************************** -->
+<!-- B+Tree Pages                                         -->
+<!-- **************************************************** -->
+<h2 class="task" id="btree-pages">任务 #1 - B+树页面</h2>
+<p>你必须实现以下三个 <code>Page</code> 类来存储你的 B+树数据。</p>
+<ul>
+    <li> <a href="#btree-page">B+树页</a>
+    <li> <a href="#btree-internal-page">B+树内部页</a>
+    <li> <a href="#btree-leaf-page">B+树叶页</a>
+</ul>
+
+<!-- **************************************************** -->
+<!-- Base Page                                            -->
+<!-- **************************************************** -->
+<div class="question">
+<h3 id="btree-page">基类页</h3>
+<p>这是一个基类，内部页和叶页都继承自它，仅包含两个子类共享的信息。
+B+树页具有以下字段：</p>
+<table class="table table-striped border">
+<thead>
+    <tr>
+        <th>变量名</th>
+        <th>大小</th>
+        <th>描述</th>
+    </tr>
+</thead>
+<tbody>
+        <tr id="row1">
+            <td class="font-monospace">page_type_</td>
+            <td>4</td>
+            <td>页类型（无效页/叶页/内部页）</td>
+        </tr>
+        <tr id="row2">
+            <td class="font-monospace">size_</td>
+            <td>4</td>
+            <td>页中键值对的数量</td>
+        </tr>
+        <tr id="row3">
+            <td class="font-monospace">max_size_</td>
+            <td>4</td>
+            <td>页中键值对的最大数量</td>
+        </tr>
+</tbody>
+</table>
+<p>你必须通过仅修改其头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/b_plus_tree_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/b_plus_tree_page.h</tt> <i class="fas fa-external-link-alt"></i></a>）和对应的源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/page/b_plus_tree_page.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/page/b_plus_tree_page.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）来实现 B+树页。</p>
+</div>
+<!-- **************************************************** -->
+<!-- B+Tree Internal Page                                 -->
+<!-- **************************************************** -->
+<div class="question">
+<h3 id="btree-internal-page">内部页</h3>
+<p>内部页（即内部节点）存储 <code>m</code> 个有序键和 <code>m + 1</code> 个子指针（即 page_id），指向其他 B+树页。
+这些键和指针在内部表示为键/page_id 对的数组。
+由于子指针数量比键数量多一个，<code>key_array_</code> 中的第一个键（见 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/b_plus_tree_internal_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/b_plus_tree_internal_page.h</tt> <i class="fas fa-external-link-alt"></i></a>）被设为无效，查找应始终从第二个键开始。</p>
+<p>在任何时候，每个内部页应至少半满。在删除期间，两个半满的页可以合并，或者可以重新分配键和指针以避免合并。
+在插入期间，一个满的页可以分裂为两个，或者可以重新分配键和指针以避免分裂。
+这些是你在实现 B+树时将做出的众多设计选择的示例。</p>
+<p>你必须通过仅修改其头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/b_plus_tree_internal_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/b_plus_tree_internal_page.h</tt> <i class="fas fa-external-link-alt"></i></a>）和对应的源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/page/b_plus_tree_internal_page.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/page/b_plus_tree_internal_page.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）来实现内部页。</p>
+</div>
+<!-- **************************************************** -->
+<!-- B+Tree Leaf Page                                    -->
+<!-- **************************************************** -->
+<div class="question">
+<h3 id="btree-leaf-page">叶页</h3>
+<p>叶页存储 <code>m</code> 个有序键及其 <code>m</code> 个对应的值。
+在你的实现中，值应始终是 64 位的记录 id，用于存储实际元组的位置——参见 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/common/rid.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/common/rid.h</tt> <i class="fas fa-external-link-alt"></i></a> 中的 <code>RID</code> 类。
+叶页对键值对数量的限制与内部页相同，并且在合并、分裂和重新分配键时应遵循相同的操作。</p>
+<p>在本项目中，我们将通过为最近的删除包含一个墓碑缓冲区来扩展叶页实现。该墓碑缓冲区存储键值数组中已被删除的条目的最后 <code>k</code> 个索引。因此，当一个键从索引中被删除时（如果 <code>k</code> &gt; 0），其在对应叶页中的条目实际上不会被删除，而是该索引被追加到墓碑缓冲区。只有当该叶页的缓冲区中有 <code>k</code> 个条目时，最早的缓冲删除才会被实际应用到键值数组中。这是课堂讨论的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Fractal_tree_index#B%CE%B5_trees">Bε树</a>的简化版本。</p>
+<p>你必须实现 <code>GetTombstones()</code> 来报告给定页中的墓碑对应的键。然而，<code>KeyAt</code> 必须返回给定索引处的物理条目，无论该条目是否存在墓碑。</p>
+<p>你必须通过仅修改其头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/b_plus_tree_leaf_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/b_plus_tree_leaf_page.h</tt> <i class="fas fa-external-link-alt"></i></a>）和对应的源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/page/b_plus_tree_leaf_page.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/page/b_plus_tree_leaf_page.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）来实现叶页。</p>
+<p><strong>注意：</strong>尽管叶页和内部页包含相同的键类型，但它们可能具有不同的值类型。因此，<code>max_size</code> 可以不同。</p>
+<p>每个 B+树叶页/内部页对应于缓冲池获取的内存页的内容（即 <code>data_</code> 部分）。
+每次你从叶页或内部页读取或写入时，你必须首先从缓冲池中获取该页（使用其唯一的 <code>page_id</code>），
+对其进行<a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast">reinterpret cast</a>转换为叶页或内部页，并在读取或写入后解除固定。</p>
+</div>
+<!-- ******************************************************************** -->
+<!-- B+Tree Data structure (Insertion and search for single values)      -->
+<!-- ******************************************************************** -->
+<h2 class="task" id="btree-operations">任务 #2 - B+树操作（插入、删除和点查）</h2>
+
+<p>在本任务中，你的 B+树索引需要支持单值的插入（<code>Insert()</code>）、删除（<code>Remove()</code>）和搜索（<code>GetValue()</code>）。
+索引应仅支持唯一键；如果你尝试将已存在的键重新插入索引，则不应执行插入并返回 <code>false</code>。你必须通过修改源文件 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/index/b_plus_tree.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/index/b_plus_tree.cpp</tt> <i class="fas fa-external-link-alt"></i></a> 以及可选地修改其对应的头文件 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/index/b_plus_tree.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/index/b_plus_tree.h</tt> <i class="fas fa-external-link-alt"></i></a> 来完成本任务。</p>
+<p>如果插入会违反 B+树的不变性，则应分裂 B+树页（或重新分配键）。此外，叶页墓碑（及其顺序）必须在任何合并、分裂和重新分配操作中得到维护。当叶页被合并或重新分配到另一个叶页时，我们认为其所有待处理的删除比目标叶页中的任何待处理删除都更新（换句话说：被插入条目的节点应首先处理其墓碑）。</p>
+<p>如果插入改变了根的页 ID，你必须更新 B+树索引头页中的 <code>root_page_id</code>。
+你可以通过访问 <code>header_page_id_</code> 页来完成此操作，该页在构造函数中提供给你。
+然后，通过使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/language/reinterpret_cast">reinterpret cast</a>，你可以将此页解释为 <code>BPlusTreeHeaderPage</code>（来自 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/b_plus_tree_header_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/b_plus_tree_header_page.h</tt> <i class="fas fa-external-link-alt"></i></a>）并从中更新根页 ID。
+你还必须实现 <code>GetRootPageId</code>。</p>
+<p>同样，你的 B+树索引必须在删除键时支持包括合并或在页之间重新分配键以维护 B+树不变性。
+与插入一样，如果根发生变化，你必须正确更新 B+树的根页 ID。</p>
+<p>我们建议你使用项目 #1 中的页守卫类来避免同步问题。
+你应该相应地使用 <code>ReadPage</code> 或 <code>WritePage</code>。</p>
+<!-- For this checkpoint, we recommend that you use <code>FetchPageBasic</code> (defined in <tt class="filepath">src/include/storage/page/</tt>) when you access a page. When you later implement concurrency control in Task #4, you can change this to use <code>FetchPageRead</code> and <code>FetchPageWrite</code>, as needed. -->
+
+<p>你可以选择使用 <code>Context</code> 类（定义在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/index/b_plus_tree.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/index/b_plus_tree.h</tt> <i class="fas fa-external-link-alt"></i></a>）来跟踪你已读取或写入的页（通过 <code>read_set_</code> 和 <code>write_set_</code> 字段）或存储你需要递归传递到其他函数中的其他元数据。</p>
+<p>如果你使用 <code>Context</code> 类，以下是一些提示：</p>
+<ul>
+<li>你可能只需要在插入或删除时使用 <code>write_set_</code>。根据你的实现，你可能不使用 <code>read_set_</code>。</li>
+<li>你可能想要将根页 id 存储在上下文中，并在修改 B+树时获取头页的写守卫。</li>
+<li>要找到当前节点的父节点，查看 <code>write_set_</code> 的末尾。它应包含沿访问路径的所有节点。</li>
+<li>你可以使用 <code>BUSTUB_ASSERT</code> 来帮助你找到实现中不一致的数据。例如，如果你要分裂一个节点（根除外），你应该确保 <code>write_set_</code> 中至少还有一个节点。如果你需要分裂根，你应该检查 <code>header_page_</code> 是否为 <code>std::nullopt</code>。</li>
+<li>要解锁头页，只需将 <code>header_page_</code> 设为 <code>std::nullopt</code>。要解锁其他页，从 <code>write_set_</code> 中弹出并 drop。</li>
+</ul>
+<p>B+树参数化为任意键、值和键比较器类型。
+我们定义了一个宏 <code>INDEX_TEMPLATE_ARGUMENTS</code>，为你生成模板参数声明：</p>
+<pre class="shadow-sm p-2">
+template &#60;typename KeyType,
+          typename ValueType,
+          typename KeyComparator&#62;
+</pre>
+
+<p>类型参数为：</p>
+<ul>
+    <li><code>KeyType</code>：
+    索引中每个键的类型。在实践中，这将是一个 <code>GenericKey</code>。<code>GenericKey</code> 的实际大小是变化的，由其自身的模板参数指定，取决于索引属性的类型。
+
+    <li><code>ValueType</code>：
+    索引中每个值的类型。在实践中，这将是一个 64 位的 RID。
+
+    <li><code>KeyComparator</code>：
+    用于比较两个 <code>KeyType</code> 实例是否小于、大于或等于彼此的类。这些将包含在 <code>KeyType</code> 的实现文件中。
+</ul>
+
+<!-- **************************************************** -->
+<!-- Iterator                                             -->
+<!-- **************************************************** -->
+<h2 class="task" id="index-iterator">任务 #3 - 索引迭代器</h2>
+<p>在你完成并彻底测试了任务 #1 和 #2 中的 B+树后，你必须添加一个 C++ 迭代器，以高效地支持索引中条目的有序扫描。
+基本思想是存储兄弟指针，以便你可以高效地遍历叶页，然后实现一个迭代器，按顺序遍历索引中的每个键值对。注意，此迭代器<em>必须尊重墓碑</em>，因此你应跳过任何具有对应墓碑的键值对。</p>
+<p>你的迭代器必须是一个 <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cplusplus.com');" href="http://www.cplusplus.com/reference/iterator/">C++17 风格的迭代器</a>，至少包括以下方法：</p>
+<ul>
+    <li><code>isEnd()</code>：
+    返回此迭代器是否指向最后一个键值对。
+
+    <li><code>operator++()</code>：
+    移动到下一个键值对。
+
+    <li><code>operator*()</code>：
+    返回此迭代器当前指向的键值对。
+
+    <li><code>operator==()</code>：
+    返回两个迭代器是否相等。
+
+    <li><code>operator!=()</code>：
+    返回两个迭代器是否不相等。
+</ul>
+
+<p>你的 <code>BPlusTree</code> 还必须正确实现 <code>begin()</code> 和 <code>end()</code> 方法，以支持索引上的 C++ for-each 循环功能。</p>
+<p>你必须通过仅修改其头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/index/index_iterator.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/index/index_iterator.h</tt> <i class="fas fa-external-link-alt"></i></a>）和对应的源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/index/storage/index_iterator.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/index/storage/index_iterator.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）来实现索引迭代器。</p>
+<!-- **************************************************** -->
+<!-- Concurrency Control                                  -->
+<!-- **************************************************** -->
+<h2 class="task" id="concurrency-control">任务 #4 - 并发控制</h2>
+<p>在最后一个任务中，你将修改你的 B+树实现，使其安全地支持并发操作。
+你应该使用课堂和教科书中描述的<em>乐观</em>锁存耦合/蟹行技术。
+遍历索引的线程应根据需要在 B+树页上获取锁存器，以确保安全的并发操作，并在安全时尽快释放父页上的锁存器。</p>
+<!-- We recommend that you complete this task by first changing instances of <code>FetchPageBasic</code> to either <code>FetchPageWrite</code> or <code>FetchPageRead</code>, depending on whether you want to access a page with read or write privileges. Then modify your implementation to grab and release read and write latches as necessary to implement the latch crabbing algorithm. -->
+
+<p><strong>注意：</strong>你不应该在单线程中两次获取相同的读锁。这可能导致死锁。</p>
+<!-- **************************************************** -->
+<!-- Leaderboard                                          -->
+<!-- **************************************************** -->
+<h2 class="task" id="leaderboard">排行榜任务（可选）</h2>
+
+<p>排行榜任务是衡量你的 B+树索引相对于其他学生实现的速度。B+树基准测试运行器（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/tools/btree_bench/btree_bench.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>tools/btree_bench/btree_bench.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）使用多个线程以不同的访问模式并发读取和更新索引。</p>
+<p>针对排行榜进行优化是可选的（即完成所有之前的任务后，你可以获得满分）。
+但是，你的解决方案必须在排行榜测试中以正确的结果完成，且不能出现死锁和段错误。</p>
+<p>我们将使用 <code>NumTombs</code> 值为 -1 来运行你的 B+树，这意味着我们不会强制要求任何关于墓碑的特定行为。你可以修改 <code>LEAF_PAGE_DEFAULT_TOMB_CNT</code> 宏来使用你自己的自定义默认墓碑数量。</p>
+<p>我们推荐的一个简单优化起点是考虑更高效的墓碑表示方式。你可能还想参考有关 B+树变体和优化的现有工作（例如 Bε-tree 论文，Goetz Grafe 的书籍）。你可以假设排行榜任务中只会使用整数键。</p>
+<!-- ========================================================================= -->
+<!-- INSTRUCTIONS                                                              -->
+<!-- ========================================================================= -->
+<h1 id="instructions">说明</h1>
+
+<p>请参阅 <a href="../project0/index.html#instructions">Project #0 说明</a>了解如何创建你的私有仓库和搭建开发环境。</p>
+<!-- **************************************************** -->
+<!-- Development Roadmap                                  -->
+<!-- **************************************************** -->
+<h2 id="development-roadmap">开发路线图</h2>
+<p>构建 B+树索引有几种方法。
+此路线图仅作为一个粗略的概念性指南，基于教科书中概述的算法。
+即使不严格遵循路线图，你也可以得到一个语义正确并通过所有测试的 B+树。
+选择完全由你决定。</p>
+<ol>
+    <li> <b>简单插入：</b>
+    给定一个键值对 KV 和一个非满节点 N，将 KV 插入 N。自检：有哪些不同类型的节点，键值对可以插入到所有类型中吗？
+
+    <li> <b>简单搜索：</b>
+    给定一个键 K，在树上定义一个搜索机制以确定键的存在。
+    自检：键可以存在于多个节点中吗？所有这些键都相同吗？
+
+    <li> <b>简单分裂：</b>
+    给定一个键 K 和一个已满的目标叶节点 L，将键插入树中，同时保持树的一致性。自检：你何时选择分裂节点以及如何定义分裂？
+
+    <li> <b>多次分裂：</b>
+    为一个已满的叶节点 L 定义键 K 的插入，其父节点 M 也是满的。自检：当 M 的父节点也是满时会发生什么？
+
+    <li> <b>简单删除：</b>
+    给定一个键 K 和一个至少半满的目标叶节点 L，从 L 中删除 K。自检：叶节点 L 是唯一包含键 K 的节点吗？
+
+    <li> <b>简单合并：</b>
+    为删除操作后不满半的叶节点 L 定义键 K 的删除。自检：当 L 不满半时是否必须合并？你如何选择与哪个节点合并？
+
+    <li> <b>不太简单的合并：</b>
+    为一个不包含合适合并节点的节点 L 定义键 K 的删除。自检：合并行为是否因节点类型不同而变化？这应该带你完成任务 1 和 2。</li>
+
+    <li> <b>索引迭代器：</b>
+    <a href="#index-iterator">任务 #3</a> 部分描述了 B+树迭代器的实现。
+
+    <li> <b>并发索引：</b>
+    <a href="#concurrency-control">任务 #4</a> 部分描述了锁存蟹行技术的实现，以在你的设计中支持并发。
+</ol>
+
+<!-- **************************************************** -->
+<!-- Requirements and Hints                               -->
+<!-- **************************************************** -->
+<h2 id="requirements-and-hints">要求和提示</h2>
+<ul>
+    <li>你<b>不</b>允许使用全局锁存器来保护你的数据结构；你的实现必须支持合理级别的并发。换句话说，你不能锁住整个索引并仅在操作完成时解锁。 </li>
+
+    <li>我们建议你使用页守卫类 <code>ReadPageGuard</code> 和 <code>WritePageGuard</code> 来实现 B+树的线程安全。如果你正确使用这些构造，你可以获得本项目的满分。</li>
+
+    <li>你可以向实现中添加函数，只要保持所有原始公共接口完整以供测试。</li>
+
+    <li>不要使用 <code>malloc</code> 或 <code>new</code> 为树分配大块内存。如果你需要为树创建新节点或需要某些操作的缓冲区，你应该使用缓冲池管理器。</li>
+
+    <li>使用二分搜索来找到在遍历内部或叶节点时插入值的位置。否则，你的实现可能会在 Gradescope 上超时。</li>
+
+    <li>我们建议（但不要求）你在实现分裂时遵循以下规则：当插入后值数量达到 <code>max_size</code> 时分裂叶节点，当插入前值数量达到 <code>max_size</code> 时分裂内部节点。这将确保对叶节点的插入在你执行类似 <code>InsertIntoLeaf</code> 然后重新分配的操作时永远不会导致页数据溢出；它还将防止内部节点只有一个子节点。但是，你确实可以做一些事情，比如延迟分裂叶节点/处理只有一个子节点的内部节点的情况。这由你决定；我们的测试用例不测试这些条件。</li>
+</ul>
+
+<!-- **************************************************** -->
+<!-- Pitfalls                                             -->
+<!-- **************************************************** -->
+<h2 id="common-pitfalls">常见陷阱</h2>
+<ul>
+    <li>我们不会测试你的迭代器的线程安全叶页扫描。然而，正确的实现需要叶页在无法获取其兄弟节点上的锁存器时抛出 <code>std::exception</code>，以避免潜在的死锁。
+
+    <li>如果你正确实现了并发 B+树索引，每个线程将始终从头页到底部获取锁存器。当你释放锁存器时，确保你以相同的顺序释放它们（从头页到底部）。
+
+    <li> 在实现页类（任务 1）时，确保你只添加简单构造类型的类字段（例如 <code>int</code>）。不要添加向量，也不要修改 <code>key_array_</code> 和 <code>value_array_</code>。
+
+</ul>
+
+<!-- **************************************************** -->
+<!-- Testing                                              -->
+<!-- **************************************************** -->
+<h2 id="testing">测试</h2>
+<p>你可以使用以下测试在本地测试你的 B+树实现：</p>
+<ul>
+    <li> <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/b_plus_tree_insert_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/b_plus_tree_insert_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li> <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/b_plus_tree_sequential_scale_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/b_plus_tree_sequential_scale_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li> <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/b_plus_tree_delete_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/b_plus_tree_delete_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li> <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/b_plus_tree_concurrent_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/b_plus_tree_concurrent_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+</ul>
+
+<p>我们<strong>强烈</strong>鼓励你为自己编写额外的测试用例，以更好地理解你的实现。
+尽管公共测试涵盖了大多数用例，但评分脚本将使用更复杂的访问模式进行测试。</p>
+<p>你可以使用我们的测试框架来测试本作业的各个组件。我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/google/googletest">GTest</a> 进行单元测试。</p>
+<p>你可以从命令行单独编译和运行每个测试：</p>
+<pre class="shadow-sm p-2">
+$ mkdir build
+$ cd build
+$ make b_plus_tree_insert_test -j$(nproc)
+$ ./test/b_plus_tree_insert_test
+</pre>
+
+<p>你也可以运行 <code>make check-tests</code> 来运行所有测试用例。
+请注意，某些测试被禁用了，因为你还没有实现后续项目。
+你可以在 GTest 中通过添加 <code>DISABLED_</code> 前缀来禁用测试。</p>
+<!-- **************************************************** -->
+<!-- Visualizer                                           -->
+<!-- **************************************************** -->
+<h2 id="tree-visualization">树可视化</h2>
+<p>BusTub 包含一个内置工具（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/tools/b_plus_tree_printer/b_plus_tree_printer.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>tools/b_plus_tree_printer/b_plus_tree_printer.cpp</tt> <i class="fas fa-external-link-alt"></i></a>），用于生成 B+树的图形表示。
+此工具将帮助你检查解决方案的正确行为，以确保它正确执行分裂和合并。</p>
+<p>构建树后生成 dot 文件：</p>
+<pre class="shadow-sm p-2">
+# To build the tool
+$ mkdir build
+$ cd build
+$ make b_plus_tree_printer -j
+$ ./bin/b_plus_tree_printer
+>> ... USAGE ...
+>> 5 5 // set leaf node and internal node max size to be 5
+>> f input.txt // Insert into the tree with some inserts
+>> g my-tree.dot // output the tree to dot format
+>> q // Quit the test (Or use another terminal)
+</pre>
+
+<p>你现在应该有一个 <code>my-tree.dot</code> 文件，采用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">DOT</a> 文件格式，位于测试二进制文件所在的目录中，然后你可以使用命令行可视化器或在线可视化器进行可视化：</p>
+<ol>
+    <li> 将内容转储到 <a onclick="javascript:ga('send', 'pageview', '/outgoing/dreampuf.github.io');" href="http://dreampuf.github.io/GraphvizOnline/">http://dreampuf.github.io/GraphvizOnline/</a>。
+    <li> 或者为你的平台下载一个 <a onclick="javascript:ga('send', 'pageview', '/outgoing/graphviz.org');" href="https://graphviz.org/download/">命令行工具</a>。然后使用以下命令创建树的 PNG 文件：<code>dot -Tpng -O my-tree.dot</code>
+</ol>
+
+<p>考虑以下使用 GraphvizOnline 生成的示例：</p>
+<p><img alt="" src="img/project2-tree.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<ul>
+    <li> 粉色矩形表示内部节点，绿色矩形表示叶节点。
+    <li> 第一行 <code>P=3</code> 告诉你树页的页 id。
+    <li> 第二行打印属性。
+    <li> 叶页中的第三行打印被墓碑标记的条目的键。
+    <li> 第三/四行打印键，从内部节点到叶节点的指针由内部节点的值构造。
+    <li> 注意内部节点的第一个框是空的。这不是 bug。
+</ul>
+
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-info-circle fa-lg p-1 pe-lg-2"></i>
+    你也可以与我们的<a href="../bpt-printer/index.html">在浏览器中运行的参考解决方案</a>进行比较。
+</p>
+
+<!-- **************************************************** -->
+<!-- Formatting                                           -->
+<!-- **************************************************** -->
+<h2 id="formatting">格式化</h2>
+<p>你的代码必须遵循 <a onclick="javascript:ga('send', 'pageview', '/outgoing/google.github.io');" href="https://google.github.io/styleguide/cppguide.html">Google C++ 风格指南</a>。
+我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/">Clang</a> 自动检查你的源代码质量。
+如果你的提交未通过这些检查，你的项目成绩将为<u><b>零</b></u>。</p>
+<p>执行以下命令检查你的语法。
+<code>format</code> 目标将自动修正你的代码。
+<code>check-lint</code> 和 <code>check-clang-tidy-p2</code> 目标将打印错误并指导你如何修复以符合我们的风格指南。</p>
+<pre class="shadow-sm p-2">
+$ make format
+$ make check-lint
+$ make check-clang-tidy-p2
+</pre>
+
+<!-- **************************************************** -->
+<!-- Memory Leaks                                         -->
+<!-- **************************************************** -->
+<h2 id="memory-leaks">内存泄漏</h2>
+<p>在本项目中，我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/docs/AddressSanitizer.html">LLVM Address Sanitizer (ASAN) 和 Leak Sanitizer (LSAN)</a> 来检查内存错误。
+要启用 ASAN 和 LSAN，请在调试模式下配置 CMake 并正常运行测试。
+如果存在内存错误，你将看到内存错误报告。
+请注意，MacOS <strong>仅支持地址检测器而不支持泄漏检测器</strong>。</p>
+<p>在某些情况下，地址检测器可能会影响调试器的可用性。
+在这种情况下，你可能需要通过配置 CMake 项目来禁用所有检测器：</p>
+<pre class="shadow-sm p-2">
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER= ..
+</pre>
+
+<!-- **************************************************** -->
+<!-- Hints                                                -->
+<!-- **************************************************** -->
+<h2 id="development-hints">开发提示</h2>
+<p>你可以在调试模式下使用 <code>BUSTUB_ASSERT</code> 进行断言。
+请注意，<code>BUSTUB_ASSERT</code> 中的语句在发布模式下不会被执行。
+如果你需要在所有情况下进行断言，请使用 <code>BUSTUB_ENSURE</code> 代替。</p>
+<p>如果你遇到问题，我们鼓励你使用图形化调试器来调试项目。</p>
+<p>如果你遇到编译问题，运行 <code>make clean</code> 并不能完全重置编译过程。
+你需要删除构建目录并重新运行 <code>cmake ..</code>，然后再运行 <code>make</code>。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    请在 Piazza 上发布你关于本项目的所有问题。<u>不要</u>直接通过电子邮件向助教提问。
+</p>
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+<p>每个项目提交将根据以下标准进行评分：</p>
+<ol>
+    <li> 提交是否成功执行所有测试用例并产生正确答案？
+    <li> 提交是否在没有内存泄漏的情况下执行？
+    <li> 提交是否遵循代码格式化和风格政策？
+</ol>
+
+<!-- Note that we will use additional test cases to grade your submission that are more complex than the sample test cases that we provide you. -->
+
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="late-policy">迟交政策</h1>
+
+<p>请参阅课程大纲中的<a href="../syllabus.html#late-policy">迟交政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+
+<p>完成作业后，你可以将实现提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/1074751">https://www.gradescope.com/courses/1074751</a></b></li>
+</ul>
+<p>在 <code>build/</code> 目录中运行 <code>make submit-p2</code> 将在项目根目录下生成一个名为 <code>project2-submission.zip</code> 的 <code>zip</code> 压缩包，你可以将其提交到 Gradescope。
+你可以尽可能多次提交 zip 文件并获得即时反馈。你的分数将在提交后几分钟内通过电子邮件发送到你的 Andrew 账户。</p>
+<h2 id="notes-on-gradescope-and-autograder">Gradescope 和自动评分器说明</h2>
+<ol>
+<li>如果你在 Gradescope 上超时，很可能是因为你的代码中存在死锁或代码太慢无法在 60 秒内运行。</li>
+<li>如果你在提交中打印太多日志，自动评分器将无法工作。</li>
+<li>如果自动评分器无法正常工作，请确保你的格式化命令有效，并且你提交的是正确的文件。</li>
+<li>排行榜基准测试分数将通过压力测试你的 B+树实现来计算。</li>
+</ol>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    CMU 学生应使用 Piazza 上公布的 Gradescope 课程代码。
+</p>
+
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY
+<!-- ========================================================================= -->
+<h1 id="collaboration">协作政策</h1>
+
+<ul>
+<li>每个学生必须独立完成本作业。</li>
+<li>学生可以与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不允许</strong>在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不允许</strong>从其他同学那里复制解决方案。</li>
+</ul>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <b>警告：</b>本项目的所有代码必须是你自己的。你不能从其他学生或网上找到的其他来源复制源代码。抄袭<strong>不会</strong>被容忍。有关更多信息，请参阅 CMU 的<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cmu.edu');" href="https://www.cmu.edu/policies/student-and-student-life/academic-integrity.html">学术诚信政策</a>。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

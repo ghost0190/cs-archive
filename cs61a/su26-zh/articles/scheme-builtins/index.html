@@ -1,0 +1,1025 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Scheme 内置过程参考 | CS 61A 2026夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论小组</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">课程录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">往年试卷与课程网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme规范</a></li>
+                
+                <li><a href="index.html">Scheme内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">代码规范指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中考试1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中考试2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末考试学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教职员
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">讲师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>Scheme 内置过程参考</h1>
+    </header>
+     <blockquote><p>最后更新：2021年秋季</p></blockquote>
+
+<p>本文档作为 Scheme 项目和<a href="../../assets/interpreter/scheme">教职员 Scheme 解释器</a>中内置过程的参考。<a href="https://scheme.cs61a.org">网页解释器</a>包括
+几个额外的内置过程。</p>
+
+<p>在所有下面的语法定义中，<code>&lt;x&gt;</code> 指的是可以变化的可选元素 <code>x</code>，
+而 <code>[x]</code> 指的是可选元素 <code>x</code>。省略号
+表示一个可以有多个前面的元素。假设对于所有这些内置过程，
+元素表示的是已求值的参数，而不是输入的字面表达式。</p>
+
+<style>.builtin-header { display: block; margin: 0.5em 0em; font-size: 1.5em; } </style>
+
+
+<h2 id="core-interpreter">核心解释器</h2>
+
+
+
+<a class='builtin-header' id='apply'><strong><code>apply</code></strong></a>
+
+<pre><code>(apply &lt;procedure&gt; &lt;args&gt;)</code></pre>
+
+<p>使用给定的 <code>args</code> 列表调用 <code>procedure</code>。</p>
+
+<p>对于宏，这具有在不初始引用的情况下调用宏的效果，
+或者最终求值。因此，<code>apply</code> 将宏视为函数。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (apply + '(1 2 3))
+6</code></pre>
+
+
+
+<a class='builtin-header' id='display'><strong><code>display</code></strong></a>
+
+<pre><code>(display &lt;val&gt;)</code></pre>
+
+<p>打印 <code>val</code>。如果 <code>val</code> 是 Scheme 字符串，它将不带引号输出。</p>
+
+<p>不会自动包含换行符。</p>
+
+<a class='builtin-header' id='displayln'><strong><code>displayln</code></strong></a>
+
+<pre><code>(displayln &lt;val&gt;)</code></pre>
+
+<p>类似于 <code>display</code>，但在末尾包含换行符。</p>
+
+<a class='builtin-header' id='error'><strong><code>error</code></strong></a>
+
+<pre><code>(error &lt;msg&gt;)</code></pre>
+
+<p>引发一个以 <code>msg</code> 作为消息的 <code>SchemeError</code>。如果没有 <code>msg</code>，
+错误消息将为空。</p>
+
+<a class='builtin-header' id='eval'><strong><code>eval</code></strong></a>
+
+<pre><code>(eval &lt;expression&gt;)</code></pre>
+
+<p>在当前环境中求值 <code>expression</code>。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (eval '(cons 1 (cons 2 nil)))
+(1 2)</code></pre>
+
+
+
+<a class='builtin-header' id='exit'><strong><code>exit</code></strong></a>
+
+<pre><code>(exit)</code></pre>
+
+<p>退出解释器。在网页解释器中，这不起作用。</p>
+
+<a class='builtin-header' id='load'><strong><code>load</code></strong></a>
+
+<pre><code>(load &lt;filename&gt;)</code></pre>
+
+<p>加载 <code>filename</code> 文件的内容并求值其中的代码。
+<code>filename</code> 必须是符号。如果找不到该文件，将尝试 <code>filename</code>.scm。</p>
+
+<p>网页解释器目前不支持 <code>load</code>。</p>
+
+<a class='builtin-header' id='newline'><strong><code>newline</code></strong></a>
+
+<pre><code>(newline)</code></pre>
+
+<p>打印一个换行符。</p>
+
+<a class='builtin-header' id='print'><strong><code>print</code></strong></a>
+
+<pre><code>(print &lt;val&gt;...)</code></pre>
+
+<p>打印每个 <code>val</code> 的 Scheme 表示，用空格分隔。与 <code>display</code> 不同，
+这将包括 Scheme 字符串上的外部引号，以及一个换行符。</p>
+
+
+
+<h2 id="type-checking">类型检查</h2>
+
+
+
+<a class='builtin-header' id='atom?'><strong><code>atom?</code></strong></a>
+
+<pre><code>(atom? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是布尔值、数字、符号、字符串或 nil，返回真；
+否则返回假。</p>
+
+<a class='builtin-header' id='boolean?'><strong><code>boolean?</code></strong></a>
+
+<pre><code>(boolean? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是布尔值，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='integer?'><strong><code>integer?</code></strong></a>
+
+<pre><code>(integer? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是整数，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='list?'><strong><code>list?</code></strong></a>
+
+<pre><code>(list? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是格式良好的列表（即它不包含流），返回真；
+否则返回假。如果列表有循环，这可能会导致错误或无限循环。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (list? '(1 2 3))
+#t
+scm> (list? (cons-stream 1 nil))
+#f</code></pre>
+
+
+
+<a class='builtin-header' id='number?'><strong><code>number?</code></strong></a>
+
+<pre><code>(number? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是数字，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='null?'><strong><code>null?</code></strong></a>
+
+<pre><code>(null? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是 <code>nil</code>（空列表），返回真；否则返回假。</p>
+
+<a class='builtin-header' id='pair?'><strong><code>pair?</code></strong></a>
+
+<pre><code>(pair? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是序对，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='procedure?'><strong><code>procedure?</code></strong></a>
+
+<pre><code>(procedure? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是过程，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='promise?'><strong><code>promise?</code></strong></a>
+
+<pre><code>(promise? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是承诺，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='string?'><strong><code>string?</code></strong></a>
+
+<pre><code>(string? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是字符串，返回真；否则返回假。</p>
+
+<a class='builtin-header' id='symbol?'><strong><code>symbol?</code></strong></a>
+
+<pre><code>(symbol? &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是符号，返回真；否则返回假。</p>
+
+
+
+<h2 id="pair-and-list-manipulation">序对和列表操作</h2>
+
+
+
+<a class='builtin-header' id='append'><strong><code>append</code></strong></a>
+
+<pre><code>(append [lst] ...)</code></pre>
+
+<p>返回将所有 <code>lst</code> 的项按顺序附加到单个列表中的结果。
+如果没有 <code>lst</code>，返回 <code>nil</code>。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (append '(1 2 3) '(4 5 6))
+(1 2 3 4 5 6)
+scm> (append)
+()
+scm> (append '(1 2 3) '(a b c) '(foo bar baz))
+(1 2 3 a b c foo bar baz)
+scm> (append '(1 2 3) 4)
+Error</code></pre>
+
+
+
+<a class='builtin-header' id='car'><strong><code>car</code></strong></a>
+
+<pre><code>(car &lt;pair&gt;)</code></pre>
+
+<p>返回 <code>pair</code> 的 <code>car</code>。如果 <code>pair</code> 不是序对，报错。</p>
+
+<a class='builtin-header' id='cdr'><strong><code>cdr</code></strong></a>
+
+<pre><code>(cdr &lt;pair&gt;)</code></pre>
+
+<p>返回 <code>pair</code> 的 <code>cdr</code>。如果 <code>pair</code> 不是序对，报错。</p>
+
+<a class='builtin-header' id='cons'><strong><code>cons</code></strong></a>
+
+<pre><code>(cons &lt;first&gt; &lt;rest&gt;)</code></pre>
+
+<p>返回一个以 <code>first</code> 作为 <code>car</code>、<code>rest</code> 作为 <code>cdr</code> 的新序对。</p>
+
+<a class='builtin-header' id='length'><strong><code>length</code></strong></a>
+
+<pre><code>(length &lt;arg&gt;)</code></pre>
+
+<p>返回 <code>arg</code> 的长度。如果 <code>arg</code> 不是列表，这将导致错误。</p>
+
+<a class='builtin-header' id='list'><strong><code>list</code></strong></a>
+
+<pre><code>(list &lt;item&gt; ...)</code></pre>
+
+<p>返回一个以 <code>item</code> 按顺序作为其元素的列表。</p>
+
+<a class='builtin-header' id='map'><strong><code>map</code></strong></a>
+
+<pre><code>(map &lt;proc&gt; &lt;lst&gt;)</code></pre>
+
+<p>返回通过在 <code>lst</code> 中的每个项上调用 <code>proc</code>（一个单参数过程）
+构造的列表。</p>
+
+<a class='builtin-header' id='filter'><strong><code>filter</code></strong></a>
+
+<pre><code>(filter &lt;pred&gt; &lt;lst&gt;)</code></pre>
+
+<p>返回仅由在调用 <code>pred</code>（一个单参数过程）时返回真的 <code>lst</code> 的元素组成的列表。</p>
+
+<a class='builtin-header' id='reduce'><strong><code>reduce</code></strong></a>
+
+<pre><code>(reduce &lt;combiner&gt; &lt;lst&gt;)</code></pre>
+
+<p>返回使用 <code>combiner</code>（一个双参数过程）顺序组合 <code>lst</code> 中每个元素的结果。
+<code>reduce</code> 从左到右工作，将已有的组合值作为第一个参数传递，
+将新值作为第二个参数。<code>lst</code> 必须包含至少一个项。</p>
+
+
+
+<h3 id="mutation">变异</h3>
+
+
+
+<a class='builtin-header' id='set-car!'><strong><code>set-car!</code></strong></a>
+
+<blockquote><p>此内置过程包含在教职员解释器和网页解释器中，但不在课程范围内，也不包含在项目中。</p></blockquote>
+
+<pre><code>(set-car! &lt;pair&gt; &lt;value&gt;)</code></pre>
+
+<p>将 <code>pair</code> 的 <code>car</code> 设置为 <code>value</code>。<code>pair</code> 必须是序对。</p>
+
+<a class='builtin-header' id='set-cdr!'><strong><code>set-cdr!</code></strong></a>
+
+<blockquote><p>此内置过程包含在教职员解释器和网页解释器中，但不在课程范围内，也不包含在项目中。</p></blockquote>
+
+<pre><code>(set-cdr! &lt;pair&gt; &lt;value&gt;)</code></pre>
+
+<p>将 <code>pair</code> 的 <code>cdr</code> 设置为 <code>value</code>。<code>pair</code> 必须是序对。</p>
+
+
+
+<h2 id="arithmetic-operations">算术运算</h2>
+
+
+
+<a class='builtin-header' id='+'>strong><code>+</code></strong></a>
+
+<pre><code>(+ [num] ...)</code></pre>
+
+<p>返回所有 <code>num</code> 的和。如果没有，返回 0。如果任何 <code>num</code> 不是数字，这将报错。</p>
+
+<a class='builtin-header' id='-'><strong><code>-</code></strong></a>
+
+<pre><code>(- &lt;num&gt; ...)</code></pre>
+
+<p>如果只有一个 <code>num</code>，返回它的负数。否则，返回第一个 <code>num</code> 减去剩余 <code>num</code> 的和。
+如果任何 <code>num</code> 不是数字，这将报错。</p>
+
+<a class='builtin-header' id='*'><strong><code>*</code></strong></a>
+
+<pre><code>(* [num] ...)</code></pre>
+
+<p>返回所有 <code>num</code> 的乘积。如果没有，返回 1。如果任何 <code>num</code> 不是数字，这将报错。</p>
+
+<a class='builtin-header' id='/'><strong><code>/</code></strong></a>
+
+<pre><code>(/ &lt;dividend&gt; [divisor] ...)</code></pre>
+
+<p>如果没有 <code>divisor</code>，返回 1 除以 <code>dividend</code>。否则，返回 <code>dividend</code> 除以 <code>divisors</code> 的乘积。
+此内置过程执行真除法，不是地板除法。<code>dividend</code> 和所有 <code>divisor</code> 必须是数字。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (/ 4)
+0.25
+scm> (/ 7 2)
+3.5
+scm> (/ 16 2 2 2)
+2</code></pre>
+
+
+
+<a class='builtin-header' id='abs'><strong><code>abs</code></strong></a>
+
+<pre><code>(abs &lt;num&gt;)</code></pre>
+
+<p>返回 <code>num</code> 的绝对值，它必须是数字。</p>
+
+<a class='builtin-header' id='expt'><strong><code>expt</code></strong></a>
+
+<pre><code>(expt &lt;base&gt; &lt;power&gt;)</code></pre>
+
+<p>返回 <code>base</code> 的 <code>power</code> 次幂。两者都必须是数字。</p>
+
+<a class='builtin-header' id='modulo'><strong><code>modulo</code></strong></a>
+
+<pre><code>(modulo &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>返回 <code>a</code> 模 <code>b</code>。两者都必须是数字。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (modulo 7 3)
+1
+scm> (modulo -7 3)
+2</code></pre>
+
+
+
+<a class='builtin-header' id='quotient'><strong><code>quotient</code></strong></a>
+
+<pre><code>(quotient &lt;dividend&gt; &lt;divisor&gt;)</code></pre>
+
+<p>返回 <code>dividend</code> 整除 <code>divisor</code> 的结果。两者都必须是数字。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (quotient 7 3)
+2</code></pre>
+
+
+
+<a class='builtin-header' id='remainder'><strong><code>remainder</code></strong></a>
+
+<pre><code>(remainder &lt;dividend&gt; &lt;divisor&gt;)</code></pre>
+
+<p>返回 <code>dividend</code> 整除 <code>divisor</code> 时产生的余数。
+两者都必须是数字。当涉及负数时，行为与 <code>modulo</code> 不同。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (remainder 7 3)
+1
+scm> (remainder -7 3)
+-1</code></pre>
+
+
+
+
+
+<h3 id="additional-math-procedures">其他数学过程</h3>
+
+
+
+<p>基于 Python 的解释器添加了以下额外过程，其行为与
+<a href="https://docs.python.org/3/library/math.html">math 模块</a>中相应的 Python 函数完全匹配。</p>
+
+<ul>
+  <li>acos</li>
+  <li>acosh</li>
+  <li>asin</li>
+  <li>asinh</li>
+  <li>atan</li>
+  <li>atan2</li>
+  <li>atanh</li>
+  <li>ceil</li>
+  <li>copysign</li>
+  <li>cos</li>
+  <li>cosh</li>
+  <li>degrees</li>
+  <li>floor</li>
+  <li>log</li>
+  <li>log10</li>
+  <li>log1p</li>
+  <li>log2</li>
+  <li>radians</li>
+  <li>sin</li>
+  <li>sinh</li>
+  <li>sqrt</li>
+  <li>tan</li>
+  <li>tanh</li>
+  <li>trunc</li>
+</ul>
+
+
+
+<h2 id="boolean-operations">布尔运算</h2>
+
+
+
+
+<h3 id="general">通用</h3>
+
+
+
+<a class='builtin-header' id='eq?'><strong><code>eq?</code></strong></a>
+
+<pre><code>(eq? &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 和 <code>b</code> 都是数字、布尔值或符号，如果它们等价则返回真；
+否则返回假。</p>
+
+<p>否则，如果 <code>a</code> 和 <code>b</code> 都引用内存中的同一个对象，则返回真；
+否则返回假。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (eq? '(1 2 3) '(1 2 3))
+#f
+scm> (define x '(1 2 3))
+scm> (eq? x x)
+#t</code></pre>
+
+
+
+<a class='builtin-header' id='equal?'><strong><code>equal?</code></strong></a>
+
+<pre><code>(equal? &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 和 <code>b</code> 等价，返回真。对于两个序对，如果它们的 <code>car</code> 等价且它们的 <code>cdr</code> 等价，则它们等价。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre><code class="scheme">scm> (equal? '(1 2 3) '(1 2 3))
+#t</code></pre>
+
+
+
+<a class='builtin-header' id='not'><strong><code>not</code></strong></a>
+
+<pre><code>(not &lt;arg&gt;)</code></pre>
+
+<p>如果 <code>arg</code> 是假值返回真，如果 <code>arg</code> 是真值返回假。</p>
+
+
+
+<h3 id="on-numbers">在数字上</h3>
+
+
+
+<a class='builtin-header' id='='><strong><code>=</code></strong></a>
+
+<pre><code>(= &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 等于 <code>b</code> 返回真。两者都必须是数字。</p>
+
+<a class='builtin-header' id='<'><strong><code>&lt;</code></strong></a>
+
+<pre><code>(&lt; &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 小于 <code>b</code> 返回真。两者都必须是数字。</p>
+
+<a class='builtin-header' id='>'><strong><code>&gt;</code></strong></a>
+
+<pre><code>(&gt; &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 大于 <code>b</code> 返回真。两者都必须是数字。</p>
+
+<a class='builtin-header' id='<='><strong><code>&lt;=</code></strong></a>
+
+<pre><code>(&lt;= &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 小于或等于 <code>b</code> 返回真。两者都必须是数字。</p>
+
+<a class='builtin-header' id='>='><strong><code>&gt;=</code></strong></a>
+
+<pre><code>(&gt;= &lt;a&gt; &lt;b&gt;)</code></pre>
+
+<p>如果 <code>a</code> 大于或等于 <code>b</code> 返回真。两者都必须是数字。</p>
+
+<a class='builtin-header' id='even?'><strong><code>even?</code></strong></a>
+
+<pre><code>(even? &lt;num&gt;)</code></pre>
+
+<p>如果 <code>num</code> 是偶数返回真。<code>num</code> 必须是数字。</p>
+
+<a class='builtin-header' id='odd?'><strong><code>odd?</code></strong></a>
+
+<pre><code>(odd? &lt;num&gt;)</code></pre>
+
+<p>如果 <code>num</code> 是奇数返回真。<code>num</code> 必须是数字。</p>
+
+<a class='builtin-header' id='zero?'><strong><code>zero?</code></strong></a>
+
+<pre><code>(zero? &lt;num&gt;)</code></pre>
+
+<p>如果 <code>num</code> 是零返回真。<code>num</code> 必须是数字。</p>
+
+
+
+<h2 id="promises-and-streams">承诺和流</h2>
+
+
+
+<a class='builtin-header' id='force'><strong><code>force</code></strong></a>
+
+<blockquote><p>此内置过程包含在教职员解释器和网页解释器中，但不在课程范围内，也不包含在项目中。</p></blockquote>
+
+<pre><code>(force &lt;promise&gt;)</code></pre>
+
+<p>返回 <code>promise</code> 的求值结果。如果 <code>promise</code> 已经被强制，
+它的表达式将不会再次求值。相反，将返回前一次求值的结果。
+<code>promise</code> 必须是承诺。</p>
+
+<a class='builtin-header' id='cdr-stream'><strong><code>cdr-stream</code></strong></a>
+
+<blockquote><p>此内置过程包含在教职员解释器和网页解释器中，但不在课程范围内，也不包含在项目中。</p></blockquote>
+
+<pre><code>(cdr-stream &lt;stream&gt;)</code></pre>
+
+<p><code>(force (cdr &lt;stream&gt;))</code> 的简写。</p>
+
+
+
+<h2 id="turtle-graphics">海龟绘图</h2>
+
+
+
+<a class='builtin-header' id='backward'><strong><code>backward</code></strong></a>
+
+<pre><code>(backward &lt;n&gt;)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(back &lt;n&gt;)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(bk &lt;n&gt;)</code></pre>
+
+<p>使海龟从其当前位置沿其当前方向向后移动 <code>n</code> 个单位。</p>
+
+<a class='builtin-header' id='begin_fill'><strong><code>begin_fill</code></strong></a>
+
+<pre><code>(begin_fill)</code></pre>
+
+<p>开始一系列描绘要填充的形状的移动。
+调用 <code>end_fill</code> 完成填充。</p>
+
+<a class='builtin-header' id='bgcolor'><strong><code>bgcolor</code></strong></a>
+
+<pre><code>(bgcolor &lt;c&gt;)</code></pre>
+
+<p>将海龟窗口的背景颜色设置为颜色 <code>c</code>（与调用 <code>color</code> 时相同的规则）。</p>
+
+<a class='builtin-header' id='circle'><strong><code>circle</code></strong></a>
+
+<pre><code>(circle &lt;r&gt; [extent])</code></pre>
+
+<p>绘制一个半径为 <code>r</code> 的圆，中心在海龟左侧 <code>r</code> 个单位处。
+如果 <code>extent</code> 存在，只绘制圆的前 <code>extent</code> 度。
+如果 <code>r</code> 为正，沿逆时针方向绘制。否则，沿顺时针方向绘制。</p>
+
+<a class='builtin-header' id='clear'><strong><code>clear</code></strong></a>
+
+<pre><code>(clear)</code></pre>
+
+<p>清除绘图，保持海龟不变。</p>
+
+<a class='builtin-header' id='color'><strong><code>color</code></strong></a>
+
+<pre><code>(color &lt;c&gt;)</code></pre>
+
+<p>将画笔颜色设置为 <code>c</code>，这是一个 Scheme 字符串，如 "red" 或 "#ffc0c0"。</p>
+
+<a class='builtin-header' id='end_fill'><strong><code>end_fill</code></strong></a>
+
+<pre><code>(end_fill)</code></pre>
+
+<p>填充自上次调用 <code>begin_fill</code> 以来绘制的形状。</p>
+
+<a class='builtin-header' id='exitonclick'><strong><code>exitonclick</code></strong></a>
+
+<pre><code>(exitonclick)</code></pre>
+
+<p>在 pillow-turtle 模式下，这将退出当前程序。在 tk-turtle 模式下，当窗口被点击时退出当前程序。
+在网页解释器中，它不起作用。</p>
+
+<p>在本地解释器中，你可以传递 <code>--turtle-save-path PATH</code> 来在退出之前有效地调用 <code>(save-to-file PATH)</code>。</p>
+
+<a class='builtin-header' id='forward'><strong><code>forward</code></strong></a>
+
+<pre><code>(forward &lt;n&gt;)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(fd &lt;n&gt;)</code></pre>
+
+<p>使海龟从其当前位置沿其当前方向向前移动 <code>n</code> 个单位。</p>
+
+<a class='builtin-header' id='hideturtle'><strong><code>hideturtle</code></strong></a>
+
+<pre><code>(hideturtle)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(ht)</code></pre>
+
+<p>使海龟不可见。</p>
+
+<a class='builtin-header' id='left'><strong><code>left</code></strong></a>
+
+<pre><code>(left &lt;n&gt;)
+
+(lt &lt;n&gt;)</code></pre>
+
+<p>将海龟的方向逆时针旋转 <code>n</code> 度。</p>
+
+<a class='builtin-header' id='pendown'><strong><code>pendown</code></strong></a>
+
+<pre><code>(pendown)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(pd)</code></pre>
+
+<p>降低画笔，使海龟开始绘图。</p>
+
+<a class='builtin-header' id='penup'><strong><code>penup</code></strong></a>
+
+<pre><code>(penup)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(pu)</code></pre>
+
+<p>抬起画笔，使海龟不绘图。</p>
+
+<a class='builtin-header' id='pixel'><strong><code>pixel</code></strong></a>
+
+<pre><code>(pixel &lt;x&gt; &lt;y&gt; &lt;c&gt;)</code></pre>
+
+<p>绘制一个从 (<code>x</code>, <code>y</code>) 开始用颜色 <code>c</code> 填充像素的框（与 <code>color</code> 中相同的规则）。
+默认情况下框是一个像素，但这可以通过 <code>pixelsize</code> 更改。</p>
+
+<a class='builtin-header' id='pixelsize'><strong><code>pixelsize</code></strong></a>
+
+<pre><code>(pixelsize &lt;size&gt;)</code></pre>
+
+<p>将 <code>pixel</code> 绘制的框的大小更改为 <code>size</code>x<code>size</code>。</p>
+
+<a class='builtin-header' id='rgb'><strong><code>rgb</code></strong></a>
+
+<pre><code>(rgb &lt;r&gt; &lt;g&gt; &lt;b&gt;)</code></pre>
+
+<p>返回由 0 到 1 之间的 <code>r</code>、<code>g</code> 和 <code>b</code> 值形成的颜色字符串。</p>
+
+<a class='builtin-header' id='right'><strong><code>right</code></strong></a>
+
+<pre><code>(right &lt;n&gt;)
+
+(rt &lt;n&gt;)</code></pre>
+
+<p>将海龟的方向顺时针旋转 <code>n</code> 度。</p>
+
+<a class='builtin-header' id='save-to-file'><strong><code>save-to-file</code></strong></a>
+
+<pre><code>(save-to-file &lt;f&gt;)</code></pre>
+
+<p>将当前画布保存到由 <code>f</code> 指定的文件，并添加文件扩展名。</p>
+
+<p>例如，<code>(save-to-file "hi")</code></p>
+
+<ul>
+  <li>在使用 pillow-turtle 的本地解释器中保存到 <code>./hi.png</code></li>
+  <li>在使用 tk-turtle（默认）的本地解释器中保存到 <code>./hi.ps</code></li>
+  <li>在网页解释器中没有效果</li>
+</ul>
+
+<a class='builtin-header' id='screen_width'><strong><code>screen_width</code></strong></a>
+
+<pre><code>(screen_width)</code></pre>
+
+<p>返回当前大小的海龟屏幕宽度（以像素为单位）。</p>
+
+<a class='builtin-header' id='screen_height'><strong><code>screen_height</code></strong></a>
+
+<pre><code>(screen_height)</code></pre>
+
+<p>返回当前大小的海龟屏幕高度（以像素为单位）。</p>
+
+<a class='builtin-header' id='setheading'><strong><code>setheading</code></strong></a>
+
+<pre><code>(setheading &lt;h&gt;)
+
+(seth &lt;h&gt;)</code></pre>
+
+<p>将海龟的方向设置为从北顺时针 <code>h</code> 度。</p>
+
+<a class='builtin-header' id='setposition'><strong><code>setposition</code></strong></a>
+
+<pre><code>(setposition &lt;x&gt; &lt;y&gt;)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(setpos &lt;x&gt; &lt;y&gt;)</code></pre>
+
+<p>或者，</p>
+
+<pre><code>(goto &lt;x&gt; &lt;y&gt;)</code></pre>
+
+<p>将海龟移动到位置 (<code>x</code>, <code>y</code>)，不改变其方向。</p>
+
+<a class='builtin-header' id='showturtle'><strong><code>showturtle</code></strong></a>
+
+<pre><code>(showturtle)
+
+(st)</code></pre>
+
+<p>使海龟可见。</p>
+
+<a class='builtin-header' id='speed'><strong><code>speed</code></strong></a>
+
+<pre><code>(speed &lt;s&gt;)</code></pre>
+
+<p>将海龟的动画速度设置为 0 到 10 之间的某个值，0 表示无动画，
+1-10 表示越来越快的运动。</p>
+
+<blockquote><p>在 tk-turtle 模式的本地解释器上，这会更改动画速度。
+此功能对网页解释器和无 GUI 的 pillow-turtle 模式没有效果。</p></blockquote>
+
+
+
+<h2 id="additional-reading">补充阅读</h2>
+
+
+
+<ul>
+  <li><a href="../scheme-spec/index.html">Scheme 规范</a> - 61A Scheme 的核心规范</li>
+  <li><a href="http://www.schemers.org/Documents/Standards/R5RS/">R5RS 规范</a> - 61A Scheme 最 closely resembles 的完整 Scheme 规范。</li>
+</ul>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#core-interpreter">核心解释器</a></li>
+  <li><a href="#type-checking">类型检查</a></li>
+  <li><a href="#pair-and-list-manipulation">序对和列表操作</a></li>
+  <ul>
+    <li><a href="#mutation">变异</a></li>
+  </ul>
+  <li><a href="#arithmetic-operations">算术运算</a></li>
+  <ul>
+    <li><a href="#additional-math-procedures">其他数学过程</a></li>
+  </ul>
+  <li><a href="#boolean-operations">布尔运算</a></li>
+  <ul>
+    <li><a href="#general">通用</a></li>
+    <li><a href="#on-numbers">在数字上</a></li>
+  </ul>
+  <li><a href="#promises-and-streams">承诺和流</a></li>
+  <li><a href="#turtle-graphics">海龟绘图</a></li>
+  <li><a href="#additional-reading">补充阅读</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

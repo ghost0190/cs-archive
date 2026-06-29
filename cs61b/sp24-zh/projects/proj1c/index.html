@@ -1,0 +1,2322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   项目 1C：Deque61B 增强 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="项目 1C：Deque61B 增强" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="项目 1C。" name="description">
+  <meta content="项目 1C。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj1c/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="项目 1C：Deque61B 增强" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目 1C。","headline":"项目 1C：Deque61B 增强","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj1c/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       教职人员
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗流
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗流 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗流"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/proj3checkoff/index.html">
+           检查清单 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/ui_bugs/index.html">
+           常见 UI 问题 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        项目 1C：Deque61B 增强
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        项目 1C：Deque61B 增强
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#due-tuesday-february-20th-1159-pm-pt">
+           截止日期：2 月 20 日星期二，太平洋时间晚上 11:59
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#style">
+             代码风格
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#getting-the-skeleton-files">
+             获取骨架文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#object-methods">
+             对象方法
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#maxarraydeque61b">
+           MaxArrayDeque61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#guitar-hero">
+           吉他英雄
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#the-gh2-package">
+             GH2 包
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#guitarstring">
+             GuitarString
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#why-it-works">
+             工作原理
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#guitarherolite">
+             GuitarHeroLite
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#submission">
+             提交
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#scoring">
+             评分
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#credits">
+             致谢
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       项目 1C：Deque61B 增强
+      </h1>
+      <h2 id="due-tuesday-february-20th-1159-pm-pt">
+       <a aria-labelledby="due-tuesday-february-20th-1159-pm-pt" class="anchor-heading" href="#due-tuesday-february-20th-1159-pm-pt">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       截止日期：2 月 20 日星期二，太平洋时间晚上 11:59
+      </h2>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每个作业顶部都会有一个常见问题链接。你也可以通过在 URL 末尾添加&ldquo;/faq&rdquo;来访问它。项目 1C 的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在项目 1A 中，我们构建了
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       ，在项目 1B 中，我们构建了
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       。现在我们将看到一个不同的实现：
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       ！项目的这一部分将为你之前的
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       提供一些增强功能，并将所有内容整合到你新构建的数据结构的应用中。
+      </p>
+      <p>
+       在项目 1C 结束时，你将完成以下内容：
+      </p>
+      <ul>
+       <li>
+        为
+        <code class="language-plaintext highlighter-rouge">
+         LinkedListDeque61B.java
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B.java
+        </code>
+        编写
+        <code class="language-plaintext highlighter-rouge">
+         iterator()
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         equals()
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         toString()
+        </code>
+        方法。
+       </li>
+       <li>
+        实现
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B.java
+        </code>
+        。
+       </li>
+       <li>
+        完成
+        <code class="language-plaintext highlighter-rouge">
+         GuitarHero
+        </code>
+        任务。
+       </li>
+      </ul>
+      <blockquote class="warning">
+       <p>
+        本节假设你已经观看并完全理解了直到第 11 讲（迭代器、对象方法）的所有课程内容。
+       </p>
+      </blockquote>
+      <h3 id="style">
+       <a aria-labelledby="style" class="anchor-heading" href="#style">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       代码风格
+      </h3>
+      <p>
+       与项目 1B 一样，
+       <strong>
+        我们将强制执行代码风格要求
+       </strong>
+       。你必须遵循
+       <a href="../../resources/guides/style/index.html">
+        风格指南
+       </a>
+       ，否则你会在自动评分器上被扣分。
+      </p>
+      <p>
+       你可以而且应该使用 CS 61B 插件在本地检查你的代码风格。
+       <strong>
+        我们不会因为未检查风格而取消速度限制。
+       </strong>
+      </p>
+      <h3 id="getting-the-skeleton-files">
+       <a aria-labelledby="getting-the-skeleton-files" class="anchor-heading" href="#getting-the-skeleton-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       获取骨架文件
+      </h3>
+      <p>
+       按照
+       <a href="../../resources/guides/assignment-workflow/index.html#assignment-workflow">
+        作业工作流程指南
+       </a>
+       中的说明获取骨架代码并在 IntelliJ 中打开。对于这个项目，我们将在
+       <strong>
+        <code class="language-plaintext highlighter-rouge">
+         proj1c
+        </code>
+       </strong>
+       目录中工作。
+      </p>
+      <p>
+       你会看到你的仓库中出现了一个
+       <code class="language-plaintext highlighter-rouge">
+        proj1c
+       </code>
+       目录，结构如下：
+      </p>
+      <div class="language-sh highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code> proj1c
+&boxvr;&boxh;&boxh; src
+&boxv;   &boxvr;&boxh;&boxh; deque
+&boxv;   &boxv;   &boxvr;&boxh;&boxh; ArrayDeque61B.java
+&boxv;   &boxv;   &boxvr;&boxh;&boxh; Deque61B.java
+&boxv;   &boxv;   &boxur;&boxh;&boxh; LinkedListDeque61B.java
+&boxv;   &boxur;&boxh;&boxh;gh2
+&boxv;       &boxvr;&boxh;&boxh; GuitarHeroLite.java
+&boxv;       &boxvr;&boxh;&boxh; GuitarPlayer.java
+&boxv;       &boxvr;&boxh;&boxh; GuitarString.java
+&boxv;       &boxur;&boxh;&boxh; TTFAF.java
+&boxv;
+&boxur;&boxh;&boxh; tests
+    &boxvr;&boxh;&boxh; MaxArrayDeque61BTest.java
+    &boxur;&boxh;&boxh; TestGuitarString.java
+</code></pre>
+       </div>
+      </div>
+      <blockquote class="danger">
+       <p>
+        如果你遇到某种错误，请停下来，要么仔细阅读
+        <a href="../../resources/guides/git/wtfs/index.html">
+         git 常见问题
+        </a>
+        来解决，要么在答疑时间或 Ed 上寻求帮助。
+与猜测和检查 git 命令相比，这可能会为你节省很多麻烦。如果你发现自己试图使用 Google 推荐的命令，比如
+        <code class="language-plaintext highlighter-rouge">
+         force push
+        </code>
+        ，
+        <a href="https://twitter.com/heathercmiller/status/526770571728531456">
+         不要这样做
+        </a>
+        。
+       </p>
+       <p>
+        <strong>
+         不要使用 force push，即使你在 栈 Overflow 上找到的帖子说要这样做！
+        </strong>
+       </p>
+      </blockquote>
+      <p>
+       你也可以观看 Hug 教授的
+       <a href="https://www.youtube.com/watch?v=tABtNcN5y0A">
+        演示视频
+       </a>
+       了解如何开始，如果你遇到一些 git 问题，可以观看这个
+       <a href="https://www.youtube.com/watch?v=Squ8TmG5mX0">
+        视频
+       </a>
+       。
+      </p>
+      <h3 id="object-methods">
+       <a aria-labelledby="object-methods" class="anchor-heading" href="#object-methods">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       对象方法
+      </h3>
+      <p>
+       <strong>
+        如果你愿意，可以按照这个简短的
+        <a href="https://www.youtube.com/watch?v=slKsbcybrr8">
+         视频指南
+        </a>
+        中的步骤来帮助你开始项目 1C！
+       </strong>
+      </p>
+      <p>
+       为了实现以下方法，你应该首先将项目 1A 和项目 1B 中
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       的实现复制并粘贴到
+       <code class="language-plaintext highlighter-rouge">
+        proj1c
+       </code>
+       目录中的相应文件中。
+      </p>
+      <p class="warning">
+       请在两个文件的顶部保留
+       <code class="language-plaintext highlighter-rouge">
+        package deque;
+       </code>
+       。否则，你的代码将无法编译。
+      </p>
+      <h4 id="iterator">
+       <a aria-labelledby="iterator" class="anchor-heading" href="#iterator">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        iterator()
+       </code>
+      </h4>
+      <p>
+       我们的
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       接口的一个缺点是它不能被迭代。也就是说，下面的代码无法编译，错误为&ldquo;foreach 不适用于该类型&rdquo;。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nc">Deque61B</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lld1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedListDeque61B</span><span class="o">&lt;&gt;();</span>
+
+  <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"front"</span><span class="o">);</span>
+  <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"middle"</span><span class="o">);</span>
+  <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"back"</span><span class="o">);</span>
+  <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">lld1</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       类似地，如果我们尝试编写一个测试来检查我们的
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       是否包含一组特定的项目，我们也会得到一个编译错误，在这种情况下是：&ldquo;Cannot resolve method containsExactly in Subject&rdquo;。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLastTestBasicWithoutToList</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Deque61B</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lld1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedListDeque61B</span><span class="o">&lt;&gt;();</span>
+
+    <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"front"</span><span class="o">);</span> <span class="c1">// after this call we expect: ["front"]</span>
+    <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"middle"</span><span class="o">);</span> <span class="c1">// after this call we expect: ["front", "middle"]</span>
+    <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"back"</span><span class="o">);</span> <span class="c1">// after this call we expect: ["front", "middle", "back"]</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">lld1</span><span class="o">).</span><span class="na">containsExactly</span><span class="o">(</span><span class="s">"front"</span><span class="o">,</span> <span class="s">"middle"</span><span class="o">,</span> <span class="s">"back"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       同样，问题在于我们的对象不能被迭代。
+       <code class="language-plaintext highlighter-rouge">
+        Truth
+       </code>
+       库通过迭代我们的对象来工作（如第一个例子），但我们的
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       不支持迭代。
+      </p>
+      <p>
+       要解决这个问题，你应该首先修改
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       接口，使其声明为：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Deque61B</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       接下来，使用第 11 讲中描述的技术实现
+       <code class="language-plaintext highlighter-rouge">
+        iterator()
+       </code>
+       方法。
+      </p>
+      <blockquote class="task">
+       <p>
+        <strong>
+         任务
+        </strong>
+        ：根据课程内容，在
+        <code class="language-plaintext highlighter-rouge">
+         LinkedListDeque61B
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B
+        </code>
+        中实现
+        <code class="language-plaintext highlighter-rouge">
+         iterator()
+        </code>
+        方法。
+       </p>
+      </blockquote>
+      <p class="danger">
+       你不允许在这里调用
+       <code class="language-plaintext highlighter-rouge">
+        toList
+       </code>
+       。
+      </p>
+      <h4 id="equals">
+       <a aria-labelledby="equals" class="anchor-heading" href="#equals">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        equals()
+       </code>
+      </h4>
+      <p>
+       考虑以下代码：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEqualDeques61B</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Deque61B</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lld1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedListDeque61B</span><span class="o">&lt;&gt;();</span>
+        <span class="nc">Deque61B</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lld2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedListDeque61B</span><span class="o">&lt;&gt;();</span>
+
+        <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"front"</span><span class="o">);</span>
+        <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"middle"</span><span class="o">);</span>
+        <span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"back"</span><span class="o">);</span>
+
+        <span class="n">lld2</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"front"</span><span class="o">);</span>
+        <span class="n">lld2</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"middle"</span><span class="o">);</span>
+        <span class="n">lld2</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"back"</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">lld1</span><span class="o">).</span><span class="na">是EqualTo</span><span class="o">(</span><span class="n">lld2</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果我们运行这段代码，我们会看到测试失败，消息如下：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>expected: [front, middle, back]
+but was : (non-equal instance of same class with same string representation)
+</code></pre>
+       </div>
+      </div>
+      <p>
+       问题在于
+       <code class="language-plaintext highlighter-rouge">
+        Truth
+       </code>
+       库使用了
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       类的
+       <code class="language-plaintext highlighter-rouge">
+        equals
+       </code>
+       方法。默认实现由下面的
+       <a href="https://github.com/openjdk/jdk17/blob/master/src/java.base/share/classes/java/lang/Object.java#L162">
+        代码
+       </a>
+       给出：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="k">th是</span> <span class="o">==</span> <span class="n">obj</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       也就是说，equals 方法只是检查两个对象的地址是否相同。我们希望能够检查两个
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       对象在元素和顺序方面是否相等，因此我们需要一个不同的
+       <code class="language-plaintext highlighter-rouge">
+        equals
+       </code>
+       方法。
+      </p>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       类中重写 equals 方法。有关编写
+       <code class="language-plaintext highlighter-rouge">
+        equals
+       </code>
+       方法的指导，请参阅
+       <a href="https://docs.google.com/presentation/d/1lIR4--P9NrBqRL9xqP_RQYyK1WJBrBEbriLVpatrRqk/edit#slide=id.g4f922fa56b_2_47">
+        课程幻灯片
+       </a>
+       或
+       <a href="https://github.com/Berkeley-CS61B/lectureCode-sp23/blob/main/lec12_inheritance4/ArraySet.java">
+        课程代码仓库
+       </a>
+       。
+      </p>
+      <blockquote class="info">
+       <p>
+        注意：你可能会问，为什么我们要在两个类中实现相同的方法，而不是在
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        接口中提供一个
+        <code class="language-plaintext highlighter-rouge">
+         default
+        </code>
+        方法。接口不允许提供重写
+        <code class="language-plaintext highlighter-rouge">
+         Object
+        </code>
+        方法的
+        <code class="language-plaintext highlighter-rouge">
+         default
+        </code>
+        方法。有关更多信息，请参阅
+        <a href="https://stackoverflow.com/questions/24595266/why-is-it-not-allowed-add-tostring-to-interface-as-default-method">
+         https://stackoverflow.com/questions/24595266/why-is-it-not-allowed-add-tostring-to-interface-as-default-method
+        </a>
+        。
+       </p>
+       <p>
+        但是，一个解决方法是在
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        接口中提供一个
+        <code class="language-plaintext highlighter-rouge">
+         default
+        </code>
+        、非
+        <code class="language-plaintext highlighter-rouge">
+         Object
+        </code>
+        的辅助方法，并让实现类调用它。
+       </p>
+      </blockquote>
+      <p class="task">
+       在
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       类中重写
+       <code class="language-plaintext highlighter-rouge">
+        equals()
+       </code>
+       方法。
+      </p>
+      <blockquote class="warning">
+       <p>
+        重要提示：你不应该使用
+        <code class="language-plaintext highlighter-rouge">
+         getClass
+        </code>
+        ，并且在你的
+        <code class="language-plaintext highlighter-rouge">
+         equals
+        </code>
+        方法中不需要进行任何类型转换。也就是说，你不应该做
+        <code class="language-plaintext highlighter-rouge">
+         (ArrayDeque61B) o
+        </code>
+        这样的操作。这样的
+        <code class="language-plaintext highlighter-rouge">
+         equals
+        </code>
+        方法是过时且过于复杂的。请使用
+        <code class="language-plaintext highlighter-rouge">
+         instanceof
+        </code>
+        代替。
+       </p>
+       <p>
+        注意：
+        <code class="language-plaintext highlighter-rouge">
+         instanceof
+        </code>
+        运算符在泛型类型上的行为有点奇怪，原因超出了本课程的范围。例如，如果你想检查
+        <code class="language-plaintext highlighter-rouge">
+         lst
+        </code>
+        是否是
+        <code class="language-plaintext highlighter-rouge">
+         List&lt;Integer&gt;
+        </code>
+        的实例，你应该使用
+        <code class="language-plaintext highlighter-rouge">
+         lst instanceof List&lt;?&gt;
+        </code>
+        而不是
+        <code class="language-plaintext highlighter-rouge">
+         lst instanceof List&lt;Integer&gt;
+        </code>
+        。不幸的是，这无法检查元素的类型，但这是我们能做的最好的了。
+       </p>
+      </blockquote>
+      <p class="danger warning">
+       重要提示：确保在重写方法时使用
+       <code class="language-plaintext highlighter-rouge">
+        @Override
+       </code>
+       注解。学生代码中一个常见的错误是试图重写
+       <code class="language-plaintext highlighter-rouge">
+        equals(ArrayList&lt;T&gt; other)
+       </code>
+       而不是
+       <code class="language-plaintext highlighter-rouge">
+        equals(Object other)
+       </code>
+       。如果你犯了这个错误，使用可选的
+       <code class="language-plaintext highlighter-rouge">
+        @Override
+       </code>
+       注解会阻止你的代码编译。
+       <code class="language-plaintext highlighter-rouge">
+        @Override
+       </code>
+       是一个很好的安全网。
+      </p>
+      <p class="danger">
+       你不允许在这里调用
+       <code class="language-plaintext highlighter-rouge">
+        toList
+       </code>
+       。
+      </p>
+      <h4 id="tostring">
+       <a aria-labelledby="tostring" class="anchor-heading" href="#tostring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        toString()
+       </code>
+      </h4>
+      <p>
+       考虑下面的代码，它打印出一个
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Deque61B</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">lld1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedListDeque61B</span><span class="o">&lt;&gt;();</span>
+
+<span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"front"</span><span class="o">);</span>
+<span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"middle"</span><span class="o">);</span>
+<span class="n">lld1</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="s">"back"</span><span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">lld1</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这段代码输出类似
+       <code class="language-plaintext highlighter-rouge">
+        deque.proj1a.LinkedListDeque61B@1a04f701
+       </code>
+       的内容。这是因为打印语句隐式调用了
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       的
+       <code class="language-plaintext highlighter-rouge">
+        toString
+       </code>
+       方法。由于你没有重写这个方法，它使用默认实现，由下面的代码给出（你不需要理解这段代码是如何工作的）。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"@"</span> <span class="o">+</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">toHexString</span><span class="o">(</span><span class="n">hashCode</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       反过来，你也没有重写的
+       <code class="language-plaintext highlighter-rouge">
+        hashCode
+       </code>
+       方法，只是返回对象的地址，在上面的例子中是
+       <code class="language-plaintext highlighter-rouge">
+        1a04f701
+       </code>
+       。
+      </p>
+      <p class="task">
+       <strong>
+        任务
+       </strong>
+       ：在
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       类中重写
+       <code class="language-plaintext highlighter-rouge">
+        toString()
+       </code>
+       方法，使得上面的代码输出
+       <code class="language-plaintext highlighter-rouge">
+        [front, middle, back]
+       </code>
+       。
+      </p>
+      <blockquote class="warning">
+       <p>
+        提示：Java 的
+        <code class="language-plaintext highlighter-rouge">
+         List
+        </code>
+        接口实现有一个
+        <code class="language-plaintext highlighter-rouge">
+         toString
+        </code>
+        方法。
+       </p>
+       <p>
+        提示：有一个一行代码的解决方案（见提示 1）。
+       </p>
+       <p>
+        提示：你对
+        <code class="language-plaintext highlighter-rouge">
+         LinkedListDeque61B
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B
+        </code>
+        的实现应该完全相同。
+       </p>
+      </blockquote>
+      <h4 id="testing-the-object-methods">
+       <a aria-labelledby="testing-the-object-methods" class="anchor-heading" href="#testing-the-object-methods">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试对象方法
+      </h4>
+      <p>
+       我们没有为这三个对象方法提供测试文件；但是，我们强烈建议你使用从项目 1A 和 1B 中学到的技术来编写自己的测试。你可以按照自己喜欢的方式组织这些测试，因为我们不会测试它们。一种可能（且建议）的结构是在
+       <code class="language-plaintext highlighter-rouge">
+        tests
+       </code>
+       目录中创建两个新文件，分别名为
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61BTest
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61BTest
+       </code>
+       ，类似于我们在 1A 和 1B 中给你的那些。
+      </p>
+      <h2 id="maxarraydeque61b">
+       <a aria-labelledby="maxarraydeque61b" class="anchor-heading" href="#maxarraydeque61b">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       MaxArrayDeque61B
+      </h2>
+      <p>
+       在你完全实现了
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       并测试了其正确性之后，你现在将构建
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       。
+       <strong>
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        拥有
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B
+        </code>
+        的所有方法
+       </strong>
+       ，但它还有 2 个额外的方法和一个新的构造函数：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         public MaxArrayDeque61B(Comparator&lt;T&gt; c)
+        </code>
+        ：使用给定的
+        <code class="language-plaintext highlighter-rouge">
+         Comparator
+        </code>
+        创建一个
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        。（你可以为此导入
+        <code class="language-plaintext highlighter-rouge">
+         java.util.Comparator
+        </code>
+        。）
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         public T max()
+        </code>
+        ：返回由先前给定的
+        <code class="language-plaintext highlighter-rouge">
+         Comparator
+        </code>
+        决定的双端队列中的最大元素。如果
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        为空，只需返回
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         public T max(Comparator&lt;T&gt; c)
+        </code>
+        ：返回由参数
+        <code class="language-plaintext highlighter-rouge">
+         Comparator c
+        </code>
+        决定的双端队列中的最大元素。如果
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        为空，只需返回
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        。
+       </li>
+      </ul>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       可以通过使用构造函数中给定的
+       <code class="language-plaintext highlighter-rouge">
+        Comparator&lt;T&gt;
+       </code>
+       来告诉你自身中的最大元素，或者使用与构造函数中给定的不同的任意
+       <code class="language-plaintext highlighter-rouge">
+        Comparator&lt;T&gt;
+       </code>
+       。
+      </p>
+      <p>
+       我们不关心这个类的
+       <code class="language-plaintext highlighter-rouge">
+        equals(Object o)
+       </code>
+       方法，所以你可以随意定义你认为最合适的方式。我们不会测试这个方法。
+      </p>
+      <p>
+       为了测试，你可以在自己的测试文件中使用
+       <code class="language-plaintext highlighter-rouge">
+        Comparator.naturalOrder()
+       </code>
+       。这个
+       <code class="language-plaintext highlighter-rouge">
+        Comparator
+       </code>
+       使用了
+       <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html#naturalOrder--">
+        naturalOrder()
+       </a>
+       。
+如果你的泛型类型是
+       <code class="language-plaintext highlighter-rouge">
+        Integer
+       </code>
+       ，你可以使用以下示例创建你的
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       ：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">MaxArrayDeque61B</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MaxArrayDeque61B</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;(</span><span class="nc">Comparator</span><span class="o">.</span><span class="na">naturalOrder</span><span class="o">());</span>
+</code></pre>
+       </div>
+      </div>
+      <blockquote class="warning">
+       <p>
+        如果你发现自己一开始就把整个
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B
+        </code>
+        实现复制到
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        文件中，那么你
+        <strong>
+         没有按照预期的方式完成这个作业
+        </strong>
+        。这是一个关于整洁代码的练习，而冗余是我们对抗复杂性时最大的敌人之一！要获取提示，请重新阅读本节上面的第二句话。
+       </p>
+      </blockquote>
+      <p class="task">
+       <strong>
+        任务
+       </strong>
+       ：根据上面的 API 填写
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B.java
+       </code>
+       文件。
+      </p>
+      <p>
+       这些额外的方法没有运行时间要求，我们只关心你答案的正确性。有时，
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       中可能有多个元素都相等，因此都是最大值：在这种情况下，你可以返回其中任何一个，它们都将被认为是正确的。
+      </p>
+      <p>
+       你也应该为这部分编写测试！你可能会创建多个
+       <code class="language-plaintext highlighter-rouge">
+        Comparator&lt;T&gt;
+       </code>
+       类来测试你的代码：这就是重点！练习使用
+       <code class="language-plaintext highlighter-rouge">
+        Comparator
+       </code>
+       对象来做一些有用的事情（找到最大元素），并练习编写你自己的
+       <code class="language-plaintext highlighter-rouge">
+        Comparator
+       </code>
+       类。你不需要提交这些测试，但我们仍然强烈建议你为自己创建它们。
+      </p>
+      <p>
+       你不会在下一部分使用你制作的
+       <code class="language-plaintext highlighter-rouge">
+        MaxArrayDeque61B
+       </code>
+       ；它将是一个独立的练习。
+      </p>
+      <h2 id="guitar-hero">
+       <a aria-labelledby="guitar-hero" class="anchor-heading" href="#guitar-hero">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       吉他英雄
+      </h2>
+      <p>
+       在项目的这一部分，我们将创建另一个包，使用我们刚刚制作的
+       <code class="language-plaintext highlighter-rouge">
+        deque
+       </code>
+       包来生成合成乐器。我们将有机会使用我们的数据结构来实现一个算法，该算法允许我们模拟拨动吉他弦的声音。
+      </p>
+      <h3 id="the-gh2-package">
+       <a aria-labelledby="the-gh2-package" class="anchor-heading" href="#the-gh2-package">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       GH2 包
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        gh2
+       </code>
+       包只有一个你需要编辑的主要组件：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         GuitarString
+        </code>
+        ，一个使用
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B&lt;Double&gt;
+        </code>
+        来实现
+        <a href="https://en.wikipedia.org/wiki/Karplus%E2%80%93Strong_string_synthesis">
+         Karplus-Strong 算法
+        </a>
+        来合成吉他弦声音的类。
+       </li>
+      </ul>
+      <p>
+       我们为你提供了
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+       的骨架代码，你将在其中使用你在项目第一部分中制作的
+       <code class="language-plaintext highlighter-rouge">
+        deque
+       </code>
+       包。
+      </p>
+      <h3 id="guitarstring">
+       <a aria-labelledby="guitarstring" class="anchor-heading" href="#guitarstring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+      </h3>
+      <p>
+       我们想要完成
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+       文件，它应该使用
+       <code class="language-plaintext highlighter-rouge">
+        deque
+       </code>
+       包来复制拨动琴弦的声音。请注意，这个文件使用了&ldquo;buffer&rdquo;一词，在这种情况下它是&ldquo;deque&rdquo;的同义词。
+      </p>
+      <p>
+       我们将使用 Karplus-Strong 算法，用
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       来实现它非常容易。它只是以下三个步骤：
+      </p>
+      <ol>
+       <li>
+        用随机噪声（-0.5 到 0.5 之间的
+        <code class="language-plaintext highlighter-rouge">
+         double
+        </code>
+        值）替换
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        中的每个项目。
+       </li>
+       <li>
+        播放
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        前面的
+        <code class="language-plaintext highlighter-rouge">
+         double
+        </code>
+        值。
+       </li>
+       <li>
+        移除
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        中前面的
+        <code class="language-plaintext highlighter-rouge">
+         double
+        </code>
+        值，并将其与
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        中的下一个
+        <code class="language-plaintext highlighter-rouge">
+         double
+        </code>
+        值取平均值（提示：使用
+        <code class="language-plaintext highlighter-rouge">
+         removeFirst()
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         get()
+        </code>
+        ），再乘以 0.996 的能量衰减因子（我们将整个量称为
+        <code class="language-plaintext highlighter-rouge">
+         newDouble
+        </code>
+        ）。然后，将
+        <code class="language-plaintext highlighter-rouge">
+         newDouble
+        </code>
+        添加到
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        的后面。回到步骤 2（并永远重复）。
+       </li>
+      </ol>
+      <p>
+       或者从视觉上看，如果
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       如顶部所示，我们将播放 0.2，移除它，将其与 0.4 组合形成 0.2988，并添加 0.2988。
+      </p>
+      <p>
+       <img alt="karplus-strong" src="karplus-strong.png">
+      </p>
+      <p>
+       你可以使用
+       <code class="language-plaintext highlighter-rouge">
+        StdAudio.play
+       </code>
+       方法播放一个
+       <code class="language-plaintext highlighter-rouge">
+        double
+       </code>
+       值。例如，
+       <code class="language-plaintext highlighter-rouge">
+        StdAudio.play(0.333)
+       </code>
+       会告诉你的扬声器振膜伸展到其总范围的 1/3，
+       <code class="language-plaintext highlighter-rouge">
+        StdAudio.play(-0.9)
+       </code>
+       会告诉它向后拉伸几乎达到它能达到的最大程度。扬声器振膜的移动会置换空气，如果你以优美的模式置换空气，这些扰动会被你的意识解释为悦耳的声音，这要归功于数十亿年的进化。
+请参阅
+       <a href="http://electronics.howstuffworks.com/speaker6.htm">
+        此页面
+       </a>
+       了解更多信息。如果你只是执行
+       <code class="language-plaintext highlighter-rouge">
+        StdAudio.play(0.9)
+       </code>
+       然后再也不播放任何东西，图中显示的振膜就会静止在向前 9/10 的位置。
+      </p>
+      <p>
+       完成
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString.java
+       </code>
+       ，使其实现 Karplus-Strong 算法。请注意，你必须在
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+       构造函数中用零填充你的
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       缓冲区。部分过程将由
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+       类的客户端处理。你只需要完成标有
+       <code class="language-plaintext highlighter-rouge">
+        TODO
+       </code>
+       的任务。
+      </p>
+      <blockquote class="danger">
+       <p>
+        不要在
+        <code class="language-plaintext highlighter-rouge">
+         GuitarString.java
+        </code>
+        中调用
+        <code class="language-plaintext highlighter-rouge">
+         StdAudio.play
+        </code>
+        。这会导致自动评分器崩溃。
+        <code class="language-plaintext highlighter-rouge">
+         GuitarPlayer.java
+        </code>
+        已经为你做了这件事。
+       </p>
+      </blockquote>
+      <p class="info">
+       确保像往常一样添加库，否则 IntelliJ 将无法找到
+       <code class="language-plaintext highlighter-rouge">
+        StdAudio
+       </code>
+       。
+      </p>
+      <p>
+       例如，提供的
+       <code class="language-plaintext highlighter-rouge">
+        TestGuitarString
+       </code>
+       类提供了一个示例测试
+       <code class="language-plaintext highlighter-rouge">
+        testPluckTheAString
+       </code>
+       ，它尝试在吉他弦上播放 A 音符。如果你运行测试，运行此测试时应该会听到 A 音符。如果没有，你应该尝试
+       <code class="language-plaintext highlighter-rouge">
+        testTic
+       </code>
+       方法并从那里开始调试。考虑在
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString.java
+       </code>
+       中添加一个
+       <code class="language-plaintext highlighter-rouge">
+        print
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        toString
+       </code>
+       方法，这将帮助你查看每次 tic 之间发生了什么。
+      </p>
+      <p>
+       注意：我们在这里说了
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       ，但没有指定使用哪个
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       实现。这是因为我们只需要
+       <code class="language-plaintext highlighter-rouge">
+        addLast
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        removeFirst
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        get
+       </code>
+       这些操作，而且我们知道实现
+       <code class="language-plaintext highlighter-rouge">
+        Deque61B
+       </code>
+       的类都有这些方法。所以你可以自由选择
+       <code class="language-plaintext highlighter-rouge">
+        LinkedListDeque61B
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque61B
+       </code>
+       作为实际实现。作为一个可选（但强烈建议）的练习，思考一下使用其中一个与另一个的权衡，并与你的朋友讨论你认为哪个是更好的选择，或者它们是否都是同样好的选择。
+      </p>
+      <h3 id="why-it-works">
+       <a aria-labelledby="why-it-works" class="anchor-heading" href="#why-it-works">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       工作原理
+      </h3>
+      <p>
+       使 Karplus-Strong 算法工作的两个主要组件是环形缓冲区反馈机制和平均操作。
+      </p>
+      <ul>
+       <li>
+        <strong>
+         环形缓冲区反馈机制
+        </strong>
+        。环形缓冲区模拟能量来回传播的介质（两端固定的弦）。环形缓冲区的长度决定了所产生声音的基频。在声音上，反馈机制只增强基频及其泛音（基频整数倍的频率）。能量衰减因子（在这种情况下为 0.996）模拟了波在弦中往返时能量的轻微耗散。
+       </li>
+       <li>
+        <strong>
+         平均操作
+        </strong>
+        。平均操作用作温和的低通滤波器（它去除较高频率，同时允许较低频率通过，因此得名）。由于它位于反馈路径中，这会产生逐渐衰减较高泛音同时保留较低泛音的效果，这与拨动吉他弦的声音非常相似。
+       </li>
+      </ul>
+      <h3 id="guitarherolite">
+       <a aria-labelledby="guitarherolite" class="anchor-heading" href="#guitarherolite">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        GuitarHeroLite
+       </code>
+      </h3>
+      <p>
+       你现在应该也能够使用
+       <code class="language-plaintext highlighter-rouge">
+        GuitarHeroLite
+       </code>
+       类了。运行它将提供一个图形界面，允许用户（你！）使用
+       <code class="language-plaintext highlighter-rouge">
+        gh2
+       </code>
+       包的
+       <code class="language-plaintext highlighter-rouge">
+        GuitarString
+       </code>
+       类来交互式地播放声音。
+      </p>
+      <h3 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h3>
+      <p>
+       要提交项目，请添加并提交你的文件，然后推送到你的远程仓库。然后，前往 Gradescope 上的相关作业并在那里提交。
+      </p>
+      <p>
+       这个作业的自动评分器将有以下速度限制方案：
+      </p>
+      <ul>
+       <li>
+        从项目发布到截止日期，你将有 4 个令牌；每个令牌每 24 小时刷新一次。
+       </li>
+      </ul>
+      <h3 id="scoring">
+       <a aria-labelledby="scoring" class="anchor-heading" href="#scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       评分
+      </h3>
+      <p>
+       这个项目与项目 0 类似，分为各个组件，你必须
+       <strong>
+        完全正确
+       </strong>
+       地实现每个组件才能获得分数。
+      </p>
+      <ol>
+       <li>
+        <strong>
+         <code class="language-plaintext highlighter-rouge">
+          LinkedListDeque61B
+         </code>
+         对象方法 (20%)
+        </strong>
+        ：在
+        <code class="language-plaintext highlighter-rouge">
+         LinkedListDeque61B
+        </code>
+        中正确实现
+        <code class="language-plaintext highlighter-rouge">
+         iterator
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         equals
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         toString
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         <code class="language-plaintext highlighter-rouge">
+          ArrayDeque61B
+         </code>
+         对象方法 (20%)
+        </strong>
+        ：在
+        <code class="language-plaintext highlighter-rouge">
+         ArrayDeque61B
+        </code>
+        中正确实现
+        <code class="language-plaintext highlighter-rouge">
+         iterator
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         equals
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         toString
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         <code class="language-plaintext highlighter-rouge">
+          MaxArrayDeque61B
+         </code>
+         功能 (5%)
+        </strong>
+        ：确保你的
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        正确运行
+        <code class="language-plaintext highlighter-rouge">
+         Deque61B
+        </code>
+        接口中的所有方法。
+       </li>
+       <li>
+        <strong>
+         <code class="language-plaintext highlighter-rouge">
+          MaxArrayDeque61B
+         </code>
+         最大值 (35%)
+        </strong>
+        ：在
+        <code class="language-plaintext highlighter-rouge">
+         MaxArrayDeque61B
+        </code>
+        中正确实现
+        <code class="language-plaintext highlighter-rouge">
+         max
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         <code class="language-plaintext highlighter-rouge">
+          GuitarString
+         </code>
+         (20%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         GuitarString
+        </code>
+        客户端类。
+       </li>
+      </ol>
+      <p>
+       项目 1C 总分为 10 分。
+      </p>
+      <h3 id="credits">
+       <a aria-labelledby="credits" class="anchor-heading" href="#credits">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致谢
+      </h3>
+      <ul>
+       <li>
+        环形缓冲区图来自
+        <a href="https://en.wikipedia.org/wiki/Circular_buffer">
+         维基百科
+        </a>
+        。
+       </li>
+       <li>
+        此作业改编自
+        <a href="http://nifty.stanford.edu/2012/wayne-guitar-heroine/">
+         Kevin Wayne 的 Guitar Heroine
+        </a>
+        作业。
+       </li>
+      </ul>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

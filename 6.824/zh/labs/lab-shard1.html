@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<link rel="stylesheet" href="../style.css" type="text/css">
+		<script src="guidance.js"></script>
+		<title>6.5840 实验 5: 分片键值服务</title>
+	</head>
+	<body>
+		<div align="center">
+			<h2><a href="../index.html">6.5840</a> - 2026年春季</h2>
+			<h1>6.5840 实验 5: 分片键值服务</h1>
+
+			<p>
+  <b><a href="collab.html">协作政策</a></b> //
+  <b><a href="submit.html">提交实验</a></b> //
+  <b><a href="go.html">配置Go</a></b> //
+  <b><a href="guidance.html">指导</a></b> //
+  <b><a href="https://piazza.com/mit/spring2026/65840">Piazza</a></b>
+</p>
+
+		</div>
+		<hr>
+
+                <h3>介绍</h3>
+
+                <p>
+                  你可以基于自己的想法做一个<a href="../project.html">期末项目</a>，或者做本实验。
+
+		<p>
+		在本实验中，你将构建一个"分片"的键值存储系统，
+		将键分区到一组 Raft 复制的键值服务器组（shardgrp）上。
+		分片是键值对的子集；例如，所有以 "a" 开头的键可能是一个分片，
+		所有以 "b" 开头的键是另一个分片，等等。
+		分片的原因是性能。每个 shardgrp 只处理少数分片的 put 和 get，
+		并且 shardgrp 并行运行；因此系统总吞吐量
+		（单位时间的 put 和 get 数量）与 shardgrp 的数量成正比。
+
+                <p>
+
+                <img src="shardkv.png" alt="shardkv design" width="400" class="center" >
+
+		<p>分片键值服务具有上面显示的组件。
+		Shardgrp（用蓝色方块显示）存储带有键的分片：
+		shardgrp 1 持有存储键 "a" 的分片，
+		shardgrp 2 持有存储键 "b" 的分片。
+		分片键值服务的客户端通过 clerk（用绿色圆圈显示）与服务交互，
+		clerk 实现了 <tt>Get</tt> 和 <tt>Put</tt> 方法。
+		为了找到传递给 <tt>Put</tt>/<tt>Get</tt> 的键所属的 shardgrp，
+		clerk 从 kvsrv（用黑色方块显示）获取配置，
+		这是你在实验 2 中实现的。
+		配置（未显示）描述了分片到 shardgrp 的映射
+		（例如，分片 1 由 shardgrp 3 服务）。
+
+                <p>管理员（即测试器）使用另一个客户端——控制器（用紫色圆圈显示），
+                来向集群添加/移除 shardgrp 并更新哪个 shardgrp 应该服务哪个分片。
+                控制器有一个主要方法：<tt>ChangeConfigTo</tt>，
+                它接受一个新配置作为参数，并将系统从当前配置更改为新配置；
+                这涉及将分片迁移到加入系统的新 shardgrp，
+                以及从离开系统的 shardgrp 迁出分片。
+                为此，控制器 1) 向 shardgrp 发送 RPC
+                （<tt>FreezeShard</tt>、<tt>InstallShard</tt> 和 <tt>DeleteShard</tt>），
+                2) 更新存储在 kvsrv 中的配置。
+
+		<p> 使用控制器的原因是分片存储系统必须能在 shardgrp 之间转移分片。
+		一个原因是某些 shardgrp 可能比其他 shardgrp 负载更高，
+		因此需要移动分片来平衡负载。
+		另一个原因是 shardgrp 可能加入和离开系统：
+		可能添加新的 shardgrp 以增加容量，
+		或者将现有的 shardgrp 下线以进行维修或退役。
+
+		<p> 本实验的主要挑战是在处理以下情况时确保 <tt>Get</tt>/<tt>Put</tt> 操作的线性可序列化：
+                1) 分片到 shardgrp 的分配变化，
+                2) 在 <tt>ChangeConfigTo</tt> 期间从故障或被分区的控制器恢复。
+
+                <ol>
+                <li><tt>ChangeConfigTo</tt> 将分片从一个 shardgrp 迁移到另一个 shardgrp。
+		一个风险是某些客户端可能使用旧的 shardgrp，
+		而其他客户端使用新的 shardgrp，这可能破坏线性可序列化。
+		你需要确保在任何时候最多只有一个 shardgrp 在服务于每个分片的请求。
+
+                <li>如果 <tt>ChangeConfigTo</tt> 在重新配置期间失败，
+                某些分片可能变得不可访问，如果它们已经开始但未完成从一个 shardgrp 到另一个 shardgrp 的迁移。
+                为了取得进展，测试器启动一个新控制器，
+                你的任务是确保新控制器完成前一个控制器开始的重新配置。
+
+                </ol>
+
+		<p class="note">
+		本实验使用"配置"来指代分片到 shardgrp 的分配。
+		这与 Raft 集群成员变更不同。
+		你不需要实现 Raft 集群成员变更。
+
+                <p class="note"> 一个 shardgrp 服务器只是一个 shardgrp 的成员。
+                  给定 shardgrp 中的服务器集合永远不会改变。
+
+                <p class="note">
+		只能使用 RPC 进行客户端和服务器之间的交互。
+		例如，你的服务器的不同实例不允许共享 Go 变量或文件。
+
+		<p>
+    在部分 A 中，你将实现一个可工作的 <tt>shardctrler</tt>，
+    它将在 <tt>kvsrv</tt> 中存储和检索配置。
+    你还将实现用你的 Raft <tt>rsm</tt> 包复制的 <tt>shardgrp</tt>，
+    以及相应的 <tt>shardgrp</tt> clerk。
+    <tt>shardctrler</tt> 与 <tt>shardgrp</tt> clerk 通信以在不同组之间迁移分片。
+
+    <p>
+    在部分 B 中，你将修改你的 <tt>shardctrler</tt> 以处理配置变更期间的故障和分区。
+    在部分 C 中，你将扩展你的 <tt>shardctrler</tt> 以允许并发控制器而不互相干扰。
+    最后，在部分 D 中，你将有机会以任何你喜欢的方式扩展你的解决方案。
+
+		<p>
+		本实验的分片键值服务遵循与 Flat Datacenter Storage、BigTable、
+		Spanner、FAWN、Apache HBase、Rosebud、Spinnaker 和许多其他系统相同的总体设计。
+		不过，这些系统在许多细节上与本实验不同，而且通常更复杂、更强大。
+		例如，本实验不会演变每个 Raft 组中的对等体集合；
+		它的数据和查询模型很简单；等等。
+
+		<p class="note">
+		  实验 5 将使用你实验 2 中的 <tt>kvsrv</tt>，以及实验 4 中的 <tt>rsm</tt> 和 <tt>Raft</tt>。
+	      你的实验 5 和实验 4 必须使用相同的 <tt>rsm</tt> 和 <tt>Raft</tt> 实现。
+
+    <p class="note">
+      你可以使用延迟时间来完成部分 A，但不能使用延迟时间来完成部分 B-D。
+
+		<h3>入门</h3>
+
+        <div class="important">
+        <p>
+        执行 <tt>git pull</tt> 获取最新的实验软件。
+        </div>
+
+		<p>
+		我们为你提供了 <tt>src/shardkv1</tt> 中的测试和骨架代码：
+		<ul>
+		  <li><tt>client.go</tt> 用于 shardkv clerk
+                  <li> <tt>shardcfg</tt> 包用于计算分片配置
+		<li><tt>shardgrp</tt> 包：用于 shardgrp clerk 和服务器。
+		<li><tt>shardctrler</tt>
+		  包，包含 <tt>shardctrler.go</tt>，其中有控制器更改配置
+		  （<tt>ChangeConfigTo</tt>）和获取配置（<tt>Query</tt>）的方法
+                  </ul>
+		<p>
+		要开始运行，请执行以下命令：
+		<pre>
+$ cd ~/6.5840
+$ git pull
+...
+$ cd src
+$ make RUN="-run 5A" shardkv
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run 5A
+=== RUN  TestInitQuery5A
+Test (5A): Init and Query ... (reliable network)...
+...</pre>
+
+		<h3>部分 A: 迁移分片 <script>g("hard") </script></h3>
+
+		<p>
+                  你的第一个任务是实现 shardgrp 以及在没有故障时的
+                  <tt>InitConfig</tt>、<tt>Query</tt> 和 <tt>ChangeConfigTo</tt> 方法。
+                  我们已经为你提供了描述配置的代码，在
+                  <tt>shardkv1/shardcfg</tt> 中。
+                  每个 <tt>shardcfg.ShardConfig</tt> 有一个唯一标识号、
+                  从分片号到组号的映射，以及从组号到复制该组的服务器列表的映射。
+		  通常分片会比组多（这样每个组服务多个分片），
+		  以便能以相当细的粒度转移负载。
+
+		<p>
+		  在 <tt>shardctrler/shardctrler.go</tt> 中实现这两个方法：
+
+                  <ul>
+
+		<li><tt>InitConfig</tt> 方法接收第一个配置，
+                由测试器作为 <tt>shardcfg.ShardConfig</tt> 传递给它。
+                <tt>InitConfig</tt> 应将配置存储在实验 2 的 <tt>kvsrv</tt> 实例中。
+
+		<li> <tt>Query</tt> 方法返回当前配置；
+		它应从 <tt>kvsrv</tt> 读取配置，该配置之前由 <tt>InitConfig</tt> 存储在那里。
+
+                  </ul>
+
+                  		<p class="todo">
+                   实现 <tt>InitConfig</tt> 和 <tt>Query</tt>，并将配置存储在 <tt>kvsrv</tt> 中。
+		   当你的代码通过第一个测试时即完成。注意此任务不需要任何 shardgrp。
+                   <pre>
+$ cd ~/6.5840/src
+$ make RUN="-run TestInitQuery5A" shardkv
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run TestInitQuery5A
+=== RUN   TestInitQuery5A
+Test (5A): Init and Query ... (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     3 #Ops    0
+--- PASS: TestInitQuery5A (0.13s)
+PASS
+ok  	6.5840/shardkv1	1.143s
+</pre>
+
+                    <ul class="hints">
+                      <li> 通过从 <tt>kvsrv</tt> 存储和读取初始配置来实现 <tt>InitConfig</tt> 和 <tt>Query</tt>：
+                        使用 <tt>ShardCtrler.IKVClerk</tt> 的 <tt>Get</tt>/<tt>Put</tt> 方法与 <tt>kvsrv</tt> 通信，
+                        使用 <tt>ShardConfig</tt> 的 <tt>String</tt> 方法将 <tt>ShardConfig</tt> 转换为可以传递给 <tt>Put</tt> 的字符串，
+                        并使用 <tt>shardcfg.FromString()</tt> 函数将字符串转换为 <tt>ShardConfig</tt>。
+                     </ul>
+
+		<p class="todo">
+                  通过从实验 4 的 <tt>kvraft</tt> 解决方案复制代码，
+                  在 <tt>shardkv1/shardgrp/server.go</tt> 中实现初始版本的 <tt>shardgrp</tt>，
+                  并在 <tt>shardkv1/shardgrp/client.go</tt> 中实现相应的 clerk。
+                  <br>
+                  <br>
+                  在 <tt>shardkv1/client.go</tt> 中实现一个 clerk，
+                  它使用 <tt>Query</tt> 方法找到键所属的 shardgrp，然后与该 shardgrp 通信。
+                  当你的代码通过 <tt>Static</tt> 测试时即完成。
+<pre>
+$ cd ~/6.5840/src
+$ make RUN="-run TestStatiOneShardGroup5A" shardkv
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run TestStaticOneShardGroup5A
+=== RUN   TestStaticOneShardGroup5A
+Test (5A): one shard group ... (reliable network)...
+  ... Passed --  time  9.4s #peers 1 #RPCs   822 #Ops  420
+--- PASS: TestStaticOneShardGroup5A (9.52s)
+PASS
+ok  	6.5840/shardkv1	10.542s
+</pre>
+
+                    <ul class="hints">
+                      <li> 从你的 <tt>kvraft</tt> client.go 和 server.go 复制 <tt>Put</tt> 和 <tt>Get</tt> 的代码，
+                        以及你从 <tt>kvraft</tt> 需要的任何其他代码。
+                      <li>
+                  <tt>shardkv1/client.go</tt> 中的代码为整个系统提供 <tt>Put</tt>/<tt>Get</tt> clerk：
+                  它通过调用 <tt>Query</tt> 方法找出哪个 shardgrp 持有期望键的分片，
+                  然后与持有该分片的 shardgrp 通信。
+
+                  <li>
+                  实现 <tt>shardkv1/client.go</tt>，包括其 <tt>Put</tt>/<tt>Get</tt> 方法。
+		  使用 <tt>shardcfg.Key2Shard()</tt> 找到键的分片号。
+		  测试器将 <tt>ShardCtrler</tt> 对象传递给 <tt>shardkv1/client.go</tt> 中的 <tt>MakeClerk</tt>。
+                  使用 <tt>Query</tt> 方法获取当前配置。
+
+		      <li>要从 shardgrp put/get 一个键，shardkv clerk 应通过调用 <tt>shardgrp.MakeClerk</tt>
+		      为该 shardgrp 创建一个 shardgrp clerk，传入配置中找到的服务器和 shardkv clerk 的 <tt>ck.clnt</tt>。
+		      使用 <tt>ShardConfig</tt> 的 <tt>GidServers()</tt> 方法获取分片所属的组。
+
+                     <li><tt>shardkv1/client.go</tt> 的 Put 必须在回复可能丢失时返回 <tt>ErrMaybe</tt>，
+                     但这个 Put 调用的是 <tt>shardgrp</tt> 的 Put 来与特定 shardgrp 通信。
+                     内部 Put 可以用错误信号通知这种情况。
+
+                      <li>创建时，第一个 shardgrp（<tt>shardcfg.Gid1</tt>）应初始化自己拥有所有分片。
+
+                    </ul>
+
+<p>
+  现在你应该通过实现 <tt>ChangeConfigTo</tt> 方法来支持分片在组之间的迁移，
+  该方法从旧配置更改为新配置。
+  新配置可能包括旧配置中不存在的新 shardgrp，
+  也可能排除旧配置中存在的 shardgrp。
+  控制器应迁移分片（键值数据），使每个 shardgrp 存储的分片集合与新配置匹配。
+
+                  <p>我们建议的迁移分片的方法是，<tt>ChangeConfigTo</tt>
+		首先在源 shardgrp "冻结"分片，使该 shardgrp 拒绝迁移分片中键的 <tt>Put</tt>。
+		然后，将分片复制（安装）到目标 shardgrp；然后删除冻结的分片。
+		最后，发布新配置，使客户端能找到迁移后的分片。
+		这个方法的一个很好的特性是它避免了 shardgrp 之间的任何直接交互。
+		它还支持服务不受正在进行的配置变更影响的分片。
+
+                  <p>为了能够对配置变更进行排序，
+                    每个配置都有一个唯一的编号 <tt>Num</tt>
+                    （见 <tt>shardcfg/shardcfg.go</tt>）。
+                    部分 A 的测试器按顺序调用 <tt>ChangeConfigTo</tt>，
+                    传递给 <tt>ChangeConfigTo</tt> 的配置的 <tt>Num</tt>
+                    将比前一个大 1；因此，<tt>Num</tt> 较高的配置比 <tt>Num</tt> 较低的配置更新。
+
+                  <p>网络可能会延迟 RPC，RPC 可能会在 shardgrp 处乱序到达。
+                    为了拒绝旧的 <tt>FreezeShard</tt>、<tt>InstallShard</tt> 和 <tt>DeleteShard</tt> RPC，
+                    它们应该包含 <tt>Num</tt>
+                    （见 <tt>shardgrp/shardrpc/shardrpc.go</tt>），
+                    并且 shardgrp 必须记住它们为每个分片看到的最大 <tt>Num</tt>。
+
+			  <p class="todo">实现 <tt>ChangeConfigTo</tt>
+                    （在 <tt>shardctrler/shardctrler.go</tt> 中）并扩展 <tt>shardgrp</tt> 以支持冻结、安装和删除。
+                    <tt>ChangeConfigTo</tt> 在部分 A 中应始终成功，因为测试器在本部分不会引发故障。
+                    你需要使用 <tt>shardgrp/shardrpc</tt> 包中的 RPC 在
+                 <tt>shardgrp/client.go</tt> 和 <tt>shardgrp/server.go</tt> 中实现
+                 <tt>FreezeShard</tt>、<tt>InstallShard</tt> 和 <tt>DeleteShard</tt>，
+                 并根据 <tt>Num</tt> 拒绝旧的 RPC。
+                 你还需要修改 <tt>shardkv1/client.go</tt> 中的 shardkv clerk 以处理 <tt>ErrWrongGroup</tt>，
+                 如果 shardgrp 不负责该分片则应返回此错误。
+                <br>
+                <br>
+                当你通过 <tt>JoinBasic</tt> 和 <tt>DeleteBasic</tt> 测试时，即完成了此任务。
+                这些测试侧重于添加 shardgrp；你还不需要担心 shardgrp 离开的问题。
+
+		<ul class="hints">
+
+                  <li> 对于客户端 <tt>Put</tt>/<tt>Get</tt> 中 shardgrp 不负责的键
+                  （即键的分片未分配给该 shardgrp），shardgrp 应回复 <tt>ErrWrongGroup</tt> 错误。
+                  你将不得不修改 <tt>shardkv1/client.go</tt> 以重新读取配置并重试 <tt>Put</tt>/<tt>Get</tt>。
+
+		  <li> 注意，你将不得不通过你的 <tt>rsm</tt> 包运行 <tt>FreezeShard</tt>、
+                  <tt>InstallShard</tt> 和 <tt>DeleteShard</tt>，就像 <tt>Put</tt> 和 <tt>Get</tt> 一样。
+
+		  <li>你可以在 RPC 请求或回复中将整个映射作为状态发送，
+        这可能有助于保持分片传输代码的简洁。
+
+		 <li>如果你的一个 RPC 处理函数在其回复中包含了服务器状态的一部分的映射
+	     	  （例如键值映射），你可能会因为竞争而遇到错误。
+	     	  RPC 系统必须读取映射才能将其发送给调用者，
+	     	  但它没有持有覆盖该映射的锁。
+	     	  然而，你的服务器可能会在 RPC 系统读取映射时继续修改同一个映射。
+	     	  解决方案是让 RPC 处理函数在回复中包含映射的副本。
+
+		 </ul>
+
+                  <p class="todo">扩展 <tt>ChangeConfigTo</tt> 以处理离开的分片组；
+                    即，在当前配置中存在但在新配置中不存在的 shardgrp。
+                    你的解决方案现在应通过 <tt>TestJoinLeaveBasic5A</tt>。
+                    （你可能在前一个任务中已经处理了这种情况，
+                    但之前的测试没有测试 shardgrp 离开的场景。）
+
+                   <p class="todo"> 使你的解决方案通过所有部分 A 测试，
+                 这些测试检查你的分片键值服务是否支持许多组的加入和离开、
+                 shardgrp 从快照重启、在某些分片离线或参与配置变更时处理 <tt>Get</tt>，
+                 以及当许多客户端与服务交互而测试器并发调用控制器的 <tt>ChangeConfigTo</tt> 来重新平衡分片时的线性可序列化。
+
+
+		</ul>
+
+<pre>
+$ cd ~/6.5840/src
+$ make RUN="-run 5A" shardkv
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run 5A
+Test (5A): Init and Query ... (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     3 #Ops    0
+Test (5A): one shard group ... (reliable network)...
+  ... Passed --  time  5.1s #peers 1 #RPCs   792 #Ops  180
+Test (5A): a group joins... (reliable network)...
+  ... Passed --  time  12.9s #peers 1 #RPCs  6300 #Ops  180
+Test (5A): delete ... (reliable network)...
+  ... Passed --  time  8.4s #peers 1 #RPCs  1533 #Ops  360
+Test (5A): basic groups join/leave ... (reliable network)...
+  ... Passed --  time  13.7s #peers 1 #RPCs  5676 #Ops  240
+Test (5A): many groups join/leave ... (reliable network)...
+  ... Passed --  time  22.1s #peers 1 #RPCs  3529 #Ops  180
+Test (5A): many groups join/leave ... (unreliable network)...
+  ... Passed --  time  54.8s #peers 1 #RPCs  5055 #Ops  180
+Test (5A): shutdown ... (reliable network)...
+  ... Passed --  time  11.7s #peers 1 #RPCs  2807 #Ops  180
+Test (5A): progress ... (reliable network)...
+  ... Passed --  time  8.8s #peers 1 #RPCs   974 #Ops   82
+Test (5A): progress ... (reliable network)...
+  ... Passed --  time  13.9s #peers 1 #RPCs  2443 #Ops  390
+Test (5A): one concurrent clerk reliable... (reliable network)...
+  ... Passed --  time  20.0s #peers 1 #RPCs  5326 #Ops 1248
+Test (5A): many concurrent clerks reliable... (reliable network)...
+  ... Passed --  time  20.4s #peers 1 #RPCs 21688 #Ops 10500
+Test (5A): one concurrent clerk unreliable ... (unreliable network)...
+  ... Passed --  time  25.8s #peers 1 #RPCs  2654 #Ops  176
+Test (5A): many concurrent clerks unreliable... (unreliable network)...
+  ... Passed --  time  25.3s #peers 1 #RPCs  7553 #Ops 1896
+PASS
+ok      6.5840/shardkv1 243.115s
+$</pre>
+
+
+                <p  class="note"> 你的解决方案必须继续服务不受正在进行的配置变更影响的分片。
+
+		<h3>部分 B: 处理故障控制器 <script>g("easy")</script></h3>
+
+                <p>控制器是一个短生命周期的命令，由管理员调用：
+                  它迁移分片然后退出。但它可能在迁移分片时故障或失去网络连接。
+                  本实验这部分的主要任务是从未能完成 <tt>ChangeConfigTo</tt> 的控制器恢复。
+                  测试器在分区第一个控制器后启动一个新控制器并调用其 <tt>ChangeConfigTo</tt>；
+                  你需要修改控制器，使新控制器完成重新配置。
+                测试器在启动控制器时调用 <tt>InitController</tt>；
+                你可以修改该函数来检查是否需要完成被中断的配置变更。
+
+              <p>允许控制器完成前一个控制器开始的重新配置的好方法是
+                保存两个配置：当前配置和下一个配置，两者都存储在控制器的 kvsrv 中。
+		当控制器开始重新配置时，它存储下一个配置。
+                一旦控制器完成重新配置，它使下一个配置成为当前配置。
+                修改 <tt>InitController</tt> 以首先检查是否存在一个存储的下一个配置，
+                其配置编号高于当前配置，如果存在，完成重新配置到下一个配置所需的分片迁移。
+
+		      <p class="todo">
+                修改 shardctrler 以实现上述方法。
+                接管故障控制器工作的控制器可能会重复 <tt>FreezeShard</tt>、<tt>InstallShard</tt> 和 <tt>Delete</tt> RPC；
+                shardgrp 可以使用 <tt>Num</tt> 来检测重复并拒绝它们。
+                如果你的解决方案通过了部分 B 测试，即完成了此任务。
+
+<pre>
+$ cd ~/6.5840/src
+$ make RUN="-run 5B" shardkv
+go build -race -o main/kvsrv1d main/k
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run 5B
+Test (5B): Join/leave while a shardgrp is down... (reliable network)...
+  ... Passed --  time  9.2s #peers 1 #RPCs   899 #Ops  120
+Test (5B): recover controller ... (reliable network)...
+  ... Passed --  time  26.4s #peers 1 #RPCs  3724 #Ops  360
+PASS
+ok      6.5840/shardkv1 35.805s
+$</pre>
+
+                <ul class="hints">
+                  <li> 测试器在启动控制器时调用 <tt>InitController</tt>；
+                  你可以在 <tt>shardctrler/shardctrler.go</tt> 中的该方法中实现恢复。
+                </ul>
+
+		<h3>部分 C: 并发配置变更 <script>g("moderate")</script></h3>
+
+		<p>在本实验的这部分，你将修改控制器以允许并发控制器。
+		当控制器崩溃或被分区时，测试器将启动一个新控制器，
+		它必须完成旧控制器可能正在进行的所有工作
+		（即，像部分 B 一样完成迁移分片）。
+		这意味着多个控制器可能并发运行并向 shardgrp 和存储配置的 <tt>kvsrv</tt> 发送 RPC。
+
+		<p>主要挑战是确保这些控制器不会互相干扰。
+		在部分 A 中，你已经使用 <tt>Num</tt> 隔离了所有 shardgrp RPC，
+		使旧 RPC 被拒绝。即使多个控制器并发接管旧控制器的工作，
+		其中一个成功而其他控制器重复所有 RPC，shardgrp 也会忽略它们。
+
+                  <p> 因此剩下的具有挑战性的情况是确保只有一个控制器更新下一个配置，
+		  以避免两个控制器（例如，一个被分区的和一个新的）
+		  将不同的配置放入下一个配置。
+		  为了强调这种情况，测试器并发运行多个控制器，
+		  每个控制器通过读取当前配置并更新离开的或加入的 shardgrp 来计算下一个配置，
+		  然后测试器调用 <tt>ChangeConfigTo</tt>；
+		  因此多个控制器可能用具有相同 <tt>Num</tt> 的不同配置调用 <tt>ChangeConfigTo</tt>。
+		  你可以使用键的版本号和带版本号的 <tt>Put</tt> 来确保只有一个控制器更新下一个配置，
+		  而其他调用不做任何事就返回。
+
+		<p class="todo">
+		  修改你的控制器，使每个配置 <tt>Num</tt> 只有一个控制器能发布下一个配置。
+		  测试器将启动许多控制器，但只有一个应为新配置启动 <tt>ChangeConfigTo</tt>。
+		  如果你通过了部分 C 的并发测试，即完成了此任务：
+
+<pre>
+$ cd ~/6.5840/src
+$ make RUN="-run TestConcurrentReliable5C" shardkv
+go build -race -o main/kvsrv1d main/k
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run TestConcurrentReliable5C
+Test (5C): Concurrent ctrlers ... (reliable network)...
+  ... Passed --  time  8.2s #peers 1 #RPCs  1753 #Ops  120
+PASS
+ok      6.5840/shardkv1 8.364s
+$ make RUN="-run TestAcquireLockConcurrentUnreliable5C" shardkv
+go build -race -o main/kvsrv1d main/k
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run TestAcquireLockConcurrentUnreliable5C
+Test (5C): Concurrent ctrlers ... (unreliable network)...
+  ... Passed --  time  23.8s #peers 1 #RPCs  1850 #Ops  120
+PASS
+ok      6.5840/shardkv1 24.008s
+$</pre>
+
+		<ul class="hints">
+                   <li>参见 <tt>test.go</tt> 中的 <tt>concurCtrler</tt>
+                     了解测试器如何并发运行控制器。
+                </ul>
+
+		<p class="todo">
+		在这个练习中，你将把旧控制器的恢复与新控制器结合起来：
+		新控制器应执行部分 B 的恢复。
+		如果旧控制器在 <tt>ChangeConfigTo</tt> 期间被分区，
+		你将不得不确保旧控制器不会干扰新控制器。
+		如果控制器的所有更新都已经用部分 B 的 <tt>Num</tt> 检查正确隔离了，
+		你就不需要写额外的代码。
+		如果你通过了 <tt>Partition</tt> 测试，即完成了此任务。
+
+<pre>
+$ cd ~/6.5840/src
+$ make RUN="-run Partition" shardkv
+go build -race -o main/kvsrv1d main/k
+go build -race -o main/shardgrp1d main/shardgrp1d.go
+cd shardkv1; go test -timeout 15m -v -race -run Partition
+Test (5C): partition controller in join... (reliable network)...
+  ... Passed --  time  7.8s #peers 1 #RPCs   876 #Ops  120
+Test (5C): controllers with leased leadership ... (reliable network)...
+  ... Passed --  time  36.8s #peers 1 #RPCs  3981 #Ops  360
+Test (5C): controllers with leased leadership ... (unreliable network)...
+  ... Passed --  time  52.4s #peers 1 #RPCs  2901 #Ops  240
+Test (5C): controllers with leased leadership ... (reliable network)...
+  ... Passed --  time  60.2s #peers 1 #RPCs 27415 #Ops 11182
+Test (5C): controllers with leased leadership ... (unreliable network)...
+  ... Passed --  time  60.5s #peers 1 #RPCs 11422 #Ops 2336
+PASS
+ok      6.5840/shardkv1 217.779s
+$</pre>
+
+                <p>你已经完成了实现一个高可用的分片键值服务，
+                具有许多分片组以实现可扩展性，
+                重新配置以处理负载变化，以及容错控制器；恭喜！
+
+		<p class="todo">重新运行所有测试以检查你对控制器的最近更改是否没有破坏之前的测试。
+
+      <div class="important">
+      <p>Gradescope 将在你的提交上重新运行实验 3A-D 和实验 4A-C 的测试，以及 5C 测试。
+      在提交之前，请仔细检查你的解决方案是否有效：
+<pre>
+$ make raft1
+$ make kvraft1
+$ make shardkv</pre>
+      </p>
+      </div>
+
+		<h3>部分 D: 扩展你的方案</h3>
+
+                <p>在本实验的最后部分，你可以以任何你喜欢的方式扩展你的解决方案。
+                你将不得不为你选择实现的任何扩展编写自己的测试。
+
+		<p class="todo">实现以下想法之一或提出自己的想法。
+		在文件 <tt>extension.md</tt> 中写一段描述你的扩展，
+		并将 <tt>extension.md</tt> 上传到 Gradescope。
+		如果你想做更难、更开放的扩展，
+		欢迎与课上的另一个学生合作。
+
+                <p>以下是一些可能的扩展想法（前几个比较简单，后面的更开放）：
+                  <ul>
+
+                    <li> <script>g("easy")</script> 修改测试器以使用 <tt>kvraft</tt> 而不是 <tt>kvsrv</tt>
+                    （即，将 <tt>test.go</tt> 中 <tt>MakeTestMaxRaft</tt> 里的 <tt>kvsrv.StartKVServer</tt>
+                    替换为 <tt>kvraft.StartKVServer</tt>），
+                    使控制器使用你的 kvraft 来存储其配置。
+                    编写一个测试，检查在一个 kvraft 对等体宕机时控制器是否能查询和更新配置。
+                    测试器的现有代码分布在 <tt>src/kvtest1</tt>、<tt>src/shardkv1</tt> 和 <tt>src/tester1</tt> 中。
+
+                    <li> <script>g("moderate")</script>
+                      修改 <tt>kvsrv</tt> 以实现 <tt>Put</tt>/<tt>Get</tt> 的精确一次语义，
+                      如同去年的<a href="http://nil.csail.mit.edu/6.5840/2024/labs/lab-kvsrv.html">实验 2</a>
+                      （参见丢包部分）。
+                      你可能可以从 2024 年移植一些测试，而不必从头编写。
+                      在你的 <tt>kvraft</tt> 中也实现精确一次。
+
+                    <li> <script>g("moderate")</script>
+                    修改 <tt>kvsrv</tt> 以支持 <tt>Range</tt> 函数，
+                    返回 <tt>low</tt> 键到 <tt>high</tt> 键范围内的所有键。
+                    实现 <tt>Range</tt> 的懒惰方式是遍历服务器维护的键值映射；
+                    更好的方式是使用支持范围搜索的数据结构（例如 B 树）。
+                    包含一个使懒惰方案失败但能通过更好方案的测试。
+
+                    <li> <script>g("hard")</script> 修改你的 <tt>kvraft</tt> 实现，
+                      允许领导者在不需要通过 <tt>rsm</tt> 运行 <tt>Get</tt> 的情况下服务 <tt>Get</tt>。
+                      即，实现 Raft 论文第 8 节末尾描述的优化，
+                      包括租约，以确保 kvraft 维护线性可序列化。
+                      你的实现应通过现有的 kvraft 测试。
+                      你还应添加一个测试，检查你的优化实现是否更快
+                      （例如，通过比较 RPC 数量），
+                      以及一个测试，检查 term 切换是否更慢，
+                      因为新领导者必须等待租约到期。
+
+
+                   <li><script>g("hard")</script> 在 <tt>kvraft</tt> 中支持事务，
+                     使开发者可以原子地执行多个 <tt>Put</tt> 和 <tt>Get</tt>。
+                     一旦有了事务，你就不再需要版本号 Put；事务取代了版本号 Put。
+                     查看 <a href="https://etcd.io/docs/v3.4/learning/api/">etcd 的事务</a>
+                     了解接口示例。编写测试来演示你的扩展有效。
+
+                    <li> <script>g("hard")</script>
+		      修改 <tt>shardkv</tt> 以支持事务，
+		      使开发者可以跨分片原子地执行多个 <tt>Put</tt> 和 <tt>Get</tt>。
+		      这需要实现两阶段提交和两阶段锁。
+		      编写测试来演示你的扩展有效。
+
+                  </ul>
+
+		<h3>提交流程</h3>
+
+		<div class="important">
+			<p>
+			在提交之前，请最后一次运行<em>所有</em>测试。
+
+			<p>
+			在提交之前，请仔细检查你的解决方案是否有效：
+
+			<pre>
+$ make raft1
+$ make kvraft1
+$ make shardkv</pre>
+		</div>
+
+		<hr>
+
+	</body>
+</html>
+<!--  LocalWords:  Sharded shard sharding sharded Put's src shardctrler -->
+<!--  LocalWords:  shardkv cd TestBasic TestUnreliable Go's RPCs RPC's GID px -->
+<!--  LocalWords:  kvraft Config ErrWrongGroup Handin gzipped czvf whoami tgz -->

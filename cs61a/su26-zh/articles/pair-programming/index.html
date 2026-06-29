@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+结对编程 | CS 61A 2026夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论小组</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">课程录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">往年试卷与课程网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">代码规范指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中考试1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中考试2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末考试学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教职员
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">讲师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>结对编程</h1>
+    </header>
+     <p>结对编程是一种与合作伙伴协作编程的方式。
+当你学习如何编程时，这是一个很好的方法，
+而且它被科技行业的许多公司使用。</p>
+
+<p>在结对编程中，合作伙伴<em>同时</em>一起工作。
+一个合作伙伴是"驾驶员"，实际输入代码。
+另一个合作伙伴是"导航员"，观察、提问、建议解决方案，
+并思考稍微长期的策略。</p>
+
+<p>对于合作伙伴来说，在整个任务过程中切换角色非常重要，
+要么每 10-20 分钟切换一次，要么每个问题交替切换。</p>
+
+
+<h2 id="pairing-setup">结对设置</h2>
+
+
+
+<h3 id="pairing-in-person">现场结对</h3>
+
+
+<p>这是结对编程的传统方法。
+合作伙伴坐在一起，使用同一台电脑，理想情况下是一台带有大型或双显示器的电脑。
+驾驶员控制键盘和鼠标，而导航员
+查看代码和任务描述。</p>
+
+
+
+<h3 id="remote-pairing">远程结对</h3>
+
+
+<p>幸运的是，由于各种协作云应用程序的广泛使用，
+在线进行结对编程也是非常可能的。</p>
+
+<p>你需要两样东西：</p>
+
+<ul>
+  <li>一种互相听的方式。</li>
+  <li>一种共享代码和命令行的方式。</li>
+</ul>
+
+<p>为了互相听，你可以设置 Zoom 通话、Google Meet 或 Discord 通话。</p>
+
+<p>为了共享代码，你可以按照<a href="../vscode/index.html#pair-programming">VS Code 编辑器的说明</a>操作。</p>
+
+<p>通常你们会希望都使用相同的编辑器，所以你要么想找一个使用相同编辑器的合作伙伴，要么愿意尝试新的编辑器。这也可以成为学习体验的一部分！</p>
+
+<p>如果由于某种原因你无法在编辑器中实际结对，你总是可以退回到共享的 Google 文档。只需确保关闭文档中的自动更正，否则你的代码会充斥着新的和令人兴奋的语法错误。</p>
+
+
+
+<h2 id="pairing-faq">结对常见问题</h2>
+
+
+
+<h3 id="when-is-pairing-permitted">何时允许结对？</h3>
+
+
+<p>我们鼓励在项目中进行结对编程。你也可以在某些实验问题上结对编程，特别是当你卡住的时候。
+只要确保你们始终在角色之间轮换，以便你们都能从经验中学习。但是，你<strong>不应该</strong>在家庭作业中进行结对编程，因为你被要求自己编写代码。</p>
+
+<p>有关更多信息，请参阅关于协作学习的课程大纲。</p>
+
+
+
+<h3 id="finding-a-partner">寻找合作伙伴</h3>
+
+
+<p>我们建议在你的讨论课上找一个合作伙伴，或者参考 Edstem 上置顶的寻找合作伙伴帖子。</p>
+
+<p>你不需要在每个项目都有相同的合作伙伴。结对编程既关乎沟通风格，也关乎编码风格，所以找到一个能够良好沟通的合作伙伴非常重要。</p>
+
+
+
+<h3 id="how-do-we-submit-get-grades-as-a-pair">我们如何作为一对提交/获取成绩？</h3>
+
+
+<p>对于非项目任务，你应该<strong>单独</strong>提交你的工作。</p>
+
+<p>如果你与合作伙伴一起在<strong>项目</strong>上工作，你们可以在同一段代码上工作。
+<strong>只有一人</strong>需要将任务提交到 Gradescope。你可以通过点击提交右侧你名字下的<strong>+ 添加组成员</strong>来将合作伙伴添加到你的 Gradescope 提交中。</p>
+
+
+
+<h3 id="what-are-the-expectations-of-each-partner-in-a-pair">结对中每个合作伙伴的期望是什么？</h3>
+
+
+<p>我们期望合作伙伴相互沟通，安排结对时间，
+并平等参与结对编程的过程。
+如果你们中的一个想在某个项目的特定部分单独工作，
+你应该与你的合作伙伴沟通。</p>
+
+<p><strong>注意</strong>：如果你口头（或通过电子邮件）同意与给定的合作伙伴一起做给定的任务，
+你应该期望与该合作伙伴一起完成该任务。
+你不能在任务中途抛弃你的合作伙伴，除非解除结对的决定对你们双方都是共同的。
+请考虑你的合作伙伴，不要让他们悬而不决，因为在任务中途找到新的合作伙伴并不容易。
+如果你计划结束合作关系并单独做下一个任务，请在任务发布时尽快告诉你的合作伙伴，
+以便他们可以做出其他安排。</p>
+
+
+
+<h3 id="my-partner-and-i-didnt-work-well-together">我的合作伙伴和我对一起工作得不好...</h3>
+
+
+<p>我们有时会看到这样的反馈：</p>
+
+<blockquote><p>我的合作伙伴没有做任何工作，或者没有做他们那份工作，或者没有沟通或与我见面，等等。我能做什么？</p></blockquote>
+
+<p>或者：</p>
+
+<blockquote><p>我的合作伙伴做得太多了！他们霸占了键盘，
+或者他们在没有等我的情况下完成了整个任务，或者他们没有与我沟通，等等。
+我觉得我没有得到真正的机会来帮助解决任务。我能做什么？</p></blockquote>
+
+<p>你试过事先与你的合作伙伴谈论你的期望吗？许多团队问题可以通过更好的沟通和对期望的设定来解决。</p>
+
+<p>如果与你的合作伙伴交谈不能解决问题，请与课程教职员交谈并解释发生的细节。我们会试图帮助你解决问题。
+如果这是一个持续的问题，教职员可以帮助你找到合作伙伴，或者允许你解除合作关系并单独提交。</p>
+
+
+
+<h3 id="how-do-we-get-help-if-our-pair-is-stuck-on-an-assignment">如果我们的结对在任务上卡住了，我们如何获得帮助？</h3>
+
+
+<p>你可以去办公时间向课程教职员寻求帮助。
+我们要求<strong>只有一人</strong>排队寻求帮助。
+也就是说，请不要试图通过
+将你们两个人的名字都排入队伍来"加倍"。
+如果我们发现一对在这样做，
+我们将删除他们两个人的名字，并将其中一人移到队伍的非常后面。
+感谢你的合作。
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#pairing-setup">结对设置</a></li>
+  <ul>
+    <li><a href="#pairing-in-person">现场结对</a></li>
+    <li><a href="#remote-pairing">远程结对</a></li>
+  </ul>
+  <li><a href="#pairing-faq">结对常见问题</a></li>
+  <ul>
+    <li><a href="#when-is-pairing-permitted">何时允许结对？</a></li>
+    <li><a href="#finding-a-partner">寻找合作伙伴</a></li>
+    <li><a href="#how-do-we-submit-get-grades-as-a-pair">我们如何作为一对提交/获取成绩？</a></li>
+    <li><a href="#what-are-the-expectations-of-each-partner-in-a-pair">结对中每个合作伙伴的期望是什么？</a></li>
+    <li><a href="#my-partner-and-i-didnt-work-well-together">我的合作伙伴和我对一起工作得不好...</a></li>
+    <li><a href="#how-do-we-get-help-if-our-pair-is-stuck-on-an-assignment">如果我们的结对在任务上卡住了，我们如何获得帮助？</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

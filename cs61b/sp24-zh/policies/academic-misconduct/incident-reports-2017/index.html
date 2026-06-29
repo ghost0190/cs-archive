@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   Incident Reports from Spring 2017 | CS 61B Spring 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="Incident Reports from Spring 2017" property="og:title">
+  <meta content="en_US" property="og:locale">
+  <meta content="Data Structures" name="description">
+  <meta content="Data Structures" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/policies/academic-misconduct/incident-reports-2017/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="Incident Reports from Spring 2017" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"Data Structures","headline":"Incident Reports from Spring 2017","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/policies/academic-misconduct/incident-reports-2017/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     Link
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       Course Info
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       教师团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02: 调试 (部分 1)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03: 调试 (部分 2)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析 题目 解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A: Java Syntax
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           Coverage Tests - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           Coverage Tests - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/ed/index.html">
+           Ed 课程政策 and Guidelines
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/ed/ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/soda-machines/index.html">
+           Using the Soda 实验 Machines
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    Th是 site uses
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    , a documentation theme for Jekyll.
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="Search CS 61B Spring 2024" autocomplete="off" class="search-input" id="search-input" placeholder="Search CS 61B Spring 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href>
+        学术不端 Policy
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        事件报告 from Spring 2017
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <h1 class="title">
+      2017年春季事件报告
+     </h1>
+     <p>
+      在2017年春季学期，被发现抄袭的学生可以提交事件报告以换取减轻处罚。以下是收集的部分（但不是全部）报告。几乎所有文本都是原始的，尽管有些报告为了清晰度和匿名性进行了轻微编辑。
+     </p>
+     <hr>
+     <hr>
+     <p>
+      来到伯克利，每个人都能理解学生为了跟上永无止境的工作量同时维持生活的其他方面（如社团、朋友、工作）所面临的困难和压力。你可能会被诱惑去复制朋友的代码：不要这样做！你很可能会被抓。Josh Hug和61B的助教们非常努力地为你提供适当的支持（在作业辅导会上和通过Piazza），所以要好好利用这些资源，而不是朋友的代码。抄袭不仅在道德上是错误的，而且你在做完之后会感觉很糟糕。大多数情况下，你可以通过早点开始项目或不同地安排时间来避免抄袭，所以你总是会后悔你的选择。CS系非常慷慨地为我提供了赔偿程序；但是，即使我拿回所有分数并以一个不错的成绩结束这门课程，我的学术警告也将伴随我整个大学生涯。我可以向你保证，这并不是一种好的感觉。
+     </p>
+     <p>
+      简而言之：当所有课程都很繁重时，抄袭是一个诱人的选择，但不要屈服，因为它在道德上是错误的，而且你只是在伤害自己。如果你被抓了，你的生活会变得很糟糕！
+     </p>
+     <hr>
+     <p>
+      我写这份事件报告是因为我和室友在这个项目上合作得太密切了。如果我们只是简单地互相帮助，解释概念和我们代码中的小细节，我们就能正当遵守课程的荣誉准则。相反，我们看了彼此的代码，这使我们走上了抄袭这条道德错误的道路。我对我的行为100%负责，我觉得考虑到抄袭的严重性，这个后果是非常公平的。我确实吸取了教训，将通过完成这个项目来弥补我的行为，这实际上占用了我准备期末考试的时间。我对此没有意见，因为这样的惩罚会灌输强烈的道德准则，而不会毁掉一个人的生活。我只是想向工作人员道歉，他们付出了很多努力来帮助我们，这样我们就不必诉诸抄袭。还要向我的同学道歉，他们显然在这个课程上付出了很多努力来实现他们的梦想。
+     </p>
+     <hr>
+     <p>
+      这学期对我来说在学业方面压力特别大，因为我决定承担一个新的课外活动承诺，这实际上消除了我专注于课程的任何时间，尤其是在学期后期。这显然不能成为任何形式抄袭的理由，但我想我的想法是，既然我不一定是个懒学生，向别人请教项目问题应该是可以的。我认为在文理学院申报计算机科学专业的压力是众所周知的，这绝对是我感到完成作业压力很大的原因之一。我是一个外州学生，虽然我很幸运有父母存钱支付我的学费，但他们之前已经表示，只有当我获得CS学位时他们才愿意支付我的大学费用，如果我无法申报专业那就不能发生了。向我求助的那个朋友看到我对年底可能需要转学感到压力很大，所以我想他对回答我关于项目的问题更加疏忽了。
+     </p>
+     <hr>
+     <p>
+      我不是CS/EECS专业的。但是，我为了接触一点CS在秋季以P/NP方式参加了CS61B。我学得很吃力，没能通过这门课。后来，我在春季以字母等级再次选课，并发誓要拿到A。在项目2发布之前，我的CS61B课程表现很好。我在这个项目上非常努力，但只得到了很低的分数。我感到非常悲伤和沮丧。我整个星期都在凌晨3点前做这个项目。我牺牲了其他必修课来完成proj2。我对CS61B的兴趣下降了。然后，我稍晚才开始项目3。所以，我努力完成它。我已经连续四五天熬夜工作。我的代码不管多努力都不能运行。所以，有一天晚上，当我挣扎着，从网上寻求帮助失败后，我向一个朋友求助。我问他能否把他的代码发给我。他先拒绝了，但我一直坚持，说服他我只是想参考一下，不会复制他的代码。最后他同意把代码发给我，我开始浏览以获得一些想法。我最初的目的是获得想法并将他的代码与我的代码进行比较，以便我能找到错误。但他的代码与我的完全不同，我甚至很难理解他的代码。当时已过午夜，我没能做出清醒的决定。我已经在CS61B失败过一次，而且已经从proj2中受够了，我不想再因为proj3而受苦。所以，我借用了他的部分代码并修改成了我的。我非常后悔我的行为。
+     </p>
+     <hr>
+     <p>
+      我上CS 61A的第一学期时没有任何编程经验。在个人层面上，这是一个非常糟糕的决定，因为我在那门课上非常吃力，花了不成比例的时间，GPA也因此受到影响。正因为如此，我开始觉得自己不擅长编程，因为我在那门课上非常吃力。不擅长编程这个想法在我的脑海中根深蒂固。
+     </p>
+     <p>
+      时间快进到上CS 61B，我决定更加努力地尝试，以便能够擅长编程。直到项目2，我都表现得很好，但那个项目的规模对我来说太大了，我很吃力，没有及时完成。我再次觉得自己就是不擅长编程，或者不够好以至于不能在伯克利的61系列课程中做这件事。这对我的自尊和编程能力来说是一个很大的问题，因为说服自己我不会编程导致我在项目3截止日期临近时走捷径。
+     </p>
+     <hr>
+     <p>
+      我从来没有想过我会陷入这种情况。即使我非常忙，我通常能够充分利用时间，按我的标准完成所有事情。然而，项目3到期的那个星期对我来说是非常糟糕的&mdash;&mdash;除了不断恶化的家庭问题，我几乎所有课程都有期中考试，我的课外活动也增加了工作量，结果我的项目3进度被推后了。我甚至考虑过给助教和/或Josh Hug发邮件请求延期，但觉得不太可能，所以我向一个朋友寻求帮助。我的朋友不仅帮我开始设计，还在我遇到某个部分卡住时给了我他/她实现的具体例子。我从来不想抄袭，但有了所有给我的资源，很难偏离那些想法去完全自己创作。当我完成项目时，我意识到它与朋友的非常相似，但因为已经是迟交了，我决定还是提交。我意识到我不能推迟CS61B的项目，因为它们需要时间来理解和规划；我需要为61B投入一个完整的时间块才能成功，而不是只在其他日程之间有空时做做。
+     </p>
+     <hr>
+     <p>
+      上个月，由于时间限制和压力，我在项目3中复制了一部分代码（GraphDB）。在那段时间，我面临着多门课程的巨大压力，并且因为我在项目中已经走了这么远但总是被这个部分阻碍而感到沮丧，所以我让我的室友看他的代码，在他同意后，我把他的代码结构几乎逐字逐句地复制到我的代码中。我知道没有借口为我所做的事情辩护，希望这是一个急需的警醒，对我来说是一个从错误中学习和成长的机会。我当然再也不会做这样的事了；我认识到这样做我做了完全与加州大学伯克利分校和CS系的原则背道而驰的事情，也可能危及我自己的未来以及他的未来。再说一遍，我只能提供我最诚挚的歉意，并承诺这样的事情再也不会发生。
+     </p>
+     <hr>
+     <p>
+      所以和大多数人一样，我在做项目时并没有打算使用别人的代码。我已经在这个项目上工作了相当长的时间，完成了第一部分，但就是无法完成第二部分，无论我尝试什么。我有一个已经完成这个项目的朋友来帮忙，他确实帮了我很多，但我仍然无法让它工作并通过自动评分器测试。项目到期的前一天，所以我以为第二天再试。所以第二天来了，我仍然不知道如何完成这个项目，作为最早的项目之一，我真的担心得不到这些分数并在这门课上表现不佳。我真的很紧张，但我一直在努力，然后我知道有24小时的宽限期，所以我想第二天可以做。到这个时候，我已经拥有了别人的代码，但我不想直接偷用它，所以我一直在努力，用他们的作为指导。慢慢地，我出于绝望为了得到分数，最终模仿了他们的代码，但我仍然无法得到满分。我决定不直接复制他们的代码，所以我决定保持我得到的较低的自动评分器分数。所以现在项目已经到期2天了，但我们每天只损失10%，我想如果我以扣除10%后得到满分的成绩，我可以比我原来的分数得到更多分数，我真的非常担心这个项目会如何影响我的61b成绩，所以我回到代码并复制了它，以便我能得到那些分数。
+     </p>
+     <hr>
+     <p>
+      这门课极具挑战性且进度很快。编程肯定不是我的强项。学期开始时，我被不断增加的课程和社团压力所困扰。作为一个来自另一个国家的人，这个系统非常有挑战性，课程以非常快的速度开始。我会和一群朋友坐在一起讨论解决方案，在第一部分中，我确实有共同讨论的概念。我从未电子交换过代码，但我确实接受了帮助，因为这门课不适合我。现在，我发现CS不是我的方向，已经转专业了。这门课开始很快，我没有预料到它的工作量。这个事件被发现后，我立即意识到我越过了界限，并承诺不再越过界限。这是一个警醒和一个足够的提醒，提醒我CS课程的工作量。这是因为绝望和我没有及时赶上的懒惰。它节奏很快，需要持续的工作。
+     </p>
+     <hr>
+     <p>
+      所以显然这会与未来的学生分享，所以他们不会重复我们的错误。
+     </p>
+     <p>
+      对于未来的学生：
+     </p>
+     <p>
+      如果我是你&mdash;&mdash;我不是也永远不会&mdash;&mdash;我会注意以下几点：
+     </p>
+     <p>
+      1) 在分配项目的那天就开始。即使这只是填写你的API和方法签名，开始思考你将要做什么也是好的。
+     </p>
+     <p>
+      2) 很容易获得可以工作的被复制代码。也就是说，在截止日期前晚上11:58提交是很困难的。
+     </p>
+     <p>
+      3) 在其他CS人员附近工作。我不是说你应该去办公时间做作业，但和朋友在英文文学的学习会上做作业可能不是最好的方法。
+     </p>
+     <p>
+      4) 如果可以的话，每天都做CS。这包括写一两个测试，或者也许在Croads的餐巾纸上写一些代码以后尝试。
+     </p>
+     <p>
+      /////////////////////
+     </p>
+     <p>
+      至于处理此类事件系统：
+     </p>
+     <p>
+      A) 就我的情况而言，我有我自己的代码，几乎完整但需要更多的调试和编辑比我拥有的时间。我本来希望有机会回到我原来的代码并完成我的版本。这样说，我意识到不是每个人在转向 contraband代码之前都投入了大量诚实的努力，所以我不认为这在现实世界中真的可行。
+     </p>
+     <hr>
+     <p>
+      当时这似乎是我最好的选择，但最后，我意识到这确实是我一生中做过的最糟糕的选择。首先，我后悔我在最后一个项目上所做的事情。像其他成千上万的学生一样，特别是那些希望主修CS的学生，我有大量的工作要做。当项目被分配时，我不得不承受时间压力。在项目上扣分似乎意味着我将因为严苛的gap cap而无法申报专业，是的，我抄袭了我同学的代码。我一次又一次地深感后悔。我应该管理好我的时间，甚至比我已经做的更早开始项目。老实说，当Hug教授说有一种方法可以检测抄袭时，我不信。我以为没有办法检测代码相似度。我的意思是，这怎么可能。最后，只剩下后悔。如果我做了我自己的工作，没有假装，这件事就不会发生。从现在开始，我将对得起自己的良心，认真完成给定的工作。另外，当我的朋友想抄袭别人的工作时，我会阻止他们。
+     </p>
+     <hr>
+     <p>
+      当你处于一个表现非常好的情况&mdash;&mdash;你的期中成绩很好，你有充足的时间和灵感&mdash;&mdash;你仍然不能摆脱轻松项目的诱惑。动机当然是不同的。我只是屈服于我的项目伙伴的压力，他们获得了项目答案的非法访问。虽然我完全有能力做这个项目，而且他们也完全有能力完成项目，但我们最终毫无理由地犯了一个大错误地作弊。也许如果你非常仔细地分析情况，你可以怀疑也许我们想要完成第一或拥有最佳方案的声誉，但我们可以在不采取我们采取的手段的情况下在同一时期完成项目。但是在这种情况下，我们确实没有从我们的行为中获得太多好处，有一些非常重要的反响。首先，虽然我们可以说没有失去太多学习或对这个案件中的其他群体造成伤害，但这种情况确实揭示了我们动机中潜在的黑暗。我们作弊是因为我们懒惰、自私，而不是因为我们挣扎或失败。这对我们所做的可能表明我们性格中的缺陷造成了极大的损害，这可能表明未来可怕的自我服务动机。即使在看起来相当低的情况下也是如此，而且收益也很微薄，一些人可能会认为该事件可以被忽略或遗忘。此外，不断提起来可能会成为未来作弊的催化剂，因为人们可能会在这一轮作弊中找到荣耀或幽默。然而，重要的是人们要仔细思考我们行为的更黑暗的含义。在未来，一行代码可能成为重要的知识产权，导致数百万甚至数十亿美元的损失。看似微小的行动可能导致许多人的毁灭，当公司因失去知识产权或诉讼成本而被迫关闭时。这样的行为，虽然看起来在减少工作方面微不足道，但不一定意味着它附带微不足道的成本。此外，虽然一行代码不太可能摧毁一切，但可以看出，如果每个人都贡献一行代码，它会变得更加可能。也就是说，每个人都以相同的心态工作，复制那些投入更多时间和精力来减少自己工作的其他人。这种贪婪的延续只会降低社会。其次，从个人角度来看，我不认为作弊是可以的。我不认为拥有一切都由自己控制的思维是好的。我发现人们尽可能相互尊重是非常重要的。最大的区别是共同成就与残酷无情的竞争。我不会否认一点点竞争会迫使彼此表现出超越正常能力，但我开始认为你有权获得一切，你绝对是最好的，事情会变得更糟。在某一点上，你不再试图提升自己，而是试图让其他人更糟。这很重要，因为从功利主义的角度来看（我不同意），这场竞争的净收益实际上在减少。从我的角度来看，个人投入、热情比功利主义的成功更重要，当每个人都是为了积极的目的而兴奋时，我们实际上可以创造出我们都认为对每个人都有益的伟大事物。每个人在这样做的时候都很开心。
+     </p>
+     <p>
+      所以回到作弊的话题，如果你真的没有理由做它，除了搞笑，不要做。虽然短期内可能很有趣，但要想想它对你意味着什么以及你在长期中优先考虑什么的长期影响。如果你真的在这门课上表现不好，不要等到被抓到作弊才意识到员工和教授为这门课提供了多少支持。他们比你想象的更关心，甚至关心作弊的人。最重要的是记住你的目标不一定是赚最多的钱或拥有最多的权力，而是用你所有的热情创造出改善世界的东西。
+     </p>
+     <hr>
+     <p>
+      伯克利经历有其起起落落，很容易屈服于压力并找到出路。在寻找适合自己的社团并试图在伯克利找到社区的过程中，很容易让学业退居次要位置。那是我犯的错误，很快就被咬了，因为我在课上落后了。我很困惑，向一个朋友求助，他们确实帮了忙，但我走远了一点，因为我不太了解这些材料。尽管我确实最终学到了这门课当时需要我学的东西，但错的就是错的。归根结底，这都是在压力下在错误的时间做出错误的选择。如果我能回去改变一些东西，我会提前开始所有的作业，这样我就不必担心最后堆积如山的东西。我在整个学期的其余时间都这样做了，它确实创造奇迹，有助于缓解伯克利生活的痛苦。
+     </p>
+     <hr>
+     <p>
+      这学期我一直在与严重的焦虑发作作斗争。当我听说一位家人去世时，我已经落后了。在葬礼期间，我无法处理项目。到我回来的时候，项目第二天就要到期了。我申请了几天延期，大大低估了项目的工作量和问题。但截止日期是在周末，这没有帮助。但这些都是借口。我想我试图合理化我只是读代码以获得结构或想法如何工作的，但我仍然觉得很糟糕。事实是，我应该相信我的直觉，再要求一个截止日期。为什么我没有？回想起来这似乎很容易，但对我来说61B的工作人员似乎很难接近，我怀疑我成功的可能性。然而，我现在意识到，接受更差的成绩要好得多，即使他们拒绝了我的延期请求。但如果你有任何犹豫，就问一下。它总是会更好的结果。
+     </p>
+     <hr>
+     <p>
+      我最终抄袭别人作品的原因是一个纯粹的错误，但我仍然犯了一个大错误。那时，我混淆了什么是被认为是合作和什么是抄袭。我以为通过合作，拥有相似的代码就可以了。然而，通过这个，我意识到合作只是意味着彼此交流代码将如何实现的想法和你的想法，而不是逐步浏览代码。那时，我被时间压得喘不过气来。我的作业到期的那天，是我必须在下午早些时候到达某个地方的日子。取消那个约会对我来说太晚了，而且能够获得退款。活动本身对我来说也非常重要，是一个我认为再也不会出现的机会。因此，我最终试图与我的朋友合作，但我犯了一个大错误。通过这个，我反思了很多。我意识到我永远不应该试图欺骗自己在瞬间做出决定。我还意识到，通过这个，我将比这学期更早地开始我的作业。我也永远不会把自己置于做出影响我未来的可怕决定的位置。我真的很抱歉，我真诚地希望没有人会经历我最近经历过的同样的情绪过山车。
+     </p>
+     <hr>
+     <p>
+      我在项目3的第二部分是不诚实的。我整个学期都在参加一个激烈的兄弟会，是班级主席。因为我的专业是EECS，我发现很难获得足够的睡眠/做所有我的工作/做所有的兄弟会事情。我已经独立完成了项目3的大部分，得到了50/75分，当我遇到第二部分的障碍时。我很难理解我究竟应该做什么。我等到最后一天才开始第二部分，截止日期那天晚上即将来临，而且我还有很多其他事情要做，我请我的朋友和我一起浏览他关于第二部分的解决方案，这样我就能理解如何处理它。我没有想出自己的方法来解决它，而是最终使用了他完全相同的方式，因此我的第二部分代码与他的代码相似程度超过了可接受的。当我这样做时，我感到非常内疚，我非常后悔这样做，因为它只给了我项目额外的25分。我应该只对50/75感到满意。总的来说，我真的很希望我能再上这门课，因为我认为如果我能像我想的那样专注于这门课，我可以得到B+/A-。
+     </p>
+     <hr>
+     <p>
+      我在没有任何作弊 assignment/project/exam 的想法或意图的情况下进入 CS 61B。大多数人可能不会。但这很容易与某人共享代码，向他们展示如何实现特定方法或类似的东西。
+     </p>
+     <p>
+      61B是一门难的课。每个人都在谈论它。我个人非常害怕项目2。那是学期中间的大项目。对我们来说，项目是数据库项目，我们创建一个数据库系统。
+     </p>
+     <p>
+      这发生在我身上的事情。我从期中考试回来，有堆积如山的问题集要做，截止日期相互挤压。我决定尝试 CS 61B 项目。阅读规格。我们有一个工作人员解决方案，我们可以尝试看看数据库应该如何反应，所以我在那里，测试一些命令以确保我理解它们如何工作。在服务器上挖掘时，我发现工作人员解决方案在那里，没有受到保护。
+     </p>
+     <p>
+      太好了以至于不真实，我想。我将文件传输到我的电脑，擦除我拿过任何东西的证据。我打开它，它就在那里：那个著名项目的工作人员解决方案。读这个，你可能认为对任何人来说使用解决方案完全是荒谬的。如果我自己在学期前读到这个，我也会认为同样的事情。但我想警告你的一个危险是，在那一刻，你可能会想不同。有做好事的压力。你需要申报。你想比每个人都更快完成项目。工作人员解决方案就在那里，在你面前，都是你的。
+     </p>
+     <p>
+      实际上我变得有点兴奋。我实际上是要顺利通过并轻松完成项目。我开始移植代码，逐渐更改，使用不同的变量和方法名称，重写逻辑。当那个自动评分器出来时，砰，它就在那里，120/100。
+     </p>
+     <p>
+      然后我们走了，我从来不需要再考虑它。混淆过程需要一点时间，所以我实际上已经理解了工作人员解决方案所做的所有内容。如果有人问我任何事情，我可以回答如何以及为什么。如果我被指控作弊，我会完全否认并解释我的代码。
+     </p>
+     <p>
+     </p>
+     <p>
+      但我的第一次提交被抓住了。当我的助教让我坐下告诉我这件事时，就好像一切都在结束。我害怕了。如果我想否认，考虑到证据，我没有机会。我将被迫离开大学。由此，我投入到CS的所有工作将完全浪费。
+     </p>
+     <p>
+      不要像我一样。但如果你犯了错误，要承认。它真的可以很快发生，只需要一瞬间决定将复制的代码发送到自动评分器，这可能会让你陷入严重的麻烦。这不仅仅适用于作弊。在任何压力大的情况下，花点时间思考后果，它会很有帮助。
+     </p>
+     <hr>
+     <p>
+      我意识到学术不诚实的严重性，并真诚地为复制代码道歉。这学期选修了5门技术课程，在期中季节我承受着巨大的学业压力，当时截止日期临近。我只是想看看别人如何处理这个问题，以帮助我更快地理解和解决问题，但在"学习"别人的过程中，我复制了几行代码，违反了荣誉准则。这给了我一个惨痛的教训，我永远不应该试图通过复制别人的工作来节省时间或精力，因为这肯定会在长期限制我的能力，并在短期内带来严重的后果。我知道这门课很难，工作量很大，但现在在学期结束时，我知道我取得了很大进步，所有努力最终都会得到回报。这就是为什么人们投入大量努力学习，所以如果我违反规则不受惩罚是不公平的。我为我所做的事情真诚地道歉，并承诺不会再这样做。
+     </p>
+     <hr>
+     <p>
+      在实现我的项目时，我对A*搜索算法的一些细节有点不清楚。我在网上搜索，在GitHub上找到了一些学生代码。它似乎来自一个做过类似项目的人。我的目的是找到一些资源来更好地理解算法，在我阅读了GitHub上类似先前项目的代码后，我能够更详细地理解A*搜索算法。对于一些函数，我觉得旧代码所做的是唯一的方法。没有多想，我只是使用了这些函数的实现，并使它们适应我代码的其余部分。我现在知道这是我的错误，我应该始终记住"独自完成"规则。我永远不会在任何情况下使用别人的代码，我也会避免阅读和查看别人的代码，因为它非常危险。我为我所犯的错误真诚地道歉，我不会再在未来犯这样的错误。
+     </p>
+     <hr>
+     <p>
+      这是我的事件报告。我不是在试图编造借口，因为完全没有办法证明这一点，但我想这就是发生的事情。项目到期的那周，一切都堆积起来。我所有的课程都有很大的承诺，那周到期，还有我的课外活动，因为我突然肩上有了巨大的责任。我有很多压力，心理上非常困难。我不认为我能度过那一周，所以我请我的朋友给我他的Rasterer代码，这样我就可以完成所有承诺。回想起来，这绝对不是个好决定，我应该 perhaps 和顾问谈谈或获得某种帮助，尽管我不知道可以做什么。但这是我所学的教训。请不要像我一样，学得太晚。这不值得。生活中有更重要的事情。有时我们如此专注于生活中的一件事，以至于忘记了其他一切。相信我，这不值得。如果你曾经觉得你"需要"作弊，花点时间深呼吸，想想你的父母。想想他们的笑容，以及他们会作何感想。通过这样做，我不仅找到了在所有课程中做得更好的动力，而且采取了高姿态。请不要这样做。
+     </p>
+     <hr>
+     <p>
+      PSA: 引用你所有的来源。
+     </p>
+     <p>
+      一旦项目被分配，我的一个朋友和我开会讨论项目设计。我们讨论了满足要求的概念方法。我的第一个建议是在你开始与其他人一起工作之前自己先做项目一段时间。这不仅会产生更多不同的想法，而且会最小化相似的可能性。
+     </p>
+     <p>
+      无论如何，在这次讨论之后，我们分开独立编写代码。接近尾声时，我的代码有问题，所以我把它带给朋友帮我调试。我的朋友确实在我的代码通过时看了看，我逐行解释，帮助我找出错误。我的第二个建议是在获得调试帮助时要非常小心。对于每个错误，你应该充分利用IntelliJ调试器直到你真的卡住了。此外，如果/当你从某人那里获得帮助时，确保引用他们。你很容易不认为你获得的帮助是实质性的，但你不可避免地会有一个孤立的视角。
+     </p>
+     <p>
+      在更广泛的层面上，更早开始可能会有所帮助。老实说，可能不会。就我而言，我并不完全受时间或成绩的压力。我只是不清楚什么构成太多帮助。确保你非常仔细地阅读合作政策，这样你就知道了。你不想弄糟。
+     </p>
+     <hr>
+     <p>
+      我在Moffit的五楼写这份事件报告，周围都是忙于准备期末考试的同龄人。 不要在61B作弊，因为你不想处于这个位置。我在项目3上作弊，因为我认为这是我按时完成的唯一方法，因为我在截止日期前几天在第一部分卡住了。一群同学和我都处于同一位置，所以我们决定一起完成这个项目。它始于简单的实现讨论，但随着截止日期比我们想象的更快，我们开始互相展示代码，我们不可避免地开始互相复制。不要像我们一样。如果你想讨论项目，确保你永远不互相展示代码。如果你这样做了，你可能会被抓，最终会自食其果。我希望61B工作人员选择向你展示这个事件报告，因为如果我早些看到类似的东西，我肯定不会处于现在的位置。
+     </p>
+     <hr>
+     <p>
+      最初，我对项目3感到兴奋，因为它提供了实用的编码经验。但生活阻碍了我，我变得非常沮丧。当我回过神来时，项目几乎要到期了，我陷入了绝望。我 resorted to 复制代码，因为我害怕不及格这门课，尽管我很清楚后果会有多严重。我希望我早点意识到我冒的风险不值得付出代价。对不起教授浪费你的时间，对不起我的同学们试图不公平地完成项目。这个故事的寓意：当生活糟糕时，不要 resort to寻找完成作业的简单方法。回想起来，我希望我只是告诉我的教授我正在经历一段艰难的时期，或者谦卑地接受失败。整个情况很糟糕，但这是我在大学作弊的代价。这是一个非常情绪化且令人大开眼界的学习经历，毫无疑问将是一个会在未来几年困扰我的经历。
+     </p>
+     <hr>
+     <p>
+      事件报告
+     </p>
+     <p>
+      写这份文件是一种耻辱。我很抱歉做了错事并违反了学术诚实。我想与所有读者分享我的经验和经历，这是我的故事，我希望任何阅读此报告的人永远不会卷入这样的麻烦。
+     </p>
+     <p>
+      我选择参加CS61B是因为我对编程感兴趣，在这学期开始时，我非常兴奋地学习数据结构并学习一种新的编程语言。我相信每个人在计算机科学学习是因为我们可以使用计算机做任何我们想做的事情，有很多神奇的黑科技。我在项目0做得很好，前两三个作业和实验一点也不难。但一个月后，事情变得非常困难。虽然我对编程感兴趣，但我只有很少的编程经验，实际上是一个很糟糕的程序员。如果我评估我的编程技能，我想说这真的很糟糕。我想说CS61B是一门极其困难的课程，它的工作量对我来说是太多了。
+     </p>
+     <p>
+      我是一个 concurrent 学生，在这发生之前我对学术诚实规则一无所知。我永远不会忘记我检查电子邮件账户并发现来自CS61B课程的信件的那一刻，我非常恐慌，不知道选择表格中的哪一个。我很害怕，不知道会发生什么。所以我去谷歌搜索了学术不诚实相关的新闻。直到那时，我才开始了解保持学术诚实的重要性。了解发生了什么并意识到情况有多严重后，我立即联系了我的项目合作伙伴，同时填写了表格并选择了第一个选项，即承认学术不诚实行为。
+     </p>
+     <p>
+      我想更多地谈谈我是如何处理项目2的。项目是在期中考试周，它非常困难，持续了两周。第一周，我们与另一个团队讨论并制定了关于我们选择实现项目的结构的计划。在助教的帮助下，我们有一个很好的计划，并有了一个很好的开始。然而，那是期中考试周，我们两个都在复习课程。虽然我们有一个很好的计划，我们没有立即开始工作，这使我们落后于 schedule，这是非常糟糕的，你永远不应该这样做。一周过去后，我们开始在第二周开始处理它。我想弄清楚 Parsing 部分，他处理操作表的基本方法。我想说我们两个都不擅长编程，我们在解析部分和方法部分都遇到了困难。我们试图互相讨论，希望互相帮助，这样我们每次都能推进一点。但我们失败了，我们阅读了很多关于 piazza 的帖子，也在 stack overview 上查看。最后，我们知道如何在理论层面实现它，但不知道具体写什么来实现所有事情，因此，我们仍然没有取得进展。这样的日子一次又一次地发生，所以我们浪费了很多时间。随着截止日期临近，我们不知道该怎么办，所以我们至少可以做些什么得到一些分数，所以我去找我的室友帮忙。我的室友这学期也参加了CS61B，当我去找他帮忙时，他已经完成了项目并已经获得了一些 golden points。一开始，他拒绝提供代码，但我和他谈了两天左右，并承诺我只是将其作为参考，根本不会复制。最后，他同意提供代码，我很兴奋，认为我终于得到了上帝的帮助，帮助我度过这个难题。但现在，我认为这真的很 rea[... 588 chars omitted ...]
+     </p>
+     <p>
+      亲爱的CS 61B工作人员和Hug教授，
+     </p>
+     <p>
+      首先，我想为我 在项目3（bear maps项目）上的不诚实道歉。正如我在谷歌表单的解释中提到的，我复制项目3的原因是我无法将速度提高到要求的水平。那时，我承受着在同一周有多门期中考试的压力，还有其他项目。我知道我错了，永远不会再做了。我能够自己获得最多65分作为 record。
+     </p>
+     <p>
+      毕竟，我从CS 61B学到了很多。这是一个很棒的学期，我能够学习不仅 Java 一般，而且还有算法。拥有这些知识，即使我不是CS专业，肯定会帮助我未来的思维方式。
+     </p>
+     <p>
+      最好的祝福，
+     </p>
+     匿名
+     <hr>
+     <p>
+      事件报告虽然Proj3相当难且有很多工作，但从别人那里复制代码应该被严格禁止。从别人那里复制代码不仅影响我自己的CS学习，而且会造成一种虚假的表象，即某些东西可以在不付出劳动的情况下完成，这将导致未来学习和工作的灾难性影响。我选择复制代码的原因是我在有限的时间内获得好成绩的渴望。除了61B，我的其他课程也有很大的工作量。而恰好在同一周，我需要为其中一门课程完成一个实验设计。所以我担心时间可能不够完成Proj3，因此，为了按时完成项目，我在Github上搜索，找到了一些历年的相关代码。所以我选择其中一个项目作为参考。起初，我只是想学习他们如何完成这个项目，但后来，我发现复制一些代码是更快完成工作的方式。一旦开始，就很难停止。所以在这里，我为我所做的事情真诚地道歉，并高度重视行为不诚实的严重性。我发誓在未来的学习中不再作弊。我学到的教训是，所有工作都要自己完成，永远不要试图从参考中复制。诚实比暂时的分数重要得多。所以永远不要尝试作弊，你将付出很多代价来弥补。最后，我真的很后悔做了这件愚蠢的事。
+     </p>
+     <hr>
+     <p>
+      在项目2发布后，我们像其他人一样开始了设计过程。在做出原型设计后，我的搭档和我开始根据该设计进行编码，但后来发现该设计无法正常工作。这样，我们的进度就变慢了。与此同时，我的搭档因为遇到一些让她无法集中精力的个人问题而变得迟钝，一开始几天我都没有意识到她有问题，直到截止日期前大约3-4天。分开工作后，她的代码有很多基本错误，那时我们俩都对按时完成失去了信心。随着截止日期临近，我决定向朋友寻求帮助，在不知情的情况下为一些方法写了类似的代码，这也构成了违反课程政策。我真的建议未来的课程工作人员帮助每一对学生检查他们的设计是否有效，因为在发现我们的设计无效后，从头开始真的很痛苦，已经过去了一半的时间。
+     </p>
+     <hr>
+     <p>
+      我和我的室友一起讨论作业，但在某些时候我们走得太远，超过了合作的范围。我本应该自己想出 linkedlist deque，而他应该想出 array deque，然后我们会合在一起讨论。然而，在某种程度上我们走得太远，在弄清 array deque 的最后部分后，我们简单地互相分享了彼此的代码。这明显严重违反了合作政策，我真的应该更清楚。我想在某种程度上在潜意识里我们通过说我们俩都理解了作业所涵盖的材料来合理化，所以我们真的不在乎。这显然是非常错误的态度，我应该比以往更加 self-aware。这确实是导致我陷入这种情况的原因。所有这些，加上我在学期后期病得很重，是我决定这学期fail这门课并在秋季重修的原因。
+     </p>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

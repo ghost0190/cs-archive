@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../style.css" type="text/css">
+<script src="guidance.js"></script>  
+<title>6.5840 实验 2: 键值服务器</title>
+</head>
+<body>
+<div align="center">
+<h2><a href="../index.html">6.5840</a> - 2026年春季</h2>
+<h1>6.5840 实验 2: 键值服务器</h1>
+
+<p>
+  <b><a href="collab.html">协作政策</a></b> //
+  <b><a href="submit.html">提交实验</a></b> //
+  <b><a href="go.html">配置Go</a></b> //
+  <b><a href="guidance.html">指导</a></b> //
+  <b><a href="https://piazza.com/mit/spring2026/65840">Piazza</a></b>
+</p>
+
+</div>
+
+<hr>
+
+<h3>介绍</h3>
+
+<p>
+在本实验中，你将为一台单机构建一个键值服务器，
+确保每次 Put 操作在网络故障的情况下也能<i>至多执行一次</i>，
+并且操作是<i>线性可序列化</i>的。你将使用这个键值服务器来实现一个锁。
+后续实验将复制这样的服务器来处理服务器崩溃的情况。
+
+<h3>键值服务器</h3>
+
+<p>
+每个客户端使用一个<i>Clerk</i>（客户端代理）与键值服务器交互，
+Clerk 是一组向服务器发送 RPC 的库函数。
+客户端可以向服务器发送两种不同的 RPC：
+<tt>Put(key, value, version)</tt> 和 <tt>Get(key)</tt>。服务器
+维护一个内存中的映射表，为每个键记录一个 (value,
+version) 元组。键和值都是字符串。版本号
+记录了该键被写入的次数。
+
+<tt>Put(key, value, version)</tt> 仅在 <tt>Put</tt> 的版本号
+与服务器中该键的版本号<i>匹配</i>时，才会在映射表中
+安装或替换特定键的值。如果版本号
+匹配，服务器还会递增该键的版本号。如果版本号
+不匹配，服务器应返回 <tt>rpc.ErrVersion</tt>。客户端可以通过使用版本号 0 调用 <tt>Put</tt> 来创建新键
+（服务器存储的结果版本号将是 1）。如果 <tt>Put</tt> 的版本号大于 0
+且键不存在，服务器应返回 <tt>rpc.ErrNoKey</tt>。
+
+<p><tt>Get(key)</tt> 获取该键的当前值及其关联的
+版本号。如果键在服务器中不存在，服务器应
+返回 <tt>rpc.ErrNoKey</tt>。
+
+<p>为每个键维护版本号将有助于
+使用 <tt>Put</tt> 实现锁，以及在网络不可靠且客户端
+重传时确保 <tt>Put</tt> 的至多一次语义。
+
+<p>
+当你完成本实验并通过所有测试后，你将拥有一个从
+调用 <tt>Clerk.Get</tt> 和 <tt>Clerk.Put</tt> 的客户端角度来看
+<i>线性可序列化</i>的键值服务。
+也就是说，如果客户端操作不是并发的，每个
+客户端的 <tt>Clerk.Get</tt> 和 <tt>Clerk.Put</tt> 将观察到
+由前面的操作序列所暗示的状态修改。对于并发操作，
+返回值和最终状态将与操作按某种顺序逐个执行时相同。
+如果操作在时间上重叠，则它们是并发的：例如，如果
+客户端 X 调用 <tt>Clerk.Put()</tt>，客户端 Y
+也调用 <tt>Clerk.Put()</tt>，然后客户端 X 的调用返回。一个操作
+必须观察到在该操作开始之前所有已完成操作的效果。
+请参阅 <a href="../papers/linearizability-faq.txt">线性可序列化</a> 的常见问题解答
+以了解更多背景知识。
+
+<p>线性可序列化对应用程序来说很方便，因为它的行为
+与单个服务器逐个处理请求时你看到的行为一样。
+例如，如果一个客户端从服务器收到了更新请求的成功响应，
+随后其他客户端发起的读取保证能看到该更新的效果。
+对于单个服务器来说，提供线性可序列化是相对容易的。
+
+<h3>入门</h3>
+
+<p>
+我们为你提供了 <tt>src/kvsrv1</tt> 中的骨架代码和测试。
+<tt>kvsrv1/client.go</tt> 实现了一个 Clerk，客户端使用它
+来管理与服务器的 RPC 交互；Clerk 提供
+<tt>Put</tt> 和 <tt>Get</tt> 方法。
+<tt>kvsrv1/server.go</tt> 包含服务器代码，
+包括实现 RPC 请求服务器端的 <tt>Put</tt> 和 <tt>Get</tt> 处理函数。
+你需要修改 <tt>client.go</tt> 和 <tt>server.go</tt>。
+RPC 请求、回复和错误值
+定义在 <tt>kvsrv1/rpc</tt> 包的 <tt>kvsrv1/rpc/rpc.go</tt> 文件中，
+你应该查看它，尽管你不需要修改 <tt>rpc.go</tt>。
+
+<p>
+要开始运行，请执行以下命令。
+别忘了 <tt>git pull</tt> 来获取最新的软件。
+<pre>
+$ cd ~/6.5840
+$ git pull
+...
+$ cd src
+$ make kvsrv1
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+cd kvsrv1 && go test -v -race  
+=== RUN   TestReliablePut
+One client and reliable Put (reliable network)...
+    kvsrv_test.go:25: Put err ErrNoKey
+--- FAIL: TestReliablePut (0.31s)
+...
+$</pre>
+
+<h3>可靠网络下的键值服务器 <script>g("easy")</script></h3>
+
+<div class="todo">
+<p>
+你的第一个任务是实现一个在没有丢包的情况下
+能正常工作的方案。
+你需要在 <tt>client.go</tt> 中的 Clerk Put/Get
+方法中添加发送 RPC 的代码，并在
+<tt>server.go</tt> 中实现 <tt>Put</tt> 和 <tt>Get</tt> RPC 处理函数。
+
+<p>
+当你通过测试套件中的 Reliable 测试时，
+即完成了此任务：
+</div>
+
+<pre>
+$ cd src
+$ make RUN="-run Reliable" kvsrv1
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+cd kvsrv1 && go test -v -race -run Reliable 
+=== RUN   TestReliablePut
+One client and reliable Put (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     5 #Ops    5
+--- PASS: TestReliablePut (0.12s)
+=== RUN   TestPutConcurrentReliable
+Test: many clients racing to put values to the same key (reliable network)...
+  ... Passed --  time  6.3s #peers 1 #RPCs 11025 #Ops 22050
+--- PASS: TestPutConcurrentReliable (6.36s)
+=== RUN   TestMemPutManyClientsReliable
+Test: memory use many put clients (reliable network)...
+  ... Passed --  time  29.0s #peers 1 #RPCs 50000 #Ops 50000
+--- PASS: TestMemPutManyClientsReliable (52.91s)
+PASS
+ok      6.5840/kvsrv1   60.732s
+$
+</pre>
+<p>
+每个 <tt>Passed</tt> 后面的数字分别是实际运行时间（秒）、
+常数 1、
+发送的 RPC 数量（包括客户端 RPC）以及执行的键值
+操作数量（<tt>Clerk</tt> 的 <tt>Get</tt> 和 <tt>Put</tt> 调用）。
+
+<h3>使用键值客户端实现锁 <script>g("moderate")</script></h3>
+
+<p>在许多分布式应用中，运行在不同机器上的客户端
+使用键值服务器来协调它们的活动。例如，
+ZooKeeper 和 Etcd 允许客户端使用分布式锁来协调，
+类似于 Go 程序中的线程可以使用锁（即 <tt>sync.Mutex</tt>）来协调。
+Zookeeper 和 Etcd 使用条件写入来实现这样的锁。
+      
+<p>你的任务是使用你的键值服务器来实现锁，
+在服务器中存储你的设计所需的每个锁的状态。
+可以有多个独立的锁，每个锁都有自己的名称，
+作为参数传递给 <tt>MakeLock</tt>。
+一个锁支持两个方法：<tt>Acquire</tt> 和 <tt>Release</tt>。
+规范是：一次只有一个客户端能成功获取给定的锁；
+其他客户端必须等到第一个客户端使用 <tt>Release</tt> 释放锁。
+
+<p>我们为你提供了 <tt>src/kvsrv1/lock/</tt> 中的骨架代码和测试。
+你需要修改 <tt>src/kvsrv1/lock/lock.go</tt>。
+你的 <tt>Acquire</tt> 和 <tt>Release</tt> 应通过调用 <tt>lk.ck.Put()</tt> 和 <tt>lk.ck.Get()</tt>
+将每个锁的状态存储在键值服务器中。
+
+<p>如果客户端在持有锁时崩溃，
+锁将永远不会被释放。
+在一个比本实验更复杂的设计中，
+客户端会给锁附加一个<a href="https://en.wikipedia.org/wiki/Lease_(computer_science)#:~:text=Leases%20are%20commonly%20used%20in,to%20rely%20on%20the%20resource.">租约</a>。
+当租约到期时，锁服务器会代表客户端释放锁。
+在本实验中，客户端不会崩溃，你可以忽略这个问题。
+
+<div class="todo">
+<p>
+实现 <tt>Acquire</tt> 和 <tt>Release</tt>。
+当你的代码通过以下测试时，即完成了此练习：
+</div>
+
+<pre>
+$ cd src
+$ make RUN="-run Reliable" lock1
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+cd kvsrv1/lock; go test -v -race -run Reliable
+=== RUN   TestReliableBasic
+Test: a single Acquire and Release (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     4 #Ops    4
+--- PASS: TestReliableBasic (0.13s)
+=== RUN   TestReliableNested
+Test: one client, two locks (reliable network)...
+  ... Passed --  time  0.1s #peers 1 #RPCs    17 #Ops   17
+--- PASS: TestReliableNested (0.17s)
+=== RUN   TestOneClientReliable
+Test: 1 lock clients (reliable network)...
+  ... Passed --  time  2.0s #peers 1 #RPCs   477 #Ops  477
+--- PASS: TestOneClientReliable (2.14s)
+=== RUN   TestManyClientsReliable
+Test: 10 lock clients (reliable network)...
+  ... Passed --  time  2.2s #peers 1 #RPCs  5704 #Ops 5704
+--- PASS: TestManyClientsReliable (2.36s)
+PASS
+ok      6.5840/kvsrv1/lock      5.817s
+$
+</pre>
+
+<p>如果你还没有实现锁，前两个测试会通过。
+
+<p>这个练习需要的代码不多，但比前一个练习
+需要更多独立思考。
+  
+  <ul class="hints">
+
+    <li> 你需要为每个锁客户端生成一个唯一标识符；
+      调用 <tt>kvtest.RandValue(8)</tt> 来生成一个随机字符串。
+
+</ul>
+
+<h3>丢包网络下的键值服务器 <script>g("moderate")</script></h3>
+
+<p>本练习的主要挑战是网络可能会重新排序、
+延迟或丢弃 RPC 请求和/或回复。为了从
+丢弃的请求/回复中恢复，Clerk 必须不断重试每个 RPC，
+直到它收到服务器的回复。
+
+<p>
+如果网络丢弃了 RPC 请求消息，那么客户端
+重新发送请求就能解决问题：服务器将收到并
+执行重新发送的请求。
+
+<p>
+然而，网络可能丢弃的是 RPC 回复消息。
+客户端不知道哪个消息被丢弃了；客户端只知道
+它没有收到回复。
+如果是回复被丢弃了，而客户端重新发送了
+RPC 请求，那么服务器将收到两份请求。
+这对 <tt>Get</tt> 来说没关系，因为 <tt>Get</tt> 不会修改服务器状态。
+使用相同版本号重新发送 <tt>Put</tt> RPC 是安全的，
+因为服务器根据版本号有条件地执行 <tt>Put</tt>；
+如果服务器已经收到并执行了一个 <tt>Put</tt> RPC，
+它将用 <tt>rpc.ErrVersion</tt> 响应重新传输的
+该 RPC 副本，而不是第二次执行 Put。
+
+<p>一个棘手的情况是，服务器对 Clerk 重试的 RPC 回复了
+<tt>rpc.ErrVersion</tt>。在这种情况下，Clerk 无法知道
+Clerk 的 <tt>Put</tt> 是否已被服务器执行：第一次
+RPC 可能已被服务器执行，但网络可能丢弃了
+来自服务器的成功响应，所以服务器只对重新传输的 RPC
+发送了 <tt>rpc.ErrVersion</tt>。或者，可能是另一个 Clerk
+在 Clerk 的第一次 RPC 到达服务器之前更新了键，
+所以服务器没有执行 Clerk 的任何一次 RPC，
+并对两次都回复了 <tt>rpc.ErrVersion</tt>。
+因此，如果 Clerk 对重新传输的 Put RPC 收到 <tt>rpc.ErrVersion</tt>，
+<tt>Clerk.Put</tt> 必须向应用程序返回 <tt>rpc.ErrMaybe</tt>
+而不是 <tt>rpc.ErrVersion</tt>，因为请求可能已被执行。
+然后由应用程序来处理这种情况。
+如果服务器对初始（非重新传输的）Put RPC 回复了 <tt>rpc.ErrVersion</tt>，
+那么 Clerk 应向应用程序返回 <tt>rpc.ErrVersion</tt>，
+因为该 RPC 肯定没有被服务器执行。
+
+<p>如果 <tt>Put</tt> 是精确一次语义（即没有 <tt>rpc.ErrMaybe</tt> 错误），
+对应用开发者来说会更方便，但在不在服务器中
+为每个 Clerk 维护状态的情况下很难保证。
+在本实验的最后一个练习中，你将使用你的 Clerk
+实现一个锁，以探索如何使用至多一次的 <tt>Clerk.Put</tt> 进行编程。
+
+<p>现在你应该修改你的 <tt>kvsrv1/client.go</tt>，
+使其在 RPC 请求和回复被丢弃时仍能继续工作。
+客户端的 <tt>ck.clnt.Call()</tt> 返回 <tt>true</tt>
+表示客户端收到了服务器的 RPC 回复；
+返回 <tt>false</tt> 表示没有收到回复
+（更准确地说，<tt>Call()</tt> 等待回复消息一个超时间隔，
+如果在该时间内没有收到回复则返回 false）。
+你的 <tt>Clerk</tt> 应该不断重新发送 RPC，
+直到收到回复。请记住上面关于 <tt>rpc.ErrMaybe</tt> 的讨论。
+你的解决方案不需要对服务器做任何修改。
+
+<div class="todo">
+<p> 在 <tt>Clerk</tt> 中添加代码，如果在重试前没有收到回复则重试。
+如果你的代码通过了 <tt>kvsrv1</tt> 的所有测试，即完成了此任务：
+</div>
+
+<pre>
+$ make kvsrv1
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+cd kvsrv1 && go test -v -race  
+=== RUN   TestReliablePut
+One client and reliable Put (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     5 #Ops    5
+--- PASS: TestReliablePut (0.12s)
+=== RUN   TestPutConcurrentReliable
+Test: many clients racing to put values to the same key (reliable network)...
+  ... Passed --  time  6.4s #peers 1 #RPCs 11021 #Ops 22042
+--- PASS: TestPutConcurrentReliable (6.52s)
+=== RUN   TestMemPutManyClientsReliable
+Test: memory use many put clients (reliable network)...
+  ... Passed --  time  28.8s #peers 1 #RPCs 50000 #Ops 50000
+--- PASS: TestMemPutManyClientsReliable (52.44s)
+=== RUN   TestUnreliableNet
+One client (unreliable network)...
+  ... Passed --  time  4.0s #peers 1 #RPCs   268 #Ops  422
+--- PASS: TestUnreliableNet (4.13s)
+PASS
+ok      6.5840/kvsrv1   64.442s
+$
+</pre>
+
+<ul class="hints">
+  
+  <li> 在客户端重试之前，应该等待一小段时间；你可以
+    使用 Go 的 <tt>time</tt> 包并调用 <tt>time.Sleep(100 *
+    time.Millisecond)</tt>
+  
+</ul>
+
+<h3>使用键值客户端和不可靠网络实现锁 <script>g("easy")</script></h3>
+
+<div class="todo">
+  
+<p>修改你的锁实现，使其在网络不可靠时
+能与你修改后的键值客户端正确配合工作。
+当你的代码通过所有 <tt>lock1</tt> 测试时，
+即完成了此练习：
+</div>
+
+<pre>
+$ make lock1
+go build -race -o main/kvsrv1d main/kvsrv1d.go
+cd kvsrv1/lock; go test -v -race 
+=== RUN   TestReliableBasic
+Test: a single Acquire and Release (reliable network)...
+  ... Passed --  time  0.0s #peers 1 #RPCs     4 #Ops    4
+--- PASS: TestReliableBasic (0.13s)
+=== RUN   TestReliableNested
+Test: one client, two locks (reliable network)...
+  ... Passed --  time  0.1s #peers 1 #RPCs    17 #Ops   17
+--- PASS: TestReliableNested (0.17s)
+=== RUN   TestOneClientReliable
+Test: 1 lock clients (reliable network)...
+  ... Passed --  time  2.0s #peers 1 #RPCs   471 #Ops  471
+--- PASS: TestOneClientReliable (2.13s)
+=== RUN   TestManyClientsReliable
+Test: 10 lock clients (reliable network)...
+  ... Passed --  time  2.2s #peers 1 #RPCs  5658 #Ops 5658
+--- PASS: TestManyClientsReliable (2.35s)
+=== RUN   TestOneClientUnreliable
+Test: 1 lock clients (unreliable network)...
+  ... Passed --  time  2.1s #peers 1 #RPCs    66 #Ops   57
+--- PASS: TestOneClientUnreliable (2.18s)
+=== RUN   TestManyClientsUnreliable
+Test: 10 lock clients (unreliable network)...
+  ... Passed --  time  4.1s #peers 1 #RPCs   778 #Ops  617
+--- PASS: TestManyClientsUnreliable (4.23s)
+PASS
+ok      6.5840/kvsrv1/lock      12.227s
+$
+</pre>
+
+
+</body>
+</html>

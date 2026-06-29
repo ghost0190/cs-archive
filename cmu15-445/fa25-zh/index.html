@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="CMU 15-445/645" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="CMU 15-445/645 :: 数据库系统导论 (2025 秋季)"/>
+        <meta property="og:url" content="index.html"/>
+        <meta property="og:description" content="You want to know whether this is the premier course at Carnegie Mellon University on the design and implementation of database management systems? Well, it is. This course rips through data models (relational, document, key/value), storage models (n-ary, decomposition), query languages (SQL, stored procedures), storage architectures (heaps, log-structured), indexes + filters (order preserving trees, hash tables, vector indexes), transaction processing (ACID, concurrency control), recovery (logging, checkpoints), query processing (joins, sorting, aggregation, optimization), and parallel architectures (multi-core, distributed). We will also use case studies on open-source and commercial database systems to illustrate these techniques and trade-offs. You should straight know that this course is appropriate for students that are ready to commit to a database-centric lifestyle and flex their systems programming skills."/>
+            <meta property="og:image" content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="index.html">
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>CMU 15-445/645 :: 数据库系统导论 (Fall 2025) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="index.html" title="CMU 15-445/645"><img alt="" src="images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 ">
+        <!-- BEGIN: banner -->
+<style>.banner {
+    background-image:url("images/banner.webp");
+}
+</style>
+<!-- BEGIN: HERO BANNER -->
+<div class="banner position-relative overflow-hidden m-0 border-bottom border-5 pt-lg-5">
+    <div class="container">
+        <div class="row banner-row justify-content-end">
+        <div class="banner-title col-12 col-md-8 col-lg-6 col-xl-5 py-4 px-3 mx-0 my-0 mt-lg-4 mb-lg-4 text-start text-white">
+            <h1 class="display-1"><span class="d-block fw-bold">数据库系统</span></h1>
+            <!-- Fullscreen -->
+            <h2 class="d-none d-lg-block border-0 mb-0">CMU 15-445/645</h2>
+            <h2 class="d-none d-lg-block">Fall 2025</h2>
+
+            <!-- Medium -->
+            <h2 class="d-none d-md-block d-lg-none mb-0 border-0 text-center">CMU 15-445/645</h2>
+            <h2 class="d-none d-md-block d-lg-none text-center">Fall 2025</h2>
+
+            <!-- Mobile -->
+            <h2 class="d-block d-md-none mb-0 display-2 fw-bold text-center">Fall 2025</h2>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- END: HERO BANNER -->
+        <!-- END: banner -->
+
+<!-- BEGIN: LINK TO NEW COURSE -->
+<style>div#new-class-alert {
+/*     position: fixed; */
+    z-index: 9999;
+}
+div#new-class-alert div {
+    margin: auto;
+    font-size: 130%;
+    text-align: center;
+    background-color: var(--link-color) !important;
+}
+div#new-class-alert a {
+  color: white !important;
+}
+</style>
+<div id="new-class-alert"  class="row mt-3 mb-0 mx-auto">
+<div class="p-2 py-3 col-12 col-md-10 col-lg-8 alert alert-danger text-center text-white border-0">
+<i class="fa fa-exclamation-triangle fa-1x"></i>
+<a href="../spring2026/index.html" title="查看最新版本的 15-445/645">
+<b>通知：</b>这是课程的归档版本。点击此处查看最新课程。
+</a>
+</div>
+</div>
+<!-- END: LINK TO NEW COURSE -->
+
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light ">
+<div class="row mb-4 pb-lg-2 border-bottom border-2">
+  <div class="col-lg-7">
+      <h2><i class="fas fa-info-circle"></i> 数据库系统导论</h2>
+      <p>是的，这是卡内基梅隆大学关于数据库管理系统设计与实现的首要课程。主题包括数据模型（关系型、文档型、键值型）、存储模型（n元分解、列分解）、查询语言（SQL、存储过程）、存储架构（堆、日志结构）、索引与过滤器（保序树、哈希表、向量索引）、事务处理（ACID、并发控制）、恢复（日志、检查点）、查询处理（连接、排序、聚合、优化）以及并行架构（多核、分布式）。课程使用开源和商业数据库系统的案例研究来阐述这些技术和权衡。本课程适合准备挑战系统编程技能的学生。</p>
+
+      <dl class="row course-info">
+        <dt class="col-6 col-lg-4 col-xl-4"><i class="fa fa-clock"></i> 时间：</dt>
+        <dd class="col-6 col-lg-8 col-xl-8">Mon/Wed 2:00pm-3:20pm ET</dd>
+
+        <dt class="col-6 col-lg-4 col-xl-4"><i class="fa fa-building"></i> 地点：</dt>
+        <dd class="col-6 col-lg-8 col-xl-8">
+              <a onclick="javascript:ga('send', 'pageview', '/outgoing/maps.app.goo.gl');" href="https://maps.app.goo.gl/8jiEATjcUw1hkQTx5">Posner Hall A35 <i class="fa fa-map-pin"></i></a>
+
+        </dd>
+
+        <dt class="col-6 col-lg-4 col-xl-4"><i class="fa fa-book"></i> 教材：</dt>
+        <dd class="col-6 col-lg-8 col-xl-8">
+          <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.db-book.com');" href="https://www.db-book.com/">DB System Concepts (7th Ed.) <i class="fa fa-external-link-alt"></i></a><!-- by Silberschatz, Korth, Sudarshan -->
+        </dd>
+
+        <dt class="col-6 col-lg-4 col-xl-4"><i class="fa fa-comments"></i> 讨论：</dt>
+        <dd class="col-6 col-lg-8 col-xl-8">
+          <a onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645">Piazza</a>
+        </dd>
+
+      </dl>
+
+  </div>
+  <div class="col-lg-5 mt-4 mt-md-0 course-info-box">
+    <h4><i class="fas fa-database"></i> 致谢</h4>
+    <p class="mb-2 mb-md-3 acknowledgements">感谢以下组织通过<a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu/affiliates/" target="_iap">CMU-DB Affiliates Program</a>对课程开发的支持。</p>
+    <div class="row align-items-center">
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/clickhouse.com');" href="https://clickhouse.com/" title="ClickHouse (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/clickhouse.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.datastax.com');" href="https://www.datastax.com/" title="DataStax (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/datastax.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.getdbt.com');" href="https://www.getdbt.com/" title="dbt (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/dbt.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.firebolt.io');" href="https://www.firebolt.io/" title="Firebolt (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/firebolt.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.motherduck.com');" href="https://www.motherduck.com/" title="MotherDuck (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/motherduck.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/relational.ai');" href="https://relational.ai/" title="RelationalAI (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/relationalai.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.singlestore.com');" href="https://www.singlestore.com/" title="SingleStore (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/singlestore.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/spiraldb.com');" href="https://spiraldb.com/" title="SpiralDB (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/spiraldb.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.pingcap.com');" href="https://www.pingcap.com/" title="TiDB (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/tidb.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/yellowbrick.com');" href="https://yellowbrick.com/" title="Yellowbrick (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/yellowbrick.svg" class="w-100 mb-2" /></a>
+      </div>
+      <div class="sponsors col-lg-4 col-6 mb-2 mb-lg-0 px-3 align-middle text-center">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.yugabyte.com');" href="https://www.yugabyte.com/" title="Yugabyte (Sponsor)" target="_sponsor"><img alt="" src="images/sponsors/yugabyte.svg" class="w-100 mb-2" /></a>
+      </div>
+
+    <ul class="list-unstyled mt-4 mt-lg-5 text-center awards">
+        <li class="d-inline"><img alt="" src="images/award5.svg" class="img-fluid pb-3 me-0 me-md-2"></li>
+        <li class="d-inline"><img alt="" src="images/award4.svg" class="img-fluid pb-3 me-0 me-md-2"></li>
+        <li class="d-inline"><img alt="" src="images/award3.svg" class="img-fluid pb-3 me-0 me-md-2"></li>
+        <li class="d-inline"><img alt="" src="images/award2.svg" class="img-fluid pb-3 me-0 me-md-2"></li>
+        <li class="d-inline"><img alt="" src="images/award1.svg" class="img-fluid pb-3 me-0 me-md-2"></li>
+      </ul>
+  </div>
+</div>
+
+
+<div class="row mb-4 course-personnel" id="instructors">
+  <h2><i class="fa fa-graduation-cap"></i> 授课教师</h2>
+  <div class="table-responsive">
+    <table class="table instructors">
+        <thead>
+            <tr>
+                <th class="personnel-photo"></th>
+                <th class="personnel-name">姓名</th>
+                <th class="personnel-hours">办公时间</th>
+                <th class="personnel-location d-none d-lg-table-cell">地点</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+<tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cs.cmu.edu');" href="https://www.cs.cmu.edu/~pavlo" title="Andy Pavlo"><img alt="" src="images/people/pavlo.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cs.cmu.edu');" href="https://www.cs.cmu.edu/~pavlo">Andy Pavlo</a></td>
+    <td class="personnel-hours">
+        Wednesday 4:00-5:00pm
+        <span class="d-block d-lg-none">
+GHC 9019        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 9019    </td>
+</tr>      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- BEGIN: TAS -->
+<div class="row mb-4 course-personnel" id="tas">
+  <h2><i class="fa fa-users"></i> 助教</h2>
+  <div class="table-responsive">
+    <table class="table tas">
+      <thead>
+        <tr>
+          <th class="personnel-photo"></th>
+          <th class="personnel-name">姓名</th>
+          <th class="personnel-hours">办公时间</th>
+          <th class="personnel-location d-none d-lg-table-cell">地点</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+<tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/ruiqi-wang-010867223/" title="Ruiqi Wang"><img alt="" src="images/people/ruiqiwan.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/ruiqi-wang-010867223/">Ruiqi Wang</a></td>
+    <td class="personnel-hours">
+        Tuesday 7:00-8:00pm
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 5)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 5)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/quantumi.sh');" href="https://quantumi.sh" title="David Freifeld"><img alt="" src="images/people/dfreifel.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/quantumi.sh');" href="https://quantumi.sh">David Freifeld</a></td>
+    <td class="personnel-hours">
+        Monday 6:00-7:00pm
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 5)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 5)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/yuqi-xiang-365103248/" title="Yuqi Xiang"><img alt="" src="images/people/yuqixian.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/yuqi-xiang-365103248/">Yuqi Xiang</a></td>
+    <td class="personnel-hours">
+        Wednesday 10:00-11:00am
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 5)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 5)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/saranshmalik/" title="Saransh Malik"><img alt="" src="images/people/saransh.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/saranshmalik/">Saransh Malik</a></td>
+    <td class="personnel-hours">
+        Friday 4:00-5:00pm
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 7)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 7)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/17zhangw.github.io');" href="https://17zhangw.github.io/" title="William Zhang"><img alt="" src="images/people/wcz2.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/17zhangw.github.io');" href="https://17zhangw.github.io/">William Zhang</a></td>
+    <td class="personnel-hours">
+        Tuesday 3:00-4:00pm
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 1)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 1)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/melodyyhu/" title="Melody Hu"><img alt="" src="images/people/shinyuh.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/melodyyhu/">Melody Hu</a></td>
+    <td class="personnel-hours">
+        Tuesday 9:30-10:30am
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 5)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 5)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/wenda-song-fu/" title="Song Fu"><img alt="" src="images/people/songf.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/wenda-song-fu/">Song Fu</a></td>
+    <td class="personnel-hours">
+        Thursday 9:40-10:40am
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 5)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 5)    </td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/srhuang25/" title="Sirui Huang"><img alt="" src="images/people/siruih.webp" class="img-fluid rounded-circle" /></a></td>
+    <td class="personnel-name"><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.linkedin.com');" href="https://www.linkedin.com/in/srhuang25/">Sirui Huang</a></td>
+    <td class="personnel-hours">
+        Friday 2:00-3:00pm
+        <span class="d-block d-lg-none">
+GHC 5th Floor (Commons, Table 7)        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+GHC 5th Floor (Commons, Table 7)    </td>
+</tr>        </tbody>
+    </table>
+  </div>
+</div>
+<!-- END: TAS -->
+
+
+<!-- BEGIN: DJs -->
+<div class="row mb-4 p-3 course-personnel" id="dj">
+  <h2><i class="fa fa-headphones"></i> 驻场DJ</h2>
+  <div class="table-responsive">
+    <table class="table tas">
+      <thead>
+        <tr>
+          <th class="personnel-photo"></th>
+          <th class="personnel-name">姓名</th>
+          <th class="personnel-hours">设备</th>
+          <th class="personnel-location d-none d-lg-table-cell">播放列表</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+<tr>
+    <td class="personnel-photo"><img alt="" src="images/people/dj-cache.webp" class="img-fluid rounded-circle" /></td>
+    <td class="personnel-name">DJ Cache</td>
+    <td class="personnel-hours">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.roland.com');" href="https://www.roland.com/global/products/sp-404mk2/" target="_dj">Roland SP-404MKII</a>
+        <span class="d-block d-lg-none">
+<a href="" target="_spotify"><i class="fab fa-spotify"></i> Spotify</a>        </span>
+    </td>
+    <td class="personnel-location d-none d-lg-table-cell">
+<a href="" target="_spotify"><i class="fab fa-spotify"></i> Spotify</a>    </td>
+</tr>        </tbody>
+    </table>
+  </div>
+</div>
+<!-- END: DJs -->
+
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

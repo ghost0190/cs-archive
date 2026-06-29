@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验03：调试（第二部分） | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验03：调试（第二部分）" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab03/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验03：调试（第二部分）" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验03：调试（第二部分）","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab03/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑排队
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验03：调试（第二部分）
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 03：调试（第二部分）
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#adventure">
+           冒险游戏
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#running-the-game-and-tests">
+             运行游戏和测试
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#reading-stack-traces">
+             阅读堆栈跟踪
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#debug-beecountingstage">
+             调试 BeeCountingStage
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#debug-speciesliststage">
+             调试 SpeciesListStage
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#debug-palindromestage">
+             调试 PalindromeStage
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#debug-machinestage">
+             调试 MachineStage
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#another-debugging-puzzle-optional">
+           另一个调试谜题？！[可选]
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#exception-breakpoints">
+             异常断点
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#expressions-and-watches">
+             表达式和监视
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables-and-scoring">
+           交付成果和评分
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission">
+           提交
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验03：调试（第二部分）
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       实验03的常见问题在
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       这是上周调试工作的延续。在本周的实验中，我们将使用上周学到的调试工具，并获得更多调试练习。今天实验的目标是学习更多关于以下内容：
+      </p>
+      <ul>
+       <li>
+        阅读堆栈跟踪并从中隔离bug。
+       </li>
+       <li>
+        了解我们可能遇到的不同类型的异常。
+       </li>
+       <li>
+        更熟练地使用IntelliJ调试器。
+       </li>
+       <li>
+        异常断点、表达式和监视（可选）。
+       </li>
+      </ul>
+      <p>
+       和往常一样，如果你不确定某是什么意思，不要犹豫去查阅，特别是当堆栈跟踪中出现特定异常或错误时（我们将在今天的实验中介绍）。提示旨在引导你的思考，但我们鼓励你先尝试自己完成实验，然后再打开提示。
+      </p>
+      <h2 id="adventure">
+       <a aria-labelledby="adventure" class="anchor-heading" href="#adventure">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        冒险游戏
+       </code>
+      </h2>
+      <h3 id="running-the-game-and-tests">
+       <a aria-labelledby="running-the-game-and-tests" class="anchor-heading" href="#running-the-game-and-tests">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       运行游戏和测试
+      </h3>
+      <p>
+       你要做的第一件事是运行
+       <code class="language-plaintext highlighter-rouge">
+        AdventureGame
+       </code>
+       中的
+       <code class="language-plaintext highlighter-rouge">
+        main
+       </code>
+       方法来运行游戏。运行游戏后，按照给出的说明操作。这会让你了解你要调试的程序应该做什么（如果你遇到错误，这是正常的）。
+      </p>
+      <p>
+       然后，在你运行游戏之后，运行
+       <code class="language-plaintext highlighter-rouge">
+        tests/adventure/AdventureGameTests
+       </code>
+       中的测试。它们应该在
+       <code class="language-plaintext highlighter-rouge">
+        BeeCountingStage
+       </code>
+       上失败，这将引导你调试下面的第一个错误（请注意，此时所有测试都会失败）。要通过整个
+       <code class="language-plaintext highlighter-rouge">
+        AdventureGameTests
+       </code>
+       ，你需要修复所有单独的阶段测试（修复一个阶段将显示你通过了该单独阶段）。
+       <strong>
+        这些阶段是按规格说明的顺序完成的。
+       </strong>
+      </p>
+      <p>
+       我们鼓励你在完成每个阶段时都运行冒险游戏，看看它们是如何与游戏相关联的。别忘了经常提交以保存你的进度！
+      </p>
+      <h3 id="reading-stack-traces">
+       <a aria-labelledby="reading-stack-traces" class="anchor-heading" href="#reading-stack-traces">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       阅读堆栈跟踪
+      </h3>
+      <p>
+       当Java中发生
+       <em>
+        运行时错误
+       </em>
+       时，堆栈跟踪会被打印到控制台，以提供有关错误发生位置以及程序到达该位置所采取的步骤的信息。当你第一次运行
+       <code class="language-plaintext highlighter-rouge">
+        Adventure
+       </code>
+       时，你的堆栈跟踪将类似于下图：
+      </p>
+      <p>
+       <img alt="堆栈跟踪" src="img/adventure_stack_trace.png" style="max-height: 325;">
+      </p>
+      <p>
+       首先要注意的是发生了什么类型的错误；这显示在堆栈跟踪的第一行。在这种情况下，我们的代码抛出了
+       <code class="language-plaintext highlighter-rouge">
+        NullPointerException
+       </code>
+       。
+      </p>
+      <p>
+       对于某些异常，包括
+       <code class="language-plaintext highlighter-rouge">
+        NullPointerException
+       </code>
+       ，Java会给你一个解释。这里，
+       <code class="language-plaintext highlighter-rouge">
+        this.input
+       </code>
+       是
+       <code class="language-plaintext highlighter-rouge">
+        null
+       </code>
+       ，所以我们不能对它调用方法。
+      </p>
+      <p>
+       它下面的行代表程序到达错误所经历的方法调用序列：列表中的第一行是错误发生的位置，它下面的行代表调用了抛出错误的方法的那行代码，依此类推。
+      </p>
+      <p>
+       你可以点击
+       <strong class="blue">
+        <code class="language-plaintext highlighter-rouge">
+         蓝色文本
+        </code>
+       </strong>
+       导航到该文件和行。
+      </p>
+      <p class="info">
+       为了了解如何解释堆栈跟踪，你通常从顶部开始。如前所述，堆栈跟踪的第一行是发生错误的地方&mdash;&mdash;换句话说，这是错误发生前执行的最后一个方法调用，所以你可以用它来隔离bug的位置。根据程序的编写方式、设计方式以及你编写/贡献的代码，你会导航到堆栈跟踪中相应的行，然后点击
+       <strong class="blue">
+        <code class="language-plaintext highlighter-rouge">
+         蓝色文本
+        </code>
+       </strong>
+       跳转到该行并开始调试。
+      </p>
+      <hr>
+      <p class="warning">
+       对于以下每个阶段，
+       <strong>
+        只更改必要的内容
+       </strong>
+       ！你不应该重写整个代码块，除非另有说明。我们已经将我们更改的行数作为指导方针。
+      </p>
+      <p class="info">
+       如果你愿意，你可以每次都运行冒险游戏来验证正确性，但你不必要&mdash;&mdash;可以直接通过测试进行调试。对于你将使用的每个文件，它包含一个
+       <code class="language-plaintext highlighter-rouge">
+        playStage
+       </code>
+       方法，你可以在该方法中设置断点。从那里，你可以在
+       <code class="language-plaintext highlighter-rouge">
+        AdventureGameTests
+       </code>
+       中开始调试。
+      </p>
+      <h3 id="debug-beecountingstage">
+       <a aria-labelledby="debug-beecountingstage" class="anchor-heading" href="#debug-beecountingstage">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试
+       <code class="language-plaintext highlighter-rouge">
+        BeeCountingStage
+       </code>
+      </h3>
+      <p class="task">
+       通过分析堆栈跟踪来修复
+       <code class="language-plaintext highlighter-rouge">
+        BeeCountingStage
+       </code>
+       中发生的
+       <code class="language-plaintext highlighter-rouge">
+        NullPointerException
+       </code>
+       。你可以忽略包含
+       <code class="language-plaintext highlighter-rouge">
+        &lt;XX internal lines&gt;
+       </code>
+       的行；这些来自测试框架或库代码，通常不会帮助你找到错误。
+       <br>
+       <br>
+       预期修改行数：1
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示1
+         </strong>
+        </p>
+       </summary>
+       <p>
+        错误发生在某一行并不一定意味着那段代码不正确&mdash;&mdash;堆栈跟踪中未显示的内容可能是真正的罪魁祸首！
+       </p>
+      </details>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示2
+         </strong>
+        </p>
+       </summary>
+       <p>
+        仔细看看构造函数。看看声明的变量以及实例化的内容。
+       </p>
+      </details>
+      <hr>
+      <p>
+       看起来这不是
+       <code class="language-plaintext highlighter-rouge">
+        BeeCountingStage
+       </code>
+       中的唯一错误！
+      </p>
+      <p class="task">
+       修复
+       <code class="language-plaintext highlighter-rouge">
+        BeeCountingStage
+       </code>
+       中发生的
+       <code class="language-plaintext highlighter-rouge">
+        IndexOutOfBoundsError
+       </code>
+       。
+      </p>
+      <p class="info">
+       忽略堆栈跟踪顶部指向
+       <code class="language-plaintext highlighter-rouge">
+        Objects.java
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList.java
+       </code>
+       的灰色链接。错误可能
+       <em>
+        发生
+       </em>
+       在不是你写的代码中，但根本原因可能是
+       <em>
+        你的代码
+       </em>
+       试图做的事情。
+       <br>
+       <br>
+       预期修改行数：1
+      </p>
+      <hr>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示1
+         </strong>
+        </p>
+       </summary>
+       <p>
+        别忘了，Java的索引是从0开始的！
+       </p>
+      </details>
+      <h3 id="debug-speciesliststage">
+       <a aria-labelledby="debug-speciesliststage" class="anchor-heading" href="#debug-speciesliststage">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试
+       <code class="language-plaintext highlighter-rouge">
+        SpeciesListStage
+       </code>
+      </h3>
+      <p class="task">
+       修复
+       <code class="language-plaintext highlighter-rouge">
+        SpeciesListStage
+       </code>
+       中发生的错误。如果你看不到异常发生的方法内的具体问题（堆栈跟踪的第一行），通常查看第二行是个好主意，那里会显示方法被调用的位置和参数。
+       <br>
+       <br>
+       预期修改行数：3-4
+      </p>
+      <hr>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示1
+         </strong>
+        </p>
+       </summary>
+       <p>
+        考虑列表的可能性。代码是否考虑了所有情况？是否有代码未能处理的边缘情况？
+       </p>
+       <p>
+        阅读方法上方的javadoc注释也可能有助于获取更多关于方法功能的上下文。
+       </p>
+      </details>
+      <h3 id="debug-palindromestage">
+       <a aria-labelledby="debug-palindromestage" class="anchor-heading" href="#debug-palindromestage">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试
+       <code class="language-plaintext highlighter-rouge">
+        PalindromeStage
+       </code>
+      </h3>
+      <p class="task">
+       有时，IntelliJ会告诉你它认为有问题的事情。将鼠标悬停在有bug的方法中的黄色/橙色高亮处（在
+       <code class="language-plaintext highlighter-rouge">
+        PalindromeStage
+       </code>
+       的
+       <code class="language-plaintext highlighter-rouge">
+        digitsToIntList
+       </code>
+       方法中&mdash;&mdash;你可以通过堆栈跟踪导航到它）。这能给你一些有用的信息吗？
+       <br>
+       <br>
+       使用此功能来解决
+       <code class="language-plaintext highlighter-rouge">
+        PalindromeStage
+       </code>
+       中的错误。
+      </p>
+      <p class="info">
+       如果调试器感觉没有响应，通常是因为代码中某个地方有无限循环。如果你设置了一个断点但它从未被触发，那么你就知道在断点之前发生了无限循环！结合单步执行来隔离问题。
+      </p>
+      <p class="warning">
+       <strong>
+        这部分有两个bug需要修复。先修复最明显的那个，然后尝试隔离并解决第二个。这部分实验的提示适用于需要解决的第二个bug。
+       </strong>
+       <br>
+       <br>
+       预期修改行数：3
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示1（仅适用于第二个bug）
+         </strong>
+        </p>
+       </summary>
+       <p>
+        如果你还没有，请阅读上面的说明。查看调用
+        <code class="language-plaintext highlighter-rouge">
+         digitsToIntList
+        </code>
+        的方法。如果你设置了一个断点并运行调试器，我们是否会退出
+        <code class="language-plaintext highlighter-rouge">
+         while
+        </code>
+        循环？我们需要满足什么条件才能退出
+        <code class="language-plaintext highlighter-rouge">
+         while
+        </code>
+        循环？它被满足了吗？尝试结合Java可视化工具一起使用，以便你可以更仔细地检查可视化中的bug。
+       </p>
+      </details>
+      <h3 id="debug-machinestage">
+       <a aria-labelledby="debug-machinestage" class="anchor-heading" href="#debug-machinestage">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试
+       <code class="language-plaintext highlighter-rouge">
+        MachineStage
+       </code>
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        MachineStage
+       </code>
+       中的
+       <code class="language-plaintext highlighter-rouge">
+        sumOfElementwiseMax
+       </code>
+       方法应该接收两个数组，计算这两个数组的逐元素最大值，然后对结果的最大值求和。例如，对于两个数组
+       <code class="language-plaintext highlighter-rouge">
+        {2, 0, 10, 14}
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        {-5, 5, 20, 30}
+       </code>
+       ，逐元素最大值是
+       <code class="language-plaintext highlighter-rouge">
+        {2, 5, 20, 30}
+       </code>
+       。在第二个位置，
+       <code class="language-plaintext highlighter-rouge">
+        0
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        5
+       </code>
+       中较大的是
+       <code class="language-plaintext highlighter-rouge">
+        5
+       </code>
+       。这个逐元素最大值的和是 $2 + 5 + 20 + 30 = 57$。
+      </p>
+      <p>
+       有两种不同的bug使方法返回错误的结果。你可以假设
+       <code class="language-plaintext highlighter-rouge">
+        playStage
+       </code>
+       中的输入解析代码工作正常。
+      </p>
+      <p>
+       要找到bug，你不应该单步进入
+       <code class="language-plaintext highlighter-rouge">
+        mysteryMax
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        mysteryAdd
+       </code>
+       函数，甚至不应该尝试理解它们在做什么。也就是说，你应该使用
+       <img alt="单步跳过" class="inline" src="img/step-over.png">
+       来
+       <em>
+        只查看结果
+       </em>
+       。这些是
+       <strong>
+        <em>
+         神秘的
+        </em>
+       </strong>
+       函数，是故意混淆的。如果你发现自己不小心单步进入了这两个函数之一，使用
+       <img alt="单步退出" class="inline" src="img/step-out.png">
+       按钮来逃脱。
+      </p>
+      <p>
+       即使不单步进入这些函数，你也应该能够判断它们是否有bug。这就是抽象的力量！即使我不知道鱼在分子水平上是如何工作的，在某些情况下我也能清楚地判断鱼是否死了。
+      </p>
+      <p class="task">
+       修复这两个bug，使
+       <code class="language-plaintext highlighter-rouge">
+        sumOfElementwiseMax
+       </code>
+       返回正确的结果。如果你发现
+       <code class="language-plaintext highlighter-rouge">
+        mysteryMax
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        mysteryAdd
+       </code>
+       中有bug，完全重写该方法，而不是试图修复它。但是，不要不必要地重写代码&mdash;&mdash;首先要确保它确实是坏的！
+       <br>
+       <br>
+       预期修改行数：2-5
+      </p>
+      <hr>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示
+         </strong>
+        </p>
+       </summary>
+       <ul>
+        <li>
+         理解
+         <code class="language-plaintext highlighter-rouge">
+          sumOfElementwiseMax
+         </code>
+         函数应该做什么。当你向游戏提供输入时，尝试用手或计算器计算答案。将你的计算与输出进行比较，你会看到输出是不正确的。
+        </li>
+        <li>
+         在调用
+         <code class="language-plaintext highlighter-rouge">
+          sumOfElementwiseMax
+         </code>
+         的行上设置一个断点。当你运行调试器时，单步进入
+         <code class="language-plaintext highlighter-rouge">
+          sumOfElementwiseMax
+         </code>
+         ，然后使用
+         <img alt="单步跳过" class="inline" src="img/step-over.png">
+         查看对
+         <code class="language-plaintext highlighter-rouge">
+          arrayMax
+         </code>
+         调用的结果。
+         <code class="language-plaintext highlighter-rouge">
+          arrayMax
+         </code>
+         的输出是你期望的吗？
+        </li>
+        <li>
+         如果你认为那里有bug，应该单步进入
+         <code class="language-plaintext highlighter-rouge">
+          arrayMax
+         </code>
+         。但是不要单步进入
+         <code class="language-plaintext highlighter-rouge">
+          mysteryMax
+         </code>
+         &mdash;&mdash;只有当你认为它有bug时才完全重写它。
+        </li>
+        <li>
+         对
+         <code class="language-plaintext highlighter-rouge">
+          arraySum
+         </code>
+         和
+         <code class="language-plaintext highlighter-rouge">
+          mysteryAdd
+         </code>
+         重复上述步骤。
+        </li>
+       </ul>
+      </details>
+      <h2 id="another-debugging-puzzle-optional">
+       <a aria-labelledby="another-debugging-puzzle-optional" class="anchor-heading" href="#another-debugging-puzzle-optional">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       另一个调试谜题？！[可选]
+      </h2>
+      <p>
+       实验的其余部分是
+       <strong>
+        可选的
+       </strong>
+       。我们将介绍一些你可能会觉得有用的IntelliJ调试器的附加工具&mdash;&mdash;异常断点以及表达式和监视。
+      </p>
+      <p class="danger">
+       不要修改
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle.java
+       </code>
+       ！
+      </p>
+      <p class="warning">
+       这些练习将涉及处理一些看起来相当神秘和不熟悉的代码。遵守抽象屏障，尝试在不必完全理解发生了什么的情况下找到答案！
+      </p>
+      <h3 id="exception-breakpoints">
+       <a aria-labelledby="exception-breakpoints" class="anchor-heading" href="#exception-breakpoints">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       异常断点
+      </h3>
+      <p>
+       调试时，你有时可能会遇到意外错误，使你难以找出代码的问题所在。为了帮助解决这个问题，IntelliJ允许你在异常上设置断点。这些断点确保当你的代码抛出异常时，调试器将暂停执行，允许你检查程序的状态。
+      </p>
+      <p>
+       继续运行
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle
+       </code>
+       类。你应该看到以下输出：
+      </p>
+      <p>
+       <img alt="Puzzle 输出" src="img/puzzle-runtime-exception.png">
+      </p>
+      <p>
+       对于许多常见的异常，IntelliJ 会在控制台输出中显示一个"创建断点"按钮（在上面截图中
+       <code class="language-plaintext highlighter-rouge">
+        java.lang.RuntimeException
+       </code>
+       的右侧），这将允许你访问高级断点窗口。如果没有这个按钮，在任意一行创建一个断点（在下面的截图中，我们在第 23 行创建了一个断点），右键单击它，然后选择"更多"。
+      </p>
+      <p>
+       <img alt="更多断点弹窗" src="img/more-breakpoint-popup.png">
+      </p>
+      <p>
+       高级断点窗口应该类似于这样：
+      </p>
+      <p>
+       <img alt="高级断点窗口" src="img/advanced-breakpoint-window.png">
+      </p>
+      <p>
+       这里有很多内容，但你不需要理解大部分内容。点击左上角的加号符号，你应该会看到这样的弹窗：
+      </p>
+      <p>
+       <img alt="异常断点弹窗" src="img/add-exception-breakpoint-popup.png">
+      </p>
+      <p>
+       选择"Java异常断点"，然后会出现另一个窗口，你可以在这里指定我们想要暂停执行的异常类型。控制台告诉我们遇到了一个
+       <code class="language-plaintext highlighter-rouge">
+        java.lang.RuntimeException
+       </code>
+       ，所以继续选择它。
+      </p>
+      <p>
+       <img alt="运行时异常断点" src="img/runtime-exception-breakpoint.png">
+      </p>
+      <p>
+       你现在应该看到原来的高级断点窗口，其中有一个新创建的异常断点，恰当地命名为'java.lang.RuntimeException'（如果你使用控制台的"创建断点"按钮访问该窗口，你可能会看到两个副本，这没关系）。
+      </p>
+      <p>
+       你可以选择在捕获的异常或未捕获的异常上中断，或者两者都选。这很有用，因为很多库代码会故意抛出和捕获很多异常，所以这允许我们在必要时专注于未处理的异常。现在，继续保持两个选项都勾选。
+      </p>
+      <p>
+       如果你在这一点调试程序，你的代码应该在第 53 行暂停，通常的红色圆圈位置会有一个小闪电符号。这表示断点是由异常触发的，而不是正常的断点。
+      </p>
+      <p>
+       <img alt="第 53 行异常断点" src="img/line-53-exception-breakpoint.png">
+      </p>
+      <p>
+       从中我们可以看出，IntelliJ暗示问题可能在
+       <code class="language-plaintext highlighter-rouge">
+        src/puzzle/answer.txt
+       </code>
+       中。通过检查该文件，查看
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle.java
+       </code>
+       ，以及使用你在实验02和本实验中学到的其他调试技术，你能弄清楚发生了什么吗？
+      </p>
+      <p class="task">
+       修复
+       <code class="language-plaintext highlighter-rouge">
+        answer.txt
+       </code>
+       ，使
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle
+       </code>
+       不再抛出
+       <code class="language-plaintext highlighter-rouge">
+        RuntimeException
+       </code>
+       。如果你卡住了，随意查看提示！
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          提示
+         </strong>
+        </p>
+       </summary>
+       <p>
+        问题是
+        <code class="language-plaintext highlighter-rouge">
+         Puzzle.java
+        </code>
+        解析
+        <code class="language-plaintext highlighter-rouge">
+         answer.txt
+        </code>
+        寻找一个整数猜测，但没有找到，所以它抛出了一个异常。要解决这个问题，用任意整数替换
+        <code class="language-plaintext highlighter-rouge">
+         answer.txt
+        </code>
+        的 TODO 行。
+       </p>
+      </details>
+      <p>
+       修复bug后，再次运行
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle
+       </code>
+       。你现在应该看到以下输出：
+      </p>
+      <p>
+       <img alt="Puzzle 越界异常" src="img/puzzle-oob-exception.png">
+      </p>
+      <p>
+       阅读错误消息，看看你能否找到答案！如果你做对了，
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle.java
+       </code>
+       将不再出错，你应该能通过
+       <code class="language-plaintext highlighter-rouge">
+        tests/puzzle/PuzzleTest
+       </code>
+       中的
+       <code class="language-plaintext highlighter-rouge">
+        testPuzzle
+       </code>
+       。
+      </p>
+      <p class="task">
+       替换
+       <code class="language-plaintext highlighter-rouge">
+        answer.txt
+       </code>
+       中的值，使
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle
+       </code>
+       不再出错。
+      </p>
+      <h3 id="expressions-and-watches">
+       <a aria-labelledby="expressions-and-watches" class="anchor-heading" href="#expressions-and-watches">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       表达式和监视
+      </h3>
+      <p>
+       调试时，你可能不总是把想要检查的值存储在变量中。幸运的是，IntelliJ 为我们提供了解决方案！在某一行暂停后，你可以使用"计算表达式"工具（形状像计算器）。你可以点击计算器图标打开一个全新的窗口，但你也可以直接在调试器中输入表达式：
+      </p>
+      <p>
+       <img alt="计算表达式空白" src="img/eval-expr-add-watches.png">
+      </p>
+      <p>
+       你也可以在表达式工具中使用变量和方法调用！尽管在下面的例子中我们只使用了
+       <code class="language-plaintext highlighter-rouge">
+        Math
+       </code>
+       库方法，你可以调用任何你想调用的东西。在这里，我们在
+       <code class="language-plaintext highlighter-rouge">
+        Puzzle.java
+       </code>
+       中使用该工具，初始答案猜测为
+       <code class="language-plaintext highlighter-rouge">
+        973
+       </code>
+       ：
+      </p>
+      <p>
+       <img alt="计算表达式 973" src="img/evaluate-expression-973.png">
+      </p>
+      <p>
+       恢复程序后，
+       <code class="language-plaintext highlighter-rouge">
+        result
+       </code>
+       将丢失。如果你不想丢失它，你可以使用Ctrl+Shift+Enter（Windows）或Cmd+Shift+Enter（Mac）将其添加为
+       <em>
+        监视
+       </em>
+       。这将使它在继续执行后仍然保留。此外，监视将随程序相应地改变值，就像普通变量一样！
+      </p>
+      <p>
+       监视在你停止并重新运行程序后仍然会保留，因此它们对于多次执行的调试非常有用。例如，我把之前的猜测改成了
+       <code class="language-plaintext highlighter-rouge">
+        1717
+       </code>
+       并完全重新运行了程序，但不需要重新计算表达式，调试器就能告诉我它是什么！
+      </p>
+      <p>
+       <img alt="计算表达式 1717" src="img/evaluate-expression-1717.png">
+      </p>
+      <p>
+       这部分没有相关的练习，但我们认为这是一件值得了解的有用的事情！
+      </p>
+      <hr>
+      <p>
+       恭喜你，你已经完成了实验03！
+      </p>
+      <h2 id="deliverables-and-scoring">
+       <a aria-labelledby="deliverables-and-scoring" class="anchor-heading" href="#deliverables-and-scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付成果和评分
+      </h2>
+      <p>
+       实验满分为5分。Gradescope上没有隐藏测试。如果你在
+       <code class="language-plaintext highlighter-rouge">
+        Adventure
+       </code>
+       上通过了所有本地测试，你将获得实验的满分（除非你修改了不应该修改的东西）。重申一下，"另一个调试谜题？！"对于本实验是可选的。最终的交付成果是：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         BeeCountingStage
+        </code>
+        (1.25 pts)
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         SpeciesListStage
+        </code>
+        (1.25 pts)
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         PalindromeStage
+        </code>
+        (1.25 pts)
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         MachineStage
+        </code>
+        (1.25 pts)
+       </li>
+      </ul>
+      <h2 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h2>
+      <p>
+       就像你之前做的那样，添加、提交，然后将你的实验03代码推送到GitHub。然后，提交到Gradescope来测试你的代码。如果你需要复习，请查看
+       <a href="../lab01/index.html">
+        实验1规范
+       </a>
+       和
+       <a href="../../resources/guides/assignment-workflow/index.html#opening-in-intellij">
+        作业工作流指南
+       </a>
+       中的说明。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

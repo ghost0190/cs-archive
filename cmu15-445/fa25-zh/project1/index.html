@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Do not post your project on a public Github repository. Overview This semester, you will build a disk-oriented database management system (DBMS) called BusTub. A disk-oriented architecture means that the DBMS&#39;s primary storage location is in persistent storage, like a hard drive (HDD) or flash storage (SSDs). This is different …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Project #1 - Buffer Pool Manager - CMU 15-445/645 :: 数据库系统导论 (2025 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2025/project1/index.html"/>
+    <meta property="article:published_time" content="2025-09-22" />
+    <meta property="og:description" content="Do not post your project on a public Github repository. Overview This semester, you will build a disk-oriented database management system (DBMS) called BusTub. A disk-oriented architecture means that the DBMS&#39;s primary storage location is in persistent storage, like a hard drive (HDD) or flash storage (SSDs). This is different …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2025">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="../images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="../images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>Project #1 - Buffer Pool Manager | CMU 15-445/645 :: 数据库系统导论 (2025 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../index.html" title="CMU 15-445/645"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header mb-3 mb-md-4"><i class="fas fa-database"></i> <span class="text-uppercase">Project #1 - Buffer Pool Manager</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal; text-shadow: none;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-09-22 13:25:19.207249-04:00">最后更新：Sep 22, 2025</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-09-22 13:25:19.207249-04:00">最后更新：Sep 22, 2025</time>
+    </div>
+</div>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <u>不要</u>将你的项目发布到公开的 Github 仓库。
+</p>
+
+<!-- ========================================================================= -->
+<!-- OVERVIEW                                                                  -->
+<!-- ========================================================================= -->
+
+<h1 id="overview">概述</h1>
+<p>本学期，你将构建一个<em>面向磁盘的数据库管理系统</em>（DBMS），名为 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub">BusTub</a>。面向磁盘的架构意味着 DBMS 的主要存储位置在持久化存储中，如硬盘（HDD）或闪存（SSD）。这与内存型 DBMS 不同，后者将数据存储在易失性内存中。</p>
+<p>第一个编程项目是实现 DBMS 的<strong>缓冲池管理器。</strong>缓冲池负责在内存缓冲区和持久化存储之间来回移动物理数据页。它还充当缓存，将频繁使用的页保留在内存中以加快访问速度，并淘汰未使用或冷数据页回存储。</p>
+<p>BusTub 中的一个<em>页</em>是 8192 字节（8 KB）的数据，这意味着缓冲池以 8 KB 为单位管理数据。由于 BusTub 中的页具有固定大小，缓冲池管理器将这些页存储到固定大小的缓冲区中，称为<em>帧</em>。页和帧之间的区别有些微妙。<em>页</em>是 8 KB 的逻辑（虚拟）数据，可以存储在内存中、磁盘上，或同时存在于两者中。而<em>帧</em>是一个固定长度的 8 KB 内存块（即指向该内存的指针），用于存储单个页的数据。这里的类比是将（逻辑）页存储在（物理）固定帧<em>内部</em>。</p>
+<p>除了充当缓存之外，缓冲池管理器还允许 DBMS 支持大于系统可用内存量的数据库。假设一台计算机有 1 GB 的内存（RAM）。如果我们要管理一个 2 GB 的数据库，缓冲池管理器使我们能够与这个数据库交互，而<em>无需</em>将其全部内容放入内存。</p>
+<p>缓冲池执行的 I/O 操作被抽象化，与 DBMS 的其他部分隔离。例如，当 DBMS 的某个组件（如执行引擎）使用唯一标识符（<code>page_id_t</code>）向缓冲池管理器请求一个数据页时，该组件不需要知道该页是否已在内存中，或者系统是否需要从磁盘检索它。同样，缓冲池管理器不需要理解这些页的内容，它只需要知道数据存储在哪里。</p>
+<h3 id="implementation">实现</h3>
+<p><strong>你的缓冲池实现必须是线程安全的。</strong>多个线程将并发访问你的缓冲池的内部数据结构，你必须确保临界区受到<a onclick="javascript:ga('send', 'pageview', '/outgoing/stackoverflow.com');" href="https://stackoverflow.com/a/42464336">锁存器（latches）</a>的保护（在操作系统中称为"锁"）。</p>
+<p>你必须实现以下存储管理器组件：</p>
+<ul>
+    <li> <a href="#arc-replacer"><b>自适应替换缓存（ARC）替换策略</b></a> </li>
+    <li> <a href="#disk-scheduler"><b>磁盘调度器</b></a> </li>
+    <li> <a href="#buffer-pool-manager"><b>缓冲池管理器</b></a> </li>
+</ul>
+
+<p><strong>这是一个个人项目，必须独立完成（即不允许组队）。</strong></p>
+<!-- START project1 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Sep 08, 2025</li>
+<li><b>截止日期：</b> Sep 28, 2025 @ 11:59pm</li>
+</ul>
+<!-- END project1 -->
+
+<!-- ========================================================================= -->
+<!-- PROJECT SPECIFICATION                                                     -->
+<!-- ========================================================================= -->
+<h1 id="project-specification">项目规范</h1>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    记得从 BusTub 仓库拉取最新代码。
+</p>
+
+<p>对于以下每个组件，我们提供了包含你必须实现的 API 的存根类。你<b><u>不应</u></b>修改这些类中预定义函数的签名。如果你修改了签名，我们的评分测试代码将无法工作，你将无法获得该项目的学分。</p>
+<p>如果一个类已经包含数据成员，你不应删除它们。例如，<code>BufferPoolManager</code> 类包含 <code>DiskScheduler</code> 和 <code>ArcReplacer</code> 成员，这些是系统其余部分所需功能所必需的。<strong>你可以向这些类添加数据成员和辅助函数</strong>以正确实现所需的功能。</p>
+<p>除非另有说明，你可以在项目中使用任何内置的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/container">C++17 容器</a>。由你来决定使用哪些容器。请注意，这些容器不是线程安全的，你需要使用锁存器来保护对它们的访问。<strong>你<u>不能</u>使用额外的第三方库（例如 <a onclick="javascript:ga('send', 'pageview', '/outgoing/www.boost.org');" href="https://www.boost.org/">Boost</a>）。</strong></p>
+<!-- **************************************************** -->
+<!-- ARC Replacement Policy                             -->
+<!-- **************************************************** -->
+<h2 class="task" id="arc-replacer">任务 #1 - 自适应替换缓存（ARC）替换策略</h2>
+
+<p>该组件负责跟踪缓冲池中的页使用情况，以确定要淘汰出内存并写回磁盘的候选页/帧。</p>
+<p>你将在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/buffer/arc_replacer.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/buffer/arc_replacer.h</tt> <i class="fas fa-external-link-alt"></i></a> 中实现一个名为 <code>ArcReplacer</code> 的类，并在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/buffer/arc_replacer.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/buffer/arc_replacer.cpp</tt> <i class="fas fa-external-link-alt"></i></a> 中实现其对应的实现文件。注意 <code>ArcReplacer</code> 是一个独立的类，与任何其他 <code>Replacer</code> 类<b><u>无关</u></b>。你只需要实现 ARC 替换策略，不需要实现 LRU-K、LRU 或 Clock 替换策略（即使有对应的文件）。</p>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Adaptive_replacement_cache">ARC</a> 替换策略最初由 IBM 开发，是一种<strong>自适应</strong>替换策略，会根据观察到的工作负载进行调整。它包含两个跟踪缓存页的列表、两个跟踪最近被淘汰页的列表，以及一个自适应于工作负载的目标大小。由于这种自适应性，ARC 替换策略通常优于 LRU。有关更多详细信息，请参阅原始<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.usenix.org');" href="https://www.usenix.org/publications/login/august-2003-volume-28-number-4/one-lru">论文</a>。</p>
+<p>你需要为本项目实现 ARC 替换策略的一个<strong>变体</strong>。</p>
+<p>你需要为 ARC 实现以下方法，如头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/buffer/arc_replacer.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/buffer/arc_replacer.h</tt> <i class="fas fa-external-link-alt"></i></a>）和源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/buffer/arc_replacer.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/buffer/arc_replacer.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）中所定义：</p>
+<ul>
+    <li>
+        <code>Size() -> size_t</code>：此方法返回当前在 <code>ArcReplacer</code> 中的可淘汰帧的数量。
+    </li>
+    <li>
+        <code>SetEvictable(frame_id_t frame_id, bool set_evictable)</code>：此方法控制帧是否可淘汰。它还控制 <code>ARCReplacer</code> 的大小。当你实现 <code>BufferPoolManager</code> 时就会知道何时调用此函数。具体来说，<b>当页的固定计数降为 0 时，其对应的帧应被标记为可淘汰。</b>
+    </li>
+    <li>
+        <code>RecordAccess(frame_id_t frame_id, page_id_t page_id)</code>：记录给定页在当前时间戳已被访问，在给定帧中。此方法应在页被固定到 <code>BufferPoolManager</code> 中的帧后调用。该算法已在下方给出。
+    </li>
+    <li>
+        <code>Evict() -> std::optional&lt;frame_id_t&gt;</code>：按照 ARC 算法的淘汰过程淘汰一个帧。如果没有可淘汰的帧，返回 <code>std::nullopt</code>。该算法已在下方给出。
+    </li>
+    <li>
+        <code>Remove(frame_id_t frame_id)</code>：如果帧存在且可淘汰，则将其及其对应的页从替换器中移除。此方法仅在 <code>BufferPoolManager</code> 中删除页时调用。
+    </li>
+</ul>
+
+<h3>ARC 替换算法</h3>
+
+<p>ARC 算法包含以下部分。我们从两个列表开始：MRU（最近最少使用）列表跟踪最近恰好被访问一次的帧及其对应的页，而 MFU（最常使用）列表跟踪最近被访问超过一次的帧及其对应的页。我们还有两个幽灵列表：MRU 幽灵列表和 MFU 幽灵列表。这些列表跟踪<em>不再在缓冲池中</em>但最近被淘汰的页。最后，我们还有一个 MRU 列表的目标大小，它会适应工作负载的变化，<strong>初始值为 0</strong>。请注意，MRU 列表的<strong>实际</strong>大小可能与目标不同，可能更小或更大，这只是我们的目标大小。</p>
+<p>在使用 ARC 替换器时，通常涉及五个关于大小的概念，需要加以区分：</p>
+<ul>
+<li>替换器的容量（<code>replacer_size_</code>）：<code>ArcReplacer</code> 支持的最大帧数与缓冲池的大小相同，因为它包含 <code>BufferPoolManager</code> 中所有帧的占位符。</li>
+<li>四个列表的总大小：由于在幽灵列表中跟踪了被淘汰的页，虽然 ArcReplacer 的容量仅为缓冲池的帧数，但四个列表的总大小最多可达 2 * 容量。</li>
+<li>当前可淘汰大小（<code>curr_size_</code>）：并非替换器中的所有帧在任何给定时间都可以被视为可淘汰的。<code>ArcReplacer</code> 的大小由<em>可淘汰</em>帧的数量表示。<code>ArcReplacer</code> 初始化时其中没有任何帧。只有当帧被标记为可淘汰时，替换器的大小才会增加。类似地，当帧被固定或不再使用时，替换器的大小会减小。</li>
+<li>MRU 列表目标大小（<code>mru_target_size_</code>）：MRU 列表的目标大小，会适应观察到的工作负载。自适应算法在下方给出。</li>
+<li>MRU 列表实际大小（<code>mru_.size()</code>）：MRU 列表的实际大小，可能与 MRU 目标大小不同。</li></li>
+</ul>
+<p>此外，请确保你理解此处帧和页之间的关系，这样你可能会理解为什么需要同时跟踪页 ID 和帧 ID：</p>
+<ul>
+<li>在缓冲池中的页与帧具有一对一映射关系。</li>
+<li>在缓冲池中的页被淘汰之前，页和帧之间的一对一映射不应改变。</li>
+<li>被淘汰的页不与任何帧关联。</li>
+</ul>
+<p>当对一个帧及其对应的页执行 <code>RecordAccess</code> 时，有四种情况，恰好会发生其中一种：</p>
+<ol>
+<li><strong>页已存在于 MRU/MFU 中：</strong>这是实际缓存命中的情况。将页移动到 MFU 的前端。</li>
+<li><strong>页已存在于 MRU 幽灵列表中：</strong>这是实际缓存未命中但我们在幽灵列表中命中的情况。在这种情况下，我们将其视为伪命中并调整目标大小。如果 MRU 幽灵列表的大小大于或等于 MFU 幽灵列表的大小，将 MRU 目标大小增加 1。否则增加 MFU 幽灵大小 / MRU 幽灵大小（向下取整）。不要将目标大小增加到超过 replacer_size。然后将页移动到 MFU 的前端。这样做的理由是，如果 MRU 列表稍大一些，那么 DBMS 可能已经缓存命中。</li>
+<li><strong>页已存在于 MFU 幽灵列表中：</strong>与前一种情况类似，这是实际缓存未命中但我们在幽灵列表中命中的情况。如果 MFU 幽灵列表的大小大于或等于 MRU 幽灵列表的大小，将 MRU 目标大小减少 1。否则将 MRU 目标大小减少 MRU 幽灵大小 / MFU 幽灵大小（向下取整）。不要将目标大小减少到低于 0。然后将页移动到 MFU 的前端。这样做的理由是，如果 MFU 列表稍大一些，DBMS 可能已经缓存命中。</li>
+<li><strong>页不在替换器中：</strong>这是实际缓存未命中且幽灵列表也未命中的情况。此时应发生以下情况之一。<ol type="a">
+    <li> 如果 MRU 大小 + MRU 幽灵大小 = 替换器大小：移除 MRU 幽灵列表中的最后一个元素，然后将页添加到 MRU 的前端。
+    <li> 否则 MRU 大小 + MRU 幽灵大小应小于替换器大小（如果你正确操作，它不应更大）。在这种情况下
+      <ul>
+        <li> 如果 MRU 大小 + MRU 幽灵大小 + MFU 大小 + MFU 幽灵大小 = 2 * 替换器大小：移除 MFU 幽灵列表中的最后一个元素，然后将页添加到 MRU 的前端。</li>
+        <li> 否则直接将页添加到 MRU 的前端。</li>
+      </ul>
+  </ol></li>
+</ol>
+<p>试着思考为什么在情况 4(a) 和 4(b) 中，幽灵列表中<em>必定</em>有元素。</p>
+<h3 id="implementation_1">实现</h3>
+<p>当你实现此算法时，重要的是理解页何时应进入 MRU，何时应进入 MFU。思考每种情况下采取给定操作的<strong>原因</strong>以及它的目的也会有所帮助，而不是将英文直译为 C++ 代码。如果 MRU 列表大小小于目标大小，我们尝试从 MFU 列表中淘汰。如果 MRU 列表大小大于或等于目标大小，我们尝试从 MRU 列表中淘汰。在任何一种情况下，如果从预期的一侧无法淘汰（该列表中没有可淘汰的内容），<strong>尝试从另一个列表淘汰</strong>。如果仍然没有可淘汰的内容，淘汰失败并返回 <code>std::nullopt</code>。</p>
+<p>实现细节由你决定。你可以使用内置的 STL 容器。你可以假设不会为这些数据结构的内存不足（<strong>但你不能对任务 #3 中的缓冲池做同样的假设，你<em>会</em>遇到可用帧不足的情况</strong>）。你必须确保你的实现是线程安全的。</p>
+<p>你可能会注意到有一个测试用于测试你的 <code>RecordAccess</code> 实现的性能。如果你的实现在测试中失败/超时，试着思考是什么导致 <code>RecordAccess</code> 变慢以及如何修复它。提醒一下，你可以修改头文件中提供的数据结构和成员变量，也可以添加额外的数据结构来加速操作。</p>
+<p>如果你想了解更多关于 ARC 替换算法的信息，请参阅这篇<a onclick="javascript:ga('send', 'pageview', '/downloads/~natassa/courses/15-721/papers/arcfast.pdf');" href="https://www.cs.cmu.edu/~natassa/courses/15-721/papers/arcfast.pdf">论文</a>。本项目不要求你完全实现原始算法。我们也欢迎你思考我们要求你做的超出原始算法所能实现的内容。</p>
+<!-- **************************************************** -->
+<!-- Disk Scheduler                             -->
+<!-- **************************************************** -->
+
+<h2 class="task" id="disk-scheduler">任务 #2 - 磁盘调度器</h2>
+
+<p>该组件负责调度 <code>DiskManager</code> 上的读写操作。你将在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/disk/disk_scheduler.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/disk/disk_scheduler.h</tt> <i class="fas fa-external-link-alt"></i></a> 中实现一个名为 <code>DiskScheduler</code> 的类，并在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/disk/disk_scheduler.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/disk/disk_scheduler.cpp</tt> <i class="fas fa-external-link-alt"></i></a> 中实现其对应的实现文件。</p>
+<p>磁盘调度器可以被其他组件（在本例中是任务 #3 中的 <code>BufferPoolManager</code>）用来排队磁盘请求，这些请求由 <code>DiskRequest</code> 结构体表示（已在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/disk/disk_scheduler.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/disk/disk_scheduler.h</tt> <i class="fas fa-external-link-alt"></i></a> 中定义）。磁盘调度器将维护一个后台工作线程，负责处理已调度的请求。</p>
+<p>磁盘调度器将使用共享队列（通道）来调度和处理 <code>DiskRequest</code>。一个线程将请求添加到队列中，磁盘调度器的后台工作线程将处理排队的请求。我们在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/common/channel.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/common/channel.h</tt> <i class="fas fa-external-link-alt"></i></a> 中提供了一个 <code>Channel</code> 类，用于促进线程之间数据的安全共享，但如果你觉得有必要，可以使用自己的实现。</p>
+<p><code>DiskScheduler</code> 的构造函数和析构函数已经实现，分别负责创建和加入后台工作线程。你只需要实现以下方法，如头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/disk/disk_scheduler.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/disk/disk_scheduler.h</tt> <i class="fas fa-external-link-alt"></i></a>）和源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/disk/disk_scheduler.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/disk/disk_scheduler.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）中所定义：</p>
+<ul>
+    <li>
+        <code>Schedule(std::vector&lt;DiskRequest&gt; &requests)</code>：调度一个请求向量供 <code>DiskManager</code> 执行。<code>DiskRequest</code> 结构体指定请求是读还是写，数据应该从哪里读取/写入哪里，以及操作的页 ID。<code>DiskRequest</code> 还包含一个 <code>std::promise</code>，一旦请求被处理，其值应设为 true。有关 <code>std::promise</code> 的更多信息，请参见下文。实现细节由你决定，但你可能希望使用请求向量作为排行榜挑战中预取数据的方式。
+    </li>
+    <li>
+        <code>StartWorkerThread()</code>：后台工作线程的启动方法，负责处理已调度的请求。工作线程在 <code>DiskScheduler</code> 构造函数中创建并调用此方法。该工作线程负责接收排队的请求并将它们分派给 <code>DiskManager</code>。记得在 <code>DiskRequest</code> 的回调上正确设置值，以向请求发起者发出请求已完成的信号。在 <code>DiskScheduler</code> 的析构函数被调用之前，此方法不应返回。
+    </li>
+</ul>
+
+<p>我们提到 <code>DiskRequest</code> 的一个字段是 <code>std::promise</code>。如果你不熟悉 C++ 的 promise 和 future，可以在<a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/thread/promise">这里</a>查看文档。就本项目而言，它们本质上提供了一种回调机制，让线程知道其调度的请求何时完成。要查看它们的使用示例，请查看 <code>disk_scheduler_test.cpp</code>。</p>
+<p>同样，实现细节由你决定。你必须确保你的实现是线程安全的。</p>
+<h3>磁盘管理器</h3>
+
+<p>包含 <code>DiskManager</code> 类的头文件位于（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/disk/disk_manager.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/disk/disk_manager.h</tt> <i class="fas fa-external-link-alt"></i></a>）。它从磁盘读取页数据并向磁盘写入数据。你的磁盘调度器在处理读或写请求时将使用 <code>DiskManager::ReadPage()</code> 和 <code>DiskManager::WritePage()</code>。</p>
+<!-- **************************************************** -->
+<!-- Buffer Pool Manager                                  -->
+<!-- **************************************************** -->
+
+<h2 class="task" id="buffer-pool-manager">任务 #3 - 缓冲池管理器</h2>
+
+<p>最后，你必须实现缓冲池管理器（<code>BufferPoolManager</code>）！回顾本页开头，<code>BufferPoolManager</code> 负责使用 <code>DiskScheduler</code> 从磁盘获取数据库页并将它们存储在内存中。<code>BufferPoolManager</code> 还可以在明确指示或需要淘汰页以为新页腾出空间时，调度将脏页写回磁盘。</p>
+<p>你的 <code>BufferPoolManager</code> 实现将使用你在本作业前几步中创建的 <code>ArcReplacer</code> 和 <code>DiskScheduler</code> 类。<code>ArcReplacer</code> 将跟踪页的访问时间，以便在需要为新页腾出空间时决定淘汰哪个帧。<code>DiskScheduler</code> 将在 <code>DiskManager</code> 上调度对磁盘的读写操作。</p>
+<p>我们提供了一个名为 <code>FrameHeader</code> 的辅助类，用于管理内存中的帧。所有对页数据的访问都应通过 <code>FrameHeader</code>。<code>FrameHeader</code> 有一个名为 <code>GetData</code> 的方法，返回指向其帧内存的原始指针，<code>DiskScheduler</code> / <code>DiskManager</code> 将使用此指针将磁盘上物理页的内容复制到内存中。</p>
+<p>提醒一下，缓冲池管理器不需要理解这些页的内容。<code>BufferPoolManager</code> 关于页所知道的信息只有页 ID（<code>page_id_t</code>）和它们存储在内的 <code>FrameHeader</code>。此外，<code>BufferPoolManager</code> 将重用相同的 <code>FrameHeader</code> 对象来存储数据，因为数据在磁盘和内存之间来回移动。换句话说，所有 <code>FrameHeader</code> 在系统的整个生命周期中将存储许多不同的页。</p>
+<h3 id="concurrency">并发</h3>
+<p>在实现多线程缓冲池管理器时，我们必须注意同步数据访问。这意味着我们不希望在缓冲池的不同帧中存在同一页的多个副本。如果我们允许这样做，就会遇到以下场景：</p>
+<ul>
+<li>线程 T<sub>1</sub> 将页 X<sub>1</sub> 从磁盘加载到一个帧中并开始修改页 X<sub>1</sub>，我们称这个新版本为页 X<sub>2</sub>。</li>
+<li>线程 T<sub>2</sub> 将页 X<sub>1</sub> 从磁盘加载到另一个帧中并开始修改这个版本的页 X<sub>1</sub>，我们称这个修改后的版本为页 X<sub>3</sub>。</li>
+<li>线程 T<sub>2</sub> 完成写入并将 X<sub>3</sub> 写回磁盘。</li>
+<li>线程 T<sub>1</sub> 完成写入并将 X<sub>2</sub> 写回磁盘。</li>
+<li>数据竞争 ☠️！</li>
+</ul>
+<p>因此，我们在内存中只保留一个页的 1 个版本，以防止数据同步竞争。此外，为了防止在线程访问页时淘汰它，我们维护存储该页的帧的引用计数/固定计数。最后，为了跟踪哪些页存储在哪些帧中，我们还使用哈希表维护一个页表，将页 ID 映射到帧。</p>
+<p>帧的固定计数是可以访问该页数据的线程数。只要帧的固定计数大于 0（意味着至少有 1 个线程正在访问该页的数据），缓冲池管理器就不允许淘汰正在存储的页。你可以使用 <code>FrameHeader</code> 类中的原子字段 <code>pin_count_</code> 来维护固定计数。请注意，<code>pin_count_</code> 与 <code>ArcReplacer::SetEvictable</code> 是分开的，因此你需要确保它们正确同步。你还需要在认为必要时更新 <code>FrameHeader</code> 的 <code>is_dirty_</code> 标志。如果你在淘汰页时此标志被设置，你将需要采取相应措施来维护内存和磁盘之间的数据同步。</p>
+<p>最后但同样重要的是，你必须实现 <code>ReadPageGuard</code> 和 <code>WritePageGuard</code>。这些类是提供对底层页的线程安全读/写访问的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization">RAII</a> 对象。更多信息请参见下面的实现部分。你可能需要与 <code>BufferPoolManager</code> 的 <code>CheckedReadPage</code> 和 <code>CheckedWritePage</code> 方法协同实现。但是，如果你想确保页守卫实现正确，可以选择先实现 <code>BufferPoolManager::GetPinCount</code>，然后拼凑出能通过页守卫测试的代码。</p>
+<h3 id="implementation_2">实现</h3>
+<p>你需要实现以下页守卫方法，如头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/page_guard.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/page_guard.h</tt> <i class="fas fa-external-link-alt"></i></a>）和源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/page/page_guard.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/page/page_guard.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）中所定义：</p>
+<ul>
+    <li> <code>ReadPageGuard::ReadPageGuard()</code> </li>
+    <li> <code>ReadPageGuard::ReadPageGuard(ReadPageGuard &&that)</code> </li>
+    <li> <code>ReadPageGuard::operator=(ReadPageGuard &&that) -> ReadPageGuard &</code> </li>
+    <li> <code>ReadPageGuard::Flush()</code> </li>
+    <li> <code>ReadPageGuard::Drop()</code> </li>
+    <li> <code>WritePageGuard::WritePageGuard()</code> </li>
+    <li> <code>WritePageGuard::WritePageGuard(WritePageGuard &&that)</code> </li>
+    <li> <code>WritePageGuard::operator=(WritePageGuard &&that) -> WritePageGuard &</code> </li>
+    <li> <code>WritePageGuard::Flush()</code> </li>
+    <li> <code>WritePageGuard::Drop()</code> </li>
+</ul>
+
+<p><strong>你<em>不需要</em>在 <code>BufferPoolManager</code> 方法<em>之前</em>实现这些方法。你应该同时进行开发。</strong></p>
+<p>这些方法实现了页守卫的移动语义和 RAII。如果你不熟悉这些概念，请通过在线学习资料进行了解。有很多优秀的资源（包括文章、微软教程、YouTube 视频）深入解释了这些内容。<strong>在没有扎实理解 RAII 和移动语义工作原理的情况下，你不应该尝试实现这些方法。</strong></p>
+<p>这里可能会有很多代码重复（即两个守卫除了少数几行外应该完全相同）。如果你想基于自己创建的类来派生这些类，欢迎这样做。只需确保不改变任何接口和方法签名！</p>
+<p>你还需要实现以下 <code>BufferPoolManager</code> 方法，如头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/buffer/buffer_pool_manager.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/buffer/buffer_pool_manager.h</tt> <i class="fas fa-external-link-alt"></i></a>）和源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/buffer/buffer_pool_manager.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/buffer/buffer_pool_manager.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）中所定义：</p>
+<ul>
+    <li> <code>NewPage() -> page_id_t</code> </li>
+    <li> <code>DeletePage(page_id_t page_id) -> bool</code> </li>
+    <li> <code>CheckedWritePage(page_id_t page_id) -> std::optional&lt;WritePageGuard&gt;</code> </li>
+    <li> <code>CheckedReadPage(page_id_t page_id) -> std::optional&lt;ReadPageGuard&gt;</code> </li>
+    <li> <code>FlushPageUnsafe(page_id_t page_id) -> bool</code> </li>
+    <li> <code>FlushPage(page_id_t page_id) -> bool</code> </li>
+    <li> <code>FlushAllPagesUnsafe()</code> </li>
+    <li> <code>FlushAllPages()</code> </li>
+    <li> <code>GetPinCount(page_id_t page_id)</code> </li>
+</ul>
+
+<p><strong>所有这些方法在源文件中都有详细的文档注释。确保完整阅读所有注释！它们包含许多有用的提示。</strong></p>
+<p>你不需要让缓冲池管理器非常高效。对于所有公共的 <code>BufferPoolManager</code> 方法，从头到尾持有缓冲池锁存器应该就够了（<strong>除了需要提前释放以防止死锁的情况</strong>）。但是，你确实需要确保缓冲池管理器具有合理的性能，否则在后续项目中会出现问题。你可以将自己的基准测试结果（QPS.1 和 QPS.2）与其他同学进行比较，看看你的实现是否太慢。</p>
+<p>请参阅源文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/storage/page/page_guard.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/storage/page/page_guard.cpp</tt> <i class="fas fa-external-link-alt"></i></a> 和 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/buffer/buffer_pool_manager.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/buffer/buffer_pool_manager.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）以获取<em>更为</em>详细的规范和文档。</p>
+<!-- **************************************************** -->
+<!-- Leaderboard                                          -->
+<!-- **************************************************** -->
+<h2 class="task" id="leaderboard">排行榜任务（可选）</h2>
+
+<p>在本项目的排行榜挑战中，我们将使用特殊的存储后端对你的缓冲池管理器进行基准测试。</p>
+<p>针对排行榜进行优化是可选的（即完成所有之前的任务后，你可以获得满分）。
+但是，你的解决方案必须在排行榜测试中以正确的结果完成，且不能出现死锁和段错误。</p>
+<p>排行榜测试使用 release 配置文件编译：</p>
+<pre class="shadow-sm p-2">
+mkdir cmake-build-relwithdebinfo
+cd cmake-build-relwithdebinfo
+cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j `nproc` bpm-bench
+<span class="text-muted"># The command below is just for illustrating how the bpm-bench test works.</span>
+<span class="text-muted"># We are NOT running tests with the same parameter for the leaderboard test.</span>
+./bin/bustub-bpm-bench --duration 5000 --latency 1
+</pre>
+
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+     我们强烈建议你在针对排行榜测试进行优化之前先备份代码，这样如果这些优化在后续项目中出现问题，你总是可以回退。
+</p>
+
+<p>在排行榜测试中，我们将有多个线程访问磁盘上的页。基准测试中有两种类型的线程运行：</p>
+<ol>
+<li>扫描线程。每个扫描线程将顺序读取磁盘上的页。将有 8 个扫描线程。</li>
+<li>获取线程。每个获取线程将使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Zipf%27s_law">zipfian 分布</a>随机选择并更新一个页。
+   将有 8 个获取线程。</li>
+</ol>
+<p>我们将在内存存储后端上运行基准测试三次，每次 30 秒。第一次和第二次将直接使用不同的缓冲池和替换器设置运行。
+第三次，我们将为每次随机读/写操作添加 1 毫秒的延迟，为顺序/局部读/写操作添加 0.1 毫秒的延迟。更多信息请参见 <code>DiskManagerUnlimitedMemory</code> 类。</p>
+<p>最终得分计算为扫描和获取操作的加权 QPS，分别包含和不包含延迟：</p>
+<pre class="shadow-sm p-2">
+scan_qps_large / 1000 + get_qps_large / 1000 + scan_qps_small / 1000 + get_qps_small / 1000 + scan_qps_1ms + get_qps_1ms
+</pre>
+
+<p><b>推荐优化</b></p>
+<ol>
+<li>更好的替换器算法。鉴于获取负载是倾斜的（即某些页比其他页更频繁地被访问），
+   你可以设计你的 ARC 替换器将页访问类型考虑在内，以减少页缺失。考虑如何排队
+   多个请求并预取数据。</li>
+<li>并行 I/O 操作。不是在磁盘调度器中一次处理一个请求，你可以同时向磁盘管理器发出多个请求。
+   这个优化在现代存储设备中非常有用，因为对磁盘的并发访问可以更好地利用磁盘带宽。你应该处理同一页的多个操作在队列中的情况，
+   这些请求的最终结果应该如同按顺序处理一样。在单线程中，它们应该具有写后读一致性。</li>
+<li>要在磁盘调度器中实现真正的并行，你还需要允许缓冲池管理器同时处理多个
+   <code>ReadPage</code> 和 <code>WritePage</code> 请求以及同时淘汰多个页。你可能需要在缓冲池管理器中引入条件变量来管理空闲页。</li>
+</ol>
+<h3>排行榜政策</h3>
+
+<ul>
+<li><em>带有排行榜加分</em>的提交将由助教进行人工审查。<ul>
+<li>"审查"意味着助教将手动查看你的代码，或者如果他们不确定某个优化是否正确，他们将对现有测试用例进行简单修改，以查看你的排行榜优化是否<em>正确</em>处理了你想优化的特定情况。</li>
+<li>简单修改的一个例子：更改基准测试的缓冲池管理器大小。</li>
+</ul>
+</li>
+<li>你的优化不应影响正确性。你可以针对特定情况进行优化，但在你优化的情况下，它应该对所有输入都有效。
+    <!-- *   Allowed: only handling 3-table join reordering in Fall 2022 project 3. -->
+    <!-- *   Allowed: optimize for leaf node size > 100 in project 2. --><ul>
+<li>不允许：将计划与排行榜测试进行比较，并将其转换为 <code>ValueExecutor</code> 与项目 3 中的输出表。因为你的优化应该适用于所有表内容。硬编码答案在某些情况下会产生错误的结果。</li>
+</ul>
+</li>
+<li>你不应该通过使用辅助信息来检测你的提交是否在运行排行榜测试。<ul>
+<li>除非我们允许你这样做。</li>
+<li>不允许：使用 <code>#ifdef NDEBUG</code> 等。</li>
+</ul>
+</li>
+<li>具有明显正确性问题的提交将不会被授予排行榜加分。</li>
+<li>你不能使用迟交日来处理排行榜测试。</li>
+<li>如果你不确定某个优化是否合理，请在 Piazza 上发帖或访问助教的答疑时间。</li>
+</ul>
+<!-- ========================================================================= -->
+<!-- INSTRUCTIONS                                                              -->
+<!-- ========================================================================= -->
+<h1 id="instructions">说明</h1>
+
+<p>请参阅 <a href="../project0/index.html#instructions">Project #0 说明</a>了解如何创建你的私有仓库和搭建开发环境。</p>
+<h2 id="testing">测试</h2>
+<p>你可以使用我们的测试框架来测试本作业的各个组件。我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/google/googletest">GTest</a> 进行单元测试。有三个独立的文件包含每个组件的测试：</p>
+<ul>
+    <li><code>ArcReplacer</code>: <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/buffer/arc_replacer_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/buffer/arc_replacer_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li><code>DiskScheduler</code>: <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/disk_scheduler_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/disk_scheduler_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li><code>PageGuard</code>: <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/storage/page_guard_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/storage/page_guard_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+    <li><code>BufferPoolManager</code>: <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/buffer/buffer_pool_manager_test.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>test/buffer/buffer_pool_manager_test.cpp</tt> <i class="fas fa-external-link-alt"></i></a>
+</ul>
+
+<p>你可以从命令行单独编译和运行每个测试：</p>
+<pre class="shadow-sm p-2">
+$ make arc_replacer_test -j `nproc`
+$ ./test/arc_replacer_test
+</pre>
+
+<p>你也可以运行 <code>make check-tests</code> 来运行所有测试用例。请注意，某些测试被禁用了，因为你还没有实现后续项目。你可以在 GTest 中通过添加 <code>DISABLED_</code> 前缀来禁用测试。</p>
+<p><b>重要提示：</b>这些测试只是我们用来评估和评分你项目的所有测试的一个子集。你应该自己编写额外的测试用例来检查实现的完整功能。</p>
+<h2 id="formatting">格式化</h2>
+<p>你的代码必须遵循 <a onclick="javascript:ga('send', 'pageview', '/outgoing/google.github.io');" href="https://google.github.io/styleguide/cppguide.html">Google C++ 风格指南</a>。我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/">Clang</a> 自动检查你的源代码质量。如果你的提交未通过这些检查，你的项目成绩将为<u><b>零</b></u>。</p>
+<p>执行以下命令检查你的语法。<code>format</code> 目标将自动修正你的代码。<code>check-lint</code> 和 <code>check-clang-tidy-p1</code> 目标将打印错误并指导你如何修复以符合我们的风格指南。</p>
+<pre class="shadow-sm p-2">
+$ make format
+$ make check-clang-tidy-p1
+</pre>
+
+<h2 id="memory-leaks">内存泄漏</h2>
+<p>在本项目中，我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/docs/AddressSanitizer.html">LLVM Address Sanitizer (ASAN) 和 Leak Sanitizer (LSAN)</a> 来检查内存错误。要启用 ASAN 和 LSAN，请在调试模式下配置 CMake 并正常运行测试。如果存在内存错误，你将看到内存错误报告。请注意，macOS <strong>仅支持地址检测器而不支持泄漏检测器</strong>。</p>
+<p>在某些情况下，地址检测器可能会影响调试器的可用性。在这种情况下，你可能需要通过配置 CMake 项目来禁用所有检测器：</p>
+<pre class="shadow-sm p-2">
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER= ..
+</pre>
+
+<h2 id="development-hints">开发提示</h2>
+<p>你可以在调试模式下使用 <code>BUSTUB_ASSERT</code> 进行断言。请注意，<code>BUSTUB_ASSERT</code> 中的语句在发布模式下不会被执行。
+如果你需要在所有情况下进行断言，请使用 <code>BUSTUB_ENSURE</code> 代替。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    请在 Piazza 上发布你关于本项目的所有问题。<u><b>不要</b></u>直接通过电子邮件向助教提问。
+</p>
+
+<p>如果你遇到问题，我们鼓励你使用图形化调试器来调试项目。</p>
+<p>如果你遇到编译问题，运行 <code>make clean</code> 并不能完全重置编译过程。你需要删除构建目录并重新运行 <code>cmake ..</code>，然后再运行 <code>make</code>。</p>
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+<p>每个项目提交将根据以下标准进行评分：</p>
+<ol class="default">
+    <li> 提交是否成功执行所有测试用例并产生正确答案？
+    <li> 提交是否在没有内存泄漏的情况下执行？
+    <li> 提交是否遵循代码格式化和风格政策？
+</ol>
+
+<p>请注意，我们将使用额外的测试用例来评分你的提交，这些测试用例比我们提供的示例测试用例更复杂。</p>
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="submission">迟交政策</h1>
+
+<p>请参阅课程大纲中的<a href="../syllabus.html#late-policy">迟交政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+
+<p>完成作业后，你可以将实现提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/1074751">https://www.gradescope.com/courses/1074751</a></b></li>
+</ul>
+<p>在 <code>build/</code> 目录中运行 <code>make submit-p1</code> 将在项目根目录下生成一个名为 <code>project1-submission.zip</code> 的 <code>zip</code> 压缩包，你可以将其提交到 Gradescope。</p>
+<p>你可以尽可能多次提交答案并获得即时反馈。</p>
+<h2 id="notes-on-gradescope-and-autograder">Gradescope 和自动评分器说明</h2>
+<ol>
+<li>如果你在 Gradescope 上超时，很可能是因为你的代码中存在死锁或代码太慢无法在 60 秒内运行。如果你的代码太慢，可能是因为你的 <code>ArcReplacer</code> 不够高效。</li>
+<li>如果你在提交中打印太多日志，自动评分器将无法工作。</li>
+<li>如果自动评分器无法正常工作，请确保你的格式化命令有效，并且你提交的是正确的文件。</li>
+<li>排行榜基准测试分数将通过压力测试你的 <code>buffer_pool_manager</code> 实现来计算。</li>
+</ol>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    CMU 学生应使用 Piazza 上公布的 Gradescope 课程代码。
+</p>
+
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY                                                      -->
+<!-- ========================================================================= -->
+<h1 id="collaboration">协作政策</h1>
+
+<ul>
+<li>每个学生必须独立完成本作业。</li>
+<li>学生可以与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不允许</strong>在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不允许</strong>从其他同学那里复制解决方案。</li>
+</ul>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <b>警告：</b>本项目的所有代码必须是你自己的。你不能从其他学生或网上找到的其他来源复制源代码。抄袭<strong>不会</strong>被容忍。有关更多信息，请参阅 CMU 的<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cmu.edu');" href="https://www.cmu.edu/policies/student-and-student-life/academic-integrity.html">学术诚信政策</a>。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

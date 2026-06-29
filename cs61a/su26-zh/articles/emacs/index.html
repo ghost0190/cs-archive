@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Emacs | CS 61A 2026夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论小组</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">课程录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">往年试卷与课程网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">代码规范指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中考试1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中考试2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末考试学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教职员
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">讲师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>Emacs</h1>
+    </header>
+     <h2 id="meet-emacs">认识 Emacs！</h2>
+
+
+<p>Emacs 是一个开源文本编辑器，被描述为"永恒且无限强大"。尽管 Emacs 创建于 1976 年（！），但它仍然是周围最流行的文本编辑器之一，主要是因为它很容易自定义！你可以让你的 Emacs 看起来和行为完全符合你的要求。鉴于它的流行性和可扩展性，如果你在另一个文本编辑器中看到想要<s>窃取</s>模仿的酷功能，Emacs 社区中的某个人可能已经为你完成了繁重的工作。</p>
+
+<p>在 Emacs 中入门相当容易，尽管成为专业人士需要更多的工作。今天，我们只会向你介绍基础知识。在本指南结束时，你将能够打开 Emacs，创建一个名为 <code>greet.py</code> 的新文件，编写一个 <code>greet</code> 函数，并从终端运行它。</p>
+
+
+<h2 id="getting-emacs-on-your-own-computer">在你的电脑上安装 Emacs</h2>
+
+
+<!-- TODO: verify that Windows installation actually works. -->
+
+<ul>
+  <li>Windows：滚动到<a href="http://ftp.gnu.org/pub/gnu/emacs/windows/">Emacs 网站</a>底部并下载名为"emacs-24.3-bin-i386.zip"的文件。解压缩文件，你应该能够立即运行它。</li>
+  <li>MacOS：好消息！Emacs 内置——只需在终端中输入 <code>emacs</code>。它相当朴素，所以有些人创建了一个更好的版本，<a href="http://emacsformacosx.com/">在这里</a>。点击巨大的下载按钮并按照弹出的说明操作。之后，你的应用程序文件夹中应该有 Emacs。如果你遇到问题，YouTube 上有一个更详细的演练，<a href="https://www.youtube.com/watch?v=6tQx-J4nBSY">在这里</a>。</li>
+  <li>Ubuntu：在 Ubuntu 上安装 Emacs 最简单的方法是在终端中输入 <code>sudo apt-get install emacs</code>。</li>
+</ul>
+
+
+<h2 id="walkthrough">示例：<code>greet.py</code></h2>
+
+
+<p>让我们首先使用你在<a href="../../lab/lab00/index.html">实验 0</a>中学到的 UNIX 命令创建并导航到一个名为 <code>example</code> 的目录：</p>
+
+<pre><code>mkdir ~/example
+cd ~/example</code></pre>
+
+<p>让我们尝试从命令行打开 Emacs。</p>
+
+<pre><code>emacs &amp;</code></pre>
+
+<p>你需要在 <code>emacs</code> 之后添加一个与号（<code>&amp;</code>），这样你的终端仍然会有响应（作为练习，尝试省略 <code>&amp;</code> 并按 <code>Ctrl-c</code> 来重新获得对终端的控制）。应该会打开一个像这样的窗口：</p>
+
+<p><img class="img-responsive center-block" src="assets/emacs-splash.png" alt="emacs-splash" width="" height=""></p>
+
+
+<h3 id="opening-files">打开文件</h3>
+
+
+<p>要创建一个新文件，你有两个选项。</p>
+
+<ul>
+  <li><p>选项 1：使用键盘快捷键 <code>C-x C-f</code>。即：</p>
+
+  <ol>
+    <li>按住 <code>Control</code>（Ctrl）的同时，按 <code>x</code> 键。</li>
+    <li>释放 <code>x</code> 键。</li>
+    <li>在仍然按住 <code>Control</code> 的同时，按 <code>f</code> 键。</li>
+  </ol>
+
+  <p>底部区域会出现一个提示。这个区域称为<em>迷你缓冲区</em>。输入 <code>greet.py</code> 并按回车键。</p></li>
+  <li><p>选项 2：转到 <code>文件</code> 菜单并点击 <code>访问新文件...</code></p>
+
+  <p><img class="img-responsive center-block" src="assets/emacs-menu-new-file.png" alt="emacs-menu-new-file" width="" height=""></p>
+
+  <p>在迷你缓冲区中输入 <code>greet.py</code> 并按回车键。</p></li>
+</ul>
+
+<p>Emacs 窗口应该变成一个空白页面——你正在查看新创建的 <code>greet.py</code> 文件！将来，每当你想打开 Emacs 来编辑文件时，你可以在终端中输入 <code>emacs greet.py &amp;</code>。如果你要编辑的文件还不存在，Emacs 会为你创建它。如果你已经打开了 Emacs，你可以只使用相同的 <code>C-x C-f</code> 快捷键。</p>
+
+
+<h3 id="editing-files">编辑文件</h3>
+
+
+<p>现在，让我们编写一个简单的程序来根据你的名字问候你。如果你还不理解这个程序，请不要担心！我们将在接下来的几周内更深入地学习这些部分中的每一个的含义。</p>
+
+<pre><code>def greet(name):
+    print('Hey', name, ', how are you doing today?')
+    print(' - Python')</code></pre>
+
+<p>Emacs 现在应该看起来像这样：</p>
+
+<p><img class="img-responsive center-block" src="assets/emacs-greet.png" alt="emacs-greet" width="" height=""></p>
+
+<p>你会注意到某些单词的颜色不同，比如 <code>def</code> 和 <code>print</code>。Emacs 会查看文件名末尾的 <code>.py</code>，知道你想编写 Python，所以它会为你高亮显示特殊单词。语法高亮使程序更容易阅读！</p>
+
+
+<h3 id="saving-files">保存文件</h3>
+
+
+<p>要保存你的程序，请使用键盘快捷键 <code>C-x C-s</code> 或导航到 <code>文件</code> 菜单并点击 <code>保存</code>。如果 Emacs 在迷你缓冲区中告诉你"Wrote /some/directories/greet.py"，你就知道它起作用了。</p>
+
+<p>现在退出 Emacs，可以使用快捷键 <code>C-x C-c</code> 或在菜单中找到 <code>文件 -> 退出</code>。</p>
+
+
+<h3 id="running-python">运行 Python</h3>
+
+
+<p>让我们实际让 Python 做一些工作！确保你在包含我们的 <code>greet.py</code> 文件的 <code>example</code> 目录中。然后，在终端中输入这个。</p>
+
+<pre><code>python3 -i greet.py</code></pre>
+
+<p>此命令执行以下操作：</p>
+
+<ol>
+  <li><code>python3</code> 是启动 Python 的命令</li>
+  <li><code>-i</code> 是一个<em>标志</em>，告诉 Python 在<strong>交互模式</strong>下启动，这允许你从终端输入 Python 命令</li>
+  <li><code>greet.py</code> 是我们想要加载的 Python 文件的名称</li>
+</ol>
+
+<p>三个右尖括号（<code>&gt;&gt;&gt;</code>）意味着你在 Python 解释器内部。现在，你可以让 Python 问候你：</p>
+
+<pre><code>greet('Brian')</code></pre>
+
+<p>Python 然后会打印出</p>
+
+<pre><code>Hey Brian, how are you doing today?
+ - Python</code></pre>
+
+<p>当然，你可能想让 Python 问候你而不是我。所以如果你的名字是 John，你还应该输入：</p>
+
+<pre><code>greet('John')</code></pre>
+
+<p>突然之间，Python 知道如何问候你了！</p>
+
+<pre><code>Hey John, how are you doing today?
+ - Python</code></pre>
+
+<p>恭喜，你已经编辑了你的第一个文件！随着课程的进展，编辑文件并运行它的过程会感觉更自然。要退出 Python 解释器，你可以在解释器中输入 <code>exit()</code> 或 <code>quit()</code>，或者按 <code>C-d</code>。</p>
+
+<p>到目前为止你学到的一切足以让你完成 61A。不过，要充分利用 Emacs，你应该更熟练地使用 Emacs 的键盘快捷键。</p>
+
+
+<h2 id="keyboard-shortcuts-in-emacs">Emacs 中的键盘快捷键</h2>
+
+
+<p>如果你有机会观看专业人士使用 Emacs，你会注意到她从不使用鼠标——她所做的一切都是通过快捷键完成的。Emacs 有各种各样的快捷键，可以帮助你做几乎任何事情。</p>
+
+<p>你可能还记得上面的 <code>C-x</code> 意味着：按住 <code>Control</code> 的同时按 <code>x</code> 键。类似地，<code>C-s</code> 意味着：按住 <code>Control</code> 的同时按 <code>s</code>。 together，快捷键 <code>C-x C-s</code> 意味着做 <code>C-x</code>，然后 <code>C-s</code>。</p>
+
+
+<h3 id="the-meta-key">The <code>Meta</code> 键</h3>
+
+
+<!-- TODO: Cmd on Mac? -->
+
+<p>某些快捷键涉及 <code>Meta</code> 键，比如复制高亮文本区域的快捷键：<code>M-w</code>。现在大多数键盘都没有实际的 <code>Meta</code> 键，所以我们改用 <code>Alt</code> 键。（如果你在 Mac 上，请使用 <code>Cmd</code>。）要执行复制命令，请按住 <code>Alt</code> 并按 <code>w</code>。</p>
+
+
+<h3 id="m-x"><code>M-x</code></h3>
+
+
+<p>最常见的 <code>Meta</code> 键快捷键之一是 <code>M-x</code>。如果你按 <code>M-x</code>，迷你缓冲区会提示你输入命令名称。尝试 <code>M-x doctor</code> 或 <code>M-x snake</code>！</p>
+
+
+<h3 id="useful-shortcuts">有用的快捷键</h3>
+
+
+<p>你可能已经注意到，Emacs 的快捷键与你习惯的快捷键有很大不同。你会发现 Emacs 快捷键在编程世界中实际上相当常见。例如，尝试在终端中输入 <code>python3 -i greet.py</code>，但不要按回车键。<code>M-b</code> 做什么？它在 Emacs 中做同样的事情，即向后移动<strong>一</strong>个单词！也试试 <code>M-f</code>。</p>
+
+<p>如果你想启用 <code>C-c</code> 和 <code>C-v</code> 等用于复制和粘贴的功能，你可以通过在 <code>选项</code> 菜单中找到它来打开 CUA 键。不过，我建议尝试 Emacs 的方式！</p>
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+          
+  <tr>
+    <th>快捷键</th>
+    <th>描述</th>
+  </tr>
+  <tr>
+    <td align="left"><code>C-x C-s</code></td>
+    <td align="left">保存文件</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-x C-f</code></td>
+    <td align="left">打开文件（或创建新文件）</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-/</code></td>
+    <td align="left">撤销</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-w</code></td>
+    <td align="left">剪切高亮文本区域</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-y</code></td>
+    <td align="left">粘贴文本</td>
+  </tr>
+  <tr>
+    <td align="left"><code>M-w</code></td>
+    <td align="left">复制高亮文本区域</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-g</code></td>
+    <td align="left">取消命令</td>
+  </tr>
+  <tr>
+    <td align="left"><code>C-x C-c</code></td>
+    <td align="left">退出 emacs</td>
+  </tr>
+  
+          </table>
+        </div>
+        
+
+
+
+<h2 id="emacs-help">Emacs 帮助</h2>
+
+
+<p>Emacs 有大量信息丰富的"帮助"命令。你可以获得有关任何命令或键盘快捷键的更多信息。最好的部分是 Emacs 是<em>自文档化</em>的——不需要打开其他东西来获取帮助，因为它会显示在 Emacs 内部！</p>
+
+<ul>
+  <li><code>C-h t</code> 将启动 Emacs 教程。非常<em>推荐</em>完成此教程，因为它将帮助你更熟练地使用各种移动键盘快捷键。不过它有点长，所以你可能无法一次完成。</li>
+  <li><code>C-h f</code> 会提示你输入函数名称并返回其文档字符串。</li>
+  <li><code>C-h k</code> 会提示你输入键盘快捷键并返回其文档字符串。</li>
+</ul>
+
+
+<h2 id="not-convinced">还不信服？</h2>
+
+
+<blockquote><p>Emacs...当冰盖融化、城市淹没时，当人类在火焰和僵尸中毁灭自己时，当蟑螂最终实现感知，接管并开始自己使用计算机时——它将在那里，到那时，它的各种 Ctrl-Meta 键和弦不仅对典型的节肢动物来说似乎令人满意地符合人体工程学，而且也是宇宙由某个六条腿、多关节的上帝进行智能设计的直接证据。 -- <cite>Kieran Healy</cite></p></blockquote>
+
+<!-- DO NOT DELETE: hack for separate blockquotes -->
+
+<blockquote><p>你自己的 Emacs 传奇即将展开！Emacs 的梦想和冒险世界等待着！我们走吧！ -- <cite>Samuel Oak</cite></p></blockquote>
+
+
+<h2 id="appendix-b-additional-emacs-resources">附录 B：其他 Emacs 资源</h2>
+
+
+<ul>
+  <li><code>C-h t</code>：它对你有好处！</li>
+  <li>一个更直观的 Emacs 指南，<a href="http://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png">在这里</a>：可以随时跳过第 0 步；第 4 步（缓冲区和窗口管理）是 Emacs 最好的功能之一</li>
+  <li>一个更直观的学习快捷键指南，<a href="http://sachachua.com/blog/wp-content/uploads/2013/08/20130830-Emacs-Newbie-How-to-Learn-Emacs-Keyboard-Shortcuts.png">在这里</a>，来自与上述相同的来源</li>
+  <li>一个全面的<em>高级</em>初学者指南，<a href="http://www.jesshamrick.com/2012/09/10/absolute-beginners-guide-to-emacs/">在这里</a>：涵盖了大量 Emacs 术语，这很好，但可能让人应接不暇。</li>
+  <li>你最喜欢的搜索引擎几乎可以回答你提出的任何 Emacs 问题！</li>
+</ul>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#meet-emacs">认识 Emacs！</a></li>
+  <li><a href="#getting-emacs-on-your-own-computer">在你的电脑上安装 Emacs</a></li>
+  <li><a href="#walkthrough">示例：<code>greet.py</code></a></li>
+  <ul>
+    <li><a href="#opening-files">打开文件</a></li>
+    <li><a href="#editing-files">编辑文件</a></li>
+    <li><a href="#saving-files">保存文件</a></li>
+    <li><a href="#running-python">运行 Python</a></li>
+  </ul>
+  <li><a href="#keyboard-shortcuts-in-emacs">Emacs 中的键盘快捷键</a></li>
+  <ul>
+    <li><a href="#the-meta-key">The <code>Meta</code> 键</a></li>
+    <li><a href="#m-x"><code>M-x</code></a></li>
+    <li><a href="#useful-shortcuts">有用的快捷键</a></li>
+  </ul>
+  <li><a href="#emacs-help">Emacs 帮助</a></li>
+  <li><a href="#not-convinced">还不信服？</a></li>
+  <li><a href="#appendix-b-additional-emacs-resources">附录 B：其他 Emacs 资源</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

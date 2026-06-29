@@ -1,0 +1,3661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   项目0：2048 | CS 61B 2024春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="项目0：2048" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="项目0规范。" name="description">
+  <meta content="项目0规范。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj0/" property="og:url">
+  <meta content="CS 61B 2024春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="项目0：2048" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目0规范。","headline":"项目0：2048","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj0/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       课程日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       教学团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab01/index.html">
+         实验01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab02/index.html">
+         实验02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab03/index.html">
+         实验03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab04/index.html">
+         实验04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab05/index.html">
+         实验05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab06/index.html">
+         实验06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/asymptotics-soln/index.html">
+           渐进分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab07/index.html">
+         实验07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab08/index.html">
+         实验08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab09/index.html">
+         实验09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab10/index.html">
+         实验10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业0A：Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         项目0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1a/index.html">
+         项目1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/faq/index.html">
+           常见问题 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/flags/index.html">
+           覆盖率测试 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1b/index.html">
+         项目1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/faq/index.html">
+           常见问题 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/flags/index.html">
+           覆盖率测试 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1c/index.html">
+         项目1C：Deque61B增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1c/faq/index.html">
+           常见问题 - 项目1C：Deque61B增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2a/index.html">
+         项目2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2b/index.html">
+         项目2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2c/index.html">
+         项目2C：Ngordnet增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj3/index.html">
+         项目3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/faq/index.html">
+           常见问题 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/proj3checkoff/index.html">
+           验收检查 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/ui_bugs/index.html">
+           常见UI错误 - 项目3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐进分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户Ed指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用IntelliJ插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个适用于Jekyll的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="Search CS 61B Spring 2024" autocomplete="off" class="search-input" id="search-input" placeholder="Search CS 61B Spring 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        项目 0：2048
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        项目0：2048
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#overview">
+           概述
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#using-git">
+             使用 Git
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#2048-rules-basic-rules">
+             2048 规则：基本规则
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#setup">
+           设置
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#getting-the-skeleton-files">
+             获取框架文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#file-structure">
+             文件结构
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#running-the-game">
+             运行游戏
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-1-empty-space-exists">
+           任务1：空位存在检测
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-board-coordinates">
+             初始代码：棋盘坐标
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-board-class">
+             初始代码：Board 类
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-tile-class">
+             初始代码：Tile 类
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-2-max-tile-exists">
+           任务2：最大方块存在检测
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-1">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-3-at-least-one-move-exists">
+           任务3：至少存在一步有效移动
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-2">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-4-understanding-tilts">
+           任务4：理解倾斜操作
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#rules-tilting">
+             规则：倾斜
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#tilting-rules-quiz">
+             倾斜规则测验
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#implementing-tilts">
+             实现倾斜
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-5-move-tile-up-no-merging">
+           任务5：向上移动方块（不合并）
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-move-method-in-board">
+             初始代码：Board 类中的 move 方法
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#moving-rules-quiz">
+             移动规则测验
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-3">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-6-merging-tiles">
+           任务6：合并方块
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-wasmerged-method-in-tile">
+             初始代码：Tile 类中的 wasMerged 方法
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-4">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-7-tilt-column">
+           任务7：倾斜列
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-5">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-8-tilt-up">
+           任务8：向上倾斜
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-6">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-9-tilt-in-four-directions">
+           任务9：四个方向的倾斜
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-side">
+             初始代码：Side
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-setviewingperspective-method-in-board">
+             初始代码：Board 类中的 setViewingPerspective 方法
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-7">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-10-updating-score">
+           任务10：更新分数
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#rules-score">
+             规则：分数
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#starter-code-score-instance-variable-in-model">
+             初始代码：Model 类中的 score 实例变量
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-and-debugging-8">
+             测试与调试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#style">
+           代码风格
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission-and-grading">
+           提交与评分
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#velocity-limiting">
+             提交次数限制
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#grading-overview">
+             评分概览
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       项目0：2048
+      </h1>
+      <p>
+       <strong>
+        截止日期：1月29日星期一，太平洋时间晚上11:59。
+       </strong>
+      </p>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       每个作业顶部都会有一个常见问题链接。你也可以通过在URL末尾添加
+       <code class="language-plaintext highlighter-rouge">
+        /faq
+       </code>
+       来访问。项目0的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <p>
+       请注意，本项目的提交次数有限。详情请参阅
+       <a href="#submission-and-grading">
+        提交与评分
+       </a>
+       。
+      </p>
+      <h2 id="overview">
+       <a aria-labelledby="overview" class="anchor-heading" href="#overview">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       概述
+      </h2>
+      <p>
+       前置知识：
+      </p>
+      <ul>
+       <li>
+        <a href="../../labs/lab01/index.html">
+         实验1
+        </a>
+        （环境搭建必需）
+       </li>
+       <li>
+        <a href="../../homeworks/hw0/hw0b/index.html">
+         作业0
+        </a>
+        （推荐，用于Java语法练习）
+       </li>
+       <li>
+        第1-2讲
+       </li>
+       <li>
+        <a href="../../resources/guides/style/index.html">
+         61B代码风格指南
+        </a>
+        （我们会在自动评分器中检查代码风格！）
+       </li>
+       <li>
+        实验2（可选但推荐的前置知识 - 对调试有帮助）
+       </li>
+      </ul>
+      <p>
+       <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD7WwTongMI3rfNbnkCE9NPb">
+        点击这里查看项目的视频概述。
+       </a>
+       该视频来自项目的早期版本，因此会有一些细微差异。
+      </p>
+      <!-- 任何未来的资源（例如项目派对或介绍部分的录像）也可以链接在这里的顶部，方便访问。 -->
+      <p>
+       在本项目中，你将通过创建一个可玩的2048游戏来练习Java。我们已经为你实现了图形和用户交互代码，因此你的任务是实现游戏的逻辑。
+      </p>
+      <p>
+       如果你不熟悉2048，
+       <a href="http://gabrielecirulli.github.io/2048">
+        你可以通过这个链接试玩演示版
+       </a>
+       。
+      </p>
+      <p>
+       这个项目一开始可能看起来令人生畏！有很多初始代码使用了你可能没有见过的Java语法，但没关系！在现实世界中，你经常会使用不完全理解的代码库，并且需要进行一些修补和实验才能获得想要的结果。别担心，当我们到项目1时，你将有机会从头开始。
+      </p>
+      <h3 id="using-git">
+       <a aria-labelledby="using-git" class="anchor-heading" href="#using-git">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       使用Git
+      </h3>
+      <p>
+       将工作
+       <em>
+        频繁地
+       </em>
+       提交到你的仓库非常重要。版本控制是一个强大的工具，可以在你搞砸了或者你的狗吃掉了你的项目时救你，但你必须定期使用它才能发挥作用。可以每15分钟提交一次；Git只保存更改的内容，尽管它表现得像是对整个项目进行了快照。
+      </p>
+      <p>
+       命令
+       <code class="language-plaintext highlighter-rouge">
+        git status
+       </code>
+       会告诉你自上次提交以来修改、删除或可能添加了哪些文件。
+它还会告诉你有多少更改尚未发送到GitHub仓库。
+      </p>
+      <p>
+       典型的命令大致如下：
+      </p>
+      <div class="language-bash highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git status                          <span class="c"># 查看需要添加或提交的内容。</span>
+git add &lt;file or folder path&gt;       <span class="c"># 添加或暂存任何修改的文件。</span>
+git commit <span class="nt">-m</span> <span class="s2">"提交信息"</span>      <span class="c"># 提交更改。使用描述性的信息。</span>
+git push origin main                <span class="c"># 将本地更改反映到GitHub上，以便Gradescope可以看到。</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       然后你可以继续处理项目，直到准备好再次提交和推送，届时你将重复上述步骤。养成频繁提交并使用有意义的提交信息的习惯对你有利，这样当你需要恢复到旧版本的代码时，不仅可能，而且很容易。我们建议你每次添加重要的代码部分或达到某个里程碑（例如通过新测试）时都提交一次。
+      </p>
+      <h3 id="2048-rules-basic-rules">
+       <a aria-labelledby="2048-rules-basic-rules" class="anchor-heading" href="#2048-rules-basic-rules">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       2048规则：基本规则
+      </h3>
+      <p>
+       2048在一个方格网格上进行。每个方格可以是空的，或者包含一个带数字的方块。
+      </p>
+      <p>
+       玩家选择一个方向（使用方向键）来
+       <em>
+        倾斜
+       </em>
+       棋盘：北、南、东或西。所有方块都会朝该方向滑动，直到运动方向上没有空余空间为止。
+      </p>
+      <p>
+       当一个方块滑动时，它可能会与另一个具有相同数字的方块
+       <em>
+        合并
+       </em>
+       。每当两个方块合并形成一个更大的方块时，玩家将获得新方块上数字对应的分数。你将在任务4-10中实现这一点。
+      </p>
+      <p>
+       游戏开始时会随机生成一个方块（值为2或4）。每次倾斜后，如果倾斜没有改变棋盘状态，则不会随机生成新方块。否则，会在棋盘的一个空格子上添加一个随机生成的方块。你的代码不需要添加任何新方块！我们已经为你完成了这部分。
+      </p>
+      <p>
+       当当前玩家没有可用的移动（没有任何倾斜可以改变棋盘），或者某一步形成了一个包含2048的方块时，游戏结束。你将在任务1-3中实现这一点。
+      </p>
+      <h2 id="setup">
+       <a aria-labelledby="setup" class="anchor-heading" href="#setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       环境搭建
+      </h2>
+      <h3 id="getting-the-skeleton-files">
+       <a aria-labelledby="getting-the-skeleton-files" class="anchor-heading" href="#getting-the-skeleton-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       获取框架文件
+      </h3>
+      <p>
+       按照
+       <a href="../../resources/guides/assignment-workflow/index.html">
+        作业工作流指南
+       </a>
+       中的说明获取框架代码并在IntelliJ中打开。对于本项目，我们将在
+       <code class="language-plaintext highlighter-rouge">
+        proj0/
+       </code>
+       目录中工作。
+      </p>
+      <blockquote class="danger">
+       <p>
+        如果你遇到某种错误，请停下来，要么仔细阅读
+        <a href="../../resources/guides/git/wtfs/index.html">
+         git常见问题
+        </a>
+        来解决，要么在答疑时间或Ed上寻求帮助。与使用git命令瞎猜相比，这样可以省去很多麻烦。如果你发现自己试图使用Google推荐的命令，如force push，
+        <a href="https://twitter.com/heathercmiller/status/526770571728531456">
+         不要这样做
+        </a>
+        。
+        <strong>
+         不要使用
+         <code class="language-plaintext highlighter-rouge">
+          git push -f
+         </code>
+         ，即使你在Stack Overflow上找到的帖子说要这样做！
+        </strong>
+       </p>
+       <p>
+        如果你无法让Git正常工作，作为最后的手段，请观看
+        <a href="https://www.youtube.com/watch?v=Squ8TmG5mX0">
+         这个视频
+        </a>
+        来提交你的作业。
+       </p>
+      </blockquote>
+      <h3 id="file-structure">
+       <a aria-labelledby="file-structure" class="anchor-heading" href="#file-structure">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       文件结构
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        proj0
+       </code>
+       文件夹分为两个
+       <em>
+        包
+       </em>
+       ：
+       <code class="language-plaintext highlighter-rouge">
+        game2048logic
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        game2048rendering
+       </code>
+       。虽然我们在61B中不会过多讨论它们，但包是一种将代码组织到不同文件夹中的方式。例如，所有图形代码都在
+       <code class="language-plaintext highlighter-rouge">
+        game2048rendering
+       </code>
+       包中，所有游戏逻辑代码都在
+       <code class="language-plaintext highlighter-rouge">
+        game2048logic
+       </code>
+       包中。你可以在下面的文件结构中看到这一点：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>proj0
+&boxvr;&boxh;&boxh; game2048logic
+|   &boxvr;&boxh;&boxh; Model.java
+&boxvr;&boxh;&boxh; game2048rendering
+    &boxvr;&boxh;&boxh; Board.java
+    ... (其他一些文件) ...
+    &boxvr;&boxh;&boxh; Main.java
+    &boxvr;&boxh;&boxh; Side.java
+    &boxvr;&boxh;&boxh; Tile.java
+</code></pre>
+       </div>
+      </div>
+      <blockquote class="info">
+       <p>
+        在整个项目中，你只需要修改
+        <code class="language-plaintext highlighter-rouge">
+         game2048logic/Model.java
+        </code>
+        文件。对其他文件的更改不会被Gradescope识别。
+       </p>
+       <p>
+        但是，你需要查看并使用（但不修改！）其他文件中的一些方法。我们将在规范中提供这些方法的描述。
+       </p>
+      </blockquote>
+      <h3 id="running-the-game">
+       <a aria-labelledby="running-the-game" class="anchor-heading" href="#running-the-game">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       运行游戏
+      </h3>
+      <p>
+       你可以通过运行
+       <code class="language-plaintext highlighter-rouge">
+        game2048rendering
+       </code>
+       包中的
+       <code class="language-plaintext highlighter-rouge">
+        Main.java
+       </code>
+       文件来运行游戏。你可以右键单击该文件并选择"Run 'Main.main()'"：
+      </p>
+      <p>
+       <img alt="run-main" src="img/run-main.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       如果一切设置正确，你应该会看到类似下面的图片：
+      </p>
+      <p>
+       <img alt="2048-blank" src="img/2048-blank.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       目前，你的游戏什么都不做，但在本项目结束时，你将拥有一个功能完整的2048实现！
+      </p>
+      <h2 id="task-1-empty-space-exists">
+       <a aria-labelledby="task-1-empty-space-exists" class="anchor-heading" href="#task-1-empty-space-exists">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务1：空位存在检测
+      </h2>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，完成
+       <code class="language-plaintext highlighter-rouge">
+        emptySpaceExists()
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       如果棋盘上有任何方块为null，该方法应返回true。
+      </p>
+      <h3 id="starter-code-board-coordinates">
+       <a aria-labelledby="starter-code-board-coordinates" class="anchor-heading" href="#starter-code-board-coordinates">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：棋盘坐标
+      </h3>
+      <p>
+       我们的实现使用xy坐标，(0, 0)位于
+       <em>
+        左下角
+       </em>
+       ：
+       <img alt="棋盘坐标" src="img/board-coordinates.jpg" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <h3 id="starter-code-board-class">
+       <a aria-labelledby="starter-code-board-class" class="anchor-heading" href="#starter-code-board-class">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：
+       <code class="language-plaintext highlighter-rouge">
+        Board
+       </code>
+       类
+      </h3>
+      <p>
+       Board类表示一个方块棋盘。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        private
+       </code>
+       关键字意味着你不能直接访问
+       <code class="language-plaintext highlighter-rouge">
+        Board
+       </code>
+       类的实例变量。你只能从
+       <code class="language-plaintext highlighter-rouge">
+        Model
+       </code>
+       中访问
+       <code class="language-plaintext highlighter-rouge">
+        public
+       </code>
+       方法和变量。（关于这些关键字及其用途，我们将在课程后面详细讨论。）
+      </p>
+      <p>
+       在任务1中与
+       <code class="language-plaintext highlighter-rouge">
+        Board
+       </code>
+       对象交互，你需要使用
+       <code class="language-plaintext highlighter-rouge">
+        size()
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        tile(int x, int y)
+       </code>
+       方法。这些方法在
+       <code class="language-plaintext highlighter-rouge">
+        Board.java
+       </code>
+       中有文档说明。
+      </p>
+      <h3 id="starter-code-tile-class">
+       <a aria-labelledby="starter-code-tile-class" class="anchor-heading" href="#starter-code-tile-class">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：
+       <code class="language-plaintext highlighter-rouge">
+        Tile
+       </code>
+       类
+      </h3>
+      <p>
+       Tile类表示棋盘上的带数字的方块。
+      </p>
+      <p>
+       如果一个
+       <code class="language-plaintext highlighter-rouge">
+        Tile
+       </code>
+       类型的变量是
+       <code class="language-plaintext highlighter-rouge">
+        null
+       </code>
+       ，这表示棋盘上的一个空格子。要检查
+       <code class="language-plaintext highlighter-rouge">
+        Tile t
+       </code>
+       是否为null，你可以使用表达式
+       <code class="language-plaintext highlighter-rouge">
+        if (t == null) {...}
+       </code>
+      </p>
+      <p>
+       与Tile对象交互，你需要使用
+       <code class="language-plaintext highlighter-rouge">
+        value()
+       </code>
+       方法，该方法返回给定方块的数值。
+      </p>
+      <p>
+       语法示例：如果
+       <code class="language-plaintext highlighter-rouge">
+        t
+       </code>
+       是一个
+       <code class="language-plaintext highlighter-rouge">
+        Tile
+       </code>
+       类型的变量，表示一个值为8的方块，那么
+       <code class="language-plaintext highlighter-rouge">
+        t.value()
+       </code>
+       将返回8。
+      </p>
+      <blockquote class="warning">
+       <p>
+        如果你尝试在一个
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        的
+        <code class="language-plaintext highlighter-rouge">
+         Tile
+        </code>
+        对象上调用
+        <code class="language-plaintext highlighter-rouge">
+         value()
+        </code>
+        ，你会得到一个
+        <code class="language-plaintext highlighter-rouge">
+         NullPointerException
+        </code>
+        。你可以在调用
+        <code class="language-plaintext highlighter-rouge">
+         value()
+        </code>
+        之前检查方块是否为
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        来避免这种情况。
+       </p>
+      </blockquote>
+      <h3 id="testing-and-debugging">
+       <a aria-labelledby="testing-and-debugging" class="anchor-heading" href="#testing-and-debugging">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试你的方法，右键单击
+       <code class="language-plaintext highlighter-rouge">
+        TestEmptySpace.java
+       </code>
+       文件并选择"Run 'TestEmptySpace'"来运行测试：
+      </p>
+      <p>
+       <img alt="run-test-empty-space" src="img/run-test-empty-space.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       （你也可以通过右键单击
+       <code class="language-plaintext highlighter-rouge">
+        game2048logic
+       </code>
+       &gt; "Run 'Tests in 'game2048logic'"来运行整个文件夹中的所有测试。）
+      </p>
+      <p>
+       或者，你可以打开
+       <code class="language-plaintext highlighter-rouge">
+        TestEmptySpace.java
+       </code>
+       文件，然后单击
+       <code class="language-plaintext highlighter-rouge">
+        public class TestEmptySpace
+       </code>
+       旁边的绿色箭头来运行测试（你的可能看起来略有不同）：
+      </p>
+      <p>
+       <img alt="run-test-empty-space-2" src="img/run-test-empty-space-2.gif" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       你也可以用同样的方式运行单个测试。
+      </p>
+      <p>
+       在项目的其余部分（以及整个课程中！），你都将以相同的方式运行所有测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestEmptySpace
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        完全空的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testCompletelyEmpty
+        </code>
+        ）：在没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        空的顶行（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptyTopRow
+        </code>
+        ）：在顶行没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        空的底行（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptyBottomRow
+        </code>
+        ）：在底行没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        空的左列（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptyLeftCol
+        </code>
+        ）：在左列没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        空的右列（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptyRightCol
+        </code>
+        ）：在右列没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        一个空位（
+        <code class="language-plaintext highlighter-rouge">
+         testAlmostFullBoard
+        </code>
+        ）：在只有一个空位的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+       </li>
+       <li>
+        满棋盘但有有效合并（
+        <code class="language-plaintext highlighter-rouge">
+         testFullBoard
+        </code>
+        ）：在没有空格子但存在合法移动的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+        。检查
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+        仍然返回false。
+       </li>
+       <li>
+        满棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testFullBoardNoMerge
+        </code>
+        ）：在没有空格子且不存在合法移动的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+        。检查
+        <code class="language-plaintext highlighter-rouge">
+         emptySpaceExists
+        </code>
+        仍然返回false。
+       </li>
+      </ol>
+      <p>
+       如果你的实现正确，所有8个测试都应该通过。
+      </p>
+      <p>
+       以下是如果你失败了其中一个测试，错误消息会是什么样子：
+      </p>
+      <p>
+       <img alt="TestEmptySpace全部失败" src="img/test-empty-space-all-fail.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       在左侧，你会看到所有已运行测试的列表。黄色X表示我们失败了一个测试，而绿色勾选表示我们通过了。在右侧，你会看到一些有用的错误消息。要单独查看一个测试及其错误消息，请单击左侧的测试。例如，假设我们想查看
+       <code class="language-plaintext highlighter-rouge">
+        testCompletelyEmpty
+       </code>
+       测试。
+      </p>
+      <p>
+       <img alt="testCompletelyEmpty" src="img/test-completely-empty.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       右侧现在是该测试的单独错误消息。第一行有一个有用的消息：
+       <code class="language-plaintext highlighter-rouge">
+        "Board 是 full of empty space"
+       </code>
+       ，后面是棋盘的
+       <code class="language-plaintext highlighter-rouge">
+        String
+       </code>
+       表示。你会看到它显然是空的，但我们的
+       <code class="language-plaintext highlighter-rouge">
+        emptySpaceExists
+       </code>
+       方法返回了
+       <code class="language-plaintext highlighter-rouge">
+        false
+       </code>
+       ，导致这个测试失败。测试代码顶部的javadoc注释也有一些有用的信息，以防你失败了测试。你可以单击蓝色下划线的文本来查看测试内容。
+      </p>
+      <h2 id="task-2-max-tile-exists">
+       <a aria-labelledby="task-2-max-tile-exists" class="anchor-heading" href="#task-2-max-tile-exists">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务2：最大方块存在检测
+      </h2>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，完成
+       <code class="language-plaintext highlighter-rouge">
+        maxTileExists()
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       如果棋盘上有任何方块具有获胜值（默认为2048），该方法应返回true。
+      </p>
+      <p>
+       注意：你不应该在代码中硬编码常量2048，而应该使用变量
+       <code class="language-plaintext highlighter-rouge">
+        MAX_PIECE
+       </code>
+       （已经为你定义好了）。例如，你应该写
+       <code class="language-plaintext highlighter-rouge">
+        if (x == MAX_PIECE)
+       </code>
+       而不是
+       <code class="language-plaintext highlighter-rouge">
+        if (x == 2048)
+       </code>
+       。
+      </p>
+      <p>
+       保留像
+       <code class="language-plaintext highlighter-rouge">
+        2048
+       </code>
+       这样的硬编码数字是一种不好的编程习惯，有时被称为"魔术数字"。这种魔术数字的危险在于，如果你在代码的一部分更改了它们而在另一部分没有更改，你可能会得到意外的结果。通过使用像
+       <code class="language-plaintext highlighter-rouge">
+        MAX_PIECE
+       </code>
+       这样的变量，你可以确保它们一起被更改。
+      </p>
+      <h3 id="testing-and-debugging-1">
+       <a aria-labelledby="testing-and-debugging-1" class="anchor-heading" href="#testing-and-debugging-1">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试你的方法，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestMaxTileExists.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestMaxTileExists
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        测试空棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptyBoard
+        </code>
+        ）：在没有方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试没有最大方块（
+        <code class="language-plaintext highlighter-rouge">
+         testFullBoardNoMax
+        </code>
+        ）：在没有最大方块的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试有最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testFullBoardMax
+        </code>
+        ）：在只有一个最大方块的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试有多个最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testMultipleMax
+        </code>
+        ）：在有几个最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试右上角有最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testTopRightCorner
+        </code>
+        ）：在右上角有一个最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试左上角有最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testTopLeftCorner
+        </code>
+        ）：在左上角有一个最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试左下角有最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testBottomLeftCorner
+        </code>
+        ）：在左下角有一个最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+       <li>
+        测试右下角有最大方块的棋盘（
+        <code class="language-plaintext highlighter-rouge">
+         testBottomRightCorner
+        </code>
+        ）：在右下角有一个最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         maxTileExists
+        </code>
+       </li>
+      </ol>
+      <p>
+       如果你的实现正确，所有测试都应该通过。
+      </p>
+      <h2 id="task-3-at-least-one-move-exists">
+       <a aria-labelledby="task-3-at-least-one-move-exists" class="anchor-heading" href="#task-3-at-least-one-move-exists">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务3：至少存在一步有效移动
+      </h2>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，完成
+       <code class="language-plaintext highlighter-rouge">
+        atLeastOneMoveExists()
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       如果存在任何有效移动，该方法应返回true。如果玩家可以按下某个按钮（上、下、左、右）导致至少一个方块移动，则存在有效移动。
+      </p>
+      <p>
+       有效移动存在的两种情况：
+      </p>
+      <ol>
+       <li>
+        棋盘上至少有一个空位。
+       </li>
+       <li>
+        有两个相邻（它们之间可以有空位）值相同的方块。
+       </li>
+      </ol>
+      <p>
+       例如，对于下面的棋盘，我们应该返回true，因为至少有一个空位。
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|    |   2|    |
+|   4|   4|   2|   2|
+|    |   4|    |    |
+|   2|   4|   4|   8|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       对于下面的棋盘，我们应该返回false。无论你在2048中按下什么按钮，什么都不会发生，也就是说，没有两个相邻的方块具有相同的值。
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|   4|   2|   4|
+|  16|   2|   4|   2|
+|   2|   4|   2|   4|
+|   4|   2|   4|   2|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       对于下面的棋盘，我们会返回true，因为向右或向左移动会合并两个64方块，并且向上或向下移动会合并32方块。换句话说，至少存在两个值相同的相邻方块。
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|   4|  64|  64|
+|  16|   2|   4|   8|
+|   2|   4|   2|  32|
+|   4|   2|   4|  32|
+</code></pre>
+       </div>
+      </div>
+      <h3 id="testing-and-debugging-2">
+       <a aria-labelledby="testing-and-debugging-2" class="anchor-heading" href="#testing-and-debugging-2">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试你的方法，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestAtLeastOneMoveExists.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestAtLeastOneMoveExists
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        空位存在（
+        <code class="language-plaintext highlighter-rouge">
+         testEmptySpace
+        </code>
+        ）：在有空位的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+       </li>
+       <li>
+        有效倾斜存在（
+        <code class="language-plaintext highlighter-rouge">
+         testAnyDir
+        </code>
+        ）：在任何方向倾斜都是有效移动的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+       </li>
+       <li>
+        有效左/右倾斜（
+        <code class="language-plaintext highlighter-rouge">
+         testLeftOrRight
+        </code>
+        ）：在左右倾斜是唯一有效移动的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+       </li>
+       <li>
+        有效上/下倾斜（
+        <code class="language-plaintext highlighter-rouge">
+         testUpOrDown
+        </code>
+        ）：在上下倾斜是唯一有效移动的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+       </li>
+       <li>
+        有最大方块的有效倾斜（
+        <code class="language-plaintext highlighter-rouge">
+         testMoveExistsMaxPiece
+        </code>
+        ）：在存在某些移动且棋盘上有最大方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+        。虽然棋盘上有最大方块确实意味着游戏结束，但这不应该由此方法处理。
+       </li>
+       <li>
+        无有效移动（
+        <code class="language-plaintext highlighter-rouge">
+         testNoMoveExists1
+        </code>
+        到
+        <code class="language-plaintext highlighter-rouge">
+         testNoMoveExists5
+        </code>
+        ）：在不存在移动的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         atLeastOneMoveExists
+        </code>
+       </li>
+      </ol>
+      <p>
+       如果你的实现正确，所有测试都应该通过。
+      </p>
+      <p>
+       由于
+       <code class="language-plaintext highlighter-rouge">
+        atLeastOneMoveExists
+       </code>
+       方法依赖于
+       <code class="language-plaintext highlighter-rouge">
+        emptySpaceExists
+       </code>
+       方法，在你通过
+       <code class="language-plaintext highlighter-rouge">
+        TestEmptySpace
+       </code>
+       中的所有测试之前，不要期望通过这些测试。
+      </p>
+      <p>
+       一旦你让
+       <code class="language-plaintext highlighter-rouge">
+        maxTileExists
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        atLeastOneMoveExists
+       </code>
+       正常工作，你也应该通过
+       <code class="language-plaintext highlighter-rouge">
+        TestModel.java
+       </code>
+       中的所有测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestModel
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        无有效移动（
+        <code class="language-plaintext highlighter-rouge">
+         testGameOverNoChange1
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         testGameOverNoChange2
+        </code>
+        ）：在没有空位且任何方向的倾斜都不可能的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         gameOver
+        </code>
+       </li>
+       <li>
+        存在最大方块（
+        <code class="language-plaintext highlighter-rouge">
+         testGameOverMaxPiece
+        </code>
+        ）：在包含最大方块且没有其他方块的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         gameOver
+        </code>
+       </li>
+       <li>
+        存在有效移动（
+        <code class="language-plaintext highlighter-rouge">
+         testGameNotOver1
+        </code>
+        ）：在任何方向倾斜都是有效移动的满棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         gameOver
+        </code>
+       </li>
+       <li>
+        有效右移和下移（
+        <code class="language-plaintext highlighter-rouge">
+         testGameNotOver2
+        </code>
+        ）：在只有一个空位的棋盘上调用
+        <code class="language-plaintext highlighter-rouge">
+         gameOver
+        </code>
+       </li>
+      </ol>
+      <p>
+       你可能遇到的一个常见错误是
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       。以下是
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       错误消息的样子：
+      </p>
+      <p>
+       <img alt="数组越界异常" src="img/index-oob-error.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       当我们试图访问非法索引的值时，会发生
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       。例如，数组
+       <code class="language-plaintext highlighter-rouge">
+        arr = [4, 2, 2, 4]
+       </code>
+       的合法索引是0、1、2和3。试图访问
+       <code class="language-plaintext highlighter-rouge">
+        arr[4]
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        arr[-1]
+       </code>
+       会抛出
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       。
+      </p>
+      <p>
+       我们可以通过检查测试输出中提供的堆栈跟踪来评估
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       发生在代码的什么位置。仔细看看前面的例子：
+      </p>
+      <p>
+       <img alt="堆栈跟踪" src="img/stack-trace.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       堆栈跟踪向我们展示了导致错误的代码执行行，最上面的一行是最近的。
+       <code class="language-plaintext highlighter-rouge">
+        at game2048rendering.Board.vtile(Board.java:53)
+       </code>
+       这一行告诉我们关于错误的一些信息。首先，我们可以看到
+       <code class="language-plaintext highlighter-rouge">
+        ArrayIndexOutOfBoundsException
+       </code>
+       是在
+       <code class="language-plaintext highlighter-rouge">
+        game2048rendering.Board
+       </code>
+       类的
+       <code class="language-plaintext highlighter-rouge">
+        vtile
+       </code>
+       方法中触发的。
+       <code class="language-plaintext highlighter-rouge">
+        Board.java:53
+       </code>
+       指定第53行触发了错误。这是由
+       <code class="language-plaintext highlighter-rouge">
+        tile
+       </code>
+       方法中的第59行调用的，依此类推。
+      </p>
+      <p>
+       堆栈跟踪是调试的有用起点。你可以单击堆栈跟踪中蓝色下划线的部分，直接跳转到那行代码。
+      </p>
+      <h2 id="task-4-understanding-tilts">
+       <a aria-labelledby="task-4-understanding-tilts" class="anchor-heading" href="#task-4-understanding-tilts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务4：理解倾斜操作
+      </h2>
+      <p>
+       现在，是时候实现棋盘倾斜的逻辑了。我们建议先完成任务1-3，然后再阅读规范的后续内容！
+      </p>
+      <p>
+       <a href="https://www.youtube.com/watch?v=abFbbK1QY2k">
+        点击这里查看此任务的视频介绍。
+       </a>
+      </p>
+      <h3 id="rules-tilting">
+       <a aria-labelledby="rules-tilting" class="anchor-heading" href="#rules-tilting">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       规则：倾斜
+      </h3>
+      <p>
+       <img alt="2048 示例" src="img/example-2048.gif" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       上面的动画展示了一些倾斜操作。以下是上图中显示的合并发生的完整规则。
+      </p>
+      <ol>
+       <li>
+        <p>
+         两个相同值的方块
+         <em>
+          合并
+         </em>
+         成一个方块，其数值为初始数字的两倍。
+        </p>
+       </li>
+       <li>
+        <p>
+         作为合并结果的方块在该次倾斜中不会再次合并。例如，如果我们有 [X, 2, 2, 4]，其中X表示一个空位，我们将方块向左移动，我们应该得到 [4, 4, X, X]，而不是 [8, X, X, X]。这是因为最左边的4已经是合并的一部分，所以它不应该再次合并。
+        </p>
+       </li>
+       <li>
+        <p>
+         当运动方向上有三个相邻的方块数字相同时，运动方向上最前面的两个方块合并，后面的方块不合并。例如，如果我们有 [X, 2, 2, 2] 并向左移动方块，我们应该得到 [4, 2, X, X] 而不是 [2, 4, X, X]。
+        </p>
+       </li>
+      </ol>
+      <p>
+       作为这些规则的推论，如果运动方向上有四个相同数字的相邻方块，它们会形成两个合并的方块。例如，如果我们有 [4, 4, 4, 4]，那么向左移动时，我们会得到 [8, 8, X, X]。这是因为根据规则3，最前面的两个方块会合并，然后后面的两个方块会合并，但由于规则2，这些合并后的方块（在我们的例子中是8）在该次倾斜中不会自己合并。
+      </p>
+      <p>
+       你会在上面的动画GIF中找到上述3条规则的应用，所以多看几遍以好好理解这些规则。
+      </p>
+      <h3 id="tilting-rules-quiz">
+       <a aria-labelledby="tilting-rules-quiz" class="anchor-heading" href="#tilting-rules-quiz">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       倾斜规则测验
+      </h3>
+      <p>
+       你的任务：完成这个可选的
+       <a href="https://forms.gle/xW74vQnK7dZAjS6eA">
+        Google表单测验
+       </a>
+       来检查你对倾斜规则的理解。
+      </p>
+      <p>
+       这个测验不计入61B课程成绩。
+       <!--TODO：但你需要完成它才能在Ed或办公时间向工作人员寻求帮助。（也许？）-->
+      </p>
+      <h3 id="implementing-tilts">
+       <a aria-labelledby="implementing-tilts" class="anchor-heading" href="#implementing-tilts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       实现倾斜
+      </h3>
+      <p>
+       实现倾斜出人意料地具有挑战性。我们必须考虑分数更新、四个不同的方向、三种不同的合并规则等等。
+      </p>
+      <p>
+       计算机科学本质上是关于一件事：管理复杂性。为了实现这个复杂的功能，我们需要把问题分解成更小的部分，然后逐个解决。
+      </p>
+      <p>
+       在未来的作业中，你需要自己想办法把问题分解成更小的部分。对于这个项目，以下是我们决定如何处理倾斜问题的大纲：
+      </p>
+      <ul>
+       <li>
+        <p>
+         <strong>
+          分数更新：
+         </strong>
+         一旦我们有了移动所有方块的逻辑，这会更容易，所以让我们把这个留到后面（任务10）。
+        </p>
+       </li>
+       <li>
+        <p>
+         <strong>
+          四个方向：
+         </strong>
+         与其同时担心四个方向的倾斜，不如先从向上方向开始。稍后，在任务9中，我们会向你展示一个巧妙的技巧来推广你的代码，只用额外两行代码就能处理其他三个方向。
+        </p>
+       </li>
+       <li>
+        <p>
+         <strong>
+          关键观察：
+         </strong>
+         当你向上倾斜棋盘时，四列中的每一列都可以独立处理。一列中的方块对另一列中的方块没有影响。受这个观察的启发，我们将编写一个
+         <em>
+          辅助方法
+         </em>
+         来倾斜一列。然后，要向上倾斜整个棋盘（任务8），我们将调用该辅助方法来逐个倾斜每一列。
+        </p>
+       </li>
+       <li>
+        <p>
+         <strong>
+          另一个关键观察：
+         </strong>
+         当你向上倾斜一列时，我们需要计算该列中每个方块的最终落位。我们可以在一个方法中完成所有这些，但这很快就会变得复杂。相反，让我们编写另一个
+         <em>
+          辅助方法
+         </em>
+         来移动单个方块。然后，要倾斜整列（任务7），我们将调用该辅助方法来逐个移动每个方块。
+        </p>
+       </li>
+       <li>
+        <p>
+         <strong>
+          合并规则：
+         </strong>
+         在我们处理合并之前，让我们先尝试实现方块向上倾斜。然后，一旦方块正确地向上倾斜，我们就可以添加实现合并的逻辑（任务6）。
+        </p>
+       </li>
+      </ul>
+      <h2 id="task-5-move-tile-up-no-merging">
+       <a aria-labelledby="task-5-move-tile-up-no-merging" class="anchor-heading" href="#task-5-move-tile-up-no-merging">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务5：向上移动方块（不合并）
+      </h2>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，填写
+       <code class="language-plaintext highlighter-rouge">
+        moveTileUpAsFarAsPossible(int x, int y)
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       该方法应将位置
+       <code class="language-plaintext highlighter-rouge">
+        (x, y)
+       </code>
+       处的方块在其列中尽可能向上移动。
+      </p>
+      <p>
+       请记住，方块可以向上穿过空方格，直到方块到达顶行，或者方块到达一个空方格，其正上方有另一个方块。
+      </p>
+      <p>
+       对于此任务，暂时不用担心合并。我们将在下一个任务中添加合并逻辑。
+      </p>
+      <h3 id="starter-code-move-method-in-board">
+       <a aria-labelledby="starter-code-move-method-in-board" class="anchor-heading" href="#starter-code-move-method-in-board">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：Board 类中的
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法
+      </h3>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Board
+       </code>
+       类中，有一个方法
+       <code class="language-plaintext highlighter-rouge">
+        move(int x, int y, Tile tile)
+       </code>
+       。该方法将给定的
+       <code class="language-plaintext highlighter-rouge">
+        tile
+       </code>
+       移动到棋盘上给定的
+       <code class="language-plaintext highlighter-rouge">
+        (x, y)
+       </code>
+       位置。
+      </p>
+      <p>
+       为了使图形流畅运行，每次调用
+       <code class="language-plaintext highlighter-rouge">
+        tilt
+       </code>
+       时，你应该只对给定的方块调用一次
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       。换句话说，你对
+       <code class="language-plaintext highlighter-rouge">
+        moveTileUpAsFarAsPossible
+       </code>
+       的解决方案应该只精确调用一次
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法。
+      </p>
+      <p>
+       举个例子，假设你有下面的棋盘并按向上键。
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|    |    |    |    |
+|    |    |    |    |
+|    |    |    |    |
+|    |    |    |   2|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们可以通过以下方式实现这一点：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Tile</span> <span class="n">t</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="na">tile</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       但是，图形代码会感到困惑，因为同一个方块不应该移动多次。相反，你需要通过一次调用
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       来完成整个移动，例如：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Tile</span> <span class="n">t</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="na">tile</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果
+       <code class="language-plaintext highlighter-rouge">
+        (x, y)
+       </code>
+       位置已经包含另一个具有相同值的方块，则
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法将合并这两个方块并相应地更新值。
+      </p>
+      <p>
+       举个例子，假设你有下面的棋盘并按向上键。
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|    |    |    |   2|
+|    |    |    |    |
+|    |    |    |    |
+|    |    |    |   2|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       你可以使用以下代码生成正确的结果棋盘，这将合并方块并创建一个值为4的新方块：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Tile</span> <span class="n">t</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="na">tile</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果
+       <code class="language-plaintext highlighter-rouge">
+        (x, y)
+       </code>
+       位置已经包含另一个具有不同值的方块，则程序将崩溃。你不能将方块移动到包含另一个具有不同值的方块的方格中。
+      </p>
+      <h3 id="moving-rules-quiz">
+       <a aria-labelledby="moving-rules-quiz" class="anchor-heading" href="#moving-rules-quiz">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       移动规则测验
+      </h3>
+      <p>
+       为了测试你的理解，你应该完成这个
+       <a href="https://forms.gle/pubhRx4fxYnPTGNX8">
+        Google Form 测验
+       </a>
+       。这个测验（以及以下测验）完全是可选的（即不计分），但
+       <strong>
+        强烈建议
+       </strong>
+       完成，因为它会发现你可能对游戏机制存在的任何概念性误解。你可以根据自己的意愿多次尝试这个测验。
+      </p>
+      <h3 id="testing-and-debugging-3">
+       <a aria-labelledby="testing-and-debugging-3" class="anchor-heading" href="#testing-and-debugging-3">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试无合并的方块移动，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestMoveTileUp.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestMoveTileUp.java
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        空列中的单个方块（
+        <code class="language-plaintext highlighter-rouge">
+         testOneTile
+        </code>
+        ）：在上方没有方块的方块上调用
+        <code class="language-plaintext highlighter-rouge">
+         moveTileUpAsFarAsPossible
+        </code>
+       </li>
+       <li>
+        两个方块，不同值（
+        <code class="language-plaintext highlighter-rouge">
+         testTwoTiles
+        </code>
+        ）：在上方有一个不同值方块的方块上调用
+        <code class="language-plaintext highlighter-rouge">
+         moveTileUpAsFarAsPossible
+        </code>
+       </li>
+       <li>
+        两个方块合并且不计分（
+        <code class="language-plaintext highlighter-rouge">
+         testTwoTilesMergeNoScore
+        </code>
+        ）：在上方有一个相同值方块的方块上调用
+        <code class="language-plaintext highlighter-rouge">
+         moveTileUpAsFarAsPossible
+        </code>
+        。要通过此测试，不需要实现分数计算。
+       </li>
+       <li>
+        两个方块合并并更新分数（
+        <code class="language-plaintext highlighter-rouge">
+         testTwoTilesMergeScore
+        </code>
+        ）：在上方有一个相同值方块的方块上调用
+        <code class="language-plaintext highlighter-rouge">
+         moveTileUpAsFarAsPossible
+        </code>
+        。期望分数会相应更新。如果你按从1到10的顺序完成任务，那么在完成任务10之前，这个测试不会通过。
+       </li>
+      </ol>
+      <p>
+       如果到目前为止你的实现是正确的，你应该能通过
+       <code class="language-plaintext highlighter-rouge">
+        testOneTile
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        testTwoTiles
+       </code>
+       。
+      </p>
+      <p>
+       如果你的代码崩溃并显示类似这样的消息：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>java.lang.NullPointerException: Cannot invoke "game2048rendering.Tile.value()" because the return value of "game2048logic.Model.tile(int, int)" 是 null
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这可能意味着你试图在一个空（null）方块上调用
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       。你不能移动一个不存在的方块，所以程序会崩溃。下面是一个移动不存在的方块的例子（你不应该这样做）：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Tile</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="n">board</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       你可以使用堆栈跟踪来找出是哪一行代码导致程序崩溃的。
+      </p>
+      <h2 id="task-6-merging-tiles">
+       <a aria-labelledby="task-6-merging-tiles" class="anchor-heading" href="#task-6-merging-tiles">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务6：合并方块
+      </h2>
+      <p>
+       修改
+       <code class="language-plaintext highlighter-rouge">
+        moveTileUpAsFarAsPossible
+       </code>
+       方法，使其考虑方块合并。
+      </p>
+      <p>
+       请记住，方块可以向上穿过空方格。当方块遇到一个非空方格时，如果该方格包含另一个相同值的方块，并且该方块在本次倾斜中尚未被合并过，则这两个方块应该合并。
+      </p>
+      <h3 id="starter-code-wasmerged-method-in-tile">
+       <a aria-labelledby="starter-code-wasmerged-method-in-tile" class="anchor-heading" href="#starter-code-wasmerged-method-in-tile">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：Tile 类中的
+       <code class="language-plaintext highlighter-rouge">
+        wasMerged
+       </code>
+       方法
+      </h3>
+      <p>
+       合并的一个棘手问题是规则2：
+      </p>
+      <p>
+       作为合并结果的方块在该次倾斜中不会再次合并。例如，如果我们有 [X, 2, 2, 4]，其中 X 表示一个空格，然后我们将方块向左移动，我们应该得到 [4, 4, X, X]，而不是 [8, X, X, X]。这是因为最左边的 4 已经是合并的一部分，所以它不应该再次合并。
+      </p>
+      <p>
+       如果在这次倾斜操作的中途，我们有 [4, X, X, 4]，并且我们想调用
+       <code class="language-plaintext highlighter-rouge">
+        moveTileUpAsFarAsPossible
+       </code>
+       将最右边的 4 方块向左移动怎么办？我们必须知道最左边的 4 方块是否在这次倾斜中之前已经被合并过（就像这里的情况一样），或者最左边的 4 方块是否仍然有资格合并（在这种情况下，两个 4 将合并成一个 8）。
+      </p>
+      <p>
+       为了跟踪方块在这次倾斜中是否已被合并，你可以使用 Tile 类的
+       <code class="language-plaintext highlighter-rouge">
+        wasMerged
+       </code>
+       方法。别担心，如果合并成功，
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法会自动更新值。
+      </p>
+      <h3 id="testing-and-debugging-4">
+       <a aria-labelledby="testing-and-debugging-4" class="anchor-heading" href="#testing-and-debugging-4">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       如果到目前为止你的实现是正确的，你现在应该能通过
+       <code class="language-plaintext highlighter-rouge">
+        TestMoveTileUp.java
+       </code>
+       中的"两个方块合并且不计分"（
+       <code class="language-plaintext highlighter-rouge">
+        testTwoTilesMergeNoScore
+       </code>
+       ）测试。
+      </p>
+      <h2 id="task-7-tilt-column">
+       <a aria-labelledby="task-7-tilt-column" class="anchor-heading" href="#task-7-tilt-column">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务7：倾斜列
+      </h2>
+      <p>
+       现在我们有了一个
+       <em>
+        辅助方法
+       </em>
+       ，可以将单个方块移动到它应该在的位置（包括合并），我们倾斜整列的方法将会简单得多！
+      </p>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，填写
+       <code class="language-plaintext highlighter-rouge">
+        tiltColumn(int x)
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       该方法应将坐标
+       <code class="language-plaintext highlighter-rouge">
+        x
+       </code>
+       处的给定列向上倾斜，将该列中的所有方块移动到它们应该在的位置，并合并该列中需要合并的任何方块。
+      </p>
+      <p>
+       记住使用你的
+       <code class="language-plaintext highlighter-rouge">
+        moveTileUpAsFarAsPossible
+       </code>
+       辅助方法来保持简单！想一想：你应该在哪些方块上调用这个辅助方法，以及以什么顺序调用？
+      </p>
+      <h3 id="testing-and-debugging-5">
+       <a aria-labelledby="testing-and-debugging-5" class="anchor-heading" href="#testing-and-debugging-5">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试
+       <code class="language-plaintext highlighter-rouge">
+        tiltColumn(int x)
+       </code>
+       的实现，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestTiltColumn.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestTiltColumn.java
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        无合并（
+        <code class="language-plaintext highlighter-rouge">
+         testNoMergeColumn
+        </code>
+        ）：在具有两个不同值方块的列上调用
+        <code class="language-plaintext highlighter-rouge">
+         tiltColumn
+        </code>
+        。
+       </li>
+       <li>
+        合并，不计分（
+        <code class="language-plaintext highlighter-rouge">
+         testMergingColumn
+        </code>
+        ）：在具有两个相同值方块的列上调用
+        <code class="language-plaintext highlighter-rouge">
+         tiltColumn
+        </code>
+        。要通过此测试，不需要实现分数计算。
+       </li>
+       <li>
+        合并并计分（
+        <code class="language-plaintext highlighter-rouge">
+         testMergingColumnWithScore
+        </code>
+        ）：在具有两个相同值方块的列上调用
+        <code class="language-plaintext highlighter-rouge">
+         tiltColumn
+        </code>
+        。期望分数会相应更新。
+       </li>
+      </ol>
+      <p>
+       如果到目前为止你的实现是正确的，你应该能通过
+       <code class="language-plaintext highlighter-rouge">
+        testNoMergeColumn
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        testMergingColumn
+       </code>
+       。
+      </p>
+      <h2 id="task-8-tilt-up">
+       <a aria-labelledby="task-8-tilt-up" class="anchor-heading" href="#task-8-tilt-up">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务8：向上倾斜
+      </h2>
+      <p>
+       同样，你在上一个任务中编写的辅助方法应该会让这个任务简单得多。这就是将这个大问题分解成更小的辅助方法的力量！
+      </p>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       中，填写
+       <code class="language-plaintext highlighter-rouge">
+        tilt(Side side)
+       </code>
+       方法。（不要修改任何其他文件。）
+      </p>
+      <p>
+       该方法应将整个棋盘向上倾斜，将所有列中的所有方块移动到它们应该在的位置，并合并需要合并的任何方块。
+      </p>
+      <p>
+       对于此任务，你可以忽略
+       <code class="language-plaintext highlighter-rouge">
+        side
+       </code>
+       参数。我们将在下一个任务中使用它来处理其他三个倾斜方向。
+      </p>
+      <h3 id="testing-and-debugging-6">
+       <a aria-labelledby="testing-and-debugging-6" class="anchor-heading" href="#testing-and-debugging-6">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       要测试仅向上倾斜，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestUpOnly.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TestUpOnly
+       </code>
+       包含以下测试：
+      </p>
+      <ol>
+       <li>
+        向上倾斜（
+        <code class="language-plaintext highlighter-rouge">
+         testUpNoMerge
+        </code>
+        ）：在不同列中有两个方块的棋盘上调用向上方向的
+        <code class="language-plaintext highlighter-rouge">
+         tilt
+        </code>
+        。这些方块应该移动到空格中（不合并）。
+       </li>
+       <li>
+        向上合并（
+        <code class="language-plaintext highlighter-rouge">
+         testUpBasicMerge
+        </code>
+        ）：在同一列中有两个相同值方块的棋盘上调用向上方向的
+        <code class="language-plaintext highlighter-rouge">
+         tilt
+        </code>
+        。这些方块应该合并。
+       </li>
+       <li>
+        三重合并（
+        <code class="language-plaintext highlighter-rouge">
+         testUpTripleMerge
+        </code>
+        ）：在同一列中有三个相同值方块的棋盘上调用向上方向的
+        <code class="language-plaintext highlighter-rouge">
+         tilt
+        </code>
+        。顶部两个方块应该合并，但底部的方块不应该。
+       </li>
+       <li>
+        限制合并（
+        <code class="language-plaintext highlighter-rouge">
+         testUpTrickyMerge
+        </code>
+        ）：在同一列中有三个方块的棋盘上调用向上方向的
+        <code class="language-plaintext highlighter-rouge">
+         tilt
+        </code>
+        。顶部两个方块具有相同的值，应该合并。底部方块与合并后的方块具有相同的值，但仍然不应该合并。
+       </li>
+      </ol>
+      <p>
+       如果你的实现是正确的，只有
+       <code class="language-plaintext highlighter-rouge">
+        testUpNoMerge
+       </code>
+       应该通过。暂时不用担心其他测试：一旦实现了分数更改，它们就应该通过。
+      </p>
+      <h2 id="task-9-tilt-in-four-directions">
+       <a aria-labelledby="task-9-tilt-in-four-directions" class="anchor-heading" href="#task-9-tilt-in-four-directions">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务9：四个方向的倾斜
+      </h2>
+      <p>
+       现在我们已经实现了向上方向的倾斜，我们必须对其他三个方向做同样的事情。
+      </p>
+      <p>
+       一种可能的方法是将我们的代码复制粘贴四次，并稍微更改几行来处理其他三个方向。这会导致代码混乱、难以阅读，并且有很多机会引入隐蔽的错误。如果你在一个副本中修复了某个问题，但没有在其他三个副本中修复怎么办？
+      </p>
+      <p>
+       对于这个问题，我们已经提供了一个简洁的解决方案。这将使你只用额外的两行代码就能处理其他三个方向！
+      </p>
+      <h3 id="starter-code-side">
+       <a aria-labelledby="starter-code-side" class="anchor-heading" href="#starter-code-side">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：
+       <code class="language-plaintext highlighter-rouge">
+        Side
+       </code>
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        Side
+       </code>
+       类是一种特殊类型的类，称为
+       <code class="language-plaintext highlighter-rouge">
+        枚举（Enum）
+       </code>
+       。
+枚举只能取有限值集中的一个值。在这种情况下，我们为4个方向中的每一个都有一个值：
+       <code class="language-plaintext highlighter-rouge">
+        NORTH
+       </code>
+       （北）、
+       <code class="language-plaintext highlighter-rouge">
+        SOUTH
+       </code>
+       （南）、
+       <code class="language-plaintext highlighter-rouge">
+        EAST
+       </code>
+       （东）和
+       <code class="language-plaintext highlighter-rouge">
+        WEST
+       </code>
+       （西）。你不需要使用这个类的任何方法，也不需要操作实例变量。
+      </p>
+      <p>
+       枚举可以用类似
+       <code class="language-plaintext highlighter-rouge">
+        Side s = Side.NORTH
+       </code>
+       的语法赋值。请注意，我们不是使用
+       <code class="language-plaintext highlighter-rouge">
+        new
+       </code>
+       关键字，而是简单地将
+       <code class="language-plaintext highlighter-rouge">
+        Side
+       </code>
+       值设置为四个值之一。同样，如果我们有一个类似
+       <code class="language-plaintext highlighter-rouge">
+        public static void printSide(Side s)
+       </code>
+       的函数，我们可以如下调用这个函数：
+       <code class="language-plaintext highlighter-rouge">
+        printSide(Side.NORTH)
+       </code>
+       ，这会将
+       <code class="language-plaintext highlighter-rouge">
+        NORTH
+       </code>
+       值传递给函数。
+      </p>
+      <p>
+       如果你想了解更多关于Java枚举的信息，
+请参见
+       <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html">
+        https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+       </a>
+       。
+      </p>
+      <h3 id="starter-code-setviewingperspective-method-in-board">
+       <a aria-labelledby="starter-code-setviewingperspective-method-in-board" class="anchor-heading" href="#starter-code-setviewingperspective-method-in-board">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：Board 类中的
+       <code class="language-plaintext highlighter-rouge">
+        setViewingPerspective
+       </code>
+       方法
+      </h3>
+      <p>
+       具体来说，
+       <code class="language-plaintext highlighter-rouge">
+        Board
+       </code>
+       类有一个
+       <code class="language-plaintext highlighter-rouge">
+        setViewingPerspective(Side s)
+       </code>
+       函数，它会改变
+       <code class="language-plaintext highlighter-rouge">
+        tile
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法的行为，使它们
+       <em>
+        表现得好像给定的方向是 NORTH
+       </em>
+       。
+      </p>
+      <p>
+       例如，考虑下面的棋盘：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|    |    |    |    |
+|  16|    |  16|    |
+|    |    |    |    |
+|    |    |    |   2|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果我们调用
+       <code class="language-plaintext highlighter-rouge">
+        board.tile(0, 2)
+       </code>
+       ，我们会得到
+       <code class="language-plaintext highlighter-rouge">
+        16
+       </code>
+       ，因为16在第0列第2行。如果我们调用
+       <code class="language-plaintext highlighter-rouge">
+        board.setViewingPerspective(s)
+       </code>
+       ，其中
+       <code class="language-plaintext highlighter-rouge">
+        s
+       </code>
+       是
+       <code class="language-plaintext highlighter-rouge">
+        WEST
+       </code>
+       ，那么棋盘会表现得好像 WEST 是 NORTH，也就是说，就好像你
+把头向左转了90度，如下所示：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|    |    |  16|    |
+|    |    |    |    |
+|    |    |  16|    |
+|   2|    |    |    |
+</code></pre>
+       </div>
+      </div>
+      <p>
+       换句话说，我们之前的
+       <code class="language-plaintext highlighter-rouge">
+        16
+       </code>
+       会在
+       <code class="language-plaintext highlighter-rouge">
+        board.tile(2, 3)
+       </code>
+       的位置。如果我们调用
+       <code class="language-plaintext highlighter-rouge">
+        board.tilt(Side.NORTH)
+       </code>
+       （使用正确实现的
+       <code class="language-plaintext highlighter-rouge">
+        tilt
+       </code>
+       ），棋盘会变成：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|    |  32|    |
+|    |    |    |    |
+|    |    |    |    |
+|    |    |    |    |
+</code></pre>
+       </div>
+      </div>
+      <p>
+       要让棋盘回到原始视角，我们只需调用
+       <code class="language-plaintext highlighter-rouge">
+        board.setViewingPerspective(Side.NORTH)
+       </code>
+       ，这会让棋盘表现得好像
+       <code class="language-plaintext highlighter-rouge">
+        NORTH
+       </code>
+       就是
+       <code class="language-plaintext highlighter-rouge">
+        NORTH
+       </code>
+       。如果我们这样做，棋盘现在会表现得好像是：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|    |    |    |    |
+|  32|    |    |    |
+|    |    |    |    |
+|   2|    |    |    |
+</code></pre>
+       </div>
+      </div>
+      <p>
+       观察一下，这与你将原始棋盘的方块滑向
+       <code class="language-plaintext highlighter-rouge">
+        WEST
+       </code>
+       的结果是一样的。
+      </p>
+      <p>
+       重要提示：在你完成
+       <code class="language-plaintext highlighter-rouge">
+        tilt
+       </code>
+       调用之前，确保使用
+       <code class="language-plaintext highlighter-rouge">
+        board.setViewingPerspective
+       </code>
+       将视角设置回
+       <code class="language-plaintext highlighter-rouge">
+        Side.NORTH
+       </code>
+       ，
+否则会发生奇怪的事情。
+      </p>
+      <p>
+       为了测试你的理解，试试这个第三个也是最后一个
+       <a href="https://forms.gle/AGrhEFbwfMJ7qwaB6">
+        Google Form 测验
+       </a>
+       。
+       <!--(QA notes: Let me know if th是 quiz 是 too weird / if it 是 actually helpful).-->
+       你可以根据自己的意愿多次尝试这个测验。
+      </p>
+      <h3 id="testing-and-debugging-7">
+       <a aria-labelledby="testing-and-debugging-7" class="anchor-heading" href="#testing-and-debugging-7">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      (注意: moved to make the testing make a little more sense, but it still doesn't fit perfectly).
+      <!--(Start of section).-->
+      <p>
+       要测试所有方向的无合并倾斜，请运行
+       <code class="language-plaintext highlighter-rouge">
+        TestTiltNoMerge.java
+       </code>
+       中的测试。
+      </p>
+      <p>
+       这些测试的错误消息有所不同，让我们看一个。假设我们运行了所有测试，注意到我们在"限制合并"（
+       <code class="language-plaintext highlighter-rouge">
+        testUpTrickyMerge
+       </code>
+       ）测试中失败了。点击那个测试后，我们会看到：
+      </p>
+      <p>
+       <img alt="testUpTrickyMerge 错误消息" src="img/test-up-error-msg.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       第一行告诉我们倾斜的方向（对于这些测试，它总是 North），然后是倾斜前你的棋盘是什么样子，然后是我们期望棋盘变成什么样子，最后是你的棋盘实际是什么样子。
+      </p>
+      <p>
+       你会看到我们在一次 tilt 调用中将一个方块合并了两次，导致一个值为 8 的方块，而不是两个值都为 4 的方块。结果，我们的
+       <code class="language-plaintext highlighter-rouge">
+        score
+       </code>
+       （分数）也是不正确的，正如你在棋盘表示的底部看到的那样。
+      </p>
+      <p>
+       对于其他测试，可能很难立即注意到预期棋盘和实际棋盘之间的区别；对于那些测试，你可以点击错误消息最底部的蓝色"Click to see difference"（点击查看差异）文本，在一个单独的窗口中获得预期（左侧）和实际（右侧）棋盘的并排比较。下面是这个测试的样子：
+      </p>
+      <p>
+       <img alt="testUpTrickyMerge 比较" src="img/comparison.png" style="display:block; margin-left:auto; margin-right:auto">
+      </p>
+      <p>
+       调试这些可能有点棘手，因为很难说出你做错了什么。首先，你应该确定你违反了上面列出的3条规则中的哪一条。在这种情况下，我们可以看到是规则2，因为一个方块被合并了不止一次。这些方法上的 javadoc 注释是很好的资源，因为它们明确列出了它们正在测试的规则/配置。你也可能通过仅查看倾斜前后的棋盘来找出你违反了什么规则。然后，是棘手的部分：重构你现有的代码以正确地考虑该规则。我们建议用笔和纸写下你的代码采取的步骤，这样你可以首先理解为什么你的棋盘是这个样子，然后想出一个修复方案。这些测试只调用一次
+       <code class="language-plaintext highlighter-rouge">
+        tilt
+       </code>
+       ，所以你不需要担心调试多次 tilt 调用。
+      </p>
+      <p>
+       我们建议使用给定的测试来调试你的代码，不过你也可以通过运行
+       <code class="language-plaintext highlighter-rouge">
+        Main.java
+       </code>
+       来调试。你还可以通过更改
+       <code class="language-plaintext highlighter-rouge">
+        Main.java
+       </code>
+       中的
+       <code class="language-plaintext highlighter-rouge">
+        CUSTOM_START
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        USE_CUSTOM_START
+       </code>
+       变量从特定状态开始游戏，这可能对调试特定测试有帮助。
+      </p>
+      <!--(End of section: moved to make the testing make sense).-->
+      <!--(Moved TestMultipleMoves debugging section since these tests will not pass until score updates are implemented).-->
+      <h2 id="task-10-updating-score">
+       <a aria-labelledby="task-10-updating-score" class="anchor-heading" href="#task-10-updating-score">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务10：更新分数
+      </h2>
+      <p>
+       此时，你的游戏应该能够在所有四个方向上倾斜棋盘，并考虑合并。我们需要实现的最后一件事是分数更新。
+      </p>
+      <h3 id="rules-score">
+       <a aria-labelledby="rules-score" class="anchor-heading" href="#rules-score">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       规则：分数
+      </h3>
+      <p>
+       当两个值为
+       <code class="language-plaintext highlighter-rouge">
+        v
+       </code>
+       的方块合并成一个值为
+       <code class="language-plaintext highlighter-rouge">
+        2v
+       </code>
+       的方块时，玩家的分数增加
+       <code class="language-plaintext highlighter-rouge">
+        2v
+       </code>
+       。
+      </p>
+      <p>
+       例如，如果我们有如下棋盘：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|    |   2|    |
+|   4|   4|   2|   2|
+|    |   4|    |    |
+|   2|   4|   4|   8|
+</code></pre>
+       </div>
+      </div>
+      <p>
+       然后按向上键，游戏的状态变为：
+      </p>
+      <div class="language-text highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>|   2|   8|   4|   2|
+|   4|   4|   4|   8|
+|   2|    |    |    |
+|    |    |    |    |
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们将两个 4 合并成一个 8，将两个 2 合并成一个 4，所以分数应该增加 8 + 4 = 12。
+      </p>
+      <h3 id="starter-code-score-instance-variable-in-model">
+       <a aria-labelledby="starter-code-score-instance-variable-in-model" class="anchor-heading" href="#starter-code-score-instance-variable-in-model">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       初始代码：Model 类中的
+       <code class="language-plaintext highlighter-rouge">
+        score
+       </code>
+       实例变量
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        Model
+       </code>
+       类有一个实例变量
+       <code class="language-plaintext highlighter-rouge">
+        score
+       </code>
+       ，用于跟踪玩家的分数。在更新游戏分数时修改它。
+      </p>
+      <h3 id="testing-and-debugging-8">
+       <a aria-labelledby="testing-and-debugging-8" class="anchor-heading" href="#testing-and-debugging-8">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试与调试
+      </h3>
+      <p>
+       此时，你的2048实现应该已经完成了！你现在应该能通过每个测试文件中的所有测试。
+      </p>
+      <p>
+       像
+       <code class="language-plaintext highlighter-rouge">
+        TestMultipleMoves
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        TestNbyN
+       </code>
+       这样的测试文件会测试你编写的所有代码之间的协作。这样的测试称为
+       <em>
+        集成测试
+       </em>
+       ，在测试中非常重要。单元测试是孤立地运行测试，而集成测试是将所有内容放在一起运行，旨在捕捉由于你编写的不同函数之间的交互而产生的隐蔽错误。在你通过其余所有测试之前，不要尝试调试
+       <code class="language-plaintext highlighter-rouge">
+        TestMultipleMoves
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        TestNbyN
+       </code>
+       ！
+      </p>
+      <p>
+       如果你在以下测试中失败（点击每个测试查看输入和有问题的输出）：
+      </p>
+      <details>
+       <summary>
+        <code>
+         TestNbyN
+        </code>
+        中的 "N = 1, 2, 3 的非合并倾斜"
+       </summary>
+       <p>
+        输入：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|   4|    |   4|
+|   2|  16|   2|
+|    |    |   8|
+</code></pre>
+        </div>
+       </div>
+       <p>
+        有问题的输出：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|    |    |   8|
+|   4|    |   4|
+|   2|  16|   8|
+</code></pre>
+        </div>
+       </div>
+      </details>
+      <details>
+       <summary>
+        TestMultipleMoves 中的 "多次移动"
+       </summary>
+       <p>
+        输入：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|    |    |    |   4|
+|    |    |    |   2|
+|    |    |    |   2|
+|    |    |   4|    |
+</code></pre>
+        </div>
+       </div>
+       <p>
+        有问题的输出：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|    |    |   4|   4|
+|    |    |    |   4|
+|    |    |    |   4|
+|    |    |    |    |
+</code></pre>
+        </div>
+       </div>
+      </details>
+      <details>
+       <summary>
+        TestMultipleMoves 中的 "多次移动 2"
+       </summary>
+       <p>
+        输入：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|    |   4|   4|   4|
+|    |    |    |   8|
+|    |    |    |  16|
+|   4|    |    |    |
+</code></pre>
+        </div>
+       </div>
+       <p>
+        有问题的输出：
+       </p>
+       <div class="language-text highlighter-rouge">
+        <div class="highlight">
+         <pre class="highlight"><code>|   4|   4|   4|   4|
+|    |    |    |  16|
+|    |    |    |  32|
+|    |    |    |    |
+</code></pre>
+        </div>
+       </div>
+      </details>
+      <p>
+       这可能意味着你在一个不需要移动的方块上调用了
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       。换句话说，你试图将一个方块移动到它当前的位置。下面是一个将方块移动到其当前位置的例子（你不应该这样做）：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>Tile t = board.tile(2, 3);
+board.move(2, 3, t);
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这会导致
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       方法认为我们需要将方块与自身合并，以创建一个值翻倍的方块。（这就是为什么有问题的输出中有一些方块在正确的位置，但值是两倍的原因。）
+      </p>
+      <p>
+       要修复这个错误，请确保你的代码在方块实际上没有移动时永远不会调用
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       。例如，你可以在每次调用
+       <code class="language-plaintext highlighter-rouge">
+        move
+       </code>
+       之前添加一个 if 语句，检查你没有将方块移动到它当前的位置。
+      </p>
+      <h2 id="style">
+       <a aria-labelledby="style" class="anchor-heading" href="#style">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       代码风格
+      </h2>
+      <p>
+       从这个项目开始，
+       <strong>
+        我们将强制执行代码风格
+       </strong>
+       。你必须遵循
+       <a href="../../resources/guides/style/index.html">
+        代码风格指南
+       </a>
+       ，否则你会在自动评分器上被扣分。
+      </p>
+      <p>
+       你可以也应该使用 CS 61B 插件在本地检查你的代码风格。
+       <strong>
+        对于因未检查代码风格而导致的问题，我们不会取消提交次数限制。
+       </strong>
+      </p>
+      <h2 id="submission-and-grading">
+       <a aria-labelledby="submission-and-grading" class="anchor-heading" href="#submission-and-grading">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交与评分
+      </h2>
+      <p class="danger">
+       对于因你没有 add、commit 或 push 而导致提交错误文件的情况，我们
+       <strong>
+        不会取消提交次数限制
+       </strong>
+       。你已警告过你了。
+      </p>
+      <h3 id="velocity-limiting">
+       <a aria-labelledby="velocity-limiting" class="anchor-heading" href="#velocity-limiting">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交次数限制
+      </h3>
+      <p>
+       对于这个项目，我们将限制你向自动评分器提交代码的次数。你将获得4个提交"令牌"，每个令牌在24小时后会重新生成。
+      </p>
+      <h3 id="grading-overview">
+       <a aria-labelledby="grading-overview" class="anchor-heading" href="#grading-overview">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       评分概览
+      </h3>
+      <p>
+       你的代码将根据是否通过我们提供的测试来评分。没有隐藏测试；你在 Gradescope 上看到的分数就是你这个项目的分数。
+      </p>
+      <p>
+       Gradescope 只会评分你的
+       <code class="language-plaintext highlighter-rouge">
+        Model.java
+       </code>
+       文件。如果你编辑任何其他文件，你的编辑将不会被识别，所以不要编辑任何其他文件。
+      </p>
+      <p>
+       测试在各自的类别中是"全有或全无"的。如果你在某个测试类别中的一个子测试失败了，你将不会获得该类别的分数，尽管你可能通过了其他测试用例。例如，你会在 Gradescope 的
+       <code class="language-plaintext highlighter-rouge">
+        TestModel
+       </code>
+       类别中看到5个子测试。
+      </p>
+      <p>
+       以下是在不同完成程度下你在这个项目中可以获得的百分比细分：
+      </p>
+      <ol>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestEmptySpace
+        </code>
+        ：10%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestMaxTileExists
+        </code>
+        ：10%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestAtLeastOneMoveExists
+        </code>
+        ：15%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestUpOnly
+        </code>
+        ：10%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestModel
+        </code>
+        ：5%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestTiltMerge
+        </code>
+        ：10%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestTiltNoMerge
+        </code>
+        ：10%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestMultipleMoves
+        </code>
+        ：15%
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestNbyN
+        </code>
+        ：15%
+       </li>
+      </ol>
+      <p>
+       请注意，
+       <code class="language-plaintext highlighter-rouge">
+        TestMoveTileUp
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        TestTiltColumn
+       </code>
+       不计分。这些测试旨在作为你的辅助方法的合理性检查。
+      </p>
+      <p>
+       一旦你将代码推送到 GitHub（即运行了
+       <code class="language-plaintext highlighter-rouge">
+        git push
+       </code>
+       ），你就可以去 Gradescope，找到
+       <code class="language-plaintext highlighter-rouge">
+        proj0
+       </code>
+       作业，并在那里提交代码。请记住，Gradescope 使用的代码版本是你推送的最新提交，所以如果你在 Gradescope 上提交之前没有运行
+       <code class="language-plaintext highlighter-rouge">
+        git push
+       </code>
+       ，那么测试的将是旧代码，而不是你电脑上的最新代码。
+      </p>
+      <p>
+       没有隐藏测试。你在 Gradescope 上看到的分数就是你这个项目的分数。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

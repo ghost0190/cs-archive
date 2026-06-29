@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   渐近分析 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="渐近分析" property="og:title">
+  <meta content="Omar Khan" name="author">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/asymptotics/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="渐近分析" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Omar Khan"},"description":"数据结构","headline":"渐近分析","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Omar Khan"},"url":"https://sp24.datastructur.es/resources/guides/asymptotics/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       课程日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       课程团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验05：并查集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验08：哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业0A：Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目1C：Deque61B增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目1C：Deque61B增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目2C：Ngordnet增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           验收 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           常见UI错误 - 项目3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../beacon/index.html">
+           Beacon使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../ed/index.html">
+           Ed政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../ed/ed-guide/index.html">
+             Ed新用户指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/plugins/index.html">
+             IntelliJ插件安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/wtfs/index.html">
+             IntelliJ常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../git/index.html">
+           Git使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../soda-machines/index.html">
+           Soda实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       2024年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，这是一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        资源
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        指南
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        渐近分析
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        渐近分析
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           介绍
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#math-background">
+           数学背景
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#summations">
+             求和
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#sequences">
+             序列
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#single-loops">
+           单层循环
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#loop-1">
+             循环 1
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#loop-2">
+             循环 2
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#loop-3">
+             循环 3
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#summary-of-single-loop-java-methods">
+             单层循环 Java 方法总结
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#double-loops">
+           双层循环
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#double-loop-1">
+             双层循环 1
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#double-loop-2">
+             双层循环 2
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#double-loop-3">
+             双层循环 3
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#summary-of-double-loop-java-methods">
+             双层循环 Java 方法总结
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       渐近分析
+      </h1>
+      <div class="due-date">
+       作者：Omar Khan
+      </div>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       介绍
+      </h2>
+      <p>
+       这是一份渐近分析的实用指南。我们不会讨论理论，也不会讨论为什么渐近分析是必要或有用的。本指南假设你已经了解这些知识，并希望将它们应用于查找实际 Java 方法的运行时间。我们将介绍一些你应该知道的策略，然后我们将讨论我所谓的"技巧"（警告：有很多技巧，我只讨论其中几个）。
+      </p>
+      <p>
+       话不多说，让我们先讨论一些你必须知道的快速数学知识。
+      </p>
+      <h2 id="math-background">
+       <a aria-labelledby="math-background" class="anchor-heading" href="#math-background">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       数学背景
+      </h2>
+      <p>
+       渐近分析中只需要几个很小的数学知识。一个是简化求和，另一个是计算序列中元素数量的快速技巧。
+      </p>
+      <h3 id="summations">
+       <a aria-labelledby="summations" class="anchor-heading" href="#summations">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       求和
+      </h3>
+      <p>
+       渐近分析的大部分内容真的是将完成的工作简化为一个求和，然后应用正确的求和公式。你在 CS 61B 中会看到的两种求和类型是
+       <strong>
+        算术求和
+       </strong>
+       和
+       <strong>
+        几何求和
+       </strong>
+       。
+      </p>
+      <h4 id="arithmetic-summation">
+       <a aria-labelledby="arithmetic-summation" class="anchor-heading" href="#arithmetic-summation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       算术求和
+      </h4>
+      <p>
+       算术求和是连续项之间的差为某个常数的求和。常数不重要。例如：
+      </p>
+      \[1 + 2 + 3 + 4 + 5 + ... + N\]
+
+\[1 + 3 + 5 + 7 + 9 + 11 + ... + N\]
+
+\[10 + 20 + 30 + 40 + 50 + ... + N\]
+      <p>
+       都是算术求和。
+      </p>
+      <p>
+       对于算术求和，整个求和是最后一项的平方的 $\Theta$。所以上面所有的求和都是 $\Theta(N^2)$，即使所有常数都不同。如果这看起来太简单而不像是真的，那不是。它真的就是这么简单。
+      </p>
+      <p>
+       <strong>
+        看似困难的问题：
+       </strong>
+       下面求和的 $\Theta$ bound 是什么：
+      </p>
+      \[1 + 2 + 3 + 4 + 5 + ... + \log N\]
+      <p>
+       你可能会因为看到 $\log N$ 而认为它很困难。但别忘了你刚刚学的内容。取最后一项，平方，然后加上 $\Theta$。因此，上面的求和是 $\Theta(\log^2 N)$。看到了吗？一点也不难。现在让我们讨论下一类求和。
+      </p>
+      <h4 id="geometric-summation">
+       <a aria-labelledby="geometric-summation" class="anchor-heading" href="#geometric-summation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       几何求和
+      </h4>
+      <p>
+       可以说更容易的求和。几何求和是连续项之间的
+       <em>
+        比率
+       </em>
+       为常数的求和。例如：
+      </p>
+      \[1 + 2  + 4 + 8 + ... + N\]
+
+\[1 + 3 + 9+ 27 + ... + N\]
+
+\[10 + 100 + 1\,000 + 10\,000 + ... + N\]
+      <p>
+       对于几何求和，你仍然取最后一项，但仅此而已。不需要平方。取最后一项，加上 $\Theta$，就这样。所以，你猜对了，上面所有的求和都是 $\Theta(N)$。
+      </p>
+      <p>
+       <strong>
+        看似困难的问题
+       </strong>
+       ：下面求和的 $\Theta$ 界是什么：
+      </p>
+      \[1 + 2 + 4 + 8 + 16 + ... \sqrt{\log N}\]
+      <p>
+       你可能已经掌握了这个技巧。既然你已经掌握了方法，这对你来说就不难了！从前几项我们可以看出这是一个几何求和，所以我们只需对最后一项加上 $\Theta$ 界。因此，上面的求和是 $\Theta(\sqrt{\log N})$。非常简单。
+      </p>
+      <h4 id="summation-summary">
+       <a aria-labelledby="summation-summary" class="anchor-heading" href="#summation-summary">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       求和总结
+      </h4>
+      <p>
+       让我们快速总结求和课程。如果你看到一个求和，请执行以下 2 步：
+      </p>
+      <ol>
+       <li>
+        查看求和的前几项来确定它是什么类型（算术或几何）。
+       </li>
+       <li>
+        找出最后一项，然后应用适当的简化（如果是算术求和，平方并加上 $\Theta$，如果是几何求和，直接加上 $\Theta$）。
+       </li>
+      </ol>
+      <h3 id="sequences">
+       <a aria-labelledby="sequences" class="anchor-heading" href="#sequences">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       序列
+      </h3>
+      <p>
+       序列与求和略有不同。不是求和，而只是一个数字列表。以下是序列：
+      </p>
+      \[1, 2, 3, 4, 5, ... , N\]
+
+\[1, 2, 4, 8, 16, ... , 2^N\]
+      <p>
+       注意是用逗号而不是 $+$ 号。
+      </p>
+      <p>
+       没有"算术"或"几何"序列的概念。它们只是序列。通常我们会将 Java 方法中的工作简化为一个
+       <em>
+        数字序列
+       </em>
+       ，我们只是想知道这里有多少个数字。以下是我建议你怎么做的方法。
+      </p>
+      <p>
+       你需要知道最后一项。假设它是 $N$ 的函数，称之为 $g(N)$。所以，对于上面的例子，第一个序列的 $g(N) = N$，第二个序列的 $g(N) = 2^N$。
+      </p>
+      <ol>
+       <li>
+        找出序列中第 $i$ 个元素的表达式。称之为 $f(i)$。你可以将序列设为 0 索引或 1 索引，哪种能让 $f(i)$ 的表达式更简洁就用哪种。0 索引意味着 $f(0)$ 是第一项，1 索引意味着 $f(1)$ 是第一项。
+       </li>
+       <li>
+        创建一个名为 $k$ 的新变量，并将序列中的元素数量设为 $k$。我们的目标是确定 $k$。
+       </li>
+       <li>
+        $g(N) = f(k)$ 并求解 $k$。如果你不理解为什么我们要这样做，请阅读上面 $g(N)$ 和 $f(i)$ 的定义。
+       </li>
+      </ol>
+      <p>
+       就这样。让我们对上面的两个序列进行计算。
+\(1, 2, 3, 4, 5, ... , N\)
+说实话，你甚至不需要在这里计算，因为显然有 $N$ 个元素，但我们还是来算一下作为热身。
+      </p>
+      <p>
+       $g(N) = N$，$f(i) = i$。很简单。注意，这里我们从1开始索引元素。
+      </p>
+      \[g(N) = f(k)\]
+
+\[N = k\]
+      <p>
+       哦，看起来我们已经完成了。所以这个序列中有 $N$ 个元素。继续下一个。
+      </p>
+      \[1, 2, 4, 8, 16, ... , 2^N\]
+      <p>
+       这个稍微复杂一些，不过你可能可以直接在脑子里算出来。无论如何，让我们找出 $g(N)$ 和 $f(i)$。
+      </p>
+      <p>
+       $g(N) = 2^N$ and $f(i) = 2^i$. 请注意 here we&rsquo;re 0-indexing the elements.
+      </p>
+      \[g(N) = f(k)\]
+
+\[2^N = 2^k\]
+
+\[N = k\]
+      <p>
+       就这样！现在让我们讨论一个你会
+       <strong>
+        经常
+       </strong>
+       看到的序列，你最好记住它，而不是每次都计算。
+      </p>
+      \[1, 2, 4, 8, 16, ..., N\]
+      <p>
+       $g(N) = N$ and $f(i) = 2^i$.
+      </p>
+      \[g(N) = f(k)\]
+
+\[N = 2^k\]
+
+\[k = \log_2(N)\]
+      <p>
+       好了。记住，对于渐近分析来说，对数的底数无关紧要，所以我们可以说 $k$ 是 $\Theta(\log N)$。
+      </p>
+      <p>
+       这里有一个更难的，我留给你自己做：
+      </p>
+      \[2, 4, 16, 256, 65536, 4294967296, ... N\]
+      <p>
+       这些数字看起来可能是随机的，但我建议把每个数字写成2的幂。你可以使用与上面相同的步骤来解决这个问题。问问助教或朋友。甚至可以在Ed上发帖。
+      </p>
+      <p>
+       就这样，我们已经完成了数学背景的讲解。你很快就会看到这些东西有多重要。如果你只是死记硬背到目前为止所学的内容，那也没关系。但从现在开始，你不应该死记任何公式。只记住策略。话不多说，让我们从单层循环 Java 方法开始！
+      </p>
+      <h2 id="single-loops">
+       <a aria-labelledby="single-loops" class="anchor-heading" href="#single-loops">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       单层循环
+      </h2>
+      <p>
+       这是渐近分析问题的核心。你很快就会看到我们上面做的那些数学知识有多重要。首先让我们看几个这类 Java 方法的例子：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop1</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这是一个相当标准的函数。让我们看另一个。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop2</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       再看一个。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop3</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我觉得已经够了。所有这些看起来都差不多。没什么更多需要改变的了。别担心找到这些函数的运行时间，我们马上就会做。
+      </p>
+      <p>
+       这些函数中只有 3 样东西发生了变化：
+      </p>
+      <ol>
+       <li>
+        循环的退出条件。假设 $i$ 能取到的最大值是 $g(N)$。这意味着我们的退出条件是 $i &lt; g(N)$。
+       </li>
+       <li>
+        $i$ 每次迭代如何递增，作为前一个 $i$ 的函数。
+       </li>
+       <li>
+        循环内部完成多少工作量，作为 $i$ 的函数。称这个函数为 $f(i)$。
+       </li>
+      </ol>
+      <p>
+       有了这些，我们可以通过构建一个求和式来快速找到函数的运行时间：
+      </p>
+      \[f(i_1) + f(i_2) + f(i_3) + ... + f(g(N))\]
+      <p>
+       这里，$i_1$ 是 $i$ 的第一个值，$i_2$ 是第二个值，以此类推。$i$ 的递增方式将帮助我们找出这些值。$g(N)$ 是最后一项，因为它是 $i$ 取到的最后一个值，我们必须取 $f(g(N))$ 来查看最后一次迭代做了多少工作。
+      </p>
+      <p>
+       你会在问题中找到这些函数 $f, g$ 以及 $i_1, i_2, i_3, &hellip;$，然后根据正确的公式简化求和（即，如果是算术求和，平方最后一项；如果是几何求和，不要平方最后一项）。
+      </p>
+      <p>
+       就这样。让我们回顾一下
+       <code class="language-plaintext highlighter-rouge">
+        loop1
+       </code>
+       ，看看如何实际执行这个过程。
+      </p>
+      <h3 id="loop-1">
+       <a aria-labelledby="loop-1" class="anchor-heading" href="#loop-1">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       循环 1
+      </h3>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop1</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <ol>
+       <li>
+        $i &lt; N$ 是退出条件，所以 $g(i) = N$
+       </li>
+       <li>
+        $i = i + 1$ 是递增函数
+       </li>
+       <li>
+        ???
+       </li>
+      </ol>
+      <p>
+       我希望你明白我们是怎么得到前两个的。我只是看了一下for循环，就是最后那两个东西。很简单对吧？
+      </p>
+      <p>
+       每次迭代所做的工作量是多少（作为 $i$ 的函数）？嗯，它就是 $1$。你可能感到困惑，这没关系。为什么是 $1$？因为打印一个整数是一个
+       <strong>
+        常数时间
+       </strong>
+       操作。另一种说法是
+       <code class="language-plaintext highlighter-rouge">
+        System.out.println(i)
+       </code>
+       是 $\Theta(1)$。它不依赖于 $i$。所以我们说 $f(i) = 1$。把这当作一个定义。
+      </p>
+      <p>
+       好的，现在我们准备好进行下一步：构建求和式。
+      </p>
+      \[f(i_1) + f(i_2) + f(i_3) + f(i_4) + ... + f(g(N))\]
+      <p>
+       我们知道 $i_1 = 0, i_2 = 1, i_3 = 2, i_4 = 3$，以此类推。同时，我们知道 $g(N) = N$。
+      </p>
+      \[f(0) + f(1) + f(2) + f(3) + ... + f(N)\]
+      <p>
+       我们知道 $f(i) = 1$，所以：
+      </p>
+      \[1 + 1 + 1 + 1 + ... + 1\]
+      <p>
+       这个求和非常简单。它就是 $1$ 反复相加！这里有多少项？嗯，如果我们看 $i$ 的值，它形成了一个简单的数字序列，我们很快就能看到总共有 $N$ 项。所以我们可以把它简化为 $N \cdot 1 = N \in \Theta(N)$。
+      </p>
+      <p>
+       重要的一点要注意：如果每次迭代所做的工作相对于 $i$ 是常数，你可以简单地
+       <strong>
+        计算迭代次数
+       </strong>
+       并在其上加上 $\Theta$。
+      </p>
+      <p>
+       让我们来做
+       <code class="language-plaintext highlighter-rouge">
+        loop2
+       </code>
+       ，它稍微复杂一些。
+      </p>
+      <h3 id="loop-2">
+       <a aria-labelledby="loop-2" class="anchor-heading" href="#loop-2">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       循环 2
+      </h3>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop2</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <ol>
+       <li>
+        $i &lt; N^2$ 是退出条件，所以 $g(i) = N^2$
+       </li>
+       <li>
+        $i = i + 1$ 是递增函数
+       </li>
+       <li>
+        ???
+       </li>
+      </ol>
+      <p>
+       同样，前两个并不难得到。只需阅读代码。
+      </p>
+      <p>
+       每次迭代所做的工作量是多少（作为 $i$ 的函数）？内部稍微复杂一些。它创建了一个长度为 $i$ 的数组，这做了 $i$ 的工作量（因为需要为每个索引创建一个内存盒子）。因此，$f(i) = i$。
+      </p>
+      <p>
+       好的，现在我们准备好进行下一步：构建求和式。
+      </p>
+      \[f(i_1) + f(i_2) + f(i_3) + f(i_4) + ... + f(g(N))\]
+      <p>
+       We know that $i_1 = 0, i_2 = 1, i_3 = 2, i_4 = 3, $ and so on. Also, we know that $g(N) = N^2$.
+      </p>
+      \[f(0) + f(1) + f(2) + f(3) + ... + f(N^2)\]
+      <p>
+       我们知道 $f(i) = i$，所以：
+      </p>
+      \[0 + 1 + 2 + 3 + ... + N^2\]
+      <p>
+       这个求和看起来眼熟吗？应该眼熟。我们看前几项确定它是算术级数，所以我们取最后一项，平方，然后加上 $\Theta$。最后一项是 $N^2$，平方后得到 $N^4$，加上界得到最终答案 $\Theta(N^4)$。完成。
+      </p>
+      <p>
+       最后，让我们来做
+       <code class="language-plaintext highlighter-rouge">
+        loop3
+       </code>
+       。
+      </p>
+      <h3 id="loop-3">
+       <a aria-labelledby="loop-3" class="anchor-heading" href="#loop-3">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       循环 3
+      </h3>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loop3</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <ol>
+       <li>
+        $i &lt; N$ 是退出条件，所以 $g(i) = N$
+       </li>
+       <li>
+        $i = i * 2$ 是递增函数
+       </li>
+       <li>
+        ???
+       </li>
+      </ol>
+      <p>
+       同样，前两个并不难得到。只需阅读代码。
+      </p>
+      <p>
+       每次迭代所做的工作量是多少（作为 $i$ 的函数）？它是常数。不是 $i$ 的函数。所以，$f(i) = 1$。
+      </p>
+      <p>
+       现在我们
+       <em>
+        可以
+       </em>
+       继续解决问题的其余部分，或者记住我上面说的话。我再重复一遍。
+      </p>
+      <blockquote>
+       <p>
+        重要的一点要注意：如果每次迭代所做的工作相对于 $i$ 是常数，你可以简单地
+        <strong>
+         计算迭代次数
+        </strong>
+        并在其上加上 $\Theta$。
+       </p>
+      </blockquote>
+      <p>
+       让我们生成一个 $i$ 值的序列：
+      </p>
+      \[i_1, i_2, i_3, i_4, ... , g(N)\]
+
+\[1, 2, 4, 8, ... N\]
+      <p>
+       我们基本上完成了。我在上一节已经做过了。我们知道这里有 $\Theta(\log N)$ 项。所以，就这样。这个Java函数的工作量就是迭代次数，即 $\Theta(\log N)$。完成。
+      </p>
+      <h3 id="summary-of-single-loop-java-methods">
+       <a aria-labelledby="summary-of-single-loop-java-methods" class="anchor-heading" href="#summary-of-single-loop-java-methods">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       单层循环 Java 方法总结
+      </h3>
+      <p>
+       我们学到了一个处理这些问题的策略。
+      </p>
+      <ol>
+       <li>
+        找出 $i$ 的最后一个值（作为 $N$ 的函数）。记为 $g(N)$。
+       </li>
+       <li>
+        找出 $i$ 的递增函数。
+       </li>
+       <li>
+        找出每次迭代所做的工作量（作为 $i$ 的函数）。记为 $f(i)$。
+       </li>
+      </ol>
+      <p>
+       一旦你有了以上内容，你只需写出求和式：
+\(f(i_1) + f(i_2) + f(i_3) + f(i_4) + ... + f(g(N))\)
+      </p>
+      <p>
+       你通过查看 $i$ 的递增函数来找出 $i_1, i_2, i_3, i_4, &hellip;$ 的值。然后，代入你知道的所有内容并简化求和。就这样。
+      </p>
+      <p>
+       我们还看到，如果 $f(i) = 1$（即for循环内部完成的工作相对于 $i$ 是常数），那么我们只需计算序列 $i_1, i_2, i_3, i_4, &hellip;$ 中有多少个元素，并在其上加上 $\Theta$。
+      </p>
+      <p>
+       做了一些这类问题后，你可能能够一眼就看出单个循环的运行时间。那很好！
+      </p>
+      <p>
+       你可能认为我把事情复杂化了。有捷径。是的，有捷径。但捷径太多了。我不可能在这本指南中详细说明你能采取的每一个捷径，而且对于一个正在学习渐近分析的人来说，这也没有帮助。我的目标是给你
+       <strong>
+        策略
+       </strong>
+       来自己找出答案。在下一节我们做双层循环时，你会看到这种方法的优势，而且非常容易扩展。
+      </p>
+      <p>
+       在进入下一节之前，你应该尝试几个函数。尝试用不同的 $f, g$ 函数和不同的 $i$ 递增方式创建你自己的函数。你
+       <em>
+        可能
+       </em>
+       会遇到不知道如何简化的求和，你应该问助教/朋友/在 Ed 上发帖，或者就留它不做。例如，你可能会得到这样的求和：
+\(\sqrt{1} + \sqrt{2} + \sqrt{3} + ... \sqrt{N}\)
+      </p>
+      <p>
+       你可以就这样留它。我不知道如何简化它，而且这超出了本课程的范围。
+      </p>
+      <h2 id="double-loops">
+       <a aria-labelledby="double-loops" class="anchor-heading" href="#double-loops">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       双层循环
+      </h2>
+      <p>
+       我把这作为一个单独的章节，但实际上它与单层循环没有什么不同。它涉及更多内容，所以我想和你一起回顾一下。首先，让我给你看几个双层循环的例子：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop1</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       非常标准。让我们再看另一个。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop2</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       再看一个：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop3</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">*</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       首先，不要落入最老套的陷阱。不要将外层循环的迭代次数乘以内层循环的迭代次数。这几乎不是你应该做的。这是许多学生犯的常见错误，因为他们试图走捷径。捷径很好，但除非你确定知道如何使用它，否则不要使用它！！
+      </p>
+      <p>
+       说完这个，让我们谈谈你该怎么做。这实际上与单层循环是一样的：
+      </p>
+      <blockquote>
+       <ol>
+        <li>
+         找出 $i$ 的最后一个值（作为 $N$ 的函数）。记为 $g(N)$。
+        </li>
+        <li>
+         找出 $i$ 的递增函数。
+        </li>
+        <li>
+         找出每次迭代所做的工作量（作为 $i$ 的函数）。记为 $f(i)$。
+        </li>
+       </ol>
+       <p>
+        一旦你有了以上内容，你只需写出求和式：
+\(f(i_1) + f(i_2) + f(i_3) + f(i_4) + ... + f(g(N))\)
+你通过查看 $i$ 的递增函数来找出 $i_1, i_2, i_3, i_4, &hellip;$ 的值。然后，代入你知道的所有内容并简化求和。就这样。
+       </p>
+      </blockquote>
+      <p>
+       这里，$f(i)$ 是内层循环的工作量，作为 $i$ 的函数！！
+      </p>
+      <p>
+       所以，让我们为自己制定步骤：
+      </p>
+      <ol>
+       <li>
+        找出内层循环的工作量，作为 $i$ 的函数。称之为 $f(i)$。
+       </li>
+       <li>
+        使用这个 $f(i)$，来计算外层循环的工作量。在其上加上 $\Theta$。
+       </li>
+      </ol>
+      <p>
+       注意在内层循环中 $i$ 保持固定。所以 $N$ 相对于 $i$ 的关系就像 $i$ 相对于 $j$ 的关系。希望这说得通。我的意思是，当我们计算外层循环的渐近运行时间时，我们相对于 $N$ 来计算，而 $i$ 是递增的变量。当我们计算内层循环所做的工作时，我们相对于 $i$ 来计算，而 $j$ 是递增的变量。
+      </p>
+      <p>
+       就这样。让我们看
+       <code class="language-plaintext highlighter-rouge">
+        dLoop1
+       </code>
+       的实际例子
+      </p>
+      <h3 id="double-loop-1">
+       <a aria-labelledby="double-loop-1" class="anchor-heading" href="#double-loop-1">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       双层循环 1
+      </h3>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop1</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       第一步是找出内层循环的工作量，作为 $i$ 的函数。一个巧妙的小技巧是把注意力集中在内层循环上：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+	<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       你有没有注意到内层循环有什么特别之处？它有一个 $i$，但我们只是打印它。所以，内层循环所做的工作量（作为 $i$ 的函数）是&hellip;&hellip;常数！因此，$f(i) = 1$。
+      </p>
+      <p>
+       现在，我们看到它基本上与上面的
+       <code class="language-plaintext highlighter-rouge">
+        loop3
+       </code>
+       相同，我们得到最终答案 $\Theta(\log N)$。下一个。
+      </p>
+      <h3 id="double-loop-2">
+       <a aria-labelledby="double-loop-2" class="anchor-heading" href="#double-loop-2">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       双层循环 2
+      </h3>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop2</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       稍微复杂一点。现在 $i$ 在内层循环的结束条件中。
+      </p>
+      <p>
+       记住，我们只需要把自己隔离到内层循环。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们想要找出这个内层循环的工作量，作为 $i$ 的函数。不是这个内层循环的渐近运行时间，而是完成的工作量（即不是一个 $\Theta$ 界）。
+      </p>
+      <p>
+       这只是一个单层循环！我们知道怎么做！我会跳到最后一步，但你应该做所有步骤来测试你的理解并获得更多练习。
+      </p>
+      <p>
+       你会得到这个求和式：
+      </p>
+      \[0 + 1 + 2 + 4 + 8 + ... + i\]
+      <p>
+       我们知道这个求和是 $\Theta(i)$。
+      </p>
+      <p>
+       但我说过不要取 $\Theta$ 因为我们想要的是工作量。
+      </p>
+      <p>
+       这就是事情变得有点奇怪的地方。
+      </p>
+      <p>
+       我们可以假设完成的工作是 $i$，所以我们可以假设
+      </p>
+      \[0 + 1 + 2  + 4 + 8 + ... + i\]
+      <p>
+       求值到 $i$。显然不是。但既然我们在做渐近分析，我们可以做这种奇怪的事情。现在先忍耐一下。
+      </p>
+      <p>
+       所以 $f(i) = i$。
+      </p>
+      <p>
+       现在我们做单层循环的步骤，得到这个求和式：
+      </p>
+      \[1 + 2 + 3 + 4 + ... + N\]
+      <p>
+       你现在已经见过很多次了。它就是 $\Theta(N^2)$。
+      </p>
+      <p>
+       所以
+       <code class="language-plaintext highlighter-rouge">
+        dloop2
+       </code>
+       的渐近运行时间是 $\Theta(N^2)$。
+      </p>
+      <p>
+       回到之前的奇怪说法。我们说既然 $f(i) \in \Theta(i)$，那么 $f(i) = i$。这 generally 并不正确，但对于渐近分析我们可以这样说。如果 $f(i)$ 实际上是 $10i$，我们会得到相同的答案。如果你不信，尽管代入试试。所以这是一个
+       <strong>
+        捷径
+       </strong>
+       。
+      </p>
+      <h3 id="double-loop-3">
+       <a aria-labelledby="double-loop-3" class="anchor-heading" href="#double-loop-3">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       双层循环 3
+      </h3>
+      <p>
+       最后一个：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dLoop3</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">*</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       第一步是找出内层循环的工作量，作为 $i$ 的函数。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kt">int</span><span class="o">[]</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       编辑：在本指南的早期（错误）版本中，更新语句是
+       <code class="language-plaintext highlighter-rouge">
+        j = j * 2
+       </code>
+       ，这导致了一个奇怪的求和，你不需要知道如何简化（我也不知道如何简化）。
+      </p>
+      <p>
+       我会再次跳过步骤，直接到求和，但你应该从头开始做。熟能生巧。
+      </p>
+      \[1 + 2 + 3 + 4 + ... + \sqrt{i}\]
+      <p>
+       我们知道这是 $\Theta((\sqrt{i})^2) = \Theta(i)$，我们会用同样的捷径说 $f(i) = i$。
+      </p>
+      <p>
+       现在，对于外层循环，我们使用这个函数 $f(i) = i$，我们得到求和式：
+      </p>
+      \[1 + 2 + 3 + 4 + ... + N^2\]
+      <p>
+       这是一个算术求和，所以我们取最后一项，平方它，然后加上 $\Theta$。
+因此，
+       <code class="language-plaintext highlighter-rouge">
+        dLoop3
+       </code>
+       的运行时间是 $\Theta((N^2)^2) = \Theta(N^4)$。
+      </p>
+      <p>
+       希望你能看到这真的没那么难。只要坚持规则。
+      </p>
+      <h3 id="summary-of-double-loop-java-methods">
+       <a aria-labelledby="summary-of-double-loop-java-methods" class="anchor-heading" href="#summary-of-double-loop-java-methods">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       双层循环 Java 方法总结
+      </h3>
+      <p>
+       我们学到了一个处理这些问题的策略。
+      </p>
+      <ol>
+       <li>
+        找出内层循环所做的工作量（作为 $i$ 的函数）。记为 $f(i)$。
+       </li>
+       <li>
+        用这个 $f(i)$ 和外层循环，使用完全相同的过程
+       </li>
+      </ol>
+      <p>
+       与单层循环不同，你可能
+       <strong>
+        无法
+       </strong>
+       一眼就看出双层循环的运行时间。这没关系。每当我做双层循环时，我总是把它写出来，因为如果你试着在脑子里做很容易出错。这个过程是经过验证的，所以只要练习使用它，你总是能正确地解答这些问题。
+      </p>
+      <p>
+       你现在应该感激我们处理单层循环的方式。它让双层循环变得容易得多。你甚至可以做三层、四层及更多层循环。但是&hellip;&hellip;那真的很烦人。我并不是说它超出了任何考试的范围，因为它基本上与双层循环相同，我只是在说它很烦人。
+      </p>
+      <p>
+       在进入下一节之前，你应该尝试几个函数。就像单层循环一样，尝试用不同的 $f, g$ 函数和不同的 $i$ 递增方式创建你自己的函数。你更可能遇到不知道如何简化的求和，你应该问助教/朋友/在 Ed 上发帖，或者就留它不做。
+      </p>
+      <p>
+       这就是嵌套循环渐近分析问题的全部内容。你现在有资格做循环问题并教你的朋友，因为这是绝对最好的学习方法。下一节是递归！
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

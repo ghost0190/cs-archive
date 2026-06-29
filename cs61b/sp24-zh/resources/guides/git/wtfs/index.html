@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   Git 常见问题 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="Git 常见问题" property="og:title">
+  <meta content="Gilbert Ghang, Josh Hug" name="author">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/git/wtfs/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="Git 常见问题" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Gilbert Ghang, Josh Hug"},"description":"数据结构","headline":"Git 常见问题","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Gilbert Ghang, Josh Hug"},"url":"https://sp24.datastructur.es/resources/guides/git/wtfs/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../staff/index.html">
+       教职员工
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab01/index.html">
+         实验 01：安装设置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab02/index.html">
+         实验 02：调试（第 1 部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab03/index.html">
+         实验 03：调试（第 2 部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N 元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/proj3checkoff/index.html">
+           验收 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../../index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../ed/index.html">
+           Ed 政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link" href="../index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href>
+        使用 Git
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        Git 常见问题
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <h1 class="title">
+      Git 常见问题
+     </h1>
+     <div class="due-date">
+      作者：Gilbert Ghang, Josh Hug
+     </div>
+     <p>
+      本文档旨在帮助你解决 Git 中经常遇到的一些奇怪的技术故障场景（WTFS）。它会随着问题的出现而更新。
+     </p>
+     <h2 id="fatal-refusing-to-merge-unrelated-histories">
+      <a aria-labelledby="fatal-refusing-to-merge-unrelated-histories" class="anchor-heading" href="#fatal-refusing-to-merge-unrelated-histories">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      fatal：拒绝合并不相关的历史
+     </h2>
+     <p>
+      这通常发生在你在从中拉取后有人更改了骨架代码时。使用
+      <code class="language-plaintext highlighter-rouge">
+       --allow-unrelated-histories
+      </code>
+      拉取，即
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git pull skeleton main <span class="nt">--allow-unrelated-histories</span> <span class="nt">--no-rebase</span>
+</code></pre>
+      </div>
+     </div>
+     <p>
+      你可能需要
+      <a href="#what-are-all-these-symbols-in-my-code">
+       解决一些由此产生的合并冲突
+      </a>
+      。
+     </p>
+     <p>
+      或者，如果你从你自己的 s*** student repo 拉取（例如，在不同的计算机上），
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git pull origin main <span class="nt">--allow-unrelated-histories</span> <span class="nt">--no-rebase</span>
+</code></pre>
+      </div>
+     </div>
+     <h2 id="head-detached-at--">
+      <a aria-labelledby="head-detached-at--" class="anchor-heading" href="#head-detached-at--">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      HEAD 分离
+     </h2>
+     <p>
+      <strong>
+       注意：
+      </strong>
+      <em>
+       从课程的 FA23 版本开始，由于首选
+      </em>
+      <code class="language-plaintext highlighter-rouge">
+       git restore
+      </code>
+      ，这种故障场景应该会少得多。
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git status
+<span class="go">HEAD detached at 1193e06
+Untracked files:
+</span><span class="gp">  (use "git add &lt;file&gt;</span>...<span class="s2">" to include in what will be commited)
+</span><span class="go">
+        ../seitan/
+
+nothing added to commit but untracked files preset (use "git add" to track)
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      很可能，你使用了
+      <code class="language-plaintext highlighter-rouge">
+       git checkout
+      </code>
+      命令而没有指定文件（或目录）。没关系！如果你没有做任何更改，你可以使用命令
+      <code class="language-plaintext highlighter-rouge">
+       git switch main
+      </code>
+      来修复。如果一切正常，你应该看到类似的消息：
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git switch main
+<span class="go">之前的 HEAD 位置是 b405852... 添加了 tofu 食谱
+已切换到分支 'main'
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      如果你做了一些更改（即使用命令
+      <code class="language-plaintext highlighter-rouge">
+       git status
+      </code>
+      告诉你修改了一些文件，如下图），需要采取更多步骤。
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git status
+<span class="go">HEAD detached at 1193e06
+Changes not staged for commit:
+</span><span class="gp">  (use "git add &lt;file&gt;</span>...<span class="s2">" to update what will be committed)
+</span><span class="gp">  (use "git restore &lt;file&gt;</span><span class="s2">..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+<span class="go">
+        modified: kung_pao_tofu.txt
+
+Untracked files:
+</span><span class="gp">  (use "git add &lt;file&gt;</span>...<span class="s2">" to include in what will be commited)
+</span><span class="go">
+        ../seitan/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      首先，使用命令
+      <code class="language-plaintext highlighter-rouge">
+       git stash
+      </code>
+      。你的修改可能奇迹般地消失了！别担心&mdash;&mdash;我们稍后能够恢复它们！
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git stash
+<span class="go">Saved working directory and index state WIP on (no branch): 1193e06 added tofu
+recipes HEAD 是 now at 1193e06 added tofu recipes
+
+</span><span class="gp">$</span><span class="w"> </span>git status
+<span class="go">HEAD detached at 1193e06
+Untracked files:
+</span><span class="gp">  (use "git add &lt;file&gt;</span>...<span class="s2">" to include in what will be commited)
+</span><span class="go">
+        ../seitan/
+
+nothing added to commit but untracked files preset (use "git add" to track)
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      从这里，使用命令
+      <code class="language-plaintext highlighter-rouge">
+       git switch main
+      </code>
+      。你应该会看到之前的所有清除消息：
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git switch main
+<span class="go">之前的 HEAD 位置是 b405852... 添加了 tofu 食谱
+已切换到分支 'main'
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      快完成了！让我们取回我们的更改。使用
+      <code class="language-plaintext highlighter-rouge">
+       git stash pop
+      </code>
+      。但等等，我们有冲突了！（这可能并不总是发生。如果你没有遇到冲突，你应该可以继续了。）
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git stash pop
+<span class="go">Auto-merging tofu/kung_pao_tofu.txt
+CONFLICT (content): 合并 conflict in tofu/kung_pao_tofu.txt
+
+</span><span class="gp">$</span><span class="w"> </span>git status
+<span class="go">On branch main
+Unmerged paths:
+</span><span class="gp">  (use "git reset HEAD &lt;file&gt;</span>...<span class="s2">" to unstage)
+</span><span class="gp">  (use "git add &lt;file&gt;</span><span class="s2">..."</span> to mark resolution<span class="o">)</span>
+<span class="go">
+        both modified: kung_pao_tofu.txt
+
+Untracked files:
+</span><span class="gp">  (use "git add &lt;file&gt;</span>...<span class="s2">" to include in what will be committed)
+</span><span class="go">
+        ../seitan/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      现在使用
+      <code class="language-plaintext highlighter-rouge">
+       git stash drop
+      </code>
+      ：
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git stash drop
+<span class="gp">Dropped refs/stash@{0} (57f0ac5c5480964cdf29a94ed6b87e38da823488)&lt;粘贴&gt;</span><span class="w">
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      现在我们必须解决这个合并冲突。要了解如何操作，请看
+      <a href="#what-are-all-these-symbols-in-my-code">
+       这里
+      </a>
+      ！
+     </p>
+     <h2 id="error-failed-to-push-some-refs">
+      <a aria-labelledby="error-failed-to-push-some-refs" class="anchor-heading" href="#error-failed-to-push-some-refs">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      错误：推送某些引用失败？？
+     </h2>
+     <p>
+      有时在与其他人协作时，push 时会收到这样的消息：
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git push origin main
+<span class="go">To https://github.com/gilbertghang/recipes.git
+</span><span class="gp"> ! [rejected]     main -&gt;</span><span class="w"> </span>main <span class="o">(</span>non-fast-forward<span class="o">)</span>
+<span class="go">错误: failed to push some refs to 'https://github.com/gilbertghang/recipes.git"
+hint: Updates were rejected because the tip of your current branch 是 behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the '注意 about fast-forwards' in 'git push --help' for details.
+</span></code></pre>
+      </div>
+     </div>
+     <p>
+      这里发生的是你的远程（即你的在线 Github 仓库）包含你的本地仓库没有的提交。幸运的是，Git 非常擅长告诉你如何修复这些错误：如果你仔细阅读错误消息，你会看到它建议你
+      <code class="language-plaintext highlighter-rouge">
+       git pull
+      </code>
+      。做那个，解决任何
+      <a href="#what-are-all-these-symbols-in-my-code">
+       合并冲突
+      </a>
+      ，然后 push。完成！
+     </p>
+     <h2 id="what-are-all-these-symbols-in-my-code">
+      <a aria-labelledby="what-are-all-these-symbols-in-my-code" class="anchor-heading" href="#what-are-all-these-symbols-in-my-code">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      我代码里这些符号是什么？？
+     </h2>
+     <p>
+      有时当你从仓库拉取时，拉取时会看到这样的消息：
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>git pull origin main
+<span class="go">From github.com:伯克利-CS61B/course-materials-sp16
+</span><span class="gp"> * branch            main     -&gt;</span><span class="w"> </span>FETCH_HEAD
+<span class="go">Auto-merging proj/proj0/solution/canonical/Planet.java
+CONFLICT (content): 合并 conflict in proj/proj0/solution/canonical/Planet.java
+</span><span class="gp">Automatic merge failed;</span><span class="w"> </span>fix conflicts and <span class="k">then </span>commit the result.
+</code></pre>
+      </div>
+     </div>
+     <p>
+      问题是你的计算机上的代码与你要拉取的远程仓库中的代码存在冲突，Git 无法弄清楚如何解决。由于它不确定，Git 拒绝覆盖你的本地代码。
+     </p>
+     <p>
+      但是，当你打开你的 Planet.java 时，你会看到一些奇怪的垃圾，比如：
+     </p>
+     <div class="language-java highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>    <span class="kd">public</span> <span class="nf">Planet</span><span class="o">(</span><span class="nc">Planet</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+<span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="no">HEAD</span>
+        <span class="k">th是</span><span class="o">.</span><span class="na">xPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xPos</span><span class="o">;</span>
+        <span class="k">th是</span><span class="o">.</span><span class="na">yPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yPos</span><span class="o">;</span>
+<span class="o">=======</span>
+        <span class="k">th是</span><span class="o">.</span><span class="na">xxPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xxPos</span><span class="o">;</span>
+        <span class="k">th是</span><span class="o">.</span><span class="na">yyPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yyPos</span><span class="o">;</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="mi">27</span><span class="n">ddd0c71515e5cfc7f58a43bcf0e2144c127aed</span>
+</code></pre>
+      </div>
+     </div>
+     <p>
+      这是一件好事！
+      <code class="language-plaintext highlighter-rouge">
+       &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+      </code>
+      和
+      <code class="language-plaintext highlighter-rouge">
+       =======
+      </code>
+      之间的所有内容都是你计算机上的内容，
+      <code class="language-plaintext highlighter-rouge">
+       =======
+      </code>
+      和
+      <code class="language-plaintext highlighter-rouge">
+       27ddd0c71515e5cfc7f58a43bcf0e2144c127aed
+      </code>
+      之间的所有内容是远程服务器上的内容。
+     </p>
+     <p>
+      你的工作是查找这些内容并自己解决合并冲突。在这种情况下，远程仓库是正确的，所以我们只需删除
+      <code class="language-plaintext highlighter-rouge">
+       &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+      </code>
+      和
+      <code class="language-plaintext highlighter-rouge">
+       =======
+      </code>
+      之间的所有内容，也删除
+      <code class="language-plaintext highlighter-rouge">
+       &gt;&gt;&gt;&gt;&gt;&gt;&gt; 27ddd0c71515e5cfc7f58a43bcf0e2144c127aed
+      </code>
+      标记，留下：
+     </p>
+     <div class="language-java highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="kd">public</span> <span class="nf">Planet</span><span class="o">(</span><span class="nc">Planet</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">th是</span><span class="o">.</span><span class="na">xxPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xxPos</span><span class="o">;</span>
+    <span class="k">th是</span><span class="o">.</span><span class="na">yyPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yyPos</span><span class="o">;</span>
+</code></pre>
+      </div>
+     </div>
+     <p>
+      一旦你解决了所有合并冲突，添加你手动编辑的所有文件，然后像平常一样提交它们，例如
+     </p>
+     <div class="language-console highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code><span class="go">git add Planet.java
+git commit -m "resolved merge conflict"
+git push origin main
+</span></code></pre>
+      </div>
+     </div>
+     <h2 id="error-you-have-not-concluded-your-merge-merge_head-exists">
+      <a aria-labelledby="error-you-have-not-concluded-your-merge-merge_head-exists" class="anchor-heading" href="#error-you-have-not-concluded-your-merge-merge_head-exists">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      错误：你尚未完成合并（MERGE_HEAD 存在）。
+     </h2>
+     <p>
+      如果你看到这样的消息：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>error: You have not concluded your merge (MERGE_HEAD exists).
+hint: Please, commit your changes before merging.
+fatal: Exiting because of unfinished merge.
+</code></pre>
+      </div>
+     </div>
+     <p>
+      添加并提交你当前的更改，然后再次拉取。
+     </p>
+     <p>
+      如果再次拉取后，你的终端显示"请输入提交消息来解释为什么需要此合并"的消息，请参阅下一节。
+     </p>
+     <h2 id="please-enter-a-commit-message-to-explain-why-this-merge-is-necessary">
+      <a aria-labelledby="please-enter-a-commit-message-to-explain-why-this-merge-is-necessary" class="anchor-heading" href="#please-enter-a-commit-message-to-explain-why-this-merge-is-necessary">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      请输入提交消息来解释为什么需要此合并
+     </h2>
+     <p>
+      如果你看到这样的消息：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>Merge branch 'main' of https://github.com/Berkeley-CS61B/skeleton-sp24
+# Please enter a commit message to explain why th是 merge 是 necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
+</code></pre>
+      </div>
+     </div>
+     <p>
+      Git 为你打开了一个终端文本编辑器来输入提交消息。你可以保留默认提交消息并退出文本编辑器。
+     </p>
+     <p>
+      如果你在终端底部看到类似这样的内容：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>^G Get Help      ^O WriteOut      ^R Read File      ^Y Prev Pg      ^C Cur Pos
+</code></pre>
+      </div>
+     </div>
+     <p>
+      这表明你正在使用 Nano 文本编辑器。要退出，请按 Ctrl+X（两个键同时按）。
+     </p>
+     <p>
+      如果你在终端左侧看到一堆波浪号（
+      <code class="language-plaintext highlighter-rouge">
+       ~
+      </code>
+      符号），并且在终端底部看到类似这样的内容：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>".git/COMMIT_EDITMSG" 9L, 273C      13,1      All
+</code></pre>
+      </div>
+     </div>
+     <p>
+      这表明你正在使用 Vim 文本编辑器。要保存并退出，输入
+      <code class="language-plaintext highlighter-rouge">
+       :wq
+      </code>
+      &mdash;&mdash;冒号键，然后是字母
+      <code class="language-plaintext highlighter-rouge">
+       w
+      </code>
+      ，然后是字母
+      <code class="language-plaintext highlighter-rouge">
+       q
+      </code>
+      ，一个接一个（不是同时）。
+     </p>
+     <h2 id="fatal-skeleton-does-not-appear-to-be-a-git-repository">
+      <a aria-labelledby="fatal-skeleton-does-not-appear-to-be-a-git-repository" class="anchor-heading" href="#fatal-skeleton-does-not-appear-to-be-a-git-repository">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      fatal: 'skeleton' 似乎不是一个 Git 仓库
+     </h2>
+     <p>
+      如果你看到这样的消息：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>fatal: 'skeleton' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights and the repository exists.
+</code></pre>
+      </div>
+     </div>
+     <p>
+      Git 可能找不到 skeleton repo 的位置。
+     </p>
+     <p>
+      尝试运行
+      <code class="language-plaintext highlighter-rouge">
+       git remote -v
+      </code>
+      。如果你的 repo 设置正确，你应该看到：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>origin  git@github.com:Berkeley-CS61B/sp24-s*** (fetch)
+origin  git@github.com:Berkeley-CS61B/sp24-s*** (push)
+skeleton  https://github.com/Berkeley-CS61B/skeleton-sp24.git (fetch)
+skeleton  https://github.com/Berkeley-CS61B/skeleton-sp24.git (push)
+</code></pre>
+      </div>
+     </div>
+     <p>
+      如果你只看到对应于
+      <code class="language-plaintext highlighter-rouge">
+       origin
+      </code>
+      的两行，而没有看到对应于
+      <code class="language-plaintext highlighter-rouge">
+       skeleton
+      </code>
+      的两行，那么 Git 不知道在哪里找到 skeleton repo。
+     </p>
+     <p>
+      要修复此问题，请运行：
+     </p>
+     <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+       <pre class="highlight"><code>git remote add skeleton https://github.com/Berkeley-CS61B/skeleton-sp24.git
+</code></pre>
+      </div>
+     </div>
+     <p>
+      然后，再次运行
+      <code class="language-plaintext highlighter-rouge">
+       git remote -v
+      </code>
+      ，确保你看到两行对应于
+      <code class="language-plaintext highlighter-rouge">
+       origin
+      </code>
+      和两行对应于
+      <code class="language-plaintext highlighter-rouge">
+       skeleton
+      </code>
+      。
+     </p>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

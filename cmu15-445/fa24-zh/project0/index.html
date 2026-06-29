@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Do not post your project on a public Github repository. Overview All the programming projects this semester will be written on the BusTub database management system. This system is written in C++. To make sure that you have the necessary C++ background, you must complete a simple programming assignment to …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!--     <link href="./css/bootstrap.min.css" rel="stylesheet" /> -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/pygment.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa24-fonts.css" rel="stylesheet">
+    
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Project #0 - C++ Primer - CMU 15-445/645 :: 数据库系统导论 (2024 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2024/project0/index.html"/>
+    <meta property="article:published_time" content="2024-12-03" />
+    <meta property="og:description" content="Do not post your project on a public Github repository. Overview All the programming projects this semester will be written on the BusTub database management system. This system is written in C++. To make sure that you have the necessary C++ background, you must complete a simple programming assignment to …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2024/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2024">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2024/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2024" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/favicon-16x16.png">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="../images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <title>项目 #0 - C++ 入门 | CMU 15-445/645 :: 数据库系统导论 (2024 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-md bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../index.html"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-md-1"> <a class="nav-link" title="Youtube" onclick="javascript:pageTracker._trackPageview('/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYDBpQnSymaectKjxCy6BYq" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-md-1"> <a class="nav-link" title="Piazza" onclick="javascript:pageTracker._trackPageview('/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2024/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-4 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header"><i class="fas fa-database"></i> <span class="text-uppercase">项目 #0 - C++ 入门</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2024-12-03 15:29:25.124524-05:00">最后更新：Dec 03, 2024</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2024-12-03 15:29:25.124524-05:00">最后更新：Dec 03, 2024</time>
+    </div>
+</div>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <u>不</u>要将您的项目发布到公开的 Github 仓库上。
+</p>
+
+<!-- ========================================================================= -->
+<!-- OVERVIEW                                                                  -->
+<!-- ========================================================================= -->
+
+<h1>概述</h1>
+<p>本学期所有的编程项目都将基于 <a onclick="javascript:pageTracker._trackPageview('/outgoing/github.com');" href="https://github.com/cmu-db/bustub">BusTub</a> 数据库管理系统。该系统使用 C++ 编写。为了确保您具备必要的 C++ 基础，您必须完成一个简单的编程作业来评估您对基本 C++ 特性的了解。本项目不会给您评分，但您<b>必须以满分完成本项目</b>才能继续本课程的学习。任何无法在截止日期前完成此作业的学生将被要求退课。</p>
+<p>本编程作业中的所有代码必须使用 C++ 编写。项目将专门为 C++17 编写，但我们发现通常了解 C++11 就足够了。如果您之前没有使用过 C++，以下是一些可以帮助您的资源：</p>
+<ul>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/github.com');" href="https://github.com/cmu-db/15445-bootcamp">15-445 Bootcamp</a>，其中包含多个小示例，帮助您熟悉 C++11 特性。</li>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.learncpp.com');" href="https://www.learncpp.com/">Learncpp</a> 是一个有用的资源，包含测试您知识的测验。</li>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/">cppreference</a> 提供了更详细的语言内部机制文档。</li>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/cmu.primo.exlibrisgroup.com');" href="https://cmu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma991019600108604436&amp;context=L&amp;vid=01CMU_INST:01CMU&amp;search_scope=MyInst_and_CI&amp;isFrbr=true&amp;tab=Everything&amp;lang=en">A Tour of C++</a> 和 <a onclick="javascript:pageTracker._trackPageview('/outgoing/cmu.primo.exlibrisgroup.com');" href="https://cmu.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma991019578256104436&amp;context=L&amp;vid=01CMU_INST:01CMU&amp;search_scope=MyInst_and_CI&amp;tab=Everything&amp;lang=en">Effective Modern C++</a> 也可以在 CMU 图书馆 digitally 获取。</li>
+</ul>
+<p>如果您使用 VSCode，我们建议您安装 <a onclick="javascript:pageTracker._trackPageview('/outgoing/marketplace.visualstudio.com');" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools">CMake Tools</a>、<a onclick="javascript:pageTracker._trackPageview('/outgoing/marketplace.visualstudio.com');" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack">C/C++ Extension Pack</a> 和 <a onclick="javascript:pageTracker._trackPageview('/outgoing/marketplace.visualstudio.com');" href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd">clangd</a>。之后，按照本教程学习如何在 VSCode 中使用可视化调试器：<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.youtube.com');" href="https://www.youtube.com/watch?v=G9gnSGKYIg4">Debug a C++ project in VS Code</a>。</p>
+<p>如果您使用 CLion，我们建议您按照本教程操作：<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.youtube.com');" href="https://www.youtube.com/watch?v=5wGsRdumueU">CLion Debugger Fundamentals</a>。</p>
+<p>如果您更喜欢使用 <code>gdb</code> 进行调试，有很多教程可以教您如何使用 <code>gdb</code>。以下是一些我们认为有用的教程：</p>
+<ul>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cs.cmu.edu');" href="https://www.cs.cmu.edu/~gilpin/tutorial/">Debugging Under Unix: gdb Tutorial</a></li>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.techbeamers.com');" href="http://www.techbeamers.com/how-to-use-gdb-top-debugging-tips/">GDB Tutorial: Advanced Debugging Tips For C/C++ Programmers</a></li>
+<li><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.youtube.com');" href="https://www.youtube.com/watch?v=PorfLSr3DDI">Give me 15 minutes &amp; I'll change your view of GDB</a> [视频]</li>
+</ul>
+<p>这是一个个人项目，需要独立完成（即不分组）。</p>
+<!-- START project0 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Aug 25, 2024</li>
+<li><b>截止日期：</b> Sep 08, 2024 @ 11:59pm</li>
+</ul>
+<!-- END project0 -->
+
+<!-- ========================================================================= -->
+<!-- PROJECT SPECIFICATION                                                     -->
+<!-- ========================================================================= -->
+
+<h1>项目规格说明</h1>
+<p>考虑这样一个问题：在一天内追踪访问网站的独立用户数量。虽然对于只有少数人访问的小型网站来说这很简单，但在处理拥有数十亿用户的大型网站时要困难得多。在这种情况下，将每个用户存储在列表中并检查重复是不切实际的。庞大的数据量带来了重大挑战，包括内存耗尽、处理时间缓慢和其他低效问题。</p>
+<p><a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/HyperLogLog">HyperLogLog</a>（HLL）是一种<a onclick="javascript:pageTracker._trackPageview('/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Randomized_algorithm">概率型</a>数据结构，用于追踪大规模数据集的基数。HyperLogLog 适用于上述场景，其目标是在不显式存储每个项目的情况下计算大规模数据流中独立项目的数量。HLL 依赖于巧妙的哈希机制和紧凑的数据结构，仅使用传统方法所需内存的一小部分即可提供对独立用户的准确估计。这使得 HLL 成为现代数据库分析中不可或缺的工具。</p>
+<p>HLL 提供了基于以下参数的概率计数机制：</p>
+<ul>
+<li><code>b</code> - 哈希值二进制表示中初始位的数量</li>
+<li><code>m</code> - 寄存器（也称为桶）的数量 - 可以视为一个内存块。它们等于 2^b。（在讨论 HyperLogLog 和任务时，"桶"和"寄存器"这两个术语可以互换使用。）</li>
+<li><code>p</code> - 最左边 1 的位置（<code>1</code> 的 MSB 位置）</li>
+</ul>
+<p>使用字符串 <code>"A great database is a great life"</code> 来简单说明该算法的工作原理。首先，对字符串进行哈希处理以产生哈希值，然后将其转换为二进制表示。从哈希值（二进制形式）中，从最高有效位（MSB）开始提取 <code>b</code> 位。寄存器值由提取的位计算得出。（默认情况下每个寄存器的值为 <code>0</code>）。</p>
+<p>从剩余的位集合中，获取最左边 1 的位置（MSB），即从左开始的连续零的数量加 1（如下面的图片所示）。</p>
+<p><img alt="" src="img/hll-example.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>之后，使用 <code>b</code> 位计算寄存器值（在上述情况下为 6）。因此，在寄存器 6 中将存储 <code>max(register[6], p)</code>。</p>
+<p><img alt="" src="img/registers1.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>集合中的另一个值在寄存器 3 中可能有 p = 2，因此 2 将存储在寄存器 3 中。</p>
+<p><img alt="" src="img/registers2.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>现在，集合中的另一个元素在寄存器 6 中有 p = 2。因此，<code>max(register[6], p) –&gt; max(5, 2)</code> 将存储在寄存器 6 中。</p>
+<p><img alt="" src="img/registers2.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>类似地，另一个元素在寄存器 3 中有 p = 4，<code>max(register[3], p) –&gt; max (2, 4)</code> 将存储在寄存器 3 中。</p>
+<p><img alt="" src="img/registers3.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>在集合中的所有元素都添加完毕后，基数按以下方式计算。</p>
+<p>如果总共有 <code>m</code> 个寄存器，则：</p>
+<p><img alt="" src="img/cardinality.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>其中 <code>constant = 0.79402</code>，<code>R[j]</code> 是寄存器 <code>j</code> 中的值，<code>N = m</code>。</p>
+<h3>资源</h3>
+<p>要更多了解 HLL 及其工作原理，</p>
+<ul>
+<li>关于 HyperLogLog 的<a onclick="javascript:pageTracker._trackPageview(‘/downloads/https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf’);" href="https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">简短论文</a>。其中包含 HyperLogLog 的描述。</li>
+<li>如果您想更温和地了解其概率原理，请观看此<a onclick="javascript:pageTracker._trackPageview(‘/outgoing/www.youtube.com’);" href="https://www.youtube.com/watch?v=lJYufx0bfpw">视频</a>和<a onclick="javascript:pageTracker._trackPageview(‘/outgoing/www.youtube.com’);" href="https://www.youtube.com/watch?v=2PlrMCiUN_s">视频</a>以获得更简单的解释。</li>
+<li>一篇关于 Meta 实现 HLL 的博客 - <a onclick="javascript:pageTracker._trackPageview(‘/outgoing/engineering.fb.com’);" href="https://engineering.fb.com/2018/12/13/data-infrastructure/hyperloglog/">Presto</a></li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li>在实际实现中，一些系统在寄存器中存储最左边 1 位的位置（MSB），而另一些则存储最右边连续零的数量（LSB）。在本项目中<ul>
+<li><strong>任务 1</strong> 将使用<strong>前者</strong>方法，存储寄存器中最左边 1 位的位置。</li>
+<li><strong>任务 2</strong> 将使用<strong>后者</strong>方法，存储寄存器中最右边连续零的数量。</li>
+</ul>
+</li>
+</ul>
+<!-- **************************************************** -->
+<!-- Task # HyperLogLog                                  -->
+<!-- **************************************************** -->
+<!-- <h2 id="task1">Task # - Implementing HyperLogLog</h2> -->
+
+<!-- ========================================================================= -->
+<!-- INSTRUCTIONS                                                              -->
+<!-- ========================================================================= -->
+<h1 id="instructions">说明</h1>
+<p>您需要完成本项目的两个函数部分：</p>
+<!-- **************************************************** -->
+<!-- Task1 # HyperLogLog                                  -->
+<!-- **************************************************** -->
+<h2 id="task1">任务 #1</h2>
+
+<p>第一步是实现一个基本的 HyperLogLog 数据结构。</p>
+<p>在 <code>hyperloglog.h</code> 中，需要实现以下函数：</p>
+<ul>
+<li><code>HyperLogLog(inital_bits)</code>：构造函数，提供前导位数（b）。</li>
+<li><code>GetCardinality()</code>：返回给定集合的基数值。</li>
+<li><code>AddElem(val)</code>：计算并将值放入寄存器中。</li>
+<li><code>ComputeCardinality()</code>：根据上述公式计算基数。</li>
+</ul>
+<p>此外，您可以实现辅助函数来完成上述功能（可根据需要添加更多）：</p>
+<ul>
+<li><code>ComputeBinary(hash_t hash)</code>：计算给定哈希值的二进制表示。哈希值应转换为 64 位二进制流（否则测试可能会失败）。</li>
+<li><code>PositionOfLeftmostOne(....)</code>：计算最左边 1 的位置。</li>
+</ul>
+<p>对于计算哈希，您可以使用给定的函数：</p>
+<ul>
+<li><code>CalculateHash(...)</code> - 用于计算哈希</li>
+</ul>
+<p>请参考 <code>std::bitset</code> 库来存储二进制表示。
+当获得十进制值时，将其转换为<strong>小于或等于</strong>该小数的最大整数。更多详情请参考 <code>std::floor</code>。</p>
+<!-- **************************************************** -->
+<!-- Task2 # Presto HyperLogLog                                  -->
+<!-- **************************************************** -->
+
+<h2 id="task2">任务 #2</h2>
+
+<p>在第二步中，您将实现 <a onclick="javascript:pageTracker._trackPageview('/outgoing/engineering.fb.com');" href="https://engineering.fb.com/2018/12/13/data-infrastructure/hyperloglog/">Presto</a> 的 HLL 密集布局实现（参考密集布局部分）。</p>
+<p><strong>注意：</strong>在 Presto 的实现中，计算二进制最右边连续零的数量（而不是左边的零计数）。在此任务中，应使用类似的方法。</p>
+<p><img alt="" src="img/presto.webp" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<p>HLL 以下列方式存储溢出桶：如果最右边连续零的数量为 33，其二进制形式为 <code>0100001</code>。在这种情况下，它将被分成两部分，前 3 个 MSB <code>010</code> 和后 4 个 LSB <code>0001</code>。<code>0001</code> 将存储在密集桶中，而 MSB <code>010</code>（即溢出位）存储在溢出桶中。</p>
+<p>在 <code>hyperloglog_presto.h</code> 中，以下函数将用于评分：</p>
+<ul>
+<li><code>GetDenseBucket()</code> - 返回密集桶数组</li>
+<li><code>GetOverflowBucketOfIdx(..)</code> - 返回给定索引的溢出位集合（如果存在）。</li>
+<li><code>GetCardinality()</code> - 返回基数值</li>
+</ul>
+<p>不要删除上述函数。</p>
+<p>实现以下函数：</p>
+<ul>
+<li><code>HyperLogLogPresto(initial_bits)</code> - HyperLogLogPresto 的构造函数</li>
+<li><code>AddElem()</code> - 计算并将值放入寄存器中。</li>
+<li><code>ComputeCardinality()</code> - 根据上述公式计算基数。</li>
+</ul>
+<p>对于计算哈希，您可以使用给定的函数：</p>
+<ul>
+<li><code>CalculateHash(...)</code> - 用于计算哈希</li>
+</ul>
+<p>当获得十进制值时，将其转换为<strong>小于或等于</strong>该小数的最大整数。</p>
+<!-- **************************************************** -->
+<!-- Important Information                                 -->
+<!-- **************************************************** -->
+
+<h2 id="important">重要信息</h2>
+
+<ul>
+<li>
+<p>在<strong>任务 2</strong> 中，将哈希值转换为 64 位二进制，然后计算连续零的数量（LSB）。</p>
+</li>
+<li>
+<p>对于在<strong>任务 1</strong> 和 <strong>任务 2</strong> 中计算基数，应遵循以下步骤。</p>
+<ul>
+<li>计算指数之和，并使用 <code>double</code> 变量以默认精度（无需自定义精度）将其存储在内存中。公式中需要存储在内存中的部分如下所示。使用 <code>std::pow</code> 计算指数。</li>
+</ul>
+<p><img alt="" src="img/step1.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=300 style="max-width: 100%;" /></p>
+<ul>
+<li>使用上面计算的总和，按以下方式确定基数。</li>
+</ul>
+<p><img alt="" src="img/step2.png" alt="HLL" class="mx-auto d-block border rounded p-2" width=400 style="max-width: 100%;" /></p>
+<ul>
+<li>获得上述结果后，将其转换为<strong>小于或等于</strong>该值的最大整数。（如上所述）。</li>
+</ul>
+</li>
+</ul>
+<p>不遵循上述步骤可能导致不准确的结果，与测试用例不一致。</p>
+<h2>创建您自己的项目仓库</h2>
+<p>如果以下 <code>git</code> 概念（例如仓库、合并、拉取、分叉）对您来说不太清楚，请先花一些时间<a onclick="javascript:pageTracker._trackPageview('/outgoing/guides.github.com');" href="https://guides.github.com/introduction/git-handbook/">学习 git</a>。</p>
+<p>按照<a onclick="javascript:pageTracker._trackPageview('/outgoing/github.com');" href="https://github.com/cmu-db/bustub#cloning-this-repository">说明</a>设置您自己的私有仓库和开发分支。如果您之前通过 GitHub 界面（点击 Fork）分叉了仓库，请不要将任何代码推送到您公开的分叉仓库！在 <code>git push</code> 任何代码之前，请确保您的仓库是私有的。</p>
+<p>如果教师对代码进行了任何更改，您可以通过将私有仓库连接到 CMU-DB 主仓库来合并更改到您的代码中。执行以下命令添加远程源：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ git remote add public https://github.com/cmu-db/bustub.git
+</pre>
+
+<p>然后您可以在学期期间根据需要拉取最新的更改：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ git fetch public
+$ git merge public/master
+</pre>
+
+<h2>设置您的开发环境</h2>
+<p>首先安装 BusTub 所需的软件包：</p>
+<pre class="border border-2 shadow-sm p-2">
+# Linux
+$ sudo build_support/packages.sh
+# macOS
+$ build_support/packages.sh
+</pre>
+
+<p>请参阅 <a onclick="javascript:pageTracker._trackPageview('/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/README.md">README</a> 获取有关如何设置不同操作系统环境的更多信息。</p>
+<p>要从命令行构建系统，请执行以下命令：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_BUILD_TYPE=Debug ..
+$ make -j`nproc`
+</pre>
+
+<p>我们建议始终以调试模式配置 CMake。这将使您能够输出调试消息并检查内存泄漏（更多内容见以下部分）。</p>
+<h2>测试</h2>
+<p>您可以使用我们的测试框架来测试本次作业的各个组件。我们使用 <a onclick="javascript:pageTracker._trackPageview('/outgoing/github.com');" href="https://github.com/google/googletest">GTest</a> 进行单元测试。您可以通过在测试名称前添加 <code>DISABLED_</code> 前缀来禁用 GTest 中的测试。要从命令行运行测试：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ cd build
+$ make -j$(nproc) hyperloglog_test
+$ ./test/hyperloglog_test
+</pre>
+
+<p>在本项目中，没有隐藏的测试。在以后的项目中，起始代码中提供的测试只是我们用来评估和评分您项目的所有测试的子集。您应该自行编写额外的测试用例来检查您实现的完整功能。</p>
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-question-circle fa-lg"></i>
+    请确保您删除了测试名称中的 <tt>DISABLED_</tt> 前缀，否则它们将<u><b>不会</b></u>运行！
+</p>
+
+<h2>格式化</h2>
+<p>您的代码必须遵循 <a onclick="javascript:pageTracker._trackPageview('/outgoing/google.github.io');" href="https://google.github.io/styleguide/cppguide.html">Google C++ 风格指南</a>。我们使用 <a onclick="javascript:pageTracker._trackPageview('/outgoing/clang.llvm.org');" href="https://clang.llvm.org/">Clang</a> 自动检查您的源代码质量。如果您的提交未通过这些检查中的任何一项，您的项目成绩将为<u><b>零</b></u>。</p>
+<p>执行以下命令检查您的语法。<code>format</code> 目标将自动修正您的代码。<code>check-lint</code> 和 <code>check-clang-tidy</code> 目标将打印错误，您必须手动修复这些错误以符合我们的风格指南。</p>
+<pre class="border border-2 shadow-sm p-2">
+$ make format
+$ make check-clang-tidy-p0
+</pre>
+
+<h2>内存泄漏</h2>
+<p>在本项目中，我们使用 <a onclick="javascript:pageTracker._trackPageview('/outgoing/clang.llvm.org');" href="https://clang.llvm.org/docs/AddressSanitizer.html">LLVM Address Sanitizer (ASAN) 和 Leak Sanitizer (LSAN)</a> 来检查内存错误。要启用 ASAN 和 LSAN，请以调试模式配置 CMake 并照常运行测试。如果存在内存错误，您将看到内存错误报告。请注意，macOS <strong>仅支持地址检测器而不支持泄漏检测器</strong>。</p>
+<p>在某些情况下，地址检测器可能会影响调试器的可用性。在这种情况下，您可能需要通过以下方式配置 CMake 项目来禁用所有检测器：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER= ..
+</pre>
+
+<h2>开发提示</h2>
+<p>您可以在调试模式下使用 <code>BUSTUB_ASSERT</code> 进行断言。请注意，<code>BUSTUB_ASSERT</code> 中的语句在发布模式下将不会被执行。
+如果您需要在所有情况下进行断言，请使用 <code>BUSTUB_ENSURE</code> 代替。</p>
+<p>我们将以发布模式测试您的实现。要以发布模式编译您的解决方案，</p>
+<pre class="border border-2 shadow-sm p-2">
+$ mkdir build_rel && cd build_rel
+$ cmake -DCMAKE_BUILD_TYPE=Release ..
+</pre>
+
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-question-circle fa-lg"></i>
+    请将关于本项目的所有问题发布在 Piazza 上。
+    <u><b>不</b></u>要直接给助教发邮件提问。
+</p>
+
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-question-circle fa-lg"></i>
+    助教在本项目中<u><b>不会</b></u>查看您的代码或帮助您调试。
+</p>
+
+<!--<p class="warning bg-info">
+    <i class="trigger fa fa-question-circle fa-lg"></i>
+    The instructor and TAs will <b><u>not</u></b> teach you how to debug your code.
+</p>-->
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+
+<p>为了通过本项目，您必须确保您的代码遵循以下准则：</p>
+<ol class="default">
+    <li> 提交是否成功执行了所有测试用例并产生了正确答案？
+    <li> 提交是否在没有内存泄漏的情况下执行？
+    <li> 提交是否遵循了代码格式化和风格策略？
+</ol>
+
+<p>请注意，在未来的项目中，我们将使用额外的测试用例来评分您的提交，这些测试用例比我们提供给您的示例测试用例更复杂。</p>
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="submission">迟交政策</h1>
+
+<p>本项目没有迟交天数。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+
+<p>您将把实现提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/817456">https://www.gradescope.com/courses/817456</a></b></li>
+</ul>
+<p>在 <code>build</code> 目录中运行此命令，它将创建一个名为 <code>project0-submission.zip</code> 的 <code>zip</code> 归档文件，您可以将其提交到 Gradescope。</p>
+<pre class="border border-2 shadow-sm p-2">
+$ make submit-p0
+</pre>
+
+<p>虽然您可以随时多次提交答案，但您<u><b>不</b></u>应将 Gradescope 作为您唯一的调试工具。大多数学生在截止日期前提交项目，因此 Gradescope 将需要更长的时间来处理请求。您可能无法及时获得反馈来帮助您调试问题。此外，Gradescope 的输出不太可能像调试器（如 <code>gdb</code>）的输出那样提供有用的信息，前提是您花了一些时间学习使用它。</p>
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-question-circle fa-lg"></i>
+    CMU 学生应使用在 Piazza 上公布的 Gradescope 课程代码。
+</p>
+
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY                                                      -->
+<!-- ========================================================================= -->
+
+<h1>协作政策</h1>
+<ul>
+<li>每位学生必须独立完成本次作业。</li>
+<li>学生可以与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不</strong>允许在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不</strong>允许复制他人的答案。</li>
+<li>在本项目中，您可以在 Google 上搜索或向 ChatGPT 提问高层次的问题，如"什么是 HyperLogLog？"、
+  "如何使用 <code>std::move</code>"。</li>
+</ul>
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-exclamation-triangle fa-lg"></i>
+    <b>警告：</b>本项目的所有代码必须是您自己的。您不得从其他学生或网上找到的其他来源复制源代码。抄袭行为<strong>绝不</strong>被容忍。更多信息请参见 CMU 的<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cmu.edu');" href="https://www.cmu.edu/policies/student-and-student-life/academic-integrity.html">学术诚信政策</a>。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:pageTracker._trackPageview('/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu">
+                    <li class=""> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

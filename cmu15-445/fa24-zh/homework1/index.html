@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Overview The first homework is to construct a set of SQL queries for analyzing a dataset that will be provided to you. For this, you will look into Paris Olympics data. This homework is an opportunity to: (1) learn basic and certain advanced SQL features, and (2) get familiar with …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!--     <link href="./css/bootstrap.min.css" rel="stylesheet" /> -->
+    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/pygment.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa24-fonts.css" rel="stylesheet">
+    
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Homework #1 - SQL - CMU 15-445/645 :: 数据库系统导论 (2024 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2024/homework1/index.html"/>
+    <meta property="article:published_time" content="2024-09-04" />
+    <meta property="og:description" content="Overview The first homework is to construct a set of SQL queries for analyzing a dataset that will be provided to you. For this, you will look into Paris Olympics data. This homework is an opportunity to: (1) learn basic and certain advanced SQL features, and (2) get familiar with …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2024/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2024">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2024/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2024" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/favicon-16x16.png">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="../images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <title>作业 #1 - SQL | CMU 15-445/645 :: 数据库系统导论 (2024 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-md bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../index.html"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-md-1">
+                <a class="nav-link " onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-md-1"> <a class="nav-link" title="Youtube" onclick="javascript:pageTracker._trackPageview('/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYDBpQnSymaectKjxCy6BYq" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-md-1"> <a class="nav-link" title="Piazza" onclick="javascript:pageTracker._trackPageview('/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2024/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-4 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header"><i class="fas fa-database"></i> <span class="text-uppercase">作业 #1 - SQL</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2024-09-04 13:08:05.219698-04:00">最后更新：Sep 04, 2024</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2024-09-04 13:08:05.219698-04:00">最后更新：Sep 04, 2024</time>
+    </div>
+</div>
+<h1>概述</h1>
+<p>第一个作业是构建一组 SQL 查询来分析将提供给您的数据集。为此，您将研究<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games">巴黎奥运会数据</a>。本次作业是一次很好的机会来：(1) 学习基本和某些高级 SQL 特性，(2) 熟悉使用两个功能完备的数据库管理系统——<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.sqlite.org');" href="https://www.sqlite.org">SQLite</a> 和 <a onclick="javascript:pageTracker._trackPageview('/outgoing/duckdb.org');" href="https://duckdb.org">DuckDB</a>，它们在未来可能对您可能有所帮助。</p>
+<p>这是一个个人项目，需要独立完成（即不分组）。</p>
+<!-- START homework1 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Aug 28, 2024</li>
+<li><b>截止日期：</b> Sep 08, 2024 @ 11:59pm</li>
+</ul>
+<!-- END homework1 -->
+
+<h1>规格说明</h1>
+<p>本次作业共包含 6 道题目，满分 100 分。每道题都需要构建一个 SQL 查询来获取所需数据。每道题的答案应只包含一条语句。对于所有题目，您可以自由选择使用 SQLite 或 DuckDB 来解答。完成这些题目大约需要 4-6 小时。</p>
+<h2>占位文件夹</h2>
+<p>创建提交用的占位文件夹，并为每道题创建空的 SQL 文件：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ mkdir placeholder
+$ cd placeholder
+$ touch q1_sample.<strong>$DBMS</strong>.sql \
+        q2_successful_coaches.<strong>$DBMS</strong>.sql \
+        q3_Judo_athlete_medals.<strong>$DBMS</strong>.sql \
+        q4_Athletics_venue_athletes.<strong>$DBMS</strong>.sql \
+        q5_top5_rank_country_per_day.<strong>$DBMS</strong>.sql \
+        q6_big_progress_country_female_teams.<strong>$DBMS</strong>.sql
+
+<strong>$DBMS</strong> = <strong>duckdb</strong> 或 <strong>sqlite</strong>，取决于您回答该问题时使用的数据库管理系统
+</pre>
+
+<p>填写完查询后，您可以运行以下命令来压缩文件夹：</p>
+<pre class="border border-2 shadow-sm p-2">
+$ zip -j submission.zip placeholder/*.sql
+</pre>
+
+<p><code>-j</code> 参数可以让您将所有 SQL 查询压缩到 zip 文件中而不包含路径信息。如果不这样做，评分脚本将<b><u>无法</u></b>正常工作。</p>
+<h1>说明</h1>
+<ol>
+   <li class="pb-3">
+   下载<a onclick="javascript:pageTracker._trackPageview('/downloads/fall2024/files/olympics-cmudb2024.db.gz');" href="../files/olympics-cmudb2024.db.gz">数据库转储文件</a>：
+   <pre class="border border-2 shadow-sm p-2">$ wget <a onclick="javascript:pageTracker._trackPageview('/downloads/fall2024/files/olympics-cmudb2024.db.gz');" href="../files/olympics-cmudb2024.db.gz">https://15445.courses.cs.cmu.edu/fall2024/files/olympics-cmudb2024.db.gz</a></pre>
+   检查其 MD5 校验和以确保您已正确下载文件：
+   <pre class="border border-2 shadow-sm p-2">
+$ md5sum olympics-cmudb2024.db.gz
+23836c35e58bd31c34f6b7edb26b5fe2  olympics-cmudb2024.db.gz</pre>
+
+   <li class="pb-3">
+   在 shell 中运行以下命令解压提供的数据库转储文件。请注意，解压后数据库文件应为 <b>4.7MB</b>。
+   <pre class="border border-2 shadow-sm p-2">$ gunzip olympics-cmudb2024.db.gz</pre>
+   数据集与<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games">原始数据集</a>略有不同，因此请<b>使用我们的数据集</b>来完成本次作业。
+</ol>
+
+<p>然后按照以下说明安装 SQLite 和 DuckDB。</p>
+<h2>SQLite</h2>
+<p>您首先需要在开发机器上安装 SQLite。</p>
+<p class="bg-danger text-white p-2 rounded">
+<i class="trigger fa fa-question-circle fa-lg"></i>
+    请确保您使用的 SQLite 版本至少为 3.25！较旧的版本（2019 年之前发布的版本）将
+    <u><b>不</u></b>支持完成本作业所需的 SQL 特性。
+</p>
+
+<ul>
+<li><b>Ubuntu Linux：</b>请按照<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.tutorialspoint.com');" href="https://www.tutorialspoint.com/sqlite/sqlite_installation.htm">说明</a>进行安装。</li>
+<li><b>Mac OS X：</b>在 Mac OS Leopard 或更高版本上，您无需安装！系统已预装。如果您确实需要升级，可以使用 <a onclick="javascript:pageTracker._trackPageview('/outgoing/brew.sh');" href="https://brew.sh">Homebrew</a>。</li>
+</ul>
+<p>然后按照以下说明加载数据集：</p>
+<ol>
+   <li class="pb-3">
+   通过<a onclick="javascript:pageTracker._trackPageview('/outgoing/sqlite.org');" href="https://sqlite.org/cli.html#getting_started">遵循本教程</a>检查 <code>sqlite3</code> 是否正常工作。
+
+   <li class="pb-3">
+   在 SQLite 终端运行 <code>.tables</code> 命令检查数据库内容。您应该看到 <b>10 张表</b>，输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">
+$ sqlite3 olympics-cmudb2024.db
+SQLite version 3.40.1 2022-12-28 14:03:47
+Enter ".help" for usage hints.
+sqlite> .tables
+athletes      countries     medal_info    results       tokyo_medals
+coaches       gender        medals        teams         venues</pre>
+
+   <li class="pb-3">
+   运行一个简单的查询以确保数据集未损坏：
+   <pre class="border border-2 shadow-sm p-2">
+sqlite> select count(*) from athletes;
+11110 </pre>
+
+</ol>
+
+<h2>DuckDB</h2>
+<!-- ### Command Line (Recommended) -->
+
+<p>请按照<a onclick="javascript:pageTracker._trackPageview('/outgoing/duckdb.org');" href="https://duckdb.org/docs/installation/?version=stable">说明</a>安装 DuckDB 1.0.0 版本的命令行环境。</p>
+<ol>
+   启动 DuckDB 时可以直接加载数据集：
+<pre class="border border-2 shadow-sm p-2">
+$ duckdb olympics-cmudb2024.db
+v1.0.0 1f98600c2c
+Enter ".help" for usage hints.
+D select count(*) from results;
+┌──────────────┐
+│ count_star() │
+│    int64     │
+├──────────────┤
+│        21316 │
+└──────────────┘ </pre>
+
+   <li class="pb-3">
+   您可以在 DuckDB 终端运行 <code>.tables</code> 命令检查数据库内容。您应该看到 <b>10 张表</b>。输出应如下所示：
+<pre class="border border-2 shadow-sm p-2">
+D .tables
+athletes      countries     medal_info    results       tokyo_medals
+coaches       gender        medals        teams         venues</pre>
+
+</ol>
+
+<h2>检查模式</h2>
+<p>
+下图展示了这些表的模式：
+<img alt="" src="../files/schema2024.png" alt="schema" class="img-fluid mx-auto d-block" />
+<b>注意</b>：所有 <code>discipline</code> 和 <code>discipline_name</code> 字段也是相互关联的。为了保持图表清晰，这些关联未在图中显示。
+</p>
+
+<p>熟悉表的模式（结构）（它们包含哪些属性，主键和外键是什么）。在 <code>sqlite3</code> 终端对每张表运行 <code>.schema $TABLE_NAME</code> 命令。输出应如下面的示例所示。</p>
+<h3>athletes</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema athletes
+CREATE TABLE athletes(code VARCHAR, "name" VARCHAR, gender BIGINT, "function" VARCHAR, country_code VARCHAR, nationality_code VARCHAR, height BIGINT, weight DOUBLE, disciplines VARCHAR, events VARCHAR, birth_date VARCHAR, occupation VARCHAR, lang VARCHAR);
+CREATE INDEX ix_athletes_code ON athletes(code);
+</pre>
+
+<p>包含运动员的详细信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+1532872|ALEKSANYAN Artur|0|Athlete|ARM|ARM|0|0.0|['Wrestling']|["Men's Greco-Roman 97kg"]|1991-10-21|Athlete|Armenian, English, Russian
+</pre>
+
+<h3>coaches</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema coaches
+CREATE TABLE coaches(code BIGINT, "name" VARCHAR, gender BIGINT, "function" VARCHAR, country_code VARCHAR, discipline VARCHAR, birth_date VARCHAR);
+CREATE INDEX ix_coaches_code ON coaches(code);
+</pre>
+
+<p>包含教练的详细信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+1533246|PEDRERO Ofelia|1|Coach|MEX|Artistic Swimming|1988-03-28
+</pre>
+
+<h3>countries</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema countries
+CREATE TABLE countries(code VARCHAR, country VARCHAR, country_long VARCHAR, Population BIGINT, "GDP ($ per capita)" BIGINT, Latitude DOUBLE, Longitude DOUBLE);
+CREATE INDEX ix_countries_code ON countries(code);
+</pre>
+<p>包含国家的详细信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+BAR|Barbados|Barbados|279912|15700|13.193887|-59.543198
+</pre>
+
+<h3>gender</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema gender
+CREATE TABLE gender(id BIGINT PRIMARY KEY, "name" VARCHAR);
+</pre>
+<p>包含性别信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+0|Male
+</pre>
+
+<h3>medal_info</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema medal_info
+CREATE TABLE medal_info(code BIGINT PRIMARY KEY, "name" VARCHAR);
+</pre>
+
+<p>包含奖牌信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+1|Gold Medal
+</pre>
+
+<h3>medals</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema medals
+CREATE TABLE medals(medal_code BIGINT, medal_date VARCHAR, discipline VARCHAR, "event" VARCHAR, winner_code VARCHAR);
+CREATE INDEX ix_medals_code ON medals(medal_code);
+CREATE INDEX ix_medals_winner_code ON medals(winner_code);
+</pre>
+<p>包含在巴黎奥运会上获得的奖牌详情，包括获奖者的代码、奖球的运动项目。<b>注意</b> <code>winner_code</code> 可以是运动员或团队的代码。另外<b>注意</b>每枚奖牌在本表中只有一条记录，这意味着对于一个团队，不会为每个团队成员分别记录，而是整个团队只有一条记录。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+1|2024-07-27|Cycling Road|Men's Individual Time Trial|1903136
+</pre>
+
+<h3>results</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema results
+CREATE TABLE results(date VARCHAR, event_name VARCHAR, discipline_name VARCHAR, venue VARCHAR, participant_code VARCHAR, participant_type VARCHAR, rank BIGINT, result VARCHAR, result_type VARCHAR);
+</pre>
+<p>包含巴黎奥运会每项比赛的结果。<b>注意</b> <code>participant_code</code> 可以是运动员或团队的代码。另外<b>注意</b>每个排名结果在本表中只有一条记录，这意味着对于一个团队，不会为每个团队成员分别记录，而是整个团队只有一条记录。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+2024-08-09|Men's 10km|Marathon Swimming|Pont Alexandre III|1909030|Person|1|1:50:52.7|TIME
+</pre>
+
+<h3>teams</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema teams
+CREATE TABLE teams(code VARCHAR, team VARCHAR, country_code VARCHAR, discipline VARCHAR, events VARCHAR, athletes_code VARCHAR);
+CREATE INDEX ix_teams_athletes_code ON teams(athletes_code);
+CREATE INDEX ix_teams_code ON teams(code);
+</pre>
+<p>包含巴黎奥运会团队的详细信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+ARCMTEAM3---CHN01|People's Republic of China|CHN|Archery|Men's Team|1913366
+</pre>
+
+<h3>tokyo_medals</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema tokyo_medals
+CREATE TABLE tokyo_medals(country_code VARCHAR, gold_medal BIGINT, silver_medal BIGINT, bronze_medal BIGINT);
+CREATE INDEX ix_tokyo_medals_country_code ON tokyo_medals(country_code);
+</pre>
+<p>包含参加东京奥运会的各国的奖牌数据。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+USA|39|41|33
+</pre>
+
+<h3>venues</h3>
+<pre class="border border-2 shadow-sm p-2">
+sqlite> .schema venues
+CREATE TABLE venues(venue VARCHAR, disciplines VARCHAR, date_start VARCHAR, date_end VARCHAR);
+CREATE INDEX ix_venues_code ON venues(venue);
+</pre>
+<p>包含场馆的详细信息。例如，这是表中的一行数据：</p>
+<pre class="border border-2 shadow-sm p-2">
+Aquatics Centre|['Artistic Swimming', 'Diving', 'Water Polo']|2024-07-27 09:00:00|2024-08-10 20:00:00
+</pre>
+
+<h2>重要说明</h2>
+<p>请注意以下细节：（虽然有些要点已经提到过，但我们在此再次总结，以防您遗漏。）</p>
+<ol>
+   <li class=”pb-3”>
+   <code>medals</code> 表中的 <code>winner_code</code> 和 <code>result</code> 表中的 <code>participant_code</code> 可以是运动员或团队的代码。
+
+   <li class=”pb-3”>
+   在 <code>medals</code>/<code>result</code> 表中，每枚奖牌/排名结果只有一条记录，这意味着如果 <code>winner_code</code>/<code>participant_code</code> 是一个团队，不会为每个团队成员分别记录，而是整个团队只有一条记录。这也意味着即使两条记录完全相同，它们仍然代表不同的奖牌或排名结果。（实际上在原始数据集中，这些”相同”的记录有不同的时间戳，为简单起见我们将其排除了。）
+
+   <li class=”pb-3”>
+   假设如果一个团队参加比赛，则<code>所有</code>团队成员都在参赛。
+</ol>
+
+<h2>构建 SQL 查询</h2>
+<p>现在开始构建 SQL 查询并将它们放入占位文件中。您可以先使用 SQLite。</p>
+<div class="question">
+   <h3>Q1 [0 分]</h3>
+   <p>此查询的目的是确保您的输出格式与我们的自动评分脚本的输出格式完全匹配。
+
+   <p><B>文件：</b> <tt class="filepath">q1_sample</tt>
+   <p><b>详情：</b>
+   按字母顺序列出所有奖牌类型。
+
+   <p class="mb-0"><b>答案</b>：以下是正确的 SQL 查询和预期输出：
+   <pre class="border border-2 shadow-sm p-2">
+sqlite> select distinct(name) from medal_info order by name;
+Bronze Medal
+Gold Medal
+Silver Medal
+</pre>
+
+   <p>您应该将此 SQL 查询放入提交目录（<tt class="filepath">placeholder</tt>）中的相应文件（<tt class="filepath">q1_sample.<em>$DBMS</em>.sql</tt>）中。
+</div>
+
+<div class="question" markdown=0>
+   <h3>Q2 [20 分]</h3>
+   <p>找出所有至少赢得过<code>至少一枚</code>奖牌的成功教练。按奖牌数量降序排列，然后按姓名字母顺序排列。
+   <p><B>文件：</b> <tt class="filepath">q2_successful_coaches</tt>
+
+   <p><b>详情：</b>如果奖牌与教练的<code>国家和运动项目相同</code>，则该奖牌归属于该教练，不考虑性别或具体赛事。可以考虑使用一枚奖牌的 <code>winner_code</code> 来确定其所属国家。</br>
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">COACH_NAME|MEDAL_NUMBER</pre>
+
+   <p>您的第一行应如下所示：<pre class="border border-2 shadow-sm p-2">BRECKENRIDGE Grant|9</pre>
+</div>
+
+<div class="question">
+   <h3>Q3 [20 分]</h3>
+   <p>找出所有参加<code>柔道</code>（Judo）项目的运动员，并列出他们获得的奖牌数量。首先按奖牌数量降序排列，然后按姓名字母顺序排列。
+
+   <p><B>文件：</b> <tt class="filepath">q3_Judo_athlete_medals</tt>
+   <p><b>详情：</b>统计的奖牌不限于柔道项目，也包括作为团队成员获得的奖牌。如果运动员未出现在 <code>athletes</code> 表中，请忽略该运动员。假设如果一个团队参加比赛，则<code>所有</code>团队成员都在参赛。
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">ATHLETE_NAME|MEDAL_NUMBER</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="border border-2 shadow-sm p-2">ABE Hifumi|2</pre>
+</div>
+
+<div class="question">
+   <h3>Q4 [20 分]</h3>
+   <p>对于所有举办过<code>田径</code>（Athletics）项目比赛的场馆，列出所有在这些场馆比赛过的运动员，并按其国籍国与其代表国之间的距离降序排列，然后按姓名字母顺序排列。
+
+   <p><B>文件：</b> <tt class="filepath">q4_Athletics_venue_athletes</tt>
+   <p><b>详情：</b>运动员可以参加任何项目，可以以<code>团队成员或个人</code>身份在这些场馆比赛。两个国家之间的距离计算为它们纬度和纬度之差的平方和加上经度和经度之差的平方和的平方根。只输出具有<code>有效</code>信息的运动员。（即运动员出现在 athletes 表中，且两个国家的纬度和经度均非空。）假设如果一个团队参加比赛，则<code>所有</code>团队成员都在参赛。</br>
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">ATHLETE_NAME|REPRESENTED_COUNTRY_CODE|NATIONALITY_COUNTRY_CODE</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="border border-2 shadow-sm p-2">GREEN Joseph|GUM|USA</pre>
+</div>
+
+<div class="question">
+   <h3>Q5 [20 分]</h3>
+   <p>对于每一天，找出当天在前 5 名（含）中出现次数最多的国家。对于这些国家，还需列出其人口排名和 GDP 排名。按日期升序排列输出。
+
+   <p><B>文件：</b> <tt class="filepath">q5_top5_rank_country_per_day</tt>
+   <p><b>提示：</b>使用 <code>result</code> 表，并使用 <code>participant_code</code> 获取对应的国家。如果无法获取 <code>result</code> 表中某条记录的国家信息，请忽略该记录。</br>
+
+   <p><b>详情：</b>在计算出现次数时，只考虑 <code>results</code> 表中 <code>rank</code> 非空的记录。排除所有 <code>rank</code> 值均为空的日期。如果出现次数相同，选择按字母顺序排在最前面的国家。保持日期的原始格式。另外，在计算出现次数时不要从 <code>results</code> 表中去重。（参见<code>重要说明</code>部分）。</br>
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">DATE|COUNTRY_CODE|TOP5_APPEARANCES|GDP_RANK|POPULATION_RANK</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="border border-2 shadow-sm p-2">2024-07-25|KOR|7|38|22</pre>
+</p>
+</div>
+
+<div class="question">
+   <h3>Q6 [20 分]</h3>
+   <p>列出与东京奥运会相比，<code>金牌</code>数量增长最多的五个国家。对于这五个国家，列出它们<code>所有的女性团队</code>。首先按金牌增长数量降序排列，然后按国家代码字母顺序排列，最后按团队代码字母顺序排列。
+
+   <p><B>文件：</b> <tt class="filepath">q6_big_progress_country_female_teams</tt>
+
+   <p><b>详情：</b>在计算全女性团队时，如果 <code>teams</code> 表中某条记录的 <code>athletes_code</code> 在 <code>athletes</code> 表中找不到，请忽略该记录，如同它不存在一样。</br>
+
+   <p><b>提示：</b>您可能会发现 DuckDB 中的<a onclick="javascript:pageTracker._trackPageview('/outgoing/duckdb.org');" href="https://duckdb.org/docs/sql/query_syntax/from.html#lateral-joins">Lateral Joins</a>很有用：先找出进步最大的 5 个国家，然后使用 lateral join 找出它们的全女性团队。</br>
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="border border-2 shadow-sm p-2">COUNTRY_CODE|INCREASED_GOLD_MEDAL_NUMBER|TEAM_CODE</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="border border-2 shadow-sm p-2">KOR|7|ARCWTEAM3---KOR01</pre>
+  </p>
+</div>
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+
+<p>每份提交将根据 SQL 查询是否从数据库中获取了预期的元组集合来评分。每个 SQL 查询只允许一条语句。请注意，您的 SQL 查询将通过将其输出（即元组集合）与正确输出进行比较来进行自动评分。对于您的查询，输出列的<strong>顺序</strong>很重要；列名则不重要。</p>
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="submission">迟交政策</h1>
+
+<p>请参见课程大纲中的<a href="../syllabus.html#late-policy">迟交政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+<!--<b>You can submit on Gradescope now, but we are currently setting up the autograder. We will post on Piazza when the autograder is up.</b>-->
+
+<p>我们使用 Gradescope 的自动评分器进行评分，以便为您提供即时反馈。完成作业后，您可以将压缩文件夹 <code>submission.zip</code>（仅一个文件）提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/817456">https://www.gradescope.com/courses/817456</a></b></li>
+</ul>
+<p><b>重要提示：</b>使用在 Piazza 上公布的 Gradescope 课程代码。</p>
+<p>我们将使用类似于 <code>diff</code> 的函数来比较输出文件。您可以随时多次提交答案。</p>
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY                                                      -->
+<!-- ========================================================================= -->
+<h1>协作政策</h1>
+<ul>
+<li>每位学生必须独立完成本次作业。</li>
+<li>学生可以与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不</strong>允许在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不</strong>允许复制其他同学的答案。</li>
+</ul>
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-exclamation-triangle fa-lg"></i>
+    <b>警告：</b>本项目的所有代码必须是您自己的。您不得从其他学生或网上找到的其他来源复制源代码。抄袭行为<strong>绝不</strong>被容忍。更多信息请参见 CMU 的<a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cmu.edu');" href="http://www.cmu.edu/policies/documents/Academic%20Integrity.htm">学术诚信政策</a>。
+</p>
+
+<!-- ========================================================================= -->
+<!-- REFERENCE DATASET
+-->
+<!-- ========================================================================= -->
+<h1>参考数据集</h1>
+<ol>
+   <li class="pb-3">
+   Petro. (2024). Paris 2024 Olympic Summer Games. Retrieved August 21, 2024 from <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games">https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games</a>.
+
+   <li class="pb-3">
+   Arjun Prasad Sarkhel. (2021). 2021 Olympics in Tokyo. Retrieved August 21, 2024 from <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/arjunprasadsarkhel/2021-olympics-in-tokyo">https://www.kaggle.com/datasets/arjunprasadsarkhel/2021-olympics-in-tokyo</a>.
+
+   <li class="pb-3">
+   Fernando Lasso. (2018). Countries of the World. Retrieved August 21, 2024 from <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/fernandol/countries-of-the-world">https://www.kaggle.com/datasets/fernandol/countries-of-the-world</a>.
+
+   <li class="pb-3">
+   bohnacker. (2022). Country Longitude Latitude. Retrieved August 21, 2024 from <a onclick="javascript:pageTracker._trackPageview('/outgoing/www.kaggle.com');" href="https://www.kaggle.com/datasets/bohnacker/country-longitude-latitude">https://www.kaggle.com/datasets/bohnacker/country-longitude-latitude</a>.
+
+</ol>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:pageTracker._trackPageview('/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu">
+                    <li class=""> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:pageTracker._trackPageview('/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

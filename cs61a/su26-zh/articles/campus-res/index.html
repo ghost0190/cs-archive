@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+系/校园资源 | CS 61A 2026年夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论班</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">讲座录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">历年考题与网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">组合指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教学团队
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">授课教师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>系/校园资源</h1>
+    </header>
+     <p><strong>作者：Jordan Schwartz</strong></p>
+
+<p>除了从课程工作人员那里获得建议外，学生和系及大学还有许多可用的资源。通常，查找和使用这些资源可能令人不知所措或具有挑战性，但我们希望为你提供可用资源的概述和起点。</p>
+
+<p>此列表并不完整，可能会更改和更新。如果你知道缺少的资源，请随时发送电子邮件至 cs61a@berkeley.edu！</p>
+
+
+<h2 id="reporting-an-incident">报告事件</h2>
+
+<p>我们认识到学生、工作人员、讲师等之间可能发生争议和冲突。有许多不同类型的事件，包括但不限于歧视、攻击、冲突等，因此我们想提供一些资源来帮助你解决可能面临的任何冲突。</p>
+
+<p>如果你感到迷茫或不知所措，请随时通过<a href="../../office-hours/index.html">咨询</a>与工作人员预约（我们很乐意为你指出正确的方向！）。</p>
+
+<ul>
+  <li>EECS 系提供<a href="https://eecs.berkeley.edu/resources/students/grievances#eecs-climate">多种方式</a>来报告系内的Issue，包括一般事件、对教职员的投诉、性骚扰和歧视。请使用<a href="https://docs.google.com/forms/d/e/1FAIpQLSc4NYHdUJ8IzYA1SoiTinWBybGWkj0mfmdnHAeygAxkZajelQ/viewform">系表格</a>向我们或系报告任何事件，以便我们可以继续改善 CS 学生的体验。谢谢！</li>
+  <li><a href="https://advocate.berkeley.edu">学生维权办公室</a> (SAO) "是一个学生运营的组织，帮助学生对教授的问题进行诉讼。"</li>
+  <li><a href="https://sa.berkeley.edu/Ombuds">学生申诉专员</a> "可以是你的第一步、最后手段或介于两者之间的任何步骤。申诉专员将听取你的关切，充当共鸣板，与你讨论你的选择，并帮助你获得新的视角并确定下一步要采取的步骤。"</li>
+  <li>最后，大学也提供<a href="https://diversity.berkeley.edu/report-incident">许多支持资源和报告问题的方式</a>。</li>
+</ul>
+
+
+<h2 id="advising">咨询</h2>
+
+<p>咨询旨在作为一种资源，帮助指导学生完成在伯克利的教育和时间。一些例子是帮助满足学位或毕业要求以及校园政策和程序。在 61A 之外，我们有咨询 OH 预约，伯克利有不同的咨询类型，具体取决于你的学院。</p>
+
+<blockquote><p>仍然不确定从哪里开始/去哪里？<a href="../../office-hours/index.html">来问工作人员！</a></p></blockquote>
+
+
+<h3 id="college-of-letters-and-science">文理学院</h3>
+
+<p>在文理学院内，有几种不同类型的咨询：学院、专业和同伴咨询。学院顾问从更广泛的角度看待你的学业，而专业顾问专注于你的特定专业。
+<a href="https://lsadvising.berkeley.edu/appointments-advice/college-advising-vs-major-advising">这本综合指南</a>解释了它们的区别以及如何访问它们。</p>
+
+<p><a href="https://lsadvising.berkeley.edu/virtual-front-desk">虚拟前台</a>由工作人员和同伴顾问共同值班，也可以提供更直接的建议。</p>
+
+<p>还有同伴咨询，它基于你有问题的专业/系！我们强烈建议从这里开始，因为他们拥有来自学校和系的所有资源，同时也能够从可能相似的视角理解你的经历。这里列出了一些，如果你没有看到适用于你情况的，请尝试在浏览器中搜索"[系或学院名称] 同伴咨询 伯克利"。</p>
+
+<ul>
+  <li><a href="https://eecs.berkeley.edu/resources/undergrads/cs/advising">计算机科学同伴咨询</a></li>
+  <li><a href="https://data.berkeley.edu/degrees/peer-advising">数据科学同伴咨询</a></li>
+  <li><a href="https://cogsci.berkeley.edu/advising/peer-advising">认知科学同伴咨询</a></li>
+</ul>
+
+
+<h3 id="college-of-engineering">工程学院</h3>
+
+<p>通过工程学院的咨询主要通过工程学生服务运行。
+<a href="https://engineering.berkeley.edu/students/advising-counseling">这个网站</a>提供了所提供服务和不同工程类型的全面概述。</p>
+
+<ul>
+  <li><a href="#">ESS</a> 为几乎任何与你的本科教育相关的事情提供学术顾问。</li>
+  <li><a href="#">教师顾问</a> 提供学术导师，可以帮助选择课程或潜在的职业道路等。</li>
+  <li><a href="#">系咨询</a> 提供专注于你特定专业的顾问，并且最了解你专业学生的课程、资源和服务。</li>
+  <li><a href="#">同伴顾问</a> 是训练有素且知识渊博的学生，他们具备帮助回答你在伯克利导航中可能遇到的任何问题的能力。</li>
+</ul>
+
+
+<h2 id="resources-for-women">女性资源</h2>
+
+
+<ul>
+  <li><a href="https://awe.berkeley.edu">EECS 女性协会</a> (AWE)："加州大学伯克利分校的一个学生运营组织，旨在赋能追求计算机科学和/或电气工程学科的女性及非二元性别本科学生。AWE 全年举办各种学术、行业和社交活动，以支持和联系我们的成员。"</li>
+  <li><a href="https://swe.berkeley.edu">女工程师协会</a> (SWE)："一个全国性的非营利组织，努力突出女性作为领导者和工程师的成就。"</li>
+  <li>CSM 女性亲和部分：由女性运营并为女性设计的部分。</li>
+  <li><a href="https://cejce.berkeley.edu/geneq">性别平等资源中心</a></li>
+  <li><a href="https://eecs.berkeley.edu/people/students/organizations">更多学生组织列在此处</a>！</li>
+</ul>
+
+
+<h2 id="resources-for-queer-students">酷儿学生资源</h2>
+
+
+<ul>
+  <li><a href="https://www.facebook.com/ucbqarc">酷儿联盟资源中心</a></li>
+  <li><a href="https://cejce.berkeley.edu/geneq">性别平等资源中心</a></li>
+  <li><a href="https://eecs.berkeley.edu/people/students/organizations">更多学生组织列在此处</a>！</li>
+</ul>
+
+
+<h2 id="resources-for-students-of-color">有色人种学生资源</h2>
+
+
+<ul>
+  <li><a href="https://bridges.berkeley.edu">bridges</a>："所有针对代表性不足的种族/民族身份群体的招募和留任中心的统筹组织"</li>
+  <li><a href="http://www.ucberkeleybessa.com">黑人工程与科学学生协会</a>：使命宣言："增加有文化责任感的黑人工程师和科学家的数量，他们在学术上表现出色，在职业上取得成功，并对社区产生积极影响。"</li>
+  <li><a href="https://hes.berkeley.edu/">西班牙裔工程师与科学家</a>："一个旨在为 STEM 中代表性不足的拉丁裔学生提供资源的组织，帮助他们应对职业/学术努力并实现整体健康"</li>
+  <li><a href="https://eecs.berkeley.edu/people/students/organizations">更多学生组织列在此处</a>！</li>
+</ul>
+
+
+<h2 id="resources-for-transfer-students">转学生资源</h2>
+
+
+<ul>
+  <li><a href="https://transfers.berkeley.edu/home">转学生中心</a></li>
+  <li>CSM 转学生亲和部分：由转学生运营并为转学生设计的部分。</li>
+</ul>
+
+
+<h2 id="other-academic-resources">其他学术资源</h2>
+
+
+<ul>
+  <li>EECS 101 Piazza：EECS 系公告和建议的地方。要加入，导航到 <a href="https://piazza.com">Piazza</a>，点击"加入另一个班级"，选择学期"其他"，搜索"EECS 101"。</li>
+  <li>DATA 001 Piazza：数据科学系公告和建议的地方。要加入，导航到 <a href="https://piazza.com">Piazza</a>，点击"加入另一个班级"，选择学期"其他"，搜索"DATA 001"。</li>
+  <li>COGSCI Piazza：认知科学系公告和建议的地方。要加入，导航到 <a href="https://piazza.com">Piazza</a>，点击"加入另一个班级"，选择学期"其他"，搜索"COGSCI"。</li>
+  <li><p><a href="https://csmentors.berkeley.edu">计算机科学导师</a> (CSM)："一个学生运营的组织，通过小组辅导课程在较小的课堂环境中提供指导和支持。每个部分有 4-6 名学生，专注于伯克利较低级别的 CS 和 EECS 课程的材料。部分报名将在开课的前几周内开放。CSM 有时也为没有先验经验的学生、女性、LGBTQ 学生和转学生提供亲和部分。"</p>
+
+  <ul>
+    <li>CSM 还将为没有到有限 CS 经验的学生运行无先验经验 (NPE) 亲和部分。</li>
+  </ul></li>
+  <li><a href="https://hkn.eecs.berkeley.edu">eta kappa nu</a> (HKN)："全国电气和计算机工程荣誉协会。HKN 也为 CS 和 EECS 课程提供许多学生服务。有辅导，包括答疑时间、咨询、考试准备、课程调查和同伴咨询。"</li>
+  <li><a href="https://engineering.berkeley.edu/student-services/academic-support">工程卓越访问中心</a>"致力于提供支持和欢迎的环境，有利于学术和个人成功。他们以为所有项目和服务中的多样性、公平和包容性而自豪。"</li>
+  <li>私人辅导：EECS 咨询系编制了一份私人学生导师名单。导师通常最有助于理解内容，但不用于完成作业，特别是要遵守学术诚信期望。链接将在 2022 年春季名单发布后更新。</li>
+  <li><a href="http://slc.berkeley.edu">学生学习中心</a> (SLC) "支持全球学习者社区，帮助他们应对加州大学伯克利分校的文化期望和学术严谨性。通过尊重他们不同起点并在他们所在的地方满足他们的服务模型，我们旨在赋能所有学生实现他们的全部学术潜力和愿望。"</li>
+  <li><a href="https://eop.berkeley.edu">教育机会项目</a> (EOP) "为认定为第一代、低收入和/或历史上代表性不足的大学生提供指导、支持和资源，以在伯克利取得成功，并采取有意义的步骤实现他们的个人和职业目标。"</li>
+</ul>
+
+
+<h2 id="mental-health-resources-at-berkeley">伯克利心理健康资源</h2>
+
+
+<ul>
+  <li><a href="https://uhs.berkeley.edu/caps">CAPS</a></li>
+  <li><a href="https://asuc.org/wp-content/uploads/2018/02/Mental-Health-Resources.pdf">ASUC 心理健康资源</a></li>
+</ul>
+
+
+<h2 id="sexual-harrassment-and-sexual-assault-resources">性骚扰和性侵犯资源</h2>
+
+
+<ul>
+  <li><a href="https://care.berkeley.edu/care-line/">护理路径 / 护理热线</a>："24/7，保密，免费，基于校园的资源，用于围绕性侵犯、性骚扰、人际暴力、跟踪和侵犯性隐私的紧急支持。"</li>
+  <li>另见 <a href="#reporting-an-incident">报告事件</a></li>
+</ul>
+
+
+<h2 id="basic-needs-resources">基本需求资源</h2>
+
+
+<ul>
+  <li><a href="https://basicneeds.berkeley.edu/home">基本需求中心</a>：提供"在加州大学伯克利分校不仅生存，而且茁壮成长所需的所有基本资源的支持"。</li>
+  <li><a href="https://basicneeds.berkeley.edu/pantry">加州大学伯克利分校食品储藏室</a>："紧急食品救济供应"</li>
+</ul>
+
+
+<h2 id="covid-19-resources">COVID-19 资源</h2>
+
+<p><a href="https://coronavirus.berkeley.edu">加州大学伯克利分校 COVID-19 仪表板</a></p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#reporting-an-incident">报告事件</a></li>
+  <li><a href="#advising">咨询</a></li>
+  <ul>
+    <li><a href="#college-of-letters-and-science">文理学院</a></li>
+    <li><a href="#college-of-engineering">工程学院</a></li>
+  </ul>
+  <li><a href="#resources-for-women">女性资源</a></li>
+  <li><a href="#resources-for-queer-students">酷儿学生资源</a></li>
+  <li><a href="#resources-for-students-of-color">有色人种学生资源</a></li>
+  <li><a href="#resources-for-transfer-students">转学生资源</a></li>
+  <li><a href="#other-academic-resources">其他学术资源</a></li>
+  <li><a href="#mental-health-resources-at-berkeley">伯克利心理健康资源</a></li>
+  <li><a href="#sexual-harrassment-and-sexual-assault-resources">性骚扰和性侵犯资源</a></li>
+  <li><a href="#basic-needs-resources">基本需求资源</a></li>
+  <li><a href="#covid-19-resources">COVID-19 资源</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

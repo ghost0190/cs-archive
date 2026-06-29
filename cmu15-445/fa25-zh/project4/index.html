@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Remember to pull the latest code from the bustub repository. Do not post your code on a public GitHub repository. Overview In this project, you will add transaction support for BusTub by implementing optimistic multi-version concurrency control (MVOCC). The project consists of four required tasks and two leaderboard benchmarks. Task …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Project #4 - Concurrency Control - CMU 15-445/645 :: 数据库系统导论 (2025 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2025/project4/index.html"/>
+    <meta property="article:published_time" content="2025-12-07" />
+    <meta property="og:description" content="Remember to pull the latest code from the bustub repository. Do not post your code on a public GitHub repository. Overview In this project, you will add transaction support for BusTub by implementing optimistic multi-version concurrency control (MVOCC). The project consists of four required tasks and two leaderboard benchmarks. Task …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2025">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="../images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="../images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>项目 #4 - 并发控制 | CMU 15-445/645 :: 数据库系统导论 (2025 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../index.html" title="CMU 15-445/645"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header mb-3 mb-md-4"><i class="fas fa-database"></i> <span class="text-uppercase">项目 #4 - 并发控制</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal; text-shadow: none;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-12-07 10:39:57.362607-05:00">最后更新：Dec 07, 2025</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-12-07 10:39:57.362607-05:00">最后更新：Dec 07, 2025</time>
+    </div>
+</div>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    记得从 bustub 仓库拉取最新代码。<u>不要</u>将代码发布到公开的 GitHub 仓库。
+</p>
+
+<!-- ========================================================================= -->
+<!-- OVERVIEW                                                                  -->
+<!-- ========================================================================= -->
+
+<h1 id="overview">概述</h1>
+
+<p>在本项目中，你将通过实现乐观多版本并发控制（MVOCC）为 BusTub 添加事务支持。本项目包含四个必做任务和两个排行榜基准测试。</p>
+<ul class="fw-semibold">
+    <li> <a href="#task1">任务 #1 - 时间戳</a>
+    <li> <a href="#task2">任务 #2.1 - 存储格式</a>
+    <li> <a href="#task2.2">任务 #2.2 - 顺序扫描 / 元组检索</a>
+    <li> <a href="#task3">任务 #3 - MVCC 执行器</a>
+    <li> <a href="#task4">任务 #4 - 主键索引</a>
+</ul>
+
+<p>本项目必须独立完成（即不允许组队）。开始之前，请运行 <code>git pull public master</code> 从公共 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub">BusTub 仓库</a>拉取最新代码，然后重新运行 <code>cmake</code> 以重新配置 Makefile。</p>
+<p>我们建议你在开始编写代码之前先完整阅读<em>一遍</em>所有内容。如果你没有时间这样做（因为本文档相当长），你可以专注于阅读任务 1 和任务 2 的部分，因为它们包含了非常具体的实现指导。这比遗漏某些信息、错误地实现了某些东西然后不得不重新开始要快得多。</p>
+<!-- START project4 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Nov 10, 2025</li>
+<li><b>截止日期：</b> Dec 07, 2025 @ 11:59pm</li>
+</ul>
+<!-- END project4 -->
+
+<!-- ========================================================================= -->
+<!-- BACKGROUND                                                                -->
+<!-- ========================================================================= -->
+
+<h1 id="background">背景</h1>
+
+<p>在之前的项目中，BusTub 作为单版本 DBMS 运行。现在你将在不修改其核心表存储架构（即表堆）的情况下添加对 MVCC 的支持。此 MVCC 协议的高层版本已在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/hyper-db.de');" href="https://hyper-db.de/">HyPer</a> 和 <a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org">DuckDB</a> 等 DBMS 中使用。</p>
+<p>此协议中的存储模型与课程中讨论的增量表架构类似。对于存储的每一个元组，DBMS 还会在<em>撤销日志</em>中额外存储元组增量。表堆中的元组及其对应的撤销日志/增量构成一个单向链表，称为<em>版本链</em>。通过这条版本链，DBMS 能够逻辑上"存储"一个元组的每一个历史版本。也就是说，DBMS 只存储每两个版本之间的增量，而不是元组的完整版本。</p>
+<p>DBMS 将撤销日志存储在事务的内存工作空间中，而事务本身存储在事务管理器的内存数据结构中。在生产系统中这些日志会被持久化到磁盘上，但本项目不要求 BusTub 这样做。</p>
+<p>你首先需要为所有事务实现 <code>SNAPSHOT ISOLATION</code> 隔离级别。然后在 <a href="#task4.4">任务 #4.4</a> 中，你将扩展并发控制协议以支持 <code>SERIALIZABLE</code> 隔离级别。</p>
+<p>在每个测试用例中，所有事务都将在相同的隔离级别下运行。所有并发测试用例都是公开的，所有隐藏测试用例都是单线程的。在 Gradescope 上，你将找到每个测试用例正在做什么的描述。</p>
+<!-- ========================================================================= -->
+<!-- PROJECT SPECIFICATION                                                     -->
+<!-- ========================================================================= -->
+
+<h1 id="project-specification">项目规范</h1>
+<p>与之前的项目一样，我们已经提供了定义你必须实现的 API 的类。除非另有说明，否则不要修改这些类中预定义函数的签名或删除预定义的成员变量。如果你这样做了，我们的测试代码将无法工作，你将无法获得本项目的分数。你可以根据需要向这些类添加私有辅助函数和成员变量。</p>
+<p>以下是你在本项目中可能需要修改的文件列表：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction_manager.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/concurrency/transaction_manager.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/concurrency/transaction_manager.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/concurrency/transaction_manager.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/execution_common.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/execution_common.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/execution_common.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/execution_common.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/seq_scan_executor.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/executors/seq_scan_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/seq_scan_executor.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/seq_scan_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/index_scan_executor.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/executors/index_scan_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/index_scan_executor.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/index_scan_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/insert_executor.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/executors/insert_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/insert_executor.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/insert_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/update_executor.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/executors/update_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/update_executor.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/update_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/delete_executor.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/execution/executors/delete_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/delete_executor.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/execution/delete_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/watermark.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/concurrency/watermark.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/concurrency/watermark.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/concurrency/watermark.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+<p>以下是本项目中可能有用的函数/类列表：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table/table_heap.h"><code>TableHeap</code></a>: <code>MakeIterator</code>, <code>GetTuple</code>, <code>GetTupleMeta</code>, <code>UpdateTupleMeta</code>, <code>UpdateTupleInPlace</code>, <code>MakeIterator</code>, <code>MakeEagerIterator</code>（以及 <a href="#task3.6">任务 #3.6</a> 及之后，所有带 <code>Lock</code> 的函数）。</li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table/tuple.h"><code>Tuple</code></a>: <code>SetRid</code>, <code>GetRid</code>, 额外的 <code>Tuple</code> 构造函数, <code>Empty</code>, <code>IsTupleContentEqual</code>, <code>GetValue</code>.</li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/type/value.h"><code>Value</code></a>: <code>ValueFactory::Get____</code>, <code>ValueFactory::GetNullValueByType</code>, <code>CompareExactlyEquals</code>.</li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/catalog/schema.h"><code>Schema</code></a>: <code>GetColumn</code>, <code>GetColumnCount</code>.</li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction_manager.h"><code>TransactionManager</code></a>: <code>UpdateUndoLink</code>, <code>GetUndoLink</code>, <code>GetUndoLog</code>, <code>GetUndoLogOptional</code>, <code>UpdateTupleAndUndoLink</code>, <code>GetTupleAndUndoLink</code></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction.h"><code>Transaction</code></a>: 所有成员函数都很重要，<code>UndoLink</code> 和 <code>UndoLog</code> 结构体也是如此。</li>
+</ul>
+<p>你可能需要频繁地将一个可选值映射为其他值。你可以使用以下语法来编写更简洁的代码（单子操作）：<code>auto x = opt.has_value() ? operation(*opt) : std::nullopt;</code>。</p>
+<p>你也可以使用 C++14 元组解包语法：<code>auto [meta, tuple] = iter-&gt;GetTuple();</code>。</p>
+<p>本项目的正确性取决于你在 <a href="../project1/index.html">项目 #1</a> 和 <a href="../project2/index.html">项目 #2</a> 中实现的正确性。即使你没有完整实现 <a href="../project3/index.html">项目 #3</a>，你仍然可以在本项目中获得满分，但这仅仅是因为你需要基于 MVCC 存储重写大部分你已经实现的访问方法执行器。此外，将顺序扫描转换为索引扫描的优化器规则的工作实现是 <a href="#task4.2">任务 4.2</a> 所必需的。最后，来自 <a href="../project3/index.html">项目 #3</a> 的聚合执行器的工作实现是完成本项目中排行榜测试所必需的。</p>
+<p>我们<u>不</u>提供之前项目的答案。</p>
+<!-- ********************************************************************** -->
+<!-- Task #1 - Timestamps                                                  -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task1">任务 #1 - 时间戳</h2>
+
+<p>在 BusTub 中，每个事务将被分配两个时间戳：<em>读</em>时间戳和<em>提交</em>时间戳。我们将详细介绍这些时间戳是如何分配的。在此任务中，你需要在事务管理器上实现这一点，以便它可以正确地为事务分配时间戳。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Timestamp Allocation                      -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="task1.1">1.1 时间戳分配</h3>
+<p>当事务开始时，它被分配一个读时间戳，等于最近提交的事务的提交时间戳。从高层来看，你可以将其理解为记录/记下最新一次原子写入数据库的时间戳。读时间戳决定了哪些数据可以被事务安全且正确地读取。换句话说，读时间戳决定了当前事务可以看到的元组的最新版本。</p>
+<p>当事务提交时，它将被分配一个单调递增的提交时间戳。提交时间戳决定了事务的序列化顺序。由于这些提交时间戳是唯一的，我们也可以通过提交时间戳唯一地标识已提交的事务。</p>
+<p>以下是表堆中对 4 个元组（A、B、C、D）进行多次写入/更新后的表堆和版本链示例：</p>
+<p><a href="img/1-1-ts.png"><img alt="" src="img/1-1-ts.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>在此图中，A1 指的是元组 A 的第一个版本，A3 指的是元组 A 的第三个版本。A4 指的是元组 A 的第四个版本，也是元组 A 最新或"真实"的版本。请注意，B4 和 C4 实际上分别是元组 B 和 C 的第三个版本，我们只是为了下面的解释方便才这样标注。</p>
+<p>时间戳（<code>ts=#</code>）指的是每个元组所属事务的提交时间戳。因此 [A1, B1, C1] 属于提交时间戳 = 1 的事务（我们可以简称为事务 1），[A3, B3, D3] 属于提交时间戳 = 3 的事务（事务 3）。此图中最近提交的事务是提交时间戳 = 4 的事务，包含 [A4, B4, C4]。</p>
+<p>假设我们有一个读时间戳为 3 的事务。这意味着我们的事务在事务 3 提交<em>之后</em>、事务 4 提交<em>之前</em>开始。因此，我们的事务只能观察到 [A3, B3, C2, D3]。</p>
+<p>对于 [A, B, C]，我们的事务无法观察到 [A4, B4, C4]，因为这些元组版本的时间戳都是 4（相对于我们读时间戳 3 来说是在未来）。我们的事务需要遍历每个元组的撤销日志，读取它遇到的第一个版本小于或等于 3 的版本。对于 A 和 B，它遇到的第一个版本分别是 A3 和 B3。对于 C，遇到的第一个版本是 C2。对于 D，由于元组的当前版本时间戳已经是 3，可以直接安全地读取。</p>
+<p>另一个例子是，如果我们的读时间戳是 2，那么我们的事务只会看到 [A2, B1, C2]，因为 D 是在时间戳 3 时创建的（相对于我们的读时间戳 2 来说是在未来）。</p>
+<p>你需要在此任务中为事务分配正确的读时间戳和提交时间戳。更多信息请参见 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction_manager.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/concurrency/transaction_manager.h</tt> <i class="fas fa-external-link-alt"></i></a> 中的 <code>TransactionManager::Begin</code> 和 <code>TransactionManager::Commit</code>。我们已经提供了 <code>TransactionManager::Abort</code> 的起始代码，你不需要在 <code>Abort</code> 中做任何修改就能获得任务 #1 的全部分数。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Watermark                                 -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task1.2">1.2 水位线</h3>
+<p><strong>水位线</strong>是所有尚未提交或中止的事务中最低的读时间戳。如果没有这样的事务，水位线就是最新的提交时间戳。计算水位线最简单的方法是遍历事务管理器映射中的所有事务，找到所有进行中事务的最小 <code>read_ts</code>。</p>
+<p>然而，这种简单的策略效率非常低。在此任务中，你需要实现一个时间复杂度为 <code>O(log N)</code> 的算法来计算水位线。更多信息请参考 <code>watermark.h</code> 和 <code>watermark.cpp</code>。当事务开始/提交/中止时，你还需要调用 <code>Watermark::AddTxn</code> 和 <code>Watermark::RemoveTxn</code>。</p>
+<p>有很多方法可以实现这一点。参考解决方案使用哈希表实现了一个均摊 <code>O(1)</code> 的算法，此外 C++ 标准库中还有一个有用的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/container">容器</a>，可能使 <code>O(log N)</code> 的实现变得<em>非常</em>简单。</p>
+<p>此时你应该通过 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/txn/txn_timestamp_test.cpp"><code>TxnTimestampTest</code></a> 套件中的所有测试用例。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #2 - Storage Format and Sequential Scan                           -->
+<!-- ********************************************************************** -->
+
+<h2 class="task" id="task2">任务 #2 - 存储格式与顺序扫描</h2>
+
+<p>BusTub 将事务数据存储在三个地方：表堆、事务管理器以及每个事务的工作空间内。表堆始终包含最新的元组数据。事务管理器存储每个元组最新撤销日志的指针（<code>PageVersionInfo</code>）。事务存储它们创建的撤销日志，记录事务如何修改了元组。</p>
+<p>下面是与上图相同的图示表示，但包含了 <code>PageVersionInfo</code> 结构体，并且撤销日志位于特定事务的工作空间中。图中的虚线不是指针，而是通过事务管理器的逻辑连接。</p>
+<p><a href="img/2-1-storage-format.png"><img alt="" src="img/2-1-storage-format.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>要在任何给定的读时间戳检索元组，你需要（1）获取在给定时间戳之后发生的所有修改（即撤销日志），以及（2）从元组的最新版本回滚这些修改（”撤销”撤销日志）以恢复该元组的过去版本。</p>
+<p>这类似于我们在课程中介绍的增量表存储模型，不同之处在于没有物理的”增量表”来存储增量记录。相反，这些记录存储在每个事务的工作空间内（不持久化到磁盘上），以简化实现。</p>
+<h3>数据结构与辅助函数</h3>
+
+<p>本节是一个介绍，引导你了解元组重建及后续操作所需的数据结构。我们建议你结合起始代码一起阅读本介绍。如果在其他任务中遇到任何问题或困惑，可以回到本节查阅。</p>
+<p>DBMS 在 <code>TableHeap</code>（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table_heap.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/storage/table_heap.h</tt> <i class="fas fa-external-link-alt"></i></a>）中存储 <code>Tuple</code> 和 <code>TupleMeta</code> 数据。你可以调用 <code>GetTuple</code> 或 <code>GetTupleMeta</code> 等辅助函数来获取这些数据，调用 <code>UpdateTupleInPlace</code> 来更新单线程测试用例中的元组，调用 <code>InsertTuple</code> 将元组插入表堆（这些函数定义在 <code>table_heap.h</code> 中）。你可能注意到还有 <code>UpdateTupleInPlaceWithLockAcquired</code> 等函数，这些是你将在并发任务中使用的函数。</p>
+<p>事务头文件（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/concurrency/transaction.h</tt> <i class="fas fa-external-link-alt"></i></a>）包含用于跟踪事务运行时行为和状态的类与对象。</p>
+<p><code>UndoLog</code> 结构体存储事务对元组进行修改/删除的信息。<a href="#task2.1">任务 2.1</a> 详细介绍了 <code>UndoLog</code> 的格式。DBMS 可以基于这些 <code>UndoLog</code> 重建元组。每个事务存储一个 <code>UndoLog</code> 向量，包含该事务修改过的每个元组的增量。例如，如果 txn1 更新了元组 1 和元组 2，txn1 将为元组 1 和元组 2 各存储一个 UndoLog。事务将记录元组 1 和元组 2 之前版本之间的增量以及 txn1 的版本。你的实现应调用 <code>ModifyUndoLog</code> 修改现有的 <code>UndoLog</code>，调用 <code>AppendUndoLog</code> 追加新的 <code>UndoLog</code>（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction.h" target="_bustub" class="filepath" title="查看源代码"><tt>src/include/concurrency/transaction.h</tt> <i class="fas fa-external-link-alt"></i></a>）。通过将单个事务的所有 <code>UndoLog</code> 存储在一起，我们可以在事务提交或中止时轻松更新这些被修改的元组及其版本信息。</p>
+<p><code>UndoLink</code> 结构体是指向 <code>UndoLog</code> 的指针。我们使用 <code>UndoLink</code> 将每个元组的所有 <code>UndoLog</code> 链接在一起。它们的定义如下：</p>
+<pre class="shadow-sm p-2">
+/** Represents a link to a previous version of this tuple */
+struct UndoLink {
+  /* Previous version can be found in which txn */
+  txn_id_t prev_txn_{INVALID_TXN_ID};
+  /* The log index of the previous version in `prev_txn_` */
+  int prev_log_idx_{0};
+};
+</pre>
+
+<p><code>UndoLink { prev_txn_: txn5, prev_log_idx_: i }</code> 指向 txn5 的 <code>undo_logs_</code> 缓冲区中的第 <code>i</code> 个 <code>UndoLog</code>。你可以通过调用 <code>GetUndoLog</code> 和 <code>GetUndoLogOptional</code> 从给定的 <code>UndoLink</code> 获取目标 <code>UndoLog</code>（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/concurrency/transaction_manager_impl.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/concurrency/transaction_manager_impl.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）。如果 <code>UndoLink</code> 中的 <code>prev_txn_</code> 具有无效的事务 ID，则表示该 <code>UndoLink</code> 无效，它不指向任何有效的 <code>UndoLog</code>，因此你只应在知道 <code>UndoLink</code> 有效时使用 <code>GetUndoLog</code>，否则可以使用 <code>GetUndoLogOptional</code>。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Reconstruction                            -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task2.1">2.1 元组重建</h3>
+<p>在此任务中，你将通过定义在 <code>execution_common.cpp</code> 中的 <code>ReconstructTuple</code> 函数实现元组重建算法。在本项目期间，你很可能会发现许多功能可以被系统中的不同组件共享。你可以在 <code>execution_common.cpp</code> 中定义辅助函数。</p>
+<p><code>ReconstructTuple</code> 接受 4 个输入：</p>
+<ol>
+<li>元组模式。</li>
+<li>基础元组。</li>
+<li>元数据（两者都存储在表堆中）。</li>
+<li>按从最近修改到最早修改排序的撤销日志列表。</li>
+</ol>
+<p>以下是重建元组的示例：</p>
+<p><a href="img/2-2-undo-log.png"><img alt="" src="img/2-2-undo-log.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>基础元组（在"表堆中最新版本"下方）始终存储其模式中每一列的值（换句话说，它们是完整且有效的元组）。然而，撤销日志只包含被操作更改的列。撤销日志还有一个 <code>is_delete</code> 标志，表示整个元组的删除。</p>
+<p>请注意，基础元组元数据和撤销日志都会有 <code>is_delete</code> 标志，它们并不总是相等的。在任务 4.2 中，你将需要在一个已存在的 RID 上"插入"一个元组，因此你需要在 <code>UndoLog</code> 中使用这个 <code>is_delete</code> 标志来执行此类操作（想象在一个循环中反复插入和删除同一个元组）。下面展示了 <code>is_delete</code> 标志如何工作的示例。<strong>请确保你理解这些撤销日志是在时间上<em>倒退</em>的。</strong>作为一个练习，尝试推断出可能导致这个特定版本链的操作序列：</p>
+<p><a href="img/2-2-undo-log-with-del.png"><img alt="" src="img/2-2-undo-log-with-del.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p><code>ReconstructTuple</code> 应该应用提供给函数的所有修改，<em>不需要</em>查看元数据或撤销日志中的时间戳。它不需要访问函数参数列表之外的数据。换句话说，确保你没有传递过多的撤销日志给 <code>ReconstructTuple</code>。</p>
+<p>下面是 <code>UndoLog</code> 结构的图示：</p>
+<p><a href="img/2-4-undo-log-format.png"><img alt="" src="img/2-4-undo-log-format.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p><code>UndoLog</code> 表示对某个元组的部分修改（在由 <code>ts_</code> 字段决定的某个时间点）。<code>UndoLog</code> 中的 <code>modified_fields_</code> 成员是一个 <code>bool</code> 向量，其长度与表模式中列的数量相同。如果其中一个布尔值设置为 <code>true</code>，则表示元组中的对应字段已被该 <code>UndoLog</code> 更新。例如，如果 <code>modified_fields_</code> 向量的第 3 个元素（索引 2）设置为 <code>true</code>，则表示元组的第三列被更新了。</p>
+<p><code>tuple_</code> 字段包含部分 <code>Tuple</code>，它的值/列数应该与 <code>modified_fields_</code> 向量中 <code>true</code> 的数量相同。要从部分元组中检索值，你需要根据表模式和已修改的字段构建一个部分 <code>Schema</code>。然后你可以使用该部分 <code>Schema</code> 从部分 <code>Tuple</code> 中提取值。</p>
+<p>时间戳（<code>ts_</code>）是该 <code>UndoLog</code> 对应的<em>提交</em>时间戳。我们还存储了指向下一个 <code>UndoLog</code> 的链接（<code>prev_version_</code> 通过 <code>UndoLink</code> 存储）。如果 <code>UndoLog</code> 是版本链中的最后一个，TxnId（对应代码中 <code>UndoLink</code> 内部的 <code>prev_txn_</code>）将被设置为 <code>INVALID_TXN</code>。你可以使用 <code>prev_version_.IsValid()</code> 辅助函数来快速检查这一点。提醒一下，你在 <code>ReconstructTuple</code> 中<strong>不需要</strong>使用甚至检查时间戳（<code>ts_</code>）字段和前一版本（<code>prev_version_</code>）字段，因为 <code>prev_version_</code> 应该只由 <code>ReconstructTuple</code> 的调用者使用，以确定将哪些 <code>UndoLog</code> 放入输入向量中。</p>
+<p>在上面的示例中，我们存储的是具有 4 列的元组。这个特定的 <code>UndoLog</code> 表示对第 2 和第 3 个字段的修改。尝试（在纸上）写出伪代码，说明如何将这 2 个特定字段改回以重建过去的元组。然后，尝试将该算法推广到任意类型的输入元组、任意数量的修改字段以及任意数量的撤销日志。完成这些之后，你就可以编写 <code>ReconstructTuple</code> 了！</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Sequential Scan                           -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task2.2">2.2 顺序扫描（元组检索）</h3>
+<p>在此任务中，你需要重写 <a href="../project3/index.html">项目 #3</a> 中的顺序扫描执行器，以支持从过去检索数据（基于事务的读时间戳）。</p>
+<p>对于新的顺序扫描执行器从表堆中扫描的每个元组，它应该检索该元组直到事务读时间戳的所有撤销日志，重建过去的元组版本，然后输出该过去的元组。你需要在 <code>execution_common.cpp</code> 中实现 <code>CollectUndoLogs</code> 辅助函数。该函数返回重建元组所需的所有撤销日志，相对于给定事务的读时间戳。</p>
+<p>给定当前事务的读时间戳，你需要处理 3 种情况：</p>
+<ol>
+<li>表堆中的元组相对于读时间戳是最新的数据。你可以通过检查元组元数据中的时间戳来判断。在这种情况下，不需要执行撤销操作，<code>CollectUndoLogs</code> 应返回一个空向量。</li>
+<li>表堆中的元组已被另一个未提交的事务修改，或者它比事务读时间戳更新。在这种情况下，你需要遍历版本链以收集读时间戳之后的所有撤销日志。</li>
+<li>表堆中的元组包含当前事务的修改。换句话说，我们正在读取一个自己修改过的元组。这种情况的解释如下。</li>
+</ol>
+<p>为了在不修改时间戳结构（它们只是 <code>int64_t</code>）的情况下支持情况 3，我们将使用时间戳的高位作为标签来表示”临时”时间戳。在 BusTub 中，提交时间戳在 0 到 <code>TXN_START_ID - 1</code> 之间是有效的。<code>TXN_START_ID</code> 被定义为 64 位整数的<em>第二</em>高位（<code>1 &lt;&lt; 62</code>）。</p>
+<p>如果时间戳的第二高位设置为 1（<code>&amp; 1 &lt;&lt; 62</code>），则表示该元组已被某个事务修改，且该事务尚未提交。我们称此时间戳为”临时事务时间戳”，通过 <code>TXN_START_ID + txn_human_readable_id = temp_txn_id</code> 计算得出。我们采用这种方法来区分具有提交时间戳的已提交元组和某个特定事务 ID 下的未提交元组。<code>UndoLog</code> 中不应包含临时事务时间戳（我们将在后面的章节中解释）。</p>
+<p><em>我们不使用实际的最高位（<code>1 &lt;&lt; 63</code>）的原因是，这样我们可以继续以简单的方式使用 <code>&lt;</code> 和 <code>&gt;</code> 比较临时时间戳。设置最高位会导致时间戳变为负数。</em></p>
+<p>BusTub 中的第一个事务 ID 是 <code>TXN_START_ID</code>，ID 是单调递增的。<strong>请确保你理解事务 ID 与提交时间戳<em>不是</em>相同的，即使两者都是单调递增的。</strong>由于 <code>TXN_START_ID</code> 是一个非常大的的数字，难以直接解读，我们将在记录和调试时通过去掉最高位来生成一个人类可读的 ID。你不需要手动计算未提交事务的临时时间戳，可以使用现有的辅助函数 <code>GetTransactionTempTs</code> 来返回此事务的临时时间戳（<a onclick=”javascript:ga('send', 'pageview', '/outgoing/github.com');” href=”https://github.com/cmu-db/bustub/blob/master/src/include/concurrency/transaction.h” target=”_bustub” class=”filepath” title=”View Source Code”><tt>src/include/concurrency/transaction.h</tt> <i class=”fas fa-external-link-alt”></i></a>）。</p>
+<p>我们将使用 <code>txn***</code> 的表示法，其中 <code>***</code> 是人类可读的 ID，来表示事务 ID。例如，<code>txn42</code> 表示 ID 为 <code>TXN_START_ID + 42</code> 的事务，即人类可读 ID 为 42 的事务。假设当前事务的人类可读 ID 为 3，它扫描到一个时间戳为 <code>TXN_START_ID + 3</code> 的基础元组。该事务就知道自己是该元组最近的修改者。处理情况 3 的这个子情况等同于处理情况 1。思考一下如果它看到一个<em>不同</em>的未提交事务的临时事务时间戳会发生什么。</p>
+<h4 id="examples">示例</h4>
+<p>假设 <code>txn9</code> 更新了元组 A，这意味着元组 A 的时间戳将被设置为 <code>TXN_START_ID + 9</code>。当 <code>txn9</code> 最终提交时，元组 A 的时间戳将被替换为 <code>txn9</code> 的<em>提交</em>时间戳。在代码中，这看起来如下：</p>
+<ul>
+<li><code>txn9</code> 修改元组 A。</li>
+<li><code>txn9</code> 使用 <code>GetTransactionTempTs</code> 将元组 A 的时间戳设置为 <code>TXN_START_ID + 9</code>。</li>
+<li>当 <code>txn9</code> 提交时，它通过 <code>GetCommitTs</code> 将元组 A 的时间戳替换为新的提交时间戳。</li>
+<li>其他事务可以使用元组 A 的时间戳来区分它是否已被已提交或未提交的事务修改。</li>
+<li>你可以通过简单地将时间戳与 <code>TXN_START_ID</code> 比较来做到这一点。</li>
+</ul>
+<hr>
+<p>下面是 <code>SeqScanExecutor</code> 的最终示例。为了使图示更容易理解，下面示例中的 <code>TXN_START_ID</code> 将是 <code>1000</code> 而不是（<code>1 &lt;&lt; 62</code>）。因此，<code>1009</code> 表示事务 ID 为 9 的临时事务时间戳（在此示例中 <code>TXN_START_ID + 9 = 1009</code>）。</p>
+<p>让我们看一下下面的示例，其中我们遍历版本链来收集撤销日志以构造用户请求的元组：</p>
+<p><a href="img/2-3-seqscan.png"><img alt="" src="img/2-3-seqscan.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>假设我们有一个 ID 为 9、读时间戳为 3 的事务。<code>txn9</code> 尚未提交（因为存在临时事务时间戳 <code>1009</code>）。<code>txn9</code> 中对表的顺序扫描结果应该是：[(A, 9), (B, 9), (C, 2), (D, 9)]。对于除 (C, 2) 之外的所有元组，事务 9 是已经修改它们的事务，所以它不需要遍历撤销日志。然而，(C, 2) 的提交时间戳为 4，大于我们的读时间戳 3。事务 9 然后需要遍历撤销日志以找到该元组的第一个提交时间戳小于或等于 3 的版本。</p>
+<p>考虑另一个读时间戳为 4 的事务。该事务的顺序扫描结果将是：[(A, 3), (B, 3), (C, 4)]。对于 (A, 3) 和 (B, 3)，表堆包含来自 <code>txn9</code> 的待处理更新，因此该事务需要遍历版本链以获取时间戳 4 之前/之时的最后一次更新。(C, 4) 是读时间戳 4 时的最新更新。(D, 9) 是事务 9 的待处理更新，由于它没有版本链，我们不需要返回它。一般来说，如果在给定读时间戳处没有元组的先前版本，则事务应将其视为元组不存在。</p>
+<hr>
+<p>与测试用例相比，这些示例过于简化。在实现 <code>SeqScanExecutor</code> 时，你还需要考虑 <code>NULL</code> 数据和整数以外的数据类型。</p>
+<p>一旦你完成了 <code>CollectUndoLogs</code> 和 <code>ReconstructTuple</code> 的实现，如何使用这两个函数完成 <code>SeqScanExecutor</code> 的 MVCC 版本应该就很清楚了。基础元组、元组元数据和属于该元组的第一个撤销链接可以通过 <code>GetTupleAndUndoLink</code> 获取。</p>
+<p>我们的测试用例将手动设置一些事务和表堆内容。你不需要实现插入执行器来测试你的顺序扫描实现。此时，你应该通过 <code>TxnScanTest</code> 中的所有测试用例。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #3 - MVCC Executors                                               -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task3">任务 #3 - MVCC 执行器</h2>
+
+<p>在本节中，你需要实现数据修改执行器。这包括插入执行器、删除执行器和更新执行器。从此任务开始，你的实现将与项目 #3 不兼容，因为我们只支持固定大小数据类型的模式。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Insert                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="task3.1">3.1 插入执行器</h3>
+<p>你的插入执行器实现应该与 <a href="../project3/index.html">项目 #3</a> 中的非常相似。你可以在表堆中创建一个新的元组，并且需要正确构造元组的元数据。表堆中的时间戳应设置为事务临时时间戳，如 <a href="#task2.2">任务 2.2</a> 中所述。此时你还应通过 <code>AppendWriteSet</code> 将 RID 添加到写入集中。以下是 <code>txn9</code> 将 (D, 3) 插入表中的简单图示：</p>
+<p><a href="img/3-1-insert.png"><img alt="" src="img/3-1-insert.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>我们提供了辅助函数 <code>UpdateTupleInPlace</code> 和 <code>UpdateUndoLink</code> 来分别更新表堆中的元组和撤销链接。这些函数模拟了原子的比较并交换操作，你需要提供一个 <code>check</code> 函数。这两个函数的伪代码如下：</p>
+<pre class="shadow-sm p-2">
+UpdateUndoLink(rid, new_undo_link, check_function) {
+  take the table heap lock / undo link lock
+  retrieve the data from table heap / undo link
+  call user-provided check function, if check failed, return false
+  update the data and return true
+}
+</pre>
+<p>此任务的所有测试用例都是单线程的，因此你可以简单地向 <code>check</code> 参数传递 <code>nullptr</code> 以跳过检查，并分别使用 <code>UpdateTupleInPlace</code> 和 <code>UpdateUndoLink</code>。请记住，对于未来的并发测试用例，你需要原子地获取/更新 <code>Tuple</code> <em>和</em> <code>UndoLink</code>，以便其他事务不能更改另一个事务的中间结果。考虑以下场景：</p>
+<ol>
+<li><code>txn1</code> 调用 <code>GetTuple</code> 检查是否可以更新一个元组。</li>
+<li><code>txn2</code> 修改了该元组及其 <code>UndoLink</code>。</li>
+<li><code>txn1</code> 然后调用 <code>GetUndoLink</code> 并获取了错误的 <code>UndoLink</code>。</li>
+<li><code>txn1</code> 基于错误的信息更新了元组和 <code>UndoLink</code>。</li>
+</ol>
+<p>在此示例中，你可能想要使用 <code>UpdateTupleAndUndoLink</code> 和 <code>GetTupleAndUndoLink</code> 来原子地获取/设置（<a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/concurrency/transaction_manager_impl.cpp" target="_bustub" class="filepath" title="查看源代码"><tt>src/concurrency/transaction_manager_impl.cpp</tt> <i class="fas fa-external-link-alt"></i></a>）。从 <a href="#task4.2">任务 4.2</a> 开始，你可能需要实现 <code>check</code> 逻辑来检测多个线程并发更新元组及其元数据/<code>UndoLink</code> 时的写-写冲突。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Commit                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task3.2">3.2 提交</h3>
+<p>一次只允许一个事务执行 <code>Commit</code> 函数，你应该通过使用事务管理器中的 <code>commit_mutex_</code> 来确保这一点。在此任务中，你需要在事务管理器中扩展你的 <code>Commit</code> 实现，添加事务提交逻辑。以下是一些粗略的伪代码：</p>
+<ol>
+<li>获取提交互斥锁。</li>
+<li>获取提交时间戳（你可能需要在这里执行 <code>.load() + 1</code> 而不是 <code>.fetch_add(1)</code>，思考一下与 <code>Begin</code> 的关系）。</li>
+<li>遍历该事务修改过的每个元组（通过写入集），将基础元组的时间戳设置为提交时间戳。请注意，你需要在所有修改执行器（插入、更新、删除）中维护写入集。</li>
+<li>将事务设置为 <code>COMMITTED</code> 状态。</li>
+<li>更新事务的提交时间戳。</li>
+<li>更新 <code>last_committed_ts_</code>（你可以在这里执行 <code>.fetch_add(1)</code>）。</li>
+</ol>
+<p><a href="img/3-2-commit.png"><img alt="" src="img/3-2-commit.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>你应该已经作为任务 1 的一部分实现了上述大部分逻辑，所以你只需要添加遍历表的逻辑。</p>
+<h4 id="txnmgrdbg"><code>TxnMgrDbg</code></h4>
+<p><strong>此时，我们<em>强烈</em>建议你实现调试函数 <code>TxnMgrDbg</code>。该函数应该打印出表堆内容和每个元组的版本链。如果你在没有编写此函数的情况下来找我们，我们会要求你先实现它。</strong></p>
+<p>我们的测试用例将在每次重要操作之后调用你的调试函数，你可以打印任何你想要的内容来检查版本链。这个调试函数在调试未来测试的实现时将非常有用。我们的参考解决方案中有一个调试函数的示例，可以在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../bustub/index.html">BusTub Web Shell</a> 中使用命令 <code>\dbgmvcc {table_name}</code> 运行（你可以在 Chrome 中按 F12 找到开发者控制台）。</p>
+<details>
+<summary>
+请注意，我们的调试函数比你需要实现的更美观。你的版本可以像这样（取自 <tt>txn_scan_test</tt> 中的 <tt>CollectUndoLogTest</tt>）：
+</summary>
+<pre class="small">
+RID=0/0 ts=1 tuple=(1, 1.000000, &lt;NULL&gt;)
+RID=0/1 ts=2 tuple=(2, 2.000000, &lt;NULL&gt;)
+  txn1@0 (1, 1.000000, _) ts=1
+RID=0/2 ts=3 tuple=(3, 3.000000, &lt;NULL&gt;)
+  txn3@0 (2, 2.000000, _) ts=2
+  txn1@1 (1, 1.000000, _) ts=1
+RID=0/3 ts=3 tuple=(3, 3.000000, &lt;NULL&gt;)
+RID=0/4 ts=4 tuple=(4, 4.000000, &lt;NULL&gt;)
+  txn4@0 (3, 3.000000, _) ts=3
+RID=0/5 ts=4 &lt;del marker&gt; tuple=(2, 2.000000, &lt;NULL&gt;)
+  txn4@1 (2, 2.000000, _) ts=2
+RID=0/6 ts=4 tuple=(4, 4.000000, &lt;NULL&gt;)
+  txn4@2 &lt;del&gt; ts=2
+  txn1@2 (1, 1.000000, &lt;NULL&gt;) ts=1
+RID=0/7 ts=txn2 tuple=(100, 100.000000, &lt;NULL&gt;)
+RID=0/8 ts=txn2 tuple=(100, 100.000000, &lt;NULL&gt;)
+  txn2@0 (1, 1.000000, _) ts=1
+RID=0/9 ts=txn5 tuple=(400, 400.000000, &lt;NULL&gt;)
+  txn5@0 (4, 4.000000, _) ts=4
+  txn1@3 (1, 1.000000, _) ts=1
+</pre>
+</details>
+<p><br></p>
+<details>
+<summary>在 BusTub Web Shell 上，<tt>\dbgmvcc</tt> 如下所示：</summary>
+<pre class="small">
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 0      │ ts = 1                                   │ (1, 1.000000, &lt;NULL&gt;)                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 1      │ ts = 2                                   │ (2, 2.000000, &lt;NULL&gt;)                                  │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 1           │ txn 1 @ [0]           │ (1, 1.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 2      │ ts = 3                                   │ (3, 3.000000, &lt;NULL&gt;)                                  │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 2           │ txn 3 @ [0]           │ (2, 2.000000, _)                                       │
+│                  │ ts = 1           │ txn 1 @ [1]           │ (1, 1.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 3      │ ts = 3                                   │ (3, 3.000000, &lt;NULL&gt;)                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 4      │ ts = 4                                   │ (4, 4.000000, &lt;NULL&gt;)                                  │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 3           │ txn 4 @ [0]           │ (3, 3.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 5      │ ts = 4                                   │ &lt;DELETED&gt; (2, 2.000000, &lt;NULL&gt;)                        │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 2           │ txn 4 @ [1]           │ (2, 2.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 6      │ ts = 4                                   │ (4, 4.000000, &lt;NULL&gt;)                                  │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 2           │ txn 4 @ [2]           │ &lt;deleted&gt;                                              │
+│                  │ ts = 1           │ txn 1 @ [2]           │ (1, 1.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 7      │ ts = txn 2                               │ (100, 100.000000, &lt;NULL&gt;)                              │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 8      │ ts = txn 2                               │ (100, 100.000000, &lt;NULL&gt;)                              │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 1           │ txn 2 @ [0]           │ (1, 1.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ RID = 0 / 9      │ ts = txn 5                               │ (400, 400.000000, &lt;NULL&gt;)                              │
+│ ──────────────── │ ──────────────────────────────────────── │ ────────────────────────────────────────────────────── │
+│                  │ ts = 4           │ txn 5 @ [0]           │ (4, 4.000000, _)                                       │
+│                  │ ts = 1           │ txn 1 @ [3]           │ (1, 1.000000, _)                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+</details>
+<p><br></p>
+<h4 id="interactive-testing">交互式测试</h4>
+<p>以下是使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../bustub/index.html">BusTub Web Shell</a> 将你的实现与我们的实现进行比较的示例。</p>
+<pre class="shadow-sm p-2">
+make -j`nproc` shell &amp;&amp; ./bin/bustub-shell
+bustub&gt; CREATE TABLE t1(v1 int, v2 int);
+bustub&gt; INSERT INTO t1 VALUES (1, 1), (2, 2), (3, 3);
+bustub&gt; \dbgmvcc t1 -- call your `TxnMgrDbg` function to dump the version chain
+bustub&gt; BEGIN;
+txn?&gt; INSERT INTO t1 VALUES (4, 4);
+txn?&gt; \txn -1
+bustub&gt; SELECT * FROM t1; -- the newly-inserted row should not be visible to other txns
+bustub&gt; \txn ? -- use the id you see before
+txn?&gt; COMMIT;
+</pre>
+<p>你也可以使用 BusTub Netcat shell 来启动一个带事务的交互式会话。
+你需要安装 <code>nc</code>（netcat）才能使用此交互式 shell。</p>
+<pre class="shadow-sm p-2">
+make -j`nproc` nc-shell &amp;&amp; ./bin/bustub-nc-shell
+bustub&gt; CREATE TABLE t1(v1 int, v2 int);
+bustub&gt; INSERT INTO t1 VALUES (1, 1), (2, 2), (3, 3);
+bustub&gt; \dbgmvcc t1 -- call your `TxnMgrDbg` function to dump the version chain
+# in another terminal
+nc 127.0.0.1 23333
+bustub&gt; INSERT INTO t1 VALUES (4, 4);
+# in yet another terminal
+nc 127.0.0.1 23333
+bustub&gt; SELECT * FROM t1; -- the newly-inserted row should not be visible to this txn
+bustub&gt; COMMIT;
+</pre>
+<p>我们在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../bustub/index.html">BusTub Web Shell</a> 中提供了在浏览器中运行的参考解决方案。</p>
+<p>从此任务开始，我们所有的测试用例都是用 SQL 编写的。只要你的 SQL 查询结果与参考输出匹配，你就可以获得该测试用例的全部分数。我们不检查版本链的确切内容，但我们会检查 <code>UndoLog</code> 的<em>数量</em>和表堆元组的<em>数量</em>，以确保你正确且高效地维护版本链。我们还将使用你的 <code>ReconstructTuple</code> 来验证你生成的 <code>UndoLog</code> 的正确性。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Undo Logs                                 -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task3.3">3.3 生成撤销日志</h3>
+<p>在实现更新和删除执行器之前，你需要实现 <code>GenerateNewUndoLog</code> 和 <code>GenerateUpdatedUndoLog</code>。给定原始基础元组和修改后的目标元组，你应该返回应存储在做出修改的事务中的 <code>UndoLog</code>。</p>
+<p>确保你理解 <code>GenerateNewUndoLog</code> 和 <code>GenerateUpdatedUndoLog</code> 之间的区别。假设一个事务多次更新同一个元组。我们期望在特定事务中每次更新只产生一个 <code>UndoLog</code>。<code>GenerateNewUndoLog</code> 用于每个元组的第一次修改。之后，使用 <code>GenerateUpdatedUndoLog</code> 将多次修改合并为一个 <code>UndoLog</code>。</p>
+<p>有三种情况需要考虑：</p>
+<ol>
+<li>更新：在这种情况下，根据基础元组和目标元组生成 <code>UndoLog</code>。如果这不是此事务中的第一次更新，则通过 <code>GenerateUpdatedUndoLog</code> 将其与原始 <code>UndoLog</code> 合并。<strong>请注意，一个事务对每个 RID 最多应持有<em>一个</em>撤销日志。如果一个事务需要两次更新同一个元组，它应该只更新基础元组及其当前的撤销日志。</strong></li>
+<li>删除：在这种情况下，你需要在 <code>UndoLog</code> 中存储整个元组，以便可以重建整个元组。思考一下如何在事务中进行多次修改来实现这一点。</li>
+<li>插入：你在任务 3.1 中实现的插入操作总是在表堆中创建一个具有新 RID 的新元组。换句话说，你永远不需要为插入操作创建 <code>UndoLog</code>。然而，在任务 4.2 中，你可能需要将一个元组插入回一个已删除的元组位置。当 <code>base_tuple</code> 为 <code>nullptr</code> 时，你就知道这是一个插入情况。</li>
+</ol>
+<p>你会发现 <code>Tuple::IsTupleContentEqual</code> 和 <code>Value::CompareExactlyEquals</code> 在计算 <code>UndoLog</code> 时很有用。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Update / Delete                           -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task3.4">3.4 更新与删除执行器</h3>
+<p>在此任务中，你需要实现实际生成 <code>UndoLog</code> 并更新表堆基础元组的逻辑。更新和删除执行器非常相似。</p>
+<p>在更新或删除元组之前，你需要检查写-写冲突。有几种情况需要注意。如果一个元组正在被一个未提交的事务修改，则不允许其他事务修改它。如果这样做了，就会出现写-写冲突，与先前事务冲突的事务应该被<em>中止</em>。另一种写-写冲突的情况是：事务 A 删除了一个元组并提交，另一个事务 B 在事务 A 提交之后开始，删除了同一个元组。当检测到写-写冲突时，事务状态应设置为 TAINTED，你需要抛出 <code>ExecutionException</code> 以将 SQL 语句标记为失败。如果存在执行异常，<code>ExecuteSqlTxn</code> 将返回 <code>false</code>。此时，我们不要求你实现实际的中止逻辑。此任务中的测试用例不会调用 <code>Abort</code> 函数。</p>
+<p>你的更新执行器应该实现为流水线断路器：它应该首先将子执行器中的所有元组存储到本地缓冲区，然后再写入任何更新。之后，它应该从本地缓冲区中提取元组，计算更新后的元组，然后在表堆上执行更新。</p>
+<p>此时，所有测试用例都是单线程的，因此你不需要过多考虑更新/删除过程中可能出现的竞争条件。检测写-写冲突的唯一条件是检查基础元组元数据的时间戳。</p>
+<p><a href="img/3-4-write-conflict.png"><img alt="" src="img/3-4-write-conflict.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>让我们来看上面的示例，其中展示了在做任何更改之前你需要处理的 3 种不同情况。</p>
+<ul>
+<li>在情况 (1) 中，<code>txn10</code> 已经删除了 (A, 2) 元组且尚未提交。假设 <code>txn9</code> 的读时间戳为 3。<code>txn9</code> 仍然可以读取元组的旧版本 (A, 2)。</li>
+<li>在情况 (2) 中，如果除 <code>txn9</code> 之外的任何事务尝试更新/删除这个 B 元组，它们都需要中止。例如，如果 <code>txn10</code> 最终需要更新/删除该元组，<code>txn10</code> 应该因写-写冲突而被中止。</li>
+<li>在情况 (3) 中，有另一个事务将 (C, 2) 更新为 (C, 4)，提交时间戳为 4。<code>txn9</code> 可以读取元组的旧版本 (C, 2)。同样，如果 <code>txn9</code> 最终需要更新/删除该元组，<code>txn9</code> 应该因写-写冲突而被中止，因为在事务读时间戳之后有一个<em>更新</em>的更新。</li>
+<li>还有第 4 种情况，即一个事务想要更新自己做的修改（自修改）。如果一个元组已经被当前事务修改过，你不应该将其视为写-写冲突。</li>
+</ul>
+<p>在检查写-写冲突之后（你应该为此编写一个辅助函数），你可以继续实现更新/删除逻辑：</p>
+<ul>
+<li>通过 <code>GenerateNewUndoLog</code> 或 <code>GenerateUpdatedUndoLog</code> 创建修改的撤销日志。</li>
+<li>更新元组的下一个撤销链接，使其指向新的撤销日志。</li>
+<li>更新表堆中的基础元组和元数据（此步骤可以使用 <code>UpdateTupleAndUndoLink</code> 与上一步原子地完成）。</li>
+</ul>
+<p>以下是说明删除操作的示例：</p>
+<p><a href="img/3-4-delete.png"><img alt="" src="img/3-4-delete.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>以下是说明更新操作的示例：</p>
+<p><a href="img/3-4-update.png"><img alt="" src="img/3-4-update.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p><strong>在开始实现执行器之前，请确保你理解这些图示。如果你有任何问题，请向我们询问 clarification！</strong></p>
+<p>在下面的示例中，<code>txn9</code> 首先将元组更新为 (A, 4)，然后更新为 (A, 5)，然后更新为 (B, 5)，然后更新为 (A, 5)，最后删除它。在整个过程中，<code>txn9</code> 为该元组恰好保留一个 <code>UndoLog</code>。请注意，当我们将 (B, 5) 更新为 (A, 5) 时，我们本可以一直回到事务的开始来计算部分更新 (_, 5)（因为组合所有增量可以从 (A,3) 得到 (A, 5)）。然而，我们建议简单地将修改添加到现有的 <code>UndoLog</code> 中（使其包含完整的更改 (A, 5)），这将使处理并发问题变得更容易。换句话说，确保你只在撤销日志中添加/更新数据，不要删除数据。</p>
+<p><a href="img/3-4-update-2.png"><img alt="" src="img/3-4-update-2.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>在下一个示例中，<code>txn9</code> 插入了一个元组，进行了多次修改，然后删除了它。在这种情况下，你可以直接修改表堆元组而不需要生成任何撤销日志。</p>
+<p><a href="img/3-4-update-3.png"><img alt="" src="img/3-4-update-3.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>我们在最后将提交时间戳设置为 0，因为这个元组是由 <code>txn9</code> 插入并由 <code>txn9</code> 删除的，这意味着它实际上从未存在过。如果版本链<em>确实</em>包含撤销日志，则应将其设置为实际的提交时间戳而不是 0，以便具有较低读时间戳的事务可以访问撤销日志。你也可以忽略这种情况，遵循通常的提交逻辑。只要你能在每个时间戳读取正确的数据，这在 <a href="#task4.4">任务 #4.4</a> 之前并不重要。</p>
+<hr>
+<p>在本项目中，我们将始终使用固定大小的类型，因此 <code>UpdateTupleInPlace</code> 应该始终成功而不抛出异常。</p>
+<p>将所有更新/删除操作整合在一起，你应该：</p>
+<ul>
+<li>从子执行器获取 RID。</li>
+<li>生成更新后的元组。</li>
+<li>对于自修改，更新表堆元组，如果当前事务中有撤销日志则可选地更新它。</li>
+<li>否则，生成撤销日志并将它们链接在一起。</li>
+</ul>
+<p>此时，你应该通过 <code>TxnExecutorTest</code> 中除垃圾回收测试用例之外的所有测试。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- GC                                        -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task-35-stop-the-world-garbage-collection">任务 3.5 全局停止垃圾回收</h3>
+<p>在我们给你的代码中，一旦我们将事务添加到事务映射中，就永远不会删除它。我们这样做是因为具有较低读时间戳的事务可能需要读取先前已提交或已中止事务中存储的撤销日志。然而，想象一下如果我们有成千上万甚至数百万个事务。很可能许多过去的事务已经完全被更新的事务覆盖，我们不再需要存储它们的撤销日志。在此任务中，你需要实现一个简单的垃圾回收策略来删除未使用的事务。</p>
+<p>垃圾回收在调用 <code>GarbageCollection</code> 时手动触发。测试用例只会在所有事务都暂停时调用此函数。因此，在进行垃圾回收时你不需要过多担心竞争条件。在 <a href="#task1">任务 1</a> 中，你已经实现了一个计算水位线（系统中最低的读时间戳）的算法。在此任务中，你需要删除所有不包含任何对具有最低读时间戳的事务可见的撤销日志的事务。</p>
+<p>你需要遍历表堆和版本链，以识别仍然可以被具有最低读时间戳的事务访问的撤销日志（确保你理解这一点：对该事务不可见的撤销日志应该对<em>所有</em>事务都不可见）。如果一个事务已提交/已中止，并且不包含任何对具有最低读时间戳的事务可见的撤销日志，你可以简单地将其从事务映射中删除。</p>
+<p>下面的示例说明了水位线时间戳为 3 且 <code>txn1</code>、<code>txn2</code> 和 <code>txn9</code> 已提交的情况。<code>txn1</code> 的撤销日志不再可访问，因为每个提交时间戳为 1 的撤销日志都已被提交时间戳小于或等于 3 的更新覆盖。因此我们可以直接删除 <code>txn1</code>。<code>txn2</code> 对元组 (A, 2) 的撤销日志不可访问，但其对元组 (C, 2) 的撤销日志<em>仍然</em>可访问，因为没有额外的更新，所以我们现在不能删除它。</p>
+<p><a href="img/3-5-garbage-collection.png"><img alt="" src="img/3-5-garbage-collection.png" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>删除 <code>txn1</code> 后，将会有指向已删除撤销日志的悬空指针，如虚线所示。你<em>不需要</em>更新先前的撤销日志来修改悬空指针并使其成为无效指针，在本项目中将其留在那里是可以的。<strong>如果你的实现中所有内容都是正确的，你的顺序扫描执行器甚至不应该尝试解引用这些悬空指针，因为它们在水位线以下。</strong>然而，我们仍然建议你在代码中添加一些断言来确保这不会发生。</p>
+<p>此时，你应该通过 <code>TxnExecutorTest</code>。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Abort                                     -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task3.6">3.6 中止</h3>
+<p>在此任务之前，进入 <code>TAINTED</code> 状态的事务会导致其他事务在写冲突的元组上中止。在此任务中，你需要实现中止逻辑，以便在任何事务中止时我们可以继续修改元组。请记住，我们通过检查是否有正在进行中的元组修改来检测写-写冲突。当中止一个事务时，我们应该撤销这一更改，以便其他事务可以写入该元组。</p>
+<p>你可以在此任务中选择自己的实现方式。</p>
+<p><strong>实现方案 #1</strong></p>
+<p><a href="img/5-abort-2.png"><img alt="" src="img/5-abort-2.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>在此示例中，我们将中止 <code>txn9</code>。你可以简单地撤销元组并将表堆设置为原始值。这更容易实现，但会使你的版本链中留下两个时间戳为 3 的条目。你的顺序扫描/索引扫描执行器应该在事务被中止后正确处理这种情况。</p>
+<p>使用这种实现，被中止的事务将在版本链中保留撤销日志，并且不能在垃圾回收中立即被回收。</p>
+<p><strong>实现方案 #2</strong></p>
+<p><a href="img/5-abort.png"><img alt="" src="img/5-abort.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>在此示例中，中止 <code>txn9</code> 将原子地将撤销链接链接到前一版本并更新表堆。你需要使用 <code>UpdateTupleAndUndoLink / GetTupleAndUndoLink</code> 来原子地更新/读取元组和撤销链接。使用这种实现，你不需要等到水位线就可以从中止的事务从事务映射中删除。</p>
+<p>如果事务插入了一个没有撤销日志的全新元组，中止过程只需将其设置为 <code>ts = 0</code> 的删除标记。BusTub 中的提交时间戳从 1 开始，因此将其设置为 0 是安全的。</p>
+<p>你不需要撤销索引修改。任何添加到索引中的内容都将保留在那里，不会被移除。你也不需要实际从表堆中删除元组。如果你需要撤销一次插入，只需将其设置为删除标记。</p>
+<p>你应该允许多个线程并行中止。也就是说，在整个函数过程中<em>不要</em>获取 <code>commit_mutex</code> 或任何其他锁。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #4 - MVCC Executors                                               -->
+<!-- ********************************************************************** -->
+
+<h2 class="task" id="task4">任务 #4 - 主键索引</h2>
+
+<p>BusTub 支持主键索引，可以通过以下方式创建：</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE t1(v1 int PRIMARY KEY);
+CREATE TABLE t1(v1 int, v2 int, PRIMARY KEY(v1, v2));
+</pre>
+
+<p>当在 <code>CREATE TABLE</code> 语句中指定主键时，BusTub 将自动创建一个索引并将其 <code>is_primary_key</code> 属性设置为 <code>true</code>。在 BusTub 中，一个表最多只能有一个主键索引。主键索引确保主键的唯一性。在此任务中，你需要在 MVCC 执行器中处理主键索引。测试用例不会使用 <code>CREATE INDEX</code> 创建二级索引，因此你不需要在此任务中维护二级索引。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Inserts                                   -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task4.1">4.1 索引插入</h3>
+<p>你需要修改插入执行器以正确处理主键索引。同时，你还需要考虑多个事务从多个线程插入相同主键的情况。插入索引可以通过以下步骤完成：</p>
+<ol>
+<li>首先，检查元组是否已存在于索引中。如果存在，中止*该事务。<ul>
+<li>这仅适用于 <a href="#task4.1">任务 4.1</a>。如果你要实现 <a href="#task4.2">任务 4.2</a>，那么索引可能指向一个已删除的元组，在这种情况下，你<em>不应该</em>中止。</li>
+<li>在 <a href="#task4">任务 4</a> 中，你只需要将事务状态设置为 <code>TAINTED</code>。<code>TAINTED</code> 表示事务即将被中止，但数据尚未被清理。你不需要实现实际的中止过程，直到 <a href="#task3.6">任务 #3.6</a>。被污染的事务会在表堆中留下一些元组，你不需要清理它们。当另一个事务插入到同一位置并检测到写-写冲突时，仍然应该视为冲突。将事务设置为 <code>TAINTED</code> 状态后，你还需要抛出 <code>ExecutionException</code>，以便 <code>ExecuteSql</code> 返回 <code>false</code>，测试用例就会知道该事务/SQL 已被中止。</li>
+</ul>
+</li>
+<li>接下来，在表堆上创建一个具有临时事务时间戳的元组。</li>
+<li>之后，将元组插入索引。如果违反了唯一键约束，你的索引应该返回 <code>false</code>。</li>
+</ol>
+<p>在步骤 (1) 和 (3) 之间，其他事务可能也在做同样的事情。在当前事务创建索引条目之前，索引中可能已经创建了一个新条目。在这种情况下，你需要中止该事务，并且表堆中会有一个不被索引中任何条目引用的元组。</p>
+<p>在此示例中，让我们分别看一下 <code>txn9</code> 尝试插入 A、B 和 C 的情况（假设元组的唯一列是主键）。假设 A 已经存在于索引中，C 已被一个未提交的事务插入。为了清晰起见，我们移除了图示中的 <code>PageVersionInfo</code> 结构。</p>
+<p><a href="img/4-1-insert-index.png"><img alt="" src="img/4-1-insert-index.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<ul>
+<li>插入 A：键已存在于索引中，违反了主键的唯一性要求，因此中止事务。</li>
+<li>插入 B：由于索引中没有冲突，首先在表堆中创建一个元组，然后将新创建的元组的 RID 插入索引。</li>
+<li>插入 C：我们假设这里有另一个 <code>txn10</code> 也在尝试插入 C。<code>txn9</code> 首先检测到索引中没有冲突并在表堆中创建了一个元组。然后，在后台，<code>txn10</code> 完成了步骤 (2) 和 (3)，创建了一个元组并更新了索引。当 <code>txn9</code> 在步骤 (4) 中尝试插入索引时，索引会报告唯一键冲突，因此 <code>txn9</code> 应该进入 <code>TAINTED</code> 状态。</li>
+</ul>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    此时你<u>不需要</u>实现 MVCC 索引扫描执行器。我们的测试用例将使用范围查询而不是等值查询，以避免触发顺序扫描到索引扫描的规则，这样顺序扫描就不会被转换为索引扫描。
+</p>
+<p>完成这些后，你应该通过本项目中的第一个并发测试用例，其中我们测试当多个线程插入相同键时你的实现是否正常工作。</p>
+</div>
+<!-- <div class="warning p-2 row justify-content-center align-items-center my-3 bg-secondary rounded">
+    <div class="col-md-auto px-0 mb-2 mb-md-0 d-flex justify-content-center fs-2">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x text-danger"></i>
+            <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
+        </span>
+    </div>
+    <div class="col text-light fw-bold">
+        At this point, you should have received 80 points. There is only one concurrent test and one hidden test case at the 80-point boundary. You may want to take a break before continuing to the remaining tasks, as they involve more complex concurrent scenarios and hidden test cases.
+    </div>
+</div> -->
+
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Index + Delete + Updates                  -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task4.2">4.2 索引扫描、删除与更新</h3>
+<p>在此任务中，你需要为删除和更新执行器添加索引支持，以及 MVCC 索引扫描执行器。</p>
+<p>一旦在索引中创建了一个条目，它将始终指向同一个 RID，即使元组被标记为删除也不会被移除。我们这样做是为了让较早的事务仍然可以通过索引扫描执行器访问历史记录。为了支持这一点，你需要重新审视你的插入执行器。考虑插入执行器插入到一个已被删除执行器移除的元组的情况。你的实现应该更新已删除的元组，而不是创建新条目，因为索引条目一旦创建就始终指向同一个 RID。你需要正确处理写-写冲突检测和唯一约束检测。</p>
+<p>在此示例中，元组 (B, 2) 已被提交时间戳为 3 的事务删除。当元组被删除时，我们<em>不会</em>从索引中移除条目，因此索引可能指向一个删除标记，并且一旦存在就<em>始终</em>指向同一个 RID。当 <code>txn9</code> 使用插入执行器将 (B, 3) 插入表中时，它不应该创建新的元组。相反，它应该将删除标记更新为插入的元组，就像一次更新操作一样。</p>
+<p><a href="img/4-2-update-index.png"><img alt="" src="img/4-2-update-index.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>此时你还需要考虑其他竞争条件。例如，如果多个事务同时更新 <code>UndoLink</code>。你应该正确地中止其中一些事务，让<em>恰好</em>一个事务继续执行而不丢失任何数据。从此任务开始，你需要使用原子辅助函数 <code>UpdateTupleAndUndoLink/GetTupleAndUndoLink</code> 并传入 <code>check</code> 函数来避免竞争条件。</p>
+<p>你应该观察到在上面的示例中，会有一小段时间表堆包含一个与第一个撤销日志具有相同时间戳的（已删除）元组。在实现了更新和删除之后，你的顺序扫描执行器也应该正确处理这种情况。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Primary Key Updates                       -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task4.3">4.3 主键更新</h3>
+<p>你需要处理主键被更新的情况。在这种情况下，更新应该实现为对原始键的删除和对新键的插入。</p>
+<p>让我们按顺序看一下 <code>txn9</code> 执行 <code>UPDATE table SET col1 = col1 + 1</code> 的情况，其中 <code>col1</code> 是主键。<code>txn9</code> 首先将 (2, B)（以及任何具有新主键的元组）插入表中：</p>
+<p><a href="img/4-3-update-pk.png"><img alt="" src="img/4-3-update-pk.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>现在我们开始使用 <code>col1 = col1 + 1</code> 更新表，其中我们删除所有将被更新的元组：</p>
+<p><a href="img/4-3-update-pk-2.png"><img alt="" src="img/4-3-update-pk-2.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>接下来，我们将更新后的元组以新的主键插入回表中：</p>
+<p><a href="img/4-3-update-pk-3.png"><img alt="" src="img/4-3-update-pk-3.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>最后，我们提交更改：</p>
+<p><a href="img/4-3-update-pk-4.png"><img alt="" src="img/4-3-update-pk-4.png" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>就是这样！</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Serializable Verification                 -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+
+<div class="question">
+<h3 id="task4.4">4.4 可序列化验证</h3>
+<p>如果一个事务在可序列化隔离级别下运行，你需要在提交事务时验证它是否满足可序列化。我们使用 OCC 后向验证进行可序列化验证。请注意，我们在课程中讨论的验证方法只适用于静态数据库。在 BusTub 中，你需要考虑新插入和删除的记录。为了完成可序列化验证，你需要在每次调用<em>顺序扫描执行器</em>或<em>索引扫描执行器</em>时将扫描过滤器（即扫描谓词）存储在事务中。你还需要正确跟踪写入集。有了所有这些信息，我们可以通过检查扫描谓词（读集）是否与在当前事务开始之后开始的事务的写入集相交来进行可序列化验证，如下所示在提交事务时：</p>
+<ol>
+<li>你不需要验证只读事务。</li>
+<li>收集在当前事务读时间戳<em>之后</em>提交的所有事务。我们称这些为”冲突事务”。</li>
+<li>收集被冲突事务修改的所有 RID。</li>
+<li>对于每个元组，遍历其版本链以验证当前事务是否读取了任何”幻影”。你可以收集直到事务读时间戳的所有撤销日志。然后逐一重放以检查交集。</li>
+<li>对于版本链中的每次更新，<ul>
+<li>对于插入，你应该检查新元组是否满足当前事务的任何扫描谓词。如果是，中止。</li>
+<li>对于删除，你应该检查被删除的元组是否满足当前事务的任何扫描谓词。如果是，中止。</li>
+<li>有一种边缘情况，事务插入然后删除了一个元组，在表堆中留下了一个删除标记。这应该被视为无操作而不是删除。</li>
+<li>对于更新，你应该检查”前像”和”后像”。如果其中任何一个与当前事务的任何扫描谓词重叠，中止。<ul>
+<li>考虑这种情况：一个事务修改了一个元组然后又将其恢复，留下了一个将某些列更新为相同值的撤销日志。在这种情况下，你仍然应该将其作为相同的更新来处理而不是忽略它，并在必要时中止事务。</li>
+<li>然而，如果有两个事务，第一个将值从 X 修改为 Y，然后第二个将 Y 修改为 X，如果有第三个事务在 txn1 开始之前开始并在 txn2 提交之后提交，你仍然应该检测到 X 被更改的冲突。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>如果一个事务需要在提交阶段被中止，你应该直接执行中止逻辑来撤销更改，并将事务状态设置为 ABORTED 而不是 TAINTED。</p>
+<p>这种验证方法效率低下，因为（1）一次只有一个事务可以进入验证过程（2）我们遍历所有可能冲突的事务的写入集并在其上评估扫描谓词。你可以考虑在排行榜测试中实现并行验证或精确锁（属性级检查而不是检查记录）。</p>
+<p>要使用 BusTub shell 测试你的实现，</p>
+<pre class="shadow-sm p-2">
+./bin/bustub-shell
+bustub&gt; set global_isolation_level=serializable;
+</pre>
+<p>对于 BusTub Netcat shell，</p>
+<pre class="shadow-sm p-2">
+./bin/bustub-nc-shell --serializable
+</pre>
+</div>
+<!-- **************************************************** -->
+<!-- Leaderboard                                          -->
+<!-- **************************************************** -->
+<h2 class="task" id="terrier_bench">排行榜基准测试 - T-NET，Terrier NFT 交易网络</h2>
+
+<p>在一个遥远的星系中，有一个宇宙里 <a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Jack_Russell_Terrier">杰克罗素梗犬</a> 生活在一个高度文明的社会中。我们说这个社会高度文明，只是 NFT（非同质化代币）正变得越来越流行。有一天，梗犬们决定找一个数据库系统来追踪他们的 NFT，BusTub 是他们的候选系统之一。</p>
+<p><strong>基准测试 #1 - T-NET 上的代币转账 / 快照隔离</strong></p>
+<p>梗犬们通过 T-NET 转账他们的 NFT。T-NET 的工作方式类似银行转账：一只梗犬可以发起将一定数量的 NFT 转账给另一只梗犬。对于此场景，事务将在快照隔离模式下运行。</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE terriers(terrier int primary key, token int);
+-- each transaction: transfer A tokens from X to Y
+UPDATE terriers SET token = token + A WHERE terrier = X;
+UPDATE terriers SET token = token - A WHERE terrier = Y;
+</pre>
+
+<p><strong>基准测试 #2 - T-NET 上的交易网络 / 可序列化</strong></p>
+<p>在 T-NET 上转账 NFT 时，梗犬将被收取转账手续费。如果两只梗犬在同一个交易网络上，转账手续费将被免除。网络由一个整数 ID 表示。</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE terriers(terrier int primary key, token int, network int);
+-- each transaction: transfer A tokens from X to Y
+X_network = SELECT network FROM terriers WHERE terrier = X;
+Y_network = SELECT network FROM terriers WHERE terrier = Y;
+UPDATE terriers SET token = token + A * 0.97 WHERE terrier = X; -- if X_network != Y_network
+UPDATE terriers SET token = token + A WHERE terrier = X; -- if X_network == Y_network
+UPDATE terriers SET token = token - A WHERE terrier = Y;
+</pre>
+
+<p>同时，梗犬可以通过注册奖励邀请其他人加入他们的网络：</p>
+<pre class="shadow-sm p-2">
+-- X invites Y to join the network
+A = SELECT network FROM terriers WHERE terrier = X;
+UPDATE terriers SET network = A, token = token + 1000 WHERE terrier = Y;
+</pre>
+
+<p>梗犬也可以通过支付网络注册费来创建自己的网络。</p>
+<pre class="shadow-sm p-2">
+-- X starts a new trading network
+UPDATE terriers SET network = ?, token = token - 1000 WHERE terrier = X;
+</pre>
+
+<p>此基准测试中的所有事务将在可序列化级别下运行。</p>
+<p>由于 T-NET 的工作方式，梗犬可能拥有负数量的 NFT。</p>
+<p>你可能需要在顺序扫描运行时或事务提交/中止时实现更细粒度的垃圾回收。排行榜测试不会调用你在 <a href="#task3">任务 3</a> 中实现的全局停止垃圾回收器。请注意，我们的一些测试用例需要在提交后访问 commit_ts，因此在进行细粒度垃圾回收时，你可以清除撤销缓冲区而不是像全局停止垃圾回收那样从事务映射中删除事务。</p>
+<p>实现更高效的可序列化验证（即 <a onclick="javascript:ga('send', 'pageview', '/outgoing/dl.acm.org');" href="https://dl.acm.org/doi/10.1145/582318.582340">精确锁</a>）可能在排行榜基准测试中有所帮助。实现并行可序列化验证也可能有帮助。</p>
+<p>你将分别根据转账速度和数据库系统的空间使用量进行排名。转账速度由系统的吞吐量衡量，空间使用量由系统中表元组和撤销日志的总行数衡量。将有一个后台线程定期收集系统中的行数，空间使用量以基准测试期间任何时间的最大行数计算。最终的排行榜奖励分数将计算为：<code>min{speed_rank_bonus+space_rank_bonus, leaderboard_maximum_bonus}</code>。对于每个排名，第 1 名将获得 25 分，第 2-10 名获得 15 分，第 11-20 名获得 5 分。</p>
+<h3>排行榜政策</h3>
+
+<ul>
+<li>带有<em>排行榜奖励</em>的提交将由助教进行人工审查。<ul>
+<li>"审查"是指助教将手动查看你的代码，或者如果他们不确定某个优化是否正确，他们会对现有测试用例进行简单修改，以验证你的排行榜优化是否<em>正确</em>地处理了你想优化的特定情况。</li>
+<li>简单修改的一个例子：修改基准测试的缓冲区池管理器大小。</li>
+</ul>
+</li>
+<li>你的优化不应影响正确性，且应当合理。你可以针对特定情况进行优化，但在你优化的情况下，它应适用于所有输入。<ul>
+<li>允许：仅处理 3 表连接重排序（参见 <a href="../../fall2022/project3/index.html">2022 秋季项目 #3</a>）。</li>
+<li>允许：在<a href="../project2/index.html">项目 #2</a> 中针对叶节点大小 &gt; 100 进行优化。</li>
+<li>不允许：将计划与排行榜测试进行比较，并在 <a href="../project3/index.html">项目 #3</a> 中将其转换为带有输出表的 ValueExecutor。因为你的优化应适用于所有表内容。硬编码答案在某些情况下会产生错误结果。</li>
+<li>你<u>不</u>被允许使系统停滞，从而使你的系统具有超低吞吐量但空间使用量很低（只有少量更新）。你被不允许使用全局锁将所有事务序列化以减少写-写冲突的数量。我们将在基准测试结束时转储一些数据，助教将查看数据以发现此类违规行为。与参考解决方案相比，你的性能应当合理，才能获得空间使用量排名的奖励。</li>
+</ul>
+</li>
+<li>你不应该尝试使用辅助信息来检测你的提交是否正在运行排行榜测试。<ul>
+<li>除非我们允许你这样做。</li>
+<li>不允许：使用 <code>#ifdef NDEBUG</code> 等。</li>
+</ul>
+</li>
+<li>存在明显正确性问题的提交将不会被授予排行榜奖励。</li>
+</ul>
+<!-- -   You cannot use late days for leaderboard tests. **For this project, you may use late days for bonus tasks.** -->
+<ul>
+<li>如果你不确定某个优化是否合理，你应该在 Piazza 上发帖或访问任何助教的答疑时间。</li>
+</ul>
+<!--
+Side notes comparing with HyPer/Umbra:
+
+* Singly-linked list instead of doubly-linked as in HyPer, GC less efficient.
+* Over-simplified serializable verification implementation. For HyPer, it creates a predicate space and checks if the undo log overlaps with the predicate space. BusTub simply reconstructs the tuple up to the read timestamp and evaluate the predicate one by one.
+* We do not GC index and table heap tuple, we don’t either support var-sized tuple.
+* We do not store multiple undo logs for the same tuple in one txn.
+* We have a separate write set (RID) apart from undo logs.
+  -->
+
+<!-- ========================================================================= -->
+<!-- INSTRUCTIONS                                                              -->
+<!-- ========================================================================= -->
+<h1 id="instructions">说明</h1>
+
+<p>有关如何创建私有仓库和设置开发环境，请参见 <a href="../project0/index.html#instructions">项目 #0 说明</a>。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    你必须从 BusTub 上游仓库拉取最新更改，以获取本项目中我们提供的测试文件和其他补充文件。
+</p>
+
+<!-- **************************************************** -->
+<!-- Formatting                                           -->
+<!-- **************************************************** -->
+
+<h2 id="formatting">格式要求</h2>
+<p>你的代码必须遵循 <a onclick="javascript:ga('send', 'pageview', '/outgoing/google.github.io');" href="https://google.github.io/styleguide/cppguide.html">Google C++ 风格指南</a>。
+我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/">Clang</a> 自动检查你的源代码质量。
+如果你的提交未通过任何一项检查，你的项目成绩将为<u><b>零</b></u>分。</p>
+<p>执行以下命令检查你的语法。
+<code>format</code> 目标将自动纠正你的代码。
+<code>check-lint</code> 和 <code>check-clang-tidy-p4</code> 目标将打印错误并指导你如何修复以符合我们的风格指南。</p>
+<pre class="shadow-sm p-2">
+$ make format
+$ make check-lint
+$ make check-clang-tidy-p4
+</pre>
+
+<!-- **************************************************** -->
+<!-- Memory Leaks                                         -->
+<!-- **************************************************** -->
+
+<h2 id="memory-leaks">内存泄漏</h2>
+<p>在本项目中，我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/docs/AddressSanitizer.html">LLVM 地址检测器（ASAN）和泄漏检测器（LSAN）</a>来检查内存错误。要启用 ASAN 和 LSAN，请在调试模式下配置 CMake 并照常运行测试。如果存在内存错误，你将看到内存错误报告。请注意，macOS <strong>仅支持地址检测器而不支持泄漏检测器</strong>。</p>
+<p>在某些情况下，地址检测器可能会影响调试器的可用性。在这种情况下，你可能需要通过配置 CMake 项目来禁用所有检测器：</p>
+<pre class="shadow-sm p-2">
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER= ..
+</pre>
+
+<!-- **************************************************** -->
+<!-- Hints                                                -->
+<!-- **************************************************** -->
+
+<h2 id="development-hints">开发提示</h2>
+<p>你可以在调试模式下使用 <code>BUSTUB_ASSERT</code> 进行断言。<code>BUSTUB_ASSERT</code> 中的语句在发布模式下不会被执行。
+如果你需要在所有情况下都进行断言，请使用 <code>BUSTUB_ENSURE</code>。</p>
+<p>如果你遇到问题，我们鼓励你使用图形化调试器来调试你的项目。</p>
+<p>如果你遇到编译问题，运行 <code>make clean</code> 并不能完全重置编译过程。你需要删除构建目录并重新运行 <code>cmake ..</code>，然后再重新运行 <code>make</code>。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    请将你关于本项目的所有问题发布在 Piazza 上。<u>不要</u>直接向助教发送电子邮件提问。
+</p>
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+<p>每个项目提交将根据以下标准进行评分：</p>
+<ol>
+    <li> 提交是否成功执行了所有测试用例并产生了正确答案？</li>
+    <li> 提交是否在没有内存泄漏的情况下执行？</li>
+    <li> 提交是否遵循了代码格式和风格策略？</li>
+</ol>
+
+<h4 id="points-distribution">分值分布</h4>
+<ul>
+<li>直到任务 4.1：如果你正确实现了 MVCC 协议，你将获得总共 75 分。在 75 分边界之前只会有一个并发测试用例。</li>
+<li>任务 4.2、4.3、4.4：要进一步获得总共 100 分，你可能需要花费与完成 75 分边界所有任务相同的时间。</li>
+</ul>
+<p>排行榜测试<u>不</u>允许使用延迟日。</p>
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="submission">延迟政策</h1>
+
+<p>请参见课程大纲中的<a href="../syllabus.html#late-policy">延迟政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+<p>完成作业后，你可以将实现提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/935004">https://www.gradescope.com/courses/935004</a></b></li>
+</ul>
+<p>在你的 <code>build/</code> 目录中运行 <code>make submit-p4</code> 将在项目根目录下生成一个名为 <code>project4-submission.zip</code> 的 <code>zip</code> 压缩包，你可以将其提交到 Gradescope。</p>
+<p>请记住在提交前解决所有风格问题：</p>
+<pre class="shadow-sm p-2">
+make format
+make check-clang-tidy-p4
+</pre>
+
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY
+<!-- ========================================================================= -->
+<h1 id="collaboration">协作政策</h1>
+
+<ul>
+<li>每位学生必须独立完成此作业。</li>
+<li>允许学生与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不</strong>允许在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不</strong>允许从其他同学那里复制解决方案。</li>
+</ul>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <b>警告：</b>本项目的所有代码必须是你自己的。你不得从其他学生或在网上找到的其他来源复制源代码。抄袭<b>绝不</b>被容忍。请参阅 CMU 的<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cmu.edu');" href="https://www.cmu.edu/policies/student-and-student-life/academic-integrity.html">学术诚信政策</a>获取更多信息。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

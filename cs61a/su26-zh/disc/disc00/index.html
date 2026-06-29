@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/disc.css">
+
+
+    <title>
+讨论 0 | CS 61A 2026 暑期学期
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../../articles/about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../../articles/contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论班</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">讲座录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">历年考题与网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../../articles/campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../../articles/advice/index.html">学生建议</a></li>
+                
+                <li><a href="../../articles/scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../../articles/scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../../articles/studying/index.html">学习指南</a></li>
+                
+                <li><a href="../../articles/type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../../articles/composition/index.html">组合指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教学团队
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">授课教师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+讨论 0：入门
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="disc00.pdf" class="label label-outline">disc00.pdf</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+
+<!-- <div class="alert storable-login-status"></div> -->
+
+
+    
+<h1 id="attendance">出勤</h1>
+
+
+<p>你的助教会在讨论期间过来签到。
+<!-- You can start on the worksheet before being checked in; you don't need to wait for your TA to get started. --></p>
+
+
+如果你因正当理由（如生病或时间冲突）错过了讨论课，请在一周内发邮件至 <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a> 以获得出勤分。
+
+
+
+
+<h2 id="the-course-website">课程网站</h2>
+
+
+<p>欢迎来到 CS 61A！我们在课程网站上提供了各种资源，在整个学期中可能会对你有所帮助。</p>
+
+<p>以下是一些资源的概要。你可以对照页面顶部的导航栏来浏览。</p>
+
+<ul>
+  <li><p>讲座日历：</p>
+
+  <ul>
+    <li>课程的周计划，包括讲座、作业截止日期和考试时间。</li>
+  </ul></li>
+  <li><p>课程大纲：</p>
+
+  <ul>
+    <li>关于作业、成绩、DSP 和住宿以及其他课程事项的课程政策。</li>
+  </ul></li>
+  <li><p>Ed：</p>
+
+  <ul>
+    <li>课程论坛。欢迎在这里提出关于课程内容或行政安排的问题。请务必熟悉使用 Ed 的<a href="https://edstem.org/us/courses/99538/discussion/8128473">政策和准则</a>！</li>
+  </ul></li>
+  <li><p>答疑时间：</p>
+
+  <ul>
+    <li>现场答疑时间，你可以在一个大房间里和其他同学一起协作学习，并排队获取课程 staff 的帮助</li>
+  </ul></li>
+  <li><p>联系方式：</p>
+
+  <ul>
+    <li>如果你有问题或顾虑，可以通过多种方式联系课程 staff。</li>
+    <li>给授课教师、staff 或系的反馈表。</li>
+    <li>如果在学期中任何时候有学生或 staff 让你感到不适，这并不代表所有人，你应该报告该事件。联系页面有匿名反馈表和 EECS 联系表。</li>
+  </ul>
+
+  <!-- Hot tip: You can also draw on the site for discussion pages! To do so, you
+  can click on the pencil icon on the top left. --></li>
+  <li><p>链接和资源：</p>
+
+  <ul>
+    <li><p>申请延期：</p>
+
+    <ul>
+      <li>你可以在延期申请表中找到关于延期政策的更多细节。</li>
+    </ul></li>
+    <li><p>申请重新评分：</p>
+
+    <ul>
+      <li>如果你发现作业评分有问题，请提交重新评分申请。</li>
+    </ul></li>
+    <li><p>历年考题和网站：</p>
+
+    <ul>
+      <li>历年考题（按主题或学期分组）。部分历年考题有视频讲解。</li>
+    </ul></li>
+    <li><p>PythonTutor：</p>
+
+    <ul>
+      <li>这个工具允许你运行 Python 代码并可视化对应的代码执行环境图。</li>
+    </ul></li>
+    <li><p>代码编辑器：</p>
+
+    <ul>
+      <li>CS 61A 网页编辑器。你可以运行 doctest 并使用解释器。
+      它支持 Python、Scheme 和 SQL。
+      </li>
+      <li>它可以可视化代码执行过程中的环境图用于调试。此外，它还可以
+      可视化树、列表和链表。你在这里保存的所有文件都会
+      存储在本地。你也可以编辑 okpy 备份，但你<em>不能</em>运行 <code>ok</code> 测试。
+      </li>
+    </ul></li>
+    <li><p>系/校园资源：</p>
+
+    <ul>
+      <li>这些资源不一定特定于 CS 61A，但很多
+      学生觉得有用，例如校园和系里的咨询、
+      心理健康资源、基本需求资源等。
+      </li>
+    </ul></li>
+  </ul></li>
+  <li><p>指南：</p>
+
+  <ul>
+    <li>调试技巧、考试准备技巧，以及考试期间我们会提供给你的资源。</li>
+  </ul></li>
+  <li><p>教学团队：</p>
+
+  <ul>
+    <li>课程 staff 所有成员的名单及联系信息。
+    </li>
+  </ul></li>
+</ul>
+
+<div class="page-break"></div>
+
+
+<h2 id="lost-on-the-moon">迷失月球</h2>
+
+
+
+
+<p>你的飞船刚刚坠毁在月球的亮面。你原本
+计划与200英里外月球亮面上的母船会合，但粗暴的着陆毁坏了你的
+飞船，除了下面列出的15件物品外，所有设备都已损坏（注意：
+你可以在太空服内食用食物/水/药品）。</p>
+
+<p>你的机组人员的生存取决于能否到达母船，因此你必须
+为200英里的旅程选择最关键的物品。你的任务是
+按照物品对生存的重要性对这15件物品进行排名。在
+最重要的物品旁写上数字1，第二重要的写上数字2，以此类推，
+直到数字15，即最不重要的物品。</p>
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+          
+  <tr>
+    <th>物品</th>
+    <th>你的排名 (1)</th>
+    <th>小组排名 (2)</th>
+    <th>NASA 的排名 (3)</th>
+    <th>&#124; (3)—(1) &#124;</th>
+    <th>&#124; (3)—(2) &#124;</th>
+  </tr>
+  <tr>
+    <td>一盒火柴</td>
+    <td>
+            <label class="sr-only" for="your-rank1-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank1-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank1-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-1-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-1-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>浓缩食品</td>
+    <td>
+            <label class="sr-only" for="your-rank2-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank2-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank2-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank2-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank2-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank2-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-2-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-2-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-2-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-2-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>50英尺尼龙绳</td>
+    <td>
+            <label class="sr-only" for="your-rank3-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank3-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank3-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank3-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank3-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank3-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-3-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-3-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-3-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-3-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>降落伞丝绸</td>
+    <td>
+            <label class="sr-only" for="your-rank4-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank4-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank4-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank4-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank4-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank4-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-4-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-4-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-4-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-4-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>太阳能便携加热装置</td>
+    <td>
+            <label class="sr-only" for="your-rank5-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank5-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank5-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank5-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank5-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank5-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-1-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-1-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-5-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-5-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>两把 .45 口径手枪</td>
+    <td>
+            <label class="sr-only" for="your-rank6-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank6-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank6-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank6-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank6-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank6-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-6-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-6-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-6-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-6-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>一箱脱水牛奶</td>
+    <td>
+            <label class="sr-only" for="your-rank7-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank7-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank7-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank7-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank7-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank7-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-7-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-7-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-7-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-7-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>两个100磅氧气罐</td>
+    <td>
+            <label class="sr-only" for="your-rank8-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank8-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank8-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank8-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank8-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank8-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-8-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-8-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-8-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-8-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>星图（月球的星座图）</td>
+    <td>
+            <label class="sr-only" for="your-rank9-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank9-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank9-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank9-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank9-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank9-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-9-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-9-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-9-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-9-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>自充气救生筏</td>
+    <td>
+            <label class="sr-only" for="your-rank10-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank10-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank10-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank10-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank10-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank10-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-10-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-10-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-10-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-10-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>磁性指南针</td>
+    <td>
+            <label class="sr-only" for="your-rank11-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank11-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank11-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank11-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank11-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank11-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-11-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-11-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-11-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-11-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>5加仑水</td>
+    <td>
+            <label class="sr-only" for="your-rank12-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank12-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank12-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank12-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank12-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank12-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-12-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-12-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-12-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-12-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>信号弹</td>
+    <td>
+            <label class="sr-only" for="your-rank13-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank13-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank13-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank13-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank13-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank13-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-13-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-13-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-13-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-13-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>含注射针头的急救箱</td>
+    <td>
+            <label class="sr-only" for="your-rank14-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank14-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank14-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank14-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank14-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank14-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-14-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-14-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-14-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-14-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+  <tr>
+    <td>太阳能 FM 收发器</td>
+    <td>
+            <label class="sr-only" for="your-rank15-input">Your Answer:</label>
+            <input class="form-control storable" id="your-rank15-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="group-rank15-input">Your Answer:</label>
+            <input class="form-control storable" id="group-rank15-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="nasa-rank15-input">Your Answer:</label>
+            <input class="form-control storable" id="nasa-rank15-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-indiv-15-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-indiv-15-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+    <td>
+            <label class="sr-only" for="diff-group-15-input">Your Answer:</label>
+            <input class="form-control storable" id="diff-group-15-input" type="text">
+            <div class="storable-status"></div>
+        </td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+
+
+
+
+
+<h2 id="secrets-to-success-in-cs-61a">CS 61A 成功秘诀</h2>
+
+
+<p>CS 61A 确实是一个挑战，但我们都希望你学习和
+成功，所以这里收集了一些可能对你的
+学习之旅有帮助的建议：</p>
+
+<ul>
+  <li><p>找到适合你的方法。</p>
+
+  <ul>
+    <li>探索不同的学习和工作策略，找出最有效的方法。如果你想和助教讨论你的学习方法，随时可以联系他们。</li>
+  </ul></li>
+  <li><p>提出问题。</p>
+
+  <ul>
+    <li>如果你遇到了不了解的内容或对某个概念或问题不确定，
+    请提问！提问的过程本身有助于
+    精确定位你认为可以进一步学习的概念。
+    </li>
+  </ul></li>
+  <li>如果你仍然感到困惑，随时使用课程的
+  <a href="https://edstem.org/us/courses/99538/discussion">Ed 页面</a>
+  （我们的课程问答论坛）。
+  </li>
+  <li>答疑时间让你有机会单独与授课教师或 staff 交流，你
+  将获得一些（近乎）一对一的指导。你<em>不是</em>
+  在打扰；授课教师和 staff 在这里帮助你学习。</li>
+  <li><p>做（或至少认真尝试）所有作业和实验题目。
+  学会享受挑战！这就是你如何
+  在这门课和其他地方发展技能的方式。请不要使用 AI 做
+  作业——这不仅违反了我们课程关于学术不端的政策，
+  而且你学到的东西也会更少。可选题目是额外材料，但它们仍在考试范围内。</p>
+
+  <ul>
+    <li>如果你需要更多指导，随时向你的实验班的
+    staff 成员提问或来答疑时间。
+    </li>
+  </ul></li>
+  <li>在讲座前观看视频或完成阅读。它们可以帮助你概述讲座中涵盖的材料以及课程的其他方面，同时也是
+  你在学习过程中可以参考的资料。</li>
+  <li><p>准备考试时，<strong>做历年考试题</strong>！</p>
+
+  <ul>
+    <li>讲座、实验和讨论提供了很好的材料入门，
+    但学习如何解决考试水平问题的主要方法是做考试水平的
+    问题。你可以在网站的
+    <a href="../../resources/index.html">资源</a>标签下找到历年考题（及其他资源）。许多
+    历年考题还有答案或视频讲解，往届的
+    staff 成员可能会带你走完考试的解答。
+    </li>
+  </ul></li>
+</ul>
+
+<p><!--</p>
+
+<ul>
+  <li><p>Find what works for you.</p>
+
+  <ul>
+    <li>There are many different ways to succeed in 61A—we've found that the below
+    advice applies to almost all students, but there are going to be
+    different things that work best for different people, and we recommend
+    exploring different study and work strategies that will work well for you.
+    If you ever want to talk with a TA about your approach, feel free to reach out to them.</li>
+  </ul></li>
+  <li><p>Ask questions.</p>
+
+  <ul>
+    <li>If you encounter something you don't know or aren't sure
+    about a concept or problem, <em>ask</em> away. We're here to help you learn, and
+    if you ask a question, that tells us where we can help with your
+    understanding of the material. The process of asking questions itself can
+    also be helpful in figuring out for yourself what you would specifically
+    like to ask about, and in therefore pinpointing concepts that you believe
+    you can learn more about.</li>
+  </ul></li>
+  <li><p>Study in groups.</p>
+
+  <ul>
+    <li>Again, this class is not an easy course for most students; you might feel
+    overwhelmed going at it alone. Send a message and reach out to other students
+    in the class; work together on assignments or study together to prepare for
+    exams, as long as you don't violate the course policy on Academic Honesty as
+    stated in the <a href="https://cs61a.org/articles/about-61a/#academic-misconduct">Syllabus</a>.</li>
+  </ul></li>
+  <li><p>When stuck on a problem, try to verbally explain the area in which you are stuck.</p>
+
+  <ul>
+    <li>This doesn't need to require a person who understands how to solve the problem
+    (or even a person—this practice is often referred to as <strong>rubber ducking</strong>,
+    since you can take a rubber duck and consider it your practice audience),
+    because the main goal is for you to clarify your own thoughts and figure out
+    where exactly you're getting stuck with your understanding and code. From
+    there you can focus on that portion to better your understanding.</li>
+  </ul></li>
+  <li>If you're still feeling stuck, feel free to make use of the class
+  <a href="https://edstem.org/us/courses/80041/discussion">Ed Page</a>
+  (our course forum for asking and answering questions) or attend office hours.</li>
+  <li>Office hours gives you time with the instructors or staff by themselves, and
+  you will be able to get some (nearly) one-on-one instruction. You are <em>not</em>
+  intruding; the instructors and staff are here to help as you learn.</li>
+  <li>Do (or at least attempt seriously) all the homework.  We do not give many
+  homework problems, but those we do give you may find to be challenging,
+  time-consuming, and rewarding. Learn to enjoy the challenge! That's how you'll
+  develop your skills in this class and elsewhere. Please don't use ChatGPT to do
+  the homework—not only is this against our course policy on academic misconduct,
+  but you will also learn less.</li>
+  <li>Do all the lab exercises. Most of them are designed as more of an
+  introduction to the course material, and may take around the length of
+  a lab section. This is a great time to get acquainted with new material.
+  Feel free to ask the staff members in your lab section or come to office hours
+  if you would like more guidance. Optional lab questions are 'optional' in the sense that they are extra
+  practice, but they are still material that's in scope. Make sure you do them
+  if you have time.</li>
+  <li>Do the readings before lecture. They can be helpful in offering an overview
+  of the material covered in lecture and other aspects of the class, as well as
+  being a reference as part of the overall textbook that you can refer to as you
+  go through the course.</li>
+  <li><p>When preparing for the exams, <strong>do past exam questions</strong>!</p>
+
+  <ul>
+    <li>Lecture, lab, and discussion provide a great introduction to the material,
+    but the main way to learn how to solve exam-level problems is to do exam-level
+    problems. You can find past exams (and other resources) under the
+    <a href="https://cs61a.org/resources/">Resources</a> tab of the website. Many
+    past exams also have solutions or walkthrough videos where past
+    staff members may walk you through the solution to the exam. --></li>
+  </ul></li>
+</ul>
+<script>
+    $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+</script>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#attendance">出勤</a></li>
+  <ul>
+    <li><a href="#the-course-website">课程网站</a></li>
+    <li><a href="#lost-on-the-moon">迷失月球</a></li>
+    <li><a href="#secrets-to-success-in-cs-61a">CS 61A 成功秘诀</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<!-- <script src="/assets/js/sketchy.js"></script> -->
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>实验：xv6 的写时复制 Fork</title>
+<link rel="stylesheet" href="labs.css" type="text/css" />
+<script src="guidance.js"></script>
+</head>
+<body>
+
+<h1>实验：xv6 的写时复制 Fork</h2>
+
+<p> 虚拟内存提供了一层间接性：内核可以通过将 PTE 标记为无效或只读来拦截内存引用，从而触发缺页异常，并且可以通过修改 PTE 来改变地址的含义。计算机系统领域有一句名言：任何系统问题都可以通过一层间接性来解决。延迟分配实验提供了一个例子。本实验探索另一个例子：写时复制 fork。
+    
+<p>开始实验前，切换到 cow 分支：
+<pre>
+$ <kbd>git fetch</kbd>
+$ <kbd>git checkout cow</kbd>
+$ <kbd>make clean</kbd>
+</pre>
+
+<h2>问题</h2>
+
+xv6 中的 fork() 系统调用将父进程的所有用户空间内存复制到子进程。如果父进程很大，复制可能需要很长时间。更糟糕的是，这些工作通常大部分被浪费了；例如，子进程中 fork() 之后跟着 exec() 会导致子进程丢弃已复制的内存，可能大部分都没有使用过。另一方面，如果父进程和子进程都使用某个页，并且其中一个或两个都写入它，那么确实需要一份副本。
+
+<h2>解决方案</h2>
+
+写时复制（COW）fork() 的目标是推迟为子进程分配和复制物理内存页，直到真正需要这些副本时（如果需要的话）。
+
+<p>
+COW fork() 只为子进程创建一个页表，其中用户内存的 PTE 指向父进程的物理页。COW fork() 将父进程和子进程中所有用户 PTE 标记为不可写。当任一进程尝试写入这些 COW 页之一时，CPU 会强制产生缺页异常。内核缺页异常处理程序检测到这种情况，为异常进程分配一页物理内存，将原始页复制到新页，并修改异常进程中相应的 PTE 以指向新页，这次将 PTE 标记为可写。当缺页异常处理程序返回时，用户进程将能够写入它的页副本。
+
+<p>
+COW fork() 使释放实现用户内存的物理页变得更加复杂。一个给定的物理页可能被多个进程的页表引用，只有在最后一个引用消失时才能释放。
+
+<h2>实现写时复制<script>g("hard")</script></h2>
+
+<p>
+<div class="required">
+你的任务是在 xv6 内核中实现写时复制 fork。如果你修改后的内核能够成功执行 cowtest 和 usertests 程序，你就完成了。
+</div>
+
+<p>为了帮助你测试实现，我们提供了一个名为 cowtest 的 xv6 程序（源代码在 user/cowtest.c 中）。cowtest 运行各种测试，但即使第一个测试在未修改的 xv6 上也会失败。因此，最初你会看到：
+
+<pre>
+$ <kbd>cowtest</kbd>
+simple: fork() failed
+$ 
+</pre>
+
+"simple" 测试分配超过一半的可用物理内存，然后调用 fork()。fork 失败，因为没有足够的空闲物理内存来给子进程一个父进程内存的完整副本。
+
+<p>
+完成后，你的内核应该通过 cowtest 和 usertests 中的所有测试。即：
+
+<pre>
+$ <kbd>cowtest</kbd>
+simple: ok
+simple: ok
+three: zombie!
+ok
+three: zombie!
+ok
+three: zombie!
+ok
+file: ok
+ALL COW TESTS PASSED
+$ <kbd>usertests</kbd>
+...
+ALL TESTS PASSED
+$
+</pre>
+
+<p>
+以下是一个合理的实施方案。
+
+<ol>
+
+<li> 修改 uvmcopy()，将父进程的物理页映射到子进程，而不是分配新页。清除子进程和父进程 PTE 中的 <tt>PTE_W</tt>。
+
+<li> 修改 usertrap() 以识别缺页异常。当 COW 页发生缺页异常时，使用 kalloc() 分配一个新页，将旧页复制到新页，并在 PTE 中安装新页，设置 <tt>PTE_W</tt>。
+
+<li> 确保每个物理页在最后一个指向它的 PTE 引用消失时被释放——但不能更早。一个好的方法是为每个物理页维护一个"引用计数"，记录引用该页的用户页表数量。当 <tt>kalloc()</tt> 分配一个页时，将其引用计数设为 1。当 fork 使子进程共享该页时，增加页的引用计数；当任何进程从其页表中删除该页时，减少页的引用计数。<tt>kfree()</tt> 应该只在引用计数为零时才将页放回空闲链表。将这些计数保存在一个固定大小的整数数组中是可以的。你需要设计一个方案来确定如何索引数组以及如何选择其大小。例如，你可以用页的物理地址除以 4096 来索引数组，并将数组的元素数量设为 kalloc.c 中 <tt>kinit()</tt> 放在空闲链表上的任何页的最高物理地址。
+
+<li> 修改 copyout()，当遇到 COW 页时使用与缺页异常相同的方案。
+
+</ol>
+
+<p>一些提示：
+
+  <ul>
+    
+<li>延迟页分配实验可能已经让你熟悉了许多与写时复制相关的 xv6 内核代码。但是，你不应该基于你的延迟分配解决方案来做本实验；相反，请按照上面的指示从一份全新的 xv6 副本开始。
+
+<li>
+有一种方法来记录每个 PTE 是否是 COW 映射可能会很有用。你可以使用 RISC-V PTE 中的 RSW（预留给软件使用）位来实现这一点。
+
+<li>
+<tt>usertests</tt> 探索了 <tt>cowtest</tt> 未测试的场景，所以不要忘记检查两者的所有测试都通过。
+
+<li>一些关于页表标志的有用宏和定义在 <tt>kernel/riscv.h</tt> 的末尾。
+
+<li>如果发生 COW 缺页异常且没有空闲内存，应该杀死该进程。
+
+  </ul>
+  
+<p><a name="submit"></>
+<h2>提交实验</h2>
+
+<p><b>实验到此完成。</b>确保你通过了所有 make grade 测试。如果本实验有问题，不要忘记在 answers-<i>lab-name</i>.txt 中写下你的答案。提交你的更改（包括添加 answers-<i>lab-name</i>.txt），然后在实验目录中运行 make handin 来提交你的实验。
+
+<h3>花费时间</h3>
+
+<p>创建一个新文件 <tt>time.txt</tt>，在其中写入一个整数，即你在本实验上花费的小时数。不要忘记 <tt>git add</tt> 和 <tt>git commit</tt> 该文件。
+
+<h3>提交</h3>
+
+你将使用<a href="https://6828.scripts.mit.edu/2020/handin.py/">提交网站</a>来提交你的作业。在提交任何作业或实验之前，你需要从提交网站申请一次 API 密钥。
+</p>
+
+<p>在提交你对实验的最终更改后，运行 <kbd>make handin</kbd> 来提交你的实验。
+<pre>
+$ <kbd>git commit -am "ready to submit my lab"</kbd>
+[util c2e3c8b] ready to submit my lab
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+$ <kbd>make handin</kbd>
+tar: Removing leading `/' from member names
+Get an API key for yourself by visiting https://6828.scripts.mit.edu/2020/handin.py/
+Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 79258  100   239  100 79019    853   275k --:--:-- --:--:-- --:--:--  276k
+$
+</pre>
+<kbd>make handin</kbd> 会将你的 API 密钥存储在 <i>myapi.key</i> 中。如果你需要更改 API 密钥，只需删除此文件并让 <kbd>make handin</kbd> 重新生成（<i>myapi.key</i> 不能包含换行符）。
+</p>
+
+<p>
+如果你运行 <kbd>make handin</kbd> 时有未提交的更改或未跟踪的文件，你将看到类似以下的输出：
+<pre>
+ M hello.c
+?? bar.c
+?? foo.pyc
+Untracked files will not be handed in.  Continue? [y/N]
+</pre>
+检查上述行，确保你的实验解决方案所需的所有文件都已跟踪，即不在以 <kbd>??</kbd> 开头的行中列出。你可以使用 <tt>git add filename</tt> 让 <tt>git</tt> 跟踪你创建的新文件。
+</p>
+
+<p>
+如果 <kbd>make handin</kbd> 无法正常工作，请尝试修复 curl 或 Git 命令的问题。或者你可以运行 <kbd>make tarball</kbd>。这将为你生成一个 tar 文件，然后你可以通过我们的<a href="https://6828.scripts.mit.edu/2020/handin.py/">网页界面</a>上传。
+</p>
+
+<p>
+<div class="warning">
+<ul>
+  <li>请运行 `make grade` 以确保你的代码通过所有测试</li>
+  <li>在运行 `make handin` 之前提交所有修改过的源代码</li>
+  <li>你可以在 <a href="https://6828.scripts.mit.edu/2020/handin.py/">https://6828.scripts.mit.edu/2020/handin.py/</a> 查看提交状态并下载已提交的代码</li>
+</ul>
+</div>
+
+
+
+
+<h2>可选挑战练习</h2>
+
+<ul>
+
+  <li>修改 xv6 以同时支持延迟页分配和 COW。
+
+  <li>测量你的 COW 实现减少了多少 xv6 复制的字节数和分配的物理页数。寻找并利用机会进一步减少这些数字。
+
+</ul>
+
+</body>
+</html>

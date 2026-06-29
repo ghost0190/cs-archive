@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验08：哈希映射 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验 08：哈希映射" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab08/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验08：哈希映射" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验08：哈希映射","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab08/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验 08：哈希映射
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 08：哈希映射
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#myhashmap">
+           MyHashMap
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#overview">
+             概述
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#refresher-animation">
+             复习动画
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#skeleton-code">
+             框架代码
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#implementation-requirements">
+             实现要求
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#resources">
+             资源
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing">
+             测试
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#speed-testing">
+           速度测试
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#different-bucket-types">
+           不同的桶类型
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables-and-scoring">
+           交付成果和评分
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission">
+           提交
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#optional-exercises">
+           可选练习
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验 08：哈希映射
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       本实验的常见问题可以在
+       <a href="faq/index.html">
+        这里
+       </a>
+       找到。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在本实验中，你将研究
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       ，这是
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口的基于哈希表的实现。这将与实验 06 非常相似，只是这次我们构建的是
+       <code class="language-plaintext highlighter-rouge">
+        HashMap
+       </code>
+       而不是
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       。
+      </p>
+      <p>
+       完成实现后，你将把你的实现与基于列表的 Map 实现
+       <code class="language-plaintext highlighter-rouge">
+        ULLMap
+       </code>
+       以及 Java 内置的
+       <code class="language-plaintext highlighter-rouge">
+        HashMap
+       </code>
+       类（它也使用哈希表）进行性能比较。我们还将比较
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       在使用不同数据结构作为桶时的性能。
+      </p>
+      <h2 id="myhashmap">
+       <a aria-labelledby="myhashmap" class="anchor-heading" href="#myhashmap">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       MyHashMap
+      </h2>
+      <h3 id="overview">
+       <a aria-labelledby="overview" class="anchor-heading" href="#overview">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       概述
+      </h3>
+      <p>
+       我们在
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap.java
+       </code>
+       中创建了一个类
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       ，只有非常少的入门代码。你的目标是实现
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       继承的
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口中的所有方法，
+       <em>
+        除了
+       </em>
+       <code class="language-plaintext highlighter-rouge">
+        remove
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        keySet
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        iterator
+       </code>
+       （实验 08 的可选部分）。对于这些，可以随意抛出一个
+       <code class="language-plaintext highlighter-rouge">
+        UnsupportedOperationException
+       </code>
+       。
+      </p>
+      <p>
+       请注意，在实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       的所有方法之前，你的代码不会编译。你可以通过编写所有必需方法的方法签名来一次实现一个方法，但对于实现抛出
+       <code class="language-plaintext highlighter-rouge">
+        UnsupportedOperationException
+       </code>
+       ，直到你真正开始编写它们。
+      </p>
+      <h3 id="refresher-animation">
+       <a aria-labelledby="refresher-animation" class="anchor-heading" href="#refresher-animation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       复习动画
+      </h3>
+      <p>
+       以下是哈希表工作原理的快速动画。
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       指的是哈希表中的项目数量，
+       <code class="language-plaintext highlighter-rouge">
+        M
+       </code>
+       指的是桶的数量。
+      </p>
+      <p>
+       我们使用对象的
+       <code class="language-plaintext highlighter-rouge">
+        hashCode
+       </code>
+       对桶的数量取模（%）来确定对象（由形状表示）落入哪个桶。当达到负载因子时，我们将桶的数量乘以调整大小因子，并重新哈希所有项目，用新的桶数量对它们取模。
+      </p>
+      <p>
+       对于下面的视频动画，哈希函数是任意的，为输入的每个形状（对象）输出一个随机整数。
+      </p>
+      <p align="center">
+       <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0" height="315" src="https://www.youtube.com/embed/tUEixFouAjg?start=5" title="YouTube video player" width="560">
+       </iframe>
+      </p>
+      <p>
+       感谢 Meshan Khosla 提供这个动画！
+      </p>
+      <h3 id="skeleton-code">
+       <a aria-labelledby="skeleton-code" class="anchor-heading" href="#skeleton-code">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       框架代码
+      </h3>
+      <p>
+       你可能从课堂上记得，当我们构建哈希表时，我们可以选择许多不同的数据结构作为桶。经典方法是选择
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       。但我们也可以选择
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        TreeSet
+       </code>
+       ，甚至其他更疯狂的数据结构，比如
+       <code class="language-plaintext highlighter-rouge">
+        PriorityQueue
+       </code>
+       甚至其他
+       <code class="language-plaintext highlighter-rouge">
+        HashSet
+       </code>
+       ！
+      </p>
+      <p>
+       <img alt="ht-buckets" src="img/ht-buckets.png">
+      </p>
+      <p>
+       在本实验中，我们将尝试为每个桶使用不同数据结构的哈希表，并根据经验观察使用不同数据结构作为哈希表桶之间是否存在渐近差异。
+      </p>
+      <p>
+       在本实验中，我们将尝试
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        HashSet
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        Stack
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArrayDeque
+       </code>
+       （不幸的是，由于过多的样板代码，没有如上图所示的
+       <code class="language-plaintext highlighter-rouge">
+        TreeSet
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        PriorityQueue
+       </code>
+       ，不过如果你愿意，欢迎尝试）。这是很多类！
+      </p>
+      <p>
+       你可以想象，如果我们不太在意地实现了
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       ，那么要用不同的桶类型更换桶类型需要花费大量精力进行查找+替换。例如，如果我们想将所有
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       桶更改为
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       桶，我们将不得不查找+替换所有出现的
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       并将其替换为
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       。这不理想&mdash;&mdash;例如，我们可能有一个非桶组件依赖于某些
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       方法。我们不想通过将其更改为
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       来破坏我们的代码！
+      </p>
+      <p>
+       入门代码的目的是提供一种更简单的方法来用
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       尝试不同的桶类型。它通过多态和继承来实现这一点，我们在本学期早些时候学过这些。它还利用了
+       <strong>
+        工厂方法和类
+       </strong>
+       ，它们是用于创建对象的实用代码。这是处理更高级代码时的常见模式，不过细节超出了 61B 的范围。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       通过使用哈希表实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口。在入门代码中，我们提供了实例变量
+       <code class="language-plaintext highlighter-rouge">
+        private Collection&lt;Node&gt;[] buckets
+       </code>
+       ，这是哈希表的底层数据结构。让我们来分析一下这段代码的含义：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         buckets
+        </code>
+        是
+        <code class="language-plaintext highlighter-rouge">
+         MyHashMap
+        </code>
+        类中的一个
+        <code class="language-plaintext highlighter-rouge">
+         private
+        </code>
+        变量。
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="kd">private</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">节点</span><span class="o">&gt;[]</span> <span class="n">buckets</span><span class="o">;</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        它是一个
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;
+        </code>
+        对象的数组（或表），其中每个
+        <code class="language-plaintext highlighter-rouge">
+         Node
+        </code>
+        的
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        代表哈希表中的一个桶
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         Node
+        </code>
+        是我们提供的一个私有（嵌套）辅助类，用于存储单个键值映射。这个类的入门代码应该很容易理解，并且不需要任何修改。
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="kd">protected</span> <span class="kd">class</span> <span class="nc">节点</span> <span class="o">{</span>
+  <span class="no">K</span> <span class="n">key</span><span class="o">;</span>
+  <span class="no">V</span> <span class="n">value</span><span class="o">;</span>
+
+  <span class="nc">节点</span><span class="o">(</span><span class="no">K</span> <span class="n">k</span><span class="o">,</span> <span class="no">V</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">key</span> <span class="o">=</span> <span class="n">k</span><span class="o">;</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html">
+         <code class="language-plaintext highlighter-rouge">
+          java.util.Collection
+         </code>
+        </a>
+        是大多数数据结构都继承自的接口，它代表一组对象。
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        接口支持
+        <code class="language-plaintext highlighter-rouge">
+         add
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         remove
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         iterator
+        </code>
+        等方法。
+        <code class="language-plaintext highlighter-rouge">
+         java.util
+        </code>
+        中的许多数据结构都实现了
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        ，包括
+        <code class="language-plaintext highlighter-rouge">
+         ArrayList
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         LinkedList
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         TreeSet
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         HashSet
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         PriorityQueue
+        </code>
+        等等。请注意，因为这些数据结构实现了
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        ，我们可以通过多态将它们赋值给静态类型为
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        的变量。
+       </li>
+       <li>
+        因此，我们的
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;
+        </code>
+        对象数组可以由许多不同类型的数据结构实例化，例如
+        <code class="language-plaintext highlighter-rouge">
+         LinkedList&lt;Node&gt;
+        </code>
+        或
+        <code class="language-plaintext highlighter-rouge">
+         ArrayList&lt;Node&gt;
+        </code>
+        。
+        <strong>
+         确保你的桶可以泛化到任何 Collection！
+        </strong>
+        请参阅下面的警告了解如何做到这一点。
+       </li>
+       <li>
+        在创建新的
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;[]
+        </code>
+        以存储在我们的
+        <code class="language-plaintext highlighter-rouge">
+         buckets
+        </code>
+        变量中时，请注意在 Java 中，你
+        <a href="https://docs.oracle.com/javase/tutorial/java/generics/restrictions.html#createArrays">
+         不能创建参数化类型的数组
+        </a>
+        。
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;
+        </code>
+        是参数化类型，因为我们用
+        <code class="language-plaintext highlighter-rouge">
+         Node
+        </code>
+        类参数化了
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        类。因此，Java 不允许
+        <code class="language-plaintext highlighter-rouge">
+         new Collection&lt;Node&gt;[size]
+        </code>
+        ，对于任何给定的
+        <code class="language-plaintext highlighter-rouge">
+         size
+        </code>
+        。如果你尝试这样做，你会得到一个"泛型数组创建"错误。
+       </li>
+      </ul>
+      <p class="warning">
+       要解决这个问题，你应该改为创建一个
+       <code class="language-plaintext highlighter-rouge">
+        new Collection[size]
+       </code>
+       ，其中
+       <code class="language-plaintext highlighter-rouge">
+        size
+       </code>
+       是所需的大小。
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         Collection[]
+        </code>
+        的元素可以是任何类型的集合，比如
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Integer&gt;
+        </code>
+        或
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;
+        </code>
+        。
+        <strong>
+         就我们的目的而言，我们只会将
+         <code class="language-plaintext highlighter-rouge">
+          Collection&lt;Node&gt;
+         </code>
+         类型的元素添加到我们的
+         <code class="language-plaintext highlighter-rouge">
+          Collection[]
+         </code>
+         中。
+        </strong>
+       </li>
+      </ul>
+      <p>
+       哈希表的不同实现实现不同桶的机制是通过工厂方法
+       <code class="language-plaintext highlighter-rouge">
+        protected Collection&lt;Node&gt; createBucket()
+       </code>
+       ，它只是返回一个
+       <code class="language-plaintext highlighter-rouge">
+        Collection
+       </code>
+       。对于
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap.java
+       </code>
+       ，你可以选择任何你喜欢的数据结构。例如，如果你选择
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       ，
+       <code class="language-plaintext highlighter-rouge">
+        createBucket
+       </code>
+       的主体将简单地是：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">protected</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">节点</span><span class="o">&gt;</span> <span class="nf">createBucket</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p class="warning">
+       <strong>
+        不要使用
+        <code class="language-plaintext highlighter-rouge">
+         new
+        </code>
+        运算符创建新的桶数据结构，而必须使用
+        <code class="language-plaintext highlighter-rouge">
+         createBucket
+        </code>
+        方法
+       </strong>
+       。这乍一看可能没用，但它允许我们的工厂类重写
+       <code class="language-plaintext highlighter-rouge">
+        createBucket
+       </code>
+       方法，以便提供不同的数据结构作为每个桶。
+       <br>
+       <br>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       中，你可以让这个方法返回一个新的
+       <code class="language-plaintext highlighter-rouge">
+        LinkedList
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        ArrayList
+       </code>
+       。
+      </p>
+      <h3 id="implementation-requirements">
+       <a aria-labelledby="implementation-requirements" class="anchor-heading" href="#implementation-requirements">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       实现要求
+      </h3>
+      <p>
+       你应该实现以下构造函数：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="nf">MyHashMap</span><span class="o">();</span>
+<span class="kd">public</span> <span class="nf">MyHashMap</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialCapacity</span><span class="o">);</span>
+<span class="kd">public</span> <span class="nf">MyHashMap</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialCapacity</span><span class="o">,</span> <span class="kt">double</span> <span class="n">loadFactor</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       的一些额外要求如下：
+      </p>
+      <ul>
+       <li>
+        你的哈希表最初应该有等于
+        <code class="language-plaintext highlighter-rouge">
+         initialCapacity
+        </code>
+        的桶数量。当负载因子超过最大
+        <code class="language-plaintext highlighter-rouge">
+         loadFactor
+        </code>
+        阈值时，你应该增加
+        <code class="language-plaintext highlighter-rouge">
+         MyHashMap
+        </code>
+        的大小。回想一下，当前的
+        <strong>
+         负载因子
+        </strong>
+        可以计算为
+        <code class="language-plaintext highlighter-rouge">
+         loadFactor = N/M
+        </code>
+        ，其中
+        <code class="language-plaintext highlighter-rouge">
+         N
+        </code>
+        是映射中的元素数量，
+        <code class="language-plaintext highlighter-rouge">
+         M
+        </code>
+        是桶的数量。负载因子表示每个桶平均的元素数量。如果没有给出
+        <code class="language-plaintext highlighter-rouge">
+         initialCapacity
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         loadFactor
+        </code>
+        ，你应该设置默认值
+        <code class="language-plaintext highlighter-rouge">
+         initialCapacity = 16
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         loadFactor = 0.75
+        </code>
+        （就像 Java 的
+        <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/HashMap.html#%3Cinit%3E()">
+         内置 HashMap
+        </a>
+        一样）。
+       </li>
+       <li>
+        你应该使用分离链接来处理冲突。除了桶类、
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         Iterator
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         Set
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         HashSet
+        </code>
+        之外，你不应该使用任何库。有关如何实现分离链接的更多详细信息，请参阅上面的
+        <strong>
+         框架代码
+        </strong>
+        部分。
+       </li>
+       <li>
+        因为我们对
+        <code class="language-plaintext highlighter-rouge">
+         buckets
+        </code>
+        使用
+        <code class="language-plaintext highlighter-rouge">
+         Collection&lt;Node&gt;[]
+        </code>
+        ，所以在实现
+        <code class="language-plaintext highlighter-rouge">
+         MyHashMap
+        </code>
+        时，你只能使用
+        <code class="language-plaintext highlighter-rouge">
+         Collection
+        </code>
+        接口指定的方法。
+        <strong>
+         当你在
+         <code class="language-plaintext highlighter-rouge">
+          Collection
+         </code>
+         中搜索
+         <code class="language-plaintext highlighter-rouge">
+          Node
+         </code>
+         时，遍历
+         <code class="language-plaintext highlighter-rouge">
+          Collection
+         </code>
+         ，找到其
+         <code class="language-plaintext highlighter-rouge">
+          key
+         </code>
+         与所需键
+         <code class="language-plaintext highlighter-rouge">
+          .equals()
+         </code>
+         的
+         <code class="language-plaintext highlighter-rouge">
+          Node
+         </code>
+         。
+        </strong>
+       </li>
+       <li>
+        如果同一个键被插入多次，每次都应该更新值（即，不应该添加
+        <code class="language-plaintext highlighter-rouge">
+         Node
+        </code>
+        ）。你可以假设永远不会插入
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        键。
+       </li>
+       <li>
+        调整大小时，确保以乘法（几何）方式调整大小，而不是以加法（算术）方式调整大小。你
+        <strong>
+         不需要
+        </strong>
+        缩小大小。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         MyHashMap
+        </code>
+        操作都应该是常数摊销时间，假设任何插入对象的
+        <code class="language-plaintext highlighter-rouge">
+         hashCode
+        </code>
+        都能很好地分散事物（
+        <strong>
+         回想一下：Java 中的每个
+         <code class="language-plaintext highlighter-rouge">
+          Object
+         </code>
+         都有自己的
+         <code class="language-plaintext highlighter-rouge">
+          hashCode()
+         </code>
+         方法
+        </strong>
+        ）。
+       </li>
+      </ul>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        hashCode()
+       </code>
+       可以返回
+       <em>
+        负值
+       </em>
+       ！Java 的模运算符
+       <code class="language-plaintext highlighter-rouge">
+        %
+       </code>
+       对于负输入会返回负值，但我们需要将项目发送到范围 $[0, M)$ 内的桶。有无数种方法可以处理这个问题：
+      </p>
+      <ol>
+       <li>
+        （推荐）你可以使用
+        <code class="language-plaintext highlighter-rouge">
+         Math.floorMod()
+        </code>
+        代替
+        <code class="language-plaintext highlighter-rouge">
+         %
+        </code>
+        进行模运算。这具有非负值范围，类似于 Python 的模运算。
+       </li>
+       <li>
+        如果
+        <code class="language-plaintext highlighter-rouge">
+         %
+        </code>
+        操作后的结果值为负，你可以将数组的大小加到它上面。
+       </li>
+       <li>
+        你可以使用
+        <code class="language-plaintext highlighter-rouge">
+         Math.abs()
+        </code>
+        函数将负值转换为正值。请注意，$|x| \, \mathrm{mod} \, m$、$|x \, \mathrm{mod} \, m|$ 和 $x \, \mathrm{mod} \, m$
+        <strong>
+         通常不等价
+        </strong>
+        ！我们在这里只是使用模运算来确保我们有一个有效的索引。我们不一定太关心项目进入的确切桶，因为好的哈希函数应该能在正数和负数之间很好地分散事物。
+       </li>
+       <li>
+        选项（3）但使用位掩码（如果你不知道这是什么意思也不用担心）。这超出了 61B 的范围，但一些资源是这样做的，这就是我们把它放在这里的原因。
+       </li>
+      </ol>
+      <p class="task">
+       根据
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       中的规范和上述指南完成
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       类。
+      </p>
+      <h3 id="resources">
+       <a aria-labelledby="resources" class="anchor-heading" href="#resources">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       资源
+      </h3>
+      <p>
+       你可能会发现以下资源很有用
+      </p>
+      <ul>
+       <li>
+        课程幻灯片：
+        <ul>
+         <li>
+          <a href="https://docs.google.com/presentation/d/1sVRw4ec0Kq41_OSB-ix94u09WyQnHWf0YsOhlclnM0w">
+           讲座 19
+          </a>
+         </li>
+         <li>
+          <a href="https://docs.google.com/presentation/d/1y0iOW7U3UAiO6lK3ArrVHSwDbX998Q4YDcZ_HeToL2s/">
+           讲座 20
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       以下内容可能包含过时的代码或使用不熟悉的技术，但应该仍然有用：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         ULLMap.java
+        </code>
+        （已提供），一个可工作的基于无序链表的
+        <code class="language-plaintext highlighter-rouge">
+         Map61B
+        </code>
+        实现
+       </li>
+      </ul>
+      <h3 id="testing">
+       <a aria-labelledby="testing" class="anchor-heading" href="#testing">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试
+      </h3>
+      <p>
+       你可以使用
+       <code class="language-plaintext highlighter-rouge">
+        TestMyHashMap.java
+       </code>
+       测试你的实现。有些测试相当棘手，会做一些我们在 61B 中没学过的奇怪事情。注释将有助于了解测试实际上在做什么。
+      </p>
+      <p>
+       如果你正确实现了通用
+       <code class="language-plaintext highlighter-rouge">
+        Collection
+       </code>
+       桶，你也应该通过
+       <code class="language-plaintext highlighter-rouge">
+        TestMyHashMapBuckets.java
+       </code>
+       中的测试。
+       <code class="language-plaintext highlighter-rouge">
+        TestMyHashMapBuckets.java
+       </code>
+       文件只是为实现不同桶数据结构的每个不同映射子类调用
+       <code class="language-plaintext highlighter-rouge">
+        TestMyHashMap.java
+       </code>
+       中的方法。确保你使用提供的工厂方法（即
+       <code class="language-plaintext highlighter-rouge">
+        createBucket
+       </code>
+       ）正确实现了
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       ，以便
+       <code class="language-plaintext highlighter-rouge">
+        TestHashMapBuckets.java
+       </code>
+       通过。
+      </p>
+      <p>
+       如果你选择实现额外的
+       <code class="language-plaintext highlighter-rouge">
+        remove
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        keySet
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        iterator
+       </code>
+       方法，我们在
+       <code class="language-plaintext highlighter-rouge">
+        TestHashMapExtra.java
+       </code>
+       中提供了一些测试。
+      </p>
+      <h2 id="speed-testing">
+       <a aria-labelledby="speed-testing" class="anchor-heading" href="#speed-testing">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       速度测试
+      </h2>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        InsertRandomSpeedTest.java
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        InsertInOrderSpeedTest.java
+       </code>
+       中提供了两个交互式速度测试。在完成
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       之前，不要尝试运行这些测试。准备就绪后，你可以在 IntelliJ 中运行测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        InsertRandomSpeedTest
+       </code>
+       类对你的
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       、
+       <strong>
+        ULLMap
+       </strong>
+       （提供）和 Java 内置的
+       <strong>
+        HashMap
+       </strong>
+       进行元素插入速度测试。它通过询问用户输入大小
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       来工作，然后生成长度为
+       <code class="language-plaintext highlighter-rouge">
+        10
+       </code>
+       的
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       个 String，并将它们作为
+       <code class="language-plaintext highlighter-rouge">
+        &lt;String, Integer&gt;
+       </code>
+       对插入到映射中。
+      </p>
+      <p>
+       试试看，看看你的数据结构与简单实现和工业级实现相比，如何随着
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       扩展。在提供的名为
+       <code class="language-plaintext highlighter-rouge">
+        src/results.txt
+       </code>
+       的文件中记录你的结果。你的结果不需要标准格式，也不需要固定数量的数据点。不过，我们希望你至少写一两句话说明你的观察结果。
+      </p>
+      <p>
+       现在尝试运行
+       <code class="language-plaintext highlighter-rouge">
+        InsertInOrderSpeedTest
+       </code>
+       ，它的行为与
+       <code class="language-plaintext highlighter-rouge">
+        InsertRandomSpeedTest
+       </code>
+       类似，只是这次
+       <code class="language-plaintext highlighter-rouge">
+        &lt;String, Integer&gt;
+       </code>
+       键值对中的
+       <code class="language-plaintext highlighter-rouge">
+        String
+       </code>
+       按
+       <a href="https://en.wikipedia.org/wiki/Lexicographical_order">
+        字典递增顺序
+       </a>
+       插入。你的代码应该与 Java 的内置解决方案大致相当&mdash;&mdash;比如说，在 10 倍左右的范围内。这告诉我们的是，与最先进的
+       <code class="language-plaintext highlighter-rouge">
+        TreeMaps
+       </code>
+       相比，最先进的
+       <code class="language-plaintext highlighter-rouge">
+        HashMaps
+       </code>
+       相对容易实现。考虑一下与
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       /
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       和其他数据结构的这种关系&mdash;&mdash;是否存在某些情况
+       <code class="language-plaintext highlighter-rouge">
+        Hashmap
+       </code>
+       可能更好？与你的同伴讨论这个问题，并将你的答案添加到
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       中。
+      </p>
+      <h2 id="different-bucket-types">
+       <a aria-labelledby="different-bucket-types" class="anchor-heading" href="#different-bucket-types">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       不同的桶类型
+      </h2>
+      <p>
+       如果你正确实现了通用
+       <code class="language-plaintext highlighter-rouge">
+        Collection
+       </code>
+       桶，大部分工作就完成了！我们可以直接比较用于实现桶的不同数据结构。我们提供了
+       <code class="language-plaintext highlighter-rouge">
+        speed/BucketsSpeedTest.java
+       </code>
+       ，这是一个交互式测试，它向用户询问一个整数
+       <code class="language-plaintext highlighter-rouge">
+        L
+       </code>
+       ，表示后续操作中使用的字符串长度。然后，在循环中，它向用户询问一个整数
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       ，并使用不同类型的桶在你的
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       上运行速度测试。
+      </p>
+      <p>
+       试试看，比较不同实现如何随着
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       扩展。与你的同伴讨论你的结果，并将你的回答记录在
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       中。
+      </p>
+      <p>
+       你可能会注意到，我们使用
+       <code class="language-plaintext highlighter-rouge">
+        HashSet
+       </code>
+       作为桶的实现通过遍历整个数据结构来搜索
+       <code class="language-plaintext highlighter-rouge">
+        Node
+       </code>
+       。但我们知道哈希表支持比这更高效的查找。如果我们能够对
+       <code class="language-plaintext highlighter-rouge">
+        HashSet
+       </code>
+       使用常数时间搜索，我们的哈希表会渐近地加速吗？你不需要在这里实现任何新东西，只需与你的同伴讨论，并将你的想法记录在
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       中。
+      </p>
+      <p class="task">
+       在
+       <code class="language-plaintext highlighter-rouge">
+        speed
+       </code>
+       目录中运行上述速度测试，并在
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       中记录你的结果。
+      </p>
+      <h2 id="deliverables-and-scoring">
+       <a aria-labelledby="deliverables-and-scoring" class="anchor-heading" href="#deliverables-and-scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付成果和评分
+      </h2>
+      <p>
+       本实验满分 5 分。Gradescope 上有一个隐藏测试（检查你的
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       ）。其余测试都是本地的。如果你通过了所有本地测试并充分填写了
+       <code class="language-plaintext highlighter-rouge">
+        results.txt
+       </code>
+       文件，你将在 Gradescope 上获得满分。
+      </p>
+      <p>
+       以下每项价值 $\frac{5}{11}$ 分，对应一个单元测试：
+      </p>
+      <ul>
+       <li>
+        泛型
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         clear
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         containsKey
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         get
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         size
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         put
+        </code>
+       </li>
+       <li>
+        功能
+       </li>
+       <li>
+        调整大小
+       </li>
+       <li>
+        边界情况
+       </li>
+       <li>
+        桶（所有
+        <code class="language-plaintext highlighter-rouge">
+         TestMyHashMapBuckets
+        </code>
+        ）
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         results.txt
+        </code>
+        （不在本地测试，但在 Gradescope 自动评分器上测试）
+       </li>
+      </ul>
+      <p>
+       如前所述，如果你不实现
+       <a href="#optional-exercises">
+        可选练习
+       </a>
+       ，则抛出一个
+       <code class="language-plaintext highlighter-rouge">
+        UnsupportedOperationException
+       </code>
+       ，如下所示：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>throw new UnsupportedOperationException(); 
+</code></pre>
+       </div>
+      </div>
+      <h2 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h2>
+      <p>
+       就像你之前的作业一样，添加、提交，然后将你的实验08代码推送到 GitHub。然后，提交到 Gradescope 来测试你的代码。
+      </p>
+      <h2 id="optional-exercises">
+       <a aria-labelledby="optional-exercises" class="anchor-heading" href="#optional-exercises">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       可选练习
+      </h2>
+      <p>
+       这些不会被评分，但你仍然可以通过给定的测试获得反馈。
+      </p>
+      <p>
+       在你的
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       类中实现方法
+       <code class="language-plaintext highlighter-rouge">
+        remove(K key)
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        remove(K key, V value)
+       </code>
+       。作为额外挑战，实现
+       <code class="language-plaintext highlighter-rouge">
+        keySet()
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        iterator()
+       </code>
+       ，不使用第二个实例变量来存储键集。
+      </p>
+      <p>
+       对于
+       <code class="language-plaintext highlighter-rouge">
+        remove
+       </code>
+       ，如果参数键在
+       <code class="language-plaintext highlighter-rouge">
+        MyHashMap
+       </code>
+       中不存在，你应该返回
+       <code class="language-plaintext highlighter-rouge">
+        null
+       </code>
+       。否则，删除键值对（key, value）并返回关联的值。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

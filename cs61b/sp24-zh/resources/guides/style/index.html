@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   代码风格指南 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="代码风格指南" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="61B 代码风格指南。" name="description">
+  <meta content="61B 代码风格指南。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/style/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="代码风格指南" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"61B 代码风格指南。","headline":"代码风格指南","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/resources/guides/style/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01：环境配置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐进分析问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           验收检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../asymptotics/index.html">
+           渐进分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       夏季 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        暗色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        资源
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        指南
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        代码风格指南
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        代码风格指南
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#whitespace">
+           空白字符
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#indentation">
+             缩进
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#braces">
+           大括号
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#comments">
+           注释
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#names">
+           命名
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#imports">
+           导入
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#assorted-java-style-conventions">
+           Java 风格惯例
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#avoiding-error-prone-constructs">
+           避免易错语法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#limits">
+           限制
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       代码风格指南
+      </h1>
+      <p class="danger">
+       我们不会因为您未检查代码风格而
+       <strong>
+        恢复提交令牌
+       </strong>
+       。请相应地计划并使用正确的风格！您已被警告。
+      </p>
+      <p>
+       关于此风格指南的一些说明：我们已尝试使其尽可能接近默认的IntelliJ风格检查器。该风格检查器还包括一些IntelliJ不会检查的"代码质量"检查。
+      </p>
+      <blockquote class="info">
+       <p>
+        通过运行自动风格检查器来了解这些规则可能会更容易。您可以通过在左侧栏中右键单击文件并选择"检查风格"来在IntelliJ中运行风格检查器。这将在所选文件中生成风格错误列表。在再次运行风格检查器之前，请确保保存或重新编译您的文件。
+       </p>
+      </blockquote>
+      <p>
+       <img alt="screenshot of intellij with right-click menu open" src="intellij_style_checker.png">
+      </p>
+      <p>
+       本代码风格指南可能也不完整。我已尽力使其尽可能全面，但可能遗漏了一些新增规则的描述。
+      </p>
+      <h2 id="whitespace">
+       <a aria-labelledby="whitespace" class="anchor-heading" href="#whitespace">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       空白字符
+      </h2>
+      <ol>
+       <li>
+        <p>
+         每个文件必须以换行符序列结尾。
+        </p>
+       </li>
+       <li>
+        <p>
+         文件不得包含水平制表符。只使用空格进行缩进。
+        </p>
+       </li>
+       <li>
+        <p>
+         不要在以下位置添加空白字符：
+        </p>
+        <ul>
+         <li>
+          在泛型类型指定内的
+          <code class="language-plaintext highlighter-rouge">
+           &lt;
+          </code>
+          和
+          <code class="language-plaintext highlighter-rouge">
+           &gt;
+          </code>
+          周围（
+          <code class="language-plaintext highlighter-rouge">
+           List&lt;Integer&gt;
+          </code>
+          ，而不是
+          <code class="language-plaintext highlighter-rouge">
+           List &lt;Integer&gt;
+          </code>
+          或
+          <code class="language-plaintext highlighter-rouge">
+           List&lt; Integer &gt;
+          </code>
+          ）。
+         </li>
+         <li>
+          前缀运算符
+          <code class="language-plaintext highlighter-rouge">
+           !
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           --
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           ++
+          </code>
+          、一元
+          <code class="language-plaintext highlighter-rouge">
+           -
+          </code>
+          或一元
+          <code class="language-plaintext highlighter-rouge">
+           +
+          </code>
+          之后。
+         </li>
+         <li>
+          在
+          <code class="language-plaintext highlighter-rouge">
+           ;
+          </code>
+          之前或后缀运算符
+          <code class="language-plaintext highlighter-rouge">
+           --
+          </code>
+          和
+          <code class="language-plaintext highlighter-rouge">
+           ++
+          </code>
+          之前。
+         </li>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           (
+          </code>
+          之后或
+          <code class="language-plaintext highlighter-rouge">
+           )
+          </code>
+          之前。
+         </li>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           .
+          </code>
+          之后。
+         </li>
+        </ul>
+       </li>
+       <li>
+        <p>
+         请在以下位置添加空白字符：
+        </p>
+        <ul>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           ;
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           ,
+          </code>
+          或类型转换之后（例如，
+          <code class="language-plaintext highlighter-rouge">
+           (String) x
+          </code>
+          ，而不是
+          <code class="language-plaintext highlighter-rouge">
+           (String)x
+          </code>
+          ）。
+         </li>
+         <li>
+          二元运算符（例如，
+          <code class="language-plaintext highlighter-rouge">
+           *
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           +
+          </code>
+          ）和比较运算符周围。
+         </li>
+         <li>
+          赋值运算符周围（例如，
+          <code class="language-plaintext highlighter-rouge">
+           =
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           +=
+          </code>
+          ）。
+         </li>
+         <li>
+          三元条件运算符中的
+          <code class="language-plaintext highlighter-rouge">
+           ?
+          </code>
+          和
+          <code class="language-plaintext highlighter-rouge">
+           :
+          </code>
+          周围（
+          <code class="language-plaintext highlighter-rouge">
+           x &gt; 0 ? x : -x
+          </code>
+          ）。
+         </li>
+         <li>
+          关键字
+          <code class="language-plaintext highlighter-rouge">
+           assert
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           catch
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           do
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           else
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           finally
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           for
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           if
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           return
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           try
+          </code>
+          和
+          <code class="language-plaintext highlighter-rouge">
+           while
+          </code>
+          周围。
+         </li>
+        </ul>
+       </li>
+       <li>
+        <p>
+         通常，如果您需要使用多行来表示单个语句，请在运算符之前换行（插入换行符），如下所示：
+        </p>
+        <div class="language-text highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>... + 20 * X
+    + Y;
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         不要用空格将方法名与方法调用中的
+         <code class="language-plaintext highlighter-rouge">
+          (
+         </code>
+         分开。但是，对于长行，您可以用换行符后跟空格（用于缩进）来分隔它们。
+        </p>
+       </li>
+      </ol>
+      <h3 id="indentation">
+       <a aria-labelledby="indentation" class="anchor-heading" href="#indentation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       缩进
+      </h3>
+      <ol>
+       <li>
+        <p>
+         基本缩进单位是4个空格。
+        </p>
+       </li>
+       <li>
+        <p>
+         每个代码块级别缩进一个基本缩进单位（代码块通常用
+         <code class="language-plaintext highlighter-rouge">
+          {
+         </code>
+         和
+         <code class="language-plaintext highlighter-rouge">
+          }
+         </code>
+         包围），如下所示：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">r</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="o">;</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+   <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         <code class="language-plaintext highlighter-rouge">
+          case
+         </code>
+         标签在其封闭的
+         <code class="language-plaintext highlighter-rouge">
+          switch
+         </code>
+         的基础上再缩进一级，如下所示：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">switch</span> <span class="o">(</span><span class="n">op</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">case</span> <span class="sc">'+'</span><span class="o">:</span>
+         <span class="n">addOpnds</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+         <span class="k">break</span><span class="o">;</span>
+   <span class="k">default</span><span class="o">:</span>
+         <span class="no">ERROR</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         续行缩进一个基本缩进单位。
+        </p>
+       </li>
+      </ol>
+      <h2 id="braces">
+       <a aria-labelledby="braces" class="anchor-heading" href="#braces">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       大括号
+      </h2>
+      <ol>
+       <li>
+        <p>
+         在所有
+         <code class="language-plaintext highlighter-rouge">
+          if
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          while
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          do
+         </code>
+         和
+         <code class="language-plaintext highlighter-rouge">
+          for
+         </code>
+         语句的代码块周围使用
+         <code class="language-plaintext highlighter-rouge">
+          {
+         </code>
+         <code class="language-plaintext highlighter-rouge">
+          }
+         </code>
+         大括号。
+        </p>
+       </li>
+       <li>
+        <p>
+         将
+         <code class="language-plaintext highlighter-rouge">
+          }
+         </code>
+         大括号放在后续的
+         <code class="language-plaintext highlighter-rouge">
+          else
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          finally
+         </code>
+         或
+         <code class="language-plaintext highlighter-rouge">
+          catch
+         </code>
+         放在同一行，例如：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="o">;</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+   <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         将开启代码块的
+         <code class="language-plaintext highlighter-rouge">
+          {
+         </code>
+         放在行尾。通常，它放在
+         <code class="language-plaintext highlighter-rouge">
+          if
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          for
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          while
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          switch
+         </code>
+         、
+         <code class="language-plaintext highlighter-rouge">
+          do
+         </code>
+         、方法头或类头的末尾。如果行长度迫使它换到下一行，则不要缩进它，并将其单独放在一行上。
+        </p>
+       </li>
+      </ol>
+      <h2 id="comments">
+       <a aria-labelledby="comments" class="anchor-heading" href="#comments">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       注释
+      </h2>
+      <!--
+   Th是 currently 是n't actually enforced -- if you'd want to turn it on, check
+   https://checkstyle.sourceforge.io/config_javadoc.html
+-->
+      <ol>
+       <li>
+        <p>
+         方法应有javadoc注释说明行为、参数（使用@param标签或其他方式）和返回类型。
+        </p>
+       </li>
+       <li>
+        <p>
+         返回非void值的方法必须在Javadoc注释中描述返回值，可以使用"@return"标签或在包含"return"、"returning"或"returns"等词的运行文本中描述。
+        </p>
+       </li>
+       <li>
+        <p>
+         每个Javadoc注释必须以正确形成的句子开头，首字母大写，以句点结尾。
+        </p>
+       </li>
+      </ol>
+      <h2 id="names">
+       <a aria-labelledby="names" class="anchor-heading" href="#names">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       命名
+      </h2>
+      <ol>
+       <li>
+        <p>
+         静态最终常量的名称必须全部大写（例如，RED、DEFAULT_NAME）。
+        </p>
+       </li>
+       <li>
+        <p>
+         参数、局部变量和方法的名称必须以小写字母开头，或者由单个大写字母组成。
+        </p>
+       </li>
+       <li>
+        <p>
+         类型（类）的名称，包括类型参数，必须以大写字母开头。
+        </p>
+       </li>
+       <li>
+        <p>
+         包的名称必须以小写字母开头。
+        </p>
+       </li>
+       <li>
+        <p>
+         实例变量和非最终类（静态）变量必须以小写字母或"_"开头。
+        </p>
+       </li>
+      </ol>
+      <h2 id="imports">
+       <a aria-labelledby="imports" class="anchor-heading" href="#imports">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       导入
+      </h2>
+      1. 不要 use 'import PACKAGE.*', unless the package 是 java.lang.Math,
+   java.lang.Double, or org.junit.Assert.  'import static CLASS.*' 是 确定.
+      <!-- IntelliJ will automatically change to star -->
+      <ol>
+       <li>
+        <p>
+         不要重复导入同一个类或静态成员。
+        </p>
+       </li>
+       <li>
+        <p>
+         不要导入您不使用的类或成员。
+        </p>
+       </li>
+      </ol>
+      <h2 id="assorted-java-style-conventions">
+       <a aria-labelledby="assorted-java-style-conventions" class="anchor-heading" href="#assorted-java-style-conventions">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Java 风格惯例
+      </h2>
+      <ol>
+       <li>
+        <p>
+         数组类型的"[]"应写在元素类型名称之后，而不是声明符之后。写"String[] names"，而不是"String names[]"。
+        </p>
+       </li>
+       <li>
+        <p>
+         方法、类或字段的修饰符应按以下顺序编写：
+        </p>
+        <ol>
+         <li>
+          public、protected 或 private。
+         </li>
+         <li>
+          abstract 或 static。
+         </li>
+         <li>
+          final、transient 或 volatile。
+         </li>
+         <li>
+          synchronized。
+         </li>
+         <li>
+          native。
+         </li>
+         <li>
+          strictfp。
+         </li>
+        </ol>
+       </li>
+       <li>
+        <p>
+         不要在冗余的情况下显式修饰方法、字段或类：
+        </p>
+        <ol>
+         <li>
+          不要将接口或注解中的方法标记为"public"或"abstract"。
+         </li>
+         <li>
+          不要将接口或注解中的字段标记为"static"、"public"或"final"。
+         </li>
+         <li>
+          不要将 final 类中的方法标记为"final"。
+         </li>
+         <li>
+          不要将嵌套接口标记为"static"。
+         </li>
+        </ol>
+       </li>
+       <li>
+        <p>
+         不要在控制语句中使用空代码块（内部只有空白或注释的"{ }"）。有一个例外：catch 块可以只包含如下形式的注释：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="cm">/* Ignore EXCEPTIONNAME. */</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         通过给"魔术数字"赋予符号名称来避免在代码中使用它们，例如：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX_SIZE</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+</code></pre>
+         </div>
+        </div>
+        <p>
+         例外情况是数字 -1、0、1、2、3、4、5、6、7、8、9、0.25、0.5。
+        </p>
+       </li>
+       <li>
+        <p>
+         不要尝试捕获 异常、RuntimeError 或 错误 异常。
+        </p>
+       </li>
+       <li>
+        <p>
+         写"b"而不是"b == true"，写"!b"而不是"b == false"。
+        </p>
+       </li>
+       <li>
+        <p>
+         将
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+   <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+        <p>
+         替换为
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">return</span> <span class="n">condition</span><span class="o">;</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         只有类的静态 final 字段才能是 public 的。其他字段必须是 private 或 protected 的。这也适用于嵌套类。
+        </p>
+       </li>
+       <li>
+        <p>
+         只有静态方法和字段的类不能有 public（或默认的）构造函数。
+        </p>
+       </li>
+       <li>
+        <p>
+         只有私有构造函数的类必须声明为"final"。
+        </p>
+       </li>
+      </ol>
+      <h2 id="avoiding-error-prone-constructs">
+       <a aria-labelledby="avoiding-error-prone-constructs" class="anchor-heading" href="#avoiding-error-prone-constructs">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       避免易错语法
+      </h2>
+      <ol>
+       <li>
+        <p>
+         如果一个类重写了"equals"，它也必须重写"hashCode"。这将在我们学习
+         <code class="language-plaintext highlighter-rouge">
+          hashCode
+         </code>
+         后适用。
+        </p>
+       </li>
+       <li>
+        <p>
+         局部变量和参数不能隐藏或遮蔽字段名。处理例如简单控制字段的 getter/setter 方法的首选方式是在字段名前加上"_"前缀，例如：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="kd">public</span> <span class="kt">double</span> <span class="nf">getWidth</span><span class="o">()</span> <span class="o">{</span>
+   <span class="k">return</span> <span class="n">_width</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setWidth</span><span class="o">(</span><span class="kt">double</span> <span class="n">width</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">_width</span> <span class="o">=</span> <span class="n">width</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         不要使用嵌套赋值，例如"if ((x = next()) != null) &hellip;"。虽然这在 C 语言中可能很有用，但在 Java 中几乎从来不需要。
+        </p>
+       </li>
+       <li>
+        <p>
+         每个"switch"语句都必须包含一个"default"分支。
+        </p>
+       </li>
+       <li>
+        <p>
+         "switch"语句的每个分支都必须以"break"语句或如下形式的注释结束：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="cm">/* fall through */</span>
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         不要用"=="比较字符串字面量。应该写：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"something"</span><span class="o">))</span>
+</code></pre>
+         </div>
+        </div>
+        <p>
+         而不是：
+        </p>
+        <div class="language-java highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="s">"something"</span><span class="o">)</span>
+</code></pre>
+         </div>
+        </div>
+        <p>
+         有些情况下你确实想使用"=="，但你在本课程中不太可能遇到这些情况。
+        </p>
+       </li>
+      </ol>
+      <h2 id="limits">
+       <a aria-labelledby="limits" class="anchor-heading" href="#limits">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       限制
+      </h2>
+      <ol>
+       <li>
+        <p>
+         任何文件不得超过2000行。
+        </p>
+       </li>
+       <li>
+        <p>
+         任何行不得超过120个字符。
+        </p>
+       </li>
+       <li>
+        <p>
+         任何方法不得超过80行。
+        </p>
+       </li>
+       <li>
+        <p>
+         任何方法不得超过8个参数。
+        </p>
+       </li>
+       <li>
+        <p>
+         每个文件必须只包含一个外部类（嵌套类可以）。
+        </p>
+       </li>
+      </ol>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+学习指南：增长阶 | CS 61A 2026年暑期
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../../articles/about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../../articles/contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论班</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">讲座录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">历年考题与网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../../articles/campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../../articles/advice/index.html">学生建议</a></li>
+                
+                <li><a href="../../articles/scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../../articles/scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../../articles/studying/index.html">学习指南</a></li>
+                
+                <li><a href="../../articles/type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../../articles/composition/index.html">组合指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教学团队
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">授课教师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+
+学习指南：增长阶
+
+        
+      </h1>
+    </header>
+    
+<div class="alert storable-login-status"></div>
+
+<h2>说明</h2>
+
+<p>这是一份关于增长阶的学习指南，包含过往讲座、作业和讲义的链接，以及额外的练习题，帮助你学习这些概念。</p>
+
+
+  <p><strong>作业</strong></p>
+  <blockquote><p>重要提示：
+如需查看已发布的作业答案，请访问<a href="../../index.html">主网站</a>。</p></blockquote>
+
+<ul>
+  <li><a href="https://cs61a.org/lab/lab09">实验 9</a></li>
+</ul>
+
+
+
+
+
+  <p><strong>讲座</strong></p>
+  <ul>
+  <li><a href="../../lecture/lec24/index.html">效率</a></li>
+</ul>
+
+
+
+  <p><strong>阅读材料</strong></p>
+  <ul>
+  <li><a href="https://www.composingprograms.com/pages/28-efficiency.html">Section 2.8</a></li>
+</ul>
+
+
+
+    
+<h1 id="orders-of-growth">增长阶</h1>
+
+
+<p>算法的增长阶是对计算机程序随输入规模增大所需运行时间的近似描述。增长阶忽略了固定操作所需的常数因子，而关注与输入规模成比例增长的操作。例如，具有线性增长阶的程序在输入翻倍时通常需要两倍的运行时间。</p>
+
+<p>增长阶通常使用 <a href="https://www.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/big-big-theta-notation">Big-Theta</a> 或 <a href="https://www.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/big-o-notation">Big-O 记法</a>来描述，
+但这些记法超出了本课程的范围。</p>
+
+<p>下表总结了最常见的增长阶：</p>
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+          
+  <tr>
+    <th>阶</th>
+    <th>Big-Theta</th>
+    <th>示例</th>
+  </tr>
+  <tr>
+    <td>常数</td>
+    <td>Θ(1)</td>
+    <td>索引列表中的元素</td>
+  </tr>
+  <tr>
+    <td>对数</td>
+    <td>Θ(lg N)</td>
+    <td>反复将数字减半</td>
+  </tr>
+  <tr>
+    <td>线性</td>
+    <td>Θ(n)</td>
+    <td>对列表求和</td>
+  </tr>
+  <tr>
+    <td>二次</td>
+    <td>Θ(n^2)</td>
+    <td>对列表中每对数字求和</td>
+  </tr>
+  <tr>
+    <td>指数</td>
+    <td>Θ(2^n)</td>
+    <td>访问二叉树中的每个节点</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+
+<h2 id="constant-time">常数时间</h2>
+
+
+<p>当算法具有常数增长阶时，意味着无论输入规模增大多少，它总是需要固定数量的步骤。</p>
+
+<p>例如，考虑访问列表的第一个元素：</p>
+
+<pre><code>first_post = posts[0]</code></pre>
+
+
+
+<p>即使列表增长到一百万个元素，该操作也始终只需要一步。</p>
+
+<p>我们可以用表格来可视化这种关系：</p>
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+  <tr>
+    <th>列表大小</th>
+    <th>步数</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>1</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+<p>我们还可以用图表来可视化：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/pZezyrD.png" alt="常数图" width="" height=""></p>
+
+<p>常数运行时间是最理想的，但对于需要处理多条数据的算法来说通常是不可能的。</p>
+
+
+<h2 id="logarithmic-time">对数时间</h2>
+
+
+<p>当算法具有对数增长阶时，它的增长与输入规模的<a href="https://www.khanacademy.org/math/algebra2/exponential-and-logarithmic-functions/introduction-to-logarithms/v/logarithms">对数</a>成正比。</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Binary_search_algorithm">二分搜索算法</a>就是一个以对数时间运行的算法示例。</p>
+
+<p>以下是伪代码：</p>
+
+<pre><code>def search_list(nums, target_num):
+    &quot;&quot;&quot; Returns the index of TARGET_NUM in sorted list NUMS or &#x2d;1 if not found.
+    &gt;&gt;&gt; search_list([1, 2, 3, 4], 3)
+    2
+    &gt;&gt;&gt; search_list([14, 23, 37, 48, 59], 23)
+    1
+    &gt;&gt;&gt; search_list([14, 23, 37, 48, 59], 47)
+    &#x2d;1
+    &quot;&quot;&quot;
+    min_index = 1
+    max_index = len(nums)
+    while min_index &lt;= max_index:
+        middle_index = (min_index + max_index) // 2
+        if target_num == nums[middle_index]:
+            return middle_index
+        elif target_num &gt; nums[middle_index]:
+            min_index = middle_index + 1
+        else:
+            max_index = middle_index &#x2d; 1
+    return &#x2d;1</code></pre>
+
+
+
+<p>该算法使用循环来查看列表中的多个元素，但关键在于，它不会查看列表中的<em>每个</em>元素。具体来说，它查看 lg2(n) 个元素，其中 n 是列表中的元素数量。</p>
+
+<p>我们可以用表格来可视化这种关系：</p>
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+  <tr>
+    <th>列表大小</th>
+    <th>步数</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>7</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>10</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+<p>我们也可以用图表来看：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/vIUXNHS.png" alt="对数图" width="" height=""></p>
+
+<p>随着输入规模的增加，步数确实在增加，但增长速度非常慢。</p>
+
+
+<h2 id="linear-time">线性时间</h2>
+
+
+<p>当算法具有线性增长阶时，其步数与输入规模成正比增加。</p>
+
+<p>名副其实的线性搜索算法就是以线性时间运行的。</p>
+
+<p>代码显示了它相比二分搜索的简洁性：</p>
+
+<pre><code>def search_list(nums, target_num):
+    &quot;&quot;&quot; Returns the index of TARGET_NUM in an unsorted list NUMS or &#x2d;1 if not found.
+    &gt;&gt;&gt; search_list([3, 2, 1, 4], 3)
+    2
+    &gt;&gt;&gt; search_list([14, 59, 99, 23, 37, 22], 23)
+    3
+    &gt;&gt;&gt; search_list([14, 59, 99, 23, 37, 22], 47)
+    &#x2d;1
+    &quot;&quot;&quot;
+    index = 1
+    while index &lt; len(nums):
+        if nums[index] == target_num:
+            return index
+        index += 1
+    return &#x2d;1</code></pre>
+
+
+
+<p>这一次，循环会查看列表中的<em>每个</em>元素。这种穷举搜索对于在无序列表中搜索元素是必要的，因为无法缩小特定元素可能所在的范围。该算法始终需要至少与列表中元素数量相同的步数。</p>
+
+<p>我们可以用表格形式来看：</p>
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+  <tr>
+    <th>列表大小</th>
+    <th>步数</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>100</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>1000</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+<p>或用图表：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/nl9Cvez.png" alt="线性图" width="" height=""></p>
+
+
+<h2 id="quadratic-time">二次时间</h2>
+
+
+<p>当算法具有二次增长阶时，其步数与输入规模的平方成正比增加。</p>
+
+<p>几种列表排序算法以二次时间运行，如选择排序。该算法从列表前端开始，然后不断在列表中找到下一个最小值，并将其与当前值交换。</p>
+
+<p>以下是选择排序的伪代码：</p>
+
+<pre><code>def linear_sort(nums):
+    &quot;&quot;&quot;Performs an in&#x2d;place sorting of NUMS.
+    &gt;&gt;&gt; l = [2, 3, 1, 4]
+    &gt;&gt;&gt; linear_sort(l)
+    &gt;&gt;&gt; l
+    [1, 2, 3, 4]
+    &quot;&quot;&quot;
+    i = 0
+    while i &lt; len(nums):
+        min_index = i
+        j = i + 1
+        # Find next smallest value
+        while j &lt; len(nums):
+            if nums[j] &lt; nums[min_index]:
+                min_index = j
+            j += 1
+        # Swap if new minimum found
+        if min_index != i:
+            nums[i], nums[min_index] = nums[min_index], nums[i]
+        i += 1</code></pre>
+
+
+
+<p>关于该算法需要注意的重要点是是嵌套循环：它遍历列表中的每个元素，并对每个元素<em>再次</em>遍历剩余的元素。在这种情况下，该算法最终会查看 <code>1/2 * (n^2 &#x2d; n)</code> 个值，其中 <code>n</code> 是列表中的元素数量。</p>
+
+<p>下表显示了它对于不同大小的列表会检查多少个元素：</p>
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+  <tr>
+    <th>列表大小</th>
+    <th>步数</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>45</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>4950</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>499500</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+<p>以下是图表形式：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/S46rX16.png" alt="二次图" width="" height=""></p>
+
+<p>表格和图表都表明，该算法的步数增长速度比之前的算法<em>快得多</em>。</p>
+
+
+<h2 id="exponential-time">指数时间</h2>
+
+
+<p>当算法具有超多项式增长阶时，其步数的增长速度比输入规模的多项式函数更快。</p>
+
+<p>当算法必须查看值的每种排列时，通常需要超多项式时间。例如，考虑一个生成给定密码长度的所有可能数字密码的算法。</p>
+
+<p>对于密码长度为 2 的情况，它会生成 100 个密码：</p>
+
+<pre><code>00 01 02 03 04 05 06 07 08 09
+10 11 12 13 14 15 16 17 18 19
+20 21 22 23 24 25 26 27 28 29
+30 31 32 33 34 35 36 37 38 39
+40 41 42 43 44 45 46 47 48 49
+50 51 52 53 54 55 56 57 58 59
+60 61 62 63 64 65 66 67 68 69
+70 71 72 73 74 75 76 77 78 79
+80 81 82 83 84 85 86 87 88 89
+90 91 92 93 94 95 96 97 98 99</code></pre>
+
+
+
+<p>该算法至少需要 10^2 步，因为每个数字（0-9）有 10 种可能，它必须尝试 2 个数字中每个数字的所有可能性。</p>
+
+<p>对于任意给定的密码长度 n，该算法需要 10^n 步。该运行时间的增长速度惊人，因为每增加一个数字就需要 10 倍的步数。</p>
+
+<p>下表显示了仅前 5 位数字的增长速度：</p>
+
+
+
+
+
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+  <tr>
+    <th>位数</th>
+    <th>步数</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>100</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>1000</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>10000</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>100000</td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+
+
+<p>以下是图表形式：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/JRkAQRN.png" alt="指数图" width="" height=""></p>
+
+
+<h2 id="all-together-now">综合对比</h2>
+
+
+<p>现在我们已经看了算法可能运行时间的示例，让我们在图表上比较它们：</p>
+
+<p><img class="img-responsive center-block" src="https://cs61a.org/study-guide/orders-of-growth/8psl4kk.png" alt="所有图表叠加" width="" height=""></p>
+
+<p>该图表更清楚地表明，这些运行时间之间存在明显差异，尤其是随着输入规模的增加。由于现代计算机程序越来越多地处理大型数据集（如来自数百万用户或传感器的数据），运行时间效率非常重要。</p>
+
+
+<h1 id="practice-problems">练习题</h1>
+
+
+
+<h3 id="q1-is-prime">Q1：Is Prime</h3>
+
+
+<p><code>is_prime</code> 关于 <code>n</code> 的增长阶是什么？</p>
+
+<pre><code>def is_prime(n):
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+
+<p>选择其中一个：</p>
+
+<ul>
+  <li>常数</li>
+  <li>对数</li>
+  <li>线性</li>
+  <li>二次</li>
+  <li>指数</li>
+  <li>以上都不是</li>
+</ul>
+
+
+            <label class="sr-only" for="is_prime-input">你的答案：</label>
+            <input class="form-control storable" id="is_prime-input" type="text">
+            <div class="storable-status"></div>
+        
+
+<div class="solution solution-1">
+
+<p>线性。</p>
+
+<p><em>解释</em>：在最坏情况下，<em>n</em> 是素数，我们需要执行循环 <em>n</em> - 2 次。每次迭代花费常数时间（一次条件检查和一条返回语句）。因此，总时间为 (<em>n</em> - 2) × 常数，即线性。</p>
+
+</div>
+        <button id='solution-1' class='btn btn-outline btn-lg solutiontoggle solution'>
+        切换答案<noscript>（启用 JavaScript）</noscript>
+        </button>
+
+
+
+<h3 id="q2-growth-bar">Q2：Growth: Bar</h3>
+
+
+<p><code>bar</code> 关于 <code>n</code> 的增长阶是什么？</p>
+
+<pre><code>def bar(n):
+    i, sum = 1, 0
+    while i &lt;= n:
+        sum += biz(n)
+        i += 1
+    return sum
+
+def biz(n):
+    i, sum = 1, 0
+    while i &lt;= n:
+        sum += i**3
+        i += 1
+    return sum</code></pre>
+
+<p>选择其中一个：</p>
+
+<ul>
+  <li>常数</li>
+  <li>对数</li>
+  <li>线性</li>
+  <li>二次</li>
+  <li>指数</li>
+  <li>以上都不是</li>
+</ul>
+
+
+            <label class="sr-only" for="bar-input">你的答案：</label>
+            <input class="form-control storable" id="bar-input" type="text">
+            <div class="storable-status"></div>
+        
+<div class="solution solution-2">
+
+<p>二次。</p>
+
+<p><em>解释</em>：
+<code>bar</code> 中 while 循环体执行了 <em>n</em> 次。
+每次迭代都会调用一次 <code>biz(n)</code>。注意 <em>n</em> 从不改变，
+因此每次迭代中该调用花费相同的时间。
+来看 <code>biz</code>，我们看到还有另一个 while 循环。需要注意
+虽然加到 <code>sum</code> 上的项是三次方（<code>i**3</code>），
+但 <code>i</code> 本身每次迭代只增加 1。
+这告诉我们这个 while 循环也执行 <em>n</em> 次，每次迭代
+花费常数时间，因此 <code>biz(n)</code> 的总时间为 <em>n</em> × 常数，即线性。
+知道每次调用 <code>biz(n)</code> 花费线性时间，
+我们可以得出 <code>bar</code> 中 while 循环的每次迭代都是线性的。
+因此，<code>bar(n)</code> 的总运行时间是二次的。</p>
+
+</div>
+        <button id='solution-2' class='btn btn-outline btn-lg solutiontoggle solution'>
+        切换答案<noscript>（启用 JavaScript）</noscript>
+        </button>
+
+
+<explanation>
+<code>foo</code> 关于 <code>n</code> 的增长阶是什么，其中 <code>n</code> 是 <code>lst</code> 的长度？假设对列表进行切片和对列表调用 <code>len</code> 都可以在常数时间内完成。
+
+<pre><code>def foo(lst, i):
+    mid = len(lst) // 2
+    if mid == 0:
+        return lst
+    elif i &gt; 0:
+        return foo(lst[mid:], &#x2d;1)
+    else:
+        return foo(lst[:mid], 1)</code></pre>
+
+<p>对数 Θ(log(<em>n</em>))。</p>
+
+<p><em>解释</em>：在 <code>foo</code> 的函数体中，对输入列表的一半进行了一次递归调用（根据输入标志 <code>i</code> 决定是前半部分还是后半部分）。当列表为空或只有一个元素时执行基本情况。我们从一个 <em>n</em> 个元素的列表开始，将列表减半直到最多剩 1 个元素，这意味着总共有 log(<em>n</em>) 次调用。每次调用中，如果忽略递归调用，执行的是常数工作。因此总运行时间为 log(<em>n</em>) * &theta;(1)。</p>
+
+<p><em>注意</em>：我们通过假设列表切片花费常数时间来简化了这个问题。实际上，这个操作更加复杂，可能需要线性时间。作为额外练习，尝试确定如果假设切片需要线性时间，该函数的增长阶是什么。
+</explanation></p>
+
+
+<h3 id="q3-bonk">Q3：Bonk</h3>
+
+
+<p>描述以下函数的增长阶。</p>
+
+<pre><code>def bonk(n):
+    sum = 0
+    while n &gt;= 2:
+        sum += n
+        n = n / 2
+    return sum</code></pre>
+
+<p>选择其中一个：</p>
+
+<ul>
+  <li>常数</li>
+  <li>对数</li>
+  <li>线性</li>
+  <li>二次</li>
+  <li>指数</li>
+  <li>以上都不是</li>
+</ul>
+
+<div class="solution solution-3">
+
+<p>对数。</p>
+
+<p><em>解释</em>：随着 <code>n</code> 值的增加，评估 <code>bonk</code> 调用所需的时间按对数增长。让我们用 while 循环的迭代次数来说明一个例子。当 <code>n = 1</code> 时，循环迭代 0 次。当 <code>n = 2</code> 时，循环迭代 1 次。当 <code>n = 4</code> 时，有 2 次迭代。当 <code>n = 8</code> 时，调用 <code>bonk(8)</code> 会导致 while 循环迭代 3 次。当输入值按 2 倍缩放时，迭代次数增加 1。这表明该函数的运行时间具有对数增长阶。</p>
+
+</div>
+        <button id='solution-3' class='btn btn-outline btn-lg solutiontoggle solution'>
+        切换答案<noscript>（启用 JavaScript）</noscript>
+        </button>
+        
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#orders-of-growth">增长阶</a></li>
+  <ul>
+    <li><a href="#constant-time">常数时间</a></li>
+    <li><a href="#logarithmic-time">对数时间</a></li>
+    <li><a href="#linear-time">线性时间</a></li>
+    <li><a href="#quadratic-time">二次时间</a></li>
+    <li><a href="#exponential-time">指数时间</a></li>
+    <li><a href="#all-together-now">综合对比</a></li>
+  </ul>
+  <li><a href="#practice-problems">练习题</a></li>
+  <ul>
+    <li><a href="#q1-is-prime">Q1：Is Prime</a></li>
+    <li><a href="#q2-growth-bar">Q2：Growth: Bar</a></li>
+    <li><a href="#q3-bonk">Q3：Bonk</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">答疑时间</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">资源</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">学习指南</a></li>
+            <li><a href="/articles/debugging">调试指南</a></li>
+            <li><a href="/articles/composition">组合指南</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<!-- <script src="/assets/js/sketchy.js"></script> -->
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+$(function() {
+    $('.solutiontoggle').css('display', 'inline-block');
+      $('.solutiontoggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+    });
+    $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+});
+</script>
+
+  </body>
+</html>

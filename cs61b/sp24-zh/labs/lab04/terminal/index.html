@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   如何使用终端 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="如何使用终端" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab04/terminal/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="如何使用终端" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"如何使用终端","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab04/terminal/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab01/index.html">
+         实验 01：环境配置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab01/terminal/index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2：渗流
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2：渗流 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗流"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/ed/index.html">
+           Ed 政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../lab01/index.html">
+        实验 01：环境配置
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        如何使用终端
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        如何使用终端
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#terminal-guide">
+           终端指南
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#cd-change-your-working-directory">
+             cd：切换工作目录
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#pwd-print-working-directory">
+             pwd：显示当前工作目录
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#shorthand-commands">
+             简写命令
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#ls-list-filesfolders-in-a-directory">
+             ls：列出目录中的文件/文件夹
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#mkdir-make-a-directory">
+             mkdir：创建目录
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#touch-create-a-new-file">
+             touch：创建新文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#rm-remove-delete-a-file">
+             rm：删除文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#cat-display-the-contents-of-a-file">
+             cat：显示文件内容
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#cp-copy-a-file">
+             cp：复制文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#mv-move-or-rename-a-file">
+             mv：移动或重命名文件
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       如何使用终端
+      </h1>
+      <h2 id="terminal-guide">
+       <a aria-labelledby="terminal-guide" class="anchor-heading" href="#terminal-guide">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       终端指南
+      </h2>
+      <p>
+       以下是CS61B你需要知道的最重要的命令：
+      </p>
+      <h3 id="cd-change-your-working-directory">
+       <a aria-labelledby="cd-change-your-working-directory" class="anchor-heading" href="#cd-change-your-working-directory">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        cd
+       </code>
+       ：切换工作目录
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">cd </span>hw 
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令会将你的目录更改为
+       <code class="language-plaintext highlighter-rouge">
+        hw
+       </code>
+       。
+      </p>
+      <h3 id="pwd-print-working-directory">
+       <a aria-labelledby="pwd-print-working-directory" class="anchor-heading" href="#pwd-print-working-directory">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        pwd
+       </code>
+       ：显示当前工作目录
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">pwd</span> 
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果你不确定自己在哪里，此命令会告诉你当前目录的完整绝对路径。
+      </p>
+      <h3 id="shorthand-commands">
+       <a aria-labelledby="shorthand-commands" class="anchor-heading" href="#shorthand-commands">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       速记命令
+      </h3>
+      <ul>
+       <li>
+        <p>
+         <code class="language-plaintext highlighter-rouge">
+          ~
+         </code>
+         ：主目录的简写
+        </p>
+       </li>
+       <li>
+        <p>
+         <code class="language-plaintext highlighter-rouge">
+          .
+         </code>
+         ：当前目录的简写
+        </p>
+        <div class="language-shell highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="nb">cd</span> <span class="nb">.</span>       
+</code></pre>
+         </div>
+        </div>
+        <p>
+         此命令会将你的目录更改为当前目录（也就是什么都不做）。
+        </p>
+       </li>
+       <li>
+        <p>
+         <code class="language-plaintext highlighter-rouge">
+          ..
+         </code>
+         ：当前目录上一级父目录的简写
+        </p>
+        <div class="language-shell highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code><span class="nb">cd</span> ..
+</code></pre>
+         </div>
+        </div>
+        <p>
+         此命令会将你的目录更改到其父目录。如果你在
+         <code class="language-plaintext highlighter-rouge">
+          /workspace/day1/
+         </code>
+         ，此命令会把你放到
+         <code class="language-plaintext highlighter-rouge">
+          /workspace/
+         </code>
+         。
+        </p>
+       </li>
+      </ul>
+      <h3 id="ls-list-filesfolders-in-a-directory">
+       <a aria-labelledby="ls-list-filesfolders-in-a-directory" class="anchor-heading" href="#ls-list-filesfolders-in-a-directory">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        ls
+       </code>
+       ：列出目录中的文件/文件夹
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">ls</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令会列出当前目录中的所有文件和文件夹。你也可以使用
+       <code class="language-plaintext highlighter-rouge">
+        ls &lt;directory&gt;
+       </code>
+       来列出不同目录的内容&mdash;&mdash;试试
+       <code class="language-plaintext highlighter-rouge">
+        ls ..
+       </code>
+       ！
+      </p>
+      <h3 id="mkdir-make-a-directory">
+       <a aria-labelledby="mkdir-make-a-directory" class="anchor-heading" href="#mkdir-make-a-directory">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        mkdir
+       </code>
+       ：创建目录
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">mkdir</span> <span class="o">[</span><span class="nb">dirname</span><span class="o">]</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将在当前目录中创建一个名为
+       <code class="language-plaintext highlighter-rouge">
+        dirname
+       </code>
+       的新目录。你可以把目录想象成在本地计算机上创建另一个文件夹。
+      </p>
+      <h3 id="touch-create-a-new-file">
+       <a aria-labelledby="touch-create-a-new-file" class="anchor-heading" href="#touch-create-a-new-file">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        touch
+       </code>
+       ：创建新文件
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">touch</span> <span class="o">[</span>filename]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将在当前目录中创建一个名为
+       <code class="language-plaintext highlighter-rouge">
+        filename
+       </code>
+       的文件。要创建文本文件，你需要运行命令
+       <code class="language-plaintext highlighter-rouge">
+        touch filename.txt
+       </code>
+       。
+      </p>
+      <h3 id="rm-remove-delete-a-file">
+       <a aria-labelledby="rm-remove-delete-a-file" class="anchor-heading" href="#rm-remove-delete-a-file">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        rm
+       </code>
+       ：删除文件
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">rm</span> <span class="o">[</span>file]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将从当前目录中删除
+       <code class="language-plaintext highlighter-rouge">
+        file
+       </code>
+       。如果
+       <code class="language-plaintext highlighter-rouge">
+        file
+       </code>
+       不存在，则该命令将无法执行。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">rm</span> <span class="nt">-r</span> <span class="o">[</span><span class="nb">dir</span><span class="o">]</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将递归删除
+       <code class="language-plaintext highlighter-rouge">
+        dir
+       </code>
+       目录。换句话说，它将删除
+       <code class="language-plaintext highlighter-rouge">
+        dir
+       </code>
+       中的所有文件和目录，以及
+       <code class="language-plaintext highlighter-rouge">
+        dir
+       </code>
+       本身。使用此命令时请小心！
+      </p>
+      <h3 id="cat-display-the-contents-of-a-file">
+       <a aria-labelledby="cat-display-the-contents-of-a-file" class="anchor-heading" href="#cat-display-the-contents-of-a-file">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        cat
+       </code>
+       ：显示文件内容
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">cat</span> <span class="o">[</span>file]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令可用于在终端中查看文件内容，而无需在程序中打开它们。对于大文件（可能会使终端混乱）或非文本文件（可能会输出乱码），它的用处不大。
+      </p>
+      <h3 id="cp-copy-a-file">
+       <a aria-labelledby="cp-copy-a-file" class="anchor-heading" href="#cp-copy-a-file">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        cp
+       </code>
+       ：复制文件
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">cp </span>lab1/original lab2/duplicate
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将复制
+       <code class="language-plaintext highlighter-rouge">
+        lab1
+       </code>
+       目录中的
+       <code class="language-plaintext highlighter-rouge">
+        original
+       </code>
+       文件，并在
+       <code class="language-plaintext highlighter-rouge">
+        lab2
+       </code>
+       目录中创建一个
+       <code class="language-plaintext highlighter-rouge">
+        duplicate
+       </code>
+       文件。
+      </p>
+      <h3 id="mv-move-or-rename-a-file">
+       <a aria-labelledby="mv-move-or-rename-a-file" class="anchor-heading" href="#mv-move-or-rename-a-file">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        mv
+       </code>
+       ：移动或重命名文件
+      </h3>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">mv </span>lab1/original lab2/original
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令将
+       <code class="language-plaintext highlighter-rouge">
+        original
+       </code>
+       从
+       <code class="language-plaintext highlighter-rouge">
+        lab1
+       </code>
+       移动到
+       <code class="language-plaintext highlighter-rouge">
+        lab2
+       </code>
+       。与
+       <code class="language-plaintext highlighter-rouge">
+        cp
+       </code>
+       不同，mv不会将原始文件保留在
+       <code class="language-plaintext highlighter-rouge">
+        lab1
+       </code>
+       目录中。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>  <span class="nb">mv </span>lab1/original lab1/newname
+</code></pre>
+       </div>
+      </div>
+      <p>
+       此命令不会移动文件，而是将文件从
+       <code class="language-plaintext highlighter-rouge">
+        original
+       </code>
+       重命名为
+       <code class="language-plaintext highlighter-rouge">
+        newname
+       </code>
+       。
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          以下是使用终端时的一些其他有用技巧。
+         </strong>
+        </p>
+       </summary>
+       <ul>
+        <li>
+         你的shell可以使用
+         <em>
+          tab补全
+         </em>
+         来自动补全文件名和目录名。当你有一个不完整的名称（对于已经存在的内容），尝试按
+         <code class="language-plaintext highlighter-rouge">
+          tab
+         </code>
+         键进行自动补全或显示可能的名称列表。
+        </li>
+        <li>
+         你可以在终端中复制粘贴。在Mac上这很简单，但在Windows上，需要右键单击来复制和粘贴高亮文本。
+        </li>
+        <li>
+         如果你想运行最近使用过的命令，按键盘上的
+         <code class="language-plaintext highlighter-rouge">
+          up
+         </code>
+         方向键直到看到正确的指令。如果你走得太远，使用
+         <code class="language-plaintext highlighter-rouge">
+          down
+         </code>
+         键返回。如果你正在执行重复的指令，这可以节省输入时间。
+        </li>
+        <li>
+         你可以同时打开多个终端&mdash;&mdash;如果你运行需要终端的独立任务，这可能有助于加快工作流程。
+        </li>
+       </ul>
+      </details>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

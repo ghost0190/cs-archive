@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验 06：BSTMap | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验06：BSTMap" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab06/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验 06：BSTMap" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验06：BSTMap","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab06/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         Academic 资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         Conceptual 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验06：BSTMap
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 06：BSTMap
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#pulling-from-skeleton">
+           从骨架仓库拉取
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#bstmap">
+           BSTMap
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#exercise-bstmap">
+             练习：BSTMap
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#resources">
+             资源
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#so-how-fast-is-it">
+           那么&hellip;&hellip;它有多快？
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#scoring">
+           评分
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#more-ungraded-exercises-for-bstmap">
+           更多（不计分）的 BSTMap 练习
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission">
+           提交
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#optional-asymptotics-problems">
+           可选：渐近分析问题
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验 06：BSTMap
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       本实验的常见问题可以在
+       <a href="faq/index.html">
+        这里
+       </a>
+       找到。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在本实验中，你将创建
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       ，这是
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口的基于二叉搜索树的实现，它表示一个基本的基于树的映射。你将完全从头开始创建它，使用提供的接口作为指南。
+      </p>
+      <p>
+       完成实现后，你将把你的实现与基于列表的
+       <code class="language-plaintext highlighter-rouge">
+        Map
+       </code>
+       实现
+       <code class="language-plaintext highlighter-rouge">
+        ULLMap
+       </code>
+       以及 Java 内置的
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       类（它使用一种称为
+       <em>
+        红黑树
+       </em>
+       的 BST 变体）进行性能比较。
+      </p>
+      <h2 id="pulling-from-skeleton">
+       <a aria-labelledby="pulling-from-skeleton" class="anchor-heading" href="#pulling-from-skeleton">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       从骨架仓库拉取
+      </h2>
+      <p>
+       要获取作业，请从你的个人仓库中的
+       <code class="language-plaintext highlighter-rouge">
+        skeleton
+       </code>
+       拉取：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git pull skeleton main
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这个作业是
+       <code class="language-plaintext highlighter-rouge">
+        lab06
+       </code>
+       。
+      </p>
+      <h2 id="bstmap">
+       <a aria-labelledby="bstmap" class="anchor-heading" href="#bstmap">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+      </h2>
+      <p>
+       在本实验（以及未来的实验）中，我们可能不会像过去那样提供那么多框架代码。如果你在开始时遇到困难，请来到实验室或查看提供的任何资源！
+      </p>
+      <p>
+       创建一个类
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       ，它使用 BST（二叉搜索树）作为其核心数据结构来实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口。在你创建
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       类并实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       中的所有方法之前，你的代码不会编译。你可以通过编写所有必需方法的方法签名来一次实现一个方法，但对于其他实现抛出
+       <code class="language-plaintext highlighter-rouge">
+        UnsupportedOperationException
+       </code>
+       ，直到你真正开始编写它们。请参阅此
+       <a href="#exercise-bstmap">
+        部分
+       </a>
+       了解如何抛出异常。
+      </p>
+      <p>
+       在你的实现中，你应该确保
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap&lt;K,V&gt;
+       </code>
+       中的泛型键
+       <code class="language-plaintext highlighter-rouge">
+        K
+       </code>
+       实现了
+       <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Comparable.html">
+        Comparable
+       </a>
+       。这被称为
+       <a href="https://docs.oracle.com/javase/tutorial/java/generics/bounded.html">
+        <em>
+         有界类型参数
+        </em>
+       </a>
+       。
+      </p>
+      <p>
+       <a href="https://docs.oracle.com/javase/tutorial/java/generics/bounded.html">
+        语法
+       </a>
+       有点棘手，但我们在下面给出了一个例子。在这里，我们正在为
+       <code class="language-plaintext highlighter-rouge">
+        Comparable
+       </code>
+       对象创建一个
+       <code class="language-plaintext highlighter-rouge">
+        BSTSet
+       </code>
+       。我们出于教学目的加入了相当奇怪的
+       <code class="language-plaintext highlighter-rouge">
+        compareRoots
+       </code>
+       （关于
+       <code class="language-plaintext highlighter-rouge">
+        compareTo
+       </code>
+       的复习，请参阅此
+       <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Comparable.html#compareTo(T)">
+        文档
+       </a>
+       ）：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BSTSet</span><span class="o">&lt;</span><span class="no">K</span> <span class="kd">extends</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="no">K</span><span class="o">&gt;&gt;</span> <span class="kd">implements</span> <span class="nc">Set61B</span><span class="o">&lt;</span><span class="no">K</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">BSTNode</span> <span class="o">{</span>
+        <span class="no">K</span> <span class="n">item</span><span class="o">;</span>
+        <span class="c1">// ...</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">BSTNode</span> <span class="n">root</span><span class="o">;</span>
+
+    <span class="cm">/* Returns whether th是 BSTSet's root 是 greater than, equal to, or less
+     * than the other BSTSet's root, following the usual `compareTo`
+     * convention. */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareRoots</span><span class="o">(</span><span class="nc">BSTSet</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/* We are able to safely invoke `compareTo` on `n1.item` because we
+         * know that `K` extends `Comparable&lt;K&gt;`, so `K` 是 a `Comparable`, and
+         *`Comparable`s must implement `compareTo`. */</span>
+        <span class="k">return</span> <span class="k">th是</span><span class="o">.</span><span class="na">root</span><span class="o">.</span><span class="na">item</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">other</span><span class="o">.</span><span class="na">root</span><span class="o">.</span><span class="na">item</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       你可能已经注意到，有界类型参数的语法使用
+       <code class="language-plaintext highlighter-rouge">
+        extends
+       </code>
+       ，尽管
+       <code class="language-plaintext highlighter-rouge">
+        Comparable
+       </code>
+       是一个
+       <code class="language-plaintext highlighter-rouge">
+        interface
+       </code>
+       。在有界类型参数的上下文中，
+       <code class="language-plaintext highlighter-rouge">
+        extends
+       </code>
+       可以表示
+       <code class="language-plaintext highlighter-rouge">
+        extends
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        implements
+       </code>
+       （
+       <a href="https://docs.oracle.com/javase/tutorial/java/generics/bounded.html">
+        文档
+       </a>
+       ）。别问我们为什么&mdash;&mdash;我们也不知道。
+       <br>
+       <br>
+       （这个语法还意味着你可以"扩展"
+       <code class="language-plaintext highlighter-rouge">
+        final
+       </code>
+       类，比如
+       <code class="language-plaintext highlighter-rouge">
+        Integer
+       </code>
+       ，这是不可能的。Java 真有你的！）
+      </p>
+      <p class="warning">
+       请记住，上面的代码片段模拟的是一个
+       <code class="language-plaintext highlighter-rouge">
+        Set
+       </code>
+       &mdash;&mdash;你需要实现一个
+       <code class="language-plaintext highlighter-rouge">
+        Map
+       </code>
+       。我们建议你对
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       使用类似的逻辑，使用一些嵌套的节点类来帮助实现。你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       应该有两个泛型参数
+       <code class="language-plaintext highlighter-rouge">
+        K
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        V
+       </code>
+       ，分别表示你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       中键和值的泛型类型。
+      </p>
+      <p>
+       IntelliJ 有一个很好的功能，可以为你生成方法签名。如果你正在实现一个接口但尚未实现所有方法，IntelliJ 会用红色高亮显示类签名。如果你将鼠标悬停在上面，你应该能够选择
+       <code class="language-plaintext highlighter-rouge">
+        Implement methods
+       </code>
+       。在弹出窗口中，确保你选择了"复制 JavaDoc"和"Insert @Override"选项。点击"确定"，IntelliJ 应该会用所需的方法签名填充类（尽管它们不会起作用！）并复制注释。
+      </p>
+      <p>
+       它应该看起来像这样（
+       <strong>
+        你没有
+        <code class="language-plaintext highlighter-rouge">
+         Set61B
+        </code>
+        ，这只是一个例子！
+       </strong>
+       ）：
+      </p>
+      <p>
+       <img alt="实现方法" src="img/implement-methods.png" style="max-height: 200;">
+      </p>
+      <p>
+       <img alt="选择要实现的方法" src="img/select-methods-to-implement.png">
+      </p>
+      <p>
+       在这个例子中，IntelliJ 将生成
+       <code class="language-plaintext highlighter-rouge">
+        clear
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        size
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        iterator
+       </code>
+       方法签名，因为这就是我们虚构的
+       <code class="language-plaintext highlighter-rouge">
+        Set61B
+       </code>
+       接口所需要的全部。如果你按照这个过程处理你的代码，你应该拥有
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       所需的所有方法签名。（如果你愿意，你也可以选择生成哪些签名。）
+      </p>
+      <h3 id="exercise-bstmap">
+       <a aria-labelledby="exercise-bstmap" class="anchor-heading" href="#exercise-bstmap">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       练习：
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+      </h3>
+      <p>
+       如前所述，你需要创建一个类
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       ，它实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口。确保你在
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap.java
+       </code>
+       中编写你的实现，否则你的代码可能无法在自动评分器上运行！以下方法是必需的：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         void put(K key, V value)
+        </code>
+        ：将指定的
+        <code class="language-plaintext highlighter-rouge">
+         key
+        </code>
+        与
+        <code class="language-plaintext highlighter-rouge">
+         value
+        </code>
+        关联。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         V get(K key)
+        </code>
+        ：返回与
+        <code class="language-plaintext highlighter-rouge">
+         key
+        </code>
+        关联的值。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         boolean containsKey(K key)
+        </code>
+        ：返回此映射是否具有给定
+        <code class="language-plaintext highlighter-rouge">
+         key
+        </code>
+        的映射。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         int size()
+        </code>
+        ：返回键值映射的数量。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         void clear()
+        </code>
+        ：从此映射中移除所有映射。
+       </li>
+      </ul>
+      <p>
+       确保通读
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口中每个方法的注释，以完全理解要实现什么。上面的描述不一定全面。
+      </p>
+      <p>
+       出于调试目的，你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       还应该包括一个额外的方法
+       <code class="language-plaintext highlighter-rouge">
+        printInOrder()
+       </code>
+       （在
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口中没有提供），它按键递增的顺序打印出你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       。
+       <strong>
+        我们不会测试这个方法的结果，但你可能会发现这对测试你的实现很有帮助！
+       </strong>
+      </p>
+      <p class="task">
+       实现
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       类，它实现
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       接口和相关的非可选方法。你应该通过使用有界类型参数确保你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       中的键是
+       <code class="language-plaintext highlighter-rouge">
+        Comparable
+       </code>
+       的。
+       <br>
+       <br>
+       我们
+       <em>
+        强烈建议
+       </em>
+       你创建辅助方法来促进你的实现（特别是，强烈鼓励使用递归辅助方法）。
+      </p>
+      <p class="info">
+       不幸的是，你需要实现的大多数方法都依赖于其他方法来进行测试（
+       <code class="language-plaintext highlighter-rouge">
+        get
+       </code>
+       需要
+       <code class="language-plaintext highlighter-rouge">
+        put
+       </code>
+       等）。这使得在实现
+       <code class="language-plaintext highlighter-rouge">
+        put
+       </code>
+       之前很难测试大多数方法。我们建议你按照
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       中指定的顺序实现这些方法。
+       <br>
+       <br>
+       你可以使用
+       <code class="language-plaintext highlighter-rouge">
+        TestBSTMap.java
+       </code>
+       测试你的实现。
+      </p>
+      <p>
+       <strong>
+        <code class="language-plaintext highlighter-rouge">
+         BSTMap
+        </code>
+        有一个可选部分。这些方法是可选实现的：
+        <code class="language-plaintext highlighter-rouge">
+         iterator
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         remove
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         keySet
+        </code>
+        。
+       </strong>
+       它们对于本
+       <a href="#so-how-fast-is-it">
+        部分
+       </a>
+       中描述的计时部分不是必需的。
+      </p>
+      <p>
+       如前所述，如果你不实现可选部分，则抛出一个
+       <code class="language-plaintext highlighter-rouge">
+        UnsupportedOperationException
+       </code>
+       ，如下所示：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>throw new UnsupportedOperationException(); 
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果你正在完成可选部分，请参阅此
+       <a href="#more-ungraded-exercises-for-bstmap">
+        部分
+       </a>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        Map61B
+       </code>
+       中的注释以获取更详细的描述。
+      </p>
+      <h3 id="resources">
+       <a aria-labelledby="resources" class="anchor-heading" href="#resources">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       资源
+      </h3>
+      <p>
+       以下资源可能会有所帮助：
+      </p>
+      <ul>
+       <li>
+        第 16 讲
+        <a href="https://docs.google.com/presentation/d/1tAXgjwVKsnH7AR-iCvkDM-rQFwrg4OnKVZzqPixZWI8/edit?usp=sharing">
+         幻灯片
+        </a>
+        。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         ULLMap.java
+        </code>
+        （在
+        <code class="language-plaintext highlighter-rouge">
+         src/
+        </code>
+        中提供），一个无序的、基于链表的
+        <code class="language-plaintext highlighter-rouge">
+         Map61B
+        </code>
+        实现。
+       </li>
+       <li>
+        为了帮助你入门，可以在
+        <a href="https://www.youtube.com/watch?v=P3_Luw2M8X4">
+         这里
+        </a>
+        找到
+        <code class="language-plaintext highlighter-rouge">
+         put
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         get
+        </code>
+        的算法指南
+       </li>
+      </ul>
+      <h2 id="so-how-fast-is-it">
+       <a aria-labelledby="so-how-fast-is-it" class="anchor-heading" href="#so-how-fast-is-it">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       那么&hellip;&hellip;它有多快？
+      </h2>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        InsertRandomSpeedTest.java
+       </code>
+       中提供了一个交互式速度测试。在完成
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       之前，不要尝试运行此测试。准备就绪后，你可以在 IntelliJ 中运行测试。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        InsertRandomSpeedTest
+       </code>
+       类对你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        ULLMap
+       </code>
+       （提供）、Java 内置的
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       和 Java 内置的
+       <code class="language-plaintext highlighter-rouge">
+        HashMap
+       </code>
+       （你将在后面的实验中进一步探索）进行元素插入速度测试。它通过询问用户每个要插入的 String 的所需长度以及输入大小（要执行的插入次数）来工作。然后它生成那么多指定长度的 String，并将它们作为
+       <code class="language-plaintext highlighter-rouge">
+        &lt;String, Integer&gt;
+       </code>
+       对插入到映射中。
+      </p>
+      <p>
+       试试看，看看你的数据结构与简单实现和工业级实现相比，如何随着插入次数而扩展。请记住，渐近分析在小样本上不具代表性，所以如果你得到一个令人困惑的趋势，请确保你的输入足够大（但要记住有一个限制&mdash;&mdash;如果你输入的值太大，程序可能会溢出，所以请使用足够大的值来尝试）。在一个名为
+       <code class="language-plaintext highlighter-rouge">
+        speedTestResults.txt
+       </code>
+       的文件中记录你的结果。
+      </p>
+      <p class="task">
+       运行速度测试并在
+       <code class="language-plaintext highlighter-rouge">
+        speedTestResults.txt
+       </code>
+       中记录你的结果。你的结果不需要标准格式，但至少你应该包括你做了什么和你观察到了什么。
+      </p>
+      <h2 id="scoring">
+       <a aria-labelledby="scoring" class="anchor-heading" href="#scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       评分
+      </h2>
+      <p>
+       本实验满分 5 分。Gradescope 上没有隐藏测试，从某种意义上说，你在 Gradescope 上获得的分数就是你的最终分数。但是，有一个测试没有在本地提供，它会检查你的
+       <code class="language-plaintext highlighter-rouge">
+        speedTestResults.txt
+       </code>
+       。通过本地测试
+       <code class="language-plaintext highlighter-rouge">
+        TestBSTMap.java
+       </code>
+       意味着你将获得
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap.java
+       </code>
+       的全部学分，但不一定是 Gradescope 上你的
+       <code class="language-plaintext highlighter-rouge">
+        speedTestResults.txt
+       </code>
+       的全部学分。
+       <strong>
+        因此，对于本实验，只要你通过了相关的本地测试（
+        <code class="language-plaintext highlighter-rouge">
+         TestBSTMap.java
+        </code>
+        ）并充分填写了
+        <code class="language-plaintext highlighter-rouge">
+         speedTestResults.txt
+        </code>
+        文件，你就会在 Gradescope 上获得全部学分。
+       </strong>
+      </p>
+      <h2 id="more-ungraded-exercises-for-bstmap">
+       <a aria-labelledby="more-ungraded-exercises-for-bstmap" class="anchor-heading" href="#more-ungraded-exercises-for-bstmap">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       更多（不计分）的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       练习
+      </h2>
+      <p>
+       这些不会被评分，但你仍然可以使用本地测试获得反馈，特别是
+       <code class="language-plaintext highlighter-rouge">
+        TestBSTMapExtra.java
+       </code>
+       （以及在自动评分器上）。
+      </p>
+      <p>
+       在你的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       类中实现方法
+       <code class="language-plaintext highlighter-rouge">
+        iterator()
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        keySet()
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        remove(K key)
+       </code>
+       。实现
+       <code class="language-plaintext highlighter-rouge">
+        iterator
+       </code>
+       方法时，你应该返回一个按
+       <em>
+        排序顺序
+       </em>
+       遍历
+       <em>
+        键
+       </em>
+       的迭代器。
+       <code class="language-plaintext highlighter-rouge">
+        remove()
+       </code>
+       相当具有挑战性&mdash;&mdash;你需要实现 Hibbard 删除。
+      </p>
+      <p>
+       对于
+       <code class="language-plaintext highlighter-rouge">
+        remove
+       </code>
+       ，如果参数键在
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       中不存在，你应该返回
+       <code class="language-plaintext highlighter-rouge">
+        null
+       </code>
+       。否则，删除键值对（key, value）并返回 value。
+      </p>
+      <h2 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h2>
+      <p>
+       就像你之前的作业一样，添加、提交，然后将你的实验 06 代码推送到 GitHub。然后，提交到 Gradescope 来测试你的代码。
+      </p>
+      <h2 id="optional-asymptotics-problems">
+       <a aria-labelledby="optional-asymptotics-problems" class="anchor-heading" href="#optional-asymptotics-problems">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       可选：渐近分析问题
+      </h2>
+      <p>
+       这部分也是可选的，我们把它放在这里是为了额外练习渐近分析。对照
+       <a href="asymptotics-soln/index.html">
+        解答
+       </a>
+       检查你的答案！
+      </p>
+      <p>
+       给定
+       <code class="language-plaintext highlighter-rouge">
+        B
+       </code>
+       ，一个具有
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       个键值对的
+       <code class="language-plaintext highlighter-rouge">
+        BSTMap
+       </code>
+       ，以及
+       <code class="language-plaintext highlighter-rouge">
+        (K, V)
+       </code>
+       ，一个随机键值对，回答以下问题。
+      </p>
+      <p>
+       除非另有说明，"大O"界（例如 $\mathcal{O}(N)$）和"大Theta"界（例如 $\Theta(N)$）指的是给定方法调用中的
+       <strong>
+        比较次数
+       </strong>
+       。
+      </p>
+      <p>
+       对于问题 1-7，说明陈述是真还是假。对于问题 8，给出运行时间界。
+      </p>
+      <ol>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         B.put(K, V)
+        </code>
+        $\in \mathcal{O}(\log N)$
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         B.put(K, V)
+        </code>
+        $\in \Theta(\log N)$
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         B.put(K, V)
+        </code>
+        $\in \Theta(N)$
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         B.put(K, V)
+        </code>
+        $\in \mathcal{O}(N)$
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         B.put(K, V)
+        </code>
+        $\in \mathcal{O}(N^2)$
+       </li>
+      </ol>
+      <ol start="6">
+       <li>
+        对于一个不等于
+        <code class="language-plaintext highlighter-rouge">
+         K
+        </code>
+        的固定键
+        <code class="language-plaintext highlighter-rouge">
+         C
+        </code>
+        ，
+        <code class="language-plaintext highlighter-rouge">
+         B.containsKey(C)
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         B.containsKey(K)
+        </code>
+        都在 $\Omega(\log N)$ 时间内运行。
+       </li>
+       <li>
+        （这个问题相当难。）设
+        <code class="language-plaintext highlighter-rouge">
+         b
+        </code>
+        是
+        <code class="language-plaintext highlighter-rouge">
+         BSTMap
+        </code>
+        的一个
+        <code class="language-plaintext highlighter-rouge">
+         Node
+        </code>
+        ，以及以
+        <code class="language-plaintext highlighter-rouge">
+         root
+        </code>
+        为根的两个子树，称为
+        <code class="language-plaintext highlighter-rouge">
+         left
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         right
+        </code>
+        。进一步假设方法
+        <code class="language-plaintext highlighter-rouge">
+         numberOfNodes(Node p)
+        </code>
+        返回以
+        <code class="language-plaintext highlighter-rouge">
+         p
+        </code>
+        为根的子树的节点数（$M$），并在 $\Theta(M)$ 时间内运行。假设
+        <code class="language-plaintext highlighter-rouge">
+         1 &lt;= z &lt; numberOfNodes(b.root)
+        </code>
+        ，那么
+        <code class="language-plaintext highlighter-rouge">
+         mystery(b.root, z)
+        </code>
+        在最坏和最好情况下的运行时间是多少？
+       </li>
+      </ol>
+      <p>
+       提示：看看你是否能先弄清楚
+       <code class="language-plaintext highlighter-rouge">
+        mystery
+       </code>
+       做什么，然后看看它是如何实现的。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="nc">Key</span> <span class="nf">mystery</span><span class="o">(</span><span class="nc">节点</span> <span class="n">b</span><span class="o">,</span> <span class="kt">int</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">numLeft</span> <span class="o">=</span> <span class="n">numberOfNodes</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">numLeft</span> <span class="o">==</span> <span class="n">z</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="na">key</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">numLeft</span> <span class="o">&gt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">mystery</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">z</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">mystery</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">numLeft</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

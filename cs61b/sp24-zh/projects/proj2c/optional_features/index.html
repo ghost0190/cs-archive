@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   Project 2B/C 可选功能 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="项目 2B/C 可选功能" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="项目 2B/C 可选功能。" name="description">
+  <meta content="项目 2B/C 可选功能。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj2c/optional_features/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="项目 2B/C 可选功能" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目 2B/C 可选功能。","headline":"项目 2B/C 可选功能","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj2c/optional_features/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       助教
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01: 环境设置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02: 调试 (第一部分)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03: 调试 (第二部分)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05: 不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: 哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09: Conway的生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10: 俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业0A: Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业2: 渗透
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业2: 渗透 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - HW 2: 渗透"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj0/index.html">
+         项目0: 2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1a/index.html">
+         项目1A: LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1a/faq/index.html">
+           常见问题 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1a/flags/index.html">
+           覆盖率测试 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1b/index.html">
+         项目1B: ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1b/faq/index.html">
+           常见问题 - 项目1B: 数组Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1b/flags/index.html">
+           覆盖率测试 - 项目1B: 数组Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1c/index.html">
+         项目1C: Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1c/faq/index.html">
+           常见问题 - 项目1C: Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj2a/index.html">
+         项目2A: Ngordnet (NGrams)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj2b/index.html">
+         项目2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         项目2C: Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj3/index.html">
+         项目3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj3/faq/index.html">
+           常见问题 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj3/proj3checkoff/index.html">
+           检查点 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj3/ui_bugs/index.html">
+           常见UI问题 - 项目3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/beacon/index.html">
+           Beacon 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 使用指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/oh/index.html">
+           在线办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       夏季2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        办公时间队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href>
+        项目2C: Ngordnet (Wordnet)
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        项目 2B/C 可选功能
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        项目 2B/C 可选功能
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#getting-started">
+           开始
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#adding-new-buttons">
+           添加新按钮
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#adding-the-hypohist-buttons">
+             添加 Hypohist 按钮
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#creating-a-hypohist-handler">
+             创建 Hypohist 处理器
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#javascript-callbacks">
+             JavaScript 回调
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#hypohist">
+             Hypohist（下义词历史）
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#adding-even-more-features">
+           添加更多功能
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       项目 2B/C 可选功能
+      </h1>
+      <h2 id="getting-started">
+       <a aria-labelledby="getting-started" class="anchor-heading" href="#getting-started">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       开始
+      </h2>
+      <p>
+       本作业的其余部分是可选的，但强烈建议完成。
+      </p>
+      <p>
+       项目的这一部分结合了
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       （项目 2a）和
+       <code class="language-plaintext highlighter-rouge">
+        WordNet
+       </code>
+       （项目 2b）的功能。首先，将
+       <code class="language-plaintext highlighter-rouge">
+        HistoryHandler
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        HistoryTextHandler
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       从项目 2a 复制到项目 2b。你还应该调整
+       <code class="language-plaintext highlighter-rouge">
+        Main.java
+       </code>
+       ，使其注册所有三个处理器。
+      </p>
+      <h2 id="adding-new-buttons">
+       <a aria-labelledby="adding-new-buttons" class="anchor-heading" href="#adding-new-buttons">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       添加新按钮
+      </h2>
+      <p>
+       获取下义词列表很酷，但有时更酷的是绘制它们的相对频率。例如，如果用户输入单词"food, cake"，startYear = 1900，endYear = 2020，k = 8，然后点击"Hypohist"，他们将能够看到在1900年到2020年期间，作为food和cake下义词的8个最流行单词的相对频率。
+      </p>
+      <p>
+       在这一部分中，你将编辑三种不同类型的文件：
+      </p>
+      <ul>
+       <li>
+        HTML
+       </li>
+       <li>
+        JavaScript
+       </li>
+       <li>
+        Java
+       </li>
+      </ul>
+      <p>
+       我们假设你之前没有接触过HTML或JavaScript。在现实世界的项目中，你经常需要修改你不熟悉的代码，甚至可能是你从未见过的编程语言。
+      </p>
+      <h3 id="adding-the-hypohist-buttons">
+       <a aria-labelledby="adding-the-hypohist-buttons" class="anchor-heading" href="#adding-the-hypohist-buttons">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       添加 Hypohist 按钮
+      </h3>
+      <p>
+       打开
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet.html
+       </code>
+       文件。找到创建现有按钮的代码，例如
+       <code class="language-plaintext highlighter-rouge">
+        History
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        Hyponyms
+       </code>
+       。凭你的直觉，复制并粘贴你认为必要的代码片段，创建两个新按钮，分别显示"Hypohist"和"Hypohist (text)"。
+      </p>
+      <p>
+       完成后，尝试点击Hypohist按钮，什么都不会发生。
+      </p>
+      <h3 id="creating-a-hypohist-handler">
+       <a aria-labelledby="creating-a-hypohist-handler" class="anchor-heading" href="#creating-a-hypohist-handler">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       创建 Hypohist 处理器
+      </h3>
+      <p>
+       回到
+       <code class="language-plaintext highlighter-rouge">
+        Ngordnet.main.Main
+       </code>
+       ，注册一个名为
+       <code class="language-plaintext highlighter-rouge">
+        HypohistHandler
+       </code>
+       的新处理器。它应该注册到字符串
+       <code class="language-plaintext highlighter-rouge">
+        hypohist
+       </code>
+       。这个处理器应该简单地返回文本"hello i 上午 hypohist"。运行你的Java服务器，它现在已经准备好监听Hypohist的点击了。
+      </p>
+      <p>
+       在服务器运行的情况下，尝试点击Hypohist按钮，&hellip;&hellip;仍然什么都不会发生！
+      </p>
+      <h3 id="javascript-callbacks">
+       <a aria-labelledby="javascript-callbacks" class="anchor-heading" href="#javascript-callbacks">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       JavaScript 回调
+      </h3>
+      <p>
+       尽管我们的服务器正在监听Hypohist的点击，而且我们也在点击Hypohist按钮，但什么都没有发生！
+      </p>
+      <p>
+       也就是说，你的浏览器甚至没有尝试将查询发送到你的Java文件。这是因为HTML代码通常是"笨拙的"，即基本上除了指定网站的外观外什么都不做。
+      </p>
+      <p>
+       通常用于描述页面工作方式的语言叫做JavaScript。尽管名字如此，它与Java实际上毫无关系，人们普遍认为这是90年代中期的一种营销策略（见
+       <a href="https://www.webucator.com/article/why-javascript-is-called-javascript/">
+        这个页面
+       </a>
+       或
+       <a href="https://www.youtube.com/watch?v=XOmhtfTrRxc&t=125s">
+        JavaScript创始人Brendan Eich的这段视频
+       </a>
+       ），当时Java既新潮又酷，而JavaScript刚刚诞生。
+      </p>
+      <p>
+       让我们窥视前端JavaScript编程的黑暗世界。打开"ngordnet.js"。这段代码充当
+浏览器中漂亮（？）的视觉用户界面和你的Java代码之间的中间人。 注意，这个项目的HTML和JavaScript文件没有达到专业标准，老实说，我很快就把它们拼凑在一起了，尽量保持简单，这样你在摆弄它们时至少会感到稍微舒服一些。
+      </p>
+      <p>
+       你的艰巨任务：尝试修改代码，使得当你点击"Hypohist"按钮时，你能成功获取到你的
+       <code class="language-plaintext highlighter-rouge">
+        HypohistHandler
+       </code>
+       输出的文本&mdash;&mdash;如果你完全按照我上面的建议去做，应该是"hello i 上午 hypohist"。
+      </p>
+      <p>
+       这种在快速而粗糙的编程工作中摸索前进的过程，有一个非常老派的词叫"hacking"（黑客行为），尽管这个词现在有很多不同的含义。
+      </p>
+      <p>
+       提示：
+      </p>
+      <ul>
+       <li>
+        仔细进行模式匹配！
+       </li>
+       <li>
+        随意编辑、测试和实验。你不会永久破坏任何东西。
+       </li>
+       <li>
+        如果你搞砸了，使用git checkout来获取JS文件的原始版本。
+       </li>
+       <li>
+        不要靠问别人怎么做来作弊。这种编辑和试验你不理解的代码的技能在原型设计和快速拼凑代码时非常重要。
+       </li>
+       <li>
+        在现实世界中，通过这种黑客过程创建的生产代码永远不应该发布。然而，它对于原型设计非常有用！
+       </li>
+      </ul>
+      <h3 id="hypohist">
+       <a aria-labelledby="hypohist" class="anchor-heading" href="#hypohist">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Hypohist（下义词历史）
+      </h3>
+      <p>
+       接下来，完善Hypohist按钮的处理器，使其按预期工作，也就是说，这个按钮应该返回一个图表，显示Hyponyms返回的单词在指定时间段内的相对频率。
+      </p>
+      <p>
+       也就是说，我们将做上面所说的事情：例如，如果用户输入单词
+       <code class="language-plaintext highlighter-rouge">
+        "food, cake"
+       </code>
+       ，设置
+       <code class="language-plaintext highlighter-rouge">
+        startYear=1900
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        endYear=2020
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        k=8
+       </code>
+       ，然后点击"Hypohist"按钮，他们将能够看到在1900年到2020年期间，作为food和cake下义词的8个最流行单词的相对频率。
+      </p>
+      <p>
+       注意：对于Hypohist，如果k &gt; 0，行为相当直接。如果k = 0，应该发生什么还不清楚。也许可以想出一个很酷的主意。
+      </p>
+      ### 选修: Hypohist with 0 K
+
+If K 是 0, instead of plotting the k most popular hyponyms, you should plot the total weight history of all words which
+are hyponyms of the given words. 例如, if the user enters "food, cake", startYear = 1900, endYear = 2020, k = 8,
+then we'd see a plot of "cat" and "dog", where the cat represents the total weight of ALL hyponyms of cat, and "dog"
+represents the total weight of ALL hyponyms of dog.
+
+请注意 the web front end sets k to zero if the value 是 missing.
+      <!--
+### Hypohist (text)
+
+Th是 是 a bit less intresting, but you might find it interesting to return the
+
+Lastly, modify the HTML, javascript, and Java code so that there 是 a new Hypohist (text) button. Th是 button should
+return a text display similar to History (text), but for the hypohists as described in the previous section.
+-->
+      <!--
+## Discovering Something Interesting
+
+Lastly, once you've properly implemented all features of th是 assignment, you should use either the `history`,
+`hyponyms`, or `hypohist` button to discover something interesting. When you've found something, submit your result
+using th是 Google form (coming soon).
+
+-->
+      <h2 id="adding-even-more-features">
+       <a aria-labelledby="adding-even-more-features" class="anchor-heading" href="#adding-even-more-features">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       添加更多功能
+      </h2>
+      <p>
+       可选地，为你的工具添加更多功能。一些可能性：
+      </p>
+      <ul>
+       <li>
+        添加额外的按钮，以某种创造性的方式使用一个或两个数据集。例如，你可以绘制特定年份所有单词的平均长度。或者你可以创建一个单词所有下义词的可视化。或者你可以有一个打印两个单词之间最短路径的功能。
+       </li>
+       <li>
+        下义词搜索会找到所有下义词，无论它们与源词有多远。例如，"dog"的下义词数量巨大。添加一个新字段d，只查找与给定单词距离小于等于d的单词。
+       </li>
+       <li>
+        添加一个!操作符，例如，如果有人输入"!person, leader"，你的代码将找到所有不是人的领导者。
+       </li>
+      </ul>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

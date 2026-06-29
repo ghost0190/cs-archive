@@ -1,0 +1,639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>
+6.5840 2026年春季 论文问题
+</title>
+
+<!-- To add a new question, just put in within a <div> tag, give it
+some identifier (i.e., 'ID="q-XX"'), and then add it to the questions
+array variable below.  To link directly to the question, just use a
+link to 'questions.html?q=q-XX'.
+ -->
+
+<script src="common.js"></script>
+
+<style>div.questionbox {
+    margin: 1pc 4% 0pc 4%;
+    padding: 0.5pc 0.5pc 0.5pc 0.5pc;
+    background-color: #e0e0ff;
+    border: 1px dashed red;
+}
+</style>
+
+</head>
+
+<body bgcolor="#ffffff" text="#00000" onLoad="page_onload()">
+
+<div align="center">
+<h2>
+<a href="index.html">6.5840</a> 2026年春季 论文问题
+</h2>
+</div>
+
+<a name="top"></a>
+<p>
+  对于每篇论文，你的作业有两部分。在讨论该论文的课
+  开始之前：
+
+<ul>
+<li>阅读论文，并且
+<li>提交你对每次课程论文问题的回答。
+</ul>
+
+如果你对某篇论文有疑问，你也可以（可选地）
+提交该问题；我们可能会回答和/或调整课程来回答你的问题。
+
+</p>
+
+<p>
+将你的回答放在 <tt>a.txt</tt> 中，问题放在 <tt>q.txt</tt> 中。
+通过 <a href="https://www.gradescope.com/courses/974763">Gradescope</a> 提交这两个文件。
+<p>
+
+<div id="questions">
+
+<div class="questionbox" ID="q-gointro">
+  <p>
+   今天的指定阅读材料不是一篇论文，而是
+   <a href="http://tour.golang.org/">Go语言在线教程</a>。指定的
+   "问题"是教程中的
+   <a href="https://tour.golang.org/concurrency/10">爬虫练习</a>。另外，请查看
+   Go的 <a href="https://golang.org/pkg/net/rpc/">RPC包</a>，你将在
+   实验1中使用它。
+</div>
+
+<div class="questionbox" ID="q-gfs">
+
+  <p>GFS论文是一篇"经典"论文，描述了最早的面向数据中心应用（如大规模
+    MapReduce作业）的分布式文件系统之一。它涉及6.5840的许多主题：并行
+    性能、容错、复制和一致性。它是一篇优秀的系统论文，从应用到网络
+    的细节都很完善。
+
+  <p> GFS已被名为
+    <a href="https://cloud.google.com/blog/products/storage-data-transfer/a-peek-behind-colossus-googles-file-system">Colossus</a>的系统所取代，
+    总体目标相同，但在主节点性能和容错方面有所改进。此外，Google内部的许多应用已经
+    转向更类似数据库的存储系统，如BigTable和
+    Spanner。然而，GFS的大部分设计在HDFS（Hadoop开源MapReduce的存储系统）中得以延续。
+    
+  <p><b>问题</b>：
+    描述一个事件序列，该序列会导致客户端从<a href="papers/gfs.pdf">Google文件系统</a>中读取到过时的数据。
+  </p>
+  
+</div>
+
+<div class="questionbox" ID="q-vm-ft">
+  <p>
+    <a href="papers/vm-ft.pdf">VM FT</a>如何处理网络分区？也就是说，如果主节点和备份节点最终处于不同的网络分区中，备份节点是否也会成为主节点，系统是否会同时运行两个主节点？
+  </p>
+</div>
+
+<div class="questionbox" ID="q-concurrency">
+  <p>
+    考虑以下来自"不正确同步"示例的代码：
+  </p>
+  <pre>
+var a string
+var done bool
+
+func setup() {
+	a = "hello, world"
+	done = true
+}
+
+func main() {
+	go setup()
+	for !done {
+	}
+	print(a)
+}
+  </pre>
+  <p>使用你选择的同步机制，修复这段代码，使其根据Go语言规范保证具有预期行为。用happens-before关系解释你的修改为何有效。</p>
+</div>
+
+<div class="questionbox" ID="q-paxos">
+<p>
+<a href="papers/paxos-simple.pdf">Paxos Made Simple</a>
+假设接受者是 <i>A</i>、<i>B</i> 和 <i>C</i>。<i>A</i> 和 <i>B</i> 同时也是提议者。
+Paxos如何确保以下事件序列<u>不会</u>发生？
+实际会发生什么，最终选择哪个值？
+
+<ol>
+<li> <i>A</i> 发送编号为1的prepare请求，并从 <i>A</i>、<i>B</i> 和 <i>C</i> 获得肯定响应。
+<li> <i>A</i> 向 <i>A</i> 和 <i>C</i> 发送 <tt><nobr>accept(1, "X")</nobr></tt>，并从两者获得肯定响应。由于多数派接受了，<i>A</i> 认为 <tt>"X"</tt> 已被选择。然而，<i>A</i> 在向 <i>B</i> 发送 <tt>accept</tt> 之前崩溃了。
+<li><i>B</i> 发送编号为2的prepare消息，并从 <i>B</i> 和 <i>C</i> 获得肯定响应。
+<li><i>B</i> 向 <i>B</i> 和 <i>C</i> 发送 <tt><nobr>accept(2, "Y")</nobr></tt> 消息，并从两者获得肯定响应，因此 <i>B</i> 认为 <tt>"Y"</tt> 已被选择。
+</ol>
+</div>
+
+<div class="questionbox" ID="q-raft">
+
+  <p>Raft论文描述了一种共识算法，包括构建复制状态机应用所需的许多细节。该论文也是6.5840多个实验的主题。重要章节是2、5、7和8。
+
+  <p>该论文将自己定位为比<a href="http://css.csail.mit.edu/6.824/2014/papers/paxos-simple.pdf">Paxos</a>更好的方案，但另一种看待Raft的方式是它解决了比Paxos更大的问题。要构建现实世界的复制服务，副本需要就无限序列的值（客户端命令）达成一致，并且需要高效的方式在服务器崩溃重启或丢失消息时进行恢复。人们已经以Paxos为起点构建了这样的系统（例如，Google的Chubby和Paxos Made Live论文，以及ZooKeeper/ZAB）。还有一个叫做Viewstamped Replication的协议；它是一个好设计，与Raft类似，但关于它的论文很难理解。
+
+  <p>这些现实世界的协议很复杂，而且在（Raft之前）没有一篇好的介绍性论文来描述它们的工作原理。相比之下，Raft论文相对容易阅读且相当详细。
+
+  <p><b>问题</b>：
+    假设我们有Raft论文图7所示的场景：一个包含七台服务器的集群，日志内容如图所示。第一台服务器（图中最上方的那台）崩溃了，无法联系。随后进行领导者选举。对于标记为(a)、(d)和(f)的每台服务器，它能否被选为领导者？如果能，哪些服务器会给它的投票？如果不能，什么具体的Raft机制会阻止它被选为领导者？
+</div>
+
+<div class="questionbox" ID="q-debug">
+<p>
+今天的课程涵盖了调试6.5840实验的有效方法。
+提交一个关于你实验1解决方案的测试和调试过程的问题：例如，你遇到的困难、你不自信的地方，或者你好奇的事情。
+</div>
+
+<div class="questionbox" ID="q-raft2">
+<p>
+收到的InstallSnapshot RPC是否会导致状态机回退到过去？也就是说，图13中的步骤8是否会导致状态机被重置，使其反映的已执行操作更少？如果是，解释这是如何发生的。如果不是，解释为什么不会发生。
+</div>
+
+<div class="questionbox" ID="q-spinnaker">
+  <p>
+    请阅读论文的附录。在Spinnaker中，领导者在领导者和<i>一个</i>跟随者将请求的日志记录写入持久存储后响应客户端请求。为什么这足以保证即使在领导者或该跟随者发生故障后仍具有强一致性？
+  </p>
+  <p>
+   （这篇论文依赖于Zookeeper，我们稍后会阅读。）
+  </p>
+</div>
+
+<div class="questionbox" ID="q-QAlab">
+  <p>
+    今天的课程是关于实验3A/3B的问答环节。
+    提交一个关于实验的问题：例如，你在做实验时疑惑的事情、你不理解的地方、一个令人印象深刻的bug，或者任何事情。
+</div>
+
+<div class="questionbox" ID="q-linear">
+  <p>
+    在一个可线性化的键/值存储系统中，两个客户端同时
+    对同一个键发出get()请求，是否可能收到不同的值？
+    解释为什么不会，或者这是如何发生的。
+  </p>
+</div>
+
+<div class="questionbox" ID="q-zookeeper">
+  <p>
+    <a href="papers/zookeeper.pdf">Zookeeper</a>的一个用途是作为容错锁服务（参见第6页"Simple locks"部分）。为什么两个客户端不可能获取同一把锁？具体来说，Zookeeper如何判断一个客户端已经故障，从而可以将该客户端的锁分配给其他客户端？
+  </p>
+</div>
+
+<div class="questionbox" ID="q-craq">
+  <p>
+    第2.3节的第4项说，如果客户端读请求到达且最新版本是脏的，节点应该向尾部节点请求最新的已提交版本。假设节点改为用其最近的干净版本进行回复（忽略任何脏版本，不向尾部节点发送版本查询）。这一改动将使读操作反映该节点所知的最近已提交写操作。解释这如何导致违反可线性化——或违反论文强一致性的目标。
+  </p>
+</div>
+
+<div class="questionbox" ID="q-cr">
+  <p>
+  假设链式复制在头节点收到更新请求时就回复，只要下一个链服务器说它收到了转发的更新，而不是从尾部节点回复。解释这如何导致链式复制产生不可线性化的结果。
+  </p>
+</div>
+
+<div class="questionbox" ID="q-aurora">
+  <p>
+第4.1节的第二段说"数据库维护的运行时状态使我们能够使用单段读取而不是仲裁读取……"数据库需要维护什么运行时状态才能避免必须从仲裁中读取？
+  </p>
+</div>
+
+<div class="questionbox" ID="q-go">
+<p>
+Russ Cox是Go项目的负责人之一。你最喜欢Go的什么？为什么？你想改变这门语言的什么吗？如果是，改变什么以及为什么？
+</div>
+
+<div class="questionbox" ID="q-chapter9">
+<p>
+<a href="https://ocw.mit.edu/resources/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/online-textbook/">6.033 Book</a>。
+只阅读第9章的这些部分：9.1.5、9.1.6、9.5.2、9.5.3、9.6.3。最后两节（关于两阶段锁和分布式两阶段提交）最为重要。
+问题：描述一个两阶段锁比简单锁产生更高性能的场景。
+</div>
+
+<div class="questionbox" ID="q-spanner">
+<p><a href="papers/spanner.pdf">Spanner</a>
+假设Spanner服务器的TT.now()返回正确的信息，但不确定性很大。例如，假设绝对时间是10:15:30，TT.now()返回区间[10:15:20,10:15:40]。该区间是正确的，因为它包含了绝对时间，但误差范围是10秒。参见第3节了解TT.now()的解释。大的误差范围会对Spanner的运行产生什么不良影响？给出一个具体的例子。
+</div>
+
+<div class="questionbox" ID="q-chardonnay">
+<p>
+在第6.2节末尾，<a href="papers/osdi23-eldeeb.pdf">Chardonnay</a>论文说快照读事务可以通过等待epoch推进一个来使其可线性化。论文所说的"可线性化"是指该事务能观察到在它开始之前完成的所有事务的结果。为什么等待能使事务可线性化？
+</div>
+
+<div class="questionbox" ID="q-farm">
+<p>
+<a href="papers/farm-2015.pdf">No compromises: distributed transactions with consistency, availability, and performance</a>：
+假设有两个FaRM事务都对同一个对象执行递增操作。它们同时开始并看到相同的对象初始值。一个事务完全完成了提交（见第4节和图4）。然后第二个事务开始提交。没有故障发生。FaRM将使用什么证据来意识到它必须中止第二个事务？在第4节/图4协议的哪个点FaRM会意识到它必须中止？
+</div>
+
+<div class="questionbox" ID="q-dynamodb22">
+  <p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/atc22-dynamodb.pdf">Amazon DynamoDB: A scalable, predictably performant, and fully managed NoSQL Database service</a>
+为了避免干扰，如果客户的读或写容量超出限制，DynamoDB可能会限制其应用，这可能导致应用不可用。DynamoDB如何避免数据库表的单个热点分区导致应用不可用？
+  </p>
+</div>
+
+<div class="questionbox" ID="q-dynamodb23">
+  <p>
+<a href="papers/atc23-idziorek.pdf">Distributed Transactions at Scale in Amazon DynamoDB</a>。
+第3.3节第三个要点说："事务的时间戳大于数据项的时间戳，表示其最后一次被写入的时间。"这个检查有助于排除什么样的错误结果的例子？
+  </p>
+</div>
+
+<div class="questionbox" ID="q-mdcc">
+<p><a href="https://pdos.csail.mit.edu/6.824/papers/mdcc.pdf">MDCC</a>
+稍后再来看今年的问题。
+</div>
+
+<div class="questionbox" ID="q-ray">
+<p>
+<a href="papers/ray.pdf">Ownership: A Distributed Futures System for Fine-Grained Tasks</a>。
+如果图6(a)中的C()如下所示：
+<pre>
+  def C(x):
+    z = D(X)
+    return Get(z)   # return value of future z
+</pre>
+假设运行D的节点在完成之前故障了，哪个节点会发起D()的重新执行？
+</div>
+
+<div class="questionbox" ID="q-spark">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/zaharia-spark.pdf">Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing</a>
+Spark能很好地支持哪些MapReduce/Hadoop无法支持的应用？
+</div>
+
+<div class="questionbox" ID="q-naiad">
+<p><a href="https://pdos.csail.mit.edu/6.824/papers/naiad.pdf">Naiad: A Timely Dataflow System</a>：
+考虑图3中的数据流图，假设顶点按如下方式实例化：<br />
+<ul>
+  <li><b>A</b> 是一个按键去重操作符，对于 <tt>(key, value)</tt> 的输入，只发出每个不同键的<em>第一条</em> <tt>(key, value)</tt> 记录。
+  <li><b>B</b> 是一个乘法操作符，将值乘以二（即，对于 <tt>(key, value)</tt>，发出 <tt>(key, value * 2)</tt>。
+  <li><b>C</b> 是一个条件操作符，如果输入的 <tt>value</tt> 大于10则将输出发送到 <b>E</b>，否则发送到 <b>F</b>。
+  <li><b>D</b> 是一个聚合操作符，对所有值求和，不考虑键。
+</ul>
+<p>现在假设我们在 <b>In</b> 顶点的 <em>e</em> = 1 纪元引入两条记录：<tt>(a, 2)</tt> 和 <tt>(b, 6)</tt>；在 <em>e</em> = 2 引入一条记录：<tt>(a, 5)</tt>。</p>
+<p>写出记录在流经图时经历的时间戳变化，例如 <tt>(a, 2): at A, t = (1, []); at B, t = ...</tt>。你可以省略不修改时间戳的顶点。</p>
+<p>非正式地解释 <tt>E.OnNotify((1, []))</tt> 何时会被调用。你不需要逐步详述pointstamp协议的细节。</tt>
+</div>
+
+<div class="questionbox" ID="q-parameter">
+<p><a href="https://pdos.csail.mit.edu/6.824/papers/parameter.pdf">Parameter Server</a>：
+参数服务器模型是为运行机器学习算法（如稀疏逻辑回归，&sect; 5.1）而开发的。</p>
+<p>你预期在<b>worker</b>和<b>server</b>处的瓶颈——即负载最重的——资源（如CPU、内存、网络）分别是什么？</p>
+<p>如果在&sect;5.1的实验中使用Spark的逻辑回归（见Spark论文&sect;3.2.1）代替参数服务器，你可能会观察到什么样的资源利用率？
+</div>
+
+<div class="questionbox" ID="q-frangipani">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/thekkath-frangipani.pdf">Frangipani: A Scalable Distributed File System</a>：假设一个服务器修改了一个i-node，将修改追加到其日志中，然后另一个服务器修改了同一个i-node，然后第一台服务器崩溃了。恢复系统会在崩溃服务器的日志中看到i-node的修改，但不应将该日志条目应用到i-node，因为那样会撤销第二个服务器的更改。Frangipani如何避免或处理这种情况？
+</div>
+
+<div class="questionbox" ID="q-memcached">
+<p>
+<a href="papers/memcache-fb.pdf">Memcache at Facebook</a>。
+第3.3节暗示，写入数据的客户端不会从Gutter服务器中删除相应的键，即使客户端确实尝试从普通Memcached服务器中删除该键（图1）。解释为什么写入客户端从Gutter服务器删除键是一个坏主意。
+</div>
+
+<div class="questionbox" ID="q-cops">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/cops.pdf">COPS</a>。第4.3节的最后一句话说，客户端在put之后清除其上下文，将上下文替换为仅包含该put。文中指出"这个put依赖于所有之前的键-版本对，因此比它们更近。"为什么清除上下文并仅替换为该put是合理的？你可能认为客户端后续的put需要携带之前get的依赖信息。什么实体最终使用上下文信息，为什么它不需要最后一次put之前的get信息？
+</div>
+
+
+<div class="questionbox" ID="q-ct">
+<p>
+解释为什么所有Certificate Transparency日志的查看者看到相同的内容很重要。如果一个恶意日志服务器能够使其日志的部分读者看到一组记录，而其他读者看到另一组记录，那么可能进行什么攻击？什么机制确保所有查看者看到相同的日志内容？
+</div>
+
+<div class="questionbox" ID="q-blockstack">
+<p>
+为什么Blockstack的名称需要唯一、可读且去中心化？为什么同时提供这三个属性很困难？
+</div>
+
+
+<div class="questionbox" ID="q-bayou">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/bayou-conflicts.ps">Managing Update Conflicts in Bayou</a>
+  假设我们使用Bayou构建一个分布式文件系统，该系统有一个复制操作。最初，文件A包含"foo"，文件B包含"bar"。在一个节点上，用户将文件A复制到文件B，覆盖了B的旧内容。在另一个节点上，用户将文件B复制到文件A。两个操作都提交后，我们希望两个文件都包含"foo"或两个文件都包含"bar"。请为复制操作设计一个依赖检查和合并过程来实现这一点。Bayou如何确保所有节点就A和B包含"foo"还是"bar"达成一致？
+</div>
+
+<div class="questionbox" ID="q-chord">
+<p>
+对于<a href="https://pdos.csail.mit.edu/6.824/papers/stoica-chord.pdf">Chord: a scalable peer-to-peer lookup service for Internet applications</a>中描述的设计，如果两个Chord节点x和y在互联网上彼此距离很近（例如，它们都在同一个数据中心），当x查找存储在节点y上的键时，Chord跳数是否很少（比如1或2而不是log N）？
+</p>
+</div>
+
+<div class="questionbox" ID="q-dynamo">
+<p><a href="https://pdos.csail.mit.edu/6.824/papers/dynamo.pdf">Dynamo</a>
+假设Dynamo服务器S1完全健康且网络连接正常。由于失误，管理员指示服务器S2使用4.8.1和4.9中描述的机制移除S1。成员变更从S2传播到系统其余部分（包括S1）需要一段时间，因此在一段时间内，一些客户端和服务器会认为S1仍然是系统的一部分。Dynamo在这种情况下能否正常运行？为什么？
+</div>
+
+<div class="questionbox" ID="q-zanzibar">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/zanzibar.pdf">Zanzibar</a>论文在第4节第四段中说，Zanzibar总共提供大约每秒1000万个客户端请求。第4.4节说aclservers每秒执行大约2亿次内存查找。数量级差异的原因可能是什么？
+</div>
+
+<div class="questionbox" ID="q-lambda">
+<p>
+论文在第5.1节提到解密增加了获取数据块的延迟。为什么首先要用收敛加密来加密数据块？
+</div>
+
+<div class="questionbox" ID="q-boki">
+<p>
+Boki确保函数看起来只执行一次，即使函数可能因机器故障而被重新执行。一个挑战是，如果函数更新了外部数据库（例如，更新DynamoDB中的一行），这个更新必须只发生一次。Boki在图6(a)中如何实现这一目标？
+</div>
+
+<div class="questionbox" ID="q-sundr">
+<p>
+<a href="papers/li-sundr.pdf">Secure Untrusted Data Repository (SUNDR)</a>。
+你只需要阅读到3.3.2的末尾。在简单的草图方案中，fetch和modify操作都被放入日志并签名。假设一种替代设计只对modify操作进行签名和记录。这是否允许恶意服务器破坏fetch-modify一致性或分叉一致性？为什么？
+</div>
+
+<div class="questionbox" ID="q-bft">
+<p>
+假设我们从Practical BFT协议中消除了pre-prepare阶段。取而代之的是，主节点向副本多播PREPARE,v,n,m消息，副本多播COMMIT消息并像以前一样回复客户端。这个协议可能会出什么问题？给出一个简短的例子，例如"主节点发送foo，副本1和2回复bar……"
+</div>
+
+<div class="questionbox" ID="q-bitcoin">
+<p>
+<a href="papers/bitcoin.pdf">Bitcoin</a>
+尝试用Bitcoin购买一些东西。与一些6.5840的同学合作可能会有帮助，提前几天开始也可能有帮助。如果你决定放弃，那也没关系。简要描述你的经历。
+</div>
+
+<div class="questionbox" ID="q-ethereum">
+<p>
+<a href="https://ethereum.org/en/whitepaper/">Ethereum Whitepaper</a>。
+使用一个Ethereum去中心化应用（dapp）并向智能合约发送一笔交易。
+<ul>
+    <li>你需要一个Ethereum钱包。为了本次作业的目的，<a href="https://metamask.io/">MetaMask</a>很方便，并且与许多dapp有集成。</li>
+    <li>你可以获取"真实的"（主网）Ethereum（例如通过使用<a href="https://www.coinbase.com/buy-ethereum">Coinbase</a>购买一些），或者使用"水龙头"获取一些免费的Sepolia测试网Ethereum（你可以使用Google搜索水龙头网站）。注意：并非所有dapp都支持测试网Ethereum。</li>
+    <li>找一个dapp进行交互。你可以在网上找到列表，如<a href="https://thedapplist.com/">the dapp list</a>和<a href="https://dappradar.com/">DappRadar</a>。</li>
+</ul>
+<p>
+如果你决定放弃，那也没关系。简要描述你的经历。
+</div>
+
+<div class="questionbox" ID="q-ironfleet">
+  <p><a href="papers/ironfleet.pdf">IronFleet</a>：考虑一个Raft实现（用Dafny编写），它没有实现论文的选举限制（即跟随者在投票时不检查候选者的日志是否是最新的）。在图3中，开发者在将此IronFleet方法论应用于此实现时可能会在哪里卡住？
+</div>
+
+<div class="questionbox" ID="q-analogic">
+<p>
+<a href="https://pdos.csail.mit.edu/6.824/papers/katabi-analogicfs.pdf">Experiences with a Distributed, Scalable, Methodological File System: AnalogicFS</a>。在许多方面，这篇经验论文提出的问题比它回答的更多。请回答以下问题之一，同时考虑AnalogicFS的丰富历史和论文写作的精神：
+
+<p>
+a) 图1所示的A*搜索分析声称是AnalogicFS方法论的内省可视化；然而，并非所有决策都在图中描绘。特别是，如果I <= P，下一个应该探索的节点是什么，使得第2节中的所有假设仍然成立？展示你的推导过程。
+
+<p>
+b) 尽管作者在引言中声称AnalogicFS是为了研究SCSI磁盘（以及它们与lambda演算的交互）而开发的，但第4.1节中详述的实验设置涉及的是退役的Gameboy，它们使用基于卡带的类Flash存储器。如果作者在实验中使用了实际的SCSI磁盘，他们的结果在数量上会如何变化？
+
+<p>
+c) AnalogicFS显示了相当不稳定的多播算法流行度（图5），特别是与我们在6.5840中阅读过的一些先前系统相比。给出另一个系统的例子，该系统会有更稳定的流行度页面测量，特别是在0.1-0.4分贝带宽范围内。
+
+<p>
+d) 在他的6.5840项目中，Ben Bitdiddle选择构建实验5的一个变体，忠实地模拟跨LISP机器的恒定预期寻道时间，就像AnalogicFS那样。然而，在实现时，他立即遇到了需要将值大小限制为400 nm而不是676 nm的问题。解释AnalogicFS实现的哪些假设对实验5不成立，以及为什么这会改变最大值大小。
+
+</div>
+
+
+<!-- OLD, ARCHIVED QUESTIONS FOLLOW -->
+
+<!--<div class="questionbox" ID="q-ficus">
+<p><a href="papers/ficus.pdf">Ficus</a>
+
+Imagine a situation like the paper's Figure 1, but in which only Site
+A updates file Foo. What should Ficus do in that case when the
+partition is merged? Explain how Ficus could tell the difference
+between the situation in which both Site A and Site B update Foo,
+and the situation in which only Site A updates Foo.
+</div>
+
+<div class="questionbox" ID="q-ivy">
+<p>
+<a href="papers/li-dsm.pdf">Memory Coherence in Shared Virtual
+Systems</a>. Answer this question using
+<a href="notes/ivy-code.txt">ivy-code.txt</a>, which is a version of
+the code in Section 3.1 with some clarifications and bug fixes. You
+can see that the manager part of the WriteServer sends out invalidate
+messages, and waits for confirmation messages indicating that the
+invalidates have been received and processed. Suppose the manager sent
+out invalidates, but did not wait for confirmations. Describe a
+scenario in which lack of the confirmation would cause the system to
+behave incorrectly. You should assume that the network delivers all
+messages, and that none of the computers fail.
+</div>
+
+<div class="questionbox" ID="q-treadmarks">
+<p>
+<a href="papers/keleher-treadmarks.pdf">Distributed Shared Memory on
+  Standard Workstations and Operating Systems</a>
+Suppose that a simplified version of Treadmarks, called Dreadmarks,
+simply sent all modifications of variables between an acquire and a
+release to the next processor to acquire the same lock. No other
+modifications are sent. What changes does Treadmarks send that
+Dreadmarks does not?  Outline a specific simple situation in which
+Treadmarks would provide more useful or intuitive memory behavior than
+Dreadmarks.
+</div>
+
+<div class="questionbox" ID="q-munin">
+<p>
+<a href="papers/munin.pdf">Implementation and Performance of Munin</a> The SOR
+application (see Section 4.2) with the producer-consumer pattern performs
+substantial better than with the write-shared pattern (see Table 6 on page
+161). Why is the producer-consumer pattern a better fit for SOR than write-shared?
+</div>
+
+<div class="questionbox" ID="q-harp">
+<p>
+<a href="papers/bliskov-harp.pdf">Replication in the Harp File System</a>
+Figures 5-1, 5-2, and 5-3 show that Harp often finishes benchmarks
+faster than a conventional non-replicated NFS server. This may be
+surprising, since you might expect Harp to do strictly more work than a
+conventional NFS server (for example, Harp must manage the replication).
+Why is Harp often faster? Will all NFS operations be faster with Harp
+than on a conventional NFS server, or just some of them? Which?
+</div>
+
+<div class="questionbox" ID="q-fds">
+<p>
+<a href="papers/fds.pdf">Flat Datacenter Storage</a> Suppose
+tractserver T1 is temporarily unreachable due to a network problem, so
+the metadata server drops T1 from the TLT.
+Then the network problem goes away, but for a while the metadata
+server is not aware that T1's status has changed. During this time
+could T1 serve client
+requests to read and write tracts that it stores? If yes, give an
+example of how this could happen. If no, explain what mechanism(s)
+prevent this from happening.
+</div>
+
+<div class="questionbox" ID="q-hypervisor">
+<p>
+<a href="papers/bressoud-hypervisor.pdf">Hypervisor-based
+  Fault-tolerance</a>
+Suppose that instead of connecting both the primary and backup to the
+same disk, we connected them to separate disks with identical copies
+of the data? Would this work? What else might we have to worry about,
+and what are some things that could go wrong?
+</div>
+
+<div class="questionbox" ID="q-pnuts">
+<p>
+<a href="papers/cooper-pnuts.pdf">PNUTS: Yahoo!'s Hosted Data Serving Platform</a>
+Briefly explain why it is (or isn't) okay to use relaxed consistency
+for social applications (see Section 4). Does PNUTS handle the type of
+problem presented by Example 1 in Section 1, and if so, how?
+</div>
+
+<div class="questionbox" ID="q-wormhole">
+<p><a href="papers/wormhole.pdf">Wormhole</a> stores the datamarker for
+a multi-copy reliable delivery (MCRD) flow in Zookeeper, instead of in persistent
+storage on the publisher side (as Single-Copy Reliable Delivery does).  Why does
+MCRD store the datamarker in Zookeeper?
+</div>
+
+<div class="questionbox" ID="q-fb-consistency">
+<p><a href="papers/fb-consistency.pdf">Existential Consistency</a>.
+Section 2.2 mentions that
+<a href="https://en.wikipedia.org/wiki/Causal_consistency">causal consistency</a>
+is a non-local
+consistency model, and thus can't be checked by the analysis
+in Section 3. Give a pair of examples, one legal under causal
+consistency and one illegal, that the Section 3 checker would
+not be able to distinguish. That is, show by example that the
+Section 3 approach can't check causal consistency.
+</div>
+
+<div class="questionbox" ID="q-borg">
+  <p>
+Borg's key benefit for Google is that it efficiently utilizes cluster
+resources. As part of this, it is important to avoid resources being
+wasted by sitting idle. List and describe at least <i>three</i> techniques
+that Borg uses to ensure good machine and cluster utilization. What
+potential negative consequences, if any, does each technique have for
+(a) non-production/low-priority, and (b) production/high-priority workloads?
+</p>
+</div>
+
+<div class="questionbox" ID="q-kademlia">
+<p>
+<a href="papers/kademlia.pdf">Kademlia: A Peer-to-peer Information System
+Based on the XOR Metric</a>
+Consider a Kademlia-based key-value store with a million users, with non-mutable keys: once a
+key is published, it will not be modified. The k/v store experiences a network partition into
+two roughly equal partitions A and B for 1.5 hours.
+
+<p>X is a very popular key. Would nodes in both A and B likely be able to
+access X's value (1) during the partition? (2) 10 minutes after the network is joined?
+(3) 25 hours after the network is joined?
+
+<p>(optional) Would your answer change if X was an un-popular key?
+</div>
+
+<div class="questionbox" ID="xqargus">
+<p>
+<a href="papers/liskov-argus.pdf">Guardians and Actions: Linguistic Support for Robust, Distributed Programs</a>
+In Figure 4, <tt>read_mail</tt> deletes email from the mailbox.  If
+new mail arrives just before the delete, will the email be deleted but
+not returned?  Please briefly explain your answer.
+</div>
+
+<div class="questionbox" ID="q-argus88">
+<p>
+<a href="papers/argus88.pdf">Distributed Programming in Argus</a>.
+Starting at the bottom-left of page 310, the paper mentions that
+a participant writes new versions to disk <b>twice</b>:
+once before replying to a prepare message, and once after receiving
+a commit message.
+Why are both writes necessary?
+What could go wrong if participants replied to the prepare
+without writing the disk, instead only writing the disk
+after receiving a commit message?
+</div>
+
+<div class="questionbox" ID="q-rstar">
+<p>
+<a href="papers/rstar.pdf">Transaction Management in the R* Distributed Database Management System</a>.
+The first two paragraphs of Section 2.1 say that
+a subordinate force-writes its disk <b>twice</b>:
+once before replying to a PREPARE message, and once after receiving
+a COMMIT message.
+Why are both writes necessary?
+What could go wrong if a subordinate replied to the PREPARE
+without writing its disk, and only wrote its disk
+after receiving a COMMIT message?
+</div>
+
+<div class="questionbox" ID="q-thor95">
+<p>
+<a href="papers/thor95.pdf">Efficient Optimisitic Concurrency Control
+Using Loosely Synchronized Clocks</a>. The paper mentions
+that, after a
+server commits a transaction, the server sends out invalidation
+messages to clients that are caching data written by that transaction. It
+may take a while for those invalidations to arrive; during that time,
+transactions at other clients may read stale cached data. How does Thor cope
+with this situation?
+</div>
+
+<div class="questionbox" ID="q-plan9">
+<p>
+<a href="papers/plan9.pdf">Plan 9 from Bell Labs</a>
+List three features introduced by Plan 9 that have not been adopted
+by today's common operating systems.  For each, why do you think
+the idea hasn't become popular?
+</div>
+
+<div class="questionbox" ID="q-mapreduce">
+<p>
+<a href="papers/mapreduce.pdf">MapReduce</a>
+How soon after it receives the first file of intermediate data can a
+reduce worker start calling the application's Reduce function?
+Explain your answer.
+</div>
+
+<div class="questionbox" ID="q-remus">
+<p>
+The Remus paper's Figure 6 suggests that less frequent checkpoints can lead
+to better performance. Of course, checkpointing only every X
+milliseconds means that up to X milliseconds of work are lost if the
+primary crashes. Suppose it was OK to lose an entire second of work if
+the primary crashed. Explain why checkpointing every second would lead
+to terrible performance if the application running on Remus were a Web
+server.
+</div>
+
+<div class="questionbox" ID="q-epaxos">
+<p>
+When will an EPaxos replica <b>R</b> <em>execute</em> a particular
+command <b>C</b>?  Think about when commands are committed, command
+interference, read operations, etc.
+</div>
+
+<div class="questionbox" ID="q-txchains">
+<p>
+Give an example scenario where an application would behave incorrectly
+if it waited for just the first hop in a chain to commit, but would
+behave correctly by waiting for the entire chain to commit.
+</div>
+
+<div class="questionbox" ID="q-realworld">
+<p>
+Building distributed systems in the real world have both technical
+challenges (e.g., dealing with bad data) and non-technical ones (e.g.,
+how to structure a team). Which do you think is harder to get right? What
+examples can you cite from your personal experience?
+</div>
+
+</div>-->
+
+<hr>
+<p>如有关于6.5840的问题或意见？请发送邮件至<a href=
+"mailto:6824-staff@lists.csail.mit.edu"><i>6824-staff@lists.csail.mit.edu</i></a>。</p>
+
+<p><b><a href="#top">顶部</a></b> //
+<b><a href= "index.html">6.824 首页</a></b> //</p>
+</body>
+</html>

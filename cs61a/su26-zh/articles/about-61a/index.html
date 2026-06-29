@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+课程大纲与课程政策 | CS 61A 2026年夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论班</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">讲座录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">历年考题与网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">Textbook</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">Debugging Guide</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">组合指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教学团队
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">授课教师</a></li>
+                
+                <li><a href="../../staff/index.html">助教与辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>课程大纲与课程政策</h1>
+    </header>
+     <h2 id="overview">概述</h2>
+
+
+<p>CS 61 系列是计算机科学的入门课程，特别强调软件和以程序员的视角看待机器。</p>
+
+<ol>
+  <li>CS 61A 专注于抽象的概念，允许程序员根据适合问题的方式思考，而不是由计算机硬件决定的底层操作。</li>
+  <li>CS 61B 处理更高级的软件工程方面，例如构建和分析大型程序。</li>
+  <li>CS 61C 专注于机器以及它们如何执行程序。</li>
+</ol>
+
+<p>在 CS 61A 中，我们感兴趣的是教你编程，而不是如何使用某一种特定的编程语言。我们考虑一系列管理程序复杂性的技术，例如函数式编程和面向对象编程。</p>
+
+<p>CS 61A 主要使用 Python 3 编程语言。Python 在工业界和学术界都是一种流行的语言。它也特别适合探索本课程所教授的主题。它是一个开源语言，由庞大的志愿者社区开发，该社区以其贡献者的多样性而自豪。</p>
+
+<p>掌握特定的编程语言是 CS 61A 的一个非常有用的副作用。然而，我们的目标不是规定你在未来的努力中使用什么语言。相反，我们希望一旦你学习了编程涉及的概念，你会发现学习一种新的编程语言只需要几天的工作。事实上，在课程期间，你将被要求学习至少两种其他语言，Scheme 和 SQL。</p>
+
+<p>完整的讲座主题、阅读材料和作业列表出现在讲座日程中。</p>
+
+
+<h3 id="prerequisites">先修课程</h3>
+
+
+<p>Math 1A 被列为 CS 61A 的 corequisite（核心辅修课程）。也就是说，可以同时修读。Math 10A 或 Math 16A 也可以。如果不知道或没有学习微积分，也可以修读 CS 61A。完成任何作业都不会要求掌握微积分概念。然而，修读微积分是练习 CS 61A 中定期出现的算术和代数的好方法。</p>
+
+<p>CS 61A 没有正式的编程相关先修课程，因为没有先验经验的学生也可以在课程中取得成功，但在没有任何编程经验的情况下修读该课程通常非常有挑战性。没有先验编程经验修读该课程的学生通常必须花费更多时间来完成作业，并且往往在课程中获得的期末成绩较低。大多数 CS 61A 学生都有显著的前置编程经验。典型的背景包括至少一门相当于 CS 10 的课程，或 AP 计算机科学考试得分 3 分或以上。有关此主题的更多信息，请参阅<a href="../advice/index.html">前学生的建议</a>。</p>
+
+<p>如果你发现前两周完成所有必修课程作业很有挑战性，我们<strong>强烈建议</strong>你先修读另一门课程。稍后修读 61A 可能会有更好的体验。推迟一个学期修读 CS 61A 不太可能影响你的学位进度或以其他方式让你落后，但尽管有此建议仍继续在 CS 61A 中挣扎可能会导致困难的学术情况，从而影响你未来的机会。最好以对课程材料的强掌握完成 CS 61A，即使这意味着推迟一个学期，而不是匆忙完成。</p>
+
+
+<h3 id="bridge-courses">桥梁课程</h3>
+
+
+<p>以下是一些更适合没有先验编程经验的学生的加州大学伯克利分校课程。我们推荐在 CS 61A <strong>之前</strong>修读这些课程。</p>
+
+<p><strong><a href="http://cs10.org">CS 10：计算之美与乐</a></strong>是一门入门计算机科学课程，类似于 CS 61A，但进度更适中。CS 10 涵盖变量、函数、递归、算法复杂性、面向对象编程和许多其他相关的 CS 61A 主题，整体内容重叠约为 50%。CS 10 在学期开始时使用 Snap!，一种基于块的编程语言，使学生能够专注于概念理解，而不必担心陌生的语法。期中考试后，课程过渡到 Python（61A 使用的主要语言）。CS 10 还涵盖超越编程的重大想法和社会影响，向你展示计算之美与乐。</p>
+
+<p><strong><a href="https://data6.org/">Data 6：数据计算思维导论</a></strong>是一门数据科学入门课程，结合了推理和计算思维，应用于定量社会探究的基础。可以在 Data 8 之前修读，但不是其先修课程。</p>
+
+<p><strong><a href="http://data8.org/">Data 8：数据科学基础</a></strong>是一门数据科学入门课程，旨在让所有伯克利学生都能访问和使用。本课程专为没有先验编程经验的学生设计。它教学生用 Python 编程，但涵盖的语言子集比 CS 61A 小得多。课程的大部分内容集中在数据处理和统计技术上，这些技术是使用计算机回答有关世界的问题的核心。在 61A 之前修读 Data 8 是获得先验编程经验的好方法，但修读 CS 10 是更好的方法。</p>
+
+<p><strong><a href="https://undergraduate.catalog.berkeley.edu/courses/1066961/overview-aoYks">ENGIN 7：计算机编程与数值方法导论</a></strong>是计算机编程和数值方法的基础，强调 Python 和一些 MATLAB 中的工程应用。</p>
+
+
+<h3 id="alternative-courses">Alternative Courses</h3>
+
+
+<p>以下是一些替代的加州大学伯克利分校课程，它们<strong>提供与 CS 61A 类似的内容，但不一定等同</strong>。</p>
+
+<p><strong><a href="https://c88c.org/">Data C88C：数据科学中的计算结构</a></strong>（也称为 CS 88）是一门编程与计算入门课程，涵盖约 CS 61A 内容的 70%。这两个课程之间共享许多相同的作业、实验和讨论问题。</p>
+
+<p>Data C88C 是 3 个单元（而不是 4 个），每周有 2 次讲座（而不是 3 次），每周有 2 小时的讨论课（而不是 3 小时），并且总主题和作业较少。两门课程都非常适合学习编程。CS 61A 进度更快。修读 Data C88C 并想学习 CS 61A 中省略的主题的学生可以在未来的学期修读 CS 47A（或自学）来实现。</p>
+
+<p>For the Data Science major and minor, the content in Data C88C is sufficient.
+For the Computer Science major and minor, the additional content in CS 61A is
+important. If you are certain that you want to major or minor in Computer
+Science, CS 61A is the right introductory course.</p>
+
+<p>Students who complete Data C88C can either proceed directly to CS 61B or
+subsequently take CS 61A, a path that offers a substantial amount of review
+because of the high topic overlap between the courses. (Review can be very
+helpful for some students!) However, you cannot take Data C88C for credit after
+having taken CS 61A.</p>
+
+<p><strong><a href="https://www.ischool.berkeley.edu/courses/info/206a">Info 206A: Introduction to Programming and
+Computation</a></strong> is a 2-unit
+introduction to programming that overlaps with many topics in the first eight
+weeks of CS 61A. Professor Hany Farid has placed all of the <a href="https://farid.berkeley.edu/downloads/tutorials/learnPython/">videos and
+exercises for this course
+online</a>, and these
+are an excellent resource to supplement CS 61A.</p>
+
+
+<h2 id="course-format">课程形式</h2>
+
+
+<p>课程包括许多学习活动：讲座、实验、讨论、答疑时间等。尝试所有活动，找出哪些课程组件组合对你最有帮助。</p>
+
+
+<h3 id="lectures-amp-videos">讲座与视频</h3>
+
+
+<p>There are four 80-minute live lectures per week. In addition, there is a video
+playlist for each lecture. We recommend watching the corresponding video(s) from
+the video playlist before attending live lecture or section.
+<!-- The videos cover all required content for the course. -->
+Live lecture <strong>may not</strong> cover all course material, so you should attend lecture, lab,
+<strong>and</strong> discussion.</p>
+
+
+<h3 id="section">Section</h3>
+
+
+<p>每周讨论课包括基于编程的实验作业和讨论环节。</p>
+
+<p>有 12 个实验点和 12 个讨论点。因此，必须参加并完成所有实验环节/作业和讨论环节才能获得学分。实验 0 和讨论 0 不授予学分，因为学生可能仍在进行课程注册，但仍需要完成实验 0（因为它是为课程中其余作业设置的）。</p>
+
+<p>如果需要申请请假，请发送电子邮件至 <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a>（而不是你的实验/讨论助教）。</p>
+
+<!-- Receiving credit for any 10 (or more) labs will earn a perfect lab score for the course. -->
+
+<!-- There are 10 discussion points. Receiving credit for any 10 (or more) discussions -->
+<!-- will earn a perfect discussion score for the course. -->
+
+<!-- This semester, we are offering **two section formats**: **regular sections**
+and the **mega section**.  Both are designed to help students learn the course
+material equally well. You can choose which format you want.  It is possible to
+change formats until the course's add/drop deadline. -->
+
+<!-- #### Regular Section -->
+
+<h4 id="lab">Lab</h4>
+
+
+<p>In lab, students work with each other to solve the set of programming problems
+in each week's lab assignment. To receive credit for lab section, you <strong>must
+complete</strong> and submit the lab assignment with all questions answered correctly
+<strong>and</strong> you <strong>must attend</strong> and have your TA take your attendance by <strong>answering
+the checkoff questions</strong>.</p>
+
+
+<h4 id="discussion">Discussion</h4>
+
+
+<p>Discussions are in groups of 4-8 students. Your discussion group will work through
+practice problems together. To receive credit for discussion section, you <strong>must
+attend</strong> the entirety of the discussion and have your TA take your attendance.</p>
+
+<!-- #### Mega Section
+
+**Mega lab & mega discussion do not meet**. Instead, there are
+videos released each week that cover the discussion topics.
+
+Students in the mega section **must complete** and submit the weekly lab
+assignment but are not expected to come to lab. You are welcome to ask questions
+about lab assignments during course office hours. If you need more support than
+that, you should switch to the regular lab.
+
+All students in mega discussion automatically receive full discussion credit. It
+is up to the mega discussion students to keep up with weekly videos and
+discussion worksheets as they see fit.
+
+#### Choosing a Section Format
+
+Mega section is only recommended for students with considerable prior
+programming experience who are confident that they can succeed in the course
+without the support of in-person section.
+
+Both options are meant to be great. Mega section is designed to appeal to
+students who learn well from watching videos, working independently, and
+coming to drop-in office hours when they need help. But the smaller format of
+regular sections has clear advantages for students who wish to work with others
+and get to know the course staff. Most students choose regular section.
+
+It's possible to switch into mega lab but stay in regular discussion, or vice
+versa. **You may freely switch sections up until the add/drop deadline.** See Ed for details about switching sections. -->
+
+
+<h3 id="office-hours">答疑时间</h3>
+
+
+<p>答疑时间是随时可参加的辅导课程，你可以在其中提问关于材料的问题，获得作业指导，并在小组环境中与同伴和课程工作人员一起工作。请参阅<a href="../../office-hours/index.html">答疑时间表</a>并前来参加。</p>
+
+
+<h2 id="assignments">作业</h2>
+
+
+<p>除了基于编程的实验作业外，还有基于编程的家庭作业和项目。</p>
+
+
+<h3 id="homework">家庭作业</h3>
+
+
+<p>每周家庭作业让你将讲座和讨论课上学到的概念应用到更具挑战性的问题。家庭作业通常在周四发布，截止日期为下周周三或周四。</p>
+
+<p><strong>不允许使用任何人工智能工具</strong>，除了集成到<code>ok</code>中的61A-bot，<code>ok</code>是每次作业提供的程序。学生这样做将受到分数惩罚。当然，你也不允许使用互联网上的解答。</p>
+
+<p>人们编写程序的方式由于大语言模型的扩展普及性和准确性而迅速变化。到目前为止，AI 还没有取代人们在软件开发中的角色。理解编程语言以及如何使用它们解决问题的人比不理解的人更有能力创建有用的程序，而最有技能的人从技术中受益最大。因此，学习解决编程问题似乎仍然是学生时间的良好利用。</p>
+
+<p><strong>部分 credit。</strong> 家庭作业满分为 2 分，每个错误的问题扣 1 分。</p>
+
+
+<h3 id="projects">项目</h3>
+
+
+<p>项目是较大的作业，旨在以有趣的方式结合课程中的想法。</p>
+
+<p>你被允许并鼓励与伙伴进行<a href="../pair-programming/index.html">结对编程</a>。确保轮换角色，以便你们双方都理解完整的结果。你也可以在所有项目中单独工作，尽管建议使用伙伴。</p>
+
+<p>不允许使用任何人工智能工具来帮助你完成项目。甚至不允许使用课程其他部分可用的人工智能工具。学习如何自己构建这些项目很重要。当然，你也不允许使用互联网上的解答。</p>
+
+<p>项目根据正确性评分，成功完成的每个问题都会获得分数。</p>
+
+
+<h2 id="ai-tools-and-the-internet">AI工具与互联网</h2>
+
+
+<p><em>本节改编自<a href="https://c88c.org/sp26/articles/about-c88c/#chatgpt-ai-tools-and-the-internet">Michael Ball 教授的 DATA C88C SP26 课程大纲</a></em></p>
+
+<p>虽然你可以搜索<em>概念性</em>问题，例如"如何在 Python 中向列表添加项目"，但你<strong>在任何情况下都不得搜索课堂上布置的具体问题</strong>。</p>
+
+<p>此政策适用于你使用 AI 工具、搜索引擎或与同伴交谈——这些都是有用的资源！</p>
+
+<p>在你的作业上，你将被要求<strong>引用你咨询的来源</strong>，类似于研究论文。（虽然不那么正式。）代码就像写作和想法，它从许多先前的例子和想法中构建而来，我们应该引用它们。</p>
+
+<p>通常，你应该<em>尽量减少</em>在作业中使用 AI 工具，并且只将它们用于一般概念性帮助。避免从互联网或 AI 工具复制粘贴代码片段。虽然打字本身不是学习，但调试和理解代码的过程是，重要的是<em>放慢速度</em><em>思考</em>代码在做什么，这是需要培养的关键技能。</p>
+
+
+<h3 id="some-examples-of-acceptable-use-of-ai-tools">AI工具可接受使用的一些示例</h3>
+
+
+<p>你可以做一些事情，或向 AI 工具寻求帮助：</p>
+
+<ul>
+  <li>请求解释概念</li>
+  <li>请求语法示例</li>
+  <li>请求解释错误消息的含义<em>以便你可以自己调试代码</em></li>
+</ul>
+
+
+<h3 id="some-examples-of-unacceptable-use-of-ai-tools">AI工具不可接受使用的一些示例</h3>
+
+
+<p>你不能做一些事情，或向 AI 工具寻求帮助：</p>
+
+<ul>
+  <li>作业上的自动完成代码建议</li>
+  <li>请求具体作业问题的帮助</li>
+  <li>请求作业的代码片段（或完整解答）</li>
+  <li>请求它为你执行整个调试代码的过程（例如，测试失败所以你将代码复制并粘贴到 ChatGPT 中并要求它找出问题）</li>
+</ul>
+
+
+<h3 id="recommendations">建议</h3>
+
+
+<p>尝试一些这些提示：</p>
+
+<ul>
+  <li>"我正在学习 [主题]。你能在 Python 中给我展示一个 [概念] 的示例吗？"</li>
+  <li>"[概念 A] 和 [概念 B] 之间的权衡是什么？"</li>
+  <li>"你能解释这个错误消息的含义吗：[错误消息]？我在哪里可以了解更多关于它的信息？"</li>
+  <li>"请提供关于 [主题] 的文档链接。"</li>
+</ul>
+
+
+<h2 id="exams">考试</h2>
+
+
+<p>将有两场（主要）考试：</p>
+
+<ul>
+  <li>期中考试将于 7/13 周一 7pm-9pm 举行。</li>
+  <li>期末考试将于 8/11 周二 7pm-10pm 举行。</li>
+</ul>
+
+<p>考试将在校园内各教室现场纸质进行。</p>
+
+<p>有任何一场考试有时间冲突（例如，注册了另一门有冲突考试时间的课程）的学生可以参加补考：</p>
+
+<ul>
+  <li>补考期中考试将于 7/14 周二 8am-10am 举行。</li>
+  <li>补考期末考试将于 8/12 周三 8am-11am 举行。</li>
+</ul>
+
+<p>我们将在每场考试前在 Ed 上发布通知，告知无法参加考试的学生。</p>
+
+<p>考试学习指南：</p>
+
+<ul>
+  <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中</a></li>
+  <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末</a>（一些补充即将发布）</li>
+</ul>
+
+
+<h3 id="quizzes">测验</h3>
+
+
+<p>将有 5 次每周测验（在第 1 周、第 4 周（期中）和第 8 周（期末考试）以外的其他周）。测验将在<a href="https://rtl.berkeley.edu/services-programs/computer-based-testing-facility-cbtf">计算机基于测试设施 (CBTF)</a>中进行，时长 50 分钟。每次测验前 1 周，你将能够在下周一或周二预约 CBTF 时段，以最适合你的日程安排。</p>
+
+
+<h3 id="excused-exams-amp-incompletes">豁免考试与未完成</h3>
+
+
+<p>如果你无法参加测验或期中考试，请在<strong>考试前</strong发送电子邮件至 <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a> 说明你的情况。因批准原因无法参加测验或期中考试的学生可能会被<em>豁免</em>该考试。可能批准的原因包括：疾病、医疗并发症和课程冲突。请注意，学生只能被豁免<strong>一次</strong>测验。</p>
+
+<p>如果被豁免测验或期中考试，他们的考试分数将在课程结束时通过回归估算。我们将使用你的其他测验分数来计算回归后的测验分数，并使用期末考试来计算回归后的期中分数。这将以不会平均帮助或伤害你的最终成绩并且考虑考试难度的变化性的方式完成。</p>
+
+<p><strong>学生不能被豁免期末考试</strong>。但是，因批准原因<strong>并且</strong>已完成课程作业的学生可以通过发送电子邮件至 <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a> 申请<strong><em>未完成</em></strong>。收到未完成成绩的学生可以通过参加未来 CS 61A 课程的期末考试来完成课程。</p>
+
+
+<h2 id="accommodations-dsp-and-otherwise">合理便利（DSP 及其他）</h2>
+
+
+<p>我们将为所有注册了伯克利<a href="https://dsp.berkeley.edu/">残疾学生项目 (DSP)</a>的学生提供合理的便利。为确保你获得适当的便利，请让你的 DSP 专家提交确认你的状态和便利的信件。</p>
+
+<p>如果你没有注册 DSP，或正在 DSP 的入职过程中，你仍然可能有资格获得便利（例如考试时间延长或截止日期延长）。如果在学期中出现严重情有可原的情况，你也可能有资格获得便利。如果你认为可能需要便利，请发送电子邮件至 <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a>。</p>
+
+<p><strong>重要提示</strong>：如果你有涉及考试的便利，请尽快确保向伯克利的系统提交信件，以便我们可以为你的便利做计划。我们无法总是在短时间内满足便利请求。</p>
+
+
+<h3 id="assignment-extensions">Assignment Extensions</h3>
+
+
+<p>If you need to request an extension, regardless of your DSP status, fill out
+<a href="https://go.cs61a.org/extensions">this form</a> <strong>before the original deadline</strong>. Submissions to this
+form will be visible to all course staff members, but if you have extenuating circumstances that
+you would like to keep private, please email <a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a>
+(see <a href="#privacy">Privacy</a>).</p>
+
+<!-- Any extension request up to 24 hours will be approved as long as it is submitted before the original deadline of the assignment.  Any extension request
+up to 3 days made by a student with a DSP accommodation for assignment
+extensions will be approved as long as it is submitted before the original deadline of the assignment. Any longer extensions require a strong
+justification and will be considered on a case-by-case basis. -->
+
+<p>All extensions will be considered on a case-by-case basis. There will <em>never</em> be a penalty for
+requesting an extension.</p>
+
+
+<h3 id="joining-cs-61a-late">Joining CS 61A Late</h3>
+
+
+<p>Work submitted late will not receive credit, even if it is from a student who
+joined the course late. However, it is possible to submit assignments if you
+are not enrolled. Therefore, if you would like to take the course but are
+having enrollment issues, please submit all assignments by their due date.</p>
+
+<p>To request to be added to course platforms so that you can submit, email
+<a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a>.</p>
+
+
+<h3 id="privacy">Privacy</h3>
+
+
+<p>All DSP and accommodations-related materials for this course are kept in a
+repository separate from the rest of the course materials that is visible only
+to the instructors, selected staff, and staff course managers.</p>
+
+<p>For any DSP and accommodations-related communications, please reach out to
+<a href="mailto:cs61a@berkeley.edu">cs61a@berkeley.edu</a>, which will put you in touch
+with our student support team. This inbox is only visible to staff members marked with
+"@" on the <a href="../../staff/index.html">staff page</a>. This inbox will be visible to future
+members of course staff, so if you ever have a communication that you wish to
+remain private, let us know and we can delete the email exchange once the
+conversation is resolved.</p>
+
+
+<h2 id="resources">Resources</h2>
+
+
+
+<h3 id="technology">Technology</h3>
+
+
+<p>You will need a computer and internet to write code in this class. Professor Lisa Yan wrote a
+<a href="https://docs.google.com/document/d/1avUDkT5yvW_XycvVYP9LevJP791a9CdxuCAzQB1tYfc/edit?usp=sharing">helpful guide</a>
+about purchasing a laptop for use as a student at UC Berkeley. As mentioned in that guide, the
+<a href="https://studenttech.berkeley.edu/step">Student Technology Equity Program</a> provides free laptop
+loans for students.</p>
+
+
+<h3 id="textbook">Textbook</h3>
+
+
+<p>The online textbook for the course is
+<a href="https://www.composingprograms.com/">Composing Programs</a>, which was created
+specifically for this course, based on the classic textbook
+<a href="https://mitpress.mit.edu/sites/default/files/sicp/index.html">Structure and Interpretation of Computer Programs</a>.
+Readings for each lecture appear in the course schedule. We recommend that you
+complete the readings before attending lecture.</p>
+
+<p>Past exams appear on the <a href="../../resources/index.html">Resources</a> page.</p>
+
+
+<h2 id="grading">Grading</h2>
+
+
+<p>Your course grade is computed using a point system with a total of 300 points,
+broken down as follows:</p>
+
+<table border="1" cellpadding="5" cellspacing="0" class="table table-striped">
+    <thead>
+        <tr>
+            <th width="25ch">Category</th>
+            <th width="12ch">Num Graded</th>
+            <th width="20ch">Points per Unit</th>
+            <th width="12ch">Total Points</th>
+            <th width="12ch">% of Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Quizzes</td>
+            <td>5</td>
+            <td>12</td>
+            <td>60</td>
+            <td>20.00%</td>
+        </tr>
+        <tr>
+            <td>Midterm</td>
+            <td>1</td>
+            <td>60</td>
+            <td>60</td>
+            <td>20.00%</td>
+        </tr>
+        <tr>
+            <td>Final</td>
+            <td>1</td>
+            <td>80</td>
+            <td>80</td>
+            <td>26.67%</td>
+        </tr>
+        <tr>
+            <td>Projects</td>
+            <td>4</td>
+            <td><ul><li>Hog: 10</li><li>Cats: 10</li><li>Ants: 20</li><li>Scheme: 20</li></ul></td>
+            <td>60</td>
+            <td>20.00%</td>
+        </tr>
+        <tr>
+            <td>Homework</td>
+            <td>7</td>
+            <td>2</td>
+            <td>14</td>
+            <td>4.67%</td>
+        </tr>
+        <tr>
+            <td>Lab (Assignment and Attendance)</td>
+            <td>12</td>
+            <td>1</td>
+            <td>12</td>
+            <td>4.00%</td>
+        </tr>
+        <tr>
+            <td>Discussion Attendance</td>
+            <td>12</td>
+            <td>1</td>
+            <td>12</td>
+            <td>4.00%</td>
+        </tr>
+        <tr>
+            <td>Surveys</td>
+            <td>2</td>
+            <td>1</td>
+            <td>2</td>
+            <td>0.67%</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right;"><strong>Total Points</strong></td>
+            <td><strong>300</strong></td>
+            <td><strong>100.00%</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>See <a href="#section">Section</a> about Lab and Discussion 0.</p>
+
+<p>There are also 4 extra credit points available to everyone for early submission of
+projects.</p>
+
+<p>Each letter grade for the course corresponds to a range of scores:</p>
+
+<pre><code>             A  ≥ 285    A&#x2d;  ≥ 270
+B+  ≥ 255    B  ≥ 230    B&#x2d;  ≥ 210
+C+  ≥ 190    C  ≥ 180    C&#x2d;  ≥ 175
+D+  ≥ 170    D  ≥ 165    D&#x2d;  ≥ 160</code></pre>
+
+<p>Your final score will be rounded to the nearest integer before being converted
+to a letter grade. 0.5 rounds up to 1, but 0.49 rounds down to 0.</p>
+
+<p>A+ 成绩将由讲师自行决定分配。</p>
+
+<p>没有曲线；你的成绩将只取决于你做得如何，而不是其他所有人做得如何。分数阈值基于学生在之前学期的表现。阈值通常不会根据学生表现进行调整，也永远不会提高。</p>
+
+<p>在典型的学期中，50-60% 修读该课程以获得字母成绩的学生将获得 B+ 或更高。</p>
+
+<p>许多学生以完美的家庭作业、项目、实验和讨论分数结束课程。这些课程部分不是为了评估，而是学习工具。</p>
+
+
+<h3 id="exam-recovery">考试恢复</h3>
+
+
+<p>可以通过在期末考试中表现出改进来恢复期中考试中失去的分数。你每次考试的成绩（占总分的百分比）将<strong>至少是</strong>你期末考试成绩的 90%。例如，一个在期中考试中得 10/60 分，但在期末考试中得 60/80 (75%) 的学生将获得调整后的期中考试分数 75% * 90% = 40.5/60 分，因此除了已经得到的 10 个期中考试分数外，还将恢复 30.5 个期中考试分数。</p>
+
+<p><strong>考试恢复仅适用于在期末考试时间周内参加期末考试的学生。</strong>收到未完成成绩的学生没有资格获得考试恢复。</p>
+
+
+<h3 id="late-policy">迟到政策</h3>
+
+
+<p>如果你无法按时提交作业，<a href="#assignment-extensions">你可以申请延期</a>。对于超过延期截止日期的迟到工作：</p>
+
+<ul>
+  <li><strong>实验</strong> 不获得学分。</li>
+  <li><strong>家庭作业</strong> 不获得学分。</li>
+  <li><strong>项目</strong>：截止日期后 48 小时内提交将获得所得分数的 75%。截止日期后 48 小时或更长时间提交将不获得学分。</li>
+</ul>
+
+
+<h3 id="citizenship">公民身份</h3>
+
+
+<p>我们期望所有与课程工作人员和其他学生的互动都将表现出对他人适当的尊重、考虑和同情。请记住要友好和体贴；我们的社区汲取了宝贵经验的广泛范围。如需进一步阅读，请参考<a href="https://diversity.berkeley.edu/principles-community">伯克利社区原则</a>和<a href="https://conduct.berkeley.edu/code-of-conduct/">伯克利校园学生行为准则</a>。</p>
+
+<p>对于对课程工作人员或其他学生异常粗鲁或不尊重的行为，你的最终成绩将被课程讲师酌情降低至多一个完整的字母等级（例如，从 A- 到 B-）。如果你以哪怕最低限度的尊重和考虑对待他人，并且不参与主动伤害他人的行为，你不需要担心此政策。</p>
+
+
+<h2 id="learning-cooperatively">合作学习</h2>
+
+
+<p>除了考试这一明显的例外，我们鼓励你在做课程活动时与朋友和同学讨论。如果你与他人一起工作，你将在本课程中学到更多。随意提问、回答问题和分享想法。</p>
+
+<p>合作学习不同于分享答案。你不应该向其他学生展示你的代码或查看其他人的代码，除了：</p>
+
+<ul>
+  <li>在实验期间，你可以随意分享，只要你们都在学习。</li>
+  <li>对于允许伙伴的项目，你可以与你的伙伴分享任何内容。</li>
+  <li>如果你已经完成了一个问题，你可以查看其他人的代码来帮助他们完成。</li>
+</ul>
+
+<p>如果你在帮助另一个学生，不要只是告诉他们答案；他们将学到很少并且在考试中遇到麻烦。相反，尝试通过思考例子来引导他们自己发现解决方案。解决问题练习对计算机科学的进步至关重要。</p>
+
+<p>由于你是合作工作的，请让你的项目伙伴了解情况。如果某些医疗或个人紧急情况使你长时间离开课程，或者如果你因任何原因决定退出课程，请不要把就悄悄消失！你应该通知你的项目伙伴，这样就没有人依赖你做你无法完成的事情。</p>
+
+
+<h3 id="academic-misconduct">学术不端</h3>
+
+
+<p>任何被发现在考试中合作的学生将在课程中获得 F。请不要成为这些学生之一。</p>
+
+<p>在你自己解决作业之前阅读他人的家庭作业或项目解答将会招致分数惩罚。你可以事先与他人讨论问题，但你必须写下你自己的解答。此规则的例外是你可以与你的项目伙伴共享代码。</p>
+
+<p>以下是你不应该做的事情的列表。此列表并非详尽无遗，但涵盖了大多数重大违规：</p>
+
+<ul>
+  <li>不要从任何不是你的伙伴的学生那里复制代码。</li>
+  <li>不要允许除了你的伙伴之外的任何学生从你那里复制代码。</li>
+  <li>不要使用人工智能工具，如 GitHub Copilot、ChatGPT、Claude Code、Codex、Cursor 等来填写或更正你的代码。</li>
+  <li>不要从在线来源复制解答，如 Stack Overflow、Pastebin 和 GitHub 上的公共存储库。</li>
+  <li>在你完成作业之前，不要阅读他人对作业的解答</li>
+  <li>在学期期间或之后不要公开发布你的解答。</li>
+</ul>
+
+<p>如果你在网上找到解答，请<a href="https://go.cs61a.org/report-solutions">匿名提交该解答的链接</a>。当我们找到在线解答时，我们要求作者删除它。我们还记录解答并用它来检查抄袭。通过报告在线解答，你帮助保持课程对每个人的公平。</p>
+
+<p>总之，我们期望你交上你自己的作品，参加你自己的考试，并完成由你和你的伙伴编写的代码的项目。</p>
+
+<p>与其复制别人的作品，不如寻求帮助。你在这门课程中并不孤单！整个工作人员都在这里帮助你成功。如果你投入时间学习材料并完成项目，你将不需要复制任何答案。</p>
+
+
+<h2 id="a-parting-thought">临别思考</h2>
+
+
+<p>成绩和惩罚不是本课程的目的。我们真的只是希望你学习。整个工作人员非常兴奋能在本学期教授 CS 61A，我们期待见到如此庞大和热情的学生群体。我们希望你们所有人都能在这里取得成功。欢迎来到 CS 61A！</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#overview">概述</a></li>
+  <ul>
+    <li><a href="#prerequisites">先修课程</a></li>
+    <li><a href="#bridge-courses">桥梁课程</a></li>
+    <li><a href="#alternative-courses">替代课程</a></li>
+  </ul>
+  <li><a href="#course-format">课程形式</a></li>
+  <ul>
+    <li><a href="#lectures-amp-videos">讲座与视频</a></li>
+    <li><a href="#section">讨论课</a></li>
+    <ul>
+      <li><a href="#lab">实验</a></li>
+      <li><a href="#discussion">讨论</a></li>
+    </ul>
+    <li><a href="#office-hours">答疑时间</a></li>
+  </ul>
+  <li><a href="#assignments">作业</a></li>
+  <ul>
+    <li><a href="#homework">家庭作业</a></li>
+    <li><a href="#projects">项目</a></li>
+  </ul>
+  <li><a href="#ai-tools-and-the-internet">AI工具与互联网</a></li>
+  <ul>
+    <li><a href="#some-examples-of-acceptable-use-of-ai-tools">AI工具可接受使用的一些示例</a></li>
+    <li><a href="#some-examples-of-unacceptable-use-of-ai-tools">AI工具不可接受使用的一些示例</a></li>
+    <li><a href="#recommendations">建议</a></li>
+  </ul>
+  <li><a href="#exams">考试</a></li>
+  <ul>
+    <li><a href="#quizzes">测验</a></li>
+    <li><a href="#excused-exams-amp-incompletes">豁免考试与未完成</a></li>
+  </ul>
+  <li><a href="#accommodations-dsp-and-otherwise">合理便利（DSP 及其他）</a></li>
+  <ul>
+    <li><a href="#assignment-extensions">作业延期</a></li>
+    <li><a href="#joining-cs-61a-late">延迟加入 CS 61A</a></li>
+    <li><a href="#privacy">隐私</a></li>
+  </ul>
+  <li><a href="#resources">资源</a></li>
+  <ul>
+    <li><a href="#technology">技术</a></li>
+    <li><a href="#textbook">教材</a></li>
+  </ul>
+  <li><a href="#grading">评分</a></li>
+  <ul>
+    <li><a href="#exam-recovery">考试恢复</a></li>
+    <li><a href="#late-policy">迟到政策</a></li>
+    <li><a href="#citizenship">公民身份</a></li>
+  </ul>
+  <li><a href="#learning-cooperatively">合作学习</a></li>
+  <ul>
+    <li><a href="#academic-misconduct">学术不端</a></li>
+  </ul>
+  <li><a href="#a-parting-thought">临别思考</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

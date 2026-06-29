@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   Debugging Guide | CS 61B Spring 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="调试指南" property="og:title">
+  <meta content="Anjali Kantharuban" name="author">
+  <meta content="en_US" property="og:locale">
+  <meta content="Debugging Guide" name="description">
+  <meta content="调试指南" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/debugging/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="调试指南" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Anjali Kantharuban"},"description":"Debugging Guide","headline":"Debugging Guide","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Anjali Kantharuban"},"url":"https://sp24.datastructur.es/resources/guides/debugging/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     Link
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       Course Info
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       教师团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02: 调试 (部分 1)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03: 调试 (部分 2)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析 题目 解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A: Java Syntax
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           Coverage Tests - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           Coverage Tests - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../ed/index.html">
+           Ed 课程政策 and Guidelines
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../ed/ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../soda-machines/index.html">
+           Using the Soda 实验 Machines
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    Th是 site uses
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    , a documentation theme for Jekyll.
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="Search CS 61B Spring 2024" autocomplete="off" class="search-input" id="search-input" placeholder="Search CS 61B Spring 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href>
+        Guides
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        调试指南
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        调试指南
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#a-what-is-debugging">
+           A. 什么是 调试?
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#b-why-should-i-learn-to-debug">
+           B. Why Should I Learn to Debug?
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#c-can-i-use-print-statements-instead">
+           C. 我能否 Use 打印 Statements Instead?
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#d-understanding-the-stack-trace">
+           D. Understanding The 栈跟踪
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#e-what-does-this-error-mean">
+           E. What Does Th是 错误 Mean
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#f-stepping-through-with-the-debugger">
+           F. Stepping Through With the Debugger
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#g-more-resources">
+           G. More 资源
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       调试指南
+      </h1>
+      <div class="due-date">
+       Author: Anjali Kantharuban
+      </div>
+      <h2 id="a-what-is-debugging">
+       <a aria-labelledby="a-what-is-debugging" class="anchor-heading" href="#a-what-is-debugging">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       A. 什么是调试？
+      </h2>
+      <p>
+       当您编写大量代码时，就像您在这门课程中所做的那样，您会遇到各种类型的错误。其中一些错误（如语法错误）很容易 catch，因为编译器会准确地告诉您它们在哪里。不幸的是，代码逻辑中的错误就没那么简单了。它们不太可能被系统 catch，因为通常您的代码可以编译，只是返回了错误的值。IntelliJ（和大多数其他 IDE）提供了一系列工具，可以帮助您追踪代码并准确找出不一致发生的位置。
+      </p>
+      <h2 id="b-why-should-i-learn-to-debug">
+       <a aria-labelledby="b-why-should-i-learn-to-debug" class="anchor-heading" href="#b-why-should-i-learn-to-debug">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       B. 为什么我应该学习调试？
+      </h2>
+      <p>
+       调试能力是作为程序员非常重要的一部分&mdash;&mdash;无论您多么聪明，如果您花了很长时间才找出代码哪里出问题了，那么完成项目也需要很长时间。每个程序员都需要知道如何有效地进行调试。在本课程的范围内，学会自己调试可以节省您在办公时间等待 TA 帮助的时间。考虑到这一点，这份速查表将为您提供调试各种类型错误所需的所有工具！
+      </p>
+      <h2 id="c-can-i-use-print-statements-instead">
+       <a aria-labelledby="c-can-i-use-print-statements-instead" class="anchor-heading" href="#c-can-i-use-print-statements-instead">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       C. 我可以使用打印语句代替吗？
+      </h2>
+      <p>
+       技术上，是的。有时候打印语句更有效，比如当您只需要在代码的相当孤立的部分中追踪一个变量时。您可以先使用打印语句进行调试，然后在 5 分钟后仍然努力寻找 bug 的情况下使用调试器。这里的警告是，如果您来到办公时间而没有逐步检查过您的代码，我们会将您指向本指南而不是为您查找 bug。
+      </p>
+      <h2 id="d-understanding-the-stack-trace">
+       <a aria-labelledby="d-understanding-the-stack-trace" class="anchor-heading" href="#d-understanding-the-stack-trace">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       D. 理解堆栈跟踪
+      </h2>
+      <p>
+       <img alt="Sample 栈跟踪" src="img/debugging-stack-trace.png">
+      </p>
+      <p>
+       当您看到这样的异常时，这意味着您的计算机在运行程序时 catch 到了一个错误。为了提供帮助，在退出之前，它会告诉您所需的所有信息，以找出错误发生的位置。第一行遵循以下格式：
+      </p>
+      <div class="language-sh highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="o">[</span>哪个线程出错了] <span class="o">[</span>发生了什么错误] <span class="o">[</span>关于错误的更多信息]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们关注的是最后两个部分。在这种情况下，看起来是这样的：
+      </p>
+      <div class="language-sh highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>Exception <span class="k">in </span>thread "main" java.lang.ArrayIndexOutOfBoundException: Index 5 out of bounds <span class="k">for </span>length 5
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这给了您两条信息：
+      </p>
+      <ol>
+       <li>
+        <p>
+         该错误是一个
+         <em>
+          数组索引越界异常
+         </em>
+         。
+        </p>
+       </li>
+       <li>
+        <p>
+         我们试图访问一个长度为 5 的数组中的第 5 项。
+        </p>
+       </li>
+      </ol>
+      <p>
+       这告诉您发生了什么，但不告诉您发生在哪里。这就是堆栈跟踪有用的地方。标题下的三行（或无论多少行）描述了计算机在代码中出错时的位置。顶部跟踪线是计算机在崩溃时正在执行的内容，列表描述了函数之间相互调用的相反顺序。在这里，我们看到我们的
+       <code class="language-plaintext highlighter-rouge">
+        main
+       </code>
+       函数在第 6 行调用了
+       <code class="language-plaintext highlighter-rouge">
+        make2DArray
+       </code>
+       。然后，
+       <code class="language-plaintext highlighter-rouge">
+        make2DArray
+       </code>
+       在第 14 行调用了
+       <code class="language-plaintext highlighter-rouge">
+        makeArray
+       </code>
+       。最后，代码在
+       <code class="language-plaintext highlighter-rouge">
+        makeArray
+       </code>
+       的第 23 行出错。点击蓝色链接会跳转到代码的该部分，因此您不必花时间滚动。知道这一点后，您可以开始调试导致错误的特定调用序列。
+      </p>
+      <h2 id="e-what-does-this-error-mean">
+       <a aria-labelledby="e-what-does-this-error-mean" class="anchor-heading" href="#e-what-does-this-error-mean">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       E. 这个错误是什么意思
+      </h2>
+      <p>
+       也许您已经阅读了堆栈跟踪，但您不理解这个错误是什么意思。在大多数情况下，Java 错误的命名方式是即使没有先验知识也能理解的，但万一您遇到不认识的内容，这里有一份速查表：
+      </p>
+      <div class="table-wrapper">
+       <table>
+        <thead>
+         <tr>
+          <th>
+           错误
+          </th>
+          <th>
+           通常意味着什么
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>
+           ___ expected
+          </td>
+          <td>
+           解析器无法理解这一行，因为有一个它不理解的字符或缺少一个字符。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           cannot find ___
+          </td>
+          <td>
+           您正在调用一个计算机无法访问的方法或类。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Illegal start of expression
+          </td>
+          <td>
+           您在这一行之前的某个地方缺少了一个右大括号。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Illegal start of type
+          </td>
+          <td>
+           您在函数体外写了不应该在那里的代码。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Incompatible types &ndash; expected ___
+          </td>
+          <td>
+           您正在尝试将某些东西分配给一个类型不同的变量。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Missing method body
+          </td>
+          <td>
+           您的函数声明行有一个分号。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Missing return statement
+          </td>
+          <td>
+           您应该在这个方法中返回某些东西，但没有。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Non-static method cannot be called from a static context
+          </td>
+          <td>
+           您在类本身上调用了一个方法，而不是在类的一个实例上。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           *程序冻结*
+          </td>
+          <td>
+           您可能陷入了某种逻辑循环。
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="f-stepping-through-with-the-debugger">
+       <a aria-labelledby="f-stepping-through-with-the-debugger" class="anchor-heading" href="#f-stepping-through-with-the-debugger">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       F. 使用调试器逐步执行
+      </h2>
+      <h4 id="running-code-through-intellij">
+       <a aria-labelledby="running-code-through-intellij" class="anchor-heading" href="#running-code-through-intellij">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       通过 IntelliJ 运行代码
+      </h4>
+      <p>
+       <img alt="Run 菜单" src="img/debugging-edit-configurations.png">
+      </p>
+      <p>
+       要使用调试器，您需要通过 IntelliJ 而不是控制台运行代码。
+      </p>
+      <ol>
+       <li>
+        <p>
+         从主菜单，转到运行 &gt; 编辑配置。
+        </p>
+       </li>
+       <li>
+        <p>
+         在与序参数字段中输入程序的任何参数。如果您要在控制台中运行，这就是您要传入命令行。
+        </p>
+       </li>
+       <li>
+        要运行调试器，请点击运行 &gt; 调试，或右键点击
+       </li>
+       <li>
+        函数旁边的绿色箭头并选择调试。
+       </li>
+      </ol>
+      <h4 id="setting-breakpoints">
+       <a aria-labelledby="setting-breakpoints" class="anchor-heading" href="#setting-breakpoints">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设置断点
+      </h4>
+      <p>
+       要检查代码在运行时的操作方式，我们设置
+       <em>
+        断点
+       </em>
+       。断点会在您设置的行暂停您的代码，这样您就可以看到错误发生位置周围所有变量的状态。要设置断点，请点击行号和代码之间的空间：
+      </p>
+      <p>
+       <img alt="Normal 断点" src="img/debugging-normal-breakpoint.png">
+      </p>
+      <p>
+       这种断点只会在您的计算机第一次遇到这一行时暂停代码。如果您遇到的情况是错误仅在变量设置为某个值时发生，您可以设置一个
+       <em>
+        条件断点
+       </em>
+       。
+      </p>
+      <p>
+       <img alt="Conditional 断点" src="img/debugging-conditional-breakpoint.png">
+      </p>
+      <p>
+       要做到这一点，请设置一个普通断点，然后右键点击出现的红色圆圈。现在，您可以在给定字段中设置断点条件。您的条件可以是任何在该点代码中能编译的 True/False 语句。这意味着您必须使用当前帧中已存在的变量，但它们不一定需要在当前行中引用。
+      </p>
+      <h4 id="stepping-through-code">
+       <a aria-labelledby="stepping-through-code" class="anchor-heading" href="#stepping-through-code">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       逐步执行代码
+      </h4>
+      <h6 id="top-toolbar">
+       <a aria-labelledby="top-toolbar" class="anchor-heading" href="#top-toolbar">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       顶部工具栏
+      </h6>
+      <p>
+       <img alt="Top Toolbar" src="img/debugging-top-toolbar.png">
+      </p>
+      <p>
+       要逐步执行代码，您需要了解调试视图顶部的工具栏。要查看它们的名称，请将鼠标悬停在图标上。从左到右，它们是：
+      </p>
+      <div class="table-wrapper">
+       <table>
+        <thead>
+         <tr>
+          <th>
+           按钮
+          </th>
+          <th>
+           它的作用
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>
+           步骤 Over
+          </td>
+          <td>
+           这允许您执行当前代码行并移动到该帧中的下一行。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           步骤 Into
+          </td>
+          <td>
+           这允许您进入当前行中任何函数调用，前提是这些函数是您自己的。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Force 步骤 Into
+          </td>
+          <td>
+           这允许您进入当前行中任何函数调用，即使它们来自某个第三方库。您不需要这样做。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           步骤 Out
+          </td>
+          <td>
+           如果您在函数或循环中，这允许您跳过帧的其余部分，从根本上将您带到调用此函数的地方。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Drop Frame
+          </td>
+          <td>
+           这允许您通过返回到调用它的上一个帧来重置当前帧。如果您错过了试图查看的函数部分，这很有用，因为这基本上可以让您回滚时间。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Run to Cursor
+          </td>
+          <td>
+           如果您在调试模式下运行，您可以通过点击运行到光标来快速跳转到代码中您感兴趣的区域。这将表现得好像在光标所在的任何位置设置了一个临时断点。
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h6 id="left-toolbar">
+       <a aria-labelledby="left-toolbar" class="anchor-heading" href="#left-toolbar">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       左侧工具栏
+      </h6>
+      <p>
+       <img alt="Left Toolbar" src="img/debugging-left-toolbar.png">
+      </p>
+      <p>
+       调试菜单的左侧还有第二个工具栏。此菜单用于更常规的操作。从上到下它们是：
+      </p>
+      <div class="table-wrapper">
+       <table>
+        <thead>
+         <tr>
+          <th>
+           按钮
+          </th>
+          <th>
+           它的作用
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>
+           Rerun
+          </td>
+          <td>
+           使用与当前运行相同的设置重新运行调试器。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Resume Program
+          </td>
+          <td>
+           继续程序直到遇到下一个断点。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Pause Program
+          </td>
+          <td>
+           如果您的程序看起来要冻结了，请在无断点的情况下以调试模式运行它，然后在程序冻结时点击暂停。它最有可能在导致冻结的任何逻辑循环中暂停。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Stop Program
+          </td>
+          <td>
+           如果您完成调试了，可以点击此按钮提前结束程序。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           查看 Breakpoints
+          </td>
+          <td>
+           这会打开一个显示您所有当前断点的窗口。在这里，您可以编辑它们的设置并切换它们的开/关状态。
+          </td>
+         </tr>
+         <tr>
+          <td>
+           Mute Breakpoints
+          </td>
+          <td>
+           切换所有断点的开/关状态。
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="analyzing-the-current-state">
+       <a aria-labelledby="analyzing-the-current-state" class="anchor-heading" href="#analyzing-the-current-state">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       分析当前状态
+      </h4>
+      <p>
+       在调试模式下，您可以通过两个地方获取有关程序状态的信息。
+      </p>
+      <h6 id="debug-view">
+       <a aria-labelledby="debug-view" class="anchor-heading" href="#debug-view">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试视图
+      </h6>
+      <p>
+       <img alt="Debug 查看" src="img/debugging-debug-view.png">
+       首先，在调试视图中有两列：
+      </p>
+      <ol>
+       <li>
+        <p>
+         第一列显示到目前为止的堆栈跟踪。每一行描述一个帧，从最窄到最宽的顺序。帧的名称首先出现，指的是被调用的函数的名称。然后，我们看到该帧当前所在的行号。在这个例子中，
+         <code class="language-plaintext highlighter-rouge">
+          make2DArray
+         </code>
+         在第 14 行调用了
+         <code class="language-plaintext highlighter-rouge">
+          makeArray
+         </code>
+         ，所以它停留在该行直到
+         <code class="language-plaintext highlighter-rouge">
+          makeArray
+         </code>
+         完成运行。
+        </p>
+       </li>
+       <li>
+        <p>
+         第二列列出当前帧中的所有变量，包括任何全局变量。您看不到不在当前帧中的变量。在这里您可以看到它们在当前行上的值。
+        </p>
+       </li>
+      </ol>
+      <p>
+       如果您想要的信息不仅仅是每个变量的值，工具栏中有一个叫做
+       <em>
+        计算表达式
+       </em>
+       的按钮。按下这允许您基本上即时地向程序插入行。
+      </p>
+      <p>
+       <img alt="Evaluate Expression" src="img/debugging-evaluate-expression.png">
+      </p>
+      <p>
+       例如，在这里我们插入了表达式
+       <code class="language-plaintext highlighter-rouge">
+        arr[i] = 1000
+       </code>
+       并点击了
+       <em>
+        计算
+       </em>
+       ，这反映在
+       <em>
+        结果面板
+       </em>
+       和
+       <em>
+        变量面板
+       </em>
+       中。从本质上讲，就好像我们在
+       <code class="language-plaintext highlighter-rouge">
+        arr[i] = makeItem(i)
+       </code>
+       之前插入了行
+       <code class="language-plaintext highlighter-rouge">
+        arr[i] = 1000
+       </code>
+       。此功能的一个很好的用途是通过计算 a == b 来确保代码中的两个对象相等（而不是同一类的两个实例），这仅从变量面板可能很难判断。这样做的好处是不会更改代码中的任何值，因此您不必担心意外修改您试图观察的行为。
+      </p>
+      <h6 id="code-view">
+       <a aria-labelledby="code-view" class="anchor-heading" href="#code-view">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       代码视图
+      </h6>
+      <p>
+       获取信息的第二个地方是在代码本身上。
+      </p>
+      <p>
+       <img alt="Code 查看" src="img/debugging-code-state.png">
+      </p>
+      <p>
+       在调试模式下，IntelliJ 会在每一行代码旁边的行显示该行中引用的每个变量的值。此外，它还会突出显示最近更改的任何变量的值。
+      </p>
+      <h2 id="g-more-resources">
+       <a aria-labelledby="g-more-resources" class="anchor-heading" href="#g-more-resources">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       G. 更多资源
+      </h2>
+      <p>
+       如果您想了解更多关于使用 IntelliJ 调试器的详细信息，JetBrains 有一些指南：
+      </p>
+      <ol>
+       <li>
+        <p>
+         <a href="https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html">
+          调试您的第一个应用程序
+         </a>
+        </p>
+       </li>
+       <li>
+        <p>
+         <a href="https://www.jetbrains.com/help/idea/using-breakpoints.html">
+          设置断点
+         </a>
+        </p>
+       </li>
+       <li>
+        <p>
+         <a href="https://www.jetbrains.com/help/idea/stepping-through-the-program.html">
+          逐步执行程序
+         </a>
+        </p>
+       </li>
+      </ol>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

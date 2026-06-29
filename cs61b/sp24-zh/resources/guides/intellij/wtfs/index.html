@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   IntelliJ 常见问题 | CS 61B 2024年春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="IntelliJ 常见问题" property="og:title">
+  <meta content="Brandon Lee, Omar Khan" name="author">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="IntelliJ常见技术故障场景" name="description">
+  <meta content="IntelliJ常见技术故障场景" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/intellij/wtfs/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="IntelliJ 常见问题" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Brandon Lee, Omar Khan"},"description":"IntelliJ常见技术故障场景","headline":"IntelliJ 常见问题","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Brandon Lee, Omar Khan"},"url":"https://sp24.datastructur.es/resources/guides/intellij/wtfs/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     (外部链接)
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab06/asymptotics-soln/index.html">
+           渐近问题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab09/index.html">
+         实验 09：生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../homeworks/hw2/index.html">
+         作业 2：渗流
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw2/faq/index.html">
+           作业 2：渗流常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗流"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../../index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../beacon/index.html">
+           Beacon 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../ed/index.html">
+           Ed 政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link" href="../index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item active">
+            <a class="nav-list-link active" href="index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../../summer/index.html">
+       2024年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个适用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑排队
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        指南
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        IntelliJ
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        IntelliJ 常见问题
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        IntelliJ 常见问题
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#i-cant-run-my-java-filefiles-dont-show-up-as-java-files">
+           无法运行Java文件/文件不显示为Java文件
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#junit-things-show-up-as-red-in-intellij">
+           JUnit相关内容在IntelliJ中显示为红色
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#package-orgjunit-does-not-exist">
+           package org.junit does not exist
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#output-path-is-not-specified">
+           未指定输出路径
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#everything-looks-right-but-it-still-doesnt-work">
+           一切看起来正常但仍然不工作！
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#everything-looks-wrong-and-nothing-works">
+           一切看起来都不对劲，什么都不工作！
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       IntelliJ 常见问题
+      </h1>
+      <div class="due-date">
+       作者：Brandon Lee, Omar Khan
+      </div>
+      <p>
+       本文档旨在帮助您解决在 IntelliJ 中经常遇到的奇怪技术故障场景（WTFS）。随着问题的出现，本文档将不断补充内容。
+      </p>
+      <h2 id="i-cant-run-my-java-filefiles-dont-show-up-as-java-files">
+       <a aria-labelledby="i-cant-run-my-java-filefiles-dont-show-up-as-java-files" class="anchor-heading" href="#i-cant-run-my-java-filefiles-dont-show-up-as-java-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       无法运行Java文件/文件不显示为Java文件
+      </h2>
+      <p>
+       <img alt="IntelliJ导入错误" src="img/intellij-import-error.png">
+      </p>
+      <p>
+       如果您的文件看起来像这样，那么您还没有正确导入项目。
+要修复此问题，您必须简单地将最外层的文件夹（那是您的作业文件夹，在本例中是
+       <code class="language-plaintext highlighter-rouge">
+        proj2ab
+       </code>
+       ）右键单击，然后向下滚动到"Mark directory as &hellip;"并点击"Sources Root"。它看起来像这样：
+      </p>
+      <p>
+       <img alt="IntelliJ标记目录为" src="img/intellij-mark-dir-as.png">
+      </p>
+      <p>
+       对于大多数作业，您可能需要对
+       <code class="language-plaintext highlighter-rouge">
+        src
+       </code>
+       文件夹执行此操作，并将
+       <code class="language-plaintext highlighter-rouge">
+        tests
+       </code>
+       文件夹标记为
+       <strong>
+        Test Sources Root
+       </strong>
+       。您的
+       <code class="language-plaintext highlighter-rouge">
+        src
+       </code>
+       文件夹应该是蓝色的，而
+       <code class="language-plaintext highlighter-rouge">
+        tests
+       </code>
+       文件夹应该是绿色的。
+      </p>
+      <p>
+       有关导入新项目的其他说明，请参阅
+       <a href="https://sp24.datastructur.es/resources/guides/intellij/assignment-workflow/index.md">
+        作业工作流程
+       </a>
+       。
+      </p>
+      <h2 id="junit-things-show-up-as-red-in-intellij">
+       <a aria-labelledby="junit-things-show-up-as-red-in-intellij" class="anchor-heading" href="#junit-things-show-up-as-red-in-intellij">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       JUnit相关内容在IntelliJ中显示为红色
+      </h2>
+      <p>
+       <img alt="IntelliJ缺少Javalib" src="img/intellij-missing-javalib.png">
+      </p>
+      <p>
+       这意味着您忘记将CS 61B的
+       <code class="language-plaintext highlighter-rouge">
+        javalib
+       </code>
+       添加为该项目的库！
+由于您忘记了导入它们，IntelliJ无法找到JUnit特定的内容，如
+       <code class="language-plaintext highlighter-rouge">
+        @Test
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        assertEquals
+       </code>
+       。
+      </p>
+      <p>
+       每次开始新作业时（不幸的是，每次都必须）您必须重新添加
+       <code class="language-plaintext highlighter-rouge">
+        javalib
+       </code>
+       。为此，只需转到"File" -&gt; "项目 Structure" -&gt; "Libraries"并添加仓库内的javalib。有关添加Java库的更多说明，请参阅
+       <a href="https://sp24.datastructur.es/resources/guides/intellij/lab/lab2setup/lab2setup.html#getting-java-libraries">
+        实验2设置
+       </a>
+       。
+      </p>
+      <h2 id="package-orgjunit-does-not-exist">
+       <a aria-labelledby="package-orgjunit-does-not-exist" class="anchor-heading" href="#package-orgjunit-does-not-exist">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       package org.junit does not exist
+      </h2>
+      <p>
+       <img alt="IntelliJ package org.junit 不存在" src="img/intellij-junit-dnt-exist.png">
+      </p>
+      <p>
+       这种情况有时会在 IntelliJ 中发生：您已经添加了正确的库，但无法运行代码。要解决此问题，您需要将库作为直接依赖项添加到模块中。为此，请转到"File" -&gt; "项目 Structure" -&gt; "模块" -&gt; "Dependencies"，然后点击左下角的"+"图标并选择"JARs or directories"。现在，选中您的
+       <code class="language-plaintext highlighter-rouge">
+        javalib
+       </code>
+       文件夹中的每个
+       <code class="language-plaintext highlighter-rouge">
+        .jar
+       </code>
+       文件并添加它们。以下是添加 JAR 之前设置的样子：
+      </p>
+      <p>
+       <img alt="IntelliJ adding deps" src="img/intellij-adding-deps.png">
+      </p>
+      <h2 id="output-path-is-not-specified">
+       <a aria-labelledby="output-path-is-not-specified" class="anchor-heading" href="#output-path-is-not-specified">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       未指定输出路径
+      </h2>
+      <p>
+       <img alt="IntelliJ输出路径未指定" src="img/intellij-out-not-specified.png">
+      </p>
+      <p>
+       IntelliJ将所有编译后的Java
+       <code class="language-plaintext highlighter-rouge">
+        .class
+       </code>
+       文件放在一个名为
+       <code class="language-plaintext highlighter-rouge">
+        out
+       </code>
+       的特殊文件夹中。您可能之前见过它。通常，IntelliJ能够确定将
+       <code class="language-plaintext highlighter-rouge">
+        out
+       </code>
+       文件夹放在哪里，但有时它无法确定，需要您的帮助。要指定输出路径，请转到：
+      </p>
+      <p>
+       "File" &gt; "项目 Structure" &gt; "项目" &gt; "项目 compiler output"并简单添加输出路径。输出路径应为
+       <code class="language-plaintext highlighter-rouge">
+        path/to/assignment/out
+       </code>
+       的形式，其中前缀取决于您的作业路径（hw、lab、proj等），后缀必须是
+       <code class="language-plaintext highlighter-rouge">
+        /out
+       </code>
+       。作业2的示例：
+      </p>
+      <p>
+       <img alt="IntelliJ输出路径未指定" src="img/intellij-specifying-out.png">
+      </p>
+      <h2 id="everything-looks-right-but-it-still-doesnt-work">
+       <a aria-labelledby="everything-looks-right-but-it-still-doesnt-work" class="anchor-heading" href="#everything-looks-right-but-it-still-doesnt-work">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       一切看起来正常但仍然不工作！
+      </h2>
+      <p>
+       有时最简单的事情就是全部重新做一遍。即使您知道自己刚刚正确地完成了所有事情，重新开始通常就能解决问题。首先关闭项目（"File" -&gt; "Close Project"），退出IntelliJ应用程序，然后从头重新导入项目。
+      </p>
+      <h2 id="everything-looks-wrong-and-nothing-works">
+       <a aria-labelledby="everything-looks-wrong-and-nothing-works" class="anchor-heading" href="#everything-looks-wrong-and-nothing-works">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       一切看起来都不对劲，什么都不工作！
+      </h2>
+      <p>
+       有时候，最简单的事情就是全部重新做一遍。具体来说，我们需要清除Intellij的记忆，让它忘记我们的项目曾经存在过。
+      </p>
+      <p>
+       Intellij将项目信息存储为
+       <code class="language-plaintext highlighter-rouge">
+        .idea
+       </code>
+       文件夹和
+       <code class="language-plaintext highlighter-rouge">
+        .iml
+       </code>
+       文件。为了让它忘记我们的项目，我们将删除这些：
+      </p>
+      <ol>
+       <li>
+        关闭项目（"File" -&gt; "关闭 项目"）
+       </li>
+       <li>
+        退出Intellij
+       </li>
+       <li>
+        在文件资源管理器/Finder中，转到项目文件夹
+       </li>
+       <li>
+        现在，您需要显示隐藏文件，以便
+        <code class="language-plaintext highlighter-rouge">
+         .idea
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         .iml
+        </code>
+        显示出来：
+        <ul>
+         <li>
+          Windows 10及更早版本：
+          <a href="https://support.microsoft.com/en-us/windows/show-hidden-files-0320fe58-0117-fd59-6851-9b7f9840fdb2">
+           指南
+          </a>
+         </li>
+         <li>
+          Windows 11：
+          <a href="https://pureinfotech.com/show-hidden-files-windows-11-file-explorer/">
+           指南
+          </a>
+         </li>
+         <li>
+          Mac：按Command + Shift + .（句点）
+          <a href="https://www.pcmag.com/how-to/how-to-access-your-macs-hidden-files">
+           指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        删除您看到的任何
+        <code class="language-plaintext highlighter-rouge">
+         .idea
+        </code>
+        文件夹和
+        <code class="language-plaintext highlighter-rouge">
+         .iml
+        </code>
+        文件
+       </li>
+       <li>
+        在Intellij中重新打开项目
+       </li>
+      </ol>
+      <p>
+       此时，项目应该看起来正常，就像您第一次打开它一样（您需要重新导入库，如果有的话）。但是，如果事情仍然看起来不对，您可能需要执行以下操作：
+      </p>
+      <ol start="7">
+       <li>
+        打开项目结构（"File" -&gt; "项目 Structure"）
+       </li>
+       <li>
+        在"项目"标签中：
+        <ul>
+         <li>
+          设置SDK和语言级别
+         </li>
+         <li>
+          选择编译器输出文件夹为
+          <code class="language-plaintext highlighter-rouge">
+           &lt;path&gt;/&lt;to&gt;/&lt;project&gt;/out
+          </code>
+          。您可能需要自己创建此文件夹
+         </li>
+        </ul>
+       </li>
+       <li>
+        在"Modules"标签中：删除所有模块（如果有的话）。然后，使用默认设置创建一个新模块
+       </li>
+       <li>
+        在"Libraries"标签中：重新为项目导入库。
+        <ul>
+         <li>
+          此时，返回并确保所有设置都已正确应用。验证一切看起来正确后，关闭项目结构
+         </li>
+        </ul>
+       </li>
+       <li>
+        在左侧的项目侧边栏中，右键单击根文件夹并标记为源（右键单击 -&gt;
+"Mark Directory as" -&gt; "Sources Root"）
+       </li>
+      </ol>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

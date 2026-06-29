@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验09：生命游戏 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验09：生命游戏" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab09/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验09：康威生命游戏" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验09：生命游戏","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab09/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         Academic 资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         Conceptual 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持 资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验 09：康威生命游戏
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 09：康威生命游戏
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#pre-lab">
+           Pre-实验
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#part-i-meet-the-tile-rendering-engine">
+           部分 I: 认识瓷砖渲染引擎
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#boring-world">
+             无聊世界
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#random-world">
+             Random World
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#part-ii-conways-game-of-life">
+           第二部分：康威生命游戏
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#introduction-1">
+             简介
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#implementation">
+           实现
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#constructors">
+             Constructors
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#nextgeneration">
+             nextGeneration
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#persistence">
+           持久性
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#saveboard">
+             saveBoard
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#loadboard">
+             loadBoard
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#testing-and-running-the-game">
+           测试和运行游戏
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#project-3-saving-and-loading">
+           项目3保存和加载
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission">
+           提交
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验09：生命游戏
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每个作业顶部都会链接一个常见问题。你也可以通过在 URL 末尾添加"/faq"来访问它。实验09的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       本实验将帮助你完成项目 3：构建你自己的世界（BYOW）。第一部分将教你如何使用一组"瓷砖"在屏幕上生成形状。这将适用于在项目 3 中构建房间、走廊和你世界的其他特征。下周的实验将更多地涉及实现交互性，这与构建项目 3 的一部分相关（但更多内容将在下一个实验中介绍）。
+      </p>
+      <h2 id="pre-lab">
+       <a aria-labelledby="pre-lab" class="anchor-heading" href="#pre-lab">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       实验前准备
+      </h2>
+      <p>
+       在开始本实验之前需要完成的一些步骤：
+      </p>
+      <ul>
+       <li>
+        像往常一样，运行
+        <code class="language-plaintext highlighter-rouge">
+         git pull skeleton main
+        </code>
+       </li>
+       <li>
+        观看上学期项目 3 的入门视频，
+        <a href="https://youtu.be/zgdNWICEb_M">
+         点击此链接
+        </a>
+        。
+       </li>
+       <li>
+        名称和 API 可能略有变化，但总体思路仍然适用。
+       </li>
+       <li>
+        要明白项目 3 将是一场马拉松，而不是短跑。不要等到最后一刻。
+        <strong>
+         你和你的搭档现在就应该开始思考你的设计。
+        </strong>
+       </li>
+       <li>
+        通读第 1 阶段/浏览
+        <a href="../../projects/proj3/index.html">
+         项目 3 规范
+        </a>
+        并理解主要思想。
+       </li>
+      </ul>
+      <p>
+       在本实验的前半部分，你将学习一些对项目 3 有帮助的基本技术和工具。
+      </p>
+      <h2 id="part-i-meet-the-tile-rendering-engine">
+       <a aria-labelledby="part-i-meet-the-tile-rendering-engine" class="anchor-heading" href="#part-i-meet-the-tile-rendering-engine">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       第一部分：认识瓷砖渲染引擎
+      </h2>
+      <h3 id="boring-world">
+       <a aria-labelledby="boring-world" class="anchor-heading" href="#boring-world">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       无聊世界
+      </h3>
+      <p>
+       打开框架代码并查看
+       <code class="language-plaintext highlighter-rouge">
+        BoringWorldDemo
+       </code>
+       文件。尝试运行它，你应该会看到一个如下所示的窗口出现：
+      </p>
+      <p>
+       <img alt="boring world" src="img/boringWorld.png">
+      </p>
+      <p>
+       这个世界由空白空间组成，除了底部中间附近的矩形块。生成这个世界的代码包括三个主要部分：
+      </p>
+      <ul>
+       <li>
+        初始化瓷砖渲染引擎。
+       </li>
+       <li>
+        生成一个二维
+        <code class="language-plaintext highlighter-rouge">
+         TETile[][]
+        </code>
+        数组。
+       </li>
+       <li>
+        使用瓷砖渲染引擎显示
+        <code class="language-plaintext highlighter-rouge">
+         TETile[][]
+        </code>
+        数组。
+       </li>
+      </ul>
+      <p>
+       通读代码，了解瓷砖渲染 API 如何工作的示例。创建
+       <code class="language-plaintext highlighter-rouge">
+        TERenderer
+       </code>
+       对象后，你需要调用
+       <code class="language-plaintext highlighter-rouge">
+        initialize
+       </code>
+       方法，指定你世界的宽度和高度，其中宽度和高度以瓷砖数量给出。每个瓷砖是 16 像素 &times; 16 像素，所以例如，如果我们调用
+       <code class="language-plaintext highlighter-rouge">
+        ter.initialize(10, 20)
+       </code>
+       ，我们最终会得到一个 10 瓷砖宽、20 瓷砖高的世界，或者等效地说，160 像素宽和 320 像素高。
+      </p>
+      <p>
+       代码还演示了如何使用
+       <code class="language-plaintext highlighter-rouge">
+        TETile
+       </code>
+       对象。你可以使用
+       <code class="language-plaintext highlighter-rouge">
+        TETile
+       </code>
+       构造函数从头构建它们（参见
+       <code class="language-plaintext highlighter-rouge">
+        TETile.java
+       </code>
+       ），或者你可以从
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.java
+       </code>
+       文件中的预生成瓷砖调色板中选择。例如，下面
+       <code class="language-plaintext highlighter-rouge">
+        BoringWorldDemo.java
+       </code>
+       中的代码生成一个二维瓷砖数组，并用
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.NOTHING
+       </code>
+       给出的预生成瓷砖填充它们。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">TETile</span><span class="o">[][]</span> <span class="n">world</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TETile</span><span class="o">[</span><span class="no">WIDTH</span><span class="o">][</span><span class="no">HEIGHT</span><span class="o">];</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="no">WIDTH</span><span class="o">;</span> <span class="n">x</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="no">HEIGHT</span><span class="o">;</span> <span class="n">y</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">world</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Tileset</span><span class="o">.</span><span class="na">NOTHING</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       当然，我们可以覆盖现有的瓷砖。例如，下面
+       <code class="language-plaintext highlighter-rouge">
+        BoringWorld.java
+       </code>
+       中的代码创建了一个 15 &times; 5 的瓷砖区域，由预生成的瓷砖
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.WALL
+       </code>
+       组成，并将其写在上面循环代码创建的一些
+       <code class="language-plaintext highlighter-rouge">
+        NOTHING
+       </code>
+       瓷砖之上。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="o">;</span> <span class="n">x</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">y</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">world</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Tileset</span><span class="o">.</span><span class="na">WALL</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       $(0, 0)$ 是世界的左下角（不像你可能习惯的那样是左上角）。例如，对于位置 (5, 4)，我们会向右走 5 个单位，然后向上走 4 个单位。我们将在实验中使用这种方向。
+      </p>
+      <p>
+       渲染的最后一步是调用
+       <code class="language-plaintext highlighter-rouge">
+        ter.renderFrame(world)
+       </code>
+       ，其中
+       <code class="language-plaintext highlighter-rouge">
+        ter
+       </code>
+       是一个
+       <code class="language-plaintext highlighter-rouge">
+        TERenderer
+       </code>
+       对象。对瓷砖数组所做的更改不会出现在屏幕上，直到你调用
+       <code class="language-plaintext highlighter-rouge">
+        renderFrame
+       </code>
+       方法。
+      </p>
+      <p>
+       尝试将指定的瓷砖更改为
+       <code class="language-plaintext highlighter-rouge">
+        Tileset
+       </code>
+       类中除
+       <code class="language-plaintext highlighter-rouge">
+        WALL
+       </code>
+       之外的其他内容，看看会发生什么（比如
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.GRASS
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.WATER
+       </code>
+       ）。另外，尝试改变循环中的常量，看看世界如何变化。
+      </p>
+      <p class="warning">
+       瓷砖本身是不可变的！你不能做像
+       <code class="language-plaintext highlighter-rouge">
+        world[x][y].character = 'X'
+       </code>
+       这样的事情。
+       <strong>
+        查看
+        <code class="language-plaintext highlighter-rouge">
+         TETile
+        </code>
+        来帮助理解！
+       </strong>
+      </p>
+      <p class="info">
+       为什么我们要将世界初始化为
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.NOTHING
+       </code>
+       ，而不是让它保持不变？原因是
+       <code class="language-plaintext highlighter-rouge">
+        renderFrame
+       </code>
+       方法不会绘制任何
+       <code class="language-plaintext highlighter-rouge">
+        null
+       </code>
+       的瓷砖。如果你不将世界初始化为
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.NOTHING
+       </code>
+       ，当你尝试调用
+       <code class="language-plaintext highlighter-rouge">
+        renderFrame
+       </code>
+       时会得到一个
+       <code class="language-plaintext highlighter-rouge">
+        NullPointerException
+       </code>
+       。
+      </p>
+      <h3 id="random-world">
+       <a aria-labelledby="random-world" class="anchor-heading" href="#random-world">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       随机世界
+      </h3>
+      <p>
+       现在打开
+       <code class="language-plaintext highlighter-rouge">
+        RandomWorldDemo.java
+       </code>
+       。尝试运行它，你应该会看到类似这样的东西：
+      </p>
+      <p>
+       <img alt="random world" src="img/randomWorld.png">
+      </p>
+      <p>
+       这个世界完全是一片混乱&mdash;&mdash;到处都是墙和花！如果你查看
+       <code class="language-plaintext highlighter-rouge">
+        RandomWorldDemo.java
+       </code>
+       文件，你会发现我们在做一些新的事情：
+      </p>
+      <ul>
+       <li>
+        我们创建并使用一个类型为
+        <code class="language-plaintext highlighter-rouge">
+         Random
+        </code>
+        的对象，它是一个"
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html">
+         伪随机数生成器
+        </a>
+        "。
+       </li>
+       <li>
+        我们使用一种称为
+        <code class="language-plaintext highlighter-rouge">
+         switch
+        </code>
+        语句的新条件类型。
+       </li>
+       <li>
+        我们将工作委托给函数，而不是在
+        <code class="language-plaintext highlighter-rouge">
+         main
+        </code>
+        中做所有事情。
+       </li>
+      </ul>
+      <p>
+       随机数生成器正如其名，它产生无限的数字流，这些数字看起来是随机排列的。
+       <code class="language-plaintext highlighter-rouge">
+        Random
+       </code>
+       类为我们提供了在 Java 中生成
+       <em>
+        伪随机
+       </em>
+       数的能力。例如，以下代码生成并打印 3 个随机整数：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Random</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们称
+       <code class="language-plaintext highlighter-rouge">
+        Random
+       </code>
+       为
+       <em>
+        伪随机
+       </em>
+       数生成器，因为它不是真正随机的。在底层，它使用很酷的数学来获取之前生成的数字并计算下一个数字。我们不会深入研究这门数学的细节，但如果你好奇，可以查看
+       <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator">
+        维基百科
+       </a>
+       。
+       <strong>
+        更重要的是，生成的序列是确定性的，我们获得不同序列的方式是通过选择所谓的"种子"。
+       </strong>
+       这种伪随机性将是项目 3 的核心部分。
+      </p>
+      <p>
+       在上面的代码片段中，种子是
+       <code class="language-plaintext highlighter-rouge">
+        Random
+       </code>
+       构造函数的输入，所以在这种情况下是
+       <code class="language-plaintext highlighter-rouge">
+        1000
+       </code>
+       。控制种子非常有用，因为它允许我们间接地控制随机数生成器的输出。
+       <strong>
+        如果我们向构造函数提供相同的种子，我们将获得相同的序列值。
+       </strong>
+       例如，下面的代码打印 4 个随机数，然后再次打印相同的 4 个随机数。由于种子与之前的代码片段不同，这 4 个数字可能与上面打印的 3 个数字不同。这在项目 3 中
+       <strong>
+        <em>
+         将非常有帮助
+        </em>
+       </strong>
+       ，因为它将给我们确定性的随机性：你的世界看起来完全随机，但你可以为了调试（和评分）目的一致地重新创建它们。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">Random</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">(</span><span class="mi">82731</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">(</span><span class="mi">82731</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果用户/程序员没有提供种子，即
+       <code class="language-plaintext highlighter-rouge">
+        Random r = new Random()
+       </code>
+       ，随机数生成器会使用一些频繁变化并产生大量唯一值的值来选择种子，例如当前时间和日期。种子可以通过各种其他更奇怪的方式生成，例如
+       <a href="https://www.popularmechanics.com/technology/security/news/a28921/lava-lamp-security-cloudflare/">
+        使用一整面的熔岩灯
+       </a>
+       。
+      </p>
+      <p>
+       目前，
+       <code class="language-plaintext highlighter-rouge">
+        RandomWorldDemo
+       </code>
+       使用一个硬编码的种子，即
+       <code class="language-plaintext highlighter-rouge">
+        2873123
+       </code>
+       ，所以它总是生成完全相同的随机世界。如果你想看到其他随机世界，可以更改种子，不过考虑到世界有多混乱，可能不会很有趣。
+      </p>
+      <p>
+       最后也是最重要的一点是，与其在
+       <code class="language-plaintext highlighter-rouge">
+        main
+       </code>
+       中做所有事情，
+       <strong>
+        我们的代码将工作委托给具有明确定义行为的函数
+       </strong>
+       。这对你的项目 3 体验至关重要！你需要不断识别可以用明确定义的方法解决的小任务。此外，你的方法应该形成一个抽象层次结构！
+      </p>
+      <p class="danger">
+       在这一点上，请确保你已经通读并理解了
+       <code class="language-plaintext highlighter-rouge">
+        BoringWorldDemo
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        RandomWorldDemo
+       </code>
+       （很重要！），并且你大致了解如何使用
+       <code class="language-plaintext highlighter-rouge">
+        TERenderer
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        TETile
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        Tileset
+       </code>
+       。接下来的部分将期望你对前两个演示类的工作方式以及如何使用瓷砖渲染类有一个大致的了解。
+      </p>
+      <h2 id="part-ii-conways-game-of-life">
+       <a aria-labelledby="part-ii-conways-game-of-life" class="anchor-heading" href="#part-ii-conways-game-of-life">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       第二部分：康威生命游戏
+      </h2>
+      <h3 id="introduction-1">
+       <a aria-labelledby="introduction-1" class="anchor-heading" href="#introduction-1">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h3>
+      <p>
+       康威生命游戏（简称生命游戏）是由数学家约翰&middot;霍顿&middot;康威创建的细胞自动机。细胞自动机是一种与自动机理论（即抽象机器和自动机/自运行机器的研究）相关的计算模型。我们并不真的需要知道自动机理论或细胞自动机到底是什么，但生命游戏是用来展示细胞如何随时间变化的一个例子。这是一个零玩家游戏，世界以无限的二维细胞网格存在。每个细胞要么活着要么死亡，每个细胞的状态在每个时间步都会变化，这取决于它的 8 个邻居的状态（我们稍后会详细介绍规则）。游戏的一个示例如下面所示：
+      </p>
+      <p>
+       <img alt="game_of_life_pulsar" src="img/game_of_life_pulsar.gif" style="height: 250px;">
+      </p>
+      <p>
+       游戏中的后代取决于初始状态。初始状态实际上将充当未来状态的"种子"。在本实验中，初始状态可以用随机种子生成，也可以以文件的形式提供。
+      </p>
+      <p>
+       如果你想看看游戏是什么样的，你可以在
+       <a href="https://playgameoflife.com/">
+        这里
+       </a>
+       玩它的在线版本，并在
+       <a href="https://www.youtube.com/watch?v=C2vgICfQawE&ab_channel=RationalAnimations">
+        这里
+       </a>
+       观看一个很酷的例子。
+      </p>
+      <h2 id="implementation">
+       <a aria-labelledby="implementation" class="anchor-heading" href="#implementation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       实现
+      </h2>
+      <p>
+       在我们开始之前，请花点时间浏览
+       <code class="language-plaintext highlighter-rouge">
+        GameOfLife
+       </code>
+       文件。在开始使用之前，熟悉当前代码非常重要（特别是提供给你的变量）。
+      </p>
+      <p>
+       在你开始之前，还有几点提醒和提示：
+      </p>
+      <ul>
+       <li>
+        在本实验中，我们实现了康威生命游戏的一个稍微修改的版本，这样我们将世界边界之外的区域视为死细胞，而不是无限的。
+       </li>
+       <li>
+        你可以假设板上的每个瓷砖总是
+        <code class="language-plaintext highlighter-rouge">
+         Tileset.NOTHING
+        </code>
+        或
+        <code class="language-plaintext highlighter-rouge">
+         Tileset.CELL
+        </code>
+        。
+       </li>
+       <li>
+        提醒一下，(0, 0) 是板的左下角。
+       </li>
+       <li>
+        我们在每个方法上方都提供了注释，以及以
+        <code class="language-plaintext highlighter-rouge">
+         TODO
+        </code>
+        注释的形式为你将要实现的方法提供了注释。
+       </li>
+      </ul>
+      <p class="warning">
+       确保你已经通读了上面的提示和提醒！我们将假设你在接下来的部分中理解它们。
+      </p>
+      <h3 id="constructors">
+       <a aria-labelledby="constructors" class="anchor-heading" href="#constructors">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       构造函数
+      </h3>
+      <p>
+       这个类中有多个构造函数。你不需要（也不应该）修改它们。一些构造函数接受一个名为
+       <code class="language-plaintext highlighter-rouge">
+        boolean test
+       </code>
+       的额外参数&mdash;&mdash;这些构造函数主要用于
+       <em>
+        不渲染的
+       </em>
+       测试（因为自动评分器无法渲染/显示任何东西）。如果你想查看游戏的视觉输出，请查看这个
+       <a href="#testing-and-running-the-game">
+        部分
+       </a>
+       。或者如果你在本地编写自己的测试，你也可以使用没有那个额外参数的构造函数来进行可视化渲染和测试。
+      </p>
+      <p>
+       让我们转到我们将要实现的方法。
+      </p>
+      <h3 id="nextgeneration">
+       <a aria-labelledby="nextgeneration" class="anchor-heading" href="#nextgeneration">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        nextGeneration
+       </code>
+      </h3>
+      <p>
+       正如我们之前提到的，康威生命游戏的世界是一个二维的细胞网格，每个细胞要么死亡要么活着。这些细胞的状态将根据它们的 8 个邻居（垂直、水平、对角线）的状态而变化。下面显示了一个例子，其中绿色细胞是我们当前的细胞，紫色细胞是它的邻居：
+      </p>
+      <p>
+       <img alt="cell_neighbors" src="img/cell_neighbors.png" style="height: 250px;">
+      </p>
+      <p class="info">
+       当你检查一个细胞的状态将如何改变时，你只需要关注它如上所示的直接 8 个邻居。
+      </p>
+      <p>
+       <strong>
+        在每个时间步，细胞的状态将根据以下规则改变：
+       </strong>
+      </p>
+      <ol>
+       <li>
+        任何活细胞如果有少于两个活邻居就会死亡，就像由于人口不足一样。
+       </li>
+       <li>
+        任何有两个或三个邻居的活细胞都会存活到下一代。
+       </li>
+       <li>
+        任何有超过三个邻居的活细胞都会死亡，就像由于人口过剩一样。
+       </li>
+       <li>
+        任何有恰好三个活邻居的死细胞都会变成活细胞，就像通过繁殖一样。
+       </li>
+      </ol>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        nextGeneration
+       </code>
+       中，我们想要根据上面提供的规则"更新"我们板的状态。板的当前状态由
+       <code class="language-plaintext highlighter-rouge">
+        TETiles[][] tiles
+       </code>
+       表示。提供的
+       <code class="language-plaintext highlighter-rouge">
+        TETile[][] newGen
+       </code>
+       表示下一个状态，并且
+       <strong>
+        最初填充了
+        <code class="language-plaintext highlighter-rouge">
+         Tileset.NOTHING
+        </code>
+       </strong>
+       。我们想要获取板的当前状态，将下一代/状态存储在
+       <code class="language-plaintext highlighter-rouge">
+        newGen
+       </code>
+       中并返回它。
+      </p>
+      <p class="task">
+       根据上述规则实现方法
+       <code class="language-plaintext highlighter-rouge">
+        nextGeneration
+       </code>
+       。
+      </p>
+      <h2 id="persistence">
+       <a aria-labelledby="persistence" class="anchor-heading" href="#persistence">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       持久性
+      </h2>
+      <p>
+       在我们讨论你需要实现的另外两个方法之前，让我们先谈谈项目 3。在项目 3 中，你必须实现保存和加载游戏状态的功能。本实验这部分的目标是帮助你熟悉持久性的概念。什么是持久性？
+      </p>
+      <p>
+       每当运行 Java 程序时，我们使用变量来跟踪我们的值。但是一旦程序结束，这些值"就不存在了"或者它们不再可访问。例如，如果我们在程序中声明一个像
+       <code class="language-plaintext highlighter-rouge">
+        int x = 50
+       </code>
+       这样的变量，它只会存在于程序内部&mdash;&mdash;有了持久性，我们希望这个值在程序结束后继续存在。为了继续访问这些值，我们希望确保程序的状态持续存在。这称为持久性。
+      </p>
+      <p class="info">
+       在实验的这一部分，我们提供了一个类
+       <code class="language-plaintext highlighter-rouge">
+        FileUtils
+       </code>
+       ，来帮助你将信息保存和加载到文件中。
+       <strong>
+        请在你的实现中使用提供的类，并在继续之前通读这个类。
+       </strong>
+      </p>
+      <h3 id="saveboard">
+       <a aria-labelledby="saveboard" class="anchor-heading" href="#saveboard">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+      </h3>
+      <p>
+       如果你导航到
+       <code class="language-plaintext highlighter-rouge">
+        patterns
+       </code>
+       ，你会看到几个包含不同模式的文本文件。这些特定模式代表了我们可以传递的几个初始状态，它们以特定格式保存，我们希望在
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       中复制这种格式。让我们以其中一个（
+       <code class="language-plaintext highlighter-rouge">
+        glidergun.txt
+       </code>
+       ）为例来讲解：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>50 50
+00000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000001100000
+// The rest 是 hidden away
+</code></pre>
+       </div>
+      </div>
+      <p>
+       你看到的前两个数字分别是板的宽度和高度，并且
+       <strong>
+        用一个空格分隔。
+       </strong>
+       文本文件中的下几行代表我们的板（在上面的例子中，我们把大部分都隐藏了，因为它变得很长）。在代码中，板的每个位置要么是
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.NOTHING
+       </code>
+       ，要么是
+       <code class="language-plaintext highlighter-rouge">
+        Tileset.CELL
+       </code>
+       。当我们保存到文本文件中时，我们将保存为
+       <strong>
+        0 代表
+        <code class="language-plaintext highlighter-rouge">
+         NOTHING
+        </code>
+        ，1 代表
+        <code class="language-plaintext highlighter-rouge">
+         CELL
+        </code>
+       </strong>
+       。
+      </p>
+      <p>
+       这是一个相对较大的文件，所以让我们从提供的测试中看一个较小的例子。如果你有给定的瓷砖，
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>TETile[][] result <span class="o">=</span> new TETile[][] <span class="o">{</span>
+        <span class="o">{</span>Tileset.NOTHING, Tileset.CELL, Tileset.NOTHING<span class="o">}</span>,
+        <span class="o">{</span>Tileset.NOTHING, Tileset.CELL, Tileset.CELL<span class="o">}</span>,
+        <span class="o">{</span>Tileset.CELL, Tileset.NOTHING, Tileset.NOTHING<span class="o">}</span>,
+        <span class="o">{</span>Tileset.NOTHING, Tileset.CELL, Tileset.NOTHING<span class="o">}</span>
+<span class="o">}</span><span class="p">;</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       它将保存在文本文件中，如下所示
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>3 4
+010
+011
+100
+010
+</code></pre>
+       </div>
+      </div>
+      <p>
+       需要注意的一件重要事情是，我们改变了板的方向，以便左下角是 (0, 0)。最初，
+       <code class="language-plaintext highlighter-rouge">
+        result
+       </code>
+       二维数组会被读取为 (0, 0) 在左上角，但我们会处理这种差异（通过转置和翻转）。
+       <strong>
+        你不需要担心这是如何工作的，因为我们已经为你处理了这个变化，但只要知道你应该在左下角是 (0, 0) 的假设下工作。
+       </strong>
+      </p>
+      <p class="danger">
+       重复一下，你不需要在实验的任何部分中转置或翻转任何板。
+      </p>
+      <p>
+       还有三个额外要求：
+      </p>
+      <ul>
+       <li>
+        确保文本文件中的方向与板的方向相同。板的右上角应与保存在文本文件中的右上角匹配，如上面的示例所示。想想为什么这很重要。如果 (0, 0) 代表我们板的左下角，但我们从上到下写，可能会发生什么？
+       </li>
+       <li>
+        对于你写入文本文件的每一行，确保附加
+        <code class="language-plaintext highlighter-rouge">
+         \n
+        </code>
+        。这适用于写在文本文件顶部的尺寸，尽管这个方法的框架代码已经为你提供了。这是为了确保文本文件中的板表示是准确的；它在下一个方法
+        <code class="language-plaintext highlighter-rouge">
+         loadBoard
+        </code>
+        中也会很有用。
+       </li>
+       <li>
+        <strong>
+         你保存到的文本文件的名称必须叫做
+         <code class="language-plaintext highlighter-rouge">
+          src/save.txt
+         </code>
+         。我们已经把它作为变量提供了，所以不要删除它。
+        </strong>
+       </li>
+      </ul>
+      <p>
+       在框架代码中，我们提供了
+       <code class="language-plaintext highlighter-rouge">
+        TODO
+       </code>
+       注释。你可以通过实例变量
+       <code class="language-plaintext highlighter-rouge">
+        currentState
+       </code>
+       访问板的当前状态。
+      </p>
+      <p class="task">
+       实现方法
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       。
+      </p>
+      <h3 id="loadboard">
+       <a aria-labelledby="loadboard" class="anchor-heading" href="#loadboard">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        loadBoard
+       </code>
+      </h3>
+      <p>
+       现在，我们想要从给定文件加载，而不是保存。加载时，你可以假设格式与上一部分
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       中提到的相同。也就是说，第一行是尺寸，其余行是板。我们想要将这些信息加载到一个
+       <code class="language-plaintext highlighter-rouge">
+        TETile[][]
+       </code>
+       中并返回它。
+      </p>
+      <p>
+       根据
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       中提到的要求，你可以假设每一行都用"\n"分隔，并且板的方向是正确的，也就是说将左下角视为 (0, 0)（请记住，如果你的
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       不遵循提到的确切格式，可能会影响你的
+       <code class="language-plaintext highlighter-rouge">
+        loadBoard
+       </code>
+       ）。在这一部分，你可能会发现
+       <code class="language-plaintext highlighter-rouge">
+        String
+       </code>
+       类的
+       <code class="language-plaintext highlighter-rouge">
+        split
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        charAt
+       </code>
+       函数很有用。
+      </p>
+      <p class="task">
+       实现方法
+       <code class="language-plaintext highlighter-rouge">
+        loadBoard
+       </code>
+       。
+       <strong>
+        由于我们正在加载游戏，请确保初始化实例变量
+        <code class="language-plaintext highlighter-rouge">
+         width
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         height
+        </code>
+        。
+       </strong>
+      </p>
+      <h2 id="testing-and-running-the-game">
+       <a aria-labelledby="testing-and-running-the-game" class="anchor-heading" href="#testing-and-running-the-game">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试和运行游戏
+      </h2>
+      <p>
+       我们提供了一些本地测试来帮助你检查你的实现。通过所有测试
+       <strong>
+        并不能保证在自动评分器上获得满分。
+       </strong>
+      </p>
+      <p class="danger">
+       我们在
+       <code class="language-plaintext highlighter-rouge">
+        patterns
+       </code>
+       中为你提供了一些文件，这些文件代表了一些你可以传入的初始状态。
+       <strong>
+        请不要修改它们。
+       </strong>
+       它们不应该被修改，因为本地测试会使用它们，并且测试期望它们保持原样&mdash;&mdash;如果文件被编辑，本地测试将检查是否被修改，测试将不会运行。一些测试文本文件也是提供的&mdash;&mdash;与
+       <code class="language-plaintext highlighter-rouge">
+        patterns
+       </code>
+       中的文件一样，请不要修改它们。
+      </p>
+      <p>
+       运行 the game, you can run it through the main method at the bottom of
+       <code class="language-plaintext highlighter-rouge">
+        GameOfLife.java
+       </code>
+       .
+If an initial state 是 not provided (a text file), it will generate a random 一
+through a random seed.
+      </p>
+      <p>
+       如果你想用提供的初始状态之一来运行游戏（或者创建你自己的！），请导航到 Run &ndash;&gt; 编辑 Configurations。转到 Applications &ndash;&gt; GameOfLife。如果它不在那里，请点击左上角的
+       <code class="language-plaintext highlighter-rouge">
+        +
+       </code>
+       并选择 Applications。对于
+       <code class="language-plaintext highlighter-rouge">
+        Main class
+       </code>
+       ，输入
+       <code class="language-plaintext highlighter-rouge">
+        GameOfLife
+       </code>
+       并点击出现的选项。对于你的程序参数，你需要指定文件路径以及添加
+       <code class="language-plaintext highlighter-rouge">
+        -l
+       </code>
+       标志。例如，如果你想使用
+       <code class="language-plaintext highlighter-rouge">
+        hammerhead.txt
+       </code>
+       作为初始状态，你需要输入以下程序参数：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nt">-l</span> patterns/hammerhead.txt
+</code></pre>
+       </div>
+      </div>
+      <p>
+       然后，继续运行应用程序。
+      </p>
+      <p class="danger">
+       如果你在编写自己的测试用例，请确保使用
+       <strong>
+        方阵
+       </strong>
+       ，特别是如果你正在使用
+       <code class="language-plaintext highlighter-rouge">
+        nextGeneration
+       </code>
+       方法。提供的本地测试和自动评分器上的测试仍将按预期运行，但为
+       <code class="language-plaintext highlighter-rouge">
+        nextGeneration
+       </code>
+       编写的本地测试仍应在 n &times; n 的棋盘上完成。
+      </p>
+      <h2 id="project-3-saving-and-loading">
+       <a aria-labelledby="project-3-saving-and-loading" class="anchor-heading" href="#project-3-saving-and-loading">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       项目3保存和加载
+      </h2>
+      <p>
+       完成
+       <code class="language-plaintext highlighter-rouge">
+        saveBoard
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        loadBoard
+       </code>
+       后，注意我们最终将整个棋盘保存到了文件中（即每个
+       <code class="language-plaintext highlighter-rouge">
+        Tileset
+       </code>
+       ，我们用
+       <code class="language-plaintext highlighter-rouge">
+        0
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        1
+       </code>
+       来表示它们）以及棋盘的高度和宽度。你认为这将是项目3中最好的方法吗？
+      </p>
+      <p>
+       必须遍历整个棋盘并将其保存到文本文件中似乎有点复杂&mdash;&mdash;对于运行时来说可能不是最优的，而且对于项目3来说可能也不必要！考虑一下保存和加载的目标是什么。我们想要确保能够加载回我们保存的世界，即使程序结束后它仍以某种形式继续存在。从用户的角度来看，他们不需要知道这是如何工作的（例如，他们是否能够在保存的文本文件中看到整个棋盘表示其实并不重要）。因此，与其试图将整个世界保存到文本文件中，不如更多地关注
+       <strong>
+        <em>
+         我们如何用特定信息重新创建这个世界
+        </em>
+       </strong>
+       ，这样从用户的角度来看，他们保存的世界似乎以他们离开时的确切状态被加载回来了。
+      </p>
+      <p class="info">
+       你现在&rsquo;t need to exactly know how you should save and load in 项目 3 as of now, but 
+it would be a good time to start thinking about the design of it. It&rsquo;s important to know 
+that you&rsquo;ll be relying on some kind of pseudorandom generator - while random, 
+there 是 an aspect of determinism to it if a seed 是 given to the generator.
+       <br>
+       <br>
+       To reiterate a point from earlier about
+       <code class="language-plaintext highlighter-rouge">
+        Random
+       </code>
+       and pseudorandom 
+generators: &ldquo;Th是
+       <strong>
+        <em>
+         will be super helpful
+        </em>
+       </strong>
+       in 项目 3, as it will give
+us deterministic randomness: your worlds look totally random,
+but you can recreate them consistently for debugging (and grading) purposes.&rdquo;
+      </p>
+      <h2 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h2>
+      <p>
+       总而言之，你需要实现三个方法：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         nextGeneration
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         saveBoard
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         loadBoard
+        </code>
+       </li>
+      </ul>
+      <p>
+       提交之前，请确保你已通过所有提供的本地测试。
+自动评分器将测试你的加载和保存功能。
+      </p>
+      <p>
+       你在 Gradescope 上获得的分数即为你的最终分数。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

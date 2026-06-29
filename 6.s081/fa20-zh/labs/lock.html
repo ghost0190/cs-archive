@@ -1,0 +1,312 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>实验：锁</title>
+<link rel="stylesheet" href="labs.css" type="text/css" />
+<script src="guidance.js"></script>
+</head>
+<body>
+
+<h1>实验：锁</h1>
+
+<p>在本实验中，你将获得重新设计代码以增加并行性的经验。在多核机器上，并行性差的一个常见症状是高锁争用。改善并行性通常需要同时更改数据结构和锁策略以减少争用。你将为 xv6 内存分配器和块缓存执行此操作。
+
+<div class="prereq">
+
+  <p>在编写代码之前，请确保阅读<a href="../xv6/book-riscv-rev1.pdf">xv6手册</a>中的以下部分：
+    <ul>
+
+    <li> 第6章："锁"及相应代码。
+
+    <li> 第3.5节："代码：物理内存分配器"
+
+    <li> 第8.1至8.3节："概述"、"缓冲缓存层"和"代码：缓冲缓存"
+
+    </ul>
+
+</div>
+
+  
+<pre>
+  $ <kbd>git fetch</kbd>
+  $ <kbd>git checkout lock</kbd>
+  $ <kbd>make clean</kbd>
+</pre>
+
+  
+<h2>内存分配器 <script>g("moderate")</script></h2>
+
+<p>程序 user/kalloctest 对 xv6 的内存分配器施加压力：三个进程增长和缩小它们的地址空间，导致大量调用 <tt>kalloc</tt> 和 <tt>kfree</tt>。
+  <tt>kalloc</tt> 和 <tt>kfree</tt> 获取 <tt>kmem.lock</tt>。kalloctest 打印（作为 "#fetch-and-add"）在 <tt>acquire</tt> 中由于尝试获取另一个核心已持有的锁而产生的循环迭代次数，包括 <tt>kmem</tt> 锁和其他几个锁。
+  <tt>acquire</tt> 中循环迭代的次数是锁争用的一个粗略度量。
+  在你完成本实验之前，<tt>kalloctest</tt> 的输出类似于以下内容：
+
+<pre>
+$ <kbd>kalloctest</kbd>
+start test1
+test1 results:
+--- lock kmem/bcache stats
+lock: kmem: #fetch-and-add 83375 #acquire() 433015
+lock: bcache: #fetch-and-add 0 #acquire() 1260
+--- top 5 contended locks:
+lock: kmem: #fetch-and-add 83375 #acquire() 433015
+lock: proc: #fetch-and-add 23737 #acquire() 130718
+lock: virtio_disk: #fetch-and-add 11159 #acquire() 114
+lock: proc: #fetch-and-add 5937 #acquire() 130786
+lock: proc: #fetch-and-add 4080 #acquire() 130786
+tot= 83375
+test1 FAIL
+</pre>
+
+<p>
+<tt>acquire</tt> 为每个锁维护两个计数：该锁的 <tt>acquire</tt> 调用次数，以及 <tt>acquire</tt> 中的循环尝试但未成功设置锁的次数。
+  kalloctest 调用一个系统调用，使内核打印 kmem 和 bcache 锁（本实验的重点）以及争用最激烈的 5 个锁的这些计数。
+  如果存在锁争用，<tt>acquire</tt> 循环迭代的次数将很大。
+  该系统调用返回 kmem 和 bcache 锁的循环迭代次数之和。
+
+<p>对于本实验，你必须使用一台专用的、未加载的多核机器。如果你使用的机器正在执行其他任务，kalloctest 打印的计数将毫无意义。你可以使用专用的 Athena 工作站或你自己的笔记本电脑，但不要使用拨号机器。
+
+<p>kalloctest 中锁争用的根本原因是 <tt>kalloc()</tt> 有一个由单一锁保护的单一空闲列表。为了消除锁争用，你将不得不重新设计内存分配器以避免单一锁和列表。基本思想是为每个 CPU 维护一个空闲列表，每个列表有自己的锁。不同 CPU 上的分配和释放可以并行运行，因为每个 CPU 将操作不同的列表。主要挑战是处理一个 CPU 的空闲列表为空但另一个 CPU 的列表有空闲内存的情况；在这种情况下，一个 CPU 必须"窃取"另一个 CPU 空闲列表的一部分。窃取可能会引入锁争用，但这希望是不常见的。
+
+<div class="required">
+<p>你的任务是实现每 CPU 空闲列表，以及在一个 CPU 的空闲列表为空时进行窃取。
+  你必须将所有锁的名称以 "kmem" 开头。
+  也就是说，你应该为每个锁调用
+<tt>initlock</tt>，
+并传递一个以 "kmem" 开头的名称。
+ 运行 kalloctest 以查看你的实现是否减少了锁争用。为了检查它仍然可以分配所有内存，运行 <tt>usertests sbrkmuch</tt>。你的输出将类似于下面所示，kmem 锁上的总争用大大减少，尽管具体数字会有所不同。确保 <tt>usertests</tt> 中的所有测试都通过。
+  <tt>make grade</tt> 应该显示 kalloctests 通过。
+</div>
+
+<pre>
+$ <kbd>kalloctest</kbd>
+start test1
+test1 results:
+--- lock kmem/bcache stats
+lock: kmem: #fetch-and-add 0 #acquire() 42843
+lock: kmem: #fetch-and-add 0 #acquire() 198674
+lock: kmem: #fetch-and-add 0 #acquire() 191534
+lock: bcache: #fetch-and-add 0 #acquire() 1242
+--- top 5 contended locks:
+lock: proc: #fetch-and-add 43861 #acquire() 117281
+lock: virtio_disk: #fetch-and-add 5347 #acquire() 114
+lock: proc: #fetch-and-add 4856 #acquire() 117312
+lock: proc: #fetch-and-add 4168 #acquire() 117316
+lock: proc: #fetch-and-add 2797 #acquire() 117266
+tot= 0
+test1 OK
+start test2
+total free number of pages: 32499 (out of 32768)
+.....
+test2 OK
+$ <kbd>usertests sbrkmuch</kbd>
+usertests starting
+test sbrkmuch: OK
+ALL TESTS PASSED
+$ <kbd>usertests</kbd>
+...
+ALL TESTS PASSED
+$
+</pre>
+  
+<p>一些提示：
+  <ul>
+    <li>你可以使用 kernel/param.h 中的常量 <tt>NCPU</tt>
+    <li>让 <tt>freerange</tt> 将所有空闲内存分配给运行 <tt>freerange</tt> 的 CPU。
+    <li>函数 <tt>cpuid</tt> 返回当前核心编号，但只有在关闭中断时调用它并使用其结果才是安全的。你应该使用 <tt>push_off()</tt> 和 <tt>pop_off()</tt> 来关闭和打开中断。
+    <li>查看 kernel/sprintf.c 中的 <tt>snprintf</tt> 函数以获取字符串格式化的想法。不过，将所有锁命名为 "kmem" 也是可以的。
+  </ul>
+
+<h2>缓冲缓存  <script>g("hard")</script></h2>
+
+<p> 本作业的这一半与前半部分独立；
+无论你是否完成了前半部分，你都可以进行这一半（并通过测试）。
+
+<p>如果多个进程密集地使用文件系统，它们很可能会争用 <tt>bcache.lock</tt>，该锁保护 kernel/bio.c 中的磁盘块缓存。
+  <tt>bcachetest</tt> 创建多个进程，反复读取不同的文件以产生对 <tt>bcache.lock</tt> 的争用；
+  其输出如下所示（在你完成本实验之前）：
+
+<pre>
+$ <kbd>bcachetest</kbd>
+start test0
+test0 results:
+--- lock kmem/bcache stats
+lock: kmem: #fetch-and-add 0 #acquire() 33035
+lock: bcache: #fetch-and-add 16142 #acquire() 65978
+--- top 5 contended locks:
+lock: virtio_disk: #fetch-and-add 162870 #acquire() 1188
+lock: proc: #fetch-and-add 51936 #acquire() 73732
+lock: bcache: #fetch-and-add 16142 #acquire() 65978
+lock: uart: #fetch-and-add 7505 #acquire() 117
+lock: proc: #fetch-and-add 6937 #acquire() 73420
+tot= 16142
+test0: FAIL
+start test1
+test1 OK
+</pre>
+你可能会看到不同的输出，但 <tt>bcache</tt> 锁的 <tt>acquire</tt> 循环迭代次数将很高。
+如果你查看 <tt>kernel/bio.c</tt> 中的代码，你会看到 <tt>bcache.lock</tt> 保护缓存块缓冲区的列表、每个块缓冲区中的引用计数（<tt>b->refcnt</tt>）以及缓存块的身份（<tt>b->dev</tt> 和 <tt>b->blockno</tt>）。
+
+<p>
+
+<div class="required">
+  <p>修改块缓存，使得运行 <tt>bcachetest</tt> 时 bcache 中所有锁的 <tt>acquire</tt> 循环迭代次数接近零。
+    理想情况下，参与块缓存的所有锁的计数之和应为零，但如果总和小于 500 也可以。
+    修改 <tt>bget</tt> 和 <tt>brelse</tt>，使得对 bcache 中不同块的并发查找和释放不太可能在锁上产生冲突（例如，不必都等待 <tt>bcache.lock</tt>）。
+你必须保持以下不变量：每个块最多只有一个副本被缓存。当你完成时，你的输出应类似于下面所示（尽管不完全相同）。确保 usertests 仍然通过。当你完成时，<tt>make grade</tt> 应该通过所有测试。
+</div>
+
+<pre>
+$ <kbd>bcachetest</kbd>
+start test0
+test0 results:
+--- lock kmem/bcache stats
+lock: kmem: #fetch-and-add 0 #acquire() 32954
+lock: kmem: #fetch-and-add 0 #acquire() 75
+lock: kmem: #fetch-and-add 0 #acquire() 73
+lock: bcache: #fetch-and-add 0 #acquire() 85
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 4159
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 2118
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 4274
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 4326
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 6334
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 6321
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 6704
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 6696
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 7757
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 6199
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 4136
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 4136
+lock: bcache.bucket: #fetch-and-add 0 #acquire() 2123
+--- top 5 contended locks:
+lock: virtio_disk: #fetch-and-add 158235 #acquire() 1193
+lock: proc: #fetch-and-add 117563 #acquire() 3708493
+lock: proc: #fetch-and-add 65921 #acquire() 3710254
+lock: proc: #fetch-and-add 44090 #acquire() 3708607
+lock: proc: #fetch-and-add 43252 #acquire() 3708521
+tot= 128
+test0: OK
+start test1
+test1 OK
+$ <kbd>usertests</kbd>
+  ...
+ALL TESTS PASSED
+$
+</pre>
+
+<p>
+请将所有锁的名称以 "bcache" 开头。
+也就是说，你应该为每个锁调用 <tt>initlock</tt>，并传递一个以 "bcache" 开头的名称。
+
+<p>
+  减少块缓存中的争用比 kalloc 更棘手，因为 bcache 缓冲区在进程（以及 CPU）之间是真正共享的。
+  对于 kalloc，可以通过给每个 CPU 自己的分配器来消除大部分争用；但这对块缓存不起作用。
+我们建议你使用一个哈希表在缓存中查找块号，哈希表的每个桶有一个锁。
+
+<p>
+在以下情况下，你的解决方案存在锁冲突是可以的：
+<ul>
+<li>当两个进程同时使用相同的块号时。
+<tt>bcachetest</tt> <tt>test0</tt> 不会这样做。
+<li>当两个进程同时在缓存中未命中，需要找到一个未使用的块来替换时。
+<tt>bcachetest</tt> <tt>test0</tt> 不会这样做。
+<li>当两个进程同时使用的块在你用来分区块和锁的方案中冲突时；例如，如果两个进程使用的块的块号在哈希表中散列到同一个槽位。
+<tt>bcachetest</tt> <tt>test0</tt> 可能会这样做，取决于你的设计，但你应该尝试调整你的方案细节以避免冲突（例如，更改哈希表的大小）。
+</ul>
+
+<p>
+<tt>bcachetest</tt> 的 <tt>test1</tt> 使用的不同块数多于缓冲区数，并练习了大量文件系统代码路径。
+
+<p>以下是一些提示：
+  <ul>
+    <li>阅读 xv6 手册中关于块缓存的描述（第8.1-8.3节）。
+
+    <li>可以使用固定数量的桶而不用动态调整哈希表大小。使用质数个桶（例如13）以减少哈希冲突的可能性。
+
+    <li>在哈希表中查找缓冲区和在找不到缓冲区时为其分配条目必须是原子操作。
+
+    <li>移除所有缓冲区的列表（<tt>bcache.head</tt> 等），改为使用它们最后使用的时间（即使用 kernel/trap.c 中的 <tt>ticks</tt>）为缓冲区添加时间戳。通过这一更改，<tt>brelse</tt> 不需要获取 bcache 锁，而 <tt>bget</tt> 可以基于时间戳选择最近最少使用的块。
+
+    <li>在 <tt>bget</tt> 中序列化驱逐是可以的（即 <tt>bget</tt> 中当查找在缓存中未命中时选择要重用的缓冲区的部分）。
+
+    <li>你的解决方案在某些情况下可能需要持有两个锁；例如，在驱逐期间你可能需要持有 bcache 锁和每个桶的锁。确保你避免死锁。
+
+    <li>替换块时，你可能需要将 <tt>struct buf</tt> 从一个桶移动到另一个桶，因为新块散列到不同的桶。你可能会遇到一个棘手的情况：新块可能散列到与旧块相同的桶。确保你避免这种情况下的死锁。
+
+    <li>一些调试技巧：实现桶锁但在 bget 的开始/结束处保留全局 bcache.lock 的获取/释放以序列化代码。一旦你确定没有竞争条件，移除全局锁并处理并发问题。你也可以运行 <tt>make CPUS=1 qemu</tt> 来用单核测试。
+          
+  </ul>
+
+<p><a name="submit"></>
+<h2>提交实验</h2>
+
+<p><b>实验到此完成。</b>确保你通过了所有 make grade 测试。如果本实验有问题，不要忘记将你的答案写入 answers-<i>lab-name</i>.txt。提交你的更改（包括添加 answers-<i>lab-name</i>.txt）并在实验目录中输入 make handin 来提交你的实验。
+
+<h3>花费时间</h3>
+
+<p>创建一个新文件 <tt>time.txt</tt>，在其中放入一个整数，表示你在本实验上花费的小时数。不要忘记 <tt>git add</tt> 和 <tt>git commit</tt> 该文件。
+
+<h3>提交</h3>
+
+你将使用<a href="https://6828.scripts.mit.edu/2020/handin.py/">提交网站</a>提交你的作业。在提交任何作业或实验之前，你需要从提交网站申请一次 API 密钥。
+</p>
+
+<p>在提交你对实验的最终更改后，输入 <kbd>make
+handin</kbd> 来提交你的实验。
+<pre>
+$ <kbd>git commit -am "ready to submit my lab"</kbd>
+[util c2e3c8b] ready to submit my lab
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+$ <kbd>make handin</kbd>
+tar: Removing leading `/' from member names
+Get an API key for yourself by visiting https://6828.scripts.mit.edu/2020/handin.py/
+Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 79258  100   239  100 79019    853   275k --:--:-- --:--:-- --:--:--  276k
+$
+</pre>
+<kbd>make handin</kbd> 会将你的 API 密钥存储在 <i>myapi.key</i> 中。如果你需要更改 API 密钥，只需删除此文件并让 <kbd>make handin</kbd> 重新生成（<i>myapi.key</i> 不能包含换行符）。
+</p>
+
+<p>
+如果你运行 <kbd>make handin</kbd> 时有未提交的更改或未跟踪的文件，你将看到类似以下的输出：
+<pre>
+ M hello.c
+?? bar.c
+?? foo.pyc
+Untracked files will not be handed in.  Continue? [y/N]
+</pre>
+检查上述行，确保你的实验解决方案所需的所有文件都已跟踪，即不在以 <kbd>??</kbd> 开头的行中列出。
+你可以使用 <tt>git add filename</tt> 让 <tt>git</tt> 跟踪你创建的新文件。
+</p>
+
+<p>
+如果 <kbd>make handin</kbd> 无法正常工作，
+尝试修复 curl 或 Git 命令的问题。
+或者你可以运行 <kbd>make tarball</kbd>。
+这将为你生成一个 tar 文件，然后你可以通过我们的<a href="https://6828.scripts.mit.edu/2020/handin.py/">网页界面</a>上传。
+</p>
+
+<p>
+<div class="warning">
+<ul>
+  <li>请运行 `make grade` 以确保你的代码通过所有测试</li>
+  <li>在运行 `make handin` 之前提交所有修改过的源代码</li>
+  <li>你可以在 <a href="https://6828.scripts.mit.edu/2020/handin.py/">https://6828.scripts.mit.edu/2020/handin.py/</a> 查看你的提交状态并下载已提交的代码</li>
+</ul>
+</div>
+
+
+
+
+<h2>可选挑战练习</h2>
+  
+  <ul>
+  <li>使缓冲缓存中的查找无锁化。提示：使用 gcc 的 <tt>__sync_*</tt> 函数。你如何说服自己你的实现是正确的？
+  </ul>
+
+</body>
+</html>

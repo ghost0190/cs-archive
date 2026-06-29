@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   作业2: 渗透 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="作业2: 渗透" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="作业2说明" name="description">
+  <meta content="作业2说明" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/homeworks/hw2/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="作业2：渗透" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"作业2说明","headline":"作业2：渗透","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/homeworks/hw2/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       教学团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab01/index.html">
+         实验01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab02/index.html">
+         实验02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab03/index.html">
+         实验03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab04/index.html">
+         实验04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab05/index.html">
+         实验05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab06/index.html">
+         实验06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab07/index.html">
+         实验07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab08/index.html">
+         实验08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab09/index.html">
+         实验09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab10/index.html">
+         实验10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../hw0/hw0a/index.html">
+           作业0A：Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../hw0/hw0b/index.html">
+           作业0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         作业2：渗透
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           作业2：渗透 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="outputs/index.html">
+           预期输出 - 作业2：渗透
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           验收 - 项目3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见UI错误 - 项目3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        作业
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        作业2：渗透
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        作业2：渗透
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#due-2262024">
+           截止日期：2024年2月26日
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#getting-the-skeleton-files">
+           获取骨架文件
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#intro-video">
+             介绍视频
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#hw2-slides">
+             作业2幻灯片
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#who-cares">
+             为什么重要？
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#the-model">
+             模型
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#percolationjava">
+           Percolation.java
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#percolation-class">
+             Percolation 类
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#the-percolation-problem">
+             渗透问题
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#the-weightedquickunionuf-class">
+             WeightedQuickUnionUF 类
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#tips-and-corner-cases">
+             提示与边界情况
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#percolationstatsjava">
+           PercolationStats.java
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#runtime-analysis-ungraded">
+           运行时分析（不评分）
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#provided-files">
+           提供的文件
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#sample-data-files">
+             示例数据文件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#file-based-visualization-client">
+             基于文件的可视化客户端
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#interactive-visualization-client">
+             交互式可视化客户端
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#testing">
+           测试
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission--deliverables">
+           提交与交付物
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#credits">
+           致谢
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       作业2：渗透
+      </h1>
+      <h2 id="due-2262024">
+       <a aria-labelledby="due-2262024" class="anchor-heading" href="#due-2262024">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       截止日期：2024年2月26日
+      </h2>
+      <p class="danger">
+       与之前的作业不同，本次作业的长度相当于一个项目。请尽早开始。特此提醒。对于
+       <strong>
+        未能理解本次作业的深度而导致的延期申请，我们将不予批准
+       </strong>
+       。
+      </p>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每次作业顶部都会链接一个常见问题页面。你也可以通过在URL末尾添加&ldquo;/faq&rdquo;来访问。作业2的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="getting-the-skeleton-files">
+       <a aria-labelledby="getting-the-skeleton-files" class="anchor-heading" href="#getting-the-skeleton-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       获取骨架文件
+      </h2>
+      <p>
+       请按照
+       <a href="../../resources/guides/assignment-workflow/index.html">
+        作业工作流程指南
+       </a>
+       开始本次作业。本次作业的代号是
+       <code class="language-plaintext highlighter-rouge">
+        hw2
+       </code>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在本程序中，我们将编写一个程序，通过
+       <a href="https://zh.wikipedia.org/wiki/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9E%E6%96%B9%E6%B3%95">
+        蒙特卡洛模拟
+       </a>
+       来估算渗透阈值。
+      </p>
+      <h3 id="intro-video">
+       <a aria-labelledby="intro-video" class="anchor-heading" href="#intro-video">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       介绍视频
+      </h3>
+      <p>
+       本次作业的介绍视频可以在
+       <a href="https://www.youtube.com/watch?v=kIYKCsvG6UI&list=PLNSdoiHk6ujjZs46s6XVXEbZUuF1MIO7g">
+        此链接
+       </a>
+       找到。视频分为三个部分：简介、实现提示和优化提示。如果你想迎接更难的挑战，可以忽略这些提示。如果你想观看Hug教授在普林斯顿大学时制作的八年前的视频，请参见
+       <a href="https://www.youtube.com/watch?v=o60oHXesOuA">
+        此链接
+       </a>
+       。注意，这些视频提到了实现
+       <code class="language-plaintext highlighter-rouge">
+        PercolationStats.java
+       </code>
+       ；我们现在已经提供了这个类的完整解决方案，所以你不需要担心这一步。
+      </p>
+      <h3 id="hw2-slides">
+       <a aria-labelledby="hw2-slides" class="anchor-heading" href="#hw2-slides">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       作业2幻灯片
+      </h3>
+      <p>
+       本次作业的幻灯片可以在
+       <a href="https://docs.google.com/presentation/d/12mvVbdoq7SKZy02u_i7Z7LCyrDCpbYmUhl_qqW95T_4/edit?usp=sharing">
+        这里
+       </a>
+       找到。因为这是作业而不是项目，我们会提供一些解题思路提示。如果你想迎接更大的挑战，可以忽略它们。
+      </p>
+      <h3 id="who-cares">
+       <a aria-labelledby="who-cares" class="anchor-heading" href="#who-cares">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       为什么重要？
+      </h3>
+      <p>
+       给定一个由随机分布的绝缘材料和金属材料组成的复合系统：需要多大比例的金属材料才能使复合系统成为电导体？给定一个表面有水（或地下有石油）的多孔地貌，在什么条件下水能够渗透到底部（或石油能喷涌到表面）？科学家们定义了一个称为渗透的抽象过程来模拟这种情况。
+      </p>
+      <h3 id="the-model">
+       <a aria-labelledby="the-model" class="anchor-heading" href="#the-model">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       模型
+      </h3>
+      <p>
+       我们使用N&times;N的网格站点来模拟渗透系统。每个站点要么是开放的，要么是阻塞的。
+       <em>
+        充满站点
+       </em>
+       是指一个开放站点，它可以通过相邻（左、右、上、下）的开放站点链连接到顶部一行的开放站点。如果底部一行有一个充满站点，我们就说系统发生了渗透。换句话说，如果我们填充所有与顶部行相连的开放站点，并且这个过程填充了底部行的某个开放站点，那么系统就发生了渗透。（对于绝缘/金属材料的例子，开放站点对应于金属材料，因此发生渗透的系统有一条从顶部到底部的金属路径，充满站点是导电的。对于多孔物质的例子，开放站点对应于水可以流过的空隙，因此发生渗透的系统让水填充开放站点，从顶部流到底部。）
+      </p>
+      <p>
+       在下图中，你可以看到在左侧的系统中，水能够从顶部一行的一个站点开始，通过空的站点向下渗透，直到底部一行的一个空站点。
+      </p>
+      <p>
+       而在右侧，顶部行站点中的水无法向下渗透到底部行的开放站点。
+      </p>
+      <p>
+       <img alt="渗透" src="images/percolates.png">
+      </p>
+      <h2 id="percolationjava">
+       <a aria-labelledby="percolationjava" class="anchor-heading" href="#percolationjava">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        Percolation.java
+       </code>
+      </h2>
+      <h3 id="percolation-class">
+       <a aria-labelledby="percolation-class" class="anchor-heading" href="#percolation-class">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Percolation 类
+      </h3>
+      <p>
+       为了模拟渗透系统，请使用以下API完成
+       <code class="language-plaintext highlighter-rouge">
+        Percolation
+       </code>
+       类：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Percolation</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="nf">Percolation</span><span class="o">(</span><span class="kt">int</span> <span class="no">N</span><span class="o">)</span>                <span class="c1">// create N-by-N grid, with all sites initially blocked</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">open</span><span class="o">(</span><span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>       <span class="c1">// open the site (row, col) if it 是 not open already</span>
+   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">是Open</span><span class="o">(</span><span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>  <span class="c1">// 是 the site (row, col) open?</span>
+   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">是Full</span><span class="o">(</span><span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span>  <span class="c1">// 是 the site (row, col) full?</span>
+   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">numberOfOpenSites</span><span class="o">()</span>           <span class="c1">// number of open sites</span>
+   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">percolates</span><span class="o">()</span>              <span class="c1">// does the system percolate?</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <h3 id="the-percolation-problem">
+       <a aria-labelledby="the-percolation-problem" class="anchor-heading" href="#the-percolation-problem">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       渗透问题
+      </h3>
+      <p>
+       在一个著名的科学问题中，研究人员对以下问题感兴趣：如果站点以概率$p$独立地设置为开放（因此以概率$1-p$阻塞），系统发生渗透的概率是多少？当$p$等于0（没有站点开放）时，系统不会渗透；当$p$等于1（所有站点都开放）时，系统会渗透。下图显示了20&times;20随机网格（左）和100&times;100随机网格（右）的站点空置概率$p$与渗透概率的关系。
+      </p>
+      <p class="center">
+       <img alt="阈值20" class="inline" src="images/percolation-threshold20.png">
+       <img alt="阈值100" class="inline" src="images/percolation-threshold100.png">
+      </p>
+      <p>
+       当$N$足够大时，存在一个阈值$p^*$，当$p &lt; p^*$时，随机N&times;N网格几乎从不渗透；当$p &gt; p^*$时，随机N&times;N网格几乎总是渗透。目前还没有推导出确定渗透阈值$p^*$的数学解。你的任务是编写一个计算机程序来估算$p^*$。
+      </p>
+      <p class="task">
+       通过实现上述API中给出的所有方法，完成
+       <code class="language-plaintext highlighter-rouge">
+        Percolation.java
+       </code>
+       。
+      </p>
+      <h3 id="the-weightedquickunionuf-class">
+       <a aria-labelledby="the-weightedquickunionuf-class" class="anchor-heading" href="#the-weightedquickunionuf-class">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        WeightedQuickUnionUF
+       </code>
+       类
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        WeightedQuickUnionUF
+       </code>
+       类由普林斯顿大学的
+       <code class="language-plaintext highlighter-rouge">
+        algs4
+       </code>
+       库提供，具有以下API：
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WeightedQuickUnionUF</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="nf">WeightedQuickUnionUF</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span>      <span class="c1">// creates a UF with n elements</span>
+   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">count</span><span class="o">()</span>                      <span class="c1">// number of disjoint sets</span>
+   <span class="kd">public</span> <span class="kt">int</span> <span class="nf">find</span><span class="o">(</span><span class="kt">int</span> <span class="n">p</span><span class="o">)</span>                  <span class="c1">// the root of p's set</span>
+   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">connected</span><span class="o">(</span><span class="kt">int</span> <span class="n">p</span><span class="o">,</span> <span class="kt">int</span> <span class="n">q</span><span class="o">)</span>  <span class="c1">// whether p and q are in the same set</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">union</span><span class="o">(</span><span class="kt">int</span> <span class="n">p</span><span class="o">,</span> <span class="kt">int</span> <span class="n">q</span><span class="o">)</span>         <span class="c1">// join p and q's sets together</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <blockquote class="warning">
+       <p>
+        <strong>
+         你的代码必须使用
+         <a href="https://algs4.cs.princeton.edu/15uf/WeightedQuickUnionUF.java.html">
+          <code class="language-plaintext highlighter-rouge">
+           WeightedQuickUnionUF
+          </code>
+         </a>
+         类！
+        </strong>
+        它已经为你实现好了，所以不要重新实现并查集抽象数据类型。
+       </p>
+      </blockquote>
+      <h3 id="tips-and-corner-cases">
+       <a aria-labelledby="tips-and-corner-cases" class="anchor-heading" href="#tips-and-corner-cases">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提示与边界情况
+      </h3>
+      <p>
+       <strong>
+        重要
+       </strong>
+       ：我们已经发布了一系列视频，包含一些如何完成本次作业的提示！请务必观看；它们可能会为你节省大量时间。
+      </p>
+      <ul>
+       <li>
+        <a href="https://youtu.be/-pr7psbTSOU">
+         视频1：小提示
+        </a>
+       </li>
+       <li>
+        <a href="https://youtu.be/gTqM4WvM9D8">
+         视频2：大提示
+        </a>
+       </li>
+      </ul>
+      <h4 id="corner-cases">
+       <a aria-labelledby="corner-cases" class="anchor-heading" href="#corner-cases">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       边界情况
+      </h4>
+      <p>
+       按照惯例，行和列的索引是0到
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       - 1 之间的整数，其中(0, 0)是左上角的站点：如果
+       <code class="language-plaintext highlighter-rouge">
+        open()
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        是Open()
+       </code>
+       或
+       <code class="language-plaintext highlighter-rouge">
+        是Full()
+       </code>
+       的任何参数超出其规定范围，则抛出
+       <code class="language-plaintext highlighter-rouge">
+        java.lang.IndexOutOfBoundsException
+       </code>
+       。如果
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       &le; 0，构造函数应抛出
+       <code class="language-plaintext highlighter-rouge">
+        java.lang.IllegalArgumentException
+       </code>
+       。
+      </p>
+      <h4 id="performance-requirements">
+       <a aria-labelledby="performance-requirements" class="anchor-heading" href="#performance-requirements">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       性能要求
+      </h4>
+      <p>
+       构造函数的时间复杂度应与$N^2$成正比；所有方法应在常数时间内完成，加上对并查集方法
+       <code class="language-plaintext highlighter-rouge">
+        union()
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        find()
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        connected()
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        count()
+       </code>
+       的常数次调用。满足这些要求有点棘手！你可以先创建一个能正常工作的解决方案，然后再想办法让它更快。关于满足速度要求的提示，请参阅本规范开头的
+       <a href="https://www.youtube.com/watch?v=kIYKCsvG6UI&list=PLNSdoiHk6ujjZs46s6XVXEbZUuF1MIO7g">
+        视频
+       </a>
+       。你的
+       <code class="language-plaintext highlighter-rouge">
+        numberOfOpenSites()
+       </code>
+       方法必须在常数时间内完成。本作业的部分目标是学习如何将一个问题（渗透）转化为已解决问题（不相交集，即并查集）的形式。
+      </p>
+      <blockquote class="info">
+       <p>
+        如果你读到规范的这一部分仍然不知道如何开始，请阅读这些
+        <a href="https://docs.google.com/presentation/d/12mvVbdoq7SKZy02u_i7Z7LCyrDCpbYmUhl_qqW95T_4/edit?usp=sharing">
+         幻灯片
+        </a>
+        并观看这个
+        <a href="https://www.youtube.com/watch?v=kIYKCsvG6UI&list=PLNSdoiHk6ujjZs46s6XVXEbZUuF1MIO7g">
+         视频
+        </a>
+        。
+       </p>
+      </blockquote>
+      <h2 id="percolationstatsjava">
+       <a aria-labelledby="percolationstatsjava" class="anchor-heading" href="#percolationstatsjava">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        PercolationStats.java
+       </code>
+      </h2>
+      <p>
+       <strong>
+        蒙特卡洛模拟。
+       </strong>
+       为了估算渗透阈值，请考虑以下计算实验：
+      </p>
+      <ul>
+       <li>
+        将所有站点初始化为阻塞状态。
+       </li>
+       <li>
+        重复以下操作，直到系统发生渗透：
+        <ul>
+         <li>
+          在所有阻塞站点中随机均匀地选择一个站点。
+         </li>
+         <li>
+          打开该站点。
+         </li>
+        </ul>
+       </li>
+       <li>
+        系统发生渗透时已打开站点的比例提供了渗透阈值的估计值。
+       </li>
+      </ul>
+      <p>
+       例如，如果按照下面的快照在20&times;20的网格中打开站点，那么我们对渗透阈值的估计是204/400 = 0.51，因为当第204个站点被打开时系统发生渗透。这些图像分别对应于50、100、150和204个站点被打开的情况。
+      </p>
+      <p class="center">
+       <img alt="渗透50" class="inline" src="images/percolation-50.png">
+       <img alt="渗透100" class="inline" src="images/percolation-100.png">
+       <img alt="渗透150" class="inline" src="images/percolation-150.png">
+       <img alt="渗透204" class="inline" src="images/percolation-204.png">
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          如果你对以下计算背后的数学原理感兴趣，请点击这里。
+         </strong>
+        </p>
+       </summary>
+       <p>
+        通过重复这个计算实验$T$次并取平均值，我们可以获得更准确的渗透阈值估计。设$x_t$为第$t$次计算实验中开放站点的比例。样本均值$\mu$提供了渗透阈值的估计值；样本标准差$\sigma$衡量了阈值的锐度。
+       </p>
+       <p>
+        $\mu = \frac{x_1 + x_2 + &hellip; + x_T}{T}$，$\sigma^2 = \frac{(x_1 - \mu)^2 + (x_2 - \mu)^2 + &hellip; + (x_T - \mu)
+^2}{T-1}$
+       </p>
+       <p>
+        假设$T$足够大（例如，至少30），以下提供了渗透阈值的95%置信区间：
+       </p>
+       <p>
+        $[\mu - \frac{1.96\sigma}{\sqrt{T}}, \mu + \frac{1.96\sigma}{\sqrt{T}}]$
+       </p>
+      </details>
+      <p>
+       为了执行一系列计算实验，我们为你提供了一个
+       <code class="language-plaintext highlighter-rouge">
+        PercolationStats
+       </code>
+       数据类型。
+      </p>
+      <p>
+       构造函数接受两个参数
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        T
+       </code>
+       ，并在
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       &times;
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       网格上执行
+       <code class="language-plaintext highlighter-rouge">
+        T
+       </code>
+       次独立的计算实验（如上所述）。利用这些实验数据，它计算出渗透阈值的均值、标准差和95%置信区间。
+      </p>
+      <blockquote class="task">
+       <p>
+        打开
+        <code class="language-plaintext highlighter-rouge">
+         PercolationStats.java
+        </code>
+        ，查看提供的构造函数和方法。然后运行
+        <code class="language-plaintext highlighter-rouge">
+         main
+        </code>
+        方法，并解释结果。这些数字告诉你关于渗透问题的解决方案的什么信息？
+       </p>
+       <p>
+        这部分作业没有交付物；如果你正确实现了
+        <code class="language-plaintext highlighter-rouge">
+         Percolation.java
+        </code>
+        ，你现在应该有了渗透阈值
+        <code class="language-plaintext highlighter-rouge">
+         p
+        </code>
+        的95%置信区间。
+       </p>
+      </blockquote>
+      <h2 id="runtime-analysis-ungraded">
+       <a aria-labelledby="runtime-analysis-ungraded" class="anchor-heading" href="#runtime-analysis-ungraded">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       运行时分析（不评分）
+      </h2>
+      <p>
+       这部分作业不会评分，但强烈建议你至少阅读并思考以下几点：
+      </p>
+      <ul>
+       <li>
+        <p>
+         使用 QuickFindUF 中的快速查找算法实现
+         <code class="language-plaintext highlighter-rouge">
+          Percolation
+         </code>
+         数据类型。使用
+         <a href="https://introcs.cs.princeton.edu/java/stdlib/Stopwatch.java.html">
+          Stopwatch
+         </a>
+         来测量不同
+         <code class="language-plaintext highlighter-rouge">
+          N
+         </code>
+         和
+         <code class="language-plaintext highlighter-rouge">
+          T
+         </code>
+         值下
+         <code class="language-plaintext highlighter-rouge">
+          PercolationStats
+         </code>
+         的总运行时间。将
+         <code class="language-plaintext highlighter-rouge">
+          N
+         </code>
+         加倍对总运行时间有什么影响？将
+         <code class="language-plaintext highlighter-rouge">
+          T
+         </code>
+         加倍对总运行时间有什么影响？
+        </p>
+       </li>
+       <li>
+        <p>
+         现在，使用
+         <code class="language-plaintext highlighter-rouge">
+          WeightedQuickUnionUF
+         </code>
+         中的加权快速合并算法实现
+         <code class="language-plaintext highlighter-rouge">
+          Percolation
+         </code>
+         数据类型。回答与上一要点相同的问题。
+        </p>
+       </li>
+      </ul>
+      <h2 id="provided-files">
+       <a aria-labelledby="provided-files" class="anchor-heading" href="#provided-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提供的文件
+      </h2>
+      <p>
+       我们提供两个客户端程序作为大规模可视化跟踪工具。
+       <strong>
+        我们强烈建议使用它们来测试和调试你的
+        <code class="language-plaintext highlighter-rouge">
+         Percolation
+        </code>
+        实现。
+       </strong>
+      </p>
+      <h3 id="sample-data-files">
+       <a aria-labelledby="sample-data-files" class="anchor-heading" href="#sample-data-files">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       示例数据文件
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        inputFiles
+       </code>
+       目录包含一些用于可视化客户端的示例文件，包括我们将在下面使用的
+       <code class="language-plaintext highlighter-rouge">
+        input20.txt
+       </code>
+       。
+      </p>
+      <p>
+       <a href="outputs/index.html">
+        这里
+       </a>
+       是每个输入文件对应的预期输出图像。
+      </p>
+      <h3 id="file-based-visualization-client">
+       <a aria-labelledby="file-based-visualization-client" class="anchor-heading" href="#file-based-visualization-client">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       基于文件的可视化客户端
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        PercolationPicture.java
+       </code>
+       通过执行以下步骤进行可视化：
+      </p>
+      <ul>
+       <li>
+        从文件中读取网格大小N。
+       </li>
+       <li>
+        创建一个N&times;N的站点网格（初始时全部阻塞）。
+       </li>
+       <li>
+        从文件中读取要打开的站点序列（第i行，第j列）。每打开一个站点后，使用标准绘图将充满站点绘制成浅蓝色，开放站点（未充满的）绘制成白色，阻塞站点绘制成黑色，站点(0, 0)位于左上角。
+       </li>
+      </ul>
+      <p>
+       对于输入文件
+       <code class="language-plaintext highlighter-rouge">
+        input20.txt
+       </code>
+       ，程序应产生如下图所示的输出。这些图像分别对应于50、100、150、204和250个站点被打开的情况。
+      </p>
+      <p class="center">
+       <img alt="渗透50" class="inline" src="images/percolation-50.png">
+       <img alt="渗透100" class="inline" src="images/percolation-100.png">
+       <img alt="渗透150" class="inline" src="images/percolation-150.png">
+      </p>
+      <p class="center">
+       <img alt="渗透204" class="inline" src="images/percolation-204.png">
+       <img alt="渗透250" class="inline" src="images/percolation-250.png">
+      </p>
+      <p>
+       你可以通过在IntelliJ程序的
+       <code class="language-plaintext highlighter-rouge">
+        运行 -&gt; 编辑配置 -&gt; + -&gt; 应用程序
+       </code>
+       选项卡中传入正确的参数来运行此输入的可视化工具。在这里，将"主类"设置为
+       <code class="language-plaintext highlighter-rouge">
+        PercolationPicture
+       </code>
+       ，将"程序参数"设置为输入文件（例如，
+       <code class="language-plaintext highlighter-rouge">
+        inputFiles/input20.txt
+       </code>
+       ）。最后，点击"运行"按钮开始运行可视化工具。
+      </p>
+      <blockquote class="task">
+       <p>
+        打开
+        <code class="language-plaintext highlighter-rouge">
+         PercolationPicture.java
+        </code>
+        并按照上述步骤运行可视化工具。使用此工具帮助你调试
+        <code class="language-plaintext highlighter-rouge">
+         Percolation.java
+        </code>
+        方法！
+       </p>
+      </blockquote>
+      <h3 id="interactive-visualization-client">
+       <a aria-labelledby="interactive-visualization-client" class="anchor-heading" href="#interactive-visualization-client">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交互式可视化客户端
+      </h3>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        InteractivePercolationVisualizer.java
+       </code>
+       使用鼠标作为输入，对渗透系统中打开站点的结果进行动画展示。它接受一个命令行整数
+       <code class="language-plaintext highlighter-rouge">
+        N
+       </code>
+       来指定网格大小。作为额外功能，它会按照
+       <code class="language-plaintext highlighter-rouge">
+        PercolationPicture
+       </code>
+       （如上所述）使用的相同格式打印出打开的站点序列，因此你可以用它来准备有趣的测试文件。如果你设计了一个有趣的数据文件，欢迎在Ed上分享。
+      </p>
+      <blockquote class="task">
+       <p>
+        打开
+        <code class="language-plaintext highlighter-rouge">
+         InteractivePercolationVisualizer.java
+        </code>
+        ，并按照与
+        <code class="language-plaintext highlighter-rouge">
+         PercolationPicture
+        </code>
+        相同的步骤运行交互式可视化工具。注意，对于交互式版本，你
+        <strong>
+         不需要
+        </strong>
+        提供程序参数。
+       </p>
+       <p>
+        使用此工具帮助你调试
+        <code class="language-plaintext highlighter-rouge">
+         Percolation.java
+        </code>
+        方法！
+       </p>
+      </blockquote>
+      <p>
+       <em>
+        注意：如果你使用的是IntelliJ，可以在 运行 -&gt; 编辑配置 中选择要运行的类（即选择你想要运行的main方法）。更多信息，请查看常见问题
+       </em>
+      </p>
+      <h2 id="testing">
+       <a aria-labelledby="testing" class="anchor-heading" href="#testing">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试
+      </h2>
+      <p>
+       你会发现
+       <code class="language-plaintext highlighter-rouge">
+        InteractivePercolationVisualizer
+       </code>
+       作为验证
+       <code class="language-plaintext highlighter-rouge">
+        Percolation
+       </code>
+       类是否正确实现的完整性检查非常有用。如果你的实现正确，点击单元格应该会打开（并在必要时填充）这些站点。还会显示开放站点的数量以及系统是否发生渗透的提示。
+      </p>
+      <p>
+       在
+       <code class="language-plaintext highlighter-rouge">
+        tests
+       </code>
+       文件夹中，我们为你提供了两个基本测试。
+       <strong>
+        你应该向
+        <code class="language-plaintext highlighter-rouge">
+         PercolationTest.java
+        </code>
+        添加更多测试来测试你的代码。
+       </strong>
+      </p>
+      <h2 id="submission--deliverables">
+       <a aria-labelledby="submission--deliverables" class="anchor-heading" href="#submission--deliverables">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交与交付物
+      </h2>
+      <p>
+       你应该按照通常的方式提交，即推送到GitHub，然后在Gradescope上提交。本次作业没有速度限制。
+      </p>
+      <p>
+       <strong>
+        交付物：
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         Percolation.java
+        </code>
+       </li>
+      </ul>
+      <h2 id="credits">
+       <a aria-labelledby="credits" class="anchor-heading" href="#credits">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致谢
+      </h2>
+      <p>
+       本作业最初由普林斯顿大学的Kevin Wayne和Bob Sedgewick开发，自动评分器由Josh Hug为普林斯顿算法课程构建。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

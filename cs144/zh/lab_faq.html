@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CS 144：实验常见问题">
+    <title>CS 144：实验常见问题</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <link href="../../assets/fonts/cs144-fonts.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../../cs144.github.io/stanford.png">
+  </head>
+
+  <body>
+    <div class="container" role="main">
+      <div class="page-header">
+        <h3>实验常见问题</h3>
+      </div>
+
+      <h4>通用问题</h4>
+      <ol>
+        <li><b>实现代码的正确性和风格将如何评分？</b>
+        <p>以下是一些指导原则：
+<ul><li>复杂的代码段应在注释中加以说明，使读者更容易理解——但不要对简单琐碎的内容过度注释。
+<li>通用的、可复用的功能应拆分为辅助函数，以避免重复代码——但也不要过度拆分，例如导致执行流程难以理解。
+<li>代码应使用一致的命名规范，不应包含被注释掉的代码或调试残留。
+
+<li>请检查所有可能出错的函数的返回值，并妥善处理这些错误。抛出异常是一种处理不可恢复错误的优雅方式。
+
+<li>避免内存错误和泄漏、严重的性能问题（例如无缘无故地分配大量内存）或不必要的复杂方法（例如使用一个复杂的数据结构，但仅比简单方法或使用 C++ 标准库中现成的方案略微高效一点）。
+
+<li>在报告中，我们希望看到你认真地考虑了可用的实现策略（例如数据结构的选择），并能够合理解释你所做出的选择。
+
+<li>在提交每次作业之前，请运行 <code>cmake --build build --target format</code>（以统一代码格式），并确保删除起始代码中包含的任何占位代码或注释。
+
+<li>另外（可选）运行 <code>cmake --build build --target tidy</code> 以获取关于 C++ 编程实践的改进建议。
+</ul>
+
+你的风格评分可能还包括测试未覆盖的功能部分。
+<p>
+        <li><b>如何运行单个测试？</b></li>
+<p>将环境变量 TEST_ONLY 设置为测试的确切名称。例如，如果目标测试名为 "write, close, read"，则运行命令
+  <p><code>export TEST_ONLY="write, close, read"</code><p>。
+	  然后照常运行 <code>cmake --build build --target test</code>。此时只会运行指定的测试。你可以通过运行
+	  <code>unset TEST_ONLY</code> 来恢复原始行为。
+
+	  <li><b>如何打印调试信息并使其与测试步骤一起整齐地显示？</b></li>
+	  <p>包含 "debug.hh" 头文件，并使用 <code>debug()</code> 函数。该函数支持字符串插值。例如：<p><code>debug( "About to pop {} bytes", len );</code></p>
+	  
+        <li><b>可以在头文件中添加 include 语句吗？</b></li>
+        <p>可以，但请不要更改任何类的公共接口。</p>
+
+        <li><b>如何使用 <code>git</code>？</b></li>
+
+	<p>以下是一些<a href="https://try.github.io/">学习 Git 的资源</a>。
+
+        <p><b>简要概述：</b>Git 提交会保存代码当前状态的快照。例如，假设你破坏了一个你知道以前能正常工作的功能，但不确定是哪段代码导致了问题。如果你在功能正常时做了一次提交，就可以检出那次提交，查看一切还正常工作时的代码状态。所以，每次实现功能后都应该提交！提交步骤如下：<br>
+        首先，git add 你修改过的文件——每次提交前都需要 add。例如 <code>git add ./src/byte_stream.*</code><br>
+        然后，用一条描述代码当前状态的信息提交。例如 <code>git commit -m "All tests pass except many_writes times out."</code><br>
+        你可以通过运行 <code>git status</code> 查看修改了哪些文件。要深入了解 Git 仓库的状态，命令行工具 <code>tig</code> 或图形化工具 <code>gitk</code> 都非常有帮助。<br>
+        一个提交所有修改文件的快捷方式是 <code>git commit -am "[提交信息]"</code>。<br>
+        <p><b>实际检查：</b>如果你想验证自己确实提交了预期的文件，以下方法可能有用。<br>
+        首先，提交后运行 <code>git status</code>。你应该看到 <code>nothing to commit, working tree clean</code> 的提示。如果有未提交的更改，你会看到：<code>Changes not staged for commit:</code>。
+        <br>
+        其次，在将 git bundle 复制到 rice 服务器并登录 rice 后：
+        <ol>
+          <li>运行 <code>$ git clone [bundle name] [unbundled name]</code>。</li>
+          <li><code>cd</code> 进入解压后的目录。</li>
+          <li>运行 <code>$ git log</code> 并确认能看到你期望的提交记录。
+          <li>复制起始代码提交的 commit hash。</li>
+          <li>运行 <code>$ git diff [hash]</code> 以确认能看到你想提交的所有更改。</li>
+        </ol></p>
+
+        <li><b>如何调试？</b></li>
+	<p>上面关于运行单个测试的技巧以及 <code>debug()</code> 函数都是很好的入门方式。除此之外，<code>gdb</code> 是调试实验的强大工具！如果你需要复习，可以参考 <a href="https://web.stanford.edu/class/archive/cs/cs107/cs107.1202/resources/gdb">CS107 指南</a>。<br>
+
+        使用 <code>gdb</code> 调试测试的步骤：
+        <ol>
+          <li>安装 <code>gdb</code>（在虚拟机上，<code>sudo apt-get install gdb</code>）。</li>
+          <li>在 <code>build</code> 目录中启动 <code>gdb</code>，加载你想调试的测试对应的可执行文件（<code>ls tests</code> 可以查看可执行文件列表）。例如在 build 目录中运行：<code>gdb tests/byte_stream_one_write</code>。</li>
+          <li>测试失败的输出会显示失败的那部分测试。要在该部分设置断点，请在测试文件中对应测试用例创建的行上设置断点。测试源代码位于 <code>minnow/tests</code>（而不是 <code>minnow/build/tests</code>）。例如，如果你在 <code>byte_stream_one_write</code> 中 <code>write-pop2-end</code> 测试失败，<code>break 83</code>（即 <code>write-pop2-end</code> 测试用例创建的位置）。</li>
+          <li>你可以像往常一样使用函数名在自定义函数上设置断点。</li>
+        </ol>
+
+        其他注意事项：
+        <ul>
+          <li>我们不建议修改 <code>util</code> 目录中的任何文件，因为弄坏支持库会使调试变得困难。</li>
+          <li>如果测试超时，但你想检查在没有超时限制的情况下是否能通过，可以单独运行测试可执行文件，这样不会强制执行超时。例如在 build 目录中运行：<code>./tests/byte_stream_one_write</code>。</li>
+          <li><code>gdb</code> 可以帮助调试超时问题。在 <code>gdb</code> 中运行测试时，如果程序看起来卡住了（可能正在执行较慢的代码段），按 ctrl-C 然后 backtrace 来暂停并查看正在执行的代码。</li>
+        </ul></p>
+      </ol>
+
+ <h4>实验 0</h4>
+      <ol>
+        <li><b>如果调用者尝试以大于可用长度的 <code>len</code> 进行 pop，程序应该如何处理？</b></li>
+        对于调用者尝试弹出超过流中缓冲量的情况，我们没有任何偏好，只要你合理处理且不会崩溃即可。如果你想弹出最大可用量，我们认可。如果你想抛出异常，我们也认可。
+
+	<li><b>代码需要多快？</b></li>
+
+	  一个合理的参考标准是：如果任何测试耗时超过 2 秒，那可能值得继续探索其他表示 ByteStream 的方式。如果测试末尾的基准测试结果低于 0.1 Gbit/s（每秒 1 亿比特），这也是一个需要重新考虑设计的信号。本实验不需要复杂的数据结构，但可能仍需要一些试错才能找到合理的方案。有时候"大 O"分析可能会误导真实程序的性能评估——常数因子可能非常重要！
+	<p>
+      </ol>
+
+
+      
+      <!--
+      <h4>Lab 1</h4>
+      <ol>
+        <li><b>Which bytes should be accepted in a <code>push_substring</code> call?</b></li>
+        Those whose index is within <code>capacity</code> indices of the first unread byte in the re-assembled stream.
+        Pictorally:
+        <image src="images/reassembler.png" />
+        <li><b>Is it okay for our re-assembly data structure to store overlapping substrings?</b></li>
+        It's possible to implement an interface-correct reassembler which stores overlapping substrings.
+        However, allowing the re-assembler to do this undermines the notion of <code>capacity</code> as a memory limit, so we'll consider the storage of overlapping substrings to be a style violation when grading.
+      </ol>
+
+      <h4>Lab 2</h4>
+      <ol>
+        <li><b>Can we use <code>static_cast</code> in functions for <code>WrappingInt32</code>?</b></li>
+        Yes, these kinds of functions (those that explicitly convert between
+        numeric types) present exactly the kind of situation in which
+        <code>static_cast</code> is appropriate. Note also that
+        you don't
+	<em>need</em> to use <code>static_cast</code> if you don't
+	want to&mdash;you can
+	explicitly construct a WrappingInt32 with syntax
+	like <code>WrappingInt32{x}</code>.<p>
+
+	<li><b>Should <code>TCPReceiver::segment_received()</code> return
+	  true if <em>any</em> part of the segment is inside the window,
+	  even if both the beginning and end of the segment are outside
+	  the window?</b></li>
+
+	Good question&mdash;please
+	see <a href="https://piazza.com/class/k0u7fdam6082kb?cid=136">our
+	Piazza note</a> where we clarify this. The short answer is
+	that we've deleted a test in the lab2 starter code in order to
+	make both answers to this question (yes and no) acceptable.
+      </ol>
+
+      <h4>Lab 4</h4>
+      <ol>
+	<li><b>In <code>TCPConnection::segment_received</code>, what
+	    are the three conditions in which the TCPConnection needs
+	    to make <b>sure</b> that the segment receives at least one
+	    ACK segment in reply, and may need to force the TCPSender
+	    to spit out an empty segment to make this happen?</b><br>
+
+	  <ol>
+	    <li>If the incoming segment occupies any sequence numbers
+	      (<code>length_in_sequence_space() > 0</code>)
+
+	    <li>If the <code>TCPReceiver</code> thinks the segment
+	      is unacceptable (<code>TCPReceiver::segment_received()</code> returns <code>false</code>)
+
+	    <li>If the <code>TCPSender</code> thinks the ackno is invalid
+	      (<code>TCPSender::ack_received()</code> returns <code>false</code>)
+	  </ol>
+	  <p>
+
+	<li><b>Okay but hang on, what happens if
+	    the TCPConnection wants to send an ACK
+	    segment but the TCPReceiver's ackno is
+	    missing (e.g. because it hasn't gotten an incoming SYN
+	    yet)?</b><br>
+
+	  If the ackno is missing, then you can't send an ACK segment.
+	  Don't send one in this case.<p>
+
+	    <li><b>When is the connection fully over (i.e., when should
+		<code>active()</code> start returning false?</b><p>
+
+		There are two ways a connection can fully end:
+
+		<ul>
+		  <li><i>[Unclean shutdown]</i> Any segment with the RST flag is sent or received, <b>or</b>
+
+<li> <i>[Clean shutdown]</i> The sender is totally done (meaning, the sender's input stream is at EOF with no bytes in flight) <b>AND</b> the receiver is totally done (meaning, the receiver's output stream has ended) <b>AND either</b>
+
+  <ul>
+<li> <code>_linger_after_streams_finish</code> is false (no need to linger), or
+<li><code>time_since_last_segment_received() >= 10 * _cfg.rt_timeout</code> (we've lingered long enough)
+</ul>
+		</ul><p>
+
+		<li><b>I think I may be having some trouble with my
+logic about when a connection is fully over (i.e., when to stop
+returning <code>true</code> from <code>active()</code>).  Some of my
+tests are timing out. How can I debug this?</b><p>
+
+Check out <a href="https://piazza.com/class/k0u7fdam6082kb?cid=277">this Piazza
+thread</a> for a debugging approach that may help. It may be easier to
+run the client and server manually (as described there) if you want to figure
+out where things are going awry.<p>
+
+	<li><b>The test suite keeps talking about the state of the TCPReceiver and TCPSender&mdash;what are these states?</b><br>
+
+	  The test suite (and
+	  the <a href="https://github.com/CS144/sponge/blob/lab4-startercode/libsponge/tcp_helpers/tcp_state.hh">tcp_state.hh</a>
+	  and <a href="https://github.com/CS144/sponge/blob/lab4-startercode/libsponge/tcp_helpers/tcp_state.cc">tcp_state.cc</a>
+	  files) uses the public interface of your TCPSender and
+	  TCPReceiver to put them in broad categories or states. The
+	  tests make sure that your TCPSender/TCPReceiver are in the
+	  right state at the right time, given the actions taken.<p>
+
+<hr>
+
+Here is a diagram of the expected evolution (and definition of each
+state) for the TCPReceiver. The receiver starts with no ISN (and
+therefore no ackno) (<b>LISTEN</b>). Then it moves to a
+state <b>SYN_SENT</b> where it has received a SYN segment (so there is
+an ackno) but hasn't assembled a FIN segment (so the stream hasn't
+ended). This is where most of the connection happens. Eventually the
+receiver assembles a FIN segment and ends the stream
+(<b>FIN_RECV</b>).
+<p><p>
+
+<img src="images/receiver-evolution.svg">
+
+<p>
+
+<hr>
+
+And here is a diagram of the expected evolution (and definition of
+each state) for the TCPSender. The sender starts with nothing sent
+(<b>CLOSED</b>), then moves to a state <b>SYN_SENT</b> where it has
+sent something but nothing has been acknowledged. At some point, some
+bytes are acknowledged (<b>SYN_ACKED</b>). This is where most of the
+connection happens. Eventually, the stream ends and the sender sends a
+FIN segment (<b>FIN_SENT</b>), and some time after that, the stream is
+over and everything has been acknowledged (<b>FIN_ACKED</b>).
+
+<p>
+
+<p>
+
+<img src="images/sender-evolution.svg"> -->
+
+      </ol>
+    </div>
+  </body>
+</html>

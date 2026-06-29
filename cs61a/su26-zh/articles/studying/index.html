@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: 计算机程序的构造和解释" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+学习指南 | CS 61A 2026夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更换讨论区</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">课程录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">往年试题 & 网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教科书</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">代码规范</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中考试1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中考试2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末考试学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教员
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">讲师</a></li>
+                
+                <li><a href="../../staff/index.html">助教 & 辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>学习指南</h1>
+    </header>
+     <h2 id="exam-studying-guide">考试学习指南</h2>
+
+
+<blockquote><p>由 Josh Hug 提供，略有修改。</p></blockquote>
+
+<p>为考试学习是为了获得对材料的熟悉程度，使你能解决不只是重复你已经见过的事情的有趣问题。一些一般提示：</p>
+
+<ol>
+  <li>尽早开始并随着时间的推移分散开来。睡眠会有一些神奇的作用，让事情更好地沉入脑海。更多较短的学习日比少数短的学习日要好得多。事实上，我们布置有截止日期的作业的原因之一就是利用这个事实。</li>
+  <li>在学习中尽可能主动。解决问题和制作备忘单是"主动的"。重新观看讲座和重新阅读你已经读过的东西则不是。</li>
+  <li>经常缺失的组成部分：反思你自己的问题解决过程。通过与他人讨论，特别是与其他学生讨论（参见下面的建议工作流程），这要容易得多。</li>
+</ol>
+
+
+<h3 id="for-those-who-feel-behind">给感觉落后的人的建议</h3>
+
+
+<p>如果你对某些讲座感到非常不确定，请尽快观看视频和/或阅读。然后，立即尝试解决指导和讨论讲义上的一些问题。每个讲义都设计为随着你在工作表中深入而难度递增。尝试回答每个部分至少前几个问题。在你工作的过程中，将看似最重要的项目添加到你的备忘单中。</p>
+
+
+<h3 id="once-you-feel-up-to-date">一旦你感觉跟上进度</h3>
+
+
+<p>一旦你了解了基础知识，做阅读、阅读讲座和重新观看讲座不太可能有太大帮助（在我看来）。</p>
+
+<p>更好的方法是解决往年试题上的问题，以及指导和讨论讲义上的问题。</p>
+
+<p>甚至更好的方法是在尝试解决问题后仔细反思你的解决过程。这在周围有其他人时更容易做到。</p>
+
+<p>我建议的考试学习方法如下：</p>
+
+<ol>
+  <li>组成一个小型学习小组。</li>
+  <li>定期会面，就每次会议前每个人都应该尝试的一组问题达成一致。</li>
+  <li>在每次会议上，让每个人引导小组完成他们自己对其中一个问题的解决方案。其他人都应该插入他们的想法。看到你将发现什么捷径或低效可能会相当有启发性。重复直到你涵盖了所有问题，每个人都有机会发言。</li>
+</ol>
+
+<p>我在研究生院为我那令人难以置信的困难的研概率和统计课程做了这个，我当时真的希望我早点发现这个过程。你的 mileage 可能会有所不同。</p>
+
+<p>理想情况下，这个小组应该在整个学期中见面，而不仅仅是在考试前的几天。</p>
+
+
+<h2 id="solving-problems">解决问题</h2>
+
+
+<blockquote><p>基于 <a href="http://dx.doi.org/10.1145/2858036.2858252">Loksa, Ko, et al.</a> 的原始研究</p></blockquote>
+
+
+<h3 id="reinterpret-the-problem-prompt">重新解释问题提示</h3>
+
+
+<p>阅读 <em>并重新解释</em> 问题。通常，我们从一个要解决的问题的描述开始。重要的不仅仅是阅读问题，而是批判性地思考问题中细节的含义并澄清任何歧义。当我们直接跳入编码而没有首先思考问题并为我们自己提出问题時，我们经常遇到我们卡住的场景，需要问我们自己，"我应该在这里放什么？"或"正确的循环结束条件是什么？"这增加了认知负荷，要求我们上下文切换并从问题中移除我们自己，而我们回答一个侧面问题。</p>
+
+<p>在任何问题上要问自己的几个具体起始问题包括：</p>
+
+<ul>
+  <li>程序的 <strong>域</strong>（输入）和 <strong>范围</strong>（输出）是什么？</li>
+  <li>用你自己的话重述程序的预期行为。</li>
+  <li>随着程序执行，这个程序中的值将如何变化？</li>
+</ul>
+
+<p>通过研究文档测试来验证你的理解。在计算机科学中，问题的心理表征通常与其解决方案密切相关。</p>
+
+<p><strong>大提示总是在文档测试中给出！</strong> 文档测试告诉我们解决方案的形状和格式。如果我们足够仔细地查看文档测试中的模式，我们通常会暴露问题应该如何解决的结构中的细节。</p>
+
+<p>虽然它们提供了许多提示，但文档测试并不详尽，它们通常不显示最重要的情况。开发至少涵盖以下情况的示例：</p>
+
+<ul>
+  <li>我可以给这个函数的最小或最简单的输入是什么？</li>
+  <li>是否有类似的小输入对这个问题是 <em>无效</em> 的？它与早期情况有什么关系或有什么不同？</li>
+  <li>我们能想出任何与较小情况相关或依赖较大情况的程序的较大输入吗？这个想法是想出一些我们可能必须使用递归或其他技术解决的子问题。</li>
+</ul>
+
+
+<h3 id="search-for-analogous-problems">搜索类似问题</h3>
+
+
+<p>这个问题看起来和你以前见过的东西相似吗？凭借你在作业、实验和讨论中的经验，制定一个如何解决这个问题的总体思路。</p>
+
+<p>一旦我们确定了一个类似的问题，我们就可以提取解决这个问题的总体策略。虽然细节很有用，但从类似问题中复制和粘贴解决方案通常不会让我们走得很远。相反，通过问"包含这段代码目的是什么？"来用语言表达代码并用英语重新解释它。</p>
+
+
+<h3 id="adapting-previous-solutions">调整以前的解决方案</h3>
+
+
+<p>通过应用你学到的问题解决技术和你处理类似问题的经验来实现解决方案。例如，对于递归，尝试遵循找到基本情况、识别递归调用然后组合结果的步骤会有所帮助。然而，代码中的特定实现将取决于问题的具体细节。</p>
+
+<p>这是我们对问题的严格理解派上用场的地方。我们找到了一个具有相似但不完全相同的行为的类似问题，所以我们心中有一个 <strong>一般方法</strong>。我们知道正确程序中的域、范围和行为。使用在课堂上学到的 <em>问题解决技术</em>，<em>将一般方法应用</em> 到特定问题，以提出一个朝着解决方案迈出一步的初稿。</p>
+
+<p>它可能不完全正确，但这很好，也完全正常；完善问题的心理表征需要时间和练习。</p>
+
+
+<h3 id="evaluating-solutions">评估解决方案</h3>
+
+
+<p>分析并测试由此产生的实现。我们想要回答两个核心问题：</p>
+
+<ol>
+  <li>我的方法在正确的轨道上吗？如果没有，也许我们应该考虑另一个类似的问题。</li>
+  <li>如果我的方法方向正确，<strong>让我们评估</strong> 并验证解决方案的正确性。</li>
+</ol>
+
+<p><strong>要改进我们的代码，我们只需要问自己正确的问题。</strong>什么输入会破坏程序？像 Python 一样思考：逐步运行代码直到出现问题。我们有输出应该看起来像什么的示例，所以确保实际结果与预期相符。</p>
+
+<p>如果结果不一致，让我们尝试通过提出更具体的问题来确定为什么并进行调整。问题的根源在哪里？让我们回溯代码以找到问题的根源。然后，一旦我们找到了问题，让我们尝试搜索类似问题的相同方法，除了在这个特定的子问题上。</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#exam-studying-guide">考试学习指南</a></li>
+  <ul>
+    <li><a href="#for-those-who-feel-behind">给感觉落后的人的建议</a></li>
+    <li><a href="#once-you-feel-up-to-date">一旦你感觉跟上进度</a></li>
+  </ul>
+  <li><a href="#solving-problems">解决问题</a></li>
+  <ul>
+    <li><a href="#reinterpret-the-problem-prompt">重新解释问题提示</a></li>
+    <li><a href="#search-for-analogous-problems">搜索类似问题</a></li>
+    <li><a href="#adapting-previous-solutions">调整以前的解决方案</a></li>
+    <li><a href="#evaluating-solutions">评估解决方案</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

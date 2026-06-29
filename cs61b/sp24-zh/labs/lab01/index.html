@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验 01：环境配置 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验 01：环境配置" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab01/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验 01：环境配置" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验 01：环境配置","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab01/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     Link
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 01：环境配置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="terminal/index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           终端使用方法
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗流
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗流常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "期望输出 - 作业 2：渗流"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（NGrams）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（词网）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           验收 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             Ed 新用户指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       夏季 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验 01：环境配置
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 01：环境搭建
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#welcome-to-cs-61b">
+           欢迎来到 计算机科学 61B！
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#partners">
+             Partners
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#goals-and-workflow">
+             Goals and Workflow
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#personal-computer-setup">
+           Personal Computer 环境搭建
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#task-installing-git">
+             任务: Installing Git
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#the-terminal">
+           The Terminal
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#terminal-guide">
+             Terminal 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#github-and-beacon-accounts">
+           GitHub and Beacon Accounts
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#overview">
+             概述
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#task-setting-up-accounts">
+             任务: Setting Up Accounts
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#your-repository">
+             Your 仓库
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git">
+           Git
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#git-basics">
+             Git Basics
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#task-setting-up-git">
+             任务: Setting Up Git
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#git-and-remote-repos">
+             Git and 远程 Repos
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-git-repository-and-java-libraries">
+           任务: Git 仓库 and Java Libraries
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#java-libraries">
+             Java Libraries
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#authenticate-with-github">
+             Authenticate With Github
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#configure-personal-repository">
+             Configure Personal 仓库
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#getting-the-skeleton">
+             Getting the Skeleton
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-intellij-setup">
+           任务: IntelliJ 环境搭建
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#installing-intellij">
+             Installing IntelliJ
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#installing-plugins">
+             Installing Plugins
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#installing-java">
+             Installing Java
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#setting-up-assignments">
+             Setting Up 作业任务
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#creating-projects">
+             Creating 项目
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#intellij-test">
+             IntelliJ Test
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#testing-your-code">
+             测试 Your Code
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#task-saving-your-work-using-git-and-github">
+           任务: Saving Your Work using Git and GitHub
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submitting-to-gradescope">
+           Submitting to Gradescope
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables">
+           提交内容
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#optional-josh-hugs-color-schemes">
+           选修: Josh Hug&rsquo;s Color Schemes
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验 01：环境配置
+      </h1>
+      <!-- markdownlint-capture -->
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       每个作业都会有一个链接在顶部的常见问题。实验1的常见问题位于
+       <a href="faq/index.html">
+        此处
+       </a>
+       。
+       <strong>
+        常见问题（frequently asked questions）是学生经常遇到的问题和错误的汇总，
+       </strong>
+      </p>
+      <h2 id="welcome-to-cs-61b">
+       <a aria-labelledby="welcome-to-cs-61b" class="anchor-heading" href="#welcome-to-cs-61b">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       欢迎来到 计算机科学 61B！
+      </h2>
+      <p>
+       我们非常高兴本学期能与您一起学习！在开始之前，您需要有一台可以用来完成作业的电脑。在本课程中，您将使用真实世界的工具，这意味着您可能会遇到真实世界的问题。这些都是困难的问题，软件工程师每天都会遇到它们！
+       <strong>
+        不要气馁
+       </strong>
+       ，如果您遇到困难，一定要寻求帮助！
+      </p>
+      <p>
+       我们强烈建议参加实验课，并在实验课期间寻求帮助。如果您在实验课之外学习，可以在 Ed 上提问或参加办公时间。
+      </p>
+      <blockquote class="danger">
+       <p>
+        如果某些东西不工作，
+        <strong>
+         不要
+        </strong>
+        继续尝试随机的方法！相反，请寻求帮助。
+您的实验助教将告诉您如何加入队列。他们可能选择使用白板队列
+或
+        <a href="https://oh.datastructur.es">
+         在线办公时间队列
+        </a>
+        。
+       </p>
+       <p>
+        一般来说，当您等待时，您应该
+        <strong>
+         继续进行作业的下一步
+        </strong>
+        （如果可能的话）。
+       </p>
+      </blockquote>
+      <h3 id="partners">
+       <a aria-labelledby="partners" class="anchor-heading" href="#partners">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       合作伙伴
+      </h3>
+      <p>
+       计算机科学 61B 的实验是
+       <strong>
+        个人
+       </strong>
+       的。这意味着您需要编写并提交您自己的代码。特别是实验1，您需要设置自己的电脑。
+      </p>
+      <p>
+       但是，我们强烈鼓励与其他学生一起合作！面对面的实验课是寻找小组的绝佳场所。
+      </p>
+      <h3 id="goals-and-workflow">
+       <a aria-labelledby="goals-and-workflow" class="anchor-heading" href="#goals-and-workflow">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       目标与工作流程
+      </h3>
+      <p>
+       在本实验中，我们将完成本课程中将使用的软件设置。这包括终端、git、Java 和 IntelliJ 的介绍。我们还将通过一个小的 Java 程序来熟悉 Java 语言！
+      </p>
+      <blockquote class="info">
+       <p>
+        这个实验会很漫长！
+        <strong>
+         不要跳过任何步骤！
+        </strong>
+       </p>
+      </blockquote>
+      <h2 id="personal-computer-setup">
+       <a aria-labelledby="personal-computer-setup" class="anchor-heading" href="#personal-computer-setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       个人电脑设置
+      </h2>
+      <h3 id="task-installing-git">
+       <a aria-labelledby="task-installing-git" class="anchor-heading" href="#task-installing-git">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：安装 Git
+      </h3>
+      <!-- Install Git Instructions Here and come back later to do -->
+      <p>
+       安装方式因操作系统而异。
+      </p>
+      <!-- TODO: Rework these. Mac brew 是 *nasty*, just switch to the websites. -->
+      <!-- Hmm, Mac needs brew for git though. Blegh.  -->
+      <ul>
+       <li>
+        <a href="windows/index.html">
+         Windows 安装指南
+        </a>
+       </li>
+       <li>
+        <a href="mac/index.html">
+         macOS 安装指南
+        </a>
+       </li>
+       <li>
+        <a href="linux/index.html">
+         Linux 安装指南
+        </a>
+       </li>
+      </ul>
+      <p class="task">
+       按照您操作系统的指南安装软件。
+      </p>
+      <h2 id="the-terminal">
+       <a aria-labelledby="the-terminal" class="anchor-heading" href="#the-terminal">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       终端
+      </h2>
+      <h3 id="terminal-guide">
+       <a aria-labelledby="terminal-guide" class="anchor-heading" href="#terminal-guide">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       终端指南
+      </h3>
+      <p>
+       在 CS61B 中，我们将广泛使用终端来处理 git。终端还有一些其他命令可以让您处理文件夹或文件。我们在此简要指南中整理了这些命令，请务必阅读：
+       <strong>
+        <a href="terminal/index.html">
+         如何使用终端
+        </a>
+       </strong>
+       。
+      </p>
+      <p>
+       在终端中，您可以使用指南中的指定命令在不同目录之间移动、创建新文件、列出当前目录中的文件等。您将在本实验以及未来的作业中广泛使用终端，特别是用于提交作业。
+      </p>
+      <p class="task">
+       请阅读终端指南并熟悉这些命令！您也可以收藏此页面以供将来参考。
+      </p>
+      <h2 id="github-and-beacon-accounts">
+       <a aria-labelledby="github-and-beacon-accounts" class="anchor-heading" href="#github-and-beacon-accounts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       GitHub 和 Beacon 账户
+      </h2>
+      <h3 id="overview">
+       <a aria-labelledby="overview" class="anchor-heading" href="#overview">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       概述
+      </h3>
+      <p>
+       计算机科学 61B 使用名为 Beacon 的内部系统来集中管理成绩和学生信息，而不是使用 bCourses。
+      </p>
+      <p>
+       在本节中，我们将设置您的 Beacon 账户以及您的 计算机科学 61B GitHub
+仓库（"repo"），您将需要它来提交所有编程作业。
+      </p>
+      <h3 id="task-setting-up-accounts">
+       <a aria-labelledby="task-setting-up-accounts" class="anchor-heading" href="#task-setting-up-accounts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：设置账户
+      </h3>
+      <ol>
+       <li>
+        在
+        <a href="https://github.com/">
+         GitHub
+        </a>
+        上创建一个账户。如果您已经有账户，则不需要创建新账户。
+       </li>
+       <li>
+        前往
+        <a href="https://sp24.beacon.datastructur.es">
+         Beacon
+        </a>
+        并按照步骤完成您的 GitHub 仓库注册。您必须登录您的 伯克利 账户才能完成 Google 表格 syllabus 测验。
+       </li>
+       <li>
+        完成所有步骤后，您将收到一封电子邮件，邀请您协作处理课程 GitHub 仓库。接受电子邮件邀请以获取课程仓库的访问权限。此电子邮件将发送到
+        <strong>
+         您用于创建 GitHub 账户的电子邮件，该电子邮件可能不一定是您的 Berkeley 电子邮件
+        </strong>
+        。
+       </li>
+      </ol>
+      <blockquote class="warning">
+       <p>
+        不要按照 GitHub 提示您可能想做的说明操作。我们在本实验的后续部分有自己的说明。
+       </p>
+      </blockquote>
+      <p class="task">
+       按照上述步骤创建您的 GitHub 和 Beacon 账户，并连接它们。
+      </p>
+      <h3 id="your-repository">
+       <a aria-labelledby="your-repository" class="anchor-heading" href="#your-repository">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       您的仓库
+      </h3>
+      <p>
+       您的仓库将有一个包含唯一编号的名称。例如，如果您的仓库叫"
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s1
+       </code>
+       "，您将能够访问您的私有仓库
+at
+       <a href="https://github.com/Berkeley-CS61B-Student/sp24-s1">
+        https://github.com/伯克利-CS61B-Student/sp24-s1
+       </a>
+       （当登录 GitHub 时）。
+       <strong>
+        您的学号不是"1"，所以这个链接对您不起作用。请将"1"替换为您自己的编号以在 GitHub 上查看您的仓库。
+       </strong>
+      </p>
+      <p>
+       此外，
+       <strong>
+        课程工作人员将能够查看您的仓库。
+       </strong>
+       这意味着您可以在 Ed 或 Gitbugs 上私下提问调试问题时链接到您的代码。其他学生将无法查看您的仓库。
+      </p>
+      <p class="danger">
+       提醒您，您不得公开发布本课程的代码，即使在完成课程之后。这样做违反了我们的课程政策，您可能面临纪律处分。
+      </p>
+      <h2 id="git">
+       <a aria-labelledby="git" class="anchor-heading" href="#git">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git
+      </h2>
+      <h3 id="git-basics">
+       <a aria-labelledby="git-basics" class="anchor-heading" href="#git-basics">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 基础
+      </h3>
+      <p>
+       在本课程中，您需要使用 Git 版本控制系统，它在现实世界中几乎是通用的。由于其背后的抽象概念相当复杂，如果您在使用它时遇到很大的挫折感，请不要担心。
+      </p>
+      <p class="task">
+       在继续之前，
+       <strong>
+        阅读
+        <a href="../../resources/guides/git/index.html">
+         Git 使用指南
+        </a>
+        直到远程仓库部分
+       </strong>
+       。您不需要阅读超过该部分的内容。这是为了帮助您大致了解 Git 是什么。
+      </p>
+      <h3 id="task-setting-up-git">
+       <a aria-labelledby="task-setting-up-git" class="anchor-heading" href="#task-setting-up-git">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：设置 Git
+      </h3>
+      <p>
+       在使用 git 之前，我们需要配置一些简短的命令。
+      </p>
+      <p>
+       首先，打开您的终端。它看起来像这样：
+      </p>
+      <p style="max-height: 200;">
+       <img alt="empty_terminal" src="img/empty_terminal.png">
+      </p>
+      <p>
+       然后，使用以下两个命令设置 git 将使用的名称和电子邮件：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git config <span class="nt">--global</span> user.name <span class="s2">"&lt;your name&gt;"</span>
+git config <span class="nt">--global</span> user.email <span class="s2">"&lt;your email&gt;"</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       设置 git 的默认分支名称：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git config <span class="nt">--global</span> init.defaultBranch main
+</code></pre>
+       </div>
+      </div>
+      <p>
+       设置"合并策略"：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git config <span class="nt">--global</span> pull.rebase <span class="nb">false</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们还将更改与 git 关联的文本编辑器。有时，git 在输入诸如提交消息等内容时需要您的帮助，因此它会为您打开一个文本编辑器。默认编辑器是
+       <code class="language-plaintext highlighter-rouge">
+        vim
+       </code>
+       ，它以难以使用而闻名。我们为本课程推荐
+       <code class="language-plaintext highlighter-rouge">
+        nano
+       </code>
+       ，但您可以自由使用任何您喜欢的编辑器。
+      </p>
+      <p>
+       <strong>
+        按照
+        <a href="https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands-Setup-and-Config">
+         此处的说明
+        </a>
+       </strong>
+       进行操作。这将配置 Git 的默认编辑器（确保您按照正确的操作系统说明进行操作）。
+      </p>
+      <p class="task">
+       按照上述说明配置 git，并设置您喜欢的编辑器。
+      </p>
+      <h3 id="git-and-remote-repos">
+       <a aria-labelledby="git-and-remote-repos" class="anchor-heading" href="#git-and-remote-repos">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 和远程仓库
+      </h3>
+      <p>
+       首先，请阅读
+       <strong>
+        <a href="../../resources/guides/git/index.html#d-remote-repositories">
+         使用 Git 指南
+        </a>
+       </strong>
+       的
+       <strong>
+        远程仓库
+       </strong>
+       部分。
+      </p>
+      <p>
+       在本课程中，您需要使用 git 将代码提交到您在
+       <a href="#task-setting-up-accounts">
+        账户设置
+       </a>
+       中创建的课程 GitHub 仓库。这样做有几个原因：
+      </p>
+      <ul>
+       <li>
+        让您免于丢失文件的巨大痛苦。
+       </li>
+       <li>
+        提交您的作业以供评分，并从自动评分器获取结果。
+       </li>
+       <li>
+        让您免于因对文件进行未知更改而导致一切崩溃的巨大痛苦。
+       </li>
+       <li>
+        确保我们可以轻松访问您的代码，以便在您遇到困难时提供帮助。
+       </li>
+       <li>
+        <strong>
+         阻止您将解决方案发布在公共 GitHub 仓库的网络上
+        </strong>
+        。这是严重违反课程政策的行为！
+       </li>
+       <li>
+        让您接触到真实的工作流程，这在您未来从事的每个主要项目中都很常见。
+       </li>
+      </ul>
+      <h2 id="task-git-repository-and-java-libraries">
+       <a aria-labelledby="task-git-repository-and-java-libraries" class="anchor-heading" href="#task-git-repository-and-java-libraries">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：Git 仓库和 Java 库
+      </h2>
+      <h3 id="java-libraries">
+       <a aria-labelledby="java-libraries" class="anchor-heading" href="#java-libraries">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Java 库
+      </h3>
+      <p>
+       像 Python 一样，我们有时想使用别人编写的库。Java 依赖管理有点混乱，所以我们提供了一个包含本课程将使用的所有依赖项的 git 仓库。同样，确保您的终端已打开。
+      </p>
+      <p>
+       导航到您想要存储库的文件夹。对于本实验，我们假设您将所有内容放在一个名为
+       <strong>
+        cs61b
+       </strong>
+       的文件夹中。如果您愿意，可以选择不同的名称。这是在导航到您想要的位置、创建
+       <code class="language-plaintext highlighter-rouge">
+        cs61b
+       </code>
+       目录并进入其中之后的样子（在此示例中为
+       <code class="language-plaintext highlighter-rouge">
+        cd cs61b
+       </code>
+       ）：
+      </p>
+      <p style="max-height: 200;">
+       <img alt="terminal-directory" src="img/terminal_directory.png">
+      </p>
+      <p>
+       进入文件夹后，运行：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git clone https://github.com/Berkeley-CS61B/library-sp24
+</code></pre>
+       </div>
+      </div>
+      <p>
+       以下是
+       <code class="language-plaintext highlighter-rouge">
+        library-sp24
+       </code>
+       的目录结构。使用
+       <code class="language-plaintext highlighter-rouge">
+        ls library-sp24
+       </code>
+       查看文件夹内部，确保您看到下面列出的
+       <code class="language-plaintext highlighter-rouge">
+        .jar
+       </code>
+       文件。还有很多，但我们只列出前几个。如果您使用的是操作系统的文件资源管理器，
+       <code class="language-plaintext highlighter-rouge">
+        jar
+       </code>
+       部分可能不会显示在文件名中，这没关系。
+      </p>
+      <div class="language-console highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="go">library-sp24
+&boxvr;&boxh;&boxh; algs4.jar
+&boxvr;&boxh;&boxh; animated-gif-lib-1.4.jar
+&boxvr;&boxh;&boxh; antlr4-runtime-4.11.1.jar
+&boxvr;&boxh;&boxh; apiguardian-api-1.1.2.jar
+&boxur;&boxh;&boxh; ...
+</span></code></pre>
+       </div>
+      </div>
+      <p class="task">
+       按照上述说明获取课程库。
+      </p>
+      <h3 id="authenticate-with-github">
+       <a aria-labelledby="authenticate-with-github" class="anchor-heading" href="#authenticate-with-github">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       使用 Github 进行身份验证
+      </h3>
+      <p>
+       首先，在终端中运行以下命令。它将打印您拥有的任何 SSH 密钥（如果不存在则生成一个新的）：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>curl <span class="nt">-sS</span> https://sp24.datastructur.es/labs/lab01/get-ssh-key.sh | bash 
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       如果收到错误信息，如
+       <code class="language-plaintext highlighter-rouge">
+        bash: line 1: syntax error near unexpected token 'newline'
+       </code>
+       ，请尝试刷新此页面并运行更新后的命令。
+      </p>
+      <p>
+       使用提供的路径，运行以下命令，确保将
+       <code class="language-plaintext highlighter-rouge">
+        &lt;path_to_ssh_key&gt;
+       </code>
+       替换为 SSH 密钥的路径，
+       <strong>
+        并附加
+        <code class="language-plaintext highlighter-rouge">
+         .pub
+        </code>
+        后缀
+       </strong>
+       。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nb">cat</span> &lt;path_to_ssh_key&gt;.pub
+</code></pre>
+       </div>
+      </div>
+      <p>
+       运行上述命令的结果应该产生类似于以下格式的内容：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>ssh-ed25519 AAAAC3NzaC1lZDI1N6jpH3Bnbebi7Xz7wMr20LxZCKi3U8UQTE5AAAAIBTc2HwlbOi8T <span class="o">[</span>some-comment-here]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       然后，从终端复制输出。
+       <code class="language-plaintext highlighter-rouge">
+        [some-comment-here]
+       </code>
+       将取决于系统，可能因个人而异。将输出复制后，前往
+       <a href="https://github.com/settings/ssh/new">
+        Github，设置，SSH，GPG 密钥，新建 SSH 密钥
+       </a>
+       （或点击链接），并将输出粘贴到密钥部分。
+       <strong>
+        为密钥命名，以便记住它所在的设备或您认识到它是用于什么的，并选择密钥类型为身份验证密钥
+       </strong>
+       。然后，将密钥添加到您的账户。
+      </p>
+      <p>
+       在终端中，运行以下命令以使用 SSH 连接到 Github：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>ssh <span class="nt">-T</span> git@github.com
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果一切顺利，您应该会看到类似以下内容：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>Hi USERNAME! You<span class="s1">'ve successfully authenticated, but GitHub does not provide shell access.
+</span></code></pre>
+       </div>
+      </div>
+      <p>
+       您现在应该已成功通过 Github 身份验证，可以继续了！
+      </p>
+      <h3 id="configure-personal-repository">
+       <a aria-labelledby="configure-personal-repository" class="anchor-heading" href="#configure-personal-repository">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       配置个人仓库
+      </h3>
+      <p>
+       现在是时候克隆您的个人仓库了。与库一样，导航到您想要保存仓库的文件夹。我们建议它与您存储 Java 库的文件夹相同（例如
+       <code class="language-plaintext highlighter-rouge">
+        cs61b
+       </code>
+       ）。
+      </p>
+      <p class="danger">
+       不要将您的仓库放在
+       <code class="language-plaintext highlighter-rouge">
+        library-sp24
+       </code>
+       文件夹内。这会在将来造成麻烦。例如，它会在
+       <code class="language-plaintext highlighter-rouge">
+        cs61b
+       </code>
+       文件夹内，但不在
+       <code class="language-plaintext highlighter-rouge">
+        library-sp24
+       </code>
+       文件夹内（可能与库在同一级别）。
+      </p>
+      <p>
+       <strong>
+        请确保将
+        <code class="language-plaintext highlighter-rouge">
+         ***
+        </code>
+        替换为您的班级仓库编号（您可以在 Beacon 上找到此仓库编号）。
+       </strong>
+       然后运行以下命令：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git clone git@github.com:Berkeley-CS61B-Student/sp24-s<span class="k">***</span>.git
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       克隆后，您的终端会报告
+       <code class="language-plaintext highlighter-rouge">
+        warning: You appear to have cloned
+an empty repository.
+       </code>
+       这不是问题，这只是 git 告诉您仓库中没有文件。
+      </p>
+      <p>
+       进入您新创建的仓库！
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nb">cd </span>sp24-s<span class="k">***</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       确保我们使用的是预期的分支名
+       <code class="language-plaintext highlighter-rouge">
+        main
+       </code>
+       ：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git branch <span class="nt">-M</span> main
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <strong>
+        现在，我们将添加
+        <code class="language-plaintext highlighter-rouge">
+         skeleton
+        </code>
+        远程仓库。
+       </strong>
+       我们将作业的起始代码添加到
+       <code class="language-plaintext highlighter-rouge">
+        skeleton
+       </code>
+       ，您将从那里拉取（请确保您在运行此命令之前位于新创建的仓库中！）。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git remote add skeleton https://github.com/Berkeley-CS61B/skeleton-sp24.git
+</code></pre>
+       </div>
+      </div>
+      <p>
+       列出远程仓库现在应该同时显示
+       <code class="language-plaintext highlighter-rouge">
+        origin
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        skeleton
+       </code>
+       远程仓库。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git remote <span class="nt">-v</span>
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       如果看到像
+       <code class="language-plaintext highlighter-rouge">
+        fatal: not a git repository
+       </code>
+       这样的错误，请确保您已使用
+       <code class="language-plaintext highlighter-rouge">
+        cd
+       </code>
+       正确进入
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       目录。
+      </p>
+      <p class="task">
+       按照上述步骤克隆并配置您的仓库。
+      </p>
+      <h3 id="getting-the-skeleton">
+       <a aria-labelledby="getting-the-skeleton" class="anchor-heading" href="#getting-the-skeleton">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       获取框架代码
+      </h3>
+      <p>
+       skeleton 远程仓库包含所有作业的框架代码。每当发布新作业，或者我们需要更新作业时，您将从 skeleton 拉取。首先确保您在
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       仓库目录中。
+      </p>
+      <p>
+       接下来，运行以下命令获取实验 1 的框架代码：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git pull skeleton main
+</code></pre>
+       </div>
+      </div>
+      <p class="warning">
+       此时，您应该有一个
+       <code class="language-plaintext highlighter-rouge">
+        lab01
+       </code>
+       文件夹，其中包含
+       <code class="language-plaintext highlighter-rouge">
+        src/Arithmetic.java
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        tests/ArithmeticTests.java
+       </code>
+       。如果您
+       <strong>
+        没有这些内容
+       </strong>
+       ，请不要手动创建！相反，请从 skeleton 拉取或联系工作人员。
+      </p>
+      <h2 id="task-intellij-setup">
+       <a aria-labelledby="task-intellij-setup" class="anchor-heading" href="#task-intellij-setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：IntelliJ 配置
+      </h2>
+      <p>
+       IntelliJ 是一个集成开发环境（IDE）。IDE 是一个单一程序，结合了源代码编辑器、编译和运行代码的工具以及调试器。一些像 IntelliJ 这样的 IDE 包含更多功能，如集成终端和 git 命令的图形界面。最后，IDE 还有代码补全等工具，可以帮助您更快地编写 Java 代码。
+      </p>
+      <p>
+       我们
+       <em>
+        强烈
+       </em>
+       推荐使用 IntelliJ。我们的测试是用 IntelliJ 编写的，我们将在以后的实验中明确使用其调试器。此外，IntelliJ 是一款行业标准工具，如果您以后再次使用 Java，几乎肯定会遇到它。
+      </p>
+      <p>
+       我们将假设您正在使用 IntelliJ，并且不会为其他编辑器提供支持，包括 VSCode。
+      </p>
+      <p class="warning">
+       IntelliJ 是一个真实的工业软件开发应用程序。有许多功能我们不会使用，您有时会遇到没有意义的情况。
+       <strong>
+        如果您遇到困难或某些内容似乎有问题，请寻求帮助！
+       </strong>
+       在 IntelliJ 中猜测正确的操作可能非常困难。请查看
+       <a href="../../resources/guides/intellij/wtfs/index.html">
+        IntelliJ WTFS 指南
+       </a>
+       以获取一些常见问题的解决方案。
+      </p>
+      <p>
+       <strong>
+        在继续之前，请确保您已完成上述所有任务（git 练习除外）：
+       </strong>
+      </p>
+      <ol>
+       <li>
+        您已成功在自己的电脑上为课程创建了本地仓库。这是您之前的
+        <code class="language-plaintext highlighter-rouge">
+         sp24-s***
+        </code>
+        仓库。
+       </li>
+       <li>
+        您已从 skeleton 拉取，并拥有一个
+        <code class="language-plaintext highlighter-rouge">
+         lab01
+        </code>
+        目录。
+       </li>
+      </ol>
+      <h3 id="installing-intellij">
+       <a aria-labelledby="installing-intellij" class="anchor-heading" href="#installing-intellij">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       安装 IntelliJ
+      </h3>
+      <ol>
+       <li>
+        <p>
+         从
+         <a href="https://www.jetbrains.com/idea/download/">
+          JetBrains
+         </a>
+         网站下载 IntelliJ 社区版。作为学生，您实际上可以获得终极版的学生许可证，但我们不会使用任何额外功能。
+         <strong>
+          建议您使用社区版并假设您将使用社区版。
+          <br>
+          当您点击链接时，您看到的第一个是终极版&mdash;&mdash;确保向下滚动查找社区版。
+         </strong>
+        </p>
+        <p class="info">
+         如果您有 M1 或 M2 Mac，请选择".dmg (Apple Silicon)"。否则，请选择".dmg (Intel)"。
+        </p>
+       </li>
+       <li>
+        选择适合您操作系统的版本后，点击下载并等待几分钟让文件完成下载。
+       </li>
+       <li>
+        运行安装程序。如果您有旧版本的 IntelliJ，您应该此时卸载它并用这个新版本替换。
+       </li>
+      </ol>
+      <p class="info">
+       在 IntelliJ 下载时，您可以阅读/浏览我们的
+       <a href="../../resources/guides/intellij/index.html">
+        IntelliJ 使用指南
+       </a>
+       。您不需要阅读或内化所有这些内容来完成实验。IntelliJ 很复杂，但核心功能应该让您感觉与过去使用过的文本编辑器有些相似。
+      </p>
+      <h3 id="installing-plugins">
+       <a aria-labelledby="installing-plugins" class="anchor-heading" href="#installing-plugins">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       安装插件
+      </h3>
+      <p>
+       打开 IntelliJ。然后按照以下步骤操作。
+      </p>
+      <p>
+       <strong>
+        在继续之前，请确保您运行的是 2021.2 或更高版本的 IntelliJ。
+       </strong>
+       这是因为我们将使用 Java 17 或更高版本。我们使用的是
+       <strong>
+        IntelliJ 2023.2 版本
+       </strong>
+       （图中所示），它有更新的用户界面。请注意，本实验中可能有较旧的 IntelliJ 屏幕截图&mdash;&mdash;这没关系，因为总体布局仍然相对一致。
+      </p>
+      <ol>
+       <li>
+        <p>
+         在
+         <em>
+          欢迎
+         </em>
+         窗口中，点击左侧菜单中的
+         <strong>
+          "插件"
+         </strong>
+         按钮。
+        </p>
+        <p>
+         <img alt="Configure Plugin" src="img/plugin_setup1.png" style="max-height: 325;">
+        </p>
+       </li>
+       <li>
+        <p>
+         在出现的窗口中，点击"市场"并在顶部搜索栏中输入"CS 61B"。
+CS 61B 插件条目应该出现。
+如果您点击自动完成建议，可能会出现与下面略有不同的窗口&mdash;&mdash;这没关系。
+        </p>
+       </li>
+       <li>
+        <p>
+         点击绿色的
+         <strong>
+          安装
+         </strong>
+         按钮，等待插件下载和安装。
+        </p>
+        <p>
+         <img alt="搜索 计算机科学 61B" src="img/plugin_setup2.png" style="max-height: 250;">
+        </p>
+        <p>
+         如果您有从前一学期安装的插件，请确保更新它。
+        </p>
+       </li>
+       <li>
+        <p>
+         现在，搜索"Java Visualizer"，点击绿色的
+         <strong>
+          安装
+         </strong>
+         按钮安装该插件。
+        </p>
+        <p>
+         <img alt="搜索 Java Visualizer" src="img/plugin_setup3.png" style="max-height: 250;">
+        </p>
+       </li>
+       <li>
+        <p>
+         重启（关闭并重新打开）IntelliJ。
+        </p>
+       </li>
+      </ol>
+      <p>
+       有关使用插件的更多信息，请阅读
+       <a href="https://sp24.datastructur.es/resources/guides/intellij/plugins.md">
+        插件指南
+       </a>
+       。您现在不需要阅读这个。
+      </p>
+      <h3 id="installing-java">
+       <a aria-labelledby="installing-java" class="anchor-heading" href="#installing-java">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       安装 Java
+      </h3>
+      <p class="warning">
+       <strong>
+        这一步很重要！！
+       </strong>
+      </p>
+      <p>
+       安装好 IntelliJ 和插件后，我们就可以安装 JDK 了。请按照以下步骤操作：
+      </p>
+      <ol>
+       <li>
+        启动 IntelliJ。如果没有打开的项目，请点击"打开"按钮。如果当前有项目打开，请导航到"文件 &rarr; 打开"。
+       </li>
+       <li>
+        找到并选择当前作业的目录。例如，对于实验 1，您应该选择
+        <code class="language-plaintext highlighter-rouge">
+         sp24-s***
+        </code>
+        中的 lab01 目录。
+       </li>
+       <li>
+        导航到"文件 &rarr; 项目结构"菜单，确保您在"项目"选项卡中。然后，按照
+        <a href="https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk">
+         设置项目 JDK
+        </a>
+        中的说明下载您的 JDK 版本。
+        <strong>
+         选择 17 或更高版本！
+        </strong>
+        根据您选择的版本，确保它与语言级别兼容（例如，如果您选择 SDK 18，请将语言级别设置为 18）。
+       </li>
+      </ol>
+      <h3 id="setting-up-assignments">
+       <a aria-labelledby="setting-up-assignments" class="anchor-heading" href="#setting-up-assignments">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设置作业
+      </h3>
+      <p>
+       按照
+       <a href="../../resources/guides/assignment-workflow/index.html#opening-in-intellij">
+        作业工作流程指南的"在 IntelliJ 中打开"部分
+       </a>
+       中的说明打开
+       <code class="language-plaintext highlighter-rouge">
+        lab01
+       </code>
+       （如果您还没有从上一节退出，可以从第 3 步开始）。
+      </p>
+      <p>
+       <strong>
+        每次打开作业时，您都需要确保您的项目结构已设置好，并且您已添加
+        <code class="language-plaintext highlighter-rouge">
+         library-sp24
+        </code>
+        包
+       </strong>
+       。
+      </p>
+      <h3 id="creating-projects">
+       <a aria-labelledby="creating-projects" class="anchor-heading" href="#creating-projects">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       创建项目
+      </h3>
+      <p>
+       打开
+       <code class="language-plaintext highlighter-rouge">
+        lab01
+       </code>
+       并设置好后，您应该在左侧窗格中看到以下文件：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         src/Arithmetic
+        </code>
+        ，一个包含您的第一个编程练习的 Java 文件。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         tests/ArithmeticTest
+        </code>
+        ，另一个 Java 文件，用于检查
+        <code class="language-plaintext highlighter-rouge">
+         Arithmetic
+        </code>
+        是否正确实现。
+       </li>
+      </ul>
+      <p>
+       <img alt="arithmetic intellij" src="img/arithmetic_intellij.png" style="max-height: 250;">
+      </p>
+      <p>
+       当您打开
+       <code class="language-plaintext highlighter-rouge">
+        Arithmetic
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        ArithmeticTest
+       </code>
+       时，您不应该看到任何红色文本或红色波浪线。
+      </p>
+      <h3 id="intellij-test">
+       <a aria-labelledby="intellij-test" class="anchor-heading" href="#intellij-test">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       IntelliJ 测试
+      </h3>
+      <p>
+       要测试一切是否正常工作，请打开
+       <code class="language-plaintext highlighter-rouge">
+        Arithmetic
+       </code>
+       文件，点击
+       <code class="language-plaintext highlighter-rouge">
+        public class Arithmetic
+       </code>
+       旁边的绿色三角形，然后点击"运行 'Arithmetic.main()'"来运行该类。
+      </p>
+      <p>
+       <img alt="arithmetic_run_main" src="img/arithmetic_run_main.png" style="max-height: 250;">
+      </p>
+      <details>
+       <summary>
+        <p>
+         <strong>
+          还有其他运行 main 方法的方式。
+         </strong>
+        </p>
+       </summary>
+       <p>
+        <img alt="run_main_method" src="img/run_main_intellij.png" style="max-height: 250;">
+       </p>
+       <p>
+        假设文件有一个
+        <code class="language-plaintext highlighter-rouge">
+         main
+        </code>
+        方法，您可以在项目视图中右键单击该文件，然后导航到
+        <code class="language-plaintext highlighter-rouge">
+         [filename].main()
+        </code>
+        。您也可以通过右上角的绿色箭头（红色轮廓中）运行它。
+       </p>
+      </details>
+      <p>
+       您应该会看到一个控制台弹出，提示您输入数字：
+      </p>
+      <p>
+       <img alt="arithmetic prompt" src="img/arithmetic_prompt.png" style="max-height: 250;">
+      </p>
+      <p>
+       如果您按照提示操作，您可能会看到一些错误！
+       <strong>
+        先不要修复。
+       </strong>
+      </p>
+      <h3 id="testing-your-code">
+       <a aria-labelledby="testing-your-code" class="anchor-heading" href="#testing-your-code">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试您的代码
+      </h3>
+      <p>
+       虽然我们可以一次又一次地运行
+       <code class="language-plaintext highlighter-rouge">
+        Arithmetic
+       </code>
+       文件来检查我们的代码是否正确工作，但每次都要输入程序并手动检查输出是否正确会花费很多时间。相反，我们使用
+       <strong>
+        测试
+       </strong>
+       。
+      </p>
+      <p>
+       打开
+       <code class="language-plaintext highlighter-rouge">
+        ArithmeticTest
+       </code>
+       ，点击
+       <code class="language-plaintext highlighter-rouge">
+        public class ArithmeticTest
+       </code>
+       旁边的绿色三角形。这将运行我们在本作业中提供的测试。此时，您将看到以下内容：
+      </p>
+      <p style="max-height: 200;">
+       <img alt="arithmetic test failed" src="img/arithmetic_test_failed.png">
+      </p>
+      <p>
+       绿色勾选标记（
+       <img alt="checkmark" class="inline" src="img/testPassed.png">
+       ）表示您已通过的测试，而黄色 X（
+       <img alt="failed" class="inline" src="img/testFailed.png">
+       ）表示您未通过的测试。不必担心重复的输出；这是 IntelliJ 的一个奇怪特性。
+      </p>
+      <p class="task">
+       修复
+       <code class="language-plaintext highlighter-rouge">
+        Arithmetic.java
+       </code>
+       中的错误，使测试通过。
+      </p>
+      <h2 id="task-saving-your-work-using-git-and-github">
+       <a aria-labelledby="task-saving-your-work-using-git-and-github" class="anchor-heading" href="#task-saving-your-work-using-git-and-github">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       任务：使用 Git 和 GitHub 保存您的工作
+      </h2>
+      <p>
+       在修改代码时，养成经常保存工作的好习惯。我们已经简要讨论过这些命令，但现在我们将解释它们在实践中应该如何使用。如果您想回到代码的另一个版本，最好有更多回滚的选项。下一组说明将引导您了解 git 如何通过称为"提交"的快照来保存您的文件系统工作。
+      </p>
+      <ol>
+       <li>
+        <p>
+         在本地仓库中对代码进行一些更改后，git 会注意到这些更改。要查看本地仓库的当前状态，请使用命令
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         。运行此命令并尝试解释结果。它们对您有意义吗？或者与您的直觉一致？在运行其他 git 命令之前运行此命令以了解状态是一个好习惯。
+        </p>
+       </li>
+       <li>
+        <p>
+         要保存我们已在文件上完成的工作，我们首先暂存文件，然后可以提交。我们使用命令
+         <code class="language-plaintext highlighter-rouge">
+          git add
+         </code>
+         暂存文件。这不会保存文件，但会标记它以便下次提交时保存。以下两个命令显示了如何在 git 仓库中保存工作。对于
+         <code class="language-plaintext highlighter-rouge">
+          git add
+         </code>
+         ，根据您所在的目录，您添加的文件的路径可能不同（使用
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         查看路径）。
+        </p>
+        <p>
+         commit 命令的
+         <code class="language-plaintext highlighter-rouge">
+          -m "Completed Arithmetic.java"
+         </code>
+         部分指定要附加到此快照的消息。您应该始终有一条提交消息来识别此提交中发生的确切内容。作为示例工作流程：
+        </p>
+        <div class="language-shell highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>git add lab01/src/Arithmetic.java
+git commit <span class="nt">-m</span> <span class="s2">"lab01: Completed Arithmetic.java"</span>
+</code></pre>
+         </div>
+        </div>
+        <p>
+         如果您运行
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         ，您将看到
+         <code class="language-plaintext highlighter-rouge">
+          Your branch 是 ahead of 'origin/main'
+         </code>
+         。您还将看到暂存的更改不再被暂存，而是被提交。如果您自暂存以来没有编辑，则不应有任何未暂存的更改。
+        </p>
+       </li>
+       <li>
+        <p>
+         我们希望将这些更改推送到 GitHub 仓库，这样我们和 Gradescope 就能看到您的更改。如果您在其他地方或其他电脑上初始化了仓库，您的更改也可以被
+         <code class="language-plaintext highlighter-rouge">
+          pull
+         </code>
+         下来。
+        </p>
+        <div class="language-shell highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>git push origin main
+</code></pre>
+         </div>
+        </div>
+        <p>
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         现在将显示
+         <code class="language-plaintext highlighter-rouge">
+          你的分支与远程分支同步 'origin/main'
+         </code>
+         。
+        </p>
+       </li>
+      </ol>
+      <p class="warning">
+       养成保存文件和
+       <em>
+        经常
+       </em>
+       执行
+       <code class="language-plaintext highlighter-rouge">
+        git commit
+       </code>
+       步骤的习惯（例如每 15 分钟一次）。当您搞砸事情时，这将非常有帮助，因为它允许您撤销更改并查看您最近更改了什么。
+      </p>
+      <p>
+       基本上，当您坐在仓库中开始工作时，首先执行
+       <code class="language-plaintext highlighter-rouge">
+        git pull
+       </code>
+       以确保您从最新代码开始。当您工作时，经常提交。完成后，执行
+       <code class="language-plaintext highlighter-rouge">
+        git push origin main
+       </code>
+       ，以便所有更改都已上传并准备好下次拉取。
+      </p>
+      <h2 id="submitting-to-gradescope">
+       <a aria-labelledby="submitting-to-gradescope" class="anchor-heading" href="#submitting-to-gradescope">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交到 Gradescope
+      </h2>
+      <p>
+       虽然我们使用 GitHub 来存储我们的编程作业，但我们使用
+       <strong>
+        Gradescope
+       </strong>
+       来实际评分。最后一步是使用
+       <a href="https://www.gradescope.com/courses/708063">
+        Gradescope
+       </a>
+       提交您的作业，我们用它来自动评分编程作业。
+      </p>
+      <blockquote class="info">
+       <p>
+        我们在实验第一天将每个人的 CalCentral 电子邮件添加到 Gradescope。请确保使用 CalCentral 上列出的电子邮件地址登录。
+       </p>
+       <p>
+        如果您在访问 Gradescope 上的课程时遇到困难或想使用其他电子邮件地址，请联系您的 TA！
+       </p>
+      </blockquote>
+      <p class="task">
+       如果您还没有，请确保您已添加、提交并推送了您的更改。为方便起见，步骤重复如下。
+      </p>
+      <ol>
+       <li>
+        <p>
+         使用
+         <code class="language-plaintext highlighter-rouge">
+          git add
+         </code>
+         添加您的作业目录。例如，对于实验 1，从您的仓库根目录（
+         <code class="language-plaintext highlighter-rouge">
+          sp24-s***
+         </code>
+         ）您应该使用
+         <code class="language-plaintext highlighter-rouge">
+          git add lab01
+         </code>
+         。
+        </p>
+       </li>
+       <li>
+        <p>
+         使用
+         <code class="language-plaintext highlighter-rouge">
+          git commit -m "&lt;在此处填写提交信息&gt;"
+         </code>
+         提交文件。提交信息是必需的。例如，
+         <code class="language-plaintext highlighter-rouge">
+          git commit -m "完成实验 1"
+         </code>
+         。
+        </p>
+       </li>
+       <li>
+        <p>
+         使用
+         <code class="language-plaintext highlighter-rouge">
+          git push origin main
+         </code>
+         将您的代码推送到远程仓库。您可以通过导航到 GitHub 上的个人仓库并检查您的更改是否已反映来验证更改是否已推送。
+        </p>
+       </li>
+       <li>
+        <p>
+         在 Gradescope 上打开作业。选择 GitHub，然后选择您的
+         <code class="language-plaintext highlighter-rouge">
+          sp24-s***
+         </code>
+         仓库和 main 分支，然后提交您的作业。您将收到一封确认电子邮件，自动评分器将自动运行。Gradescope 将使用您 GitHub 上代码的最新版本。
+         <strong>
+          如果您认为 Gradescope 没有对正确的代码进行评分，请使用
+         </strong>
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         <strong>
+          检查您是否已添加、提交和推送。
+         </strong>
+        </p>
+       </li>
+      </ol>
+      <h2 id="deliverables">
+       <a aria-labelledby="deliverables" class="anchor-heading" href="#deliverables">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付物
+      </h2>
+      <p>
+       提醒一下，本作业有一个
+       <a href="faq/index.html">
+        常见问题页面
+       </a>
+       。有一个必需文件，都在
+       <code class="language-plaintext highlighter-rouge">
+        lab01
+       </code>
+       目录内：
+      </p>
+      <dl>
+       <dt>
+        <code class="language-plaintext highlighter-rouge">
+         Arithmetic.java
+        </code>
+       </dt>
+       <dd>
+        您应该修复错误以使测试通过。我们会使用自动评分器检查此文件！对于此实验，自动评分器测试与您计算机上的测试相同。
+       </dd>
+      </dl>
+      <p class="task">
+       如果您还没有，请确保您已添加、提交并推送您的更改到 Github（根据上面指定的工作流程）。如果您通过了
+       <code class="language-plaintext highlighter-rouge">
+        ArithmeticTest.java
+       </code>
+       中的所有测试，您应该会收到实验的满分。
+      </p>
+      <p>
+       <strong>
+        恭喜您完成了第一个 CS 61B 实验！
+       </strong>
+      </p>
+      <p>
+       如果您需要重温如何提交作业，可以参考
+       <a href="../../resources/guides/assignment-workflow/index.html#opening-in-intellij">
+        作业工作流程指南
+       </a>
+       。
+      </p>
+      <h2 id="optional-josh-hugs-color-schemes">
+       <a aria-labelledby="optional-josh-hugs-color-schemes" class="anchor-heading" href="#optional-josh-hugs-color-schemes">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       可选：Josh Hug 的配色方案
+      </h2>
+      <p>
+       Per Josh Hug:
+      </p>
+      <blockquote>
+       <p>
+        我不是默认 IntelliJ 颜色的忠实粉丝。
+       </p>
+       <p>
+        <strong>
+         Sunburst
+        </strong>
+        ：如果您想要在大多数讲座视频中使用的配色方案，这是我制作的一个自定义配色方案，非常接近 Sublime 的伟大 Sunburst 主题。要使用 Sunburst，请下载
+        <a href="hug_sunburst.jar">
+         hug_sunburst
+        </a>
+        ，然后使用 IntelliJ 中的"文件 &rarr; 管理 IDE 设置 &rarr; 导入设置"选项导入。您可能会得到大文本，这是我用于录制视频的。要调整 Intellij 中的字体大小，请参阅
+        <a href="https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html">
+         此链接
+        </a>
+        。
+       </p>
+       <p>
+        <strong>
+         Mariana Pro
+        </strong>
+        ：2022 年，我切换到了 Mariana Pro。它不像 Sunburst 那样有身处森林的感觉，但有更多颜色深度。要获取 Mariana Pro，请到您用于安装 计算机科学 61B 插件的同一插件商店，搜索"Mariana Pro"。此插件由 Thibault Soulabaille 制作。请注意，我喜欢纯黑色背景，而 Mariana Pro 是深灰色。您可以使用
+        <a href="https://stackoverflow.com/questions/19411510/how-do-you-change-background-color-in-the-settings-of-jetbrains-ide">
+         这些说明
+        </a>
+        更改背景颜色。
+       </p>
+      </blockquote>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

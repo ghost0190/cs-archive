@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   项目 2B：Ngordnet（Wordnet） | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="项目 2B：Ngordnet（Wordnet）" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="项目 2B 说明。" name="description">
+  <meta content="项目 2B 说明。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj2b/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="项目 2B：Ngordnet（Wordnet）" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目 2B 说明。","headline":"项目 2B：Ngordnet（Wordnet）","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj2b/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       课程日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       教学团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab02/index.html">
+         实验 02: 调试 (部分 1)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab03/index.html">
+         实验 03: 调试 (部分 2)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析 题目 解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A: Java Syntax
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/flags/index.html">
+           Coverage Tests - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/flags/index.html">
+           Coverage Tests - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj3/index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/faq/index.html">
+           常见问题 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/proj3checkoff/index.html">
+           检查点 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 课程政策 and Guidelines
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Using the Soda 实验 Machines
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑排队
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        项目 2B：Ngordnet（Wordnet）
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        项目 2B: Ngordnet (Wordnet)
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#checkpoint--design-doc-due-03152024">
+           Checkpoint & Design Doc Due 03/15/2024
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#coding-due-04012024">
+           Coding Due 04/01/2024
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#design-notes">
+             Design Notes
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#project-setup">
+           项目 环境搭建
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#skeleton-setup">
+             Skeleton 环境搭建
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#getting-started">
+           入门指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#using-the-wordnet-dataset">
+           Using the WordNet Dataset
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#hyponyms-basic-case">
+           Hyponyms (Basic Case)
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#setting-up-a-hyponymshandler">
+             Setting up a HyponymsHandler
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#hyponyms-handler-basic-case">
+             Hyponyms Handler (Basic Case)
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#wordnet-file-format">
+             WordNet File Format
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#suggested-steps-to-take">
+             Suggested 步骤 to Take
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#design-tips">
+             Design 提示
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#handling-lists-of-words">
+           Handling Lists of Words
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables-and-scoring">
+           提交内容 and Scoring
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#testing-your-code">
+           测试 Your Code
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#debugging-tips">
+           调试 提示
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submitting-your-code">
+           Submitting Your Code
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#acknowledgements">
+           致谢
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       项目 2B：Ngordnet（Wordnet）
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每个作业都会在顶部链接一个常见问题。你也可以通过在 URL 末尾添加"/faq"来访问它。项目 2B 的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="checkpoint--design-doc-due-03152024">
+       <a aria-labelledby="checkpoint--design-doc-due-03152024" class="anchor-heading" href="#checkpoint--design-doc-due-03152024">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       检查点和设计文档截止日期：2024年3月15日
+      </h2>
+      <h2 id="coding-due-04012024">
+       <a aria-labelledby="coding-due-04012024" class="anchor-heading" href="#coding-due-04012024">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       代码截止日期：2024年4月1日
+      </h2>
+      <p>
+       在这个项目中，你将完成 NGordnet 工具的实现。
+      </p>
+      <p>
+       由于这是一个相当新的项目，可能偶尔会有错误或对说明的混淆。如果你注意到任何这类问题，请在 Ed 上发帖。
+      </p>
+      <blockquote class="danger">
+       <p>
+        <strong>
+         重要提示：
+        </strong>
+        在你阅读完 2B 说明后，你可能会忍不住开始编码。请不要这样做！
+       </p>
+       <p>
+        在为 2B 实现任何代码之前，请阅读 2C 说明，因为你的设计可能会根据 2C 而改变。你可以在
+        <a href="../proj2c/index.html">
+         这里
+        </a>
+        找到它。
+       </p>
+       <p>
+        然后，在开始编码之前完成
+        <a href="https://www.gradescope.com/courses/708063/assignments/4133684">
+         项目 2B/C：检查点
+        </a>
+        和
+        <a href="https://www.gradescope.com/courses/708063/assignments/4187810">
+         设计文档
+        </a>
+        。
+       </p>
+      </blockquote>
+      <h3 id="design-notes">
+       <a aria-labelledby="design-notes" class="anchor-heading" href="#design-notes">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设计说明
+      </h3>
+      <p>
+       在设计你的项目时，提前考虑所有需求。提前规划将确保你在项目的某些阶段不需要重写所有代码。
+      </p>
+      <p>
+       如果你发现自己在复制粘贴或重复大量已经写过的代码，那么可能有机会直接重用它，或者稍微修改一下，这样你就不必经常重复了。
+      </p>
+      <h2 id="project-setup">
+       <a aria-labelledby="project-setup" class="anchor-heading" href="#project-setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       项目设置
+      </h2>
+      <p class="danger">
+       <strong>
+        这个项目的设置与其他实验/项目不同。请不要跳过这一步！
+       </strong>
+      </p>
+      <h3 id="skeleton-setup">
+       <a aria-labelledby="skeleton-setup" class="anchor-heading" href="#skeleton-setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       骨架代码设置
+      </h3>
+      <ol>
+       <li>
+        与本课程的其他作业类似，运行
+        <code class="language-plaintext highlighter-rouge">
+         git pull skeleton main
+        </code>
+        来获取这个项目的骨架代码。
+       </li>
+       <li>
+        使用
+        <a href="https://drive.google.com/file/d/160iHOqwR4FAghGshbnSNMwd0idrjZxTR/view?usp=sharing">
+         此链接
+        </a>
+        下载这个项目的
+        <code class="language-plaintext highlighter-rouge">
+         data
+        </code>
+        文件，并将它们移动到你的
+        <code class="language-plaintext highlighter-rouge">
+         proj2b
+        </code>
+        文件夹中，与
+        <code class="language-plaintext highlighter-rouge">
+         src
+        </code>
+        同级。
+       </li>
+      </ol>
+      <p>
+       完成后，你的
+       <code class="language-plaintext highlighter-rouge">
+        proj2b
+       </code>
+       目录应该如下所示：
+      </p>
+      <div class="language-sh highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>proj2b
+&boxvr;&boxh;&boxh; data
+&boxv;   &boxvr;&boxh;&boxh; ngrams
+&boxv;   &boxur;&boxh;&boxh; wordnet
+&boxvr;&boxh;&boxh; src
+&boxvr;&boxh;&boxh; static
+&boxvr;&boxh;&boxh; tests
+</code></pre>
+       </div>
+      </div>
+      <h2 id="getting-started">
+       <a aria-labelledby="getting-started" class="anchor-heading" href="#getting-started">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       入门指南
+      </h2>
+      <p class="warning">
+       <strong>
+        重要提示：
+       </strong>
+       在开始编码甚至设计项目之前，你
+       <em>
+        真的
+       </em>
+       应该先完成
+       <strong>
+        项目 2B/C：
+        <a href="https://www.gradescope.com/courses/708063/assignments/4133684">
+         检查点
+        </a>
+       </strong>
+       。我们认为这对你理解项目会有帮助。我们还要求你向 Gradescope 提交一份
+       <a href="https://docs.google.com/document/d/1Vx7QAz4HFN0rEFFEt5rocY2X5AWVcIFFpRmD8vhegOM/edit?usp=sharing">
+        设计文档
+       </a>
+       。关于设计文档的更多细节可以在
+       <a href="#deliverables-and-scoring">
+        交付成果和评分
+       </a>
+       中找到。
+      </p>
+      <blockquote class="task">
+       <p>
+        完成
+        <strong>
+         项目 2B/C：
+         <a href="https://www.gradescope.com/courses/708063/assignments/4133684">
+          检查点
+         </a>
+        </strong>
+       </p>
+       <p>
+        完成检查点后，完成
+        <strong>
+         <a href="https://www.gradescope.com/courses/708063/assignments/4187810">
+          设计文档
+         </a>
+        </strong>
+       </p>
+      </blockquote>
+      <p>
+       项目的这一部分是为让你为实现设计出高效且正确的方案而设计的。你提出的设计对于处理这些情况将非常重要。在开始设计文档之前，请仔细阅读 2B 和 2C 的说明。
+      </p>
+      <p>
+       课程工作人员已经制作了一些关于项目和入门代码的介绍视频，可在
+       <a href="https://www.youtube.com/playlist?list=PLNpmrGKEeMf727KwSrG8Ez1o3odK--o9i">
+        这里
+       </a>
+       查看。请注意，我们已经改变了项目结构，所以一些信息可能已经过时！
+      </p>
+      <p>
+       我们还创建了两个很棒的工具，你可以（也应该！）用它们来探索数据集，查看教学团队解决方案对特定输入的行为方式，并获取单元测试的预期输出（参见
+       <a href="#testing-your-code">
+        测试你的代码
+       </a>
+       ）。我们会在这里以及说明的其他相关部分链接它们。
+      </p>
+      <ul>
+       <li>
+        <a href="https://www.qxbytes.com/wordnet/">
+         Wordnet 可视化工具
+        </a>
+        ：有助于直观理解同义词集和下义词如何工作，并测试不同的单词/单词列表作为潜在的测试用例输入。点击"?"气泡了解如何使用这个工具的各种功能！
+       </li>
+       <li>
+        <a href="https://ngordnet.datastructur.es/">
+         教学团队解决方案网页
+        </a>
+        ：有助于为不同的测试用例输入生成预期输出。用这个来编写你的单元测试！
+       </li>
+      </ul>
+      <blockquote class="task">
+       <p>
+        通读整个 2B/C 说明并完成
+        <strong>
+         项目 2B/C：
+         <a href="https://www.gradescope.com/courses/708063/assignments/4133684">
+          检查点
+         </a>
+        </strong>
+       </p>
+       <p>
+        通读整个 2B/C 说明并完成
+        <strong>
+         <a href="https://www.gradescope.com/courses/708063/assignments/4187810">
+          设计文档
+         </a>
+        </strong>
+       </p>
+      </blockquote>
+      <h2 id="using-the-wordnet-dataset">
+       <a aria-labelledby="using-the-wordnet-dataset" class="anchor-heading" href="#using-the-wordnet-dataset">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       使用 WordNet 数据集
+      </h2>
+      <p>
+       在我们将 WordNet 整合到项目中之前，我们首先需要了解 WordNet 数据集。
+      </p>
+      <p>
+       <a href="https://en.wikipedia.org/wiki/WordNet">
+        WordNet
+       </a>
+       是一个"英语语言的语义词典"，被计算语言学家和认知科学家广泛使用；例如，它是 IBM 的 Watson 中的一个关键组件。WordNet 将单词分组为称为同义词集（synsets）的同义词集合，并描述它们之间的语义关系。其中一种关系是"是一种"（is-a）关系，它将一个
+       <strong>
+        下义
+       </strong>
+       词（更具体的同义词集）连接到一个
+       <strong>
+        上义
+       </strong>
+       词（更一般的同义词集）。例如，"变化"is"降级"的
+       <strong>
+        上义词
+       </strong>
+       ，因为"降级"是一种"变化"。"变化"反过来又是"行动"的
+       <strong>
+        下义词
+       </strong>
+       ，因为"变化"是一种"行动"。英语中一些下义关系的可视化描述如下：
+      </p>
+      <p>
+       <img alt="WordNet" src="wordnet-fig1.png" title="WordNet">
+      </p>
+      <p>
+       上图中的每个节点都是一个
+       <strong>
+        同义词集（synset）
+       </strong>
+       。同义词集由一个或多个具有相同含义的英语单词组成。例如，一个同义词集是
+       <a href="http://wordnetweb.princeton.edu/perl/webwn?o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&s=jump&i=6&h=000010000000000000000000#c">
+        "jump, parachuting"
+       </a>
+       ，它代表用降落伞降落到地面的动作。"jump, parachuting"is"descent"的下义词，因为"jump, parachuting"是一种"descent"。
+      </p>
+      <p>
+       英语中的单词可能属于多个同义词集。这只是说单词可能有多个含义的另一种方式。例如，单词"jump"也属于同义词集
+       <a href="http://wordnetweb.princeton.edu/perl/webwn?o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&s=jump&i=2&h=100000000000000000000000#c">
+        "jump, leap"
+       </a>
+       ，它代表更具比喻性的跳跃概念（例如出勤率的跃升），而不是另一个同义词集中的字面意思（例如跳过水坑）。同义词集"jump, leap"的上义词是"increase"，因为"jump, leap"是一种"increase"。当然，"增加"某物还有其他方式：例如，我们可以通过"augmentation"来增加某物，因此在上图中我们有一个从"increase"指向"augmentation"的向下箭头也就不足为奇了。
+      </p>
+      <p>
+       同义词集不仅可以包含单词，还可以包含所谓的
+       <a href="https://en.wikipedia.org/wiki/Collocation">
+        搭配
+       </a>
+       。你可以把它们看作是经常一起出现以至于被视为一个单词的单个单词，例如
+       <a href="http://wordnetweb.princeton.edu/perl/webwn?s=nasal+decongestant+&sub=Search+WordNet&o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&h=">
+        nasal_decongestant
+       </a>
+       。为了避免歧义，我们将用下划线_来表示搭配的组成单词，而不是英语中通常用空格分隔的惯例。为简单起见，在本文档中我们将搭配简称为"单词"。
+      </p>
+      <p>
+       一个同义词集可能是多个同义词集的下义词。例如，"actifed"既是"antihistamine"的下义词，也是"nasal_decongestant"的下义词，因为"actifed"同时是这两种东西。
+      </p>
+      <blockquote class="info">
+       <p>
+        如果你好奇，可以通过
+        <a href="http://wordnetweb.princeton.edu/perl/webwn?o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&r=1&s=sturgeon&i=3&h=1000#c">
+         使用 Web 界面
+        </a>
+        浏览 Wordnet 数据库，不过这对这个项目来说不是必需的。
+       </p>
+      </blockquote>
+      <h2 id="hyponyms-basic-case">
+       <a aria-labelledby="hyponyms-basic-case" class="anchor-heading" href="#hyponyms-basic-case">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       下义词（基本情况）
+      </h2>
+      <h3 id="setting-up-a-hyponymshandler">
+       <a aria-labelledby="setting-up-a-hyponymshandler" class="anchor-heading" href="#setting-up-a-hyponymshandler">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设置 HyponymsHandler
+      </h3>
+      <ol>
+       <li>
+        <p>
+         在你的 Web 浏览器中，打开
+         <code class="language-plaintext highlighter-rouge">
+          static
+         </code>
+         文件夹中的
+         <code class="language-plaintext highlighter-rouge">
+          ngordnet.html
+         </code>
+         文件。作为复习，你可以在
+         <a href="../proj2a/index.html#historytexthandler">
+          这里
+         </a>
+         的第 1 点找到如何操作。你会看到有一个新按钮："Hyponyms"。注意还有一个名为
+         <code class="language-plaintext highlighter-rouge">
+          k
+         </code>
+         的新输入框。
+        </p>
+       </li>
+       <li>
+        <p>
+         尝试点击 Hyponyms 按钮。你会发现什么都没发生（如果你打开 Web 浏览器的开发者工具功能，你会看到浏览器显示了一个错误）。
+        </p>
+       </li>
+      </ol>
+      <p>
+       在项目 2B 中，你的主要任务是实现这个按钮，这需要读取不同类型的数据集，并将结果与项目 2A 的数据集进行综合。与 2A 不同，完全由你决定需要哪些类来支持这个任务。
+      </p>
+      <ol>
+       <li>
+        编辑名为
+        <code class="language-plaintext highlighter-rouge">
+         HyponymsHandler
+        </code>
+        的文件，当用户在浏览器中点击 Hyponyms 按钮时，只返回单词"Hello!"。你需要让
+        <code class="language-plaintext highlighter-rouge">
+         HyponymsHandler
+        </code>
+        类继承
+        <code class="language-plaintext highlighter-rouge">
+         NgordnetQueryHandler
+        </code>
+        类。查看你的其他 Handler 类作为示例。确保在注册你的 handler 时，使用字符串"hyponyms"作为
+        <code class="language-plaintext highlighter-rouge">
+         register
+        </code>
+        方法的第一个参数，而不是"hyponym"。
+       </li>
+       <li>
+        首先打开你的
+        <code class="language-plaintext highlighter-rouge">
+         ngordnet.main.Main.java
+        </code>
+        文件。
+       </li>
+       <li>
+        一旦你修改了
+        <code class="language-plaintext highlighter-rouge">
+         Main
+        </code>
+        ，使你的新 handler 被注册来处理 hyponyms 请求，启动
+        <code class="language-plaintext highlighter-rouge">
+         Main
+        </code>
+        并再次尝试在 Web 浏览器中点击 Hyponyms 按钮。你应该会看到显示"Hello"的文本。
+       </li>
+      </ol>
+      <p class="info">
+       如果你看到类似"无法加载文件
+       <code class="language-plaintext highlighter-rouge">
+        some_file_here.txt
+       </code>
+       "的错误，这可能意味着你的项目没有正确设置。确保你具有
+       <a href="#project-setup">
+        项目设置
+       </a>
+       部分中所述的相同结构。
+      </p>
+      <h3 id="hyponyms-handler-basic-case">
+       <a aria-labelledby="hyponyms-handler-basic-case" class="anchor-heading" href="#hyponyms-handler-basic-case">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       下义词处理器（基本情况）
+      </h3>
+      <p>
+       接下来，你将创建 Hyponyms 按钮的部分实现。目前，这个按钮应该：
+      </p>
+      <ul>
+       <li>
+        假设输入的"单词"只是一个单词。
+       </li>
+       <li>
+        忽略 startYear、endYear 和 k。
+       </li>
+       <li>
+        返回该单词的下义词列表的字符串表示形式，包括该单词本身。列表应按
+        <strong>
+         字母顺序
+        </strong>
+        排列，
+        <strong>
+         没有重复的单词
+        </strong>
+        。
+       </li>
+      </ul>
+      <p>
+       例如，假设 WordNet 数据集如下图所示（作为输入文件
+       <code class="language-plaintext highlighter-rouge">
+        synsets11.txt
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        hyponyms11.txt
+       </code>
+       提供给你）。假设用户输入"descent"并点击 Hyponyms 按钮。
+      </p>
+      <p>
+       <img alt="图 1" src="wordnet-fig1.png">
+      </p>
+      <p>
+       在这种情况下，你的处理器的输出应该是包含"descent"、"jump"和"parachuting"的列表的字符串表示形式，即
+       <code class="language-plaintext highlighter-rouge">
+        [descent, jump, parachuting]
+       </code>
+       。注意单词是按字母顺序排列的。
+      </p>
+      <p>
+       再举一个例子，假设我们使用一个更大的数据集，如下图所示（作为输入文件
+       <code class="language-plaintext highlighter-rouge">
+        synsets16.txt
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        hyponyms16.txt
+       </code>
+       提供给你）：
+      </p>
+      <p>
+       <img alt="synsets16" src="wordnet-fig3.png">
+      </p>
+      <p>
+       假设用户输入"change"并点击 Hyponyms 按钮。在这种情况下，下义词是下图中蓝色节点中的所有单词：
+      </p>
+      <p>
+       <img alt="synsets16-change-hyponyms" src="wordnet-fig3-change-hyponyms.png">
+      </p>
+      <p>
+       也就是说输出是
+       <code class="language-plaintext highlighter-rouge">
+        [alteration, change, demotion, increase, jump, leap, modification, saltation, transition, variation]
+       </code>
+       。注意，即使"change"属于两个不同的同义词集，它只出现一次。
+      </p>
+      <p>
+       <strong>
+        注意
+       </strong>
+       ：尽量不要过度思考。具体来说，观察输出
+       <strong>
+        不
+       </strong>
+       包括：
+      </p>
+      <ul>
+       <li>
+        同义词的同义词（例如不包括
+        <code class="language-plaintext highlighter-rouge">
+         "adjustment"
+        </code>
+        ）
+       </li>
+       <li>
+        同义词的下义词（例如不包括
+        <code class="language-plaintext highlighter-rouge">
+         "conversion"
+        </code>
+        ）
+       </li>
+       <li>
+        下义词其他定义的下义词（例如不包括
+        <code class="language-plaintext highlighter-rouge">
+         "flashback"
+        </code>
+        ，它是
+        <code class="language-plaintext highlighter-rouge">
+         "transition"
+        </code>
+        另一个定义的下义词）
+       </li>
+      </ul>
+      <blockquote class="task">
+       <p>
+        实现
+        <code class="language-plaintext highlighter-rouge">
+         HyponymsHandler.java
+        </code>
+        和任何辅助类。
+       </p>
+       <p>
+        <strong>
+         注意：
+        </strong>
+        请阅读下面的提示，因为你不应该在这个类中编写所有代码。
+       </p>
+      </blockquote>
+      <blockquote class="warning">
+       <p>
+        要完成这个任务，你需要决定需要创建哪些类来支持
+        <code class="language-plaintext highlighter-rouge">
+         HyponymsHandler
+        </code>
+        。
+        <strong>
+         不要在 HYPONYMS HANDLER 中做所有工作。
+        </strong>
+        相反，你应该有辅助类。例如，在 2A 中，为了处理"History"按钮，我们创建了一个
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        类。你会想在 2B 中用你自己的类做类似的事情。
+       </p>
+       <p>
+        你还需要了解 WordNet 数据集的输入格式。这个描述在下面的部分给出。
+       </p>
+      </blockquote>
+      <blockquote class="danger">
+       <p>
+        对于这一部分，你不可以在代码中导入任何现有的图库。也就是说，你不能导入例如普林斯顿大学算法教科书中的图实现。相反，你应该构建你自己的一个或多个图类。
+       </p>
+      </blockquote>
+      <h4 id="tips">
+       <a aria-labelledby="tips" class="anchor-heading" href="#tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提示
+      </h4>
+      <ul>
+       <li>
+        就像 2A 的 NGramMap 一样，你会希望你的辅助类只在构造函数中解析一次输入文件。
+        <strong>
+         不要创建每次被调用时都必须读取整个输入文件的方法。
+        </strong>
+        这会太慢了！
+       </li>
+       <li>
+        我们强烈建议为项目的这一部分至少创建两个类，如下所示：一个实现有向图的概念。一个读取 WordNet 数据集并构建有向图类的实例。这第二个类还应该能够接受一个单词并返回它的下义词。你可能还需要额外的辅助类来表示遍历的概念，但这不是必需的&mdash;&mdash;你也可以在你的图类中实现遍历。
+       </li>
+       <li>
+        暂时不用担心编写 Truth 测试，我们会在说明的后面讨论如何做到这一点。只需使用 Web 前端来检查上图中
+        <code class="language-plaintext highlighter-rouge">
+         synsets16.txt
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         hyponyms16.txt
+        </code>
+        的两个输入示例（"descent"和"change"）。
+       </li>
+       <li>
+        虽然你可以（也应该）为你在这个项目中创建的辅助类/方法编写单元测试，但另一个测试和查看代码运行情况的好方法是直接运行
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        ，打开
+        <code class="language-plaintext highlighter-rouge">
+         ngordnet.html
+        </code>
+        ，在框中输入一些内容，然后点击"Hyponyms"按钮。你可能会发现可视化调试可以在这个项目中带来一些有用的发现。
+       </li>
+      </ul>
+      <h3 id="wordnet-file-format">
+       <a aria-labelledby="wordnet-file-format" class="anchor-heading" href="#wordnet-file-format">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       WordNet 文件格式
+      </h3>
+      <p>
+       我们现在描述存储 WordNet 数据集的两种数据文件。这些文件采用逗号分隔格式，这意味着每一行包含一系列字段，用逗号分隔。
+      </p>
+      <ul>
+       <li>
+        <p>
+         文件类型 1：名词同义词集列表。文件
+         <code class="language-plaintext highlighter-rouge">
+          synsets.txt
+         </code>
+         （以及名称中带有
+         <code class="language-plaintext highlighter-rouge">
+          synset
+         </code>
+         的其他较小文件）列出了 WordNet 中的所有同义词集。第一个字段是同义词集 ID（一个整数），第二个字段是同义词集合（或同义词集），第三个字段是它的词典定义。例如，这一行
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code> 6829,Goofy,a cartoon character created by Walt Disney
+</code></pre>
+         </div>
+        </div>
+        <p>
+         表示同义词集
+         <code class="language-plaintext highlighter-rouge">
+          { Goofy }
+         </code>
+         的 ID 号为 6829，其定义是"华特&middot;迪士尼创造的卡通人物"。组成同义词集的各个名词用空格分隔（并且同义词集元素不允许包含空格）。S 个同义词集 ID 编号为 0 到 S-1；ID 号将在同义词集文件中连续出现。ID 号很有用，因为它们也出现在下义词文件中，即文件类型 2。
+        </p>
+       </li>
+       <li>
+        <p>
+         文件类型 2：下义词列表。文件
+         <code class="language-plaintext highlighter-rouge">
+          hyponyms.txt
+         </code>
+         （以及名称中带有 hyponym 的其他较小文件）包含下义关系：第一个字段是同义词集 ID；后续字段是该同义词集的直接下义词的 ID 号。例如，下面这一行
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>79537,38611,9007
+</code></pre>
+         </div>
+        </div>
+        <p>
+         表示同义词集 79537（"viceroy vicereine"）有两个下义词：38611（"exarch"）和 9007（"Khedive"），表示 exarchs 和 Khedives 都是总督（或女总督）的类型。同义词集从文件
+         <code class="language-plaintext highlighter-rouge">
+          synsets.txt
+         </code>
+         中的相应行获取：
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>79537,viceroy vicereine,governor of a country or province who rules...
+38611,exarch,a viceroy who governed a large province in the Roman Empire
+9007,Khedive,one of the Turkish viceroys who ruled Egypt between...
+</code></pre>
+         </div>
+        </div>
+        <p>
+         可能有多行以相同的同义词集 ID 开头。例如，在
+         <code class="language-plaintext highlighter-rouge">
+          hyponyms16.txt
+         </code>
+         中，我们有
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>11,12
+11,13
+</code></pre>
+         </div>
+        </div>
+        <p>
+         这表示同义词集 12 和 13 都是同义词集 11 的直接下义词。这两个也可以合并到一行中，即下面这行具有完全相同的含义，即同义词集 12 和 13 是同义词集 11 的直接下义词。
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code>11,12,13
+</code></pre>
+         </div>
+        </div>
+        <p>
+         你可能会问为什么有两种方式来指定同一件事。现实世界的数据通常很混乱，我们必须处理它。
+        </p>
+       </li>
+      </ul>
+      <h3 id="suggested-steps-to-take">
+       <a aria-labelledby="suggested-steps-to-take" class="anchor-heading" href="#suggested-steps-to-take">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       建议的步骤
+      </h3>
+      <p>
+       要让"Hyponyms"按钮正常工作，你需要：
+      </p>
+      <ul>
+       <li>
+        开发一个
+        <strong>
+         图类
+        </strong>
+        。如果你不熟悉这种数据结构，请查看第 21 和 22 讲。你应该使用独立于给定数据文件的操作来测试这一点。例如，我们的测试通过使用我们图类的
+        <code class="language-plaintext highlighter-rouge">
+         getNodes
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         neighbors
+        </code>
+        函数来评估我们的
+        <code class="language-plaintext highlighter-rouge">
+         createNode
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         addEdge
+        </code>
+        函数是否产生了适当的图。作为灵感，你可以查看
+        <a href="https://docs.google.com/presentation/d/1Gyke5ZMrgcMuBTa7qHAoklWZB3yf_yqQAymK2nV-Nqs/edit">
+         第 22 讲
+        </a>
+        和
+        <a href="https://docs.google.com/presentation/d/1NKWnXSJ8pUn1E2Cw6zidxMRuXf_aINKCpW7XpEkyz6c/edit">
+         第 23 讲
+        </a>
+        。
+       </li>
+       <li>
+        编写
+        <strong>
+         将 WordNet 数据集文件转换为图
+        </strong>
+        的代码。这可以是你的图类的一部分，也可以是一个使用你的图类的类。
+       </li>
+       <li>
+        编写代码，接受一个单词，并使用
+        <strong>
+         图遍历
+        </strong>
+        来在给定图中找到该单词的所有下义词。
+       </li>
+      </ul>
+      <p>
+       我们强烈建议编写测试来评估上述示例的查询（例如，你可以查看 synsets11/hypernyms11 中"descent"的下义词，或者 synsets16/hypernyms16 中"change"的下义词）。
+      </p>
+      <p>
+       测试应该以适合它们所评估的内容的抽象级别编写。例如，我们有一个名为
+       <code class="language-plaintext highlighter-rouge">
+        TestGraph
+       </code>
+       的类，它评估我们的
+       <code class="language-plaintext highlighter-rouge">
+        Graph
+       </code>
+       类的各个方面。
+      </p>
+      <p>
+       或者再举一个例子，我们的代码有一个名为
+       <code class="language-plaintext highlighter-rouge">
+        TestWordNet
+       </code>
+       的类，包含下面的函数。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testHyponymsSimple</span><span class="o">(){</span>
+    <span class="nc">WordNet</span> <span class="n">wn</span><span class="o">=</span><span class="k">new</span> <span class="nc">WordNet</span><span class="o">(</span><span class="s">"./data/wordnet/synsets11.txt"</span><span class="o">,</span><span class="s">"./data/wordnet/hyponyms11.txt"</span><span class="o">);</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">wn</span><span class="o">.</span><span class="na">hyponyms</span><span class="o">(</span><span class="s">"antihistamine"</span><span class="o">)).</span><span class="na">是EqualTo</span><span class="o">(</span><span class="nc">集合</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"antihistamine"</span><span class="o">,</span><span class="s">"actifed"</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       请注意，你的 WordNet 类可能与我们的函数不同，所以显示的测试可能无法直接在你的代码上使用。请注意，我们的测试在任何地方都不使用
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       ，也不使用
+       <code class="language-plaintext highlighter-rouge">
+        HyponymsHandler
+       </code>
+       ，也不直接调用类型为
+       <code class="language-plaintext highlighter-rouge">
+        Graph
+       </code>
+       的对象。它专门用于测试
+       <code class="language-plaintext highlighter-rouge">
+        WordNet
+       </code>
+       类。
+       <strong>
+        仅仅依赖浏览器测试会非常令人沮丧（而且很慢！）。使用你的 JUnit 技能来建立你构建的基础抽象的信心（例如 Graph、WordNet 等）。
+       </strong>
+      </p>
+      <h3 id="design-tips">
+       <a aria-labelledby="design-tips" class="anchor-heading" href="#design-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设计提示
+      </h3>
+      <p>
+       这个项目涉及各种不同的查找、图操作和数据处理操作。没有唯一正确的方法来做这件事。
+      </p>
+      <p>
+       你可能需要执行的一些查找示例：
+      </p>
+      <ul>
+       <li>
+        给定一个单词（例如"change"），哪些节点包含该单词？
+        <ul>
+         <li>
+          在 synsets16.txt 中的示例：change 在同义词集 2 和 8 中
+         </li>
+        </ul>
+       </li>
+       <li>
+        给定一个整数，哪个节点对应那个索引？
+        <ul>
+         <li>
+          处理 hyponyms.txt 所必需的。例如在 hyponyms16.txt 中，我们知道同义词集 8 的节点指向同义词集 9 和 10，所以我们需要能够找到节点 8 来获取它的邻居。
+         </li>
+        </ul>
+       </li>
+       <li>
+        给定一个节点，该节点中有哪些单词？
+        <ul>
+         <li>
+          在 synsets16.txt 中的示例：同义词集 11 包含 alteration、modification 和 adjustment
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       你可能需要执行的一些图操作示例：
+      </p>
+      <ul>
+       <li>
+        创建一个节点，例如 synsets16.txt 的每一行都包含一个节点的信息。
+       </li>
+       <li>
+        向节点添加边，例如 hyponyms16.txt 的每一行都包含一个或多个应该添加到相应节点的边。
+       </li>
+       <li>
+        查找可达顶点，例如在 hyponyms16.txt 中从顶点 7 可达的顶点是 7、8、9、10。
+       </li>
+      </ul>
+      <p>
+       如果你为你的类选择实例变量和/或数据结构，自然地帮助解决上述所有六个问题，你的生活会轻松很多。
+      </p>
+      <p>
+       一些数据处理操作示例：
+      </p>
+      <ul>
+       <li>
+        给定一个事物集合，你如何找到所有不重复的项目？（提示：有一种数据结构可以让这变得非常简单和高效）。不要害怕也去谷歌搜索你选择的数据结构的文档（例如，如果你因为某种原因选择使用 TreeMap，随时可以查找"TreeMap methods java"、"Map methods java"或"Collection methods java"等）。
+       </li>
+       <li>
+        给定一个事物集合，你如何对它们进行排序？（提示：谷歌搜索如何对你正在使用的集合进行排序）
+       </li>
+      </ul>
+      <blockquote class="warning">
+       <p>
+        另外，从 proj2a 开始的提醒：深度嵌套的泛型是一个警告信号，表明你正在做一些过于复杂的事情。要么找到更简单的方法，要么创建一个辅助类来帮助管理复杂性。例如，如果你发现自己试图使用类似 Map&lt;Set&lt;Set&lt;&hellip; 的东西，你已经开始走上了一条不必要的艰难道路。
+       </p>
+      </blockquote>
+      <blockquote class="warning">
+       <p>
+        像往常一样，如果你的设计让你感到痛苦并且无法取得进展，不要害怕删除你现有的实例变量并重试。这个项目的难点在于设计，而不是编程。如果你决定你实际上喜欢旧的设计，你总是可以使用 git 来恢复它。
+       </p>
+      </blockquote>
+      <h2 id="handling-lists-of-words">
+       <a aria-labelledby="handling-lists-of-words" class="anchor-heading" href="#handling-lists-of-words">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       处理单词列表
+      </h2>
+      <p>
+       你的下一个任务是处理单词列表。例如，如果用户在下图中输入"change, occurrence"，我们应该只返回每个单词的共同下义词，即
+       <code class="language-plaintext highlighter-rouge">
+        [alteration, change, increase, jump, leap, modification, saltation, transition]
+       </code>
+       。"Demotion"和"variation"不包括在内，因为它们不是两个单词的下义词；具体来说，它们不是"occurrence"的下义词。
+      </p>
+      <p>
+       <img alt="synsets16-双单词查询" src="wordnet-fig3-two-word-query.png">
+      </p>
+      <p>
+       正如你所看到的，我们只想返回作为列表中所有单词的下义词的单词。此外，请注意，用户提供的单词列表可以包含两个以上的单词，尽管我们在本说明中的示例没有。
+      </p>
+      <p>
+       请注意，两个单词可能共享下义词而不一定共享节点。看一下这个例子。如果用户在下图中输入"car, bug"，我们应该得到
+       <code class="language-plaintext highlighter-rouge">
+        [beetle]
+       </code>
+       ，而不是
+       <code class="language-plaintext highlighter-rouge">
+        []
+       </code>
+       （空列表）！这个例子表明我们正在获取
+       <strong>
+        单词
+       </strong>
+       的交集，而不是
+       <strong>
+        节点
+       </strong>
+       的交集。
+      </p>
+      <p>
+       <img alt="wordnet-fig" src="wordnet-fig.png">
+      </p>
+      <p>
+       为了更多地展示这个功能的有用性的例子，假设我们正在使用完整的
+       <code class="language-plaintext highlighter-rouge">
+        synsets.txt
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        hyponyms.txt
+       </code>
+       。
+      </p>
+      <ul>
+       <li>
+        在单词框中输入"video, recording"并点击"Hyponyms"应该显示
+        <code class="language-plaintext highlighter-rouge">
+         [video, video_recording, videocassette, videotape]
+        </code>
+        ，因为这些都是"video"和"recording"的下义词。
+       </li>
+       <li>
+        在单词框中输入"pastry, tart"然后点击"Hyponyms"应该显示
+        <code class="language-plaintext highlighter-rouge">
+         [apple_tart, lobster_tart, quiche, quiche_Lorraine, tart, tartlet ]
+        </code>
+        。
+       </li>
+      </ul>
+      <p class="task">
+       修改你的
+       <code class="language-plaintext highlighter-rouge">
+        HyponymsHandler
+       </code>
+       和你的其余实现，以处理单词列表的情况。
+      </p>
+      <p class="warning">
+       为了测试你代码的这一部分，我们建议使用
+       <code class="language-plaintext highlighter-rouge">
+        synsets16.txt
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        hyponyms16.txt
+       </code>
+       手动构建示例，并使用提供的前端来评估正确性。
+      </p>
+      <h2 id="deliverables-and-scoring">
+       <a aria-labelledby="deliverables-and-scoring" class="anchor-heading" href="#deliverables-and-scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付成果和评分
+      </h2>
+      <p>
+       对于项目 2B，唯一需要交付的是
+       <code class="language-plaintext highlighter-rouge">
+        HyponymsHandler.java
+       </code>
+       文件，以及任何辅助类。但是，我们不会直接对这些类进行评分，因为它们可能因学生而异。
+      </p>
+      <ul>
+       <li>
+        <a href="https://www.gradescope.com/courses/708063/assignments/4133684">
+         项目 2B/C：检查点
+        </a>
+        ：5 分 -
+        <strong>
+         截止日期 3 月 15 日
+        </strong>
+       </li>
+       <li>
+        项目 2B 代码：50 分 -
+        <strong>
+         截止日期 4 月 1 日
+        </strong>
+        <ul>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           HyponymsHandler
+          </code>
+          单单词情况：50%，k = 0
+         </li>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           HyponymsHandler
+          </code>
+          多单词情况：30%，k = 0
+         </li>
+         <li>
+          <code class="language-plaintext highlighter-rouge">
+           HyponymsHandler
+          </code>
+          eecs-单多单词情况：20%，k = 0（测试单单词和多单词情况，但严格使用
+          <code class="language-plaintext highlighter-rouge">
+           frequency-EECS.csv
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           hyponyms-EECS.txt
+          </code>
+          、
+          <code class="language-plaintext highlighter-rouge">
+           synonyms-EECS.txt
+          </code>
+          。你可以在 2C 中找到关于 EECS 类列表的更多信息。）
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       除了项目 2B，你还需要提交你的设计文档。这将价值 5 分，截止日期为 3 月 15 日。设计文档的主要目的是作为你项目的基础。在编码之前思考和构思是很重要的。
+我们在设计文档中寻找的内容：
+      </p>
+      <ul>
+       <li>
+        确定我们在课堂上学到的、你将在实现中使用的数据结构。
+       </li>
+       <li>
+        你的实现算法的伪代码/总体概述。
+       </li>
+      </ul>
+      <p>
+       你的设计文档应该大约 1-2 页长。设计文档将主要根据努力、思考和完成度进行评分。
+      </p>
+      <p>
+       请复制
+       <a href="https://docs.google.com/document/d/1Vx7QAz4HFN0rEFFEt5rocY2X5AWVcIFFpRmD8vhegOM/edit?usp=sharing">
+        此模板
+       </a>
+       并提交到
+       <a href="https://www.gradescope.com/courses/708063/assignments/4187810">
+        Gradescope
+       </a>
+       。
+      </p>
+      <p>
+       如果你之后决定改变你的设计文档，不要担心。你可以自由地这样做！我们希望你在编码之前考虑实现，因此我们要求你提交你的设计作为项目的一部分。
+      </p>
+      <p>
+       这个项目的令牌限制政策如下：你将从 8 个令牌开始，每个令牌有 24 小时的刷新时间。
+      </p>
+      <h2 id="testing-your-code">
+       <a aria-labelledby="testing-your-code" class="anchor-heading" href="#testing-your-code">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       测试你的代码
+      </h2>
+      <p>
+       我们在
+       <code class="language-plaintext highlighter-rouge">
+        proj2b/tests
+       </code>
+       目录中为你提供了两个简短的单元测试文件：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestOneWordK0Hyponyms.java
+        </code>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TestMultiWordK0Hyponyms.java
+        </code>
+       </li>
+      </ul>
+      <p>
+       提供的两个测试文件对应你在这个项目中解决的前两种情况，即：
+      </p>
+      <ul>
+       <li>
+        查找 k = 0 时单个单词的下义词。
+       </li>
+       <li>
+        查找 k = 0 时多个单词的下义词（例如
+        <code class="language-plaintext highlighter-rouge">
+         gallery, bowl
+        </code>
+        ）。
+       </li>
+      </ul>
+      <p>
+       你需要完成
+       <code class="language-plaintext highlighter-rouge">
+        AutograderBuddy.java
+       </code>
+       来测试你的代码。更多细节请参阅
+       <a href="#submitting-your-code">
+        提交你的代码
+       </a>
+       部分。
+      </p>
+      <p>
+       <strong>
+        这些测试文件并不全面
+       </strong>
+       ；事实上，它们每个只包含一个健全性检查测试。你应该在每个文件中填充更多的单元测试，并且还应该使用它们作为模板来为各自的情况创建两个新的测试文件。
+      </p>
+      <p>
+       如果你需要帮助弄清楚测试的预期输出应该是什么，你应该使用我们在
+       <a href="#getting-started">
+        入门指南
+       </a>
+       部分链接的两个工具。
+      </p>
+      <h2 id="debugging-tips">
+       <a aria-labelledby="debugging-tips" class="anchor-heading" href="#debugging-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       调试提示
+      </h2>
+      <ul>
+       <li>
+        测试时使用小文件！这会减少运行
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        的启动时间，并使代码推理更容易。如果你正在运行
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        ，这些文件在
+        <code class="language-plaintext highlighter-rouge">
+         main
+        </code>
+        方法的前几行中设置。对于单元测试，文件名被传递到
+        <code class="language-plaintext highlighter-rouge">
+         getHyponymsHandler
+        </code>
+        方法中。
+       </li>
+       <li>
+        你可以使用调试器运行
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        来快速调试不同的输入。点击"Hyponyms"按钮后，你的代码将在调试器中执行&mdash;&mdash;断点将被触发，你可以使用变量窗口等。
+       </li>
+       <li>
+        这个项目有很多活动部件。不要从逐行调试开始。相反，缩小到你的代码中哪个函数/区域不能正常工作，然后在这些行中更仔细地搜索。
+       </li>
+       <li>
+        查看
+        <a href="faq/index.html">
+         常见问题
+        </a>
+        了解常见问题和疑问。
+       </li>
+      </ul>
+      <h2 id="submitting-your-code">
+       <a aria-labelledby="submitting-your-code" class="anchor-heading" href="#submitting-your-code">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交你的代码
+      </h2>
+      <p>
+       在整个作业中，我们让你使用前端来测试你的代码。我们的评分器不够复杂，无法假装是 Web 浏览器并调用你的代码。相反，我们需要你在
+       <code class="language-plaintext highlighter-rouge">
+        proj2b.src.main.AutograderBuddy
+       </code>
+       类中提供一个方法，该方法提供一个可以处理下义词请求的处理器。
+      </p>
+      <p>
+       当你在本说明开始时运行
+       <code class="language-plaintext highlighter-rouge">
+        git pull skeleton main
+       </code>
+       时，你应该已经收到了一个名为
+       <code class="language-plaintext highlighter-rouge">
+        AutograderBuddy.java
+       </code>
+       的文件。
+      </p>
+      <p>
+       打开
+       <code class="language-plaintext highlighter-rouge">
+        AutograderBuddy.java
+       </code>
+       并填充
+       <code class="language-plaintext highlighter-rouge">
+        getHyponymsHandler
+       </code>
+       方法，使其返回一个使用四个给定文件的
+       <code class="language-plaintext highlighter-rouge">
+        HyponymsHandler
+       </code>
+       。你在这里的代码应该与你在
+       <code class="language-plaintext highlighter-rouge">
+        Main.java
+       </code>
+       中的代码非常相似。
+      </p>
+      <p>
+       既然你已经创建了
+       <code class="language-plaintext highlighter-rouge">
+        proj2b.src.main.AutograderBuddy
+       </code>
+       ，你就可以提交到自动评分器了。如果你没有通过任何测试，你应该能够通过在上述测试文件的基础上构建，将它们作为 JUnit 测试在本地复制。如果需要任何额外的数据文件，它们将作为链接添加到本节中。
+      </p>
+      <h2 id="acknowledgements">
+       <a aria-labelledby="acknowledgements" class="anchor-heading" href="#acknowledgements">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致谢
+      </h2>
+      <p>
+       本作业的 WordNet 部分大致改编自 Alina Ene 和 Kevin Wayne 在普林斯顿大学的
+       <a href="http://www.cs.princeton.edu/courses/archive/fall14/cos226/assignments/wordnet.html">
+        Wordnet 作业
+       </a>
+       。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

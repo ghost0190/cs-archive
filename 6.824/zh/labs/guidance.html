@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>实验指导</title>
+<link rel="stylesheet" href="../style.css" type="text/css">
+</head>
+<body>
+  
+<h1>实验指导</h1>
+
+<h2>作业难度</h2>
+  
+<p>每个实验任务都标有难度，以大致表示我们预期该任务需要多长时间：
+  <ul>
+    <li><p><span class="easy">简单</span>：几个小时。</li>
+    <li><p><span class="moderate">中等</span>：约 6 小时（每周）。</li>
+    <li><p><span class="hard">困难</span>：超过 6 小时（每周）。如果你开始得太晚，你的解答不太可能通过所有测试。</li>
+  </ul>
+  
+<p>大多数实验只需要适量的代码（每个实验部分可能只需几百行），但在概念上可能很困难，可能需要大量的思考和调试。有些测试很难通过。
+
+<p>不要在实验截止前一晚才开始做；分多次、分散在多天完成实验效率更高。在分布式系统中追踪错误是很困难的，因为涉及并发、崩溃和不可靠的网络。
+
+<h2>提示</h2>
+
+<ul>
+  
+<li>完成 <a href="http://tour.golang.org/">Go 在线教程</a>，并参考 <a href="https://golang.org/doc/effective_go.html">Effective Go</a>。参见 <a href="https://golang.org/doc/editors.html">编辑器</a> 来为你的编辑器配置 Go。
+  
+<li>实验的 Makefile 已配置使用 Go 的 <a href="https://blog.golang.org/race-detector">竞争检测器</a>。修复它报告的所有竞争问题。
+
+<li>实验中 <a href="raft-locking.txt">锁的使用</a> 建议。
+
+<li>Raft 实验的 <a href="raft-structure.txt">代码结构</a> 建议。
+
+<li>
+这张 <a href="../notes/raft_diagram.pdf">Raft 交互图</a> 可以帮助你理解系统不同部分之间的代码流程。
+
+<li>学习 Go 的 <tt>Printf</tt> 格式化字符串：<a href="https://golang.org/pkg/fmt/">Go 格式化字符串</a>。
+
+<li> 要了解更多关于 git 的知识，请查看 <a href="https://git-scm.com/book/en/v2">Pro Git 书</a> 或 <a href="http://www.kernel.org/pub/software/scm/git/docs/user-manual.html">git 用户手册</a>。
+
+
+</ul>
+
+<h3>调试</h3>
+
+<p>高效的调试需要经验。系统化会有所帮助：形成一个关于可能原因的假设；收集可能相关的证据；思考你收集到的信息；根据需要重复。对于长时间的调试，做笔记会有帮助，既可以积累证据，也可以提醒自己为什么排除了某些先前的假设。
+
+<p>最有效的调试技术通常是向你的代码添加打印语句，运行失败的测试并将打印输出收集到文件中，然后查看输出文件以确定问题开始出错的地方。你可能需要迭代，随着对问题了解的深入添加更多打印语句。
+
+<p>
+不同节点之间以及单个节点内线程之间的并发可能导致操作以意想不到的方式交错。例如，Raft 节点完全可能在上一任领导者仍然认为自己是领导者的情况下被选为领导者，或者领导者发送了 RPC 但在失去领导权后才收到回复。添加打印语句可以帮助你发现这些情况。
+
+<p>
+请随意查看测试代码（<tt>mr/mt_test.go</tt>、<tt>raft1/raft_test.go</tt> 等）以了解测试的内容。你可以向测试添加打印语句以帮助理解它们在做什么以及为什么失败，但请确保在提交前用原始测试代码能通过了。
+
+<p>
+Raft 论文的图 2 必须相当严格地遵循。很容易遗漏图 2 中要求检查的条件，或者要求执行的状态变更。如果你有 bug，重新检查你的所有代码是否紧密遵循图 2。
+
+<p>
+在编写代码时（即在你有 bug 之前），值得为代码假设成立的条件添加显式检查，也许可以使用 Go 的 <a href="https://gobyexample.com/panic">panic</a>。这样的检查可以帮助检测后续代码无意中违反假设的情况。
+
+<p>
+助教很乐意在答疑时间帮助你思考代码，但如果你已经尽可能深入地研究了情况，你有限的答疑时间可能会获得最大的收益。

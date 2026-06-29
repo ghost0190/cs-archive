@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验04：Git | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验 04：Git" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab04/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验 04：Git" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验04：Git","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab04/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       助教
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境设置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业0A: Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业2: 渗透
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业2: 渗透 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - HW 2: 渗透"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目0: 2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目1A: LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目1B: ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目1B: 数组Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目1B: 数组Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目1C: Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目1C: Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目2A: Ngordnet (NGrams)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目2C: Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见UI问题 - 项目3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 使用指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个用于 Jekyll 的文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验 04：Git
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 04：Git
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-vs-github">
+           Git vs Github
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#git">
+             Git
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#github">
+             Github
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-commands">
+           Git Commands
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#init">
+             init
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#add-commit">
+             add, commit
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#status">
+             status
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#log">
+             log
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#restore">
+             restore
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-exercise-part-11">
+           Git 练习 (部分 1.1)
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-commands-continued">
+           Git Commands Continued
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#remote-add">
+             remote add
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#switch">
+             switch
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#restore-revisited">
+             restore Revisited
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#push">
+             push
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#pull">
+             pull
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#common-git-issues">
+           Common Git Issues
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#fatal-refusing-to-merge-unrelated-histories">
+             Fatal: refusing to merge unrelated histories
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#merge-conflict">
+             合并冲突
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#your-branch-is-ahead-of-originmain-by-x-commits">
+             Your branch 是 ahead of &lsquo;origin/main&rsquo; by X commits.
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-exercise-part-12">
+           Git 练习 (部分 1.2)
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#git-exercise-part-2">
+           Git 练习 (部分 2)
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#part-21">
+             部分 2.1
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#part-22">
+             部分 2.2
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#part-23">
+             部分 2.3
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#submission">
+             提交
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验04：Git
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见问题
+      </h2>
+      <p>
+       实验04的常见问题在
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       在此之前，我们一直在使用 Git 和 Github 来提交作业，但没有深入讨论超出所需的内容。在本实验作业中，我们将重温之前展示的一些 git 命令，并介绍新的命令，以便您对 Git（和 Github）更加熟悉。本实验将贯穿始终包含练习，以帮助加强您对 Git 的理解。
+      </p>
+      <p class="warning">
+       请不要跳着做本实验，
+       <strong>
+        如果遇到困难不要运行您在网上找到的命令
+       </strong>
+       （这可能导致实验中的潜在问题）。在完成本实验时，请仔细阅读命令和说明，确保您理解它们！
+      </p>
+      <p class="info">
+       请确保从您的
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       仓库中拉取 skeleton 以获取所需文件。在本实验中，我们只有一个文件
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       。
+      </p>
+      <h2 id="git-vs-github">
+       <a aria-labelledby="git-vs-github" class="anchor-heading" href="#git-vs-github">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 与 GitHub 的对比
+      </h2>
+      <p>
+       在我们探索 Git 命令之前，先来讨论一下 Git 和 Github 之间的区别。
+      </p>
+      <h3 id="git">
+       <a aria-labelledby="git" class="anchor-heading" href="#git">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git
+      </h3>
+      <p>
+       Git 是一个免费的开源版本控制系统（这意味着源代码可供用户和开发者使用）。作为版本控制系统，我们使用 Git 来帮助管理不同版本的代码并跟踪源代码中的更改。如果有多个开发人员同时在一个程序上工作，这将更加有用。没有版本控制系统，开发人员之间就不会有太多交流，对源代码的更改也不会被其他开发人员知道。
+      </p>
+      <p>
+       在大多数情况下，Git 的数据模型或表示基于链表。我们稍后会详细讨论，但每当我们想要保存仓库的快照时，我们就会提交它（就像到目前为止我们在想要提交作业时所做的那样）。这些提交是以某种方式链接在一起的。下面是它的一个可视化图示：
+      </p>
+      <p>
+       <img alt="git_structure" src="img/git_structure.png" style="max-height: 325;">
+      </p>
+      <p>
+       这个提交链表形成了您所做更改的历史记录。最近的提交/最新快照是上面的绿色圆圈。
+      </p>
+      <h3 id="github">
+       <a aria-labelledby="github" class="anchor-heading" href="#github">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Github
+      </h3>
+      <p>
+       Github 是一个在线 git 仓库托管服务。Git 仓库是中央位置，我们的文件和目录所做的任何更改都在此被跟踪和管理（这就是您的
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       仓库）。仓库可以在您的计算机上本地创建，也可以在 Github 上创建。
+      </p>
+      <p>
+       Github 使得与其他开发人员协作更加容易，因为您可以更轻松地共享代码，同时也允许我们将代码保存在远程服务器上。如果您有一些本地存储的代码，您可以将其保存到 Github。这样，如果您的本地代码以某种方式被销毁，您将有一份代码副本保存在其他地方。这就是为什么我们说经常提交，这样您就可以保存作业上的工作进度！
+      </p>
+      <h2 id="git-commands">
+       <a aria-labelledby="git-commands" class="anchor-heading" href="#git-commands">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 命令
+      </h2>
+      <p>
+       在本节中，我们描述了一些您可能会用到的一些更常见的 Git 命令。请记住，这并不是所有可用 Git 命令的完整列表。让我们开始吧！
+      </p>
+      <h3 id="init">
+       <a aria-labelledby="init" class="anchor-heading" href="#init">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        init
+       </code>
+      </h3>
+      <p>
+       以下命令可以在您想要变成 Git 仓库的目录中运行：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git init
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这会在该目录中初始化一个 git 仓库。
+      </p>
+      <h3 id="add-commit">
+       <a aria-labelledby="add-commit" class="anchor-heading" href="#add-commit">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        add
+       </code>
+       ,
+       <code class="language-plaintext highlighter-rouge">
+        commit
+       </code>
+      </h3>
+      <p>
+       当我们想要保存 git 仓库中所做的更改时，我们首先需要选择哪些更改应该被保存：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git add some_file.txt
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果您想选择所有已进行的更改，可以运行以下快捷命令：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git add <span class="nb">.</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <strong>
+        我们选择的更改实际上还没有被保存。
+       </strong>
+       当我们
+       <code class="language-plaintext highlighter-rouge">
+        add
+       </code>
+       某些文件/更改时，这意味着我们已经将它们放入了暂存区，暂存区存储了关于下一次提交将包含什么内容的信息。要真正保存我们的更改，或者对当前仓库进行快照，我们运行
+       <code class="language-plaintext highlighter-rouge">
+        git commit -m
+       </code>
+       ，如下所示：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git commit <span class="nt">-m</span> <span class="s2">"We put a commit message here to describe what changes we made."</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       当我们提交任何更改时，添加描述性的提交信息是一个好习惯&mdash;&mdash;这使得跟踪一段时间内所做的更改以及让其他开发人员更容易理解您所做的更改变得更加容易。
+      </p>
+      <h3 id="status">
+       <a aria-labelledby="status" class="anchor-heading" href="#status">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        status
+       </code>
+      </h3>
+      <p>
+       如果您想查看进行了哪些更改，可以在仓库中运行
+       <code class="language-plaintext highlighter-rouge">
+        git status
+       </code>
+       。它可能看起来与下面略有不同，但它会显示哪些文件已被修改。如果它们在"未暂存以提交的更改"下，这意味着它们还没有被添加到暂存区。一旦它们被添加，这些文件将显示在"要提交的更改"下。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>On branch main
+Your branch 是 up to <span class="nb">date </span>with <span class="s1">'origin/main'</span><span class="nb">.</span>
+
+Changes not staged <span class="k">for </span>commit:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git restore &lt;file&gt;..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+	modified:   proj1a/src/LinkedListDeque61B.java
+	modified:   proj1b/src/ArrayDeque61B.java
+	modified:   proj1b/tests/ArrayDeque61BTest.java
+</code></pre>
+       </div>
+      </div>
+      <p>
+       在这个例子中，
+       <code class="language-plaintext highlighter-rouge">
+        git status
+       </code>
+       显示我们修改了三个尚未暂存以提交的文件。一旦我们
+       <code class="language-plaintext highlighter-rouge">
+        git add
+       </code>
+       它们，
+       <code class="language-plaintext highlighter-rouge">
+        git status
+       </code>
+       将发生变化：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>On branch main
+Your branch 是 up to <span class="nb">date </span>with <span class="s1">'origin/main'</span><span class="nb">.</span>
+
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git restore --staged &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+	modified:   proj1a/src/LinkedListDeque61B.java
+	modified:   proj1b/src/ArrayDeque61B.java
+	modified:   proj1b/tests/ArrayDeque61BTest.java
+</code></pre>
+       </div>
+      </div>
+      <p>
+       在这两种情况下，"未暂存的更改"和"要提交的更改"都是针对已经
+       <strong>
+        跟踪
+       </strong>
+       的或之前版本中已保存的文件。Git 也会显示
+       <strong>
+        未跟踪
+       </strong>
+       的文件，这些文件在之前版本中没有保存过。
+      </p>
+      <h3 id="log">
+       <a aria-labelledby="log" class="anchor-heading" href="#log">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        log
+       </code>
+      </h3>
+      <p>
+       在 git 仓库中运行
+       <code class="language-plaintext highlighter-rouge">
+        git log
+       </code>
+       会显示我们所有已提交历史的记录。例如，您会得到类似于以下内容：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nv">$ </span>git log
+
+commit 8g955d88159fc8e4504d7220e33fad34f8f2c6bd
+Author: Elana Ho &lt;elana@Elana-MacBook-Air.local&gt;
+Date:   Tue Feb 7 19:06:48 2016 <span class="nt">-0800</span>
+
+    Added common Git problems to lab04.
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这意味着您能够查看所有提交的完整历史。记住您每次提交时添加的信息吗？它会显示在
+       <code class="language-plaintext highlighter-rouge">
+        git log
+       </code>
+       中。在这个例子中，提交信息是"Added common Git problems to lab04."也就是说，我们在提交时运行了
+       <code class="language-plaintext highlighter-rouge">
+        git commit -m "Added common Git problems to lab04."
+       </code>
+       。
+      </p>
+      <p>
+       另一个
+       <strong>
+        重要的
+       </strong>
+       东西是"commit"标题旁边的内容。它看起来像一串随机字符和数字，但它代表
+       <strong>
+        提交 ID
+       </strong>
+       。提交 ID 是 Git 分配的唯一 ID，用于标识该提交中所做的特定更改。
+       <strong>
+        这对于下一节很重要。
+       </strong>
+      </p>
+      <h3 id="restore">
+       <a aria-labelledby="restore" class="anchor-heading" href="#restore">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        restore
+       </code>
+      </h3>
+      <p>
+       如果我们想从程序的以前版本恢复更改怎么办？我们可以使用
+       <code class="language-plaintext highlighter-rouge">
+        git restore
+       </code>
+       ！有几种方法可以做到这一点。
+      </p>
+      <p>
+       如果我们想将文件恢复到最近一次提交中的版本，那么我们可以运行
+       <code class="language-plaintext highlighter-rouge">
+        git restore
+       </code>
+       而不指定提交 ID：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git restore <span class="o">[</span>path_to_file]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       如果我们想要恢复到
+       <strong>
+        特定
+       </strong>
+       提交，我们可以识别该提交的 ID 并从该提交恢复文件。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git restore <span class="nt">--source</span><span class="o">=[</span>commitID] <span class="o">[</span>path_to_file]
+</code></pre>
+       </div>
+      </div>
+      <h2 id="git-exercise-part-11">
+       <a aria-labelledby="git-exercise-part-11" class="anchor-heading" href="#git-exercise-part-11">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 练习（第 1.1 部分）
+      </h2>
+      <p>
+       现在您已经准备好开始使用 git 了！您的下一个任务是通过设置一个仓库并进行几次提交来完成一个小型 git 工作流程。在最后，您需要通过填写 Beacon 上的表单来完成签到。
+      </p>
+      <p class="danger">
+       这是要在您的本地计算机上完成的，但
+       <strong>
+        要在您的
+        <code class="language-plaintext highlighter-rouge">
+         sp24-s***
+        </code>
+       </strong>
+       仓库之外完成。确保不要在您的
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       中初始化一个仓库！
+      </p>
+      <blockquote class="info">
+       <p>
+        如果您需要关于创建目录、创建文件、更改目录等的帮助，请参考
+        <a href="terminal/index.html">
+         <em>
+          如何使用终端
+         </em>
+        </a>
+        。
+       </p>
+      </blockquote>
+      <ol>
+       <li>
+        创建一个名为
+        <code class="language-plaintext highlighter-rouge">
+         lab04-checkoff
+        </code>
+        的目录。您可以将此目录放在计算机上的任何位置
+        <strong>
+         （但不要放在您的
+         <code class="language-plaintext highlighter-rouge">
+          sp24-s***
+         </code>
+         仓库中）
+        </strong>
+        。
+       </li>
+       <li>
+        进入
+        <code class="language-plaintext highlighter-rouge">
+         lab04-checkoff
+        </code>
+        目录，并初始化一个 git 仓库。
+       </li>
+       <li>
+        以任何您喜欢的方式创建一个名为
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        的文件。在这个文本文件中，添加文本"Created 61b.txt"。
+       </li>
+       <li>
+        以任何您喜欢的方式创建另一个名为
+        <code class="language-plaintext highlighter-rouge">
+         61boba.txt
+        </code>
+        的文件。在这个文本文件中，添加文本"Created 61boba.txt"。
+       </li>
+       <li>
+        开始跟踪
+        <strong>
+         只有
+        </strong>
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        ，并创建一个新的提交，只包含这个文件，提交信息为：
+        <code class="language-plaintext highlighter-rouge">
+         Add 61b.txt
+        </code>
+        。
+       </li>
+       <li>
+        通过将文件中的文本更改为："61b.txt changed to version 2"来修改
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        。
+       </li>
+       <li>
+        再做一个提交，这次包含
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         61boba.txt
+        </code>
+        。提交信息应为：
+        <code class="language-plaintext highlighter-rouge">
+         Updated 61b.txt and added 61boba.txt
+        </code>
+        。
+       </li>
+       <li>
+        <p>
+         再修改一次
+         <code class="language-plaintext highlighter-rouge">
+          61b.txt
+         </code>
+         ，将文件中的文本更改为："61b.txt changed to final version"。
+         <strong>
+          不要提交这个版本。
+         </strong>
+        </p>
+        <p>
+         此时，如果您输入
+         <code class="language-plaintext highlighter-rouge">
+          git status
+         </code>
+         和
+         <code class="language-plaintext highlighter-rouge">
+          git log
+         </code>
+         ，您会看到类似于以下内容：
+        </p>
+        <p>
+         <img alt="git_checkoff" src="img/git_checkoff.png">
+        </p>
+       </li>
+       <li>
+        <strong>
+         仅使用 git
+        </strong>
+        ，将
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        恢复到最近一次提交中的版本。
+        <!-- markdownlint-disable MD030 -->
+       </li>
+       <li>
+        <strong>
+         仅使用 git
+        </strong>
+        ，将
+        <code class="language-plaintext highlighter-rouge">
+         61b.txt
+        </code>
+        恢复到第一次提交中的版本。
+       </li>
+      </ol>
+      <!-- markdownlint-restore -->
+      <p>
+       请确保保存此仓库和目录，直到您在
+       <a href="https://sp24.beacon.datastructur.es">
+        Beacon
+       </a>
+       上完成表单。
+      </p>
+      <p class="task">
+       完成上述步骤，并完成第一个谷歌表单。在您获得魔法词之前，还有第二个谷歌表单需要填写。
+      </p>
+      <h2 id="git-commands-continued">
+       <a aria-labelledby="git-commands-continued" class="anchor-heading" href="#git-commands-continued">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 命令（续）
+      </h2>
+      <p>
+       让我们继续！在这一节中，我们将更深入地讨论远程仓库和分支是什么。
+      </p>
+      <h3 id="remote-add">
+       <a aria-labelledby="remote-add" class="anchor-heading" href="#remote-add">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        remote add
+       </code>
+      </h3>
+      <p>
+       有时，我们希望能够从另一个仓库拉取更改，特别是托管在 GitHub 上的仓库。为此，我们可以将该仓库添加为"远程仓库"。例如，在实验 01 中，我们使用以下命令在我们的个人仓库中添加 skeleton 仓库：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git remote add skeleton https://github.com/Berkeley-CS61B/skeleton-sp24.git
+</code></pre>
+       </div>
+      </div>
+      <p>
+       让我们来分析一下。当我们想要添加一个远程仓库时，我们指定远程仓库的名称以及远程 URL。在这个例子中，名称是
+       <code class="language-plaintext highlighter-rouge">
+        skeleton
+       </code>
+       ，URL 是
+       <code class="language-plaintext highlighter-rouge">
+        https://github.com/Berkeley-CS61B/skeleton-sp24.git
+       </code>
+       。然后，当我们想要从中
+       <a href="#pull">
+        拉取
+       </a>
+       或
+       <a href="#push">
+        推送
+       </a>
+       时，我们可以使用其名称来引用远程仓库。
+      </p>
+      <p>
+       因此，要添加远程仓库，我们可以运行以下命令：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git remote add <span class="o">[</span>remote-name] <span class="o">[</span>remote-url]
+</code></pre>
+       </div>
+      </div>
+      <p class="info">
+       您可以在仓库中运行
+       <code class="language-plaintext highlighter-rouge">
+        git remote -v
+       </code>
+       来检查已添加了哪些远程仓库。
+      </p>
+      <h3 id="switch">
+       <a aria-labelledby="switch" class="anchor-heading" href="#switch">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        switch
+       </code>
+      </h3>
+      <p>
+       我们还没有讨论 Git 的另一个功能，即分支！您在这个课程中不会太多使用它（或者根本不会！）（除了本实验），但它是一个有用的知识。
+      </p>
+      <p>
+       大多数版本控制系统都有某种分支系统。当我们说分支时，意味着我们从"主"分支"分叉"出来。分支允许我们同时跟踪多个版本的工作（可以将其想象为平行宇宙）。我们想要创建另一个分支的原因之一是，如果我们想要开发程序的另一个功能，但我们仍然希望维护我们当前的版本。
+      </p>
+      <p>
+       让我们看一个可视化图示。
+      </p>
+      <p>
+       <img alt="cool_branch" src="img/on_cool_branch.png" style="max-height: 325;">
+      </p>
+      <p>
+       在上图中，有两个分支，
+       <code class="language-plaintext highlighter-rouge">
+        master
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        cool_branch
+       </code>
+       。请注意，我们已经做了多次提交。在某个时刻，我们从
+       <code class="language-plaintext highlighter-rouge">
+        master
+       </code>
+       "分支"出来（在带有信息"diverge commit"的提交处），并从该特定分支分叉出来。现在，如果我们想要停止在当前分支（
+       <code class="language-plaintext highlighter-rouge">
+        cool_branch
+       </code>
+       ）上工作，我们可以切换回我们的
+       <code class="language-plaintext highlighter-rouge">
+        master
+       </code>
+       分支。我们通过运行以下命令来做到这一点：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git switch <span class="o">[</span>branch-name]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <img alt="master_branch" src="img/on_master_branch.png" style="max-height: 325;">
+      </p>
+      <p>
+       在这个例子中，我们会运行
+       <code class="language-plaintext highlighter-rouge">
+        git switch master
+       </code>
+       。请注意，HEAD 标签现在指向
+       <code class="language-plaintext highlighter-rouge">
+        master
+       </code>
+       上最新的提交。
+      </p>
+      <p class="info">
+       我们这里不会介绍，但如果您想了解如何创建分支，请随意查阅。
+      </p>
+      <h3 id="restore-revisited">
+       <a aria-labelledby="restore-revisited" class="anchor-heading" href="#restore-revisited">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        restore
+       </code>
+       再探讨
+      </h3>
+      <p>
+       现在我们了解了远程和分支的概念，让我们重新回顾一下
+       <code class="language-plaintext highlighter-rouge">
+        restore
+       </code>
+       命令。在前面的章节中，我们讨论了使用
+       <code class="language-plaintext highlighter-rouge">
+        restore
+       </code>
+       根据最新提交或提交 ID 来恢复到之前的提交，但我们也可以使用该命令根据远程仓库和指定分支将更改恢复到之前的状态。它看起来是这样的：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git restore <span class="nt">--source</span><span class="o">=[</span>remote-name]/[branch-name] <span class="o">[</span>file_name]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       它会根据远程仓库分支的最新提交内容将文件恢复回去。
+      </p>
+      <h3 id="push">
+       <a aria-labelledby="push" class="anchor-heading" href="#push">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        push
+       </code>
+      </h3>
+      <p>
+       如果我们想将在本地计算机上进行的任何提交推送到远程仓库，我们可以使用
+       <code class="language-plaintext highlighter-rouge">
+        git push
+       </code>
+       ：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git push <span class="o">[</span>remote-name] <span class="o">[</span>branch]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       在本课程中，我们使用
+       <code class="language-plaintext highlighter-rouge">
+        git push origin main
+       </code>
+       将本地仓库的任何更改推送到我们的远程仓库。
+       <code class="language-plaintext highlighter-rouge">
+        origin
+       </code>
+       是代表我们托管在 Github 上的个人仓库的远程仓库，
+       <code class="language-plaintext highlighter-rouge">
+        main
+       </code>
+       是我们工作的分支。
+      </p>
+      <p>
+       下面是当我们有几个尚未推送的本地提交时的可视化图示。左侧是本地仓库，右侧是远程仓库。
+      </p>
+      <p>
+       <img alt="remote_push_before" src="img/remote_push_before.png" style="max-height: 325;">
+      </p>
+      <p>
+       推送后，我们的提交现在已保存在远程仓库中：
+      </p>
+      <p>
+       <img alt="remote_push_after" src="img/remote_push_after.png" style="max-height: 325;">
+      </p>
+      <h3 id="pull">
+       <a aria-labelledby="pull" class="anchor-heading" href="#pull">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        pull
+       </code>
+      </h3>
+      <p>
+       相反，如果我们想从远程仓库拉取任何更改到本地仓库，我们可以运行
+       <code class="language-plaintext highlighter-rouge">
+        git pull
+       </code>
+       ：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git pull <span class="o">[</span>remote-name] <span class="o">[</span>branch]
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们之前从 skeleton 拉取时已经这样做过了：
+       <code class="language-plaintext highlighter-rouge">
+        git pull skeleton main
+       </code>
+       。以下是我们还没有拉取的几个远程提交的可视化图示：
+      </p>
+      <p>
+       <img alt="remote_pull_before" src="img/remote_pull_before.png" style="max-height: 325;">
+      </p>
+      <p>
+       拉取后，我们的远程提交现在位于本地仓库中：
+      </p>
+      <p>
+       <img alt="remote_pull_after" src="img/remote_pull_after.png" style="max-height: 325;">
+      </p>
+      <h2 id="common-git-issues">
+       <a aria-labelledby="common-git-issues" class="anchor-heading" href="#common-git-issues">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       常见 Git 问题
+      </h2>
+      <p>
+       在本节中，我们将介绍您可能遇到的一些常见 Git 问题。这并不是您可能看到的所有问题的完整列表。您可以在我们的指南中阅读更多关于 git 问题的信息
+       <a href="../../resources/guides/git/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <p class="danger">
+       虽然这旨在帮助诊断 Git 问题并通过常见方法解决它们，但如果您不太确定，请务必寻求帮助！
+      </p>
+      <h3 id="fatal-refusing-to-merge-unrelated-histories">
+       <a aria-labelledby="fatal-refusing-to-merge-unrelated-histories" class="anchor-heading" href="#fatal-refusing-to-merge-unrelated-histories">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致命错误：拒绝合并不相关的历史
+      </h3>
+      <p>
+       这通常发生在有人在您拉取后更改了 skeleton 代码中的文件时。要修复，请运行
+       <code class="language-plaintext highlighter-rouge">
+        git pull &lt;remote-repo&gt; main --allow-unrelated-histories --no-rebase
+       </code>
+       。这可能会强制产生合并冲突（更多相关信息见下文）。
+      </p>
+      <h3 id="merge-conflict">
+       <a aria-labelledby="merge-conflict" class="anchor-heading" href="#merge-conflict">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       合并冲突
+      </h3>
+      <p>
+       合并冲突消息可能如下所示：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nv">$ </span>git pull origin main
+From github.com:Berkeley-CS61B/course-materials-sp16
+ <span class="k">*</span> branch            main     -&gt; FETCH_HEAD
+Auto-merging proj/proj0/solution/canonical/Planet.java
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in </span>proj/proj0/solution/canonical/Planet.java
+Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then </span>commit the result.
+</code></pre>
+       </div>
+      </div>
+      <p>
+       当对同一文件的不同修改影响了相同的代码行时，就会发生合并冲突，因此无法共存。Git 会指示哪些文件有冲突；
+       <strong>
+        要修复它们，请在 IntelliJ 中打开文件并手动解决。
+       </strong>
+       这些冲突在文件中会显示如下：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>    public Planet<span class="o">(</span>Planet p<span class="o">)</span> <span class="o">{</span>
+<span class="o">&lt;&lt;&lt;&lt;&lt;&lt;</span>&lt; HEAD
+        this.xPos <span class="o">=</span> p.xPos<span class="p">;</span>
+        this.yPos <span class="o">=</span> p.yPos<span class="p">;</span>
+<span class="o">=======</span>
+        this.xxPos <span class="o">=</span> p.xxPos<span class="p">;</span>
+        this.yyPos <span class="o">=</span> p.yyPos<span class="p">;</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> 27ddd0c71515e5cfc7f58a43bcf0e2144c127aed
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        =======
+       </code>
+       之间的所有内容都来自您的本地版本。
+       <code class="language-plaintext highlighter-rouge">
+        =======
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        27ddd0c71515e5cfc7f58a43bcf0e2144c127aed
+       </code>
+       之间的所有内容都来自您的远程仓库。在这两个选项之间，选择您想要保留的修改。一旦您解决了所有冲突，添加并提交您的更改。运行 git status 检查仓库的状态。
+      </p>
+      <p>
+       我们在这里提供了更多关于合并冲突的阅读材料
+       <a href="../../resources/guides/git/index.html#merging">
+        这里
+       </a>
+       和
+       <a href="../../resources/guides/git/wtfs/index.html#error-you-have-not-concluded-your-merge-merge_head-exists">
+        这里
+       </a>
+       。
+      </p>
+      <h3 id="your-branch-is-ahead-of-originmain-by-x-commits">
+       <a aria-labelledby="your-branch-is-ahead-of-originmain-by-x-commits" class="anchor-heading" href="#your-branch-is-ahead-of-originmain-by-x-commits">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       您的分支领先于 'origin/main' X 个提交。
+      </h3>
+      <p>
+       当本地仓库与其远程对应仓库不再同步时，就会发生这种情况。如果您想保留本地版本的文件，请使用
+       <code class="language-plaintext highlighter-rouge">
+        git push
+       </code>
+       。如果您想用远程仓库中的版本覆盖本地更改，请使用
+       <code class="language-plaintext highlighter-rouge">
+        git reset --hard origin/main
+       </code>
+       。
+      </p>
+      <h2 id="git-exercise-part-12">
+       <a aria-labelledby="git-exercise-part-12" class="anchor-heading" href="#git-exercise-part-12">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 练习（第 1.2 部分）
+      </h2>
+      <p>
+       就像您在第 1.1 部分中所做的那样，导航到
+       <a href="https://sp24.beacon.datastructur.es">
+        Beacon
+       </a>
+       并完成第二个表单。
+      </p>
+      <p>
+       一旦您完成两个谷歌表单（第 1.1 和 1.2 部分中的）并获得满分，您应该能够获得一个
+       <strong>
+        魔法词
+       </strong>
+       。将此魔法词放在
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       的
+       <strong>
+        第一行
+       </strong>
+       。
+      </p>
+      <h2 id="git-exercise-part-2">
+       <a aria-labelledby="git-exercise-part-2" class="anchor-heading" href="#git-exercise-part-2">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Git 练习（第 2 部分）
+      </h2>
+      <p>
+       在这个练习中，我们将让您克隆一个 git 仓库，您将使用您所学的一些命令来查找隐藏在仓库中的密码。复制并粘贴以下命令来克隆您的仓库，
+       <strong>
+        在您的
+        <code class="language-plaintext highlighter-rouge">
+         sp24-s***
+        </code>
+        仓库之外
+       </strong>
+       。具体位置由您决定，只要它不在另一个仓库中即可。
+      </p>
+      <p class="danger">
+       在运行命令之前，
+       <strong>
+        请仔细检查您不在您的个人仓库中。
+       </strong>
+       如果您在，消息会阻止您在
+       <code class="language-plaintext highlighter-rouge">
+        sp24-s***
+       </code>
+       仓库内克隆仓库。
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>curl <span class="nt">-sS</span> https://sp24.datastructur.es/labs/lab04/lab04.sh | bash
+</code></pre>
+       </div>
+      </div>
+      <p>
+       检查名为
+       <code class="language-plaintext highlighter-rouge">
+        git-exercise-sp24
+       </code>
+       的仓库是否出现。如果存在，
+       <code class="language-plaintext highlighter-rouge">
+        cd
+       </code>
+       进入它，在 IntelliJ 中打开
+       <code class="language-plaintext highlighter-rouge">
+        git-exercise-sp24
+       </code>
+       ，您就可以继续进行练习了！
+      </p>
+      <h3 id="part-21">
+       <a aria-labelledby="part-21" class="anchor-heading" href="#part-21">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       第 2.1 部分
+      </h3>
+      <p>
+       当您打开仓库时，您会注意到有一个
+       <code class="language-plaintext highlighter-rouge">
+        password.txt
+       </code>
+       文件。第一项任务的密码就在这里。它似乎不在这里，但可能在之前的提交中&hellip;&hellip;看看您是否能找到该提交并使用我们学到的命令恢复到该提交（您可能需要使用方向键滚动！）。
+      </p>
+      <p class="task">
+       找到任务 1 的密码。完成后，您可以将密码存储在 lab04 目录中
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       文件的
+       <strong>
+        第二行
+       </strong>
+       。
+       <strong>
+        在继续之前，您还需要将文件恢复到最新的提交。
+       </strong>
+      </p>
+      <h3 id="part-22">
+       <a aria-labelledby="part-22" class="anchor-heading" href="#part-22">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       第 2.2 部分
+      </h3>
+      <p>
+       完成任务 1 后，让我们尝试找出第二个密码在哪里。您克隆的仓库有多个分支，但名为
+       <code class="language-plaintext highlighter-rouge">
+        erik
+       </code>
+       的分支可能有我们想要的东西。让我们尝试切换到该分支，看看密码是否在里面。
+      </p>
+      <p class="task">
+       找到任务 2 的密码。您可以通过检查您所在提交的提交信息来验证这是正确的密码。完成后，您可以将密码存储在 lab04 目录中
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       文件的
+       <strong>
+        第三行
+       </strong>
+       。找到密码后，
+       <strong>
+        切换回
+        <code class="language-plaintext highlighter-rouge">
+         main
+        </code>
+        分支。
+       </strong>
+      </p>
+      <h3 id="part-23">
+       <a aria-labelledby="part-23" class="anchor-heading" href="#part-23">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       第 2.3 部分
+      </h3>
+      <p>
+       第三个密码似乎不在这个仓库中，而是在另一个仓库中！密码在这个仓库中（请注意这不是一个命令，而是 ssh url）：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git@github.com:Berkeley-CS61B/git-exercise-remote.git
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们想要尝试从中拉取，所以首先，将此仓库作为远程仓库添加到我们的
+       <code class="language-plaintext highlighter-rouge">
+        git-exercise-sp24
+       </code>
+       仓库中。您可以随意为远程仓库命名。添加后，运行以下命令（不要在远程名称周围加括号）：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git pull <span class="o">[</span>remote-name] main <span class="nt">--allow-unrelated-histories</span> <span class="nt">--no-rebase</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       我们添加
+       <code class="language-plaintext highlighter-rouge">
+        --allow-unrelated-histories
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        --no-rebase
+       </code>
+       标志的原因是因为我们的两个仓库没有任何相关的历史记录，所以我们将尝试合并这两个分支（我们的本地分支和我们正在拉取的分支）。
+      </p>
+      <p class="danger">
+       如果您不确定是否应该使用这些标志，请不要添加。如果您确实在不需要的情况下使用了该标志，您可能最终会陷入交互式变基并销毁您的一些工作。在大多数（如果不是全部）情况下，从个人仓库中的 skeleton 拉取时，不应添加此标志，运行
+       <code class="language-plaintext highlighter-rouge">
+        git pull skeleton main
+       </code>
+       就足够了。
+      </p>
+      <p class="task">
+       拉取后，您会看到 Git 尝试合并分支。继续合并，最终密码应该会显示在您的 IntelliJ 中。您可以将密码存储在 lab04 目录中
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       的
+       <strong>
+        第四行
+       </strong>
+       。
+      </p>
+      <h3 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h3>
+      <p>
+       此时，您应该已经按照之前练习中的规定在每行上有
+       <strong>
+        四个密码
+       </strong>
+       。确保它们按提到的特定顺序排列，并且末尾没有多余的空格。您的魔法词文本文件应该类似于以下内容：
+      </p>
+      <div class="language-shell highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>git_exercise_1_password
+git_exercise_2.1_password
+git_exercise_2.2_password
+git_exercise_2.3_password
+</code></pre>
+       </div>
+      </div>
+      <p>
+       密码应该放在您
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       的前 4 行。准备好后，请提交到 Gradescope。
+      </p>
+      <p>
+       如果您想玩一下我们用来制作本实验中一些图片的可视化工具，可以在
+       <a href="https://git-school.github.io/visualizing-git/#free-remote">
+        这里
+       </a>
+       找到它。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

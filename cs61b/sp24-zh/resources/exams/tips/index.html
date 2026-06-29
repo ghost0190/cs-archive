@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   考试准备技巧
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="考试准备技巧" property="og:title">
+  <meta content="Teresa Luo" name="author">
+  <meta content="en_US" property="og:locale">
+  <meta content="Data Structures" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/exams/tips/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="Exam Prep Tips" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Teresa Luo"},"description":"Data Structures","headline":"考试准备技巧","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Teresa Luo"},"url":"https://sp24.datastructur.es/resources/exams/tips/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       Course Info
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       教师团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02: 调试 (部分 1)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03: 调试 (部分 2)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析 题目 解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A: Java Syntax
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           Coverage Tests - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           Coverage Tests - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../guides/index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/ed/index.html">
+           Ed 课程政策 and Guidelines
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../guides/ed/ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../guides/intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../guides/soda-machines/index.html">
+           Using the Soda 实验 Machines
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    Th是 site uses
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    , a documentation theme for Jekyll.
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        资源
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href>
+        考试
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        考试准备技巧
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        考试准备技巧
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#reviewing-concepts">
+           复习概念
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#utilize-course-resources">
+             利用课程资源
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#write-cheat-sheets">
+             编写作弊条
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#go-to-oh-leading-up-to-an-exam">
+             考试前去OH
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#textbook">
+             教科书
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#study-groups">
+             学习小组
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#applying-concepts">
+           应用概念
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#teach-someone">
+             教别人
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#do-and-review-practice-exams">
+             做并复习往年考试
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#problem-bank">
+             题目库
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#final-preparations">
+           最终准备
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#visualization">
+             可视化
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#sleep-eat-repeat">
+             睡眠、吃、重复
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#positive-reinforcement">
+             正强化
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#during-the-exam">
+           考试期间
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#scan-first-skip-if-necessary">
+             先浏览，必要时跳过
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#draw-diagrams-try-small-examples">
+             画图，尝试小例子
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       考试准备技巧
+      </h1>
+      <div class="due-date">
+       作者：Teresa Luo
+      </div>
+      <p>
+       为这门课的考试做准备可能是一段充满压力和挑战的经历，尤其是当你试图平衡生活中其他事情时。在这份指南中，学生支持团队整理了一些实用建议，帮助你更有策略、更有效地准备学习，让你在考试当天发挥最佳水平。
+      </p>
+      <blockquote class="warning">
+       <p>
+        <strong>
+         免责声明：提供的考试技巧基于个人经验，应被视为建议而非硬性规则。我们鼓励你评估自己的独特情况，并相应地调整建议。
+        </strong>
+       </p>
+      </blockquote>
+      <h2 id="reviewing-concepts">
+       <a aria-labelledby="reviewing-concepts" class="anchor-heading" href="#reviewing-concepts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       复习概念
+      </h2>
+      <h3 id="utilize-course-resources">
+       <a aria-labelledby="utilize-course-resources" class="anchor-heading" href="#utilize-course-resources">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       利用课程资源
+      </h3>
+      <p>
+       在整个学期中，我们为你提供了资源来帮助你增强课堂所学的内容。
+      </p>
+      <p>
+       <span style="text-decoration:underline;">
+        Bridge讨论课
+       </span>
+      </p>
+      <p>
+       Bridge课是2小时长的讨论课，让我们能够花更多时间复习概念以及讲解作业题。因为课时间较长，而且每个section有两位TA，你能够在Bridge期间获得更多一对一的帮助，
+       <strong>
+        问更多问题
+       </strong>
+       来建立更强的概念基础。
+      </p>
+      <p>
+       <span style="text-decoration:underline;">
+        考试级别课程
+       </span>
+      </p>
+      <p>
+       考试级别课程是节奏更快的课程，更侧重于解决更难度的考试级别题目。这些课程对于
+       <strong>
+        学习解题方法
+       </strong>
+       非常有用，能在考试中派上用场。
+      </p>
+      <p>
+       <span style="text-decoration:underline;">
+        导师复习课
+       </span>
+      </p>
+      <p>
+       我们优秀的导师在考试前几周会举办考试复习课。这些课程通常包括考试范围内主题的
+       <strong>
+        概念复习
+       </strong>
+       ，以及
+       <strong>
+        复习工作表
+       </strong>
+       来练习应用概念。
+      </p>
+      <p>
+       <span style="text-decoration:underline;">
+        异步资源
+       </span>
+      </p>
+      <p>
+       如果你在某些周无法参加讨论课，还有由我们之前学期非常棒的TA录制的讨论课工作表的
+       <strong>
+        视频讲解
+       </strong>
+       。
+      </p>
+      <p>
+       定期使用这些资源可以在考试来临时让你处于更好的位置。持续做好这些工作会让你对高效复习概念更有信心，不会感到需要为考试"重新学习"一切。
+      </p>
+      <h3 id="write-cheat-sheets">
+       <a aria-labelledby="write-cheat-sheets" class="anchor-heading" href="#write-cheat-sheets">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       写备忘单
+      </h3>
+      <p>
+       编写作弊条是组织和复习概念的好方法。我们建议你提前创建它，这样你可以在做past exams时使用它。
+      </p>
+      <p>
+       这里有一些有用的作弊条材料（来源：过去的61B TA们）
+      </p>
+      <ul>
+       <li>
+        <a href="https://docs.google.com/document/d/1PMoL1xJ9xa6ywQQ8HCc1oxLf2TUCiCaKaatlKYv6RZw/edit#heading=h.s3vq6kg31rbb">
+         Owen&rsquo;s cheatsheet
+        </a>
+        (注意: KD-Tree, Game trees, alpha-beta pruning, and bitwise operations are out of scope)
+       </li>
+       <li>
+        <a href="https://docs.google.com/presentation/d/1l9kslV4XB46fOOyD-hiXxi4sK-lmtFg9rMHRmS7_S5k/edit#slide=id.p">
+         Crystal&rsquo;s DMS flowchart
+        </a>
+       </li>
+      </ul>
+      <h3 id="go-to-oh-leading-up-to-an-exam">
+       <a aria-labelledby="go-to-oh-leading-up-to-an-exam" class="anchor-heading" href="#go-to-oh-leading-up-to-an-exam">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       考试前去OH
+      </h3>
+      <p>
+       考试前的一个严重未被充分利用的资源是OH。这是一个与TA一起解决问题、提问或询问一般考试技巧的好地方。问
+       <em>
+        好
+       </em>
+       问题，例如：
+      </p>
+      <ul>
+       <li>
+        <strong>
+         如何将问题分解成更小的部分？
+        </strong>
+       </li>
+       <li>
+        <strong>
+         如何根据指令/骨架代码中的提示（如变量名）进行有根据的猜测？
+        </strong>
+       </li>
+       <li>
+        <strong>
+         对于一个问题，什么是一个好的起点？
+        </strong>
+       </li>
+      </ul>
+      <h3 id="textbook">
+       <a aria-labelledby="textbook" class="anchor-heading" href="#textbook">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       教科书
+      </h3>
+      <p>
+       在主页上，大多数lecture都有对应的教科书章节。教科书是在2023年春季学期编写的，内容应该与lecture相同。相应的lecture视频嵌入在整本教科书中。这是一种高效复习概念或找到相关lecture视频重看的好方法！
+      </p>
+      <h3 id="study-groups">
+       <a aria-labelledby="study-groups" class="anchor-heading" href="#study-groups">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       学习小组
+      </h3>
+      <p>
+       找到CS 61B中其他一起学习的同学是保持自我责任感、澄清误解和讨论难题的最佳方式之一。你可以通过section、Ed、学生组织等认识潜在的学习伙伴。
+      </p>
+      <h2 id="applying-concepts">
+       <a aria-labelledby="applying-concepts" class="anchor-heading" href="#applying-concepts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       应用概念
+      </h2>
+      <h3 id="teach-someone">
+       <a aria-labelledby="teach-someone" class="anchor-heading" href="#teach-someone">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       教别人
+      </h3>
+      <p>
+       这个技巧基于
+       <a href="https://golden.com/wiki/Feynman_Technique">
+        费曼技巧
+       </a>
+       。"某个人"可以是你的同学、朋友、奶奶、你自己，或者一个空教室。关键是
+       <strong>
+        用
+        <em>
+         简单的语言
+        </em>
+        教这个概念，如果你注意到过程中有任何概念上的差距，就回去复习。
+       </strong>
+       你也可以更定期地这样做，以确保你对任何新学的概念都有扎实的理解。
+      </p>
+      <p>
+       <img alt="feynman" src="feynman.png">
+      </p>
+      <p>
+       这是一种真正检验你是否从概念上理解一个主题的有效方法。一个很大的额外好处是一路上还能提高一些教学和沟通技巧。（未来的课程工作人员提醒？）
+      </p>
+      <h3 id="do-and-review-practice-exams">
+       <a aria-labelledby="do-and-review-practice-exams" class="anchor-heading" href="#do-and-review-practice-exams">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       做并复习往年考试
+      </h3>
+      <p>
+       &ldquo;做往年考试&rdquo; 是 probably the most common tip for successful exam prep. 我们建议 you take a past exam when you 第一 start studying, and use the results of th是 past exam to guide the rest of your studying.
+      </p>
+      <p>
+       为了真正最大化past exams帮助你准备考试的效果，复习考试也至关重要。
+      </p>
+      <p>
+       一般方法是：对于每个做错的题目，问自己：
+       <strong>
+        这道题是在考查概念是什么，还是概念如何应用？
+       </strong>
+      </p>
+      <ul>
+       <li>
+        如果是在问
+        <em>
+         是什么
+        </em>
+        ，那么回去查看相关资源复习这个概念就足够了。
+       </li>
+       <li>
+        如果是在问
+        <em>
+         如何应用
+        </em>
+        ，那么最好深入研究这道题，找出在特定问题范围内使用这个概念的原因和逻辑。
+       </li>
+      </ul>
+      <p>
+       一些与此主题相关的其他一般建议：
+      </p>
+      <ul>
+       <li>
+        优先
+        <strong>
+         做同一授课教师的往年考试
+        </strong>
+        ，以更好地衡量难度。
+       </li>
+       <li>
+        如果你时间紧迫，不要做太多套题。而是做一套题，看答案，然后
+        <strong>
+         第二天重新做
+        </strong>
+        这套题。
+       </li>
+       <li>
+        如果条件允许，
+        <strong>
+         在模拟考试环境中做题
+        </strong>
+        。打印出past exam，在纸上做题并计时。细化到每道题的做题时间，这样你就能将自己与实际考试进行比较。
+       </li>
+       <li>
+        我们已经为每道past exam题发布了视频讲解。这些都是很好的资源，不仅能学习
+        <strong>
+         答案是什么
+        </strong>
+        ，还能学习如何思考问题和得出答案。
+       </li>
+       <li>
+        如果你卡在past exam题上，完全没关系！与其看答案，你可以试着看部分视频讲解作为提示，然后看看之后能不能完成这道题的剩余部分。完成这道题后，
+        <strong>
+         反思
+        </strong>
+        你在哪些步骤上最困难，以及你对哪些概念掌握不牢固。
+       </li>
+      </ul>
+      <p>
+       如果你需要关于理解概念或方法的额外指导，请在Ed上提问或在OH期间提问！
+      </p>
+      <h3 id="problem-bank">
+       <a aria-labelledby="problem-bank" class="anchor-heading" href="#problem-bank">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       题目库
+      </h3>
+      <p>
+       如果你想根据特定主题练习更多题目，
+       <a href="../topical_exam_resources/index.html">
+        题目库
+       </a>
+       是一个很棒的资源。（感谢我们整理这些的 TA！）
+      </p>
+      <p>
+       你可以根据主题、难度和类型筛选和选择特定的past exam题目。题目库中也链接了答案和视频讲解，所以这是一个很棒的异步考试准备资源。
+      </p>
+      <p>
+       <img alt="problem_bank" src="problem_bank.png">
+      </p>
+      <p>
+       <img alt="problem_bank2" src="problem_bank2.png">
+      </p>
+      <h2 id="final-preparations">
+       <a aria-labelledby="final-preparations" class="anchor-heading" href="#final-preparations">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       最终准备
+      </h2>
+      <h3 id="visualization">
+       <a aria-labelledby="visualization" class="anchor-heading" href="#visualization">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       可视化
+      </h3>
+      <p>
+       可视化的力量一直被专业运动员和表演者长期利用。研究表明，当人们
+       <em>
+        想象
+       </em>
+       执行一项任务时，同一组神经元会被刺激和激活，就像他们
+       <em>
+        真正
+       </em>
+       做这个任务一样。虽然参加考试可能不像参加奥运会那样可怕（尽管有些人可能会争论它们差不多），但想象自己参加考试并取得好成绩可能是一种帮助自己为即将到来的考试做好心理准备的好方法。当然，你仍然需要努力，但通过尽可能详细地想象这个任务，你可以训练你的大脑在考试期间更好地管理压力。
+      </p>
+      <h3 id="sleep-eat-repeat">
+       <a aria-labelledby="sleep-eat-repeat" class="anchor-heading" href="#sleep-eat-repeat">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       睡眠，吃，重复
+      </h3>
+      <p>
+       科学证明睡眠期间我们的大脑会强化学习，所以&rsquo;s科学证明睡眠期间我们的大脑会强化学习，所以在考试前晚获得充足的睡眠比多做一些past exams更有效果。摄入足够的食物也能为你大脑提供足够的能量来应对考试。
+      </p>
+      <h3 id="positive-reinforcement">
+       <a aria-labelledby="positive-reinforcement" class="anchor-heading" href="#positive-reinforcement">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       正强化
+      </h3>
+      <p>
+       在考试中，首先专注于你会做的题目很重要。先确保你有思路的题目正确，然后再尝试你跳过的题目。
+      </p>
+      <p>
+       专注于你已经知道的而不是过于担心你不知道的，可以帮助在整个考试过程中保持信心，这对于保持冷静和减少恐慌的可能性至关重要。以冷静的心态参加考试更有可能取得更好的表现。
+      </p>
+      <h2 id="during-the-exam">
+       <a aria-labelledby="during-the-exam" class="anchor-heading" href="#during-the-exam">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       考试期间
+      </h2>
+      <h3 id="scan-first-skip-if-necessary">
+       <a aria-labelledby="scan-first-skip-if-necessary" class="anchor-heading" href="#scan-first-skip-if-necessary">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       先浏览，必要时跳过
+      </h3>
+      <p>
+       当考试开始时，花一分钟浏览所有题目，这样你就知道会发生什么。考试开始后，如果你看一道题10分钟没有太大进展，跳过它，等你有更多时间再回来。
+      </p>
+      <h3 id="draw-diagrams-try-small-examples">
+       <a aria-labelledby="draw-diagrams-try-small-examples" class="anchor-heading" href="#draw-diagrams-try-small-examples">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       画图，尝试小例子
+      </h3>
+      <p>
+       如果你不确定如何开始一道题，先做一个小例子，画出问题的可视化。当你解决这个例子时，分析你的大脑是如何处理它的。你采取了哪些步骤来分解问题？你能把你的逻辑转化成代码吗？
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

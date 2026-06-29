@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>6.5840 实验 1：MapReduce</title>
+<link rel="stylesheet" href="../style.css" type="text/css">
+<script src="guidance.js"></script>
+</head>
+<body>
+<div align="center">
+<h2><a href="../index.html">6.5840</a> - 2026 年春季</h2>
+<h1>6.5840 实验 1：MapReduce</h1>
+
+<CENTER>
+<p>
+  <b><a href="collab.html">协作政策</a></b> //
+  <b><a href="submit.html">提交实验</a></b> //
+  <b><a href="go.html">配置Go</a></b> //
+  <b><a href="guidance.html">指导</a></b> //
+  <b><a href="https://piazza.com/mit/spring2026/65840">Piazza</a></b>
+</p>
+</CENTER>
+
+</div>
+<hr>
+
+<h3>介绍</h3>
+
+<p>
+在这个实验中，你将构建一个 MapReduce 系统。
+你将实现一个调用应用程序 Map 和 Reduce 函数并处理文件读写的 worker 进程，
+以及一个将任务分配给 worker 并处理 worker 故障的 coordinator 进程。
+你将构建类似于 <a href="http://research.google.com/archive/mapreduce-osdi04.pdf">MapReduce 论文</a> 中的系统。
+（注意：本实验使用 "coordinator" 代替论文中的 "master"。）
+
+<h3>入门</h3>
+
+<p>你需要 <a href="go.html">配置 Go</a> 来完成实验。
+
+<p>
+使用 <a href="https://git-scm.com/">git</a>（一个版本控制系统）获取初始实验软件。
+要了解更多关于 git 的知识，请查看 <a href="https://git-scm.com/book/en/v2">Pro Git 书</a> 或 <a href="http://www.kernel.org/pub/software/scm/git/docs/user-manual.html">git 用户手册</a>。
+
+<pre>
+$ git clone git://g.csail.mit.edu/6.5840-golabs-2026 6.5840
+$ cd 6.5840
+$ ls
+Makefile src
+$
+</pre>
+
+<p>
+我们在 <tt>src/main/mrsequential.go</tt> 中提供了一个简单的串行 mapreduce 实现。它在单个进程中依次运行 map 和 reduce。我们还提供了几个 MapReduce 应用程序：<tt>mrapps/wc.go</tt> 中的词频统计，以及 <tt>mrapps/indexer.go</tt> 中的文本索引器。你可以按如下方式串行运行词频统计：
+
+<pre>
+$ cd ~/6.5840
+$ cd src/main
+$ go build -buildmode=plugin ../mrapps/wc.go
+$ rm mr-out*
+$ go run mrsequential.go wc.so pg*.txt
+$ sort mr-out-0
+A 509
+ABOUT 2
+ACT 8
+ACTRESS 1 
+...
+</pre>
+（你可能需要设置 <tt>LC_COLLATE=C</tt> 环境变量以使 sort 产生上述输出：<tt>LC_COLLATE=C sort mr-out-0</tt>）
+
+<p>
+<tt>mrsequential.go</tt> 将其输出留在文件 <tt>mr-out-0</tt> 中。输入来自名为 <tt>pg-xxx.txt</tt> 的文本文件。
+
+<p>
+你可以随意从 <tt>mrsequential.go</tt> 中借用代码。你还应该查看 <tt>mrapps/wc.go</tt> 以了解 MapReduce 应用程序代码的样子。
+
+<p>
+在本实验及所有其他实验中，我们可能会对我们提供的代码进行更新。为了确保你能获取这些更新并使用 <tt>git pull</tt> 轻松合并，最好将我们提供的代码保留在原始文件中。你可以按照实验说明在我们提供的代码基础上添加内容；只是不要移动它。你可以将自己的新函数放在新文件中。
+
+<h3>你的任务 <script>g("moderate/hard")</script></h3>
+
+你的任务是实现一个分布式 MapReduce，由两个程序组成：coordinator 和 worker。只会有一个 coordinator 进程，以及一个或多个并行执行的 worker 进程。在实际系统中，worker 会运行在一组不同的机器上，但在本实验中，你将它们全部运行在同一台机器上。worker 将通过 RPC 与 coordinator 通信。每个 worker 进程将在循环中向 coordinator 请求任务，从一个或多个文件读取任务输入，执行任务，将一个或多个文件的任务输出写入，然后再次向 coordinator 请求新任务。coordinator 应该能检测到一个 worker 是否在合理时间内没有完成任务（本实验中为十秒），并将同一任务分配给另一个 worker。
+
+<p>
+我们提供了一些初始代码。coordinator 和 worker 的 "main" 例程在 <tt>main/mrcoordinator.go</tt> 和 <tt>main/mrworker.go</tt> 中；不要修改这些文件。你应该将实现放在 <tt>mr/coordinator.go</tt>、<tt>mr/worker.go</tt> 和 <tt>mr/rpc.go</tt> 中。
+
+<p>
+以下是在词频统计 MapReduce 应用程序上运行你的代码的方法。首先，构建词频统计插件：
+<pre>
+$ cd main
+$ go build -buildmode=plugin ../mrapps/wc.go
+</pre>
+
+在一个窗口中，运行 coordinator：
+<pre>
+$ rm mr-out*
+$ go run mrcoordinator.go sock123 pg-*.txt
+</pre>
+
+<tt>sock123</tt> 参数指定了 coordinator 接收 worker RPC 的 socket。<tt>mrcoordinator.go</tt> 的 <tt>pg-*.txt</tt> 参数是输入文件；每个文件对应一个 "split"，是一个 Map 任务的输入。
+
+<p>
+在一个或多个其他窗口中，运行一些 worker：
+<pre>
+$ go run mrworker.go wc.so sock123
+</pre>
+
+当 worker 和 coordinator 完成后，查看 <tt>mr-out-*</tt> 中的输出。当你完成实验后，输出的排序并集应该与串行输出匹配，如下所示：
+<pre>
+$ cat mr-out-* | sort | more
+A 509
+ABOUT 2
+ACT 8
+ACTRESS 1 
+...
+</pre>
+
+<p>
+我们提供了所有用于评分的测试。测试的源代码在 <tt>mr/mr_test.go</tt> 中。你可以在 <tt>src</tt> 目录中运行测试：
+<pre>
+$ cd src
+$ make mr
+...
+</pre>
+
+这些测试检查 <tt>wc</tt> 和 <tt>indexer</tt> MapReduce 应用程序在给定 <tt>pg-xxx.txt</tt> 文件作为输入时是否产生正确的输出。测试还检查你的实现是否并行运行 Map 和 Reduce 任务，以及你的实现是否能从运行任务时崩溃的 worker 中恢复。
+
+<p>
+如果你现在运行测试，它们会在第一个测试中挂起：
+</p>
+
+<pre>
+$ cd ~/6.5840/src
+$ make mr
+...
+cd mr; go test -v -race 
+=== RUN   TestWc
+...
+</pre>
+
+<p>
+你可以在 <tt>mr/coordinator.go</tt> 的 Done 函数中将 <tt>ret := false</tt> 改为 true，使 coordinator 立即退出。然后：
+</p>
+
+<pre>
+$ make mr
+...
+=== RUN   TestWc
+2026/01/22 14:56:24 reduce created no mr-out-X output files!
+exit status 1
+FAIL    6.5840/mr       4.516s
+make: *** [Makefile:44: mr] Error 1
+$
+</pre>
+
+<p>
+测试期望在名为 <tt>mr-out-X</tt> 的文件中看到输出，每个 reduce 任务一个。<tt>mr/coordinator.go</tt> 和 <tt>mr/worker.go</tt> 的空实现不会生成这些文件（也基本不做其他任何事情），所以测试失败。
+
+<p>
+当你完成后，测试输出应该如下所示：
+
+<pre>
+$ make mr
+...
+=== RUN   TestWc
+--- PASS: TestWc (8.64s)
+=== RUN   TestIndexer
+--- PASS: TestIndexer (5.90s)
+=== RUN   TestMapParallel
+--- PASS: TestMapParallel (7.05s)
+=== RUN   TestReduceParallel
+--- PASS: TestReduceParallel (8.05s)
+=== RUN   TestJobCount
+--- PASS: TestJobCount (10.04s)
+=== RUN   TestEarlyExit
+--- PASS: TestEarlyExit (6.05s)
+=== RUN   TestCrashWorker
+2026/01/22 14:58:14 *re*-starting map ../../main/pg-tom_sawyer.txt 0
+2026/01/22 14:58:14 *re*-starting map ../../main/pg-metamorphosis.txt 2
+2026/01/22 14:58:39 *re*-starting map ../../main/pg-metamorphosis.txt 2
+2026/01/22 14:58:40 map 2 already done
+2026/01/22 14:58:45 *re*-starting reduce 0
+--- PASS: TestCrashWorker (40.18s)
+PASS
+ok      6.5840/mr       86.932s
+$
+</pre>
+
+<p>
+根据你终止 worker 进程的策略，你可能会看到如下错误：
+<pre>
+2026/02/11 16:21:32 dialing:dial unix /var/tmp/5840-mr-501: connect: connection refused
+</pre>
+每个测试看到少量这些消息是正常的；它们出现在 coordinator 退出后 worker 无法联系 coordinator RPC 服务器时。
+
+<p>
+<h3>一些规则：</h3>
+
+<ul>
+
+<li>
+map 阶段应该将中间键分配到 <tt>nReduce</tt> 个 reduce 任务的桶中，其中 <tt>nReduce</tt> 是 reduce 任务的数量——即 <tt>main/mrcoordinator.go</tt> 传递给 <tt>MakeCoordinator()</tt> 的参数。每个 mapper 应该创建 <tt>nReduce</tt> 个中间文件供 reduce 任务使用。
+
+<li> worker 实现应该将第 X 个 reduce 任务的输出放在文件 <tt>mr-out-X</tt> 中。
+
+<li> <tt>mr-out-X</tt> 文件应该每行包含一个 Reduce 函数的输出。该行应该使用 Go 的 <tt>"%v %v"</tt> 格式生成，传入键和值。请查看 <tt>main/mrsequential.go</tt> 中标注为 "this is the correct format" 的行。如果你的实现与此格式偏差太大，测试将失败。
+
+<li> 你可以修改 <tt>mr/worker.go</tt>、<tt>mr/coordinator.go</tt> 和 <tt>mr/rpc.go</tt>。你可以临时修改其他文件进行测试，但请确保你的代码在原始版本下能正常工作；我们将使用原始版本进行测试。
+
+<li> worker 应该将中间 Map 输出放在当前目录的文件中，以便 worker 稍后可以将其作为 Reduce 任务的输入读取。
+
+<li> <tt>main/mrcoordinator.go</tt> 期望 <tt>mr/coordinator.go</tt> 实现一个 <tt>Done()</tt> 方法，当 MapReduce 作业完全完成时返回 true；此时 <tt>mrcoordinator.go</tt> 将退出。
+
+<li> 当作业完全完成时，worker 进程应该退出。一种简单的实现方式是使用 <tt>call()</tt> 的返回值：如果 worker 无法联系 coordinator，它可以假设 coordinator 已退出因为作业已完成，因此 worker 也可以终止。根据你的设计，你可能还会发现让 coordinator 给 worker 分配一个 "请退出" 的伪任务会很有帮助。
+
+</ul>
+
+<h3>提示</h3>
+
+<ul>
+
+<li><a href="guidance.html">指导页面</a>有一些开发和调试的技巧。
+
+<li> 一种入门方式是修改 <tt>mr/worker.go</tt> 的 <tt>Worker()</tt>，向 coordinator 发送 RPC 请求任务。然后修改 coordinator 以返回一个尚未开始的 map 任务的文件名。然后修改 worker 以读取该文件并调用应用程序 Map 函数，如 <tt>mrsequential.go</tt> 中所示。
+
+<li> 应用程序的 Map 和 Reduce 函数在运行时使用 Go 的 plugin 包从文件名以 <tt>.so</tt> 结尾的文件中加载。
+
+<li> 如果你修改了 <tt>mr/</tt> 目录中的任何内容，你可能需要重新构建你使用的任何 MapReduce 插件，使用类似 <tt>go build -buildmode=plugin ../mrapps/wc.go</tt> 的命令。<tt>make mr</tt> 会为你构建插件。你可以使用 <tt>make RUN="-run Wc" mr`</tt> 运行单个测试，它将 "-run Wc" 传递给 <tt>go test</tt>，并从 <tt>mr/mr_test.go</tt> 中选择任何匹配 Wc 的测试。
+
+<li> 本实验依赖于 worker 共享文件系统。当所有 worker 运行在同一台机器上时这很简单，但如果 worker 运行在不同机器上则需要像 GFS 这样的全局文件系统。
+
+<li> 中间文件的合理命名约定是 <tt>mr-X-Y</tt>，其中 X 是 Map 任务编号，Y 是 reduce 任务编号。
+
+<li> worker 的 map 任务代码需要一种将中间键/值对存储在文件中的方式，以便在 reduce 任务期间能正确读回。一种方式是使用 Go 的 <tt>encoding/json</tt> 包。将键/值对以 JSON 格式写入打开的文件：
+<pre>
+  enc := json.NewEncoder(file)
+  for _, kv := ... {
+    err := enc.Encode(&kv)
+</pre>
+读回这样的文件：
+<pre>
+  dec := json.NewDecoder(file)
+  for {
+    var kv KeyValue
+    if err := dec.Decode(&kv); err != nil {
+      break
+    }
+    kva = append(kva, kv)
+  }
+</pre>
+
+<li> worker 的 map 部分可以使用 <tt>ihash(key)</tt> 函数（在 <tt>worker.go</tt> 中）来选择给定键对应的 reduce 任务。
+
+<li> 你可以从 <tt>mrsequential.go</tt> 中借用一些代码来读取 Map 输入文件、在 Map 和 Reduce 之间排序中间键/值对，以及将 Reduce 输出存储在文件中。
+
+<li> coordinator 作为 RPC 服务器将是并发的；不要忘记锁定共享数据。
+
+<li> worker 有时需要等待，例如 reduce 在最后一个 map 完成之前无法开始。一种方式是让 worker 定期向 coordinator 请求工作，在每次请求之间使用 <tt>time.Sleep()</tt> 休眠。另一种方式是让 coordinator 中相关的 RPC 处理程序有一个等待循环，使用 <tt>time.Sleep()</tt> 或 <tt>sync.Cond</tt>。Go 为每个 RPC 在自己的线程中运行处理程序，所以一个处理程序在等待不会阻止 coordinator 处理其他 RPC。
+
+<li> coordinator 无法可靠地区分崩溃的 worker、存活但因某种原因停滞的 worker、以及正在执行但太慢而无法有用的 worker。你能做的最好的方式是让 coordinator 等待一段时间，然后放弃并将任务重新分配给另一个 worker。在本实验中，让 coordinator 等待十秒；之后 coordinator 应该假设 worker 已死亡（当然，它可能并没有）。
+
+<li> 如果你选择实现备份任务（Backup Tasks，第 3.6 节），请注意我们测试了你的代码在 worker 不崩溃地执行任务时不会调度多余的任务。备份任务应该只在相对较长的一段时间后（例如 10 秒）才被调度。
+
+<li> 要测试崩溃恢复，你可以使用 <tt>mrapps/crash.go</tt> 应用程序插件。它在 Map 和 Reduce 函数中随机退出。
+
+<li> 为了确保在崩溃情况下没有人观察到部分写入的文件，MapReduce 论文提到了使用临时文件并在完全写入后原子性地重命名它的技巧。你可以使用 <tt>ioutil.TempFile</tt>（如果你运行的是 Go 1.17 或更高版本则使用 <tt>os.CreateTemp</tt>）来创建临时文件，并使用 <tt>os.Rename</tt> 来原子性地重命名它。
+
+<li>Go RPC 只发送名称以大写字母开头的结构体字段。子结构体也必须有大写字母开头的字段名。
+
+<li> 调用 RPC <tt>call()</tt> 函数时，reply 结构体应包含所有默认值。RPC 调用应该如下所示：
+<pre>
+  reply := SomeType{}
+  call(..., &reply)
+</pre>
+不要在调用前设置 reply 的任何字段。如果你传递了具有非默认字段值的 reply 结构体，RPC 系统可能会默默返回不正确的值。
+
+</ul>
+
+<h3>不计分挑战练习</h3>
+
+<p class="challenge">
+实现你自己的 MapReduce 应用程序（参见 <tt>mrapps/*</tt> 中的示例），例如分布式 Grep（MapReduce 论文的第 2.3 节）。
+
+<p class="challenge">
+让你的 MapReduce coordinator 和 worker 在单独的机器上运行，就像实际部署中那样。你需要设置 RPC 通过 TCP/IP 而不是 Unix socket 进行通信（参见 <tt>Coordinator.server()</tt> 中被注释掉的行），并使用共享文件系统读写文件。例如，你可以在 MIT 的多个 <a href=http://kb.mit.edu/confluence/display/istcontrib/Getting+Started+with+Athena>Athena 集群</a>机器上使用 <tt>ssh</tt>，它们使用 <a href=http://kb.mit.edu/confluence/display/istcontrib/AFS+at+MIT+-+An+Introduction>AFS</a> 共享文件；或者你可以租用几个 AWS 实例并使用 <a href=https://aws.amazon.com/s3/>S3</a> 进行存储。
+
+</body>
+</html>
+
+<!--  LocalWords:  Paxos Sharded shard sharding sharded Put's src shardcoordinator
+-->
+<!--  LocalWords:  shardkv cd TestUnreliable Go's RPCs RPC's GID px
+-->
+<!--  LocalWords:  kvpaxos Config ErrWrongGroup Handin gzipped czvf whoami tgz
+-->

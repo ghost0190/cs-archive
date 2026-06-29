@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   实验10：俄罗斯方块 | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="实验 10：俄罗斯方块" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="数据结构" name="description">
+  <meta content="数据结构" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/labs/lab10/" property="og:url">
+  <meta content="CS 61B 2024年春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="实验 10：俄罗斯方块" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"数据结构","headline":"实验10：俄罗斯方块","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/labs/lab10/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       工作人员
+      </a>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../projects/proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/proj3checkoff/index.html">
+           检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../projects/proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             IntelliJ 插件的安装与使用
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           Soda 实验室机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024年春季" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 2024年春季" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑排队
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        实验
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        实验10：俄罗斯方块
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        实验 10：俄罗斯方块
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#tetr是">
+           俄罗斯方块
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#stddraw">
+           StdDraw
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#running-the-game">
+           运行游戏
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#methods-overview">
+           方法概述
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#updateboard">
+             updateBoard
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#incrementscore">
+             incrementScore
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#clearlines">
+             clearLines
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#rungame">
+             runGame
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#renderscore">
+             renderScore
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#submission-and-grading">
+           提交和评分
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#asynchronous-checkoffs">
+           异步检查
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#credits">
+           致谢
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       实验10：俄罗斯方块
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每个作业顶部都会链接一个常见问题。你也可以通过在 URL 末尾添加"/faq"来访问它。实验10的常见问题位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       本实验将帮助你开始项目的第二阶段：交互性。你不需要在做这个实验的时候就完成第一阶段。不过，如果你还没有开始，我们强烈建议你开始！
+      </p>
+      <p>
+       在本实验中，你应该思考一些想法（或实现！）如何应用到项目 3 中。它还将帮助你更熟悉项目所需的有用工具。
+      </p>
+      <p class="warning">
+       本实验有很多辅助方法&mdash;&mdash;你不需要知道每个方法的作用，但请注意，在整个实验中你必须调用其中一些方法。你最终还会使用库中的方法。
+       <strong>
+        请确保通读文件以了解你正在使用的内容！
+       </strong>
+       提醒一下，坐标 (0, 0) 代表板的左下角。
+      </p>
+      <h2 id="tetr是">
+       <a aria-labelledby="tetr是" class="anchor-heading" href="#tetr是">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       俄罗斯方块
+      </h2>
+      <p>
+       为了准备制作你的游戏，我们将构建俄罗斯方块游戏！如果你不太熟悉俄罗斯方块，它是一款益智电子游戏，玩家需要在不同形状的方块（称为俄罗斯方块）生成并落到棋盘上时"完成"行。玩家可以根据需要移动和旋转这些方块来完成行&mdash;&mdash;如果有任何行完成了，它们就会消失，玩家获得分数。当未消除的行到达棋盘顶部时，游戏结束。
+      </p>
+      <p>
+       你所有的实现都将在
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       中。我们还提供了另外三个文件：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         Tetromino.java
+        </code>
+        ：包含你将使用的板上方块
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         Movement.java
+        </code>
+        ：包含旋转和移动方块的逻辑
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         BagRandomizer.java
+        </code>
+        ：帮助随机化生成的方块
+       </li>
+      </ul>
+      <p>
+       你不会直接在这三个文件中编写任何内容，但这些类会在
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       中使用（或将会使用）。我们还将使用一个库
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       来帮助实现一些功能，比如用户输入。你会发现这个库对项目3非常有用。
+      </p>
+      <p>
+       虽然我们想要一个能正常运行的
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       游戏，但我们应该把它分解成更小的步骤，而不是一下子全部解决。游戏可以大致分解为以下步骤：
+      </p>
+      <ol>
+       <li>
+        创建游戏窗口。
+       </li>
+       <li>
+        随机生成一个玩家控制的方块，并显示当前分数。
+       </li>
+       <li>
+        根据玩家的输入更新方块的移动。
+       </li>
+       <li>
+        一旦方块无法再移动，检查是否有行需要消除，更新分数并重新生成一个新方块。
+       </li>
+       <li>
+        重复步骤 2-4，直到游戏结束（当未消除的行到达顶部时）。
+       </li>
+      </ol>
+      <p>
+       一般来说，良好的编码实践是首先构建具有明确目的的小过程，然后使用基本方法组合更复杂的方法。如果你查看
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       ，你会注意到它包含许多辅助方法来帮助构建更复杂的游戏机制&mdash;&mdash;将游戏逻辑分解为单独的方法对于项目3来说是非常推荐的。它会给你一个清晰的开发路径，并且更容易分解你的逻辑进行单元测试。
+      </p>
+      <p>
+       到实验结束时，你将拥有如下功能的东西：
+      </p>
+      <p>
+       <img alt="俄罗斯方块游戏示例" src="img/tetris.gif">
+      </p>
+      <p>
+       如果你想自己玩这个游戏，你可以在
+       <a href="https://tetris.com/play-tetris">
+        这里
+       </a>
+       找到它。
+      </p>
+      <h2 id="stddraw">
+       <a aria-labelledby="stddraw" class="anchor-heading" href="#stddraw">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       StdDraw
+      </h2>
+      <p>
+       如前所述，我们将使用库
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       。
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       是一个提供的库，它提供了在程序中创建绘图以及获取用户输入的基本功能。请在开始之前查看
+       <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html">
+        API
+       </a>
+       ，因为你会发现一些方法不仅对本实验有用，对项目 3 也有用。
+      </p>
+      <h2 id="running-the-game">
+       <a aria-labelledby="running-the-game" class="anchor-heading" href="#running-the-game">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       运行游戏
+      </h2>
+      <p>
+       要运行游戏，请运行
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       中的 main 方法。目前，这应该只会输出一个黑框。随着你实现更多方法，你可以使用这个方法来验证游戏逻辑的正确性。
+      </p>
+      <h2 id="methods-overview">
+       <a aria-labelledby="methods-overview" class="anchor-heading" href="#methods-overview">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       方法概述
+      </h2>
+      <p>
+       由于你所有的实现都将在
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       中，所以你需要填写几个方法来让游戏运行起来。
+      </p>
+      <p class="info">
+       如前所述，请务必通读
+       <code class="language-plaintext highlighter-rouge">
+        俄罗斯方块.java
+       </code>
+       、
+       <code class="language-plaintext highlighter-rouge">
+        Tetromino.java
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        Movement.java
+       </code>
+       ，以熟悉本实验中的辅助方法。虽然你不一定需要了解每个辅助方法的工作原理（抽象！），但其中一些方法可能会对你的实现有所帮助，所以请仔细阅读它们，以便了解你可以使用哪些方法。
+      </p>
+      <h3 id="updateboard">
+       <a aria-labelledby="updateboard" class="anchor-heading" href="#updateboard">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        updateBoard
+       </code>
+      </h3>
+      <p>
+       这个方法根据用户输入更新板。第一步是检查用户是否输入了任何内容，如果有，就获取输入。
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html">
+        API
+       </a>
+       中有一些方法对于实现实验的这一部分很有用。考虑查看
+       <code class="language-plaintext highlighter-rouge">
+        hasNextKeyTyped
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        nextKeyTyped
+       </code>
+       。
+      </p>
+      <p>
+       下一步是实现从特定键采取的操作。用户可以输入 5 个键：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        ：将当前方块向左移动一格
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         s
+        </code>
+        ：将当前方块向下移动一格
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         d
+        </code>
+        ：将当前方块向右移动一格
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         q
+        </code>
+        ：将当前方块向左旋转 90 度
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         w
+        </code>
+        ：将当前方块向右旋转 90 度
+       </li>
+      </ul>
+      <p>
+       我们建议你查看
+       <code class="language-plaintext highlighter-rouge">
+        Movement.java
+       </code>
+       中提供的一些辅助方法，看看你可以调用哪些来移动方块或旋转方块（
+       <strong>
+        你不应该自己实现任何移动逻辑，而是依靠理解辅助方法的作用
+       </strong>
+       ）。
+      </p>
+      <p>
+       还提供了一个
+       <code class="language-plaintext highlighter-rouge">
+        Movement
+       </code>
+       实例供你使用。
+      </p>
+      <p class="task">
+       根据上面的描述填写方法。提醒一下，请确保通读
+       <code class="language-plaintext highlighter-rouge">
+        Movement.java
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       API！
+      </p>
+      <h3 id="incrementscore">
+       <a aria-labelledby="incrementscore" class="anchor-heading" href="#incrementscore">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        incrementScore
+       </code>
+      </h3>
+      <p>
+       这是一个帮助更新分数的辅助方法。玩家的分数根据单次移动中消除的行数（如果有的话）增加。这可以分解为四种情况，如下所列：
+      </p>
+      <ul>
+       <li>
+        1 行：100 分
+       </li>
+       <li>
+        2 行：300 分
+       </li>
+       <li>
+        3 行：500 分
+       </li>
+       <li>
+        4 行：800 分
+       </li>
+      </ul>
+      <p class="task">
+       填写
+       <code class="language-plaintext highlighter-rouge">
+        incrementScore
+       </code>
+       ，使玩家的分数如上所述增加。
+      </p>
+      <h3 id="clearlines">
+       <a aria-labelledby="clearlines" class="anchor-heading" href="#clearlines">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        clearLines
+       </code>
+      </h3>
+      <p>
+       每当俄罗斯方块中有一行完成时，我们想要更新分数并消除该行。这个方法将帮助检查在放置一个方块后是否有一行或多行已被水平填满。请考虑以下几点：
+      </p>
+      <ul>
+       <li>
+        由于你不知道确切哪一行完成了（如果有的话），我们需要检查整个板。
+        <ul>
+         <li>
+          你怎么知道一行什么时候完成？具体来说，我们什么时候知道它
+          <em>
+           没有完成
+          </em>
+          ？
+         </li>
+        </ul>
+       </li>
+       <li>
+        一旦你找到一行完成了，该行就需要被消除。
+        <ul>
+         <li>
+          当你消除一行时，它上面的所有行都需要向下移动。
+         </li>
+         <li>
+          对于每一行被消除的行，用一个变量（
+          <code class="language-plaintext highlighter-rouge">
+           linesCleared
+          </code>
+          ）跟踪它。
+         </li>
+        </ul>
+       </li>
+       <li>
+        最后，我们想要根据消除的行数更新我们的分数。考虑使用你已经实现的辅助方法来做到这一点。
+       </li>
+      </ul>
+      <p class="task">
+       填写
+       <code class="language-plaintext highlighter-rouge">
+        clearLines
+       </code>
+       来检查消除的行数并相应地更新板。
+       <strong>
+        板应该作为参数传入，所以请确保使用参数
+        <code class="language-plaintext highlighter-rouge">
+         tiles
+        </code>
+        （如果你不这样做，可能会影响自动评分器！）。
+       </strong>
+      </p>
+      <h3 id="rungame">
+       <a aria-labelledby="rungame" class="anchor-heading" href="#rungame">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        runGame
+       </code>
+      </h3>
+      <p>
+       这是主要游戏逻辑发生的地方。框架代码中已经留下了注释来帮助你开始。需要注意的几点：
+      </p>
+      <ul>
+       <li>
+        你需要确保游戏在结束之前不会退出或停止（提示：你如何确保这种情况持续发生？）。
+       </li>
+       <li>
+        如果当前俄罗斯方块无法向下移动或无法从当前位置再移动，
+        <strong>
+         它将被设置为
+         <code class="language-plaintext highlighter-rouge">
+          null
+         </code>
+         。
+        </strong>
+        将其设置为
+        <code class="language-plaintext highlighter-rouge">
+         null
+        </code>
+        的逻辑已经为你处理好了，你不需要处理它。
+        <ul>
+         <li>
+          一旦方块被放置且无法再移动，请确保检查是否有行需要消除并生成另一个方块。
+         </li>
+        </ul>
+       </li>
+       <li>
+        确保根据用户输入更新板，然后渲染这些更改。
+       </li>
+      </ul>
+      <p>
+       以下是一些你可以使用的相关辅助方法，以及你已经实现的那些：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         spawnPiece
+        </code>
+        ：在板上生成一个方块，并将当前俄罗斯方块设置为随机选择的方块
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         是GameOver
+        </code>
+        ：检查游戏是否结束
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         clearLines
+        </code>
+        ：检查任何需要消除的行，并根据消除的行数更新分数
+        <ul>
+         <li>
+          确保将板传入
+          <code class="language-plaintext highlighter-rouge">
+           clearLines
+          </code>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         updateBoard
+        </code>
+        ：检查玩家移动并根据用户的输入更新板
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         renderBoard
+        </code>
+        ：渲染板的状态（在用户输入和消除行后调用）
+       </li>
+      </ul>
+      <p class="task">
+       填写
+       <code class="language-plaintext highlighter-rouge">
+        runGame
+       </code>
+       。
+      </p>
+      <h3 id="renderscore">
+       <a aria-labelledby="renderscore" class="anchor-heading" href="#renderscore">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <code class="language-plaintext highlighter-rouge">
+        renderScore
+       </code>
+      </h3>
+      <p>
+       在这一点上，如果你运行游戏，你会注意到缺少了一些东西。分数！那是因为我们还没有显示它。填写方法
+       <code class="language-plaintext highlighter-rouge">
+        renderScore
+       </code>
+       ，以便显示分数，你可以用它来验证当游戏中行完成时你的分数是否正确更新。
+      </p>
+      <p>
+       以下是步骤：
+      </p>
+      <ul>
+       <li>
+        确保将文本颜色设置为白色（rgb 值为 (255, 255, 255)），这样分数在黑色背景下可见。
+       </li>
+       <li>
+        分数应该出现在位置 x = 7, y = 19。
+       </li>
+       <li>
+        确保在绘制分数后渲染它！
+       </li>
+      </ul>
+      <p>
+       以下是
+       <code class="language-plaintext highlighter-rouge">
+        StdDraw
+       </code>
+       库中一些你可能会觉得有用的方法（你可能不会使用所有这些方法，但它们在这里供参考）：
+      </p>
+      <ul>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#setFont(java.awt.Font)">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.setFont
+         </code>
+        </a>
+       </li>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#clear()">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.clear
+         </code>
+        </a>
+       </li>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#text(double,%20double,%20java.lang.String)">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.text
+         </code>
+        </a>
+       </li>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#setPenColor(java.awt.Color)">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.setPenColor
+         </code>
+        </a>
+       </li>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#show()">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.show
+         </code>
+        </a>
+       </li>
+       <li>
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html#pause-int-">
+         <code class="language-plaintext highlighter-rouge">
+          StdDraw.pause
+         </code>
+        </a>
+       </li>
+      </ul>
+      <p class="task">
+       填写
+       <code class="language-plaintext highlighter-rouge">
+        renderScore
+       </code>
+       并运行你的游戏，检查分数是否显示出来！
+      </p>
+      <h2 id="submission-and-grading">
+       <a aria-labelledby="submission-and-grading" class="anchor-heading" href="#submission-and-grading">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交和评分
+      </h2>
+      <p>
+       本实验价值 5 分。本实验的完成将部分基于自动评分器提交
+       <em>
+        和
+       </em>
+       检查。你可以来实验室或办公时间进行面对面检查，或者你可以异步进行检查（通过 Ed）。
+      </p>
+      <p>
+       对于检查，我们将寻找以下内容：
+      </p>
+      <ul>
+       <li>
+        方块可以分别使用
+        <code class="language-plaintext highlighter-rouge">
+         a
+        </code>
+        、
+        <code class="language-plaintext highlighter-rouge">
+         s
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         d
+        </code>
+        键向左、向下和向右移动，并分别使用
+        <code class="language-plaintext highlighter-rouge">
+         q
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         w
+        </code>
+        向左和向右旋转。
+       </li>
+       <li>
+        其他键不应该有任何作用（即如果我们按下
+        <code class="language-plaintext highlighter-rouge">
+         h
+        </code>
+        ，这不应该影响游戏棋盘）
+       </li>
+       <li>
+        分数在整个游戏过程中都在渲染，并且不会在任何时候消失。
+       </li>
+       <li>
+        当方块堆叠在一起或到达地面/底部时，它们不会掉下去。
+       </li>
+      </ul>
+      <p>
+       我们还会查看你的实现，所以请确保你能够解释你的思考过程，以及本实验中完成的一些内容如何转化为项目 3 中的交互性实现！一旦检查通过，将给你一个魔法词，让你填写在
+       <code class="language-plaintext highlighter-rouge">
+        magic_word.txt
+       </code>
+       中，然后你可以提交到 Gradescope。你需要提交魔法词并通过 Gradescope 上的测试才能获得满分。
+      </p>
+      <p>
+       重申一下，以下是要实现的方法的简要总结：
+      </p>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         updateBoard
+        </code>
+        ：根据用户输入更新板
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         incrementScore
+        </code>
+        ：根据消除的行数更新分数
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         clearLines
+        </code>
+        ：如果行完成则消除它们
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         runGame
+        </code>
+        ：游戏逻辑运行游戏的地方
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         renderScore
+        </code>
+        ：显示分数
+       </li>
+      </ul>
+      <h2 id="asynchronous-checkoffs">
+       <a aria-labelledby="asynchronous-checkoffs" class="anchor-heading" href="#asynchronous-checkoffs">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       异步检查
+      </h2>
+      <p>
+       如果你通过 Ed 进行异步检查，你需要提供一个屏幕录制。我们建议使用 Zoom 屏幕录制或屏幕录制软件。在录制过程中，我们需要看到一个
+       <strong>
+        屏幕键盘
+       </strong>
+       。以下是几个屏幕键盘的链接：
+      </p>
+      <ul>
+       <li>
+        <a href="https://support.apple.com/en-ke/guide/accessibility-mac/mchlc74c1c9f/mac#:~:text=Turn%20it%20on:%20On%20your,may%20need%20to%20scroll%20down.">
+         Mac
+        </a>
+       </li>
+       <li>
+        <a href="https://support.microsoft.com/en-us/windows/use-the-on-screen-keyboard-osk-to-type-ecbb5e08-5b4e-d8c8-f794-81dbf896267a">
+         Windows
+        </a>
+       </li>
+      </ul>
+      <p>
+       请确保回答模板上提供的问题，并请提前计划，因为录制和检查都需要时间。
+      </p>
+      <h2 id="credits">
+       <a aria-labelledby="credits" class="anchor-heading" href="#credits">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致谢
+      </h2>
+      <p>
+       4 位助教在创建本实验时受到了伤害（Noah Adhikari、Erik Nelson、Omar Yu 和 Jasmine Lin）。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

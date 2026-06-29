@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/hl.js"></script>
+    <script src="../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Vim | CS 61A 2026夏季
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../index.html">讲座</a></li>
+            
+            <li><a href="../about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                链接
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论环节</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">课程录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                资源
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../resources/index.html">往年考试 & 网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教科书</a></li>
+                
+                <li><a href="../campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../advice/index.html">学生建议</a></li>
+                
+                <li><a href="../scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                指南
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../studying/index.html">学习指南</a></li>
+                
+                <li><a href="../type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../composition/index.html">代码规范</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt1-study-guide.pdf">期中考试1学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-mt2-study-guide.pdf">期中考试2学习指南</a></li>
+                
+                <li><a href="../../assets/pdfs/61a-final-study-guide.pdf">期末考试学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                教职人员
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../instructor/index.html">讲师</a></li>
+                
+                <li><a href="../../staff/index.html">助教 & 辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>Vim</h1>
+    </header>
+     <h2 id="introduction">简介</h2>
+
+
+<p>Vim 是一款以丰富的键盘快捷键和多种编辑模式而闻名的文本编辑器。Vim 具有很高的可定制性，互联网上有许多插件可以让你扩展 Vim 的功能。</p>
+
+<p>本指南将带你了解使用 Vim 的基础知识，但这只是冰山一角——如果你喜欢 Vim，还有很多很棒的东西值得学习！</p>
+
+<p>话虽如此，Vim 需要一些时间来适应。很有可能，你一开始会感到不止一次的沮丧。如果你决定暂时使用其他文本编辑器，欢迎以后再尝试 Vim。</p>
+
+
+<h3 id="goals">目标</h3>
+
+
+<p>阅读本指南后，你应该能够做到以下几点：</p>
+
+<ul>
+  <li>使用 Vim 的普通模式、插入模式和命令模式</li>
+  <li>打开和编辑文件</li>
+  <li>保存文件</li>
+  <li>退出 Vim（不像你想象的那么简单）</li>
+  <li>使用一些基本的 Vim 命令</li>
+</ul>
+
+
+<h2 id="getting-vim-on-your-own-computer">在你的电脑上安装 Vim</h2>
+
+
+<p>你可以根据自己的电脑类型安装 Vim：</p>
+
+<ol>
+  <li><strong>Mac</strong>：Mac 预装了 Vim。你只需要打开终端并输入 <code>vim</code>！你也可以尝试
+  <a href="https://github.com/macvim-dev/macvim">MacVim</a>，这是 Mac 的图形化（非终端）版本 Vim。</li>
+  <li><p><strong>Ubuntu</strong>：你可以通过打开终端并输入以下内容来安装 Vim：</p>
+
+<pre><code>sudo apt&#x2d;get install vim</code></pre>
+
+  <p>这将安装终端版本的 Vim。你也可以通过以下命令安装 GVim（Vim 的图形化版本）：</p>
+
+<pre><code>sudo apt&#x2d;get install vim&#x2d;gtk</code></pre>
+
+  <p>要启动 GVim，请在终端中输入 <code>gvim</code>。</p></li>
+  <li><strong>Windows</strong>：你可以在<a href="http://www.vim.org/download.php#pc">这里</a>找到 Vim 的下载链接。此安装包括 Vim 的图形化版本以及终端版本。</li>
+</ol>
+
+<p>如果你使用其他类型的电脑，可以查看 <a href="http://www.vim.org/download.php">Vim
+网站</a>。</p>
+
+<blockquote><p><strong>注意</strong>：本指南使用终端版 Vim。图形化 Vim 的说明可能略有不同。</p></blockquote>
+
+
+<h2 id="walkthrough">示例：<code>greet.py</code></h2>
+
+
+<p>由于我们使用的是终端版本的 Vim，所以我们需要一个终端！
+去打开一个终端吧。</p>
+
+<p>首先让我们使用你在 <a href="https://cs61a.org/articles/lab00/">实验0</a> 中学到的 UNIX 命令创建并进入一个名为 <code>example</code> 的目录：</p>
+
+<pre><code>mkdir ~/example
+cd ~/example</code></pre>
+
+
+<h3 id="opening-files">打开文件</h3>
+
+
+<p>使用 Vim 打开文件非常简单，只需输入以下命令：</p>
+
+<pre><code>vim greet.py</code></pre>
+
+<p>这里，<code>greet.py</code> 是我们要编辑的文件名。由于
+<code>greet.py</code> 不存在，Vim 将为我们创建该文件。如果我们
+已经有一个名为 <code>greet.py</code> 的文件，Vim 将打开现有的
+文件。</p>
+
+<blockquote><p><strong>注意</strong>：你也可以不指定特定文件而直接启动 Vim，只需输入 <code>vim</code></p></blockquote>
+
+<p>你的终端现在应该看起来像这样：</p>
+
+<p><img class="img-responsive center-block" src="assets/vim-start.png" alt="打开文件" width="" height=""></p>
+
+<blockquote><p>不要担心波浪号（<code>~</code>）——它们只表示那些行没有
+文本。另外，如果你看到一些文本（"VIM -
+Vi IMproved"），也不要担心——一旦我们开始输入，这些文本就会
+消失。</p></blockquote>
+
+
+<h3 id="normal-mode-and-insert-mode">普通模式和插入模式</h3>
+
+
+<p>如果你现在尝试输入任何内容，你输入的字符不会
+出现在屏幕上（事实上，取决于你按了什么，可能会发生各种各样的事情）。这是怎么回事？</p>
+
+<p>在大多数文本编辑器（如 Microsoft Word）中，你输入的所有内容
+都会显示在屏幕上（例如，如果你输入 "See spot run"，Word
+会显示 "See spot run"）。</p>
+
+<p>Vim 有不同的<strong>模式</strong>，每种模式允许你做不同的
+事情。<strong>普通</strong>模式允许你使用键盘快捷键进行
+导航、文件操作等。讽刺的是，它
+不允许你正常输入。</p>
+
+<blockquote><p><strong>注意</strong>：每次打开 Vim 时，你都会从普通模式开始。</p></blockquote>
+
+<p>Vim 还有<strong>插入</strong>模式，它允许你像使用
+常规文本编辑器一样使用 Vim——你按下按键，相应的字符
+就会显示在屏幕上。</p>
+
+<p>要进入插入模式，请按字母 <code>i</code>（表示插入）。在终端的
+底部，你应该看到显示 <code>&#x2d;&#x2d; INSERT &#x2d;&#x2d;</code> 的文本。这
+告诉我们现在处于插入模式！尝试输入一些内容以验证
+你按下的按键是否显示出来。</p>
+
+<p>要返回普通模式（我们为什么要这样做？我们稍后会
+看到），请按 <code>ESC</code> 键。<code>&#x2d;&#x2d; INSERT &#x2d;&#x2d;</code> 标签应该会消失。</p>
+
+<blockquote><p><strong>小结</strong>：从普通模式，你可以通过按
+<code>i</code> 进入插入模式。从插入模式，你可以通过按 <code>ESC</code> 进入普通模式。</p></blockquote>
+
+
+<h3 id="editing-files">编辑文件</h3>
+
+
+<p>让我们进入插入模式并开始编写我们的第一个 Python 文件
+（记得查看底部是否有 <code>&#x2d;&#x2d; INSERT &#x2d;&#x2d;</code> 标签）。在这一点上，
+我们并不期望你已经了解 Python——没关系！你只需要
+输入以下内容：</p>
+
+<pre><code>def greet(name):
+    print(&#x27;Hi &#x27; + name + &#x27;, how are you doing?&#x27;)
+    print(&#x27; &#x2d; Python&#x27;)</code></pre>
+
+<blockquote><p><strong>提示</strong>：你会注意到 Vim 的光标是一个块，而不是一条
+线。这可能会导致对 Vim 将在何处放置你输入的下一个
+字符产生困惑。Vim 将<em>紧挨着光标之前</em>开始输入。
+例如，如果你的文本是：</p>
+
+<pre><code>def greet</code></pre>
+
+<p>并且光标<em>在</em>字母 <code>g</code> 上，那么 Vim 将<em>紧挨着</em> <code>g</code> 之前开始输入。</p></blockquote>
+
+<p>输入完成后，Vim 应该看起来像这样：</p>
+
+<p><img class="img-responsive center-block" src="assets/vim-greet.png" alt="greet 函数" width="" height=""></p>
+
+
+<h3 id="saving-files">保存文件</h3>
+
+
+<p>现在我们已经完成了编辑，我们应该保存文件。要保存文件，我们
+需要介绍第三种 Vim 模式，称为<strong>命令</strong>模式。</p>
+
+<ol>
+  <li>进入普通模式（如果你处于插入模式，请按 <code>ESC</code>）。</li>
+  <li>输入冒号（<code>:</code> 键）。确保它不是分号（<code>;</code>）</li>
+</ol>
+
+<p>你现在应该看到冒号出现在终端的左下角——
+这告诉我们处于命令模式！</p>
+
+<p>要保存文件，请输入字母 <code>w</code> 然后按 Enter。你应该
+看到 <code>w</code> 出现在冒号旁边（确保它不是大写的
+<code>W</code>）。一旦你按了 Enter，文件就会被保存。</p>
+
+<blockquote><p>这看起来只是为了保存文件就需要很多步骤，但在练习几次后，保存文件将（真的）只需要
+一秒钟。以下是完整的步骤：</p>
+
+<ol>
+  <li>进入普通模式（按 <code>ESC</code>）</li>
+  <li>进入命令模式（按 <code>:</code>）</li>
+  <li>按 <code>w</code></li>
+  <li>按 <code>Enter</code></li>
+</ol></blockquote>
+
+
+<h3 id="running-python">运行 Python</h3>
+
+
+<p>在本课程中，你将在文本编辑器（Vim）和
+Python 之间频繁切换——编写代码和测试代码。通常很有用
+打开两个终端：一个用于 Vim，另一个用于一般用途
+（如运行 Python）。</p>
+
+<p>去打开另一个终端（先不要关闭 Vim）。将
+目录更改到包含我们的 <code>greet.py</code>
+文件的 <code>example</code> 目录：</p>
+
+<pre><code>cd ~/example</code></pre>
+
+<p>让我们玩一下我们的代码。在新终端中，首先输入</p>
+
+<pre><code>python3 &#x2d;i greet.py</code></pre>
+
+<p>此命令的作用如下：</p>
+
+<ol>
+  <li><code>python3</code> 是启动 Python 的命令</li>
+  <li><code>&#x2d;i</code> 标志告诉 Python 以<strong>交互模式</strong>启动，这
+  允许你从终端输入 Python 命令</li>
+  <li><code>greet.py</code> 是我们要加载的 Python 文件名</li>
+</ol>
+
+<p>注意 Python 解释器显示 <code>&gt;&gt;&gt;</code>。这意味着 Python
+准备好接收命令了。</p>
+
+<p>回想一下我们定义了一个名为 <code>greet</code> 的函数。让我们看看它
+做了什么！输入以下内容：</p>
+
+<pre><code>greet(&#x27;Albert&#x27;)</code></pre>
+
+<p>Python 将打印出</p>
+
+<pre><code>Hi Albert, how are you doing?
+ &#x2d; Python</code></pre>
+
+<p>你可能希望 Python 问候你而不是我。所以如果你的名字是
+John，你也应该输入：</p>
+
+<pre><code>greet(&#x27;John&#x27;)</code></pre>
+
+<p>Python 将打印</p>
+
+<pre><code>Hi John, how are you doing?
+ &#x2d; Python</code></pre>
+
+<p>我们的代码有效！让我们通过输入以下内容来关闭 Python</p>
+
+<pre><code>exit()</code></pre>
+
+<blockquote><p>有几种方法可以退出 Python。你可以输入 <code>exit()</code>
+或 <code>quit()</code>。在 MacOS 和 Linux 上，你也可以输入 <code>Ctrl&#x2d;d</code>（这
+在 Windows 上不起作用）。</p></blockquote>
+
+
+<h3 id="closing-vim">关闭 Vim</h3>
+
+
+<p>此时，你可以随意多玩一下 Vim。
+一旦你准备好退出 Vim，你可以从命令模式退出：</p>
+
+<ol>
+  <li>进入命令模式（先进入普通模式，然后按
+  <code>:</code>）</li>
+  <li>输入 <code>q</code>（表示 "quit"）</li>
+  <li>按 Enter。</li>
+</ol>
+
+<blockquote><p>如果你有未保存的更改，Vim 将阻止你退出。你可以
+先用 <code>:w</code> 保存文件，或者在 <code>q</code> 后面加上
+感叹号：</p>
+
+<pre><code>:q!</code></pre>
+
+<p>如果你不想保存更改。此外，你可以一次性
+保存并退出：</p>
+
+<pre><code>:wq</code></pre></blockquote>
+
+<p>一旦 Vim 退出，你将返回到 UNIX 命令行。</p>
+
+
+<h3 id="summary">小结</h3>
+
+
+<p>恭喜，你已经用 Vim 编辑了第一个文件！以下是我们所学内容的
+小结：</p>
+
+<ul>
+  <li><strong>打开文件</strong>：输入 <code>vim file_name</code></li>
+  <li><a href="#normal-mode-and-insert-mode">普通模式和插入模式之间的区别</a></li>
+  <li><strong>编辑文件</strong>：按 <code>i</code> 进入插入模式，然后开始输入</li>
+  <li><strong>保存文件</strong>：进入命令模式（进入普通
+  模式后按 <code>:</code>）然后输入 <code>w</code></li>
+  <li><strong>使用 Python</strong>：在另一个终端中，输入 <code>python3 &#x2d;i file_name</code></li>
+  <li><strong>关闭 Vim</strong>：进入命令模式然后输入 <code>q</code></li>
+</ul>
+
+<p>到目前为止你学到的一切足以让你完成 61A。
+然而，Vim 的真正威力来自于它的键盘快捷键——如果
+你感兴趣，请继续阅读！</p>
+
+<blockquote><p>Vim 还有一个内置的交互式指南，你可以从
+终端输入以下内容来启动：</p>
+
+<pre><code>vimtutor</code></pre>
+
+<p>本教程将帮助你熟悉基本的 Vim 命令。强烈推荐！</p></blockquote>
+
+
+<h2 id="keyboard-shortcuts">键盘快捷键</h2>
+
+
+<p>Vim 的主要特性之一是其广泛的键盘
+快捷键。我们在这里只描述最基本的命令（有
+太多的命令无法全部列出）。你还可以在
+<a href="http://albertwu.org/cs61a/notes/vim">这里</a>找到更详细的快捷键列表，尽管它也只
+是冰山一角。</p>
+
+
+<h3 id="different-modes">不同的模式</h3>
+
+
+<p>在<a href="#walkthrough">演练</a>过程中，普通模式
+似乎没什么用——毕竟，我们在普通模式中做的唯一事情
+就是<em>退出</em>普通模式（例如进入插入模式或命令
+模式）。然而，事实远非如此！</p>
+
+<p>在我们开始之前，这里有一张图表解释了如何在不同
+Vim 模式之间切换。</p>
+
+<p><img class="img-responsive center-block" src="assets/vim-modes.png" alt="Vim 模式" width="" height=""></p>
+
+<p>注意普通模式连接到所有其他模式。这意味
+你需要经常切换回普通模式——通过使用 <code>ESC</code>。在
+大多数电脑上，<code>ESC</code> 键在键盘的左上角——
+太远了！</p>
+
+<p>因此，许多 Vim 用户将 <code>ESC</code> 键与其他键交换。你可以在学校电脑上将 <code>ESC</code> 与 Caps Lock 交换：</p>
+
+<ol>
+  <li>点击屏幕右上角的电源按钮</li>
+  <li>点击"系统设置"</li>
+  <li>点击"键盘布局"，然后点击"选项"按钮。应该会弹出一个新屏幕</li>
+  <li>点击"Caps Lock 键和行为"。在下拉列表的底部，有一个选项可以"交换 Caps Lock 和 ESC"。选择此选项。</li>
+</ol>
+
+<p>现在你可以按 Caps Lock 而不是 <code>ESC</code> 来进入普通模式。你的
+左手小指应该放在 <code>A</code> 上，所以 Caps Lock 只
+隔一个键！</p>
+
+
+<h3 id="navigating">导航</h3>
+
+
+<p>在普通模式中，你可以使用以下按键
+代替方向键来移动：</p>
+
+<ul>
+  <li><code>h</code>：左</li>
+  <li><code>j</code>：下</li>
+  <li><code>k</code>：上</li>
+  <li><code>l</code>：右</li>
+</ul>
+
+<p>这些按键需要一些时间来适应，但一旦你练习了
+几天，就会变得自然而然。</p>
+
+<p>为什么要用这些而不是方向键？这四个
+按键都在键盘的主行上——你甚至不需要
+抬起手！在你习惯了使用 <code>hjkl</code> 后，你会奇怪
+以前怎么有耐心使用方向键。</p>
+
+<p>这里有一些其他用于导航的按键：</p>
+
+<ul>
+  <li><p>单词：</p>
+
+  <ul>
+    <li><code>w</code>：向前移动到下一个单词的开头</li>
+    <li><code>b</code>：向后移动到上一个单词的开头</li>
+  </ul></li>
+  <li><p>行：</p>
+
+  <ul>
+    <li><code>0</code>：移动到行的开头</li>
+    <li><code>$</code>：移动到行的末尾</li>
+  </ul></li>
+  <li><p>文档：</p>
+
+  <ul>
+    <li><code>gg</code>：移动到文件顶部</li>
+    <li><code>G</code>：移动到文件底部</li>
+  </ul></li>
+</ul>
+
+
+<h3 id="entering-insert-mode">进入插入模式</h3>
+
+
+<p>我们已经看到如何通过按 <code>i</code> 进入插入模式。有很多不同的方法可以从普通模式进入插入模式。这里只是
+其中几个：</p>
+
+<ul>
+  <li><code>i</code>：在光标所在位置开始插入文本</li>
+  <li><code>a</code>：在光标<em>之后</em>开始插入文本</li>
+  <li><code>I</code>：在行的开头开始插入文本</li>
+  <li><code>A</code>：在行的末尾开始插入文本</li>
+  <li><code>o</code>：在当前行<em>之后</em>插入新行并进入插入模式</li>
+  <li><code>O</code>：在当前行<em>之前</em>插入新行并进入插入
+  模式</li>
+</ul>
+
+
+<h3 id="undo-and-redo">撤销和重做</h3>
+
+
+<p>我们都会犯错。要在 Vim 中撤销更改，请进入普通模式并
+按 <code>u</code>。Vim 会记住多个修改级别，所以你可以
+继续按 <code>u</code> 来撤销更早更远的更改。</p>
+
+<p>要重做更改，请进入普通模式并按 <code>Ctrl&#x2d;r</code>。同样，Vim 会
+记住多个更改，所以你可以多次重做。</p>
+
+
+<h3 id="deleting-text">删除文本</h3>
+
+
+<p><code>x</code> 命令删除单个字符：</p>
+
+<ul>
+  <li><code>x</code> 删除光标正下方的字符</li>
+  <li><code>X</code> 删除光标之前的字符。</li>
+</ul>
+
+<p>使用 <code>d</code> 提供了更大的灵活性和范围：</p>
+
+<ul>
+  <li><code>dd</code> 删除整行</li>
+  <li><code>dw</code> 从光标开始删除当前单词的其余部分</li>
+  <li><code>D</code> 从光标删除到行尾</li>
+</ul>
+
+<blockquote><p><strong>注意</strong>：Vim 的删除功能类似于<em>剪切</em>——Vim 会记住
+你删除的内容，你可以立即粘贴删除的文本。</p></blockquote>
+
+
+<h3 id="copying-text">复制文本</h3>
+
+
+<p>在 Vim 中，复制被称为"yanking"。复制文本的主要操作符是 <code>y</code>：</p>
+
+<ul>
+  <li><code>yy</code>：复制整行</li>
+  <li><code>yw</code>：从光标开始复制当前单词的其余部分</li>
+</ul>
+
+<blockquote><p><strong>注意</strong>：Yanking 和删除使用相同的缓冲区来存储文本，所以
+它们会相互覆盖。</p></blockquote>
+
+
+<h3 id="pasting-text">粘贴文本</h3>
+
+
+<p>粘贴（或<em>放置</em>）的主要按键是 <code>p</code>：</p>
+
+<ul>
+  <li><code>p</code>：在光标之后粘贴复制的文本</li>
+  <li><code>P</code>（即 <code>Shift&#x2d;p</code>）：在光标之前粘贴复制的文本</li>
+</ul>
+
+
+<h3 id="searching">搜索</h3>
+
+
+<p>有两种有用的搜索方式。第一种是按模式——这是通过按 forward slash 完成的：<code>/</code>。例如，如果你想
+搜索单词 <code>def</code>，你可以输入</p>
+
+<pre><code>/def</code></pre>
+
+<p>你可以通过按以下按键在所有匹配项之间移动</p>
+
+<ul>
+  <li><code>n</code>：向前移动 through all matches</li>
+  <li><code>N</code>：向后移动 through all matches</li>
+</ul>
+
+<p>第二种方法是按行号搜索。这是通过按
+冒号 <code>:</code>，然后输入行号来完成的。例如，如果你想
+跳到第 42 行，你可以输入</p>
+
+<pre><code>:42</code></pre>
+
+<blockquote><p><strong>注意</strong>：从技术上讲，按行号搜索是命令模式的选项，而不是普通模式的选项。</p></blockquote>
+
+
+<h3 id="visual-mode">可视模式</h3>
+
+
+<p>另一个有用的 Vim 模式称为<strong>可视</strong>模式。在可视模式中，你可以
+高亮显示多个字母或行并操作它们。有
+几种方法可以从普通模式进入可视模式：</p>
+
+<ul>
+  <li><code>v</code>：进入常规可视模式</li>
+  <li><code>V</code>（即 <code>Shift&#x2d;v</code>）：一次高亮显示整行</li>
+</ul>
+
+<p>在每个可视模式中，你可以使用普通命令来做各种事情：</p>
+
+<ul>
+  <li>导航（<code>hjkl</code>、<code>w</code> 等）</li>
+  <li>删除和 yanking：<code>d</code> 将删除所有高亮显示的文本；<code>y</code> 将
+  yank 所有高亮显示的文本。两者都返回普通模式</li>
+</ul>
+
+
+<h2 id="customizing-vim">自定义 Vim</h2>
+
+
+<p>Vim 的另一个伟大特性是它允许用户轻松
+自定义。所有自定义可以保存在主目录中名为 <code>.vimrc</code> 的文件中。由于 <code>.vimrc</code> 只是另一个文件，你可以
+使用 Vim 编辑它：</p>
+
+<pre><code>vim ~/.vimrc</code></pre>
+
+
+<h3 id="syntax-highlighting">语法高亮</h3>
+
+
+<p>所有优秀的文本编辑器都有语法高亮，使
+编写代码更容易。要为 Vim 打开语法高亮，请写入以下
+行：</p>
+
+<pre><code>syntax on</code></pre>
+
+<p>你可以用这个命令指定 colorscheme：</p>
+
+<pre><code>colorscheme default</code></pre>
+
+<p>这使用 <code>default</code> colorscheme，但你在网上可以找到许多其他的。</p>
+
+<p>可以为不同的文件类型打开缩进规则：</p>
+
+<pre><code>filetype plugin indent on</code></pre>
+
+
+<h3 id="line-numbers">行号</h3>
+
+
+<p>要打开行号，请包含以下行：</p>
+
+<pre><code>set nu</code></pre>
+
+
+<h3 id="tabs">制表符</h3>
+
+
+<p>Python 对空白（缩进、空格和
+换行符）非常挑剔。以下是适用于 Python 的常用设置：</p>
+
+<pre><code>set expandtab     &quot; 使用空格代替制表符
+set tabstop=4     &quot; 每个制表符为 4 个空格
+set autoindent</code></pre>
+
+
+<h3 id="key-bindings">键绑定</h3>
+
+
+<p>除了设置，Vim 允许用户定义自定义键盘
+快捷键。这里有一些有用的：</p>
+
+<pre><code>nnoremap ; :      &quot; 通过输入分号进入命令模式
+nnoremap j gj     &quot; 沿行移动，
+nnoremap k gk     &quot; 而不是沿行号移动</code></pre>
+
+<p>有关自定义 <code>.vimrc</code> 文件的更多帮助，请参阅 <a href="http://albertwu.org/cs61a/notes/vimrc">此
+链接</a>。</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#introduction">简介</a></li>
+  <ul>
+    <li><a href="#goals">目标</a></li>
+  </ul>
+  <li><a href="#getting-vim-on-your-own-computer">在你的电脑上安装 Vim</a></li>
+  <li><a href="#walkthrough">示例：<code>greet.py</code></a></li>
+  <ul>
+    <li><a href="#opening-files">打开文件</a></li>
+    <li><a href="#normal-mode-and-insert-mode">普通模式和插入模式</a></li>
+    <li><a href="#editing-files">编辑文件</a></li>
+    <li><a href="#saving-files">保存文件</a></li>
+    <li><a href="#running-python">运行 Python</a></li>
+    <li><a href="#closing-vim">关闭 Vim</a></li>
+    <li><a href="#summary">小结</a></li>
+  </ul>
+  <li><a href="#keyboard-shortcuts">键盘快捷键</a></li>
+  <ul>
+    <li><a href="#different-modes">不同的模式</a></li>
+    <li><a href="#navigating">导航</a></li>
+    <li><a href="#entering-insert-mode">进入插入模式</a></li>
+    <li><a href="#undo-and-redo">撤销和重做</a></li>
+    <li><a href="#deleting-text">删除文本</a></li>
+    <li><a href="#copying-text">复制文本</a></li>
+    <li><a href="#pasting-text">粘贴文本</a></li>
+    <li><a href="#searching">搜索</a></li>
+    <li><a href="#visual-mode">可视模式</a></li>
+  </ul>
+  <li><a href="#customizing-vim">自定义 Vim</a></li>
+  <ul>
+    <li><a href="#syntax-highlighting">语法高亮</a></li>
+    <li><a href="#line-numbers">行号</a></li>
+    <li><a href="#tabs">制表符</a></li>
+    <li><a href="#key-bindings">键绑定</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">Office Hours</a></li>
+            <li><a href="/staff">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">Studying Guide</a></li>
+            <li><a href="/articles/debugging">Debugging Guide</a></li>
+            <li><a href="/articles/composition">Composition Guide</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../assets/js/vs'
+      };
+      importScripts('../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../assets/js/jsplumb.min.js"></script>
+    <script src="../../assets/js/network_storage.js"></script>
+    <script src="../../assets/js/code_tabindex.js"></script>
+    <script src="../../assets/js/storable.js"></script>
+    <script src="../../assets/js/editor.js"></script>
+    <script src="../../assets/js/copy-button.js"></script>
+    <script src="../../assets/js/env-diagram.js"></script>
+    
+<script src="../../assets/js/jsplumb.min.js"></script>
+<script src="../../assets/js/storable.js"></script>
+<script src="../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

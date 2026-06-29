@@ -1,0 +1,2994 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   首页 | CS 61B 2024春季
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="Home" property="og:title">
+  <meta content="en_US" property="og:locale">
+  <meta content="Data Structures" name="description">
+  <meta content="Data Structures" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/" property="og:url">
+  <meta content="CS 61B 2024春季" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="Home" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebSite","description":"Data Structures","headline":"Home","name":"CS 61B Spring 2024","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"assets/images/bee.png"}},"url":"https://sp24.datastructur.es/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link active" href="index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="staff/index.html">
+       教师团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab01/index.html">
+         实验01: 环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab02/index.html">
+         实验02: 调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab03/index.html">
+         实验03: 调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab04/index.html">
+         实验04: Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab05/index.html">
+         实验05: 不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab06/index.html">
+         实验06: BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab07/index.html">
+         实验07: LLRBs
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab08/index.html">
+         实验08: 哈希表
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab09/index.html">
+         实验09: 康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="labs/lab10/index.html">
+         实验10: 俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="homeworks/hw0/hw0a/index.html">
+           作业0A: Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="homeworks/hw0/hw0b/index.html">
+           作业0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="homeworks/hw2/index.html">
+         作业2: 渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="homeworks/hw2/faq/index.html">
+           作业2: 渗透问题 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="homeworks/hw2/outputs/index.html">
+           预期输出 - 作业2: 渗透问题
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj0/index.html">
+         项目0: 2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj1a/index.html">
+         项目1A: LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj1a/faq/index.html">
+           常见问题 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj1a/flags/index.html">
+           覆盖率测试 - 项目1A: 链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj1b/index.html">
+         项目1B: ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj1b/faq/index.html">
+           常见问题 - 项目1B: 数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj1b/flags/index.html">
+           覆盖率测试 - 项目1B: 数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj1c/index.html">
+         项目1C: Deque61B增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj1c/faq/index.html">
+           常见问题 - 项目1C: Deque61B增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj2a/index.html">
+         项目2A: Ngordnet (NGrams)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj2b/index.html">
+         项目2B: Ngordnet（词网）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj2c/index.html">
+         项目2C: Ngordnet增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj2c/faq/index.html">
+           常见问题 - 项目2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="projects/proj3/index.html">
+         项目3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj3/faq/index.html">
+           常见问题 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj3/proj3checkoff/index.html">
+           验收 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="projects/proj3/ui_bugs/index.html">
+           常见UI错误 - 项目3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/beacon/index.html">
+           Beacon指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="resources/guides/ed/ed-guide/index.html">
+             新用户Ed指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="resources/guides/intellij/plugins/index.html">
+             安装和使用IntelliJ插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/oh/index.html">
+           在线办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="summer/index.html">
+       2024夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 2024春季" autocomplete="off" class="search-input" cs id="search-input" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed讨论区
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        办公时间队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <div class="main-content" id="main-content" role="main">
+     <p>
+      <img align="right" alt="CS61Bee" src="assets/images/bee.png" width="150px">
+     </p>
+     <h1 id="cs-61b-spring-2024">
+      <a aria-labelledby="cs-61b-spring-2024" class="anchor-heading" href="#cs-61b-spring-2024">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      计算机科学 61B 2024年春季
+     </h1>
+     <!-- ## Announcements
+
+<div class="announcement">
+      <h2>
+        
+        
+          Week 16 Announcements (RRR)
+        
+        
+      </h2>
+    
+  <span class="announcement-meta">
+    
+    May  1
+    
+  </span>
+  <div>
+    <p>Announcements</p>
+<ul>
+  <li>slayyyyyyyyyy</li>
+</ul>
+
+<p>Reminders</p>
+<ul>
+  <li>purrrrrrr</li>
+</ul>
+
+
+  </div>
+</div>
+ -->
+     <!-- [Past announcements](/announcements/){: .btn .btn-outline .fs-3 } -->
+     <p>
+      <strong>
+       授课教师:
+      </strong>
+      Justin Yokota, Peyrin Kao /
+      <strong>
+       讲座:
+      </strong>
+      周一、周三、周五 下午1-2点，Dwinelle 155,
+      <a href="https://berkeley.zoom.us/j/96979950207">
+       Zoom
+      </a>
+     </p>
+     <h2 id="weekly-schedule">
+      <a aria-labelledby="weekly-schedule" class="anchor-heading" href="#weekly-schedule">
+       <svg aria-hidden="true" viewbox="0 0 16 16">
+        <use xlink:href="#svg-link">
+        </use>
+       </svg>
+      </a>
+      每周日程
+     </h2>
+     <p>
+      <a class="btn btn-outline fs-3" href="#week-46">
+       跳转到本周
+      </a>
+     </p>
+     <div>
+      <div>
+       <div class="table-wrapper">
+        <table>
+         <thead>
+          <th style="width:3%">
+           周
+          </th>
+          <th style="width:8%">
+           日期
+          </th>
+          <th style="width:24%">
+           讲座
+           <br>
+           (
+           <a href="https://berkeley.zoom.us/j/96979950207">
+            Zoom
+           </a>
+           )
+          </th>
+          <th style="width:13%">
+           阅读材料
+          </th>
+          <th style="width:20%">
+           讨论
+           <br>
+          </th>
+          <th style="width:12%">
+           实验
+          </th>
+          <th style="width:10%">
+           作业
+          </th>
+          <th style="width:10%">
+           项目
+          </th>
+         </thead>
+         <tbody>
+          <tr>
+           <td class="week" id="week-02" rowspan="2">
+            1
+            <br>
+            <a href="https://forms.gle/gCSGZ2wcL6fvhStV9">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周三
+            <br>
+            1月17日
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/19NEzpJJ-a0lI-tdz9yC1kP-8Apt2oZm-918IsDiqgYQ">
+             1. 课程介绍
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRq5wRDN8wZFy7GrrJXUtr1q">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=tby2de4c1u8">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/K7SKvrQ3Q19FF3Eh9">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/1.-introduction">
+             第1章
+            </a>
+           </td>
+           <td class="" rowspan="2">
+            无讨论
+           </td>
+           <td class="" rowspan="2">
+            <a href="labs/lab01/index.html">
+             实验1: 环境搭建
+            </a>
+            <br>
+            (截止1/19)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1x3erIEFRtABMIpqEFc79gv7-4ne-pfiPuA4g8S6DehM/edit#slide=id.g265c577d76c_0_179">
+             幻灯片
+            </a>
+           </td>
+           <td class="homework" rowspan="1">
+            <a href="homeworks/hw0/hw0a/index.html">
+             作业0A
+            </a>
+            <br>
+            (截止1/19)
+           </td>
+           <td class="project blank" rowspan="1">
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            1月19日
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1zt0yh_gzmfjCdB1y7DzTdwNSfTtepnQAtORH7PqebQM">
+             2. Defining and Using Classes
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqziLs3JZ6LIH73ZsVtvsGy">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=PK9ueGEHcjE">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/81Dg7rVr8uiFSw3e8">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/2.-defining-and-using-classes">
+             第2章
+            </a>
+           </td>
+           <td class="homework" rowspan="2">
+            <a href="homeworks/hw0/hw0b/index.html">
+             作业0B
+            </a>
+            <br>
+            (截止1/22)
+           </td>
+           <td class="project" rowspan="5">
+            <a href="projects/proj0/index.html">
+             项目0: 2048
+            </a>
+            <br>
+            (截止1/29)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-03" rowspan="3">
+            2
+            <br>
+            <a href="https://forms.gle/UDTAuPiFtDq3KyX68">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            1月22日
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1G5k4HcjJ7C2fT_9xQdvpfWjKC4xQa--5FnwXPGf0nwg">
+             3. Lists I: 参考资料, 递归, and Lists
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpb4EQp0tOFJNZUXHnxTfXm">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=33B7eyjSO58">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/2L3H2zhGJb1BkX2X6">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/3.-references-recursion-and-lists">
+             第3章
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            1. Java简介
+            <br>
+            <a href="assets/discussions/regular01.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular01sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRobydmi0jaICLlTv0q_lDhT">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1cP2rUPxvYcN1NrHw9teDrK19QeoK4JAwz5dMsvj7KdI/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel01.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel01sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoH8ytpcjLoFCkM0v2FVp6C">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1CG2u9Sgp-UJ0VWmt9Ixa15n8DG2f_ac2YFgQrAoZdh8/edit?usp=sharingd">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <a href="labs/lab02/index.html">
+             实验2: 调试I
+            </a>
+            <br>
+            (截止1/26)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1OZUABfnTdAxB8kyHQ26Gb7WIT0yWeUbadV2KX-bIiQU/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            1月24日
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1Uty7XFuhRuCg3SoaSaViXzJhPTZDoYUV878L2I_pe_k">
+             4. Lists II: SLLists
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqyuN_xxm4o1Woa44dXW_N8">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=Rli_V5yGkrI">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/bmGy9TGXv52sksRa7">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/4.-sllists">
+             第4章
+            </a>
+           </td>
+           <td class="homework" rowspan="2">
+            <a href="https://www.gradescope.com/courses/708063/assignments/3983765">
+             作业1
+            </a>
+            <br>
+            (截止1/26)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            1月26日
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1jjivjdvD4mx6qb4bd4rUKB6FDZbYtveJ5NKeyVeA1lk">
+             5. Lists III: DLLists and Arrays
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpPjLuN6-QJUFeK_mBZPve4">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=rf8beYo231Q">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/6Z5mfxnEkkabDpmx8">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/5.-dllists">
+             第5章
+            </a>
+            ,
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/6.-arrays">
+             第6章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-04" rowspan="3">
+            3
+            <br>
+            <a href="https://forms.gle/TJwT5T92pvDrgF7B9">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            1月 29
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1AxuxcFWc_9U-gmdBRPGcEqE-7Q0-48hEw5Iupbama74">
+             6. 测试
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqRR4OQx_I3YPkA87bO0whh">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=rJ1gCk41lbo">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/TABmKf3RiGzTh3eB9">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/7.-testing">
+             第7章
+            </a>
+            ,
+            <a href="https://dhh.dk/2014/tdd-is-dead-long-live-testing.html">
+             TDD 是 dead
+            </a>
+            ,
+            <a href="http://www.rbcs-us.com/documents/Why-Most-Unit-Testing-is-Waste.pdf">
+             单元测试s Are Waste
+            </a>
+            ,
+            <a href="http://henrikwarne.com/2014/09/04/a-response-to-why-most-unit-testing-is-waste/">
+             Response
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            2. 作用域、静态变量、链表、数组
+            <br>
+            <a href="assets/discussions/regular02.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular02sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpemggJcC8s64Om7XBMmmWZ">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1lCMS4tFm_vqMIuZts8ET9XYZ-q2YUJOJtPKXA3r8x6E/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel02.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel02sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpPzSP6eDAJLsqxHbAqhgkX">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1upoomYbKMnTwOg9oRVs-vtEtjrwsBfD6d0yA4SQe-bs/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            <a href="labs/lab03/index.html">
+             实验3: 调试II
+            </a>
+            <br>
+            (截止 2/2)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1pd2j6-VKWVB_RxRg6xIBHRE798deECfm26qa8SYMzPM/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="homework blank" rowspan="9">
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            1月 31
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1RJuwap1NZDYFUS7eiPy_SZu7oWHJladwuhKQpQcTjt8">
+             7. Lists IV: Arrays and Lists
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrv834ePjKGB7i1az039-Gw">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=DnYJueFQgs4">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/U92vUfsbFM1voi1P7">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/8.-arraylist">
+             第8章
+            </a>
+           </td>
+           <td class="project" rowspan="3">
+            <a href="projects/proj1a/index.html">
+             项目1A: LinkedListDeque61B
+            </a>
+            <br>
+            (截止 2/5)
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            2月 02
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1LxnOVy_k13llkePdQIdBrZ5jEpgRmbrvMilD-ppRjlc">
+             8. 继承 I: 接口 and 实现 继承
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqJVbwFNWwRrGyBwedwLnuW">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=-dobEvKn8mM">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/mh3rAQ6RJPshVw9s5">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/9.-inheritance-i-interface-and-implementation-inheritance">
+             第9章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-05" rowspan="3">
+            4
+            <br>
+            <a href="https://forms.gle/RuHSy8Yw2awiKmHeA">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            2月 05
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1jVqC44HVViVtajnF18KsZ6MdIfseTfOSerfvxH4pzP0">
+             9. 继承 II：扩展、类型转换、高阶函数
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrLnGlBmWCRXEuKF5Am09yB">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=IreQ12TQiHk">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/gBa8WGNHoWfCfkVr7">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/10.-inheritance-ii-extends-casting-higher-order-functions">
+             第10章
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            3. 继承
+            <br>
+            <a href="assets/discussions/regular03.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular03sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpZCnCD8f6-j3WJQS_rbBe4">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/10mZuX6onPGO9o7QP7muUNd_onF5YG947JR_TSB1yQ8c/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel03.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel03sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRo32RBXkS7LFlMNNIgF618Q">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1r3YxhsYkpAS-UHuJMNfRohICdMhH6FqrnMtvw_cnLLU/edit?usp=drive_link">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <p>
+             项目1工作日
+            </p>
+            <br>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            2月 07
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1WpISEkGajVCwARZy6w-XDF5sofm1cITUhfAlPUnnnos">
+             10. 继承 III: Subtype 多态, Comparators, Comparable
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqAB5rg3v2NvfF_cb9OJ9cB">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=bkE2Fnsr7No">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/qJZC5CXGFQvf9U159">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/11.-subtype-polymorphism-comparators-comparable">
+             第11章
+            </a>
+           </td>
+           <td class="project" rowspan="3">
+            <a href="projects/proj1b/index.html">
+             项目1B: ArrayDeque61B
+            </a>
+            <br>
+            (截止 2/12)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            2月 09
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1bahvjVtbMcc2kuyzYQfQtD8EJyIiIkWnSALVSMuyQhI">
+             11. 继承 IV：迭代器、对象方法
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrvh9PM0gK9fm7VAD0HdijJ">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=DOVCs-bZ3Tk">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/V17dXcH9KkUrRtK29">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/12.-exceptions-iterators-object-methods">
+             第12章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-06" rowspan="4">
+            5
+            <br>
+            <a href="https://forms.gle/qqC24bckkAieDzZY9">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            2月 12
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1CH4rsIIvu5pbmoWUNl9QdkPQYYkJc-ptX85CBhytlzM">
+             12. 渐近分析 I
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrajvLNrqCND6CQUbqaR0mU">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=79lzg2R-f-4">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/JV1TyyxgaWdSeCNi7">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/13.-asymptotics-i">
+             第13章
+            </a>
+           </td>
+           <td class="" rowspan="4">
+            4. 比较器、迭代器
+            <br>
+            <a href="assets/discussions/regular04.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular04sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRosONixmTTQnspn7fLOV4-Y">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/13G8tSB24eAbofCXASX9eX8gvsI16X9_8ISWj-V254Fc/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel04.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel04sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqOkhLqRr1OoRCpUKvlqm_P">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1tGtn6wtoxtxLeEXkUFwpbyP-uIHVo8h3P-xlOdDadhg/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="" rowspan="4">
+            <a href="labs/lab04/index.html">
+             实验4: Git
+            </a>
+            <br>
+            (截止 2/20)
+            <br>
+            <a href="https://docs.google.com/presentation/d/13qBLXU4fcvLNKdTtFDOM9YvorHsw_jeCyl5wbOlgoE4/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            2月 14
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1XfRFqI5g6sM6LW2tWShnX-V2kVhBg6NJbIG6gvPtBn0">
+             13. 自由问答：期中考试1
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=2Q1g4A-P2V8">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+           </td>
+           <td class="project" rowspan="4">
+            <a href="projects/proj1c/index.html">
+             项目1C: Deque61B增强
+            </a>
+            <br>
+            (截止 2/20)
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周四
+            <br>
+            2月 15
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href>
+             <p>
+              <strong>
+               期中考试1（晚上7-9点）
+              </strong>
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="" rowspan="1">
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            2月 16
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/18pzklQAvV94ODFpjeB60Rzj79wFHdkIB-ePWR_MeClk">
+             14. 不相交集合s
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpMlYLU0hWYDMHNtcGi-Qmm">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=w043wDFL2Co">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/6JyzUYJxcdRA77Yq5">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/14.-disjoint-sets">
+             第14章
+            </a>
+           </td>
+           <td class="homework" rowspan="5">
+            <a href="homeworks/hw2/index.html">
+             作业2
+            </a>
+            <br>
+            (截止 2/26)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-07" rowspan="3">
+            6
+            <br>
+            <a href="https://forms.gle/bg4Jtp7vbNRr9mrf8">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            2月 19
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href>
+             <p>
+              无讲座（学术假期）
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="is-even" rowspan="1">
+           </td>
+           <td class="is-even" rowspan="3">
+            5. 渐近分析、不相交集合
+            <br>
+            <a href="assets/discussions/regular05.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular05sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpqWL31oiZlmcka8zFyT5uM">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/11tqrOcm3vMkeEfFpwNnCe6XVHWZDLSTJgZoH_N5wfbQ/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel05.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel05sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpebKdnwkYKIkyCBNzNXAHW">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/14qOZuYqOu4viJOo32QdZzany6colAbV-oDFUT4lJdg4/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <a href="labs/lab05/index.html">
+             实验5: 不相交集合
+            </a>
+            <br>
+            (截止 2/26)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1IpPNdrvfk1pVt-uG6A6xJYA9gS2BQyYSxik2olPdUNE">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            2月 21
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1zlmNjzu42WAEmyJFG2tYRZJIguExSFq5B__equ3-GaM">
+             15. 渐近分析 II
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqwuAZ5q3P5xUxe2xNZL3an">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/cy83wpE6Qj0">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/SgtqMCeV1KLtbgCU6">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/15.-asymptotics-ii">
+             第15章
+            </a>
+           </td>
+           <td class="project" rowspan="7">
+            <a href="projects/proj2a/index.html">
+             项目2A: NGrams
+            </a>
+            <br>
+            (截止 3/6)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            2月 23
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1tAXgjwVKsnH7AR-iCvkDM-rQFwrg4OnKVZzqPixZWI8">
+             16. ADTs, Sets, Maps, BSTs
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrks2Xi7wU8s82FcwPaINYs">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/qVM6VC1ZfIE">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/FCkc6AVV1KLEhELi9">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/16.-adts-and-bsts">
+             第16章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-08" rowspan="3">
+            7
+            <br>
+            <a href="https://forms.gle/BqaqUBoX1b9tgxYa7">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            2月 26
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1uQYk0Hxhf0jhnp-aXxoIGNGM2w_yILMyukRctRPc9Uo">
+             17. B-Trees (2-3, 2-3-4 Trees)
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoMUlGWsTyt-WHK-SuyXK_E">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=B-uPNBrYotc">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/fAAfREbnLdcGoTo76">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/17.-b-trees">
+             第17章
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            6. 抽象数据类型、渐近分析II、二叉搜索树
+            <br>
+            <a href="assets/discussions/regular06.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular06sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRpBCAx-EGDwnOY4YW0zwczO">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1i9ecGnZlxUvCiEwqeG_vbANaAlneDpMK8cxhLcjNMYo/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel06.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel06sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRonJvfbSeiELXQ5TcvrAO1U">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1aGcpJSZt1IT0OKj75pwQa6Dkwdb3WEsAfdicpzIvvb4/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            <a href="labs/lab06/index.html">
+             实验6: BSTMap
+            </a>
+            <br>
+            (截止 3/01)
+            <br>
+            <a href="https://docs.google.com/presentation/d/195ji7a1AppY-oH0Q5Ls1W6AB3tLLMXakA7h9IbzHp4I/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            2月 28
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1WJze5Odoy4ZR1vqPM8X6duaZ5GGm_D7SaYrtOa5RnsA">
+             18. Red Black Trees
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrYOYhFXExoXfP8uhHHCIri">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=Z-INBpfIN78">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/kzpqc5yEvbHFY7mo8">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/18.-red-black-trees">
+             第18章
+            </a>
+           </td>
+           <td class="homework blank" rowspan="5">
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            3月 01
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/12Su6RdBjVCGd5MrKE6Y5s-J4OyBgv--v-4LHjEwtJbU">
+             19. Hashing
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRr_rFqN57yjZtcw_P4UiJ7a">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/9kcG-8TrbBA">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/uPK7wzSG2haFzKuh7">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/19.-hashing">
+             第19章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-09" rowspan="3">
+            8
+            <br>
+            <a href="https://forms.gle/Fs7jG1f6cRF2z9HY7">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            3月 04
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1EGP_BWIbha4xQ4A5PJLAVIQaK6G0RbWZfrVDd0GmS08">
+             20. Hashing II
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrSxUje7m5-Y41ELVPm50N_">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/cTzrgZ9aBR8">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/XSpCAM2QgqyeNCFA8">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/20.-hashing-ii">
+             第20章
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            7. B树、左倾红黑树、哈希表
+            <br>
+            <a href="assets/discussions/regular07.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular07sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrjXIJbf0eFsWeUnD6RsfYa">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1_aj1MFYC5Isgd1djH6s8e8IxDdiheCdcI7jai_R0Ik0/edit?usp=sharing">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel07.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel07sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoIGRoR3H0WHl2AmxCgcxTN">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1CCpfhrQbUSmvBxOGVUSnzfvUBrGgucs0PMM5M7hDhTk/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <a href="labs/lab07/index.html">
+             实验7: LLRBs
+            </a>
+            <br>
+            (截止 3/08)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1gYsawrSNV8A-2WauHWr0mRbCdZGWotlouEAnIdaIrOY/edit?usp=sharing">
+             幻灯片
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=WiBHU9z9Di8">
+             视频
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            3月 06
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1XVJfoSYH2ItiD1rz9yvyEf_HelejbfkYxQgukbgclSY">
+             21. Heaps and 优先队列s
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrFJrMMOkrShULQ3KeoqZB9">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=oeHW_h085dI">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/4XSDjoQ58QoduGqGA">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/21.-heaps-and-priority-queues">
+             第21章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            3月 08
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1Gyke5ZMrgcMuBTa7qHAoklWZB3yf_yqQAymK2nV-Nqs">
+             22. Tree and 图 Traversals
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoXCSo4Hx8TEZBsIpag6lMs">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=fHQPvxFQeqw">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/T7opcMsbN3TaYoDt8">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/22.-tree-traversals-and-graphs">
+             第22章
+            </a>
+           </td>
+           <td class="project" rowspan="4">
+            <a href="projects/proj2b/index.html">
+             项目2B
+            </a>
+            /
+            <a href="projects/proj2c/index.html">
+             2C
+            </a>
+            检查点和设计文档
+            <br>
+            (截止 3/15)
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-10" rowspan="3">
+            9
+            <br>
+            <a href="https://forms.gle/hHCAXUN476Reqaup9">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            3月 11
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1NKWnXSJ8pUn1E2Cw6zidxMRuXf_aINKCpW7XpEkyz6c">
+             23. 图 Traversals and Implementations
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=YgPtwbWpLaM&list=PLnp31xXvnfRqyRDKtQeHvjxhonhNuaOAK">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=rr6XL7hkIFU">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/i8t4iFmuemvzKerJ6">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/23.-graph-traversals-and-implementations">
+             第23章
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            8. 图、堆
+            <br>
+            <a href="assets/discussions/regular08.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular08sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrdIn4Jnf_aI1Hgw5m-wrL2">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1aIjsZvt4DxPDUGArY1LxLf8PLdwCZESA3t9r8dWiIVg/edit?usp=drivesdk">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel08.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel08sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqWGEpy-S22SMXVVxtkqmmT">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1GRXQGOploGtVGvx_89DCtUZZlVfcBtAkWxwm1knK1aE/edit?usp=drivesdk">
+             幻灯片
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            <a href="labs/lab08/index.html">
+             实验8: 哈希表
+            </a>
+            <br>
+            (截止 3/15)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1s5SjdAbCaFn9AA38cufalrXI-kIbQMA6dzSrl2gP5iw/edit?usp=sharing">
+             幻灯片
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=7B_1cWZBEFY">
+             视频
+            </a>
+           </td>
+           <td class="homework" rowspan="4">
+            <a href="https://www.gradescope.com/courses/708063/assignments/4221563">
+             作业3
+            </a>
+            <br>
+            (截止 3/18)
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            3月 13
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1mT-F0fxm-sVZj9EQS_E_QMv5SVfeCGptI9vsKpyp57Y">
+             24. 最短路径s
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=iMoFtG1md3w&list=PLnp31xXvnfRrbIn8mZ3pmpgygnfwp2zjW">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=nhdM3_bLY8w">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/EYpT3FwxvDNG7t8w6">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/24.-shortest-paths">
+             第24章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            3月 15
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/13pPWHDLRUX2TAUUUK5ucEQ6dF3vUjzkj_C_iXDGaTPU">
+             25. 最小生成树s
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=vnKK38JS9Ik&list=PLnp31xXvnfRr6RTCpKB1Xj3n9bZffJQ7L">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=dMY3Srv-vho">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/qYuRb1muGodqYeTB8">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/25.-minimum-spanning-trees">
+             第25章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-11" rowspan="4">
+            10
+            <br>
+            <a href="https://forms.gle/E1q4chFsXQ3QKhPN8">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            3月 18
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1UHVEYtQhV7EQ74ETn5MvCsnRzsCzmp3MvXL84hXbw-g">
+             26. Directed Acyclic Graphs
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRprqOwH0sojH3VLONWXtYM0">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=HtXDt0gDvk4">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/7L8rc39HcCKUWemu9">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/28.-reductions-and-decomposition">
+             第28章
+            </a>
+           </td>
+           <td class="is-even" rowspan="4">
+            9. 最短路径、最小生成树
+            <br>
+            <a href="assets/discussions/regular09.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular09sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRp0SkHfIO9HavzXht0K9mOA">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/16a9m4QgNIE3m5l5NBPxGQlbI3Jll0FxVOog3L709VJw/edit?usp=drivesdk">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel09.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel09sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqhMYH6tRt4bru5HxoWta9G">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1ltnUbYD1vXGmcLs82mv7k6jY5br5FJ2AysUR1otX_ZQ/edit?usp=drivesdk">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="4">
+            <p>
+             项目2工作日
+            </p>
+            <br>
+           </td>
+           <td class="project" rowspan="8">
+            <a href="projects/proj2b/index.html">
+             项目2B: 词网
+            </a>
+            <br>
+            <a href="projects/proj2c/index.html">
+             项目2C: 增强功能
+            </a>
+            <br>
+            (截止 4/1)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            3月 20
+           </td>
+           <td class="is-even optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/15afX6n25MybwUmm58M2xn8KqjQbMYHTQcTJ7u3h_I2M">
+             27. Software Engineering I
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=JfATr-BBPY0">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=qhprXS1kw00">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/27.-software-engineering-i">
+             第27章
+            </a>
+           </td>
+           <td class="homework blank" rowspan="16">
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周四
+            <br>
+            3月 21
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href>
+             <p>
+              <strong>
+               期中考试2（晚上7-9点）
+              </strong>
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="is-even" rowspan="1">
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            3月 22
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1tcKJNY-ultPxwaHtYn-kd-DV7aXcuBQm6resYvpoCkw">
+             28. Prefix Operations and Tries
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=F8Q-SHW2hAM&list=PLnp31xXvnfRoMxe8IbO1qF3lXwudLHVDk">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=ez4WLTrahBg">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/pCy4uD4AQtB9hATh6">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/26.-prefix-operations-and-tries">
+             第26章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-12" rowspan="3">
+            11
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            3月 25
+           </td>
+           <td class="" rowspan="3">
+            <a class="schedule-title" href>
+             <p>
+              无讲座 (春假)
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="" rowspan="3">
+           </td>
+           <td class="" rowspan="3">
+            无讨论
+           </td>
+           <td class="" rowspan="3">
+            <p>
+             无实验
+            </p>
+            <br>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            3月 27
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            3月 29
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-13" rowspan="3">
+            12
+            <br>
+            <a href="https://forms.gle/uuZ1jB6s6KPHhk2f7">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            4月 01
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1aleYBt-L8bwyaxw9tXPN3bMI5XxWxmpgfvvSEo9KxD0">
+             29. 排序 I: 选择 Sort, Heapsort
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrK9o_QZyGOCbQVFTsqOPtN">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=4D3VHeLLymg">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/819dWWfFiNH4SVmu8">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/29.-basic-sorts">
+             第29章
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            10. 图II、前缀树
+            <br>
+            <a href="assets/discussions/regular10.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular10sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrD3GyILak06gbTN0rbKJat">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1NjjxulpQNQn5vyt2oApeyOdFFc6PGT47a4UADJXquZ0/edit?usp=drivesdk">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel10.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel10sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoboeJhEoJbAb7U_W7KBvoj">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1x3Zids0yqyW3Fz-2wgFlMykS0NnG2epR7sByxYwrNnw/edit?usp=drivesdk">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <a href="labs/lab09/index.html">
+             实验9: 开始项目3
+            </a>
+            <br>
+            (截止 4/05)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1TK6cmjyhpoxoHsOApgnx9unHp-vtLToD6416bggPnCk/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            4月 03
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1MqmOxfh1c6gS4hk9hvuRR_hWXWTnCIXMqLGXwRX4Pvk">
+             30. 排序 II: Mergesort and 插入 Sort
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqsfDWZNS86oYmHFY6UKA2t">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=NSbdNXO8WaQ">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/LWfhd836CDpbLJHC6">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/30.-quicksort">
+             第30章
+            </a>
+           </td>
+           <td class="project" rowspan="6">
+            <a href="projects/proj3/index.html">
+             项目3A: 世界生成
+            </a>
+            <br>
+            (截止 4/15)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            4月 05
+           </td>
+           <td class="is-even optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1P1Uc8phy1GW1M4A8PA7mJJMWqb2QgOfewwwB1wMnFlU/edit#slide=id.g2c95eb66b0d_0_7">
+             31. Software Engineering II
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=8ZZmTVXDVZc">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/31.-software-engineering-ii">
+             第31章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-14" rowspan="3">
+            13
+            <br>
+            <a href="https://forms.gle/pioAFX4dQRPZjRM57">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            4月 08
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/11vRyW0ZPrsxUhRHCBgkygy01PlL1amB66n9FZQN03wo">
+             32. 排序 III: Quicksort
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrHHQP93qqc_QBNBF_WEQLy">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=-DSHhIIIoeM">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/dRxK7LKJCG2LFRnr8">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/32.-more-quick-sort-sorting-summary">
+             第32章
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            11. 排序
+            <br>
+            <a href="assets/discussions/regular11.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular11sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqxJ0qF1CglXRb-Qb-oNOgs">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1t0-mQQDfd91itMXaJGCcaQ2H1MsH2llG0vCb5uzHXkg/edit?usp=drivesdk">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel11.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel11sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrxu6rDIFiBjifethxW7gSl">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1zSDVhtshdf8H4FGFRYaZoO-NCLmmeIEaZ02a9zMMYBU/edit?usp=drivesdk">
+             幻灯片
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            <a href="labs/lab10/index.html">
+             实验10: 俄罗斯方块
+            </a>
+            <br>
+            (截止 4/12)
+            <br>
+            <a href="https://docs.google.com/presentation/d/1dpCpnEX-o1U_5bu99WpFWNdcC-vQdoAq6-qfGvt5hyY/edit?usp=sharing">
+             幻灯片
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            4月 10
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1sqpg9sM-0719KGcWzYmmrWlj0azaafgIAiM8U98jKi4/edit">
+             33. 排序 IV: 排序 and Algorithmic Bounds
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqEadgCMXeo1gnlIxnETooG">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/WOLogwH6mYg">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/b2K72Bjf58zPioLv9">
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/34.-sorting-and-algorithmic-bounds">
+             第34章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            4月 12
+           </td>
+           <td class="optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1nE_oD8Mx6tRcO6zOnz7KbSxCtaZpaoDlcPhKzfNXrqI/edit?usp=sharing">
+             34. Software Engineering III
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=8XY1TNODHw4">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/33.-software-engineering-iii">
+             第33章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-15" rowspan="3">
+            14
+            <br>
+            <a href="https://forms.gle/kXJc7HyACjYUFkU99">
+             问卷
+            </a>
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            4月 15
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/14jNEZC-YKUuxIr3Cxsvz1Kb6eX0jCjvjevb1zD8NRj4">
+             35. 排序 V：快速排序进阶、基数排序
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRr4cg5TeJZplLTlOVmMNE0d">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=pOe_5A11OB0">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/jqoBjbBdqC9nAsZ39">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/35.-radix-sorts">
+             第35章
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            12. 更多排序算法
+            <br>
+            <a href="assets/discussions/regular12.pdf">
+             常规
+            </a>
+            /
+            <a href="assets/discussions/regular12sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRrpqJ8WTjbBOwSNFg54wQDT">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/19JqD1_guJgJPxYT3mDA4huLG5IJ4m6bHnmk3y6D8BKo/edit?usp=drivesdk">
+             幻灯片
+            </a>
+            <br>
+            <a href="assets/discussions/examlevel12.pdf">
+             考试准备
+            </a>
+            /
+            <a href="assets/discussions/examlevel12sol.pdf">
+             解答
+            </a>
+            &nbsp;/
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoenwS-qOt7TtocoDP-qXo4">
+             视频
+            </a>
+            &nbsp;/
+            <a href="https://docs.google.com/presentation/d/1mpRhBUSwtp2tLaI1-5Fjx37V1a89frG4H3W_8M7EVnM/edit?usp=drivesdk">
+             幻灯片
+            </a>
+           </td>
+           <td class="is-even" rowspan="3">
+            <p>
+             项目3工作日
+            </p>
+            <br>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            4月 17
+           </td>
+           <td class="is-even" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1wSTXwNB-D75VbHCtKqnr7QlOQtV-3wg6vTLNpNw7Qwk">
+             36. 排序 VI: Radix vs. Comparison 排序
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRoDV1sFRy3Hdx0N6BMZjI1n">
+             视频
+            </a>
+            /
+            <a href="https://www.youtube.com/watch?v=EwqK7T5MsPI">
+             录像
+            </a>
+            /
+            <a href="https://forms.gle/e4iaNsFF8tYbwc9B7">
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/36.-sorting-and-data-structures-conclusion">
+             第36章
+            </a>
+           </td>
+           <td class="project" rowspan="3">
+            <a href="projects/proj3/index.html">
+             项目3B/C: 交互性 + 创意拓展
+            </a>
+            <br>
+            (截止 4/22)
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            4月 19
+           </td>
+           <td class="is-even optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/13TE3w603C6zt1q5vWRL9WmbwxkG0VjFluIIHSbV0qNU/edit">
+             37. Software Engineering IV
+            </a>
+            <br>
+            <a href="https://youtu.be/ePwXhqEP5j0?si=fWxxOIUydgU68KFK">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="is-even" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/37-software-engineering-iv">
+             第37章
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-16" rowspan="3">
+            15
+            <br>
+            <a href="https://forms.gle/iWtVHYdbq735zLE38">
+             问卷
+            </a>
+           </td>
+           <td class="border-hack">
+            周一
+            <br>
+            4月 22
+           </td>
+           <td class="optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1k4tgpf7xaW-uhlHYlp3izZRYtBGMYPVRlHCmmpN6QXQ">
+             38. Compression
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6kGO6F1uWKggr-Ie9TCMUZ&disable_polymer=true">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/yq_besFUtIM">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/38.-compression-and-complexity">
+             第38章
+            </a>
+           </td>
+           <td class="" rowspan="3">
+            13. 结语与趣味内容
+           </td>
+           <td class="" rowspan="3">
+            <p>
+             项目3检查点
+            </p>
+            <br>
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周三
+            <br>
+            4月 24
+           </td>
+           <td class="optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1QFwbmMVE0Wlvg-gnWnemTxRX_t7h6IlhCQU69dcAkaA">
+             39. Complexity and P=NP?
+            </a>
+            <br>
+            <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD5nfUOOXco_8Sx5Nkt-Wgq8">
+             视频
+            </a>
+            /
+            <a href="https://youtu.be/T2yVIIvWewI">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+            <a href="https://cs61b-2.gitbook.io/cs61b-textbook/39.-compression-complexity-p-np">
+             第39章
+            </a>
+           </td>
+           <td class="homework" rowspan="5">
+            <a href="https://www.gradescope.com/courses/708063/assignments/4403670">
+             作业4
+            </a>
+            <br>
+            (截止 4/28，可延期至5/3)
+           </td>
+           <td class="project blank" rowspan="6">
+           </td>
+          </tr>
+          <tr>
+           <td class="border-hack">
+            周五
+            <br>
+            4月 26
+           </td>
+           <td class="optional" rowspan="1">
+            <a class="schedule-title" href="https://docs.google.com/presentation/d/1MmnYUoi-4Wyt6_3BcBdt_WkrL1XECZ9ypCyUmhW7e2U">
+             40. 总结, Fun
+            </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=utxAtIWl8Xw">
+             录像
+            </a>
+            /
+            <a class="disabled" href>
+             节奏
+            </a>
+           </td>
+           <td class="" rowspan="1">
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even week" id="week-17" rowspan="3">
+            16
+           </td>
+           <td class="is-even border-hack">
+            周一
+            <br>
+            4月 29
+           </td>
+           <td class="is-even" rowspan="3">
+            <a class="schedule-title" href>
+             <p>
+              无讲座（复习周）
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="is-even" rowspan="3">
+           </td>
+           <td class="is-even" rowspan="3">
+            无讨论
+           </td>
+           <td class="is-even" rowspan="3">
+            <p>
+             无实验
+            </p>
+            <br>
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周三
+            <br>
+            5月 01
+           </td>
+          </tr>
+          <tr>
+           <td class="is-even border-hack">
+            周五
+            <br>
+            5月 03
+           </td>
+          </tr>
+          <tr>
+           <td class="week" id="week-18" rowspan="1">
+            17
+           </td>
+           <td class="border-hack">
+            周二
+            <br>
+            5月 07
+           </td>
+           <td class="" rowspan="1">
+            <a class="schedule-title" href>
+             <p>
+              <strong>
+               期末考试 (5月7日, 上午8-11点)
+              </strong>
+             </p>
+            </a>
+            <br>
+           </td>
+           <td class="" rowspan="1">
+           </td>
+           <td class="" rowspan="3">
+           </td>
+           <td class="" rowspan="3">
+            <br>
+           </td>
+           <td class="homework blank" rowspan="1">
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="assets/js/jquery.min.js">
+      </script>
+      <script src="assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<TITLE>
+6.S081 xv6 资料 / 2020秋季
+</TITLE>
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" href="labs/labs.css" type="text/css" />
+
+</HEAD>
+
+<BODY BGCOLOR=#ffffff TEXT=#000000>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">6.S081: 操作系统工程</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+	    <li><a href="schedule.html">课程表</a></li>
+	    <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">课程<span class="caret"></span></a>
+	      <ul class="dropdown-menu" role="menu">
+                <li><a href="overview.html">概述</a></li>
+                <li><a href="general.html">课程事务</a></li>
+		<li><a href="https://6828.scripts.mit.edu/2020/handin.py/">作业提交网站</a>
+		<li><a href="../2019/index.html">6.S081 2019</a></li>
+	      </ul>
+	    </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">实验<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+		<li><a href="tools.html">工具</a></li>
+		<li><a href="labs/guidance.html">实验指南</a></li>
+                <li><a href="labs/util.html">实验 实验工具</a></li>
+		<li><a href="labs/syscall.html">实验 系统调用</a></li>
+		<li><a href="labs/pgtbl.html">实验 页表</a></li>
+		<li><a href="labs/traps.html">实验 陷阱</a></li>
+                <li><a href="labs/lazy.html">实验 延迟分配</a></li>
+		<li><a href="labs/cow.html">实验 写时复制</a></li>
+		<li><a href="labs/thread.html">实验 多线程</a></li>
+		<li><a href="labs/lock.html">实验 锁</a></li>
+		<li><a href="labs/fs.html">实验 文件系统</a></li>
+		<li><a href="labs/mmap.html">实验 mmap</a></li>
+		<li><a href="labs/net.html">实验 网络驱动程序</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">xv6<span class="caret"></span></a>
+	      <ul class="dropdown-menu" role="menu">
+		<li><a href="xv6.html">xv6</a></li>
+		<li><a href="xv6/book-riscv-rev1.pdf">xv6 书籍</a></li>
+	      </ul>
+	    </li>
+	    <li><a href="reference.html">参考资料</a></li>  
+	    <li><a href="https://piazza.com/class/kdejeo2qbpo7g1">Piazza</a></li>
+          </ul>
+	  <ul class="nav navbar-nav navbar-right">
+	    <p class="navbar-text">2020</p>
+	  </ul>
+        </div>
+      </div>
+    </div>
+
+
+<div class="container">
+
+
+
+
+
+<h1>Xv6，一个简单的类Unix教学操作系统</h1>
+
+<h2>简介</h2>
+
+Xv6是一个于2006年夏季开发的教学操作系统，
+我们为新的本科课程6.S081将xv6移植到了RISC-V。
+
+<h2>Xv6源代码与文档</h2>
+
+最新的xv6源代码和文档可通过以下方式获取
+<pre>git clone git://github.com/mit-pdos/xv6-riscv.git</pre>
+和
+<pre>git clone git://github.com/mit-pdos/xv6-riscv-book.git</pre>
+
+<a name="v6"></a>
+<h2>Unix第六版</h2>
+
+<p>xv6的灵感来源于Unix V6以及：
+
+<ul>
+
+<li>Lions的<i>Commentary on UNIX' 6th Edition</i>，John Lions，Peer to
+Peer Communications；ISBN：1-57398-013-7；第1版（2000年6月14日）。
+	<ul>
+
+	<li><a
+	href="http://www.lemis.com/grog/Documentation/Lions/">Lions
+	注释</a>的在线版本，以及<a href="http://v6.cuzuco.com/">源代码</a>。
+
+
+	<li>v6源代码也可通过<a href="http://www.tuhs.org/">The Unix Heritage Society</a>在<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6">线上</a>获取。
+
+	</ul>
+
+</ul>
+
+以下内容有助于阅读原始代码：
+<ul>
+<li><i>
+The PDP11/40 Processor Handbook</i>，Digital Equipment Corporation，1972。
+<ul>
+<li>一个<a href="../2005/readings/pdp11-40.pdf">PDF</a>（由扫描图像制作，
+不可文字搜索）
+<li>一个按指令名称索引的<a href="../2005/pdp11/index.html">网页版
+本</a>。
+</ul>
+
+</ul>
+
+<h2>反馈</h2>
+如果你有兴趣使用xv6或已在课程中使用xv6，
+我们非常希望收到你的来信。
+如果我们可以做任何事情让xv6更容易被采用，我们希望听到你的建议。
+我们也有兴趣了解哪些效果好，哪些效果不好。
+<p>
+Russ Cox (rsc@swtch.com)<br>
+Frans Kaashoek (kaashoek@mit.edu)<br>
+Robert Morris (rtm@mit.edu)
+<p>
+你可以通过 6.S081-staff@pdos.csail.mit.edu 联系我们所有人。
+
+<!-- End Page Content -->
+
+<hr>
+
+<font style="font-size: 12px;">
+<p>关于S6.081的问题或意见？请发送电子邮件至课程组
+<A
+HREF="mailto:6s081@lists.csail.mit.edu"><I>6S081@lists.csail.mit.edu</I></A>。
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by/3.0/us/"><img
+alt="Creative Commons License" style="border-width:0"
+src="https://i.creativecommons.org/l/by/3.0/us/88x31.png" ></a> <B><A HREF="#top">返回顶部</A></B> //
+<B><A HREF="index.html">S6.081 首页</A></B> // 
+<i>最后更新于 Thursday, 04-Sep-2025 23:15:04 EDT</i>
+</font>
+
+</div>
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</BODY>
+</HTML>
+ 

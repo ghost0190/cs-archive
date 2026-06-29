@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   检查 - Project 3: BYOW | CS 61B Spring 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="Checkoff - Project 3: BYOW" property="og:title">
+  <meta content="en_US" property="og:locale">
+  <meta content="Project 3 检查脚本。" name="description">
+  <meta content="Project 3 检查脚本。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj3/proj3checkoff/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="检查 - Project 3: BYOW" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目3 检查脚本。","headline":"检查 - Project 3: BYOW","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj3/proj3checkoff/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     Link
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     (外部链接)
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       课程Staff
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验01: 环境配置
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           终端使用教程
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验02: 调试 (第一部分)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验03: 调试 (第二部分)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验09: 康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验10: 俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业0A: Java语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj0/index.html">
+         项目0: 2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1a/index.html">
+         项目1A: LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1a/faq/index.html">
+           常见问题 - 项目1A
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1a/flags/index.html">
+           覆盖率测试 - 项目1A: 链表Deque 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1b/faq/index.html">
+           常见问题 - 项目1B: 数组Deque 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1b/flags/index.html">
+           覆盖率测试 - 项目1B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj2a/index.html">
+         项目2A: Ngordnet (NGrams)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj2a/faq/index.html">
+           常见问题 - 项目2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj2b/index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj2b/faq/index.html">
+           常见问题 - 项目2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../proj2c/index.html">
+         项目2C: Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../faq/index.html">
+           常见问题 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           检查 - 项目3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../ui_bugs/index.html">
+           常见UI错误 - 项目3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/guides/index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/beacon/index.html">
+           Beacon 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/ed/index.html">
+           Ed 政策与指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/ed/ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/style/index.html">
+           代码规范指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/git/index.html">
+           Git 使用指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../resources/guides/soda-machines/index.html">
+           Soda 实验 机器使用指南
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    Th是 site uses
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    , a documentation theme for Jekyll.
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B Spring 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B Spring 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        项目 3: BYOW
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        检查 - 项目3: BYOW
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        检查 - 项目3: BYOW
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#project-3c-lab-demo-checkoff-script">
+           项目3C 实验演示检查脚本
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#setup">
+           设置
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#checkoff-script">
+           检查脚本
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#point-allocation">
+           分数分配
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#basic-world-functionality-37-points-total">
+             基础世界功能 (共37分)
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#randomness-20-points-total">
+             随机性 (共20分)
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#ambition-points-max-points-28">
+             野心点数 (最高28分)
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       检查 - 项目3: BYOW
+      </h1>
+      <h2 id="project-3c-lab-demo-checkoff-script">
+       <a aria-labelledby="project-3c-lab-demo-checkoff-script" class="anchor-heading" href="#project-3c-lab-demo-checkoff-script">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       项目3C 实验演示检查脚本
+      </h2>
+      <p>
+       项目3C演示将在实验期间进行。
+      </p>
+      <p>
+       为了准备演示，我们会让你和你的搭档填写一份表格，在其中详细说明你所有的
+野心功能以及如何使用这些功能的清晰而简洁的说明。这就是规格说明末尾链接的Proj3检查
+表格。在这里请非常具体，因为如果你的说明不够具体，TA可能无法
+使用你的功能。我们会提供一种方式让你申请重新评分，但我们建议你在第一次
+就做对以避免麻烦。同样重要的是，你的代码只能使用java.*和
+skeleton的library-sp24文件夹中的库。如果你的代码使用了额外的库，那么在检查过程中
+出现技术故障时，TA将无法编译或运行你的代码。
+      </p>
+      <p>
+       以下是TA在检查你时会做的具体操作：我们建议你自己先演练一遍，以确保你没有
+遗漏任何东西。你可以将你的仓库clone到电脑上的某个随机位置（比如你的 home
+目录），如果你想跟着做并模拟你的检查。
+      </p>
+      <p>
+       <strong>
+        两位搭档都必须出席。
+       </strong>
+      </p>
+      <h2 id="setup">
+       <a aria-labelledby="setup" class="anchor-heading" href="#setup">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       设置
+      </h2>
+      <ul>
+       <li>
+        指定一位搭档作为演示者；这应该是预约了演示时段的那位搭档。他们应该
+确保已经完成以下设置：
+        <ul>
+         <li>
+          IntelliJ打开你的项目3代码（打开哪个类无所谓）
+         </li>
+         <li>
+          程序运行中，BYOW主菜单已显示
+         </li>
+         <li>
+          你的仓库状态应该是包含你要演示的项目版本的提交（commit id应该与
+Google表格中的相同）。如果这是你最近的提交，只需确保你的Git状态是干净的。如果是一个过去的提交，你可以通过运行
+          <code class="language-plaintext highlighter-rouge">
+           git switch --detach &lt;commit id&gt;
+          </code>
+          来达到这个状态。（要恢复正常状态，运行
+          <code class="language-plaintext highlighter-rouge">
+           git switch main
+          </code>
+          。）
+         </li>
+         <li>
+          如果你选择演示一个超过截止日期的项目版本（根据
+大纲，会有百分比惩罚），请确保告知TA。
+         </li>
+         <li>
+          你的Git状态应该是干净的（没有要提交的更改）
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h2 id="checkoff-script">
+       <a aria-labelledby="checkoff-script" class="anchor-heading" href="#checkoff-script">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       检查脚本
+      </h2>
+      <ol>
+       <li>
+        评分者会询问每个人的班级ID (sp24-s***)
+       </li>
+       <li>
+        <p>
+         一位搭档应该指定他的笔记本电脑为"签到笔记本电脑"，并且已经在一个终端窗口中进入了他们的
+         <code class="language-plaintext highlighter-rouge">
+          sp24-proj3-g***/proj3
+         </code>
+         。他们的Git应该处于干净状态（git status应该是干净的），IntelliJ应该打开着，项目3主菜单
+应该正在运行。
+        </p>
+        <ul>
+         <li>
+          如果这些要求中有任何一项未满足，你可能无法获得Proj3检查的分数。
+         </li>
+        </ul>
+       </li>
+       <li>
+        运行"git log"并确保HEAD提交是截止日期之前的提交。运行"pwd"。确保路径
+与打开的IntelliJ窗口的路径匹配。学生可以选择演示一个迟交的提交以获得部分分数。
+       </li>
+       <li>
+        检查主菜单是否有新游戏/世界、加载和退出选项。
+       </li>
+       <li>
+        检查按"n"是否能让玩家输入种子。
+       </li>
+       <li>
+        检查输入数字后按"s"是否开始生成世界。
+       </li>
+       <li>
+        检查地板和墙壁是否可以区分。
+       </li>
+       <li>
+        检查是否有至少2个可以视为走廊的结构。（1格宽，相当长）
+       </li>
+       <li>
+        检查世界是否包含转角走廊。如果当前世界没有转角走廊，让学生生成一个有转角走廊的世界。
+       </li>
+       <li>
+        检查是否有几个可以视为房间的矩形结构，它们通过走廊相连
+       </li>
+       <li>
+        检查WASD是否能让玩家上、下、左、右移动。
+       </li>
+       <li>
+        检查鼠标悬停在三个不同的瓦片上是否显示三个不同的名称（如果需要按键才能更新鼠标
+悬停文本也是可以的）。
+       </li>
+       <li>
+        检查HUD是否没有闪烁。
+       </li>
+       <li>
+        检查撞墙时玩家是否停止移动且没有错误。
+       </li>
+       <li>
+        检查输入":Q"是否停止游戏。此时，记住世界的样子。你可以要求
+学生截图或者你自己截一张。
+       </li>
+       <li>
+        重启程序后，测试加载/保存功能：检查按"L"是否能在没有额外输入的情况下开始一个世界。
+       </li>
+       <li>
+        检查世界布局是否与关闭前完全相同。
+       </li>
+       <li>
+        检查基本命令（WASD等）是否仍然有效。
+       </li>
+       <li>
+        退出并重新加载世界，再次确保基本命令仍然有效。
+       </li>
+       <li>
+        检查单独按"q"是否不会终止游戏。
+       </li>
+       <li>
+        生成3-5个世界，观察它们的多样性。根据你对世界
+多样性的感受选择一个等级。
+       </li>
+      </ol>
+      <ul>
+       <li>
+        满分 - 每个生成的世界看起来都有显著不同，你会觉得当你
+生成一个新世界时会看到新的东西
+       </li>
+       <li>
+        50%分数 - 世界不相同，但只有小的变化或移动，实际上没有改变
+在世界中移动的体验（例如，房间总是在同一个位置，只是大小略有不同）
+       </li>
+       <li>
+        零分 - 世界大多数时候是相同的，或者房间的变化对玩家
+体验/探索世界的方式没有影响。（例如，世界每次都一样，只有
+地板颜色有变化）
+       </li>
+      </ul>
+      <ol>
+       <li>
+        然后评分者会询问你展示了哪些你尝试过的野心点数，并会决定你是
+获得满分还是半分。
+       </li>
+       <li>
+        评分者会告诉你哪些项目获得了/没有获得分数。他们会问你是否同意你的
+分数：如果你不同意，你将有机会申请重新评分。
+       </li>
+      </ol>
+      <h2 id="point-allocation">
+       <a aria-labelledby="point-allocation" class="anchor-heading" href="#point-allocation">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       分数分配
+      </h2>
+      <p>
+       然后他们会对游戏的每个要求进行评分。每个要求可以被评为满分、半分
+或零分。
+      </p>
+      <h3 id="basic-world-functionality-37-points-total">
+       <a aria-labelledby="basic-world-functionality-37-points-total" class="anchor-heading" href="#basic-world-functionality-37-points-total">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       基础世界功能 (共37分)
+      </h3>
+      <h4 id="the-ta-will-run-your-project-and-will-check-for-the-following-features">
+       <a aria-labelledby="the-ta-will-run-your-project-and-will-check-for-the-following-features" class="anchor-heading" href="#the-ta-will-run-your-project-and-will-check-for-the-following-features">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       TA将运行你的项目并检查以下功能：
+      </h4>
+      <ul>
+       <li>
+        <p>
+         世界有一个主菜单屏幕，包含新世界、加载和退出选项（1分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA会按"n"或"N"（两者皆可），并检查世界是否提示输入种子（1分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该输入一些随机数字并按"s"或"S"（两者皆可），这应该立即开始生成
+世界。TA还应该能够看到你在屏幕上输入的数字。（2分）
+        </p>
+       </li>
+      </ul>
+      <h4 id="at-this-point-the-program-should-be-running-and-there-should-be-a-visible-world">
+       <a aria-labelledby="at-this-point-the-program-should-be-running-and-there-should-be-a-visible-world" class="anchor-heading" href="#at-this-point-the-program-should-be-running-and-there-should-be-a-visible-world">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       此时，程序应该正在运行，应该有一个可见的世界。
+      </h4>
+      <ul>
+       <li>
+        <p>
+         世界有视觉上可区分的墙壁和地板（2分）
+        </p>
+       </li>
+       <li>
+        <p>
+         世界至少有两条1格宽的走廊（1分）
+        </p>
+       </li>
+       <li>
+        <p>
+         世界至少有1条包含转角的走廊。如果当前世界没有，让学生生成一个有转角走廊的世界。（1分）
+        </p>
+       </li>
+       <li>
+        <p>
+         世界有一些通过走廊相连的房间（6分）
+        </p>
+       </li>
+      </ul>
+      <h4 id="the-ta-will-now-try-the-basic-commands-that-should-be-available-during-gameplay">
+       <a aria-labelledby="the-ta-will-now-try-the-basic-commands-that-should-be-available-during-gameplay" class="anchor-heading" href="#the-ta-will-now-try-the-basic-commands-that-should-be-available-during-gameplay">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       TA现在将尝试游戏过程中应该可用的基本命令。
+      </h4>
+      <ul>
+       <li>
+        <p>
+         TA应该随机按W、A、S和D键，并检查玩家移动是否与按下的键一致（2分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该悬停在3个不同的瓦片上，并确保它们的名称显示在屏幕上的某个位置，且名称合理（3分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该验证HUD没有闪烁（2分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该移动到墙边，确保玩家在墙边停下而不是继续移动进去（2分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该输入":q"或":Q"（两者皆可），这应该退出世界并关闭程序。TA此时应该记住
+世界布局（2分）
+        </p>
+       </li>
+      </ul>
+      <h4 id="the-program-is-now-closed-and-we-will-test-the-load-feature">
+       <a aria-labelledby="the-program-is-now-closed-and-we-will-test-the-load-feature" class="anchor-heading" href="#the-program-is-now-closed-and-we-will-test-the-load-feature">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       程序现在已经关闭，我们将测试加载功能。
+      </h4>
+      <h4 id="the-ta-will-run-the-world-again-after-it-has-been-closed-and-the-main-menu-should-appear-again">
+       <a aria-labelledby="the-ta-will-run-the-world-again-after-it-has-been-closed-and-the-main-menu-should-appear-again" class="anchor-heading" href="#the-ta-will-run-the-world-again-after-it-has-been-closed-and-the-main-menu-should-appear-again">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       TA将在世界关闭后再次运行世界，主菜单应该再次出现。
+      </h4>
+      <ul>
+       <li>
+        <p>
+         TA应该按"l"或"L"，世界应该立即开始（2分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该检查世界布局是否与关闭前完全相同（2.5分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA将再次运行基本命令（上面列出的）以确保世界仍然正常工作（2.5分）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA将再次退出并加载，确保基本命令仍然有效（2.5分）。
+        </p>
+       </li>
+       <li>
+        <p>
+         TA将检查单独按"q"或"Q"不会退出游戏（2.5分）。
+        </p>
+       </li>
+      </ul>
+      <h3 id="randomness-20-points-total">
+       <a aria-labelledby="randomness-20-points-total" class="anchor-heading" href="#randomness-20-points-total">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       随机性 (共20分)
+      </h3>
+      <ul>
+       <li>
+        <p>
+         TA应该再次关闭世界，并开始测试世界是否是随机生成的。
+        </p>
+       </li>
+       <li>
+        <p>
+         学生组应该向TA解释他们在哪里使用了随机性，并提及
+他们世界中在所有种子下保持一致的任何部分
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该检查随机性的使用不会导致世界的多样性受到严重限制（例如，随机
+从一个有限的世界集合中选择一个世界布局）
+        </p>
+       </li>
+       <li>
+        <p>
+         TA应该打开世界3-5次，确保每次使用不同的种子
+        </p>
+       </li>
+       <li>
+        <p>
+         TA将关注你的世界在世界结构和玩家体验两方面生成多样性的能力。
+这意味着当使用两个不同的种子生成新世界时，这些世界
+不应该感觉相同（或几乎相同）。
+        </p>
+       </li>
+      </ul>
+      <p>
+       评分细分如下：
+      </p>
+      <ul>
+       <li>
+        <p>
+         20分待定：世界主要是随机的，如上述部分所述。
+        </p>
+       </li>
+       <li>
+        <p>
+         10分待定：世界表现出一些随机元素，但总体看起来相同
+        </p>
+       </li>
+       <li>
+        <p>
+         0分：世界不包含随机元素。
+        </p>
+       </li>
+      </ul>
+      <h3 id="ambition-points-max-points-28">
+       <a aria-labelledby="ambition-points-max-points-28" class="anchor-heading" href="#ambition-points-max-points-28">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       野心点数 (最高28分)
+      </h3>
+      <ul>
+       <li>
+        <p>
+         学生应该陈述并演示属于野心类别的功能。你应该非常明确地说明如何"激活"或使用该功能。
+        </p>
+       </li>
+       <li>
+        <p>
+         TA将记录学生成功演示的功能及其基于规格的分数值，
+为每个项目给予满分、半分或零分。
+        </p>
+       </li>
+      </ul>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

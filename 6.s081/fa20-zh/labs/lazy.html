@@ -1,0 +1,198 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>实验：xv6 延迟页分配</title>
+<link rel="stylesheet" href="labs.css" type="text/css" />
+<script src="guidance.js"></script>
+</head>
+<body>
+
+<h1>实验：xv6 延迟页分配</h1>
+
+<p>
+操作系统可以借助页表硬件实现的许多巧妙技巧之一是用户空间堆内存的延迟分配。Xv6 应用程序使用 sbrk() 系统调用向内核请求堆内存。在我们给你的内核中，sbrk() 分配物理内存并将其映射到进程的虚拟地址空间。对于大型请求，内核分配和映射内存可能需要很长时间。例如，一吉字节由 262,144 个 4096 字节的页组成；即使每次分配都很快，这也是一个巨大的分配数量。此外，有些程序分配的内存比实际使用的更多（例如，实现稀疏数组），或者提前很久就分配内存。为了在这些情况下让 sbrk() 更快完成，复杂的内核会延迟分配用户内存。也就是说，sbrk() 不分配物理内存，只是记住哪些用户地址已被分配，并在用户页表中将这些地址标记为无效。当进程第一次尝试使用某个延迟分配的页时，CPU 会产生一个缺页异常，内核通过分配物理内存、清零并映射来处理它。你将在本实验中为 xv6 添加这个延迟分配功能。
+
+<div class="prereq">
+<p>在开始编码之前，请阅读 <a href="../xv6/book-riscv-rev1.pdf">xv6 book</a> 的第4章（特别是4.6节），以及你可能需要修改的相关文件：
+  <ul>
+    <li> <tt>kernel/trap.c</tt>
+    <li> <tt>kernel/vm.c</tt>
+    <li> <tt>kernel/sysproc.c</tt>
+  </ul>
+
+</div>
+
+<p>开始实验前，切换到 lazy 分支：
+  <pre>
+  $ <kbd>git fetch</kbd>
+  $ <kbd>git checkout lazy</kbd>
+  $ <kbd>make clean</kbd>
+  </pre>
+
+  
+<h2>从 sbrk() 中消除分配 <script>g("easy")</script></h2>
+
+<div class="required">
+你的第一个任务是从 sbrk(n) 系统调用的实现中删除页分配，该实现是 sysproc.c 中的 sys_sbrk() 函数。sbrk(n) 系统调用将进程的内存大小增长 n 字节，然后返回新分配区域的起始地址（即旧的大小）。你的新 sbrk(n) 应该只将进程的大小（myproc()->sz）增加 n 并返回旧的大小。它不应该分配内存——所以你应该删除对 growproc() 的调用（但你仍然需要增加进程的大小！）。
+</div>
+
+<p>
+试着猜测这个修改的结果会是什么：什么会被破坏？
+
+<p>
+进行这个修改，启动 xv6，然后在 shell 中输入 <tt>echo hi</tt>。你应该看到类似这样的内容：
+
+<pre>
+init: starting sh
+$ echo hi
+usertrap(): unexpected scause 0x000000000000000f pid=3
+            sepc=0x0000000000001258 stval=0x0000000000004008
+va=0x0000000000004000 pte=0x0000000000000000
+panic: uvmunmap: not mapped
+</pre>
+
+"usertrap(): ..." 消息来自 trap.c 中的用户陷阱处理程序；它捕获了一个它不知道如何处理的异常。确保你理解为什么会出现这个缺页异常。"stval=0x0..04008" 表示导致缺页异常的虚拟地址是 0x4008。
+
+<h2>延迟分配 <script>g("moderate")</script></h2>
+
+<div class="required">
+修改 trap.c 中的代码，通过在异常地址映射一个新分配的物理内存页来响应用户空间的缺页异常，然后返回用户空间让进程继续执行。你应该在产生 "usertrap(): ..." 消息的 <tt>printf</tt> 调用之前添加你的代码。修改你需要的任何其他 xv6 内核代码，使 <tt>echo hi</tt> 能够工作。
+</div>
+
+以下是一些提示：
+ 
+<ul>
+
+<li>你可以通过在 usertrap() 中检查 r_scause() 是否为 13 或 15 来判断异常是否为缺页异常。
+
+<li><tt>r_stval()</tt> 返回 RISC-V 的 <tt>stval</tt> 寄存器，其中包含导致缺页异常的虚拟地址。
+
+<li>从 vm.c 中的 uvmalloc() 借用代码，这是 sbrk() 通过 growproc() 调用的函数。你需要调用 kalloc() 和 mappages()。
+
+<li>使用 PGROUNDDOWN(va) 将异常的虚拟地址向下舍入到页边界。
+
+<li>uvmunmap() 会引起 panic；修改它使某些页未映射时不 panic。
+
+<li>如果内核崩溃，在 kernel/kernel.asm 中查找 sepc
+
+<li>使用你在 pgtbl 实验中的 <tt>vmprint</tt> 函数来打印页表的内容。
+
+<li>如果你看到 "incomplete type proc" 错误，先包含 "spinlock.h" 再包含 "proc.h"。
+
+</ul>
+
+<p>
+如果一切顺利，你的延迟分配代码应该使 <tt>echo hi</tt> 正常工作。你应该至少遇到一次缺页异常（因此触发延迟分配），可能两次。
+
+<h2>Lazytests 和 Usertests <script>g("moderate")</script></h2>
+
+<p>我们为你提供了 <tt>lazytests</tt>，这是一个 xv6 用户程序，测试一些可能对你的延迟内存分配器造成压力的特定情况。修改你的内核代码，使 <tt>lazytests</tt> 和 <tt>usertests</tt> 都能通过。
+
+<ul>
+
+  <li> 处理负的 sbrk() 参数。
+
+  <li> 如果进程在高于任何 sbrk() 分配的虚拟内存地址处发生缺页异常，则杀死该进程。
+
+  <li> 正确处理 fork() 中父到子的内存复制。
+
+  <li> 处理进程将从 sbrk() 获得的有效地址传递给 read 或 write 等系统调用，但该地址的内存尚未分配的情况。
+
+  <li> 正确处理内存耗尽：如果 kalloc() 在缺页异常处理程序中失败，杀死当前进程。
+
+  <li> 处理用户栈下方无效页上的异常。
+
+</ul>
+
+<p>如果你的内核通过了 lazytests 和 usertests，你的解决方案就是可接受的：
+<pre>
+$ <kbd> lazytests</kbd>
+lazytests starting
+running test lazy alloc
+test lazy alloc: OK
+running test lazy unmap...
+usertrap(): ...
+test lazy unmap: OK
+running test out of memory
+usertrap(): ...
+test out of memory: OK
+ALL TESTS PASSED
+$ <kbd>usertests</kbd>
+...
+ALL TESTS PASSED
+$
+</pre>
+
+<p><a name="submit"></>
+<h2>提交实验</h2>
+
+<p><b>实验到此完成。</b>确保你通过了所有 make grade 测试。如果本实验有问题，不要忘记在 answers-<i>lab-name</i>.txt 中写下你的答案。提交你的更改（包括添加 answers-<i>lab-name</i>.txt），然后在实验目录中运行 make handin 来提交你的实验。
+
+<h3>花费时间</h3>
+
+<p>创建一个新文件 <tt>time.txt</tt>，在其中写入一个整数，即你在本实验上花费的小时数。不要忘记 <tt>git add</tt> 和 <tt>git commit</tt> 该文件。
+
+<h3>提交</h3>
+
+你将使用<a href="https://6828.scripts.mit.edu/2020/handin.py/">提交网站</a>来提交你的作业。在提交任何作业或实验之前，你需要从提交网站申请一次 API 密钥。
+</p>
+
+<p>在提交你对实验的最终更改后，运行 <kbd>make handin</kbd> 来提交你的实验。
+<pre>
+$ <kbd>git commit -am "ready to submit my lab"</kbd>
+[util c2e3c8b] ready to submit my lab
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+$ <kbd>make handin</kbd>
+tar: Removing leading `/' from member names
+Get an API key for yourself by visiting https://6828.scripts.mit.edu/2020/handin.py/
+Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 79258  100   239  100 79019    853   275k --:--:-- --:--:-- --:--:--  276k
+$
+</pre>
+<kbd>make handin</kbd> 会将你的 API 密钥存储在 <i>myapi.key</i> 中。如果你需要更改 API 密钥，只需删除此文件并让 <kbd>make handin</kbd> 重新生成（<i>myapi.key</i> 不能包含换行符）。
+</p>
+
+<p>
+如果你运行 <kbd>make handin</kbd> 时有未提交的更改或未跟踪的文件，你将看到类似以下的输出：
+<pre>
+ M hello.c
+?? bar.c
+?? foo.pyc
+Untracked files will not be handed in.  Continue? [y/N]
+</pre>
+检查上述行，确保你的实验解决方案所需的所有文件都已跟踪，即不在以 <kbd>??</kbd> 开头的行中列出。你可以使用 <tt>git add filename</tt> 让 <tt>git</tt> 跟踪你创建的新文件。
+</p>
+
+<p>
+如果 <kbd>make handin</kbd> 无法正常工作，请尝试修复 curl 或 Git 命令的问题。或者你可以运行 <kbd>make tarball</kbd>。这将为你生成一个 tar 文件，然后你可以通过我们的<a href="https://6828.scripts.mit.edu/2020/handin.py/">网页界面</a>上传。
+</p>
+
+<p>
+<div class="warning">
+<ul>
+  <li>请运行 `make grade` 以确保你的代码通过所有测试</li>
+  <li>在运行 `make handin` 之前提交所有修改过的源代码</li>
+  <li>你可以在 <a href="https://6828.scripts.mit.edu/2020/handin.py/">https://6828.scripts.mit.edu/2020/handin.py/</a> 查看提交状态并下载已提交的代码</li>
+</ul>
+</div>
+
+
+
+
+<h2>可选挑战练习</h2>
+
+<ul>
+
+  <li>使延迟页分配与你在上一个实验中的简单 <tt>copyin</tt> 一起工作。
+
+</ul>
+
+</body>
+</html>
+
+</body>
+</html>

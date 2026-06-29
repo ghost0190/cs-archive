@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   项目 2A：Ngordnet（N元语法） | CS 61B 春季 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="项目 2A：Ngordnet（N元语法）" property="og:title">
+  <meta content="zh_CN" property="og:locale">
+  <meta content="项目 2A 说明。" name="description">
+  <meta content="项目 2A 说明。" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/projects/proj2a/" property="og:url">
+  <meta content="CS 61B 春季 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="项目 2A：Ngordnet（N元语法）" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","description":"项目 2A 说明。","headline":"项目 2A：Ngordnet（N元语法）","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"}},"url":"https://sp24.datastructur.es/projects/proj2a/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     链接
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     文档
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../policies/index.html">
+       课程信息
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../staff/index.html">
+       教职员工
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/terminal/index.html">
+           如何使用终端
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab02/index.html">
+         实验 02：调试（第一部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab03/index.html">
+         实验 03：调试（第二部分）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab05/index.html">
+         实验 05：不相交集
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析习题解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab08/index.html">
+         实验 08：哈希映射
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab08/faq/index.html">
+           常见问题 - 实验08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../labs/lab10/faq/index.html">
+           常见问题 - 实验10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0a/index.html">
+           作业 0A：Java 语法
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw0/hw0b/index.html">
+           作业 0B：数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../homeworks/hw2/index.html">
+         作业 2：渗透问题
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/faq/index.html">
+           作业 2：渗透问题 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../homeworks/hw2/outputs/index.html">
+           "预期输出 - 作业 2：渗透问题"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/faq/index.html">
+           常见问题 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1a/flags/index.html">
+           覆盖率测试 - 项目 1A：链表双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/faq/index.html">
+           常见问题 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1b/flags/index.html">
+           覆盖率测试 - 项目 1B：数组双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj1c/index.html">
+         项目 1C：Deque61B 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强功能
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item active">
+        <a class="nav-list-link active" href="index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2b/index.html">
+         项目 2B：Ngordnet（Wordnet）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj2c/index.html">
+         项目 2C：Ngordnet 增强功能
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../proj3/index.html">
+         项目 3：BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/faq/index.html">
+           常见问题 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/proj3checkoff/index.html">
+           验收检查 - 项目 3：BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../proj3/ui_bugs/index.html">
+           常见 UI 错误 - 项目 3：BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../resources/index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/guides/index.html">
+         指南
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/ed/index.html">
+           Ed 政策和指南
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/ed/ed-guide/index.html">
+             新用户 Ed 指南
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/plugins/index.html">
+             安装和使用 IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../../resources/guides/intellij/wtfs/index.html">
+             IntelliJ 常见问题
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/oh/index.html">
+           在线答疑指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../resources/guides/soda-machines/index.html">
+           使用 Soda 实验室机器
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../resources/support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../summer/index.html">
+       2024 年夏季常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    本网站使用
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    ，一个 Jekyll 文档主题。
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="搜索 CS 61B 春季 2024" autocomplete="off" class="search-input" id="search-input" placeholder="搜索 CS 61B 春季 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        深色模式
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        答疑排队
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        项目
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        项目 2A：Ngordnet（N元语法）
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        项目 2A：Ngordnet（N元语法）
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#faq">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           介绍
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#getting-started">
+           开始使用
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#building-an-ngrams-viewer">
+           构建 N元语法查看器
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#timeseries">
+           TimeSeries
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#timeseries-tips">
+             TimeSeries 提示
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#ngrammap">
+           NGramMap
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#input-file-formats">
+             输入文件格式
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#ngrammap-tips">
+             NGramMap 提示
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#historytexthandler">
+           HistoryTextHandler
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#historytexthandler-tips">
+             HistoryTextHandler 提示
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#historyhandler">
+           HistoryHandler
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#historyhandler-tips">
+             HistoryHandler 提示
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#deliverables-and-scoring">
+           交付物和评分
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#submission">
+             提交
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#acknowledgements">
+           致谢
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       项目 2A：Ngordnet（N元语法）
+      </h1>
+      <h2 id="faq">
+       <a aria-labelledby="faq" class="anchor-heading" href="#faq">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       <a href="faq/index.html">
+        常见问题
+       </a>
+      </h2>
+      <p>
+       每个作业顶部都会有一个常见问题（FAQ）链接。你也可以通过在 URL 末尾添加 "/faq" 来访问。项目 2A 的常见问题
+位于
+       <a href="faq/index.html">
+        这里
+       </a>
+       。
+      </p>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       介绍
+      </h2>
+      <p>
+       在这个项目中，我们将构建一个基于浏览器的工具，用于探索英文文本中词汇使用的历史。我们已经提供了前端代码（使用 Javascript 和 HTML），用于收集用户输入并显示输出。你的 Java 代码将作为这个工具的后端，接受输入并生成适当的输出以供显示。
+      </p>
+      <p>
+       可以在下面找到本项目的视频介绍（或点击
+       <a href="https://www.youtube.com/watch?v=ri9BzE723QA&list=PL8FaHk7qbOD7-899l1hKEd5aICB9u1wrm&index=1">
+        此链接
+       </a>
+       ）。
+      </p>
+      <p align="center">
+       <iframe height="400" src="https://www.youtube.com/embed/watch?v=ri9BzE723QA&list=PL8FaHk7qbOD7-899l1hKEd5aICB9u1wrm&index=1" title="项目 2A 介绍" width="600">
+       </iframe>
+      </p>
+      <p>
+       为了支持这个工具，你将编写一系列 Java 包来进行数据分析。在此过程中，我们将获得大量使用不同有用数据结构的经验。项目的早期部分（proj2a）会明确告诉你要编写哪些函数和创建哪些类。后期部分（proj2b）将更加开放，由你自己设计。
+      </p>
+      <p>
+       你可以在
+       <a href="https://ngordnet.datastructur.es">
+        ngordnet.datastructur.es
+       </a>
+       查看项目的工作人员解决方案。
+      </p>
+      <h2 id="getting-started">
+       <a aria-labelledby="getting-started" class="anchor-heading" href="#getting-started">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       开始使用
+      </h2>
+      <p>
+       要开始使用，请像往常一样使用
+       <code class="language-plaintext highlighter-rouge">
+        git pull skeleton main
+       </code>
+       。
+      </p>
+      <p>
+       你还需要下载项目 2 的数据文件（由于空间原因，没有通过 GitHub 提供）。
+      </p>
+      <blockquote class="task">
+       <p>
+        点击
+        <a href="https://drive.google.com/file/d/1xGTZqCo5maiZjA307OPocmKDOTYlJXnz/view?usp=sharing">
+         此链接
+        </a>
+        下载数据文件。
+       </p>
+       <p>
+        你应该将此文件解压到 proj2 目录中，使
+        <code class="language-plaintext highlighter-rouge">
+         data
+        </code>
+        文件夹与
+        <code class="language-plaintext highlighter-rouge">
+         src
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         static
+        </code>
+        文件夹处于同一级别。
+       </p>
+       <ul>
+        <li>
+         <a href="https://support.microsoft.com/en-us/windows/zip-and-unzip-files-f6dde0a7-0fec-8294-e1d3-703ed85e7ebc#:~:text=To%20unzip%20files,folder%20to%20a%20new%20location.">
+          如何在 Windows 上解压文件夹
+         </a>
+        </li>
+        <li>
+         <a href="https://support.apple.com/guide/mac-help/zip-and-unzip-files-and-folders-on-mac-mchlp2528/mac#:~:text=Unzip%20(expand)%20a%20compressed%20item,zip%20file.">
+          如何在 Mac 上解压文件夹
+         </a>
+        </li>
+       </ul>
+      </blockquote>
+      <p>
+       完成此步骤后，你的
+       <code class="language-plaintext highlighter-rouge">
+        proj2a
+       </code>
+       目录应如下所示：
+      </p>
+      <div class="language-sh highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>proj2a
+&boxvr;&boxh;&boxh; data
+&boxv;   &boxvr;&boxh;&boxh; ngrams
+&boxv;   &boxur;&boxh;&boxh; wordnet
+&boxvr;&boxh;&boxh; src
+&boxvr;&boxh;&boxh; static
+&boxvr;&boxh;&boxh; tests
+</code></pre>
+       </div>
+      </div>
+      <p>
+       注意，我们已经在骨架代码中设置了隐藏的
+       <a href="https://help.github.com/articles/ignoring-files/">
+        <code class="language-plaintext highlighter-rouge">
+         .gitignore
+        </code>
+       </a>
+       文件，
+这样 Git 就不会上传这些数据文件。这是有意为之的。
+      </p>
+      <p class="danger">
+       将数据文件上传到 GitHub 会给每个人带来很多麻烦，所以请不要修改任何名为
+       <code class="language-plaintext highlighter-rouge">
+        .gitignore
+       </code>
+       的文件。如果你需要在多台机器上工作，你应该在每台机器上分别下载一次 zip 文件。
+      </p>
+      <p>
+       如果
+       <code class="language-plaintext highlighter-rouge">
+        NgordnetQuery
+       </code>
+       无法编译，请确保你使用的是 Java 15（预览版）或更高版本（最好是 17+）。
+      </p>
+      <p>
+       可以在
+       <a href="https://youtu.be/8uIt7pXua6Y">
+        此链接
+       </a>
+       找到为本项目设置计算机的视频指南。
+注意，某些文件/文件名可能略有不同；特别是，视频中的
+       <code class="language-plaintext highlighter-rouge">
+        hugbrowsermagic
+       </code>
+       目录在你的骨架文件中现在称为
+       <code class="language-plaintext highlighter-rouge">
+        browser
+       </code>
+       。
+      </p>
+      <h2 id="building-an-ngrams-viewer">
+       <a aria-labelledby="building-an-ngrams-viewer" class="anchor-heading" href="#building-an-ngrams-viewer">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       构建 N元语法查看器
+      </h2>
+      <p>
+       <a href="http://storage.googleapis.com/books/ngrams/books/datasetsv3.html">
+        Google Ngram 数据集
+       </a>
+       提供了数 TB 的信息，
+记录了英语中所有观察到的单词和短语（或更准确地说，所有观察到的
+       <a href="https://en.wikipedia.org/wiki/N-gram">
+        n元语法
+       </a>
+       ）的历史频率。Google 在网上提供了
+       <a href="https://books.google.com/ngrams/graph?content=global+warming%2Cto+the+moon&year_start=1800&year_end=2019&corpus=en-2019&smoothing=0">
+        Google Ngram 查看器
+       </a>
+       ，
+允许用户可视化单词和短语的相对历史流行度。例如，上面的链接绘制了短语 "global warming"（一个2元语法）和 "to the moon"（一个3元语法）的
+       <strong>
+        加权流行度历史
+       </strong>
+       。
+      </p>
+      <p>
+       在项目 2A 中，你将构建一个只处理 1元语法的工具版本。换句话说，你只能处理单个单词。我们将只使用完整 1元语法数据集的一小部分（约 300 MB），因为更大的数据集需要更复杂的技术，这超出了本课程的范围。
+      </p>
+      <h2 id="timeseries">
+       <a aria-labelledby="timeseries" class="anchor-heading" href="#timeseries">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       TimeSeries
+      </h2>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       是现有
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       类的专用扩展，其中键类型参数始终为
+       <code class="language-plaintext highlighter-rouge">
+        Integer
+       </code>
+       ，值类型参数始终为
+       <code class="language-plaintext highlighter-rouge">
+        Double
+       </code>
+       。每个键对应一个年份，每个值对应该年份的一个数值数据点。你可以在
+       <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/TreeMap.html">
+        这里
+       </a>
+       找到
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       API，查看哪些方法可供你使用。
+      </p>
+      <p>
+       例如，以下代码将创建一个
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       ，并将 1992 年与值 3.6 关联，1993 年与值 9.2 关联。
+      </p>
+      <div class="language-java highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code><span class="nc">TimeSeries</span> <span class="n">ts</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TimeSeries</span><span class="o">();</span>
+<span class="n">ts</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1992</span><span class="o">,</span><span class="mf">3.6</span><span class="o">);</span>
+<span class="n">ts</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1993</span><span class="o">,</span><span class="mf">9.2</span><span class="o">);</span>
+</code></pre>
+       </div>
+      </div>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       类在它继承的
+       <code class="language-plaintext highlighter-rouge">
+        TreeMap
+       </code>
+       类基础上提供了一些额外的实用方法。
+      </p>
+      <blockquote class="task">
+       <p>
+        根据文件中提供的 API，填写
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        类（位于
+        <code class="language-plaintext highlighter-rouge">
+         src/ngrams/TimeSeries.java
+        </code>
+        文件中）。请务必阅读每个方法上方的注释。
+       </p>
+      </blockquote>
+      <blockquote class="warning">
+       <p>
+        有关如何使用
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        对象的示例，请查看我们提供的
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeriesTest.java
+        </code>
+        文件中名为
+        <code class="language-plaintext highlighter-rouge">
+         testFromSpec()
+        </code>
+        的测试。
+该测试创建了一个猫和狗种群的
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        ，然后计算它们的总和。注意，1993 年没有值，因为那一年没有出现在任何一个
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        中。
+       </p>
+      </blockquote>
+      <p class="danger">
+       你不能向此类添加额外的公共方法。欢迎你添加额外的私有方法。
+      </p>
+      <h3 id="timeseries-tips">
+       <a aria-labelledby="timeseries-tips" class="anchor-heading" href="#timeseries-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       TimeSeries 提示
+      </h3>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        对象不应有实例变量。
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        是一个
+        <code class="language-plaintext highlighter-rouge">
+         TreeMap
+        </code>
+        。这意味着你的
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        类也可以访问 TreeMap 拥有的所有方法；
+请参阅
+        <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/TreeMap.html">
+         TreeMap API
+        </a>
+        。
+       </li>
+       <li>
+        <strong>
+         有几个方法要求你比较两个
+         <code class="language-plaintext highlighter-rouge">
+          TimeSeries
+         </code>
+         的数据。你不应该有任何在年份或值不可用时填充零的代码。
+        </strong>
+       </li>
+       <li>
+        提供的
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeriesTest
+        </code>
+        类提供了对
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        类的简单测试。随时可以添加你自己的测试。
+        <ul>
+         <li>
+          注意，我们给你的单元测试
+          <strong>
+           不
+          </strong>
+          评估
+          <code class="language-plaintext highlighter-rouge">
+           dividedBy
+          </code>
+          方法的正确性。
+         </li>
+        </ul>
+       </li>
+       <li>
+        你会注意到在
+        <code class="language-plaintext highlighter-rouge">
+         testFromSpec()
+        </code>
+        中，我们没有直接比较
+        <code class="language-plaintext highlighter-rouge">
+         expectedTotal
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         totalPopulation.data()
+        </code>
+        。这是因为 double 类型容易出现舍入误差，
+尤其是在除法运算之后（原因你将在 61C 中学习）。因此，当
+        <code class="language-plaintext highlighter-rouge">
+         x
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         y
+        </code>
+        是 double 类型时，
+        <code class="language-plaintext highlighter-rouge">
+         assertThat(x).isEqualTo(y)
+        </code>
+        可能会意外地返回 false。
+相反，你应该使用
+        <code class="language-plaintext highlighter-rouge">
+         assertThat(x).isWithin(1E-10).of(y)
+        </code>
+        ，只要
+        <code class="language-plaintext highlighter-rouge">
+         x
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         y
+        </code>
+        彼此相差在 $10^{-10}$ 以内，它就会返回 true。
+       </li>
+       <li>
+        你可以假设
+        <code class="language-plaintext highlighter-rouge">
+         dividedBy
+        </code>
+        操作永远不会除以零。
+       </li>
+      </ul>
+      <h2 id="ngrammap">
+       <a aria-labelledby="ngrammap" class="anchor-heading" href="#ngrammap">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       NGramMap
+      </h2>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       类将提供各种方便的方法来与 Google 的 N元语法数据集交互。这个任务比创建
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       类更具开放性和挑战性。与
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       一样，你将填写现有
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap.java
+       </code>
+       文件的方法。
+       <strong>
+        NGramMap 不应继承任何类。
+       </strong>
+      </p>
+      <p>
+       如果你调用一个返回
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       的方法，而给定的方法调用没有可用数据，你应该返回一个空的
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       。例如，
+       <code class="language-plaintext highlighter-rouge">
+        ngm.weightHistory("asdfasdf")
+       </code>
+       应该返回一个空的
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       ，因为
+       <code class="language-plaintext highlighter-rouge">
+        "asdfasdf"
+       </code>
+       不是数据集中的单词。再举一个例子，
+       <code class="language-plaintext highlighter-rouge">
+        ngm.countHistory("adopt", 1400, 1410)
+       </code>
+       也应该返回一个空的
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       ，因为
+       <code class="language-plaintext highlighter-rouge">
+        "adopt"
+       </code>
+       在那些年份没有数据。
+      </p>
+      <blockquote class="task">
+       <p>
+        根据文件中提供的 API，填写
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        类（位于
+        <code class="language-plaintext highlighter-rouge">
+         src/ngrams/NGramMap.java
+        </code>
+        文件中）。再次强调，请务必阅读每个方法上方的注释。
+       </p>
+      </blockquote>
+      <blockquote class="warning">
+       <p>
+        有关
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        工作的示例，
+        <code class="language-plaintext highlighter-rouge">
+         NGramMapTest
+        </code>
+        中的
+        <code class="language-plaintext highlighter-rouge">
+         testOnLargeFile()
+        </code>
+        从
+        <code class="language-plaintext highlighter-rouge">
+         top_14377_words.csv
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         total_counts.csv
+        </code>
+        文件（如下所述）创建一个
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        。然后它执行与 1850 年至 1933 年期间单词 "fish" 和 "dog" 的出现相关的各种操作。
+       </p>
+      </blockquote>
+      <p class="danger">
+       你不能向此类添加额外的公共方法。欢迎你添加额外的私有方法。
+      </p>
+      <h3 id="input-file-formats">
+       <a aria-labelledby="input-file-formats" class="anchor-heading" href="#input-file-formats">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       输入文件格式
+      </h3>
+      <p>
+       N元语法数据集有两种不同的文件类型。第一种是"单词文件"。单词文件的每一行提供特定英语单词在给定年份的历史信息，以制表符分隔。
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>airport     2007    175702  32788
+airport     2008    173294  31271
+request     2005    646179  81592
+request     2006    677820  86967
+request     2007    697645  92342
+request     2008    795265  125775
+wandered    2005    83769   32682
+wandered    2006    87688   34647
+wandered    2007    108634  40101
+wandered    2008    171015  64395
+</code></pre>
+       </div>
+      </div>
+      <p>
+       每一行的第一个条目是单词。第二个条目是年份。第三个条目是该单词在当年任何书籍中出现的次数。第四个条目是包含该单词的不同来源的数量。
+       <strong>
+        你的程序应该忽略第四列。
+       </strong>
+       例如，从上面的文本文件中，我们可以观察到单词 "wandered" 在 2008 年出现了 171,015 次，这些出现分布在 64,395 个不同的文本中。对于本项目，我们从不关心第四个条目（总卷数）。
+      </p>
+      <p>
+       另一种文件类型是"计数文件"。计数文件的每一行提供每个日历年可用的总语料库数据信息，以逗号分隔。
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>1470,984,10,1
+1472,117652,902,2
+1475,328918,1162,1
+1476,20502,186,2
+1477,376341,2479,2
+</code></pre>
+       </div>
+      </div>
+      <p>
+       每一行的第一个条目是年份。第二个是当年所有文本中记录的总单词数。第三个数字是当年的总文本页数。第四个是当年的不同来源总数。你的程序应该忽略第三和第四列。例如，我们看到 Google 从 1470 年开始正好有一个英语文本，它包含 984 个单词和 10 页。在我们的项目中，10 和 1 是无关的。
+      </p>
+      <p>
+       你可能想知道为什么一个文件是制表符分隔的，另一个是逗号分隔的。这不是我做的，是 Google 做的。幸运的是，这种差异不会太难处理。
+      </p>
+      <h3 id="ngrammap-tips">
+       <a aria-labelledby="ngrammap-tips" class="anchor-heading" href="#ngrammap-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       NGramMap 提示
+      </h3>
+      <p>
+       项目的这一部分有很多需要思考的地方。我们试图模拟现实世界中的情况，即你有一些大型的开放性问题，必须从头开始找出方法。这可能会令人生畏！弄清楚如何进行可能需要一些时间和大量的实验。为了避免事情变得太困难，我们至少提供了一个要实现的方法列表。请记住，在现实世界中（以及在 proj2b 和 proj3 中），甚至方法列表都将由你自己选择。
+      </p>
+      <p>
+       你的代码应该足够快，以便你可以使用
+       <code class="language-plaintext highlighter-rouge">
+        top_14377_words.csv
+       </code>
+       创建一个
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       。加载时间应少于 60 秒（在较旧的计算机上可能会稍长一些）。如果你的计算机有足够的内存，你也应该能够加载
+       <code class="language-plaintext highlighter-rouge">
+        top_49887_words.csv
+       </code>
+       。
+      </p>
+      <ul>
+       <li>
+        你在这个类中的大部分工作将是实现构造函数。你需要解析提供的数据文件，并将这些数据存储在你选择的一个或多个数据结构中。
+        <ul>
+         <li>
+          这个选择很重要，因为选择正确的数据结构可以使你在实现其余方法时更容易。因此，我们建议先查看其余方法，以帮助你决定什么数据结构可能最好；然后，开始实现构造函数。
+         </li>
+        </ul>
+       </li>
+       <li>
+        避免使用 HashMap 或 TreeMap 作为你的映射的
+        <a href="https://docs.google.com/presentation/d/1j2vivowiaZWepIjUoWj6Cx3CdJiyuYslxkg8GsT8kxM/pub?start=false&loop=false&delayms=3000&slide=id.g631db3c57_38">
+         实际类型参数
+        </a>
+        。这通常表明你真正想要的是一个自定义定义的类型。换句话说，如果你的实例变量包含一个看起来像
+        <code class="language-plaintext highlighter-rouge">
+         HashMap&lt;blah, HashMap&lt;blah, blah&gt;&gt;
+        </code>
+        的嵌套映射，那么
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        或你想到的其他类可能会有用。
+       </li>
+       <li>
+        我们还没有教你如何在 Java 中读取文件。我们建议使用
+        <code class="language-plaintext highlighter-rouge">
+         In
+        </code>
+        类。官方文档可以在
+        <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/In.html">
+         这里
+        </a>
+        找到。但是，欢迎你使用你在网上学到的任何技术。我们提供了一个示例类
+        <code class="language-plaintext highlighter-rouge">
+         FileReaderDemo.java
+        </code>
+        ，给出了如何使用
+        <code class="language-plaintext highlighter-rouge">
+         In
+        </code>
+        的示例。
+       </li>
+       <li>
+        如果你使用
+        <code class="language-plaintext highlighter-rouge">
+         In
+        </code>
+        ，不要使用
+        <code class="language-plaintext highlighter-rouge">
+         readAllLines
+        </code>
+        或
+        <code class="language-plaintext highlighter-rouge">
+         readAllStrings
+        </code>
+        。这些方法很慢。相反，一次读取一块输入。请参阅
+        <code class="language-plaintext highlighter-rouge">
+         src/main/FileReaderDemo.java
+        </code>
+        中的示例。
+        <ul>
+         <li>
+          此外，要检查文件中是否还有剩余行，你应该使用
+          <code class="language-plaintext highlighter-rouge">
+           hasNextLine
+          </code>
+          （而不是
+          <code class="language-plaintext highlighter-rouge">
+           是Empty
+          </code>
+          ）。
+         </li>
+        </ul>
+       </li>
+       <li>
+        我们提供的测试只涵盖了一些方法，但有些方法只在非常大的文件上测试。你需要编写额外的测试。
+        <ul>
+         <li>
+          我们建议从较小的输入文件之一开始，而不是使用大输入文件之一（例如
+          <code class="language-plaintext highlighter-rouge">
+           top_14377_words.csv
+          </code>
+          ），可以是
+          <code class="language-plaintext highlighter-rouge">
+           very_short.csv
+          </code>
+          或
+          <code class="language-plaintext highlighter-rouge">
+           words_that_start_with_q.csv
+          </code>
+          。
+         </li>
+        </ul>
+       </li>
+       <li>
+        <strong>
+         就像在 TimeSeries 中一样，你不应该有任何在值不可用时填充零的代码。
+        </strong>
+       </li>
+       <li>
+        如果它有助于加快代码速度，你可以假设年份参数在 1400 到 2100 之间。这些变量在
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        类中存储为常量
+        <code class="language-plaintext highlighter-rouge">
+         MIN_YEAR
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         MAX_YEAR
+        </code>
+        。
+       </li>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        不应继承任何其他类。
+       </li>
+       <li>
+        你的方法应该很简单！如果你选择正确的数据结构，方法应该相对较短。
+       </li>
+       <li>
+        如果单词无效，返回一个空的
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        。
+       </li>
+      </ul>
+      <h2 id="historytexthandler">
+       <a aria-labelledby="historytexthandler" class="anchor-heading" href="#historytexthandler">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       HistoryTextHandler
+      </h2>
+      <p>
+       在项目 2A 的最后一部分，我们将进行一些软件工程工作，搭建一个可以处理 NgordnetQuery 的 Web 服务器。虽然这部分内容与数据结构没有严格的关系，但能够将项目部署到实际使用中是非常重要的。
+      </p>
+      <p>
+       <strong>
+        注意：
+       </strong>
+       只有当你相当确定
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       和
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       正常工作时，你才应该开始这一部分。
+      </p>
+      <ol>
+       <li>
+        <p>
+         在你的 Web 浏览器中，打开
+         <code class="language-plaintext highlighter-rouge">
+          static
+         </code>
+         文件夹中的
+         <code class="language-plaintext highlighter-rouge">
+          ngordnet_2a.html
+         </code>
+         文件。你可以从操作系统的文件管理器中执行此操作，或者在 IntelliJ 中右键单击
+         <code class="language-plaintext highlighter-rouge">
+          ngordnet_2a.html
+         </code>
+         ，单击"Open in"，然后单击"Browser"。你可以使用任何你想要的浏览器，不过助教最熟悉 Chrome。你会看到一个基于 Web 浏览器的界面，最终（当你完成项目时）将允许用户输入单词列表并显示可视化效果。
+        </p>
+       </li>
+       <li>
+        <p>
+         尝试在"words"框中输入 "cat, dog"，然后单击
+         <code class="language-plaintext highlighter-rouge">
+          History (Text)
+         </code>
+         。你会发现没有显示任何有用的内容。可选：如果你在 Web 浏览器中打开开发者工具（请参阅 Google 了解如何操作），你会看到一个类似 "CONNECTION_REFUSED" 或 "INVALID_URL" 的错误。问题是 Javascript 试图访问服务器来生成结果，但没有运行中的 Web 服务器可以处理查看 cat 和 dog 历史记录的请求。
+        </p>
+       </li>
+       <li>
+        <p>
+         打开
+         <code class="language-plaintext highlighter-rouge">
+          main.Main
+         </code>
+         类。这个类的
+         <code class="language-plaintext highlighter-rouge">
+          main
+         </code>
+         方法首先创建一个
+         <code class="language-plaintext highlighter-rouge">
+          NgordnetServer
+         </code>
+         对象。这个类的 API 如下：首先，我们在
+         <code class="language-plaintext highlighter-rouge">
+          NgordnetServer
+         </code>
+         对象上调用
+         <code class="language-plaintext highlighter-rouge">
+          startUp
+         </code>
+         ，然后使用
+         <code class="language-plaintext highlighter-rouge">
+          register
+         </code>
+         命令"注册"一个或多个
+         <code class="language-plaintext highlighter-rouge">
+          NgordnetQueryHandler
+         </code>
+         。这里的具体细节超出了我们课程的范围。
+        </p>
+        <p>
+         基本思想是，当你调用
+         <code class="language-plaintext highlighter-rouge">
+          hns.register("historytext", new DummyHistoryTextHandler(ngm))
+         </code>
+         时，会创建一个
+         <code class="language-plaintext highlighter-rouge">
+          DummyHistoryTextHandler
+         </code>
+         类型的对象，它将处理对
+         <code class="language-plaintext highlighter-rouge">
+          History (Text)
+         </code>
+         按钮的任何点击。
+        </p>
+       </li>
+       <li>
+        <p>
+         尝试运行
+         <code class="language-plaintext highlighter-rouge">
+          main.Main
+         </code>
+         类。在 IntelliJ 的终端输出中，你应该看到一行：
+         <code class="language-plaintext highlighter-rouge">
+          INFO org.eclipse.jetty.server.Server - Started...
+         </code>
+         ，这意味着服务器已正确启动。现在再次打开
+         <code class="language-plaintext highlighter-rouge">
+          ngordnet_2a.html
+         </code>
+         文件，再次输入 "cat, dog"，然后单击
+         <code class="language-plaintext highlighter-rouge">
+          History (Text)
+         </code>
+         。这次，你应该看到一条消息，显示：
+        </p>
+        <div class="language-plaintext highlighter-rouge">
+         <div class="highlight">
+          <pre class="highlight"><code> You entered the following info into the browser:
+ Words: [cat, dog]
+ Start Year: 2000
+ End Year: 2020
+</code></pre>
+         </div>
+        </div>
+       </li>
+       <li>
+        <p>
+         现在打开
+         <code class="language-plaintext highlighter-rouge">
+          main.DummyHistoryTextHandler
+         </code>
+         ，你会看到一个
+         <code class="language-plaintext highlighter-rouge">
+          handle
+         </code>
+         方法。每当用户单击
+         <code class="language-plaintext highlighter-rouge">
+          History (Text)
+         </code>
+         按钮时，就会调用这个方法。相反，预期的行为应该是，当用户针对上面的提示单击
+         <code class="language-plaintext highlighter-rouge">
+          History (Text)
+         </code>
+         时，应显示以下文本：
+        </p>
+       </li>
+      </ol>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>cat: {2000=1.71568475416827E-5, 2001=1.6120939684412677E-5, 2002=1.61742010630623E-5, 2003=1.703155141714967E-5, 2004=1.7418408946715716E-5, 2005=1.8042211615010028E-5, 2006=1.8126126955841936E-5, 2007=1.9411504094739293E-5, 2008=1.9999492186117545E-5, 2009=2.1599428349729816E-5, 2010=2.1712564894218663E-5, 2011=2.4857238078766228E-5, 2012=2.4198586699546612E-5, 2013=2.3131865569578688E-5, 2014=2.5344693375481996E-5, 2015=2.5237182007765998E-5, 2016=2.3157514119191215E-5, 2017=2.482102172595473E-5, 2018=2.3556758130732888E-5, 2019=2.4581322086049953E-5}
+dog: {2000=3.127517699525712E-5, 2001=2.99511426723737E-5, 2002=3.0283458650225453E-5, 2003=3.1470761877596034E-5, 2004=3.2890514515432536E-5, 2005=3.753038415155302E-5, 2006=3.74430614362125E-5, 2007=3.987077208249744E-5, 2008=4.267197824115907E-5, 2009=4.81026086549733E-5, 2010=5.30567576173992E-5, 2011=6.048536820577008E-5, 2012=5.179787485962082E-5, 2013=5.0225599367200654E-5, 2014=5.5575537540090384E-5, 2015=5.44261096781696E-5, 2016=4.805214145459557E-5, 2017=5.4171157785607686E-5, 2018=5.206751570646653E-5, 2019=5.5807040409297486E-5}
+</code></pre>
+       </div>
+      </div>
+      <p>
+       要通过自动评分，输出格式必须完全匹配。
+      </p>
+      <ul>
+       <li>
+        所有文本行，包括最后一行，都应以换行符结束。
+       </li>
+       <li>
+        所有空格和标点符号（逗号、大括号、冒号）都应遵循上面的示例。
+       </li>
+      </ul>
+      <p>
+       这些数字表示给定年份中单词 cat 和 dog 的
+       <strong>
+        加权流行度历史
+       </strong>
+       。由于舍入误差，你的数字可能与上面显示的不完全相同。你的格式应与上面显示的完全一致：具体来说是单词，后跟冒号，后跟空格，后跟相应
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       的字符串表示，其中键值对以逗号分隔的列表形式出现在大括号内，键和值之间用等号分隔。注意，你不需要编写任何代码来生成每个
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       的字符串表示，你可以直接使用
+       <code class="language-plaintext highlighter-rouge">
+        toString()
+       </code>
+       方法。
+      </p>
+      <p>
+       现在是实现 HistoryText 按钮的时候了！
+      </p>
+      <blockquote class="task">
+       <p>
+        创建一个名为
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler.java
+        </code>
+        的新文件，它接收给定的
+        <code class="language-plaintext highlighter-rouge">
+         NgordnetQuery
+        </code>
+        并返回与上述格式相同的字符串。
+       </p>
+       <p>
+        然后，修改
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        ，以便当有人单击
+        <code class="language-plaintext highlighter-rouge">
+         History (Text)
+        </code>
+        时使用你的
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler
+        </code>
+        。换句话说，你应该注册你的
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler
+        </code>
+        类，而不是注册
+        <code class="language-plaintext highlighter-rouge">
+         DummyHistoryTextHandler
+        </code>
+        。
+       </p>
+      </blockquote>
+      <blockquote class="info">
+       <p>
+        你可能会注意到，当服务器启动时，
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        会打印出一个链接。
+如果你觉得更方便，你可以直接点击这个链接，而不是手动打开
+        <code class="language-plaintext highlighter-rouge">
+         ngordnet_2a.html
+        </code>
+        文件。
+       </p>
+      </blockquote>
+      <h3 id="historytexthandler-tips">
+       <a aria-labelledby="historytexthandler-tips" class="anchor-heading" href="#historytexthandler-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       HistoryTextHandler 提示
+      </h3>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler
+        </code>
+        的构造函数应采用以下形式：
+        <code class="language-plaintext highlighter-rouge">
+         public HistoryTextHandler(NGramMap map)
+        </code>
+        。
+       </li>
+       <li>
+        使用
+        <code class="language-plaintext highlighter-rouge">
+         DummyHistoryTextHandler.java
+        </code>
+        作为指导，在适当的地方进行模式匹配。能够修改示例代码并使其按照你的意愿工作是一项非常重要的现实世界技能。大胆实验，不要害怕弄坏东西！
+       </li>
+       <li>
+        <strong>
+         对于项目 2A
+        </strong>
+        ，你可以忽略
+        <code class="language-plaintext highlighter-rouge">
+         NgordnetQuery
+        </code>
+        的
+        <code class="language-plaintext highlighter-rouge">
+         k
+        </code>
+        实例变量。
+       </li>
+       <li>
+        使用
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries
+        </code>
+        类中从
+        <code class="language-plaintext highlighter-rouge">
+         TreeMap
+        </code>
+        继承的
+        <code class="language-plaintext highlighter-rouge">
+         .toString()
+        </code>
+        方法。
+       </li>
+       <li>
+        为了让你的
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler
+        </code>
+        能够做一些有用的事情，它需要能够访问存储在
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        中的数据。
+        <strong>
+         不要将 NGRAM MAP 变成静态变量！
+        </strong>
+        这被称为"全局变量"，很少是任何问题的适当解决方案。提示：你的
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler
+        </code>
+        类可以有一个构造函数。
+       </li>
+       <li>
+        如果单词无效，请考虑
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap
+        </code>
+        是如何处理这种情况的。
+       </li>
+      </ul>
+      <h2 id="historyhandler">
+       <a aria-labelledby="historyhandler" class="anchor-heading" href="#historyhandler">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       HistoryHandler
+      </h2>
+      <p>
+       上一节中的基于文本的历史记录除了自动评分你的工作外，没有太大用处。实际上使用我们的工具来发现有趣的东西将需要可视化。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        main.PlotDemo
+       </code>
+       提供了示例代码，它使用你的
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       生成一个可视化图表，显示 1900 年到 1950 年间单词 cat 和 dog 的加权流行度历史。尝试运行它。如果你的
+       <code class="language-plaintext highlighter-rouge">
+        NGramMap
+       </code>
+       类是正确的，你应该看到一个非常长的字符串打印到你的控制台，可能看起来像这样：
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+       <div class="highlight">
+        <pre class="highlight"><code>iVBORw0KGg...
+</code></pre>
+       </div>
+      </div>
+      <p>
+       这个字符串是图像文件的 base64 编码。要可视化它，请访问
+       <a href="https://codebeautify.org/base64-to-image-converter">
+        codebeautify.org
+       </a>
+       。
+将整个字符串复制并粘贴到网站中，你应该会看到一个类似于下图的图表：
+      </p>
+      <p>
+       <img alt="解码的 base64" src="default_base64.png">
+      </p>
+      <p>
+       这是怎么回事？你的代码打印的字符串就是图像。请记住，任何数据都可以表示为位串。这个网站知道如何使用预定义的标准将这个字符串解码成相应的图像。
+      </p>
+      <p>
+       如果你查看绘图库，这段代码依赖于
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet.Plotter.generateTimeSeriesChart
+       </code>
+       方法，它接受两个参数。第一个是字符串列表，第二个是
+       <code class="language-plaintext highlighter-rouge">
+        List&lt;TimeSeries&gt;
+       </code>
+       。
+       <code class="language-plaintext highlighter-rouge">
+        TimeSeries
+       </code>
+       都用不同的颜色绘制，每个都分配了字符串列表中给出的标签。两个列表的长度必须相同（因为第 i 个字符串是第 i 个时间序列的标签）。
+      </p>
+      <p>
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet.Plotter.generateTimeSeriesChart
+       </code>
+       方法返回一个
+       <code class="language-plaintext highlighter-rouge">
+        XYChart
+       </code>
+       类型的对象。这个对象反过来可以通过
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet.Plotter.encodeChartAsString
+       </code>
+       方法转换为 base64，或者可以通过
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet.Plotter.displayChart
+       </code>
+       直接显示在屏幕上。
+      </p>
+      <p>
+       在你的 Web 浏览器中，再次打开
+       <code class="language-plaintext highlighter-rouge">
+        static
+       </code>
+       文件夹中的
+       <code class="language-plaintext highlighter-rouge">
+        ngordnet_2a.html
+       </code>
+       文件。在你的
+       <code class="language-plaintext highlighter-rouge">
+        main.Main
+       </code>
+       类运行的情况下，在"words"框中输入 "cat, dog"，然后单击"history"。你会看到下面奇怪的图像：
+      </p>
+      <p>
+       <img alt="抛物线和正弦曲线" src="default_history_plot.png">
+      </p>
+      <p>
+       你会注意到代码不是在绘制 cat 和 dog 的历史，而是一条抛物线和一条正弦曲线。如果你打开
+       <code class="language-plaintext highlighter-rouge">
+        DummyHistoryHandler
+       </code>
+       ，你就会明白原因。
+      </p>
+      <blockquote class="task">
+       <p>
+        创建一个名为
+        <code class="language-plaintext highlighter-rouge">
+         HistoryHandler.java
+        </code>
+        的新文件，它接收给定的
+        <code class="language-plaintext highlighter-rouge">
+         NgordnetQuery
+        </code>
+        并返回一个字符串，其中包含相应图表的 base64 编码图像。
+       </p>
+       <p>
+        然后，修改
+        <code class="language-plaintext highlighter-rouge">
+         Main.java
+        </code>
+        ，以便当有人单击
+        <code class="language-plaintext highlighter-rouge">
+         History
+        </code>
+        按钮时调用你的
+        <code class="language-plaintext highlighter-rouge">
+         HistoryHandler
+        </code>
+        。
+       </p>
+      </blockquote>
+      <h3 id="historyhandler-tips">
+       <a aria-labelledby="historyhandler-tips" class="anchor-heading" href="#historyhandler-tips">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       HistoryHandler 提示
+      </h3>
+      <ul>
+       <li>
+        <code class="language-plaintext highlighter-rouge">
+         HistoryHandler
+        </code>
+        的构造函数应采用以下形式：
+        <code class="language-plaintext highlighter-rouge">
+         public HistoryHandler(NGramMap map)
+        </code>
+        。
+       </li>
+       <li>
+        就像之前一样，使用
+        <code class="language-plaintext highlighter-rouge">
+         DummyHistoryHandler.java
+        </code>
+        作为指导。如上一节所述，我们真的希望你学习修改复杂库代码以获得所需行为的技能。
+       </li>
+      </ul>
+      <h2 id="deliverables-and-scoring">
+       <a aria-labelledby="deliverables-and-scoring" class="anchor-heading" href="#deliverables-and-scoring">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       交付物和评分
+      </h2>
+      <p>
+       你负责实现四个类：
+      </p>
+      <ul>
+       <li>
+        <strong>
+         TimeSeries (30%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         TimeSeries.java
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         NGramMap 计数 (20%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap.java
+        </code>
+        中的
+        <code class="language-plaintext highlighter-rouge">
+         countHistory()
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         totalCountHistory()
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         NGramMap 权重 (30%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         NGramMap.java
+        </code>
+        中的
+        <code class="language-plaintext highlighter-rouge">
+         weightHistory()
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         summedWeightHistory()
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         HistoryTextHandler (10%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         HistoryTextHandler.java
+        </code>
+        。
+       </li>
+       <li>
+        <strong>
+         HistoryHandler (10%)
+        </strong>
+        ：正确实现
+        <code class="language-plaintext highlighter-rouge">
+         HistoryHandler.java
+        </code>
+        。
+       </li>
+      </ul>
+      <h3 id="submission">
+       <a aria-labelledby="submission" class="anchor-heading" href="#submission">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       提交
+      </h3>
+      <p>
+       要提交项目，请添加并提交你的文件，然后推送到你的远程仓库。然后，前往 Gradescope 上的相关作业并在那里提交。
+      </p>
+      <p>
+       本作业的自动评分器将具有以下速度限制方案：
+      </p>
+      <ul>
+       <li>
+        从项目发布到截止日期，你将有 8 个令牌；每个令牌每 24 小时刷新一次。
+       </li>
+      </ul>
+      <h2 id="acknowledgements">
+       <a aria-labelledby="acknowledgements" class="anchor-heading" href="#acknowledgements">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       致谢
+      </h2>
+      <p>
+       本作业的 WordNet 部分大致改编自 Alina Ene 和 Kevin Wayne 在普林斯顿大学的
+       <a href="http://www.cs.princeton.edu/courses/archive/fall14/cos226/assignments/wordnet.html">
+        Wordnet 作业
+       </a>
+       。
+      </p>
+     </div>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> 复制'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>

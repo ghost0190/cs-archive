@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="Overview The first homework is to construct a set of SQL queries for analyzing a dataset that will be provided to you. For this, you will look into Lahman Database. This homework is an opportunity to: (1) learn basic and certain advanced SQL features, and (2) get familiar with using …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Homework #1 - SQL - CMU 15-445/645 :: 数据库系统导论 (2025 秋季)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2025/homework1/index.html"/>
+    <meta property="article:published_time" content="2025-08-28" />
+    <meta property="og:description" content="Overview The first homework is to construct a set of SQL queries for analyzing a dataset that will be provided to you. For this, you will look into Lahman Database. This homework is an opportunity to: (1) learn basic and certain advanced SQL features, and (2) get familiar with using …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2025">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="../images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="../images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>作业 #1 - SQL | CMU 15-445/645 :: 数据库系统导论 (2025 秋季) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../index.html" title="CMU 15-445/645"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header mb-3 mb-md-4"><i class="fas database"></i> <span class="text-uppercase">作业 #1 - SQL</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal; text-shadow: none;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-08-28 13:00:17.763452-04:00">最后更新：Aug 28, 2025</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-08-28 13:00:17.763452-04:00">最后更新：Aug 28, 2025</time>
+    </div>
+</div>
+<h1 id="overview">概述</h1>
+<p>第一个作业是构建一组 SQL 查询来分析将提供给您的数据集。为此，您将研究 <a onclick="javascript:ga('send', 'pageview', '/outgoing/sabr.org');" href="https://sabr.org/lahman-database/">Lahman Database</a>。本次作业是一次很好的机会来：(1) 学习基本和某些高级 SQL 特性，(2) 熟悉使用功能完备的数据库管理系统 <a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org">DuckDB</a>，它在未来可能对您可能有所帮助。</p>
+<p>这是一个个人项目，需要独立完成（即不分组）。</p>
+<!-- START homework1 -->
+<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
+<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
+<ul>
+<li><b>发布日期：</b> Aug 27, 2025</li>
+<li><b>截止日期：</b> Sep 07, 2025 @ 11:59pm</li>
+</ul>
+<!-- END homework1 -->
+
+<h1 id="specification">规格说明</h1>
+<p>本次作业共包含 6 道题目，满分 100 分。每道题都需要构建一个 SQL 查询来获取所需数据。每道题的答案应只包含一条语句。完成这些题目大约需要 6 小时。</p>
+<h2 id="placeholder-folder">占位文件夹</h2>
+<p>创建提交用的占位文件夹，并为每道题创建空的 SQL 文件：</p>
+<pre class="shadow-sm p-2">
+$ mkdir placeholder
+$ cd placeholder
+$ touch q1_sample.duckdb.sql \
+        q2_hr.duckdb.sql \
+        q3_mvp.duckdb.sql \
+        q4_award.duckdb.sql \
+        q5_hof.duckdb.sql \
+        q6_upsert.duckdb.sql</pre>
+
+<p>填写完查询后，您可以运行以下命令来压缩文件夹：</p>
+<pre class="shadow-sm p-2">
+$ zip -j submission.zip placeholder/*.sql
+</pre>
+
+<p><code>-j</code> 参数可以让您将所有 SQL 查询压缩到 zip 文件中而不包含路径信息。如果不这样做，评分脚本将<b><u>无法</u></b>正常工作。</p>
+<h1 id="instructions">说明</h1>
+<ol>
+   <li class="pb-3">
+   下载<a onclick="javascript:ga('send', 'pageview', '/downloads/../files/lahman-cmudb2025.db.gz');" href="../files/lahman-cmudb2025.db.gz">数据库转储文件</a>：
+   <pre class="shadow-sm p-2">$ wget <a onclick="javascript:ga('send', 'pageview', '/downloads/../files/lahman-cmudb2025.db.gz');" href="../files/lahman-cmudb2025.db.gz">https://15445.courses.cs.cmu.edu/fall2025/files/lahman-cmudb2025.db.gz</a></pre>
+   检查其 MD5 校验和以确保您已正确下载文件：
+   <pre class="shadow-sm p-2">
+$ md5sum lahman-cmudb2025.db.gz
+a4fb302c11f80030f26bb6bb59d68cac  lahman-cmudb2025.db.gz</pre>
+
+   <li class="pb-3">
+   在 shell 中运行以下命令解压提供的数据库转储文件。请注意，解压后数据库文件应为 <b>40MB</b>。
+   <pre class="shadow-sm p-2">$ tar zxf lahman-cmudb2025.db.gz</pre>
+</ol>
+
+<p>然后按照以下说明安装 DuckDB。</p>
+<h2 id="duckdb">DuckDB</h2>
+<!-- ### Command Line (Recommended) -->
+
+<p>请按照<a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org/docs/installation/">说明</a>安装 DuckDB 的命令行环境。</p>
+<ol>
+
+   启动 DuckDB 时可以直接加载数据集：
+<pre class="shadow-sm p-2">
+$ duckdb lahman-cmudb2025.db
+DuckDB v1.3.2 (Ossivalis) 0b83e5d2f6
+Enter ".help" for usage hints.
+⚪◗ </pre>
+
+   <li class="pb-3">
+   您可以在 DuckDB 终端运行 <code>.tables</code> 命令检查数据库内容。您应该看到 <b>11 张表</b>。输出应如下所示：
+<pre class="shadow-sm p-2">
+⚪◗ .tables
+appearances     collegeplaying  leagues         schools
+awardsmanagers  divisions       managers        teams
+awardsplayers   halloffame      people
+</pre>
+
+</ol>
+
+<h2 id="check-the-schema">检查模式</h2>
+<p>熟悉表的模式（结构）（它们包含哪些属性，主键和外键是什么）。在 <code>duckdb</code> 终端对每张表运行 <code>DESCRIBE $TABLE_NAME;</code> 命令。输出应如下面的示例所示。</p>
+<h3 id="appearances">appearances</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE appearances
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ yearID      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ teamID      │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ playerID    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ G_all       │ SMALLINT    │ YES     │ NULL    │ NULL    │ NULL    │
+│ G_batting   │ SMALLINT    │ YES     │ NULL    │ NULL    │ NULL    │
+│ HR          │ SMALLINT    │ YES     │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含球员出场记录的详细信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+2004|SFN|NL|aardsda01|11|11|0
+</pre>
+<p>重要字段包括
+<code>G_all</code> (11)，描述出场比赛数，
+<code>G_batting</code> (11)，描述打击出场数，
+以及 <code>HR</code> (0)，描述本垒打数。</p>
+<h3 id="awardsmanagers">awardsmanagers</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE awardsmanagers
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ playerID    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ awardID     │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ yearID      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含授予经理的奖项详情。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+mccarjo99│TSN Manager of the Year│1936│ML
+</pre>
+
+<h3 id="awardsplayers">awardsplayers</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE awardsplayers
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ playerID    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ awardID     │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ yearID      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含授予球员的奖项详情。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+bondto01│Pitching Triple Crown│1877│NL
+</pre>
+
+<h3 id="collegeplaying">collegeplaying</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE collegeplaying
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ playerID    │ VARCHAR     │ NO      │ NULL    │ NULL    │ NULL    │
+│ schoolID    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ yearID      │ SMALLINT    │ YES     │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含球员在特定年份为哪所学校效力的详情。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+aardsda01│pennst│2001
+</pre>
+
+<h3 id="divisions">divisions</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE divisions
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ divID       │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ division    │ VARCHAR     │ NO      │ NULL    │ NULL    │ NULL    │
+│ active      │ VARCHAR     │ NO      │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含分区信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+E|AL|AL East|Y
+</pre>
+
+<h3 id="halloffame">halloffame</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE halloffame
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ playerID    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ yearid      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ inducted    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>包含名人堂球员的详情。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+abbotji01|2005|N
+</pre>
+
+<h3 id="leagues">leagues</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE leagues
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ lgID        │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ league      │ VARCHAR     │ NO      │ NULL    │ NULL    │ NULL    │
+│ active      │ VARCHAR     │ NO      │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+<p>包含联盟信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+ML|Major League|Y
+</pre>
+
+<h3 id="managers">managers</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE managers
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ playerID    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ yearID      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ teamID      │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ inseason    │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+<p>包含经理的详细信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+actama99│2007│WAS│NL│1
+</pre>
+
+<h3 id="people">people</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE people
+┌──────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name  │ column_type │  null   │   key   │ default │  extra  │
+│   varchar    │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├──────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ ID           │ INTEGER     │ NO      │ NULL    │ NULL    │ NULL    │
+│ playerID     │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ birthYear    │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ birthMonth   │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ birthDay     │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ birthCountry │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ birthState   │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ birthCity    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathYear    │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathMonth   │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathDay     │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathCountry │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathState   │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ deathCity    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ nameFirst    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ nameLast     │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ nameGiven    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+├──────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┤
+</pre>
+<p>包含球员的详细信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+1│aardsda01│ … │David│Aardsma│David Allan
+</pre>
+<p>对我们来说，重要字段包括 <code>playerID</code>（例如 aardsda01）、
+<code>nameFirst</code>（例如 David）、
+<code>nameLast</code>（例如 Aardsma），
+以及 <code>nameGiven</code>（例如 David Allan）。</p>
+<h3 id="schools">schools</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE schools
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ schoolID    │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ name_full   │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ city        │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ state       │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ country     │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+<p>包含学校的详细信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+abilchrist│Abilene Christian University│Abilene│TX│USA
+</pre>
+
+<h3 id="teams">teams</h3>
+<pre class="shadow-sm p-2">
+⚪◗ DESCRIBE teams
+┌─────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
+│ column_name │ column_type │  null   │   key   │ default │  extra  │
+│   varchar   │   varchar   │ varchar │ varchar │ varchar │ varchar │
+├─────────────┼─────────────┼─────────┼─────────┼─────────┼─────────┤
+│ yearID      │ SMALLINT    │ NO      │ PRI     │ NULL    │ NULL    │
+│ lgID        │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ teamID      │ VARCHAR     │ NO      │ PRI     │ NULL    │ NULL    │
+│ franchID    │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ divID       │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ teamRank    │ SMALLINT    │ YES     │ NULL    │ NULL    │ NULL    │
+│ name        │ VARCHAR     │ YES     │ NULL    │ NULL    │ NULL    │
+│ attendance  │ INTEGER     │ YES     │ NULL    │ NULL    │ NULL    │
+└─────────────┴─────────────┴─────────┴─────────┴─────────┴─────────┘
+</pre>
+
+<p>该表包含团队的详细信息。例如，这是表中的一行数据：</p>
+<pre class="shadow-sm p-2">
+1884│UA│ALT│ALT│NULL│10│Altoona Mountain City│NULL
+</pre>
+
+<h3 id="sanity-check">完整性检查</h3>
+<p>统计表中的行数</p>
+<pre class="shadow-sm p-2">
+D select count(*) from appearances;
+┌──────────┐
+│ count(1) │
+│  int64   │
+├──────────┤
+│  115355  │
+└──────────┘
+</pre>
+
+<p>
+下图展示了这些表的模式：
+<a href="img/schema2025.png"><img alt="" src="img/schema2025.png" class="img-fluid mx-auto d-block border-1 rounded p-2" width="800" /></a>
+</p>
+
+<h2 id="construct-the-sql-queries">构建 SQL 查询</h2>
+<p>现在开始构建 SQL 查询并将它们放入占位文件中。您可以先使用 SQLite。</p>
+<div class="question">
+   <h3>Q1 [0 分]</h3>
+   <p>此查询的目的是确保您的输出格式与我们的自动评分脚本的输出格式完全匹配。
+
+   <p><B>文件：</b> <tt class="filepath">q1_sample.duckdb.sql</tt>
+   <p><b>详情：</b>
+   按字母顺序列出所有活跃的分区。
+
+   <p class="mb-0"><b>答案</b>：以下是正确的 SQL 查询和预期输出：
+   <pre class="shadow-sm p-2">
+D SELECT DISTINCT division FROM divisions WHERE active = 'Y' ORDER BY division;
+AL Central
+AL East
+AL West
+NL Central
+NL East
+NL West
+</pre>
+
+   <p>您应该将此 SQL 查询放入提交目录（<tt class="filepath">placeholder</tt>）中的相应文件（<tt class="filepath">q1_sample.duckdb.sql</tt>）中。
+</div>
+
+<div class="question" markdown=0>
+   <h3>Q2 [20 分]</h3>
+   <p>找出在任何单次出场中本垒打（HR）最高的十个人，不考虑年份或球队。只考虑曾经在 <code>PA</code> 的学校打过球的人。按本垒打数从多到少排序，然后按<b>名字</b>字母顺序排列。
+
+   <p><B>文件：</b> <tt class="filepath">q2_hr.duckdb.sql</tt>
+
+   <p><b>提示：</b> <code>||</code> 可能对构造名称字段很有用。名称应按 <code>{FIRST} ({GIVEN}) {LAST}</code> 的格式组装。球员在任何单次出场中的最高本垒打数可以通过对给定球员的 <code>appearances</code> 中所有年份和球队进行聚合来找到。
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="shadow-sm p-2">name|max_hr_appearance</pre>
+
+   <p>您的第一行应如下所示：
+   <pre class="shadow-sm p-2">Bobby (Robert Leigh) Higginson|30</pre>
+</div>
+
+<div class="question">
+   <h3>Q3 [20 分]</h3>
+   <p>找出十对（球员，球队），其中球员在 1999 年之后在活跃联盟中赢得了 <code>Gold Glove</code> 奖项，并且打击出场的比赛场次多于该球队自 1999 年以来的平均打击出场数。按不同获奖年份从多到少排序，然后按 given name 字母顺序排列。</p>
+
+   <p><B>文件：</b> <tt class="filepath">q3_mvp.duckdb.sql</tt>
+
+   <p><b>提示：</b> 只考虑 awardID 匹配 <code>Gold Glove</code> 的记录。球队平均值可以通过对自 1999 年以来每个球队球员的 <code>appearances</code> 中的打击出场数取平均来计算。您可能会发现 DuckDB 中的<a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org/docs/stable/sql/expressions/subqueries.html#correlated-subqueries">相关子查询</a>很有用。
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="shadow-sm p-2">nameGiven|teamID|distinct_years</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="shadow-sm p-2">Ichiro|SEA|10</pre>
+</div>
+
+<div class="question">
+   <h3>Q4 [30 分]</h3>
+   <p>考虑事件 <code>E</code>：对于给定的（球队，年份），球队有超过 5 名不同球员获得奖项，且某位经理在同一年获得了奖项。对于所有活跃联盟，找出事件 <code>E</code> 发生过超过一次的球队。按事件 <code>E</code> 发生次数从多到少排序，然后按球队名称字母顺序排列。</p>
+
+   <p><B>文件：</b> <tt class="filepath">q4_award.duckdb.sql</tt>
+
+   <p><b>提示：</b> 您可能会发现 DuckDB 中的<a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org/docs/stable/sql/expressions/subqueries.html#correlated-subqueries">相关子查询</a>和 <a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org/docs/stable/sql/query_syntax/with.html">CTE</a> 很有用。考虑将问题分解为子问题并组合它们的结果。
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="shadow-sm p-2">league|team_name|distinct_years</pre>
+
+   <p class="mb-0">输出中的一行如下所示：
+   <pre class="shadow-sm p-2">National League|Atlanta Braves|3</pre>
+</div>
+
+<div class="question">
+   <h3>Q5 [20 分]</h3>
+   <p>找出 10 位入选名人堂的球员。对于每位入选的球员，找出他们曾一起出场的最早队友。如果有多位队友，选择按队友构造名称字母顺序排列的第一位队友。按名人堂球员的构造名称字母顺序排列。</p>
+
+   <p><B>文件：</b> <tt class="filepath">q5_hof.duckdb.sql</tt>
+
+   <p><b>详情：</b> 要找到球员的队友，找出两人都作为 <code>appearances</code> 在同一年的同一支球队效力的记录。
+
+   <p><b>提示：</b> 您可能会发现 DuckDB 中的<a onclick="javascript:ga('send', 'pageview', '/outgoing/duckdb.org');" href="https://duckdb.org/docs/sql/query_syntax/from.html#lateral-joins">Lateral Joins</a>很有用。所有名称应按 <code>{FIRST} ({GIVEN}) {LAST}</code> 的格式组装。
+
+   <p class="mb-0">您的输出应如下所示：
+   <pre class="shadow-sm p-2">hof_player_name|earliest_teammate_name|earliest_teammate_year</pre>
+
+   <p class="mb-0">您的第一行应如下所示：
+   <pre class="shadow-sm p-2">Addie (Adrian) Joss|Bill (William Henry) Bernhard|1902</pre>
+</p>
+</div>
+
+<div class="question">
+   <h3>Q6 [10 分]</h3>
+   <p>联盟总监要求您向 <code>teams</code> 表中插入新记录。对于 2024 年的所有球队，使用 <code>franchID</code> 作为 <code>teamID</code> 插入一条新记录。如果插入因冲突而失败，将现有记录的 <code>attendance</code> 设置为 -1。
+
+   <p><B>文件：</b> <tt class="filepath">q6_upsert.duckdb.sql</tt>
+
+   <p><b>详情：</b> 我们将通过选择表中 2024 年的所有球队并按每列依次排序来进行评估。
+   <pre class="shadow-sm p-2">SELECT yearID, lgID, teamID, franchID, teamRank, attendance
+FROM teams
+WHERE yearID = 2024
+ORDER BY lgID, teamID, franchID, teamRank, attendance;</pre>
+
+   <p><b>提示</b> 考虑如何在一条语句中同时插入和更新现有行。
+
+
+   <p class="mb-0">运行选择语句后，应存在以下两行：
+   <pre class="shadow-sm p-2">2024|AL|HOU|HOU|1|-1
+2024|AL|KCA|KCR|2|1658347</pre>
+  </p>
+</div>
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+
+<p>每份提交将根据 SQL 查询是否从数据库中获取了预期的元组集合来评分。每个 SQL 查询只允许一条语句。请注意，您的 SQL 查询将通过将其输出（即元组集合）与正确输出进行比较来进行自动评分。对于您的查询，输出列的<strong>顺序</strong>很重要；列名则不重要。</p>
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="submission">迟交政策</h1>
+
+<p>请参见课程大纲中的<a href="../syllabus.html#late-policy">迟交政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+<!--<b>You can submit on Gradescope now, but we are currently setting up the autograder. We will post on Piazza when the autograder is up.</b>-->
+
+<p>我们使用 Gradescope 的自动评分器进行评分，以便为您提供即时反馈。完成作业后，您可以将压缩文件夹 <code>submission.zip</code>（仅一个文件）提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/1074751">https://www.gradescope.com/courses/1074751</a></b></li>
+</ul>
+<p><b>重要提示：</b>使用在 Piazza 上公布的 Gradescope 课程代码。</p>
+<p>我们将使用类似于 <code>diff</code> 的函数来比较输出文件。您可以随时多次提交答案。 </p>
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY                                                      -->
+<!-- ========================================================================= -->
+<h1 id="collaboration-policy">协作政策</h1>
+<ul>
+<li>每位学生必须独立完成本次作业。</li>
+<li>学生可以与他人讨论项目的高层次细节。</li>
+<li>学生<strong>不</strong>允许在与其他学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不</strong>允许复制其他同学的答案。</li>
+</ul>
+<p class="bg-danger text-white p-2 rounded">
+    <i class="trigger fa fa-exclamation-triangle fa-lg"></i>
+    <b>警告：</b>本项目的所有代码必须是您自己的。您不得从其他学生或网上找到的其他来源复制源代码。抄袭行为<strong>绝不</strong>被容忍。更多信息请参见 CMU 的<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cmu.edu');" href="http://www.cmu.edu/policies/documents/Academic%20Integrity.htm">学术诚信政策</a>。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

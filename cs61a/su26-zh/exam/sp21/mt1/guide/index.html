@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="Computer Science, Programming, Berkeley, EECS" />
+    <meta name="author" content ="Rebecca Dang" />
+    <!-- CHANGED CAREFUL -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../../assets/js/jquery.min.js"></script>
+    <script src="../../../../assets/js/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../../../../assets/js/bootstrap.min.js"></script>
+    <script src="../../../../assets/js/hl.js"></script>
+    <script src="../../../../assets/js/toggledarkmode.js"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="../../../../assets/js/dark-mode.js"></script>
+    <link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../assets/css/google-fonts.css">
+    <link rel="stylesheet" href="../../../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../../../assets/images/favicon.ico">
+
+    
+
+    <title>
+期中考试1 详细解答 | CS 61A 2026年暑期
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section" aria-label="切换导航栏">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../../../index.html">
+            CS 61A
+            <!-- <img style="max-width:60px; margin-top: -20px;" class="logo" src="/assets/images/logo.png"/> -->
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+            <li><a href="../../../../index.html">讲座</a></li>
+            
+            <li><a href="../../../../articles/about-61a/index.html">课程大纲</a></li>
+            
+            <li><a href="https://edstem.org/us/courses/99538/discussion">Ed</a></li>
+            
+            <li><a href="../../../../office-hours/index.html">答疑时间</a></li>
+            
+            <li><a href="../../../../articles/contact-61a/index.html">联系方式</a></li>
+            
+
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Links
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://go.cs61a.org/extensions">申请延期</a></li>
+                
+                <li><a href="https://go.cs61a.org/regrades">申请重新评分</a></li>
+                
+                <li><a href="https://oh.cs61a.org/">答疑排队系统</a></li>
+                
+                <li><a href="https://www.gradescope.com/courses/1324284">Gradescope</a></li>
+                
+                <li><a href="https://sections.cs61a.org">添加/更改讨论班</a></li>
+                
+                <li><a href="https://bcourses.berkeley.edu/courses/1555178/pages">讲座录像</a></li>
+                
+                <li><a href="https://pythontutor.com/cp/composingprograms.html">Python Tutor</a></li>
+                
+                <li><a href="https://code.cs61a.org/">代码编辑器</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Resources
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../../../resources/index.html">历年考题与网站</a></li>
+                
+                <li><a href="https://www.composingprograms.com">教材</a></li>
+                
+                <li><a href="../../../../articles/campus-res/index.html">校园资源</a></li>
+                
+                <li><a href="../../../../articles/advice/index.html">学生建议</a></li>
+                
+                <li><a href="../../../../articles/scheme-spec/index.html">Scheme 规范</a></li>
+                
+                <li><a href="../../../../articles/scheme-builtins/index.html">Scheme 内置过程</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Guides
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="https://drive.google.com/file/d/1O72u0ml65pibcjz-PXKpqeJDKaVqQ3D8/view">调试指南</a></li>
+                
+                <li><a href="../../../../articles/studying/index.html">学习指南</a></li>
+                
+                <li><a href="../../../../articles/type-hints/index.html">类型提示</a></li>
+                
+                <li><a href="../../../../articles/composition/index.html">组合指南</a></li>
+                
+                <li><a href="../../../../assets/pdfs/61a-mt1-study-guide.pdf">期中1学习指南</a></li>
+                
+                <li><a href="../../../../assets/pdfs/61a-mt2-study-guide.pdf">期中2学习指南</a></li>
+                
+                <li><a href="../../../../assets/pdfs/61a-final-study-guide.pdf">期末学习指南</a></li>
+                
+              </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a href="../../../../instructor/index.html">授课教师</a></li>
+                
+                <li><a href="../../../../staff/index.html">助教与辅导员</a></li>
+                
+              </ul>
+            </li>
+            
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>期中考试1 详细解答</h1>
+    </header>
+     <h2 id="reverse-environment-diagrams">逆向环境图</h2>
+
+
+<p>考试中共有三种可能的变体，基本内容相同，只是变量名和参数顺序有所不同。</p>
+
+<p>你可以在 PythonTutor 中查看各自的代码：</p>
+
+<p><a href="http://pythontutor.com/composingprograms.html#code=def%20yo_%28n,%20rev%29%3A%0A%20%20%20%20if%20n%20%3C%200%3A%0A%20%20%20%20%20%20%20%20return%20rev%28n,%20-3%29%0A%20%20%20%20elif%20n%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20return%20float%28%22inf%22%29%0A%20%20%20%20return%20n%20*%20-2%0A%0Adef%20_yo%28x,%20y%29%3A%0A%20%20%20%20if%20y%20%3C%200%3A%0A%20%20%20%20%20%20%20%20y%20%2B%3D%201%0A%20%20%20%20if%20x%20%3D%3D%20y%3A%0A%20%20%20%20%20%20%20%20return%20lambda%20a%3A%20lambda%20b%3A%20a%20*%20x%20%2B%20b%20*%20y%0A%20%20%20%20return%20lambda%20a%3A%20lambda%20b%3A%20a%20%2B%20b%0A%0Aflo%20%3D%20yo_%28-2,%20_yo%29%283%29%285%29%0A&amp;cumulative=true&amp;curInstr=19&amp;mode=display&amp;origin=composingprograms.js&amp;py=3&amp;rawInputLstJSON=%5B%5D">Flow that Yo-Yo</a></p>
+
+<p><a href="http://pythontutor.com/composingprograms.html#code=def%20ga%28station,%20radio%29%3A%0A%20%20%20%20if%20station%20%3C%200%3A%0A%20%20%20%20%20%20%20%20return%20radio%28station,%20-3%29%0A%20%20%20%20elif%20station%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20return%20float%28%22inf%22%29%0A%20%20%20%20return%20station%20*%20-98%0A%0Adef%20gaa%28cee,%20dee%29%3A%0A%20%20%20%20if%20dee%20%3C%200%3A%0A%20%20%20%20%20%20%20%20dee%20%2B%3D%201%0A%20%20%20%20if%20cee%20%3D%3D%20dee%3A%0A%20%20%20%20%20%20%20%20return%20lambda%20x%3A%20lambda%20y%3A%20x%20*%20cee%20-%20y%20*%20dee%0A%20%20%20%20return%20lambda%20x%3A%20lambda%20y%3A%20x%20*%20y%0A%0Aqueen%20%3D%20ga%28-2,%20gaa%29%283%29%285%29&amp;cumulative=true&amp;curInstr=19&amp;mode=display&amp;origin=composingprograms.js&amp;py=3&amp;rawInputLstJSON=%5B%5D">Radio Ga-Ga</a></p>
+
+<p><a href="http://pythontutor.com/composingprograms.html#code=def%20yiip%28signal,%20bookbook%29%3A%0A%20%20%20%20if%20signal%20%3C%200%3A%0A%20%20%20%20%20%20%20%20return%20bookbook%28-3,%20signal%29%0A%20%20%20%20elif%20signal%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20return%20float%28%22inf%22%29%0A%20%20%20%20return%20signal%20*%20-98%0A%0Adef%20yip%28mup,%20pet%29%3A%0A%20%20%20%20if%20mup%20%3C%200%3A%0A%20%20%20%20%20%20%20%20mup%20%2B%3D%201%0A%20%20%20%20if%20mup%20%3D%3D%20pet%3A%0A%20%20%20%20%20%20%20%20return%20lambda%20al%3A%20lambda%20fal%3A%20mup**al%20%2B%20pet**fal%0A%20%20%20%20return%20lambda%20al%3A%20lambda%20fal%3A%20al%20-%20fal%0A%0Ayuiop%20%3D%20yiip%28-2,%20yip%29%283%29%285%29%0A&amp;cumulative=true&amp;curInstr=19&amp;mode=display&amp;origin=composingprograms.js&amp;py=3&amp;rawInputLstJSON=%5B%5D">YipYiip Book</a></p>
+
+<p>其中两道题有多个可能的答案，你必须选择所有可能的答案才能获得满分。答案必须是一个能够求值为真值的逻辑条件，而且每个图都有多个条件求值为 <code>True</code>。例如，上面的代码使用了 <code>y &lt; 0</code>，但许多其他条件也有效：<code>x &lt; 0</code>、<code>y &lt;= 0</code>、<code>x &lt;= 0</code>。如果你遗漏了其他条件，请务必仔细阅读题目，看看它是否是"选择所有适用的"类型，然后考虑哪些条件会导致相同的图。</p>
+
+<p>以下是解答逆向环境图问题的一般策略：</p>
+
+<ul>
+  <li>加载 PythonTutor</li>
+  <li>在空白处填入一些默认值以查看完整的环境图（添加随机数字/字符串/lambda）</li>
+  <li>逐行执行代码，看看能否将某些默认值更新为预期输出</li>
+  <li>对于"选择所有适用的"，考虑该行代码中出现的变量，分析每种情况会如何改变控制流</li>
+</ul>
+
+
+<h2 id="the-case-of-the-missing-docstring">消失的文档字符串之谜</h2>
+
+
+<p>正确答案是"返回 L 中正数元素的平均值，如果没有此类元素则返回零。"</p>
+
+<p>以下是其他选项不正确的原因：</p>
+
+<ul>
+  <li><p>返回 L 中所有元素的平均值，如果没有元素则返回零。</p>
+
+  <ul>
+    <li>代码在循环中有 <code>if item &gt; 0:</code>，只有在该条件下才会累加值，因此它不是对所有元素求平均值，而只是对大于 0 的元素求平均值。</li>
+  </ul></li>
+  <li><p>返回 L 中奇数索引位置元素的平均值，如果没有此类元素则返回零。</p>
+
+  <ul>
+    <li>没有检查元素是否具有奇数索引的条件（这种条件大概会是 <code>if i % 2 == 1</code>）。</li>
+  </ul></li>
+  <li><p>返回 L 中 >= 0 的元素平均值，如果没有此类元素则返回零。</p>
+
+  <ul>
+    <li>代码中是 <code>if item &gt; 0</code>，而不是 <code>if item &gt;= 0</code>，所以不完全正确。</li>
+  </ul></li>
+</ul>
+
+
+<h2 id="magical-test-weaver">魔法测试编织者</h2>
+
+
+<p>这道题的灵感来源于 2月8日"函数示例"讲座中的 <code>interleave_digits</code>。</p>
+
+<p>答案需要非常仔细地阅读文档字符串：</p>
+
+<pre><code>&quot;&quot;&quot; Assuming A and B are positive integers with the same number of base&#x2d;10 digits
+and C is a positive integer &lt; 10, return the number whose base&#x2d;10
+representation is the interleaving of digits in A and B (alternating
+first one from A then one from B) from all positions where the
+two digits in A and B at that position are both &gt;= C.  Return 0 if there
+are no such positions. Raises an exception if preconditions are not met.&quot;&quot;&quot;</code></pre>
+
+<p>还需要理解以下术语：</p>
+
+<ul>
+  <li><strong>正数</strong>：大于 0 的数。我们在考试期间做了澄清：0 不是正数，因为有很多人询问。</li>
+  <li><strong>整数</strong>：整数是完整数字（不是分数）。</li>
+  <li><strong>前置条件</strong>：前置条件描述了函数输入参数的要求（与描述输出要求的后置条件相对）。</li>
+  <li><strong>异常</strong>：当代码引发异常且该异常未被显式处理时，整个程序停止运行并显示异常信息。参见教材中的<a href="https://www.composingprograms.com/pages/33-exceptions.html">异常处理</a>或 2月5日的"设计 + 异常"讲座。</li>
+</ul>
+
+<p>正确答案只有：</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(456, 567, 5)
+5667</code></pre>
+
+<p>以下是其他选项不正确的原因：</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(123, 456, 5)
+56</code></pre>
+
+<p>^ 这个测试包含两个来自第二个数字的数字，而没有来自第一个数字的数字。按照文档字符串的描述和通过测试的 doctest，这<em>不是</em>交替交织。</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(234, 456, 5)
+3546</code></pre>
+
+<p>^ 这个测试交替交织了两个数字的第二和第三位数字。然而，文档字符串指明只有两个数字在该位置上都 >= 第三个参数时才能交织。因为 3 和 4 都小于 5，所以这两对数字都不应该被交织。</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(0, 0, 5)
+0</code></pre>
+
+<p>^ 这个测试为 A 和 B 都传入了 0。然而，0 不是正数，而文档字符串指明如果前置条件不满足会引发异常。异常与答案 0 不是一回事，所以这不是一个能通过的 doctest。（不过，如果你同时选择了这个和下面那个前置条件失败的案例，我们给了部分分数，因为我们在课堂上没有展示过检查异常的 doctest。）</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(101, 202, 0)
+120012</code></pre>
+
+<p>^ 这个测试为 C 传入了 0。然而，0 不是正整数，所以这个函数调用同样应该引发异常，而不是返回 0。（不过，如果你同时选择了这个和上面的那个，我们给了部分分数。）</p>
+
+<pre><code>&gt;&gt;&gt; magic_weave(567, 899, 10)
+586979</code></pre>
+
+<p>^ 这个测试有两个问题。第一个问题是它只应该交织每个位置上 >= C 的数字，而没有一位数字 >= 10（因为单个数位不可能 >= 10）。另一个问题是前置条件指明 C 必须 < 10，所以这实际上应该引发异常。</p>
+
+
+<h2 id="domain-on-the-range">定义域与值域</h2>
+
+
+<p>这道题要求你编写高阶函数来限制函数的定义域和值域。这些函数的灵感来源于生产代码中常用的用于检查函数输入参数是否有效的函数。它们非常实用，尤其是与 Python 装饰器结合使用时。</p>
+
+
+<h3 id="restrict-domain">限制定义域</h3>
+
+
+<p>这个解法检查给定的 <code>n</code> 是否超出范围，如果是则返回 -Infinity，否则返回 <code>f(n)</code>。</p>
+
+<pre><code>def restrict_domain(f, min_d, max_d):
+    def helper(n):
+        if n &lt; min_d or n &gt; max_d:
+            return float(&quot;&#x2d;inf&quot;)
+        return f(n)
+    return helper</code></pre>
+
+<p>反过来做也是有效的：检查 n 是否在范围内，如果是则返回 <code>f(n)</code>。</p>
+
+<pre><code>def restrict_domain(f, min_d, max_d):
+    def helper(n):
+        if n &gt;= min_d and n &lt;= max_d:
+            return f(n)
+        return float(&quot;&#x2d;inf&quot;)
+    return helper</code></pre>
+
+<p>文档字符串说明范围是闭区间，即包含范围的开始和结束。因此，使用 <code>n &gt; min_d and n &lt; max_d</code> 是不正确的，因为 <code>min_d</code> 或 <code>max_d</code> 的值在这种情况下会被排除。请注意在问题中使用 <code>&gt;=</code> 还是 <code>&gt;</code>，以及是否有 doctest 检查范围的边界，因为这是编程中常见的错误来源。</p>
+
+
+<h3 id="restrict-range">限制值域</h3>
+
+
+<p>这个解法先计算 <code>f(n)</code> 的结果并将其存储在变量中。如果结果超出范围，则返回 -Infinity，否则返回结果。</p>
+
+<pre><code>def restrict_range(f, min_r, max_r):
+    def helper(n):
+        result = f(n)
+        if result &lt; min_r or result &gt; max_r:
+            return float(&quot;&#x2d;inf&quot;)
+        return result
+    return helper</code></pre>
+
+<p>另一个有效的方法是将 <code>if</code> 反过来：</p>
+
+<pre><code>def restrict_range(f, min_r, max_r):
+    def helper(n):
+        result = f(n)
+        if result &gt;= min_r and result &lt;= max_r:
+            return result
+        return float(&quot;&#x2d;inf&quot;)
+    return helper</code></pre>
+
+<p>有些解法选择不将结果存储在临时变量中：</p>
+
+<pre><code>def restrict_range(f, min_r, max_r):
+    def helper(n):
+        if f(n) &gt;= min_r and f(n) &lt;= max_r:
+            return f(n)
+        return float(&quot;&#x2d;inf&quot;)
+    return helper</code></pre>
+
+<p>这种方法需要调用 <code>f(n)</code> 三次，而 <code>f(n)</code> 可能是昂贵的计算，因此这不是最有效的解法。然而，我们给了满分，因为我们没有要求效率，而且对此讨论不多。此外，这个函数可以用在计算简单或已缓存的环境中，因此重复调用函数不会显著浪费计算时间。</p>
+
+
+<h3 id="restrict-both">同时限制</h3>
+
+
+<p>这道题要求你编写一个单一的高阶函数，依次调用两个函数来同时限制定义域和值域。</p>
+
+<p>最简单的解法是组合这两个函数：</p>
+
+<pre><code>def restrict_both(f, min_d, max_d, min_r, max_r):
+    return restrict_range(restrict_domain(f, min_d, max_d), min_r, max_r)</code></pre>
+
+<p>有些同学想出了更长但仍能工作并获得满分的解法，例如：</p>
+
+<pre><code>def restrict_both3(f, low_d, high_d, low_r, high_r):
+    def helper(x):
+        a1 = restrict_domain(f, low_d, high_d)(x)
+        if a1 != float(&quot;&#x2d;inf&quot;):
+            a2 = restrict_range(f, low_r, high_r)(x)
+            if a2 != float(&quot;&#x2d;inf&quot;):
+                return f(x)
+        return float(&quot;&#x2d;inf&quot;)
+    return helper</code></pre>
+
+<p>像这样的解法，先检查定义域再检查值域是很重要的。如果检查顺序不是这样，doctest 就会失败，因为测试 lambda 如果被传入 0 会导致 <code>DivisionByZero</code> 错误。如果有时间，请务必在 code.cs61a.org 中检查你的解法，并通过点击红色试管按钮运行 doctest，这可以帮助发现错误和边界情况。</p>
+
+<p>如果你没有通过这道题，建议复习：</p>
+
+<ul>
+  <li><a href="https://cs61a.org/lab/lab02/#q7">实验 7：复合身份函数</a></li>
+  <li><a href="https://cs61a.org/hw/hw02/#q1">作业 2：问题 1-3</a></li>
+</ul>
+
+<p>你可以清除之前的工作，重新尝试这些题目，看看这些概念是否已经理解。</p>
+
+
+<h2 id="digit-replacer">数字替换器</h2>
+
+
+<p>这道题需要分解数字并重新组合的能力。我们在多个题目中练习过，从<a href="../../../../lab/lab01/index.html#q5">实验 1：数字求和</a>开始。记住：</p>
+
+<ul>
+  <li><code>(n // 10)</code> 去掉数字的最后一位（<code>345 // 10</code> 结果是 34）。</li>
+  <li><code>(n % 10)</code> 获取数字的最后一位（<code>345 % 10</code> 结果是 5）。</li>
+  <li><code>(n * 10**pow)</code> 创建一个在 <code>pow</code> 次方位置上为 <code>n</code> 的数字（<code>3 * 10**2</code> 结果是 300）。</li>
+</ul>
+
+<p>我们通常从最右边的数字到最左边的数字依次处理，因为获取最右边的数字（使用 <code>%</code>）比获取最左边的数字更容易。</p>
+
+<p>让我们看看如何将这些技巧用于迭代和递归解法。</p>
+
+
+<h3 id="iterative">迭代法</h3>
+
+
+<p>这个解法将新数字初始化为 0，10 的幂次初始化为 0，然后开始处理最右边的数字。如果 <code>pred(digit)</code> 为真，则计算 <code>transform(digit)</code>。然后将该位数字乘以当前的 10 的幂次并加到新数字中。递增 10 的幂次，去掉数字的最后一位，在循环的下一次迭代中继续。</p>
+
+<pre><code>def digit_replacer(pred, transform):
+    def func(n):
+            new_number = 0
+            power_of_ten = 0
+
+            while n &gt; 0:
+                    digit = n % 10
+                    if pred(digit):
+                        digit = transform(digit)
+                    new_number += digit * 10**power_of_ten
+                    power_of_ten += 1
+                    n = n // 10
+            return new_number
+    return func</code></pre>
+
+<p>因此，对于 <code>n</code> 为 345，如果不考虑数字变换，循环每次迭代的值如下：</p>
+
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+          
+  <tr>
+    <td>循环开始</td>
+    <td>n</td>
+    <td>digit</td>
+    <td>new_number</td>
+    <td>power_of_ten</td>
+    <td>n</td>
+    <td>循环结束</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>345</td>
+    <td>5</td>
+    <td>5 (from 0 + 5 * 10**0)</td>
+    <td>1</td>
+    <td>34</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>34</td>
+    <td>4</td>
+    <td>45 (from 5 +  4 * 10**1)</td>
+    <td>2</td>
+    <td>3</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>3</td>
+    <td>3</td>
+    <td>345 (from 45 + 3 * 10**2)</td>
+    <td>3</td>
+    <td>0</td>
+    <td></td>
+  </tr>
+
+          </table>
+        </div>
+        
+
+<p>结合数字变换步骤后，加到新数字中的位数值可以根据需要改变。</p>
+
+
+<h3 id="recursive">递归法</h3>
+
+
+<p>递归解法使用类似的技巧。以下是一种解法：</p>
+
+<pre><code>def digit_replacer(pred, transform):
+
+    def func(n):
+            if n == 0:
+                return 0
+            digit = n % 10
+            if pred(digit):
+                digit = transform(digit)
+            return func(n // 10) * 10 + digit
+
+    return func</code></pre>
+
+<p>基本情况是 <code>n == 0</code>，这与迭代方法中循环停止的情况相同。在考虑用迭代和递归两种方法解决同一问题时，请记住这一点——循环条件通常与基本情况相关。</p>
+
+<p>递归调用通过传入去掉末尾的数字（<code>n // 10</code>）来分解问题，然后乘以 10 并加上该位数字。这与迭代方法中的 <code>digit * 10**power_of_ten</code> 非常相似。但是，它不需要乘以 10 的幂次，因为递归会自动处理（每次调用都会在下一个结果上加上 <code>* 10</code>）。你可以在这个关于<a href="https://www.youtube.com/watch?v=UMZqEXY-e5c&amp;feature=youtu.be">交替数字</a>（一个类似的问题）的视频中了解为什么这样可以工作。</p>
+
+<p>递归方法有多种变体，也都获得了满分。它们主要在长度和中间变量的使用上有所不同。以下是一个例子：</p>
+
+<pre><code>def digit_replacer(pred, transform):
+
+    def replacer(n):
+            if n == 0:
+                return 0
+            if p(n % 10):
+                return replacer(n // 10) * 10 + f(n % 10)
+            return replacer(n // 10) * 10 + (n % 10)
+
+    return replacer</code></pre>
+
+<p>如果你没有通过这道题，可以尝试做讲座 9（函数示例）中的题目，并复习讨论中的<a href="https://cs61a.org/disc/disc03/#q2">合并数字问题</a>。</p>
+
+
+<h2 id="run-checker">跑步检测器</h2>
+
+
+<p>这道题展示了如何使用嵌套函数来记住函数之前的输入。我们在 Hog 项目中的 <code>commentary</code> 和 <code>say</code> 函数中使用了类似的技巧。</p>
+
+<p>以下是建议的解法：</p>
+
+<pre><code>def run_checker(condition, result):
+
+    def f(two_ago, one_ago):
+            def g(input):
+                if condition(two_ago, one_ago, input):
+                    print(result(two_ago, one_ago, input))
+                else:
+                    print(&quot;No run!&quot;)
+                return f(one_ago, input)
+            return g
+
+    return f(&#x2d;1, &#x2d;1)</code></pre>
+
+<p>让我们逐步分析 doctest 示例：</p>
+
+<pre><code>&gt;&gt;&gt; f = run_checker(lambda a, b, c: a &gt; b &gt; c and a &gt;= 10,
+                lambda a, b, c: a*(b+c))</code></pre>
+
+<p>当 <code>run_checker</code> 首次被调用时，它返回 <code>f(&#x2d;1, &#x2d;1)</code>，这返回对 <code>g</code> 函数的引用。这个 <code>g</code> 引用定义在 <code>two_ago</code> 为 -1、<code>one_ago</code> 为 -1 的环境中。</p>
+
+<pre><code>&gt;&gt;&gt; f = f(15)</code></pre>
+
+<p>对 <code>f</code> 的这次调用实际上是对 <code>g</code> 引用以输入 15 进行的调用。它检查 <code>condition(&#x2d;1, &#x2d;1, 15)</code>，发现其为 <code>False</code>，打印 "No run!"。然后返回 <code>f(&#x2d;1, 15)</code>，这返回一个新的 <code>g</code> 函数引用。这个 <code>g</code> 引用定义在 <code>two_ago</code> 为 -1、<code>one_ago</code> 为 15 的环境中。</p>
+
+<pre><code>&gt;&gt;&gt; f = f(10)</code></pre>
+
+<p>对 <code>f</code> 的这次调用实际上是对最近的 <code>g</code> 引用以输入 10 进行的调用。它检查 <code>condition(&#x2d;1, 15, 10)</code>，发现其为 <code>False</code>，打印 "No run!"。然后返回 <code>f(15, 10)</code>，这返回一个新的 <code>g</code> 函数引用。这个 <code>g</code> 引用定义在 <code>two_ago</code> 为 15、<code>one_ago</code> 为 10 的环境中。</p>
+
+<pre><code>&gt;&gt;&gt; f = f(5)</code></pre>
+
+<p>对 <code>f</code> 的这次调用实际上是对最近的 <code>g</code> 引用以输入 5 进行的调用。它检查 <code>condition(15, 10, 5)</code>，发现其为 <code>True</code>，打印 <code>result(15, 10, 5)</code>，即 225。然后返回 <code>f(10, 5)</code>，这返回一个新的 <code>g</code> 函数引用。这个 <code>g</code> 引用定义在 <code>two_ago</code> 为 10、<code>one_ago</code> 为 5 的环境中。</p>
+
+<p>你可以继续跟踪 doctest（并在 PythonTutor 中尝试），但希望这能让你了解这类函数的工作方式。理解 Python 如何在环境中查找名称的值，以及认识到程序运行期间返回的每个 <code>g</code> 函数都有不同的环境，这一点很重要。</p>
+
+<p>类似的问题：</p>
+
+<ul>
+  <li><a href="https://cs61a.org/examprep/examprep01/#q4">考试准备：我的最后三个脑细胞</a>（几乎一样！）</li>
+  <li><a href="https://cs61a.org/examprep/examprep02/#q2">考试准备：自然链</a></li>
+</ul>
+
+
+<h2 id="measure-twice-cup-once">两次测量，一次装杯</h2>
+
+
+<p>这本质上是一个划分计数问题。如果你之前从未见过，这会是一个相当困难的问题（尤其是在考试中）。
+然而，我们在<a href="https://www.composingprograms.com/pages/17-recursive-functions.html#example-partitions">教材</a>、<a href="https://cs61a.org/assets/slides/07-Tree_Recursion_full.pdf">讲座 7（幻灯片 39-45）</a>和<a href="https://cs61a.org/hw/hw03/#q4">作业（硬币计数）</a>中都见过这类问题。你在这门课中应该培养的一个能力是识别问题类型，并思考你过去学过哪些算法可以解决这类问题。然后你可以考虑具体的问题，它与学过的解法有什么不同，并相应地调整你的方法。</p>
+
+<p>经典的 <code>count_partitions(n, m)</code> 问题计算用最大大小为 <code>m</code> 的部分组合成数字 <code>n</code> 有多少种方式。例如，<code>count_partitions(6, 4)</code> 结果是 9，因为用最大为 4 的数字组成 6 有九种方式：</p>
+
+<ol>
+  <li>6 = 2 + 4</li>
+  <li>6 = 1 + 1 + 4</li>
+  <li>6 = 3 + 3</li>
+  <li>6 = 1 + 2 + 3</li>
+  <li>6 = 1 + 1 + 1 + 3</li>
+  <li>6 = 2 + 2 + 2</li>
+  <li>6 = 1 + 1 + 2 + 2</li>
+  <li>6 = 1 + 1 + 1 + 1 + 2</li>
+  <li>6 = 1 + 1 + 1 + 1 + 1 + 1</li>
+</ol>
+
+<p><code>count_coins(change)</code> 问题计算用硬币组成 <code>change</code> 金额有多少种方式。因此，<code>count_change(15)</code> 结果是 6，因为用美国硬币组成 15 美分有六种方式：</p>
+
+<ol>
+  <li>15 个 1 美分硬币</li>
+  <li>10 个 1 美分，1 个 5 美分硬币</li>
+  <li>5 个 1 美分，2 个 5 美分硬币</li>
+  <li>5 个 1 美分，1 个 10 美分硬币</li>
+  <li>3 个 5 美分硬币</li>
+  <li>1 个 5 美分，1 个 10 美分硬币</li>
+</ol>
+
+<p>这两个问题之间有一些差异：</p>
+
+<ul>
+  <li><code>count_partitions</code> 使用整数作为划分大小，因此它可以简单地递增 1 来找到下一个最大的划分大小。当划分大小 > m 时停止。（或者递减 1，当划分大小为 0 时停止）。</li>
+  <li><code>count_coins</code> 使用硬币面值，因此必须使用一个函数来找到下一个最大的硬币面值。当硬币面值为 <code>None</code> 时停止。</li>
+</ul>
+
+<p>这意味着我们可以对每个问题使用非常相似的方法，但需要改变找到下一个划分大小的方式和停止逻辑。</p>
+
+<p>以下是 <code>count_partitions</code> 的教材解法：</p>
+
+<pre><code>def count_partitions(n, m):
+    &quot;&quot;&quot;Count the ways to partition n using parts up to m.&quot;&quot;&quot;
+    if n == 0:
+        return 1
+    elif n &lt; 0:
+        return 0
+    elif m == 0:
+        return 0
+    else:
+        return count_partitions(n&#x2d;m, m) + count_partitions(n, m&#x2d;1)</code></pre>
+
+<p>通过重新解答或查看官方解法来复习 <code>count_coins</code> 的解法。
+<br/>
+
+有哪些相同之处？</p>
+
+<ul>
+  <li>两者都有两个相同的基本情况：找到一个成功的划分时返回 1，超出范围时返回 0。</li>
+  <li>两者都返回两个递归调用的和：一个调用计算使用下一个最大部分的划分，另一个调用计算使用当前部分的划分。</li>
+</ul>
+
+<p>有哪些不同之处？</p>
+
+<ul>
+  <li><code>count_coins</code> 函数使用了一个辅助函数，帮助我们跟踪当前硬币面值（因为 <code>count_coins</code> 只有一个参数，不足以用于跟踪）。</li>
+  <li>与之相关的是，它调用一个函数来确定下一个硬币面值，而不是简单地递减。</li>
+  <li>它们的第三个基本情况条件不同，用于判断何时用完了划分大小。<code>count_partitions</code> 检查 <code>m == 0</code>，而 <code>count_coins</code> 检查无效的最小硬币。</li>
+</ul>
+
+<p>这引出了 <code>measure_methods(grams_needed, available_sizes)</code>。这个变体传入一个杯子尺寸列表，我们必须从该列表中选择划分大小。</p>
+
+<p>以下是一个与 <code>count_coins</code> 解法相似的解法：</p>
+
+<pre><code>def measure_methods(grams_needed, available_sizes):
+
+    def measurer(grams_needed, cup_index):
+            if grams_needed &lt; 0:
+                return 0
+            if grams_needed == 0:
+                return 1
+            if cup_index &gt;= len(available_sizes):
+                return 0
+
+            without_cup = measurer(grams_needed, cup_index + 1)
+            with_cup = measurer(grams_needed &#x2d; available_sizes[cup_index], cup_index)
+            return without_cup + with_cup
+
+    return measurer(grams_needed, 0)</code></pre>
+
+<p>有哪些相同之处？前两个基本情况、两个递归调用的求和、以及使用辅助函数跟踪当前杯子尺寸。</p>
+
+<p>有哪些不同之处？</p>
+
+<ul>
+  <li>辅助方法使用第二个参数跟踪当前列表索引（而不是当前硬币面值）。它从 0 开始，因为这是列表的第一个索引，然后在计算下一个最大杯子的划分的递归调用中加 1。</li>
+  <li>为了获取当前尺寸，它通过索引访问数组：<code>available_sizes[cup_index]</code></li>
+  <li>第三个基本情况检查索引是否超出数组长度，使用 <code>cup_index &gt;= len(available_sizes)</code>。</li>
+</ul>
+
+<p>这道题有不少正确的解法，但它们本质上都做了同样的事情：找出某种方式来跟踪我们在数组中的位置并计算划分数，要么向上计数要么向下计数。</p>
+
+<p>以下是一个向下计数的解法：</p>
+
+<pre><code>def measure_methods(total_needed, cup_sizes):
+
+    def helper(total_needed, curr_i):
+        if total_needed &lt; 0:
+            return 0
+        elif curr_i &lt; 0:
+            return 0
+        elif total_needed == 0:
+            return 1
+        else:
+            with_cup = helper(total_needed &#x2d; cup_sizes[curr_i], curr_i)
+            without_cup = helper(total_needed, curr_i &#x2d; 1)
+            return with_cup + without_cup
+
+    return helper(total_needed, len(cup_sizes) &#x2d; 1)</code></pre>
+
+<p>试着找出两种方法的差异！</p>
+
+<p>如果你没有通过这道题，请重新尝试并复习 <code>count_cups</code>。如果你对两个递归调用如何完成划分计数感到困惑，你甚至可以画出完整的递归调用树。你会看到以 1 结尾的路径是正确的划分，而以 0 结尾的路径不是（要么因为总数太大，要么因为试图使用不存在的划分大小）。用任何能帮助你理解这种方法的方式来学习！:)</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#reverse-environment-diagrams">逆向环境图</a></li>
+  <li><a href="#the-case-of-the-missing-docstring">消失的文档字符串之谜</a></li>
+  <li><a href="#magical-test-weaver">魔法测试编织者</a></li>
+  <li><a href="#domain-on-the-range">定义域与值域</a></li>
+  <ul>
+    <li><a href="#restrict-domain">限制定义域</a></li>
+    <li><a href="#restrict-range">限制值域</a></li>
+    <li><a href="#restrict-both">同时限制</a></li>
+  </ul>
+  <li><a href="#digit-replacer">数字替换器</a></li>
+  <ul>
+    <li><a href="#iterative">迭代法</a></li>
+    <li><a href="#recursive">递归法</a></li>
+  </ul>
+  <li><a href="#run-checker">跑步检测器</a></li>
+  <li><a href="#measure-twice-cup-once">两次测量，一次装杯</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <!-- <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/weekly">Weekly Schedule</a></li>
+            <li><a href="/office-hours">答疑时间</a></li>
+            <li><a href="/staff">教学团队</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/resources">资源</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/studying">学习指南</a></li>
+            <li><a href="/articles/debugging">调试指南</a></li>
+            <li><a href="/articles/composition">组合指南</a></li>
+            <li><a href="/articles/pair-programming">Pair Programming</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="/articles/about">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/articles/about#assignments">Assignments</a></li>
+            <li><a href="/articles/about#exams">Exams</a></li>
+            <li><a href="/articles/about#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer> -->
+
+    
+
+    <script src="../../../../assets/js/vs/loader.min.js"></script>
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="../../../../assets/css/vs/editor/editor.main.min.css">
+  <script>
+      require.config({ paths: { 'vs': '../../../../assets/js/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => URL.createObjectURL(new Blob([`
+      self.MonacoEnvironment = {
+          baseUrl: '../../../../assets/js/vs'
+      };
+      importScripts('../../../../assets/js/vs/base/worker/workerMain.min.js');
+  `], { type: 'text/javascript' }))
+  };
+  </script>
+    <script src="../../../../assets/js/jsplumb.min.js"></script>
+    <script src="../../../../assets/js/network_storage.js"></script>
+    <script src="../../../../assets/js/code_tabindex.js"></script>
+    <script src="../../../../assets/js/storable.js"></script>
+    <script src="../../../../assets/js/editor.js"></script>
+    <script src="../../../../assets/js/copy-button.js"></script>
+    <script src="../../../../assets/js/env-diagram.js"></script>
+    
+<script src="../../../../assets/js/jsplumb.min.js"></script>
+<script src="../../../../assets/js/storable.js"></script>
+<script src="../../../../assets/js/env-diagram.js"></script>
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+</html>

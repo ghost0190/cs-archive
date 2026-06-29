@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="zh"
+      xmlns:og="https://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+        <meta name="author" content="Andy Pavlo" />
+        <meta name="description" content="记得从 bustub 仓库拉取最新代码。不要将代码发布到公开的 GitHub 仓库。概述 在本学期的这个阶段，你已经实现了数据库管理系统的许多内部组件。在项目 #1 中，你实现了缓冲池管理器。在项目 #2 …" />
+    
+    <meta name="keywords" content="" />
+
+    <!-- Bootstrap -->
+    <link href="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet" />
+<!--     <link href="https://15445.courses.cs.cmu.edu/fall2025/css/pygment.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../../../cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css" referrerpolicy="no-referrer" /><link href="../../../assets/fonts/cmu-fa25-fonts.css" rel="stylesheet">
+
+    <meta property="og:site_name" content="CMU 15-445/645" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="项目 #3 - 查询执行 - CMU 15-445/645 :: 数据库系统导论 (Fall 2025)"/>
+    <meta property="og:url" content="https://15445.courses.cs.cmu.edu/fall2025/project3/index.html"/>
+    <meta property="article:published_time" content="2025-11-06" />
+    <meta property="og:description" content="记得从 bustub 仓库拉取最新代码。不要将代码发布到公开的 GitHub 仓库。概述 在本学期的这个阶段，你已经实现了数据库管理系统的许多内部组件。在项目 #1 中，你实现了缓冲池管理器。在项目 #2 …" />
+        <meta property="og:image"
+              content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@CMUDB">
+        <meta name="twitter:creator" content="@CMUDB">
+    <meta name="twitter:domain" content="https://15445.courses.cs.cmu.edu/fall2025">
+            <meta property="twitter:image"
+                  content="https://15445.courses.cs.cmu.edu/fall2025/images/twitter-card.jpg"/>
+    <meta property="twitter:label1" content="Semester" />
+    <meta property="twitter:data1" content="Fall 2025" />
+        
+    
+<!--     <link href="https://db.cs.cmu.edu/favicon.png" rel="icon"> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/apple-touch-icon.gif">
+    <link rel="icon" type="image/gif" sizes="32x32" href="../images/icons/favicon-32x32.gif">
+    <link rel="icon" type="image/gif" sizes="16x16" href="../images/icons/favicon-16x16.gif">
+    <link rel="manifest" href="../images/icons/site.webmanifest.txt">
+    <link rel="mask-icon" href="https://15445.courses.cs.cmu.edu/fall2025/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#c41230">
+    <meta name="theme-color" content="#010000">
+
+
+    <title>项目 #3 - 查询执行 | CMU 15-445/645 :: 数据库系统导论 (Fall 2025) </title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column h-100">
+    <!-- BEGIN: header -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg bg-black navbar-dark" aria-label="Navigation Menu">
+    <div class="container">
+      <a class="navbar-brand" onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../index.html" title="CMU 15-445/645"><img alt="" src="../images/cmudb-icon-white.svg" width="24"> CMU 15-445/645</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbar">
+        <ul class="navbar-nav me-auto mb-0 text-uppercase">
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../assignments.html">作业</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../faq.html">常见问题</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../schedule.html">课程安排</a>
+              </li>
+              <li class="nav-item px-xl-4 px-lg-1">
+                <a class="nav-link " onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../syllabus.html">课程大纲</a>
+              </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-0 text-uppercase">
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Youtube" onclick="javascript:ga('send', 'pageview', '/outgoing/www.youtube.com');" href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5" target="_yt"><i class="fab fa-youtube"></i> Youtube</a>
+          <li class="nav-item px-xl-l"> <a class="nav-link" title="Piazza" onclick="javascript:ga('send', 'pageview', '/outgoing/piazza.com');" href="https://piazza.com/cmu/fall2025/15445645" target="_pz"><i class="fas fa-comments"></i> Piazza</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>    <!-- END: header -->
+
+    <main class="flex-shrink-0 page">
+        <!-- BEGIN: banner -->
+<!-- Empty space -->
+<!--<div class="container mt-5">
+    <div class="row">
+    </div>
+</div>-->
+        <!-- END: banner -->
+        <!-- BEGIN: main -->
+        <div class="container main-content rounded-5 mb-0 mb-lg-5 mt-0 mt-sm-3 mt-md-4 mt-lg-5 py-3 py-md-5 px-md-5 shadow-sm bg-light content">
+<h1 class="page-header mb-3 mb-md-4"><i class="fas fa-database"></i> <span class="text-uppercase">项目 #3 - 查询执行</span>
+    <span class="fw-normal fs-6 float-end mt-2 text-muted published d-none d-lg-inline" style="font-family: sans; letter-spacing: normal; text-shadow: none;">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-11-06 14:18:04.344335-05:00">最后更新：Nov 06, 2025</time>
+    </span>
+</h1>
+<div class="row pb-3 d-block d-lg-none">
+    <div class="col-12 text-start text-muted published">
+        <i class="fa fa-calendar"></i>
+        <time datetime="2025-11-06 14:18:04.344335-05:00">最后更新：Nov 06, 2025</time>
+    </div>
+</div>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    记得从 bustub 仓库拉取最新代码。不要将代码发布到公开的 GitHub 仓库。
+</p>
+
+<!-- ========================================================================= -->
+<!-- OVERVIEW                                                                  -->
+<!-- ========================================================================= -->
+<h1 id="overview">概述</h1>
+
+<p>在本学期的这个阶段，你已经实现了数据库管理系统的许多内部组件。
+在<a href="../project1/index.html">项目 #1</a> 中，你实现了缓冲池管理器。在<a href="../project2/index.html">项目 #2</a> 中，你实现了 B+ 树索引。在本项目中，你将实现允许 BusTub 执行查询的组件。你将创建执行 SQL 查询的算子执行器，并实现优化器规则来转换查询计划。</p>
+<p>本项目由以下几个任务组成：</p>
+<ul>
+<li><a href="#task1">任务 #1：访问方法执行器</a></li>
+<li><a href="#task2">任务 #2：聚合与连接执行器</a></li>
+<li><a href="#task3">任务 #3：HashJoin 执行器与优化</a></li>
+<li><a href="#task4">任务 #4：外部归并排序 + Limit 执行器 + 窗口函数</a></li>
+<li><a href="#leaderboard">可选排行榜任务</a></li>
+</ul>
+<p>本项目必须独立完成（即不允许组队）。
+在开始之前，运行 <code>git pull public master</code> 从公共 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub">BusTub 仓库</a>拉取最新代码。</p>
+<!-- ========================================================================= -->
+<!-- BACKGROUND                                                                -->
+<!-- ========================================================================= -->
+<h1 id="background">背景</h1>
+<p>请仔细阅读本节，因为你需要构造自己的 SQL 查询来测试执行器实现。你还可以使用 <code>bustub shell</code> 来了解：</p>
+<ul>
+<li>使用 <code>EXPLAIN</code> 或 <code>EXPLAIN (o)</code> 来显示原始和优化后的计划</li>
+<li>理解计划节点中的参数（即 <code>#0.0</code> 中第一个和第二个 0 的含义）</li>
+<li>阅读 <code>include/execution/plans/</code> 中的一些简单计划节点实现</li>
+<li>关注 <code>include/execution/expressions/</code> 中的各种表达式类型</li>
+</ul>
+<h2 id="introduction">简介</h2>
+<p>BusTub 的架构如下：</p>
+<p><a href="img/project-structure.svg"><img alt="" src="img/project-structure.svg" class="mx-auto d-block border rounded p-2" width="800" style="max-width: 100%;" /></a></p>
+<p>在公共 BusTub 仓库中，我们提供了完整的查询处理层。你可以使用 BusTub shell 执行 SQL 查询，就像在其他数据库系统中一样。使用以下命令编译并运行 BusTub shell：</p>
+<pre class="shadow-sm p-2">
+cd build && make -j$(nproc) shell
+./bin/bustub-shell
+</pre>
+
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-info-circle fa-lg p-1 pe-lg-2"></i>
+    你还可以使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../bustub/index.html">BusTub Web Shell</a> 来运行下面的示例。它是一个在浏览器中运行的完整参考解决方案！
+</p>
+
+<p>在 shell 中，你可以使用 <code>\dt</code> 查看所有表。默认情况下，BusTub shell 会自动创建三个预填充数据的表。这样做是为了方便你，无需在每次重新构建解决方案时加载数据。重启 DBMS 后，对这些表的更改不会被持久化。</p>
+<pre class="shadow-sm p-2">
+bustub> \dt
++-----+----------------+------------------------------+
+| oid | name           | cols                         |
++-----+----------------+------------------------------+
+| 0   | __mock_table_1 | (colA:INTEGER, colB:INTEGER) |
+| 1   | __mock_table_2 | (colC:VARCHAR, colD:VARCHAR) |
+| 2   | __mock_table_3 | (colE:INTEGER, colF:VARCHAR) |
+| ... | ...            | ...                          |
++-----+----------------+------------------------------+
+</pre>
+
+<p>你可以使用 <code>SELECT</code> 语句查看表中的所有数据：</p>
+<pre class="shadow-sm p-2">
+bustub> SELECT * FROM __mock_table_1;
++---------------------+---------------------+
+| __mock_table_1.colA | __mock_table_1.colB |
++---------------------+---------------------+
+| 0                   | 0                   |
+| 1                   | 100                 |
+| 2                   | 200                 |
+| 3                   | 300                 |
+| 4                   | 400                 |
+| 5                   | 500                 |
+| ...                 | ...                 |
++---------------------+---------------------+
+</pre>
+
+<p>请注意：</p>
+<ul>
+<li>BusTub 仅支持 SQL 的一小部分。如果某些 SQL 查询无法运行，请不要感到惊讶。有关 BusTub 支持的所有 SQL 查询，请参阅 <code>tests/sql</code> 中的 SQLLogicTest 文件。</li>
+<li>如果你使用 CLion 运行 BusTub shell，请向 shell 添加 <code>--disable-tty</code> 参数，以便它在 CLion 终端中正常工作。</li>
+<li>始终以 <code>;</code> 结尾你的语句（内部命令除外）。</li>
+<li>BusTub 仅支持 <code>INT</code> 和 <code>VARCHAR(n)</code> 类型。此外，字符串应使用单引号，例如 <code>INSERT INTO table VALUES ('a')</code>。</li>
+</ul>
+<!-- ********************************************************************** -->
+<!-- Explain                                                                -->
+<!-- ********************************************************************** -->
+<h2 id="inspecting-sql-query-plans">检查 SQL 查询计划</h2>
+<p>BusTub 支持 <code>EXPLAIN</code> 命令来打印查询的执行计划。你可以在任何查询前添加 <code>EXPLAIN</code>。例如：</p>
+<pre class="shadow-sm p-2">
+bustub> EXPLAIN SELECT * FROM __mock_table_1;
+=== BINDER ===
+BoundSelect {
+  table=BoundBaseTableRef { table=__mock_table_1, oid=0 },
+  columns=[__mock_table_1.colA, __mock_table_1.colB],
+  groupBy=[],
+  having=,
+  where=,
+  limit=,
+  offset=,
+  order_by=[],
+  is_distinct=false,
+}
+=== PLANNER ===
+Projection { exprs=[#0.0, #0.1] } | (__mock_table_1.colA:INTEGER, __mock_table_1.colB:INTEGER)
+MockScan { table=__mock_table_1 } | (__mock_table_1.colA:INTEGER, __mock_table_1.colB:INTEGER)
+=== OPTIMIZER ===
+MockScan { table=__mock_table_1 } | (__mock_table_1.colA:INTEGER, __mock_table_1.colB:INTEGER)
+</pre>
+
+<p><code>EXPLAIN</code> 的结果提供了查询处理层中转换过程的概览。该语句首先由解析器和绑定器处理，生成一个表示查询的抽象语法树（AST）。在此示例中，查询由 <code>__mock_table_1</code> 上的 <code>BoundSelect</code> 表示，它将检索两列（<code>colA</code> 和 <code>colB</code>）。注意，绑定器会自动将原始 SQL 查询中的 <code>*</code> 字符展开为表中的实际列。</p>
+<p>接下来，绑定器的 AST 由计划器处理，计划器会生成一个合适的查询计划。在这种情况下，查询计划是由两个节点组成的树，数据从叶节点流向根节点：</p>
+<p><a href="img/mock_scan.svg"><img alt="" src="img/mock_scan.svg" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>之后，优化器会优化查询计划。在这种情况下，它移除了投影，因为该投影是多余的。</p>
+<p>让我们考虑一个更复杂的示例：</p>
+<pre class="shadow-sm p-2">
+bustub> EXPLAIN (o) SELECT colA, MAX(colB) FROM
+  (SELECT * FROM __mock_table_1, __mock_table_3 WHERE colA = colE) GROUP BY colA;
+=== OPTIMIZER ===
+Agg { types=[max], aggregates=[#0.1], group_by=[#0.0] }
+  NestedLoopJoin { type=Inner, predicate=(#0.0=#1.0) }
+    MockScan { table=__mock_table_1 }
+    MockScan { table=__mock_table_3 }
+</pre>
+
+<p>对于这个示例，优化后的查询计划为：</p>
+<p><a href="img/more_complex_example.svg"><img alt="" src="img/more_complex_example.svg" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>在本项目中，你需要构造 SQL 查询来测试每个执行器的实现。<code>EXPLAIN</code> 对于你了解某个 SQL 查询是否使用了特定的执行器非常有帮助。</p>
+<!-- <p class="warning bg-info" markdown=1>
+  <i class="trigger fa fa-question-circle fa-lg"></i>
+  If you are running this example in the web shell, you might see `HashJoin` instead of `NestedLoopJoin`. You do <u>not</u> need to implement `HashJoin` this semester.
+</p> -->
+
+<!-- ********************************************************************** -->
+<!-- Samples                                                                -->
+<!-- ********************************************************************** -->
+<h2 id="sample-executors">示例执行器</h2>
+<p>在 BusTub 公共仓库中，我们提供了几个示例执行器实现。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Projection                                -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="projection">投影</h3>
+<p><strong>投影</strong>节点可以表示对其输入的各种计算。它总是恰好有一个子节点。在 BusTub shell 中，检查以下查询的查询计划：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT 1 + 2;
+EXPLAIN SELECT colA FROM __mock_table_1;
+EXPLAIN SELECT colA + colB AS a, 1 + 2 AS b FROM __mock_table_1;
+</pre>
+<p>投影计划节点由一个或多个表示计算的表达式组成：</p>
+<ul>
+<li><code>ColumnValueExpression</code>：直接将子执行器的一列放入输出。语法 <code>#0.0</code> 表示第一个子节点中的第一列。在连接计划中，你会看到类似 <code>#0.0 = #1.0</code> 的内容。</li>
+<li><code>ConstantExpression</code>：表示一个常量值（例如 <code>1</code>）。</li>
+<li><code>ArithmeticExpression</code>：表示算术计算的树。例如，<code>1 + 2</code> 将由一个 <code>ArithmeticExpression</code> 表示，其两个子节点为 <code>ConstantExpression</code>（<code>1</code> 和 <code>2</code>）。</li>
+</ul>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Filter                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="filter">过滤</h3>
+<p><strong>过滤</strong>计划节点用于根据谓词过滤子节点的输出。例如：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT * FROM __mock_table_1 WHERE colA &gt; 1;
+</pre>
+<p>过滤节点恰好有一个子节点并包含一个谓词。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Values                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="values">值</h3>
+<p><strong>值</strong>计划节点用于直接生成值：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN values (1, 2, 'a'), (3, 4, 'b');
+CREATE TABLE table1(v1 INT, v2 INT, v3 VARCHAR(128));
+EXPLAIN INSERT INTO table1 VALUES (1, 2, 'a'), (3, 4, 'b');
+</pre>
+<p>值计划节点在将用户提供的值插入表时很有用。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Query Plan Syntax                                                      -->
+<!-- ********************************************************************** -->
+<h2 id="query-plan-syntax">查询计划语法</h2>
+<p>你可能已经注意到，<code>EXPLAIN</code> 在每个计划节点之后会生成一串列描述。这就是该节点的输出模式。考虑以下示例输出：</p>
+<pre class="shadow-sm p-2">
+Projection { exprs=[#0.0, #0.1] } | (__mock_table_1.colA:INTEGER, __mock_table_1.colB:INTEGER)
+</pre>
+
+<p>这表示代表该计划节点的执行器将生成两列，均为整数类型。输出模式在计划器中推断。在本项目中，你的执行器实现必须生成与计划节点中指定的模式完全一致的元组，否则将无法通过我们的单元测试。</p>
+<!-- ========================================================================= -->
+<!-- PROJECT SPECIFICATION                                                     -->
+<!-- ========================================================================= -->
+<h1 id="project-specification">项目规范</h1>
+<p>在本项目中，你将向 BusTub 添加新的算子执行器和查询优化。BusTub 使用基于行的向量化查询处理模型，其中每个执行器都实现一个 <code>Next</code> 函数来获取最多 <code>BUSTUB_BATCH_SIZE</code> 个元组的下一批结果。当 DBMS 调用执行器的 <code>Next</code> 函数时，执行器返回 (1) 一批元组或 (2) 表示没有更多元组的指示器。使用这种方法，每个执行器实现一个循环，持续调用其子节点的 <code>Next</code> 来检索元组并逐批处理它们。</p>
+<p>在 BusTub 的向量化模型实现中，每个执行器的 <code>Next</code> 函数除了返回一批元组外，还返回一批记录标识符（<code>RID</code>）。记录标识符用作元组的唯一标识符。</p>
+<p>执行器从 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/executor_factory.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/executor_factory.cpp</tt> <i class="fas fa-external-link-alt"></i></a> 中的执行计划创建。</p>
+<p>本项目中的所有测试用例都使用一种称为 SQLLogicTest 的特殊文件格式（源自 SQLite）。你可以在本页末尾找到使用方法。</p>
+<!-- ********************************************************************** -->
+<!-- Task #1 - Access Method Executors                                     -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task1">任务 #1 - 访问方法执行器</h2>
+<p>在上面的背景部分，我们看到 BusTub 已经可以在 <code>SELECT</code> 查询中从模拟表检索数据。这是在没有真实表的情况下通过使用 <code>MockScan</code> 执行器始终使用预定义算法生成相同元组来实现的。这就是你无法更新这些表的原因。</p>
+<p>在此任务中，你将实现从存储系统中读取和写入表的执行器。你需要在以下文件中完成实现：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/seq_scan_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/seq_scan_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/seq_scan_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/seq_scan_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/insert_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/insert_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/insert_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/insert_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/update_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/update_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/update_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/update_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/delete_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/delete_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/delete_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/delete_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/index_scan_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/index_scan_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/index_scan_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/index_scan_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/optimizer/seqscan_as_indexscan.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/optimizer/seqscan_as_indexscan.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+<p>下面描述每个执行器。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- SeqScan                                   -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="seqscan">SeqScan</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/seq_scan_plan.h"><code>SeqScanPlanNode</code></a> 可以通过 <code>SELECT * FROM table</code> 语句来规划。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; CREATE TABLE t1(v1 INT, v2 VARCHAR(100));
+Table created with id = 15
+bustub&gt; EXPLAIN (o,s) SELECT * FROM t1;
+=== OPTIMIZER ===
+SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:VARCHAR)
+</pre>
+<p><code>SeqScanExecutor</code> 遍历一个表并逐批返回其元组。</p>
+<p><strong>提示：</strong>确保你在使用 <code>TableIterator</code> 对象时理解前置递增和后置递增运算符之间的区别。（查看<a onclick="javascript:ga('send', 'pageview', '/outgoing/en.cppreference.com');" href="https://en.cppreference.com/w/cpp/language/operator_incdec">这里</a>快速复习。）</p>
+<p><strong>提示：</strong>不要发出在 <code>TableHeap</code> 中已删除的元组。
+检查每个元组对应的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table/tuple.h"><code>TupleMeta</code></a> 的 <code>is_deleted_</code> 字段。</p>
+<p><strong>提示：</strong>顺序扫描的输出是每个匹配元组及其原始记录标识符（<code>RID</code>）的副本。</p>
+<p><strong>注意：</strong>BusTub 不支持 <code>DROP TABLE</code> 或 <code>DROP INDEX</code>。你可以通过重新启动 shell 来重置数据库。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Insert                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="insert">Insert</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/insert_plan.h"><code>InsertPlanNode</code></a> 可以通过 <code>INSERT</code> 语句来规划。注意，你需要使用单引号来指定 <code>VARCHAR</code> 值。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; EXPLAIN (o,s) INSERT INTO t1 VALUES (1, 'a'), (2, 'b');
+=== OPTIMIZER ===
+Insert { table_oid=15 } | (__bustub_internal.insert_rows:INTEGER)
+  Values { rows=2 } | (__values#0.0:INTEGER, __values#0.1:VARCHAR)
+</pre>
+<p><code>InsertExecutor</code> 将元组插入表中并更新所有受影响的索引。它恰好有一个子节点生成要插入表中的值。计划器将确保值与表具有相同的模式。执行器将生成一个整数类型的单个元组作为输出，表示已插入表中的行数。如果表有关联的索引，请记住在插入表时更新索引。</p>
+<p><strong>提示：</strong>请参阅下面的<a href="#system-catalog">系统目录</a>部分了解有关系统目录的信息。要初始化此执行器，你需要查找有关要插入的表的信息。</p>
+<p><strong>提示：</strong>请参阅下面的<a href="#index-updates">索引更新</a>部分了解有关更新表索引的更多详细信息。</p>
+<p><strong>提示：</strong>你需要使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table/table_heap.h"><code>TableHeap</code></a> 类来执行表修改。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Update                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="update">Update</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/update_plan.h"><code>UpdatePlanNode</code></a> 可以通过 <code>UPDATE</code> 语句来规划。它恰好有一个子节点包含表中要更新的记录。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; explain (o,s) update test_1 set colB = 15445;
+=== OPTIMIZER ===
+Update { table_oid=20, target_exprs=[#0.0, 15445, #0.2, #0.3] } | (__bustub_internal.update_rows:INTEGER)
+  SeqScan { table=test_1 } | (test_1.colA:INTEGER, test_1.colB:INTEGER, test_1.colC:INTEGER, test_1.colD:INTEGER)
+</pre>
+<p><code>UpdateExecutor</code> 修改指定表中的现有元组。执行器将生成一个整数类型的单个元组作为输出，表示已更新的行数。请记住更新受更新影响的任何索引。</p>
+<p><strong>提示：</strong>要实现更新，首先删除受影响的元组，然后插入新的元组。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Delete                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="delete">Delete</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/delete_plan.h"><code>DeletePlanNode</code></a> 可以通过 <code>DELETE</code> 语句来规划。它恰好有一个子节点包含表中要删除的记录。你的删除执行器应生成一个整数输出，表示它从表中删除的行数。它还需要更新所有受影响的索引。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; EXPLAIN (o,s) DELETE FROM t1;
+=== OPTIMIZER ===
+Delete { table_oid=15 } | (__bustub_internal.delete_rows:INTEGER)
+  Filter { predicate=true } | (t1.v1:INTEGER, t1.v2:VARCHAR)
+    SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:VARCHAR)
+
+bustub&gt; EXPLAIN (o,s) DELETE FROM t1 where v1 = 1;
+=== OPTIMIZER ===
+Delete { table_oid=15 } | (__bustub_internal.delete_rows:INTEGER)
+  Filter { predicate=#0.0=1 } | (t1.v1:INTEGER, t1.v2:VARCHAR)
+    SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:VARCHAR)
+</pre>
+<p>你可以假设 <code>DeleteExecutor</code> 始终位于其出现的查询计划的根节点。<code>DeleteExecutor</code> 不应修改其结果集。</p>
+<p><strong>提示：</strong>要删除一个元组，你需要从子执行器获取 <code>RID</code> 并更新该元组对应的 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/table/tuple.h"><code>TupleMeta</code></a> 的 <code>is_deleted_</code> 字段。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- IndexScan                                 -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="indexscan">IndexScan</h3>
+<p><code>IndexScanExecutor</code> 使用 B+ 树索引执行点查找和有序扫描来检索表中的元组。该执行器应能够支持在同一索引上的多次点查找。</p>
+<p>你需要通过支持以下两种类型的查询来实现索引扫描：</p>
+<ol>
+<li>点查找：<code>SELECT FROM &lt;table&gt; WHERE &lt;index column&gt; = &lt;val&gt;</code>。你将在下一节中实现优化器规则，将 <code>SeqScan</code> 转换为 <code>IndexScan</code>。</li>
+<li>有序扫描：<code>SELECT FROM &lt;table&gt; ORDER BY &lt;index column&gt;</code>。为在索引列上使用 <code>ORDER BY</code> 的查询生成 <code>IndexScan</code> 的优化器规则已为你实现。你的任务是仅在 <code>IndexScan</code> 中处理 <code>ASC</code>（或默认）排序。</li>
+</ol>
+<pre class="shadow-sm p-2">
+bustub&gt; CREATE TABLE t1(v1 int, v2 int);
+Table created with id = 22
+
+bustub&gt; CREATE INDEX t1v1 ON t1(v1);
+Index created with id = 0
+
+bustub&gt; EXPLAIN (o,s) SELECT * FROM t1 WHERE v1 = 1;
+=== OPTIMIZER ===
+IndexScan { index_oid=0, filter=(#0.0=1) } | (t1.v1:INTEGER, t1.v2:INTEGER)
+
+bustub&gt; EXPLAIN (o,s) SELECT * FROM t1 ORDER BY v1;
+=== OPTIMIZER ===
+IndexScan { index_oid=0 } | (t1.v1:INTEGER, t1.v2:INTEGER)
+</pre>
+<p>在本项目中，计划中索引对象的类型将始终为 <code>BPlusTreeIndexForTwoIntegerColumn</code>。你可以安全地将对象转换为此类型并将其存储在需要时的执行器中：</p>
+<pre class="shadow-sm p-2">
+tree_ = dynamic_cast&lt;BPlusTreeIndexForTwoIntegerColumn *&gt;(index_info_-&gt;index_.get())
+</pre>
+<p>然后你可以使用 B+ 树索引进行点查找或有序扫描，并发出满足条件的元组。在本学期中，你只需支持单个唯一整数列上的索引。我们的测试用例不会包含重复键。因此，此执行器每次点查找返回一个元组（如果存在的话）。</p>
+<p>你需要在下一节中完成优化器规则，将 <code>SeqScan</code> 转换为 <code>IndexScan</code>。<strong>在实现 <code>IndexScan</code> 之前先实现优化器规则</strong>可能更有意义，这样可以了解 <code>IndexScanExecutor</code> 需要支持的查询类型。</p>
+<p><strong>提示：</strong>我们永远不会向带有索引的表插入重复行。</p>
+<p><strong>提示：</strong>如上所述，不要发出已删除的元组。</p>
+<p><strong>提示：</strong>请使用 <code>ScanKey</code> 进行点查找，使用 <code>Index Iterator</code> 进行有序扫描。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Optimizing SeqScan to IndexScan   -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="optimizing-seqscan-to-indexscan">将 SeqScan 优化为 IndexScan</h3>
+<p>正如我们在课堂上学到的，当在索引列上查询时，使用 IndexScan 将显著提高查找性能。为此，我们需要将过滤条件下推到扫描器中，以便知道在索引中查找的键。然后我们可以直接通过索引检索值，而不是进行全表扫描。</p>
+<p>你需要修改优化器，在可能的情况下将 <code>SeqScanPlanNode</code> 转换为 <code>IndexScanPlanNode</code>。</p>
+<p>考虑以下示例：</p>
+<pre class="shadow-sm p-2">
+bustub&gt; EXPLAIN (o) SELECT * FROM t1 WHERE v1 = 1;
+</pre>
+<p>在不应用 MergeFilterScan 和 SeqScan as IndexScan 优化器规则的情况下，计划可能如下所示：</p>
+<pre class="shadow-sm p-2">
+ Filter { predicate=(#0.0=1) } | (t1.v1:INTEGER, t1.v2:INTEGER, t1.v3:INTEGER)
+   SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:INTEGER, t1.v3:INTEGER)                              
+</pre>
+<p>在应用 MergeFilterScan 和 SeqScan as IndexScan 优化器规则之后，我们可以直接进行快速索引查找，而无需遍历整个表。结果计划将如下所示：</p>
+<pre class="shadow-sm p-2">
+ IndexScan { index_oid=0, filter=(#0.0=1) } | (t1.v1:INTEGER, t1.v2:INTEGER, t1.v3:INTEGER)
+</pre>
+<p>以下是实现此优化器规则的简要步骤：</p>
+<ol>
+<li>
+<p><strong>启用谓词下推到 SeqScan：</strong> 我们可以在 SeqScanExecutor 中实现谓词过滤，以便后续索引扫描节点拥有该谓词。我们已经在入门优化器规则中为你启用了 MergeFilterScan 优化器规则 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/optimizer/merge_filter_scan.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/optimizer/merge_filter_scan.cpp</tt> <i class="fas fa-external-link-alt"></i></a>。</p>
+</li>
+<li>
+<p><strong>使用索引：</strong> 你可以检查谓词中的过滤列。如果该列上恰好存在索引，则创建一个 IndexScanPlanNode。注意，要获得满分，你需要在几种不同情况下支持此优化器规则：(1) 当谓词中索引列上有一个等值测试时（即 <code>WHERE v1 = 1</code>）(2) 当索引列的顺序反转时（即 <code>WHERE 1 = v1</code>）(3) 当同一索引上有多个点查找时（即 <code>WHERE v1 = 1 or v1 = 4</code>）。注意，<code>SELECT * FROM t1 WHERE v1 = 1 AND v2 = 2</code> 形式的查询仍应使用顺序扫描，因此你不需要拆分谓词。</p>
+</li>
+</ol>
+<p>请查看<a href="#optimizer-guide">优化器规则实现指南</a>部分了解实现优化器规则的详细信息。</p>
+<p>现在你已经实现了所有与存储相关的执行器。在接下来的任务中，你可以自己创建表并插入一些值来测试你的执行器实现！此时，你还应该已经通过了 <a href="#testing">SQLLogicTests #1 到 #6</a>。</p>
+<p><strong>提示：</strong>你可能会发现工具函数 <code>BPlusTreeIndex::ScanKey</code> 很有帮助。</p>
+<p><strong>提示：</strong>思考如何处理 <code>WHERE v1 = 1 OR v1 = 1</code> 形式的查询。查看 <code>/src/include/execution/plans/aggregation_plan.h</code> 中的 <code>AggregateKey</code> 可能会有所帮助。</p>
+<p><strong>提示：</strong>请仅在上面提到的两种场景中将 <code>SeqScan</code> 优化为 <code>IndexScan</code>（即点查找和有序扫描）。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #2 - Aggregation &amp; Join Executors                             -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task2">任务 #2 - 聚合与连接执行器</h2>
+
+<p>你需要在以下文件中完成实现：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/aggregation_plan.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/plans/aggregation_plan.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/aggregation_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/aggregation_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/aggregation_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/aggregation_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/nested_loop_join_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/nested_loop_join_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/nested_loop_join_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/nested_loop_join_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/nested_index_join_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/nested_index_join_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/nested_index_join_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/nested_index_join_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Aggregation                               -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="aggregation">聚合</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/aggregation_plan.h"><code>AggregationPlanNode</code></a> 用于支持如下查询：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT colA, MIN(colB) FROM __mock_table_1 GROUP BY colA;
+EXPLAIN SELECT COUNT(colA), min(colB) FROM __mock_table_1;
+EXPLAIN SELECT colA, MIN(colB) FROM __mock_table_1 GROUP BY colA HAVING MAX(colB) &gt; 10;
+EXPLAIN SELECT DISTINCT colA, colB FROM __mock_table_1;
+</pre>
+<p>聚合执行器为每组输入计算一个聚合函数。它恰好有一个子节点。
+输出模式由分组列后跟聚合列组成。</p>
+<p>正如课堂上讨论的，实现聚合的常见策略是使用哈希表，以分组列作为键。在本项目中，你可以假设聚合哈希表适合内存。这意味着你不需要实现多阶段的基于分区的策略，哈希表也不需要由缓冲池页面支持。</p>
+<p>我们提供了一个 <code>SimpleAggregationHashTable</code> 数据结构，它公开了一个内存哈希表（<code>std::unordered_map</code>），但具有专为计算聚合设计的接口。此类还公开了一个 <code>SimpleAggregationHashTable::Iterator</code> 类型，可用于遍历哈希表。你需要完成此类的 <code>CombineAggregateValues</code> 函数。</p>
+<p>聚合执行器本身不需要处理 <code>HAVING</code> 谓词。计划器将带有 <code>HAVING</code> 子句的聚合规划为 <code>AggregationPlanNode</code> 后跟一个 <code>FilterPlanNode</code>。</p>
+<p><strong>提示：</strong>在查询计划的上下文中，聚合是<em>流水线阻断器</em>。这可能会影响你在实现中使用 <code>AggregationExecutor::Init()</code> 和 <code>AggregationExecutor::Next()</code> 函数的方式。仔细决定聚合的构建阶段应在 <code>AggregationExecutor::Init()</code> 还是 <code>AggregationExecutor::Next()</code> 中执行。</p>
+<p><strong>提示：</strong>你必须处理聚合函数输入中的 NULL 值（即元组可能在聚合函数使用的属性上具有 NULL 值）。请参阅测试用例了解预期行为。</p>
+<p><strong>提示：</strong>分组列也可以具有 NULL 值。你可能需要考虑修改聚合键的比较方式。思考 null 比较通常如何工作以及在这种情况下应该如何工作。</p>
+<p><strong>提示：</strong>在空表上执行聚合时，<code>CountStarAggregate</code> 应返回零，所有其他聚合类型应返回 <code>integer_null</code>。这就是 <code>GenerateInitialAggregateValue</code> 将大多数聚合值初始化为 NULL 的原因。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- NestedLoopJoin                            -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="nestedloopjoin">NestedLoopJoin</h3>
+<p>默认情况下，DBMS 将对所有连接操作使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/nested_loop_join_plan.h"><code>NestedLoopJoinPlanNode</code></a>。考虑以下示例查询：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT * FROM __mock_table_1, __mock_table_3 WHERE colA = colE;
+EXPLAIN SELECT * FROM __mock_table_1 INNER JOIN __mock_table_3 ON colA = colE;
+EXPLAIN SELECT * FROM __mock_table_1 LEFT OUTER JOIN __mock_table_3 ON colA = colE;
+</pre>
+<p>你需要使用课堂上的简单嵌套循环连接算法为 <code>NestedLoopJoinExecutor</code> 实现内连接和<a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join">左连接</a>。此算子的输出模式是左表的所有列后跟右表的所有列。
+对于外表中的每个元组，考虑内表中的每个元组，如果连接谓词满足则发出一个输出元组。</p>
+<p><strong>提示：</strong>你应该使用 <code>NestedLoopJoinPlanNode</code> 中的谓词。请参阅 <code>AbstractExpression::EvaluateJoin</code>，它处理左元组和右元组及其各自的模式。注意，这返回一个 <code>Value</code>，可能是 false、true 或 NULL。请参阅 <code>FilterExecutor</code> 了解如何在元组上应用谓词。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- NestedIndexJoin                           -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="code-class">
+<h3 id="nestedindexjoin">NestedIndexJoin</h3>
+<p>如果查询包含带有等值条件的连接，且连接的右侧在条件上有索引，DBMS 将使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/nested_index_join_plan.h"><code>NestedIndexJoinPlanNode</code></a>。</p>
+<p>考虑以下示例：</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE t1(v1 int, v2 int);
+CREATE TABLE t2(v3 int, v4 int);
+CREATE INDEX t2v3 on t2(v3);
+EXPLAIN SELECT * FROM t1 INNER JOIN t2 ON v1 = v3;
+=== PLANNER ===
+Projection { exprs=[#0.0, #0.1, #0.2, #0.3] } | (t1.v1:INTEGER, t1.v2:INTEGER, t2.v3:INTEGER, t2.v4:INTEGER)
+  NestedLoopJoin { predicate=#0.0=#1.0 } | (t1.v1:INTEGER, t1.v2:INTEGER, t2.v3:INTEGER, t2.v4:INTEGER)
+    SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:INTEGER)
+    SeqScan { table=t2 } | (t2.v3:INTEGER, t2.v4:INTEGER)
+=== OPTIMIZER ===
+NestedIndexJoin { type=Inner, key_predicate=#0.0, index=t2v3, index_table=t2 } | (t1.v1:INTEGER, t1.v2:INTEGER, t2.v3:INTEGER, t2.v4:INTEGER)
+  SeqScan { table=t1 } | (t1.v1:INTEGER, t1.v2:INTEGER)
+</pre>
+<p>在计划阶段，查询被规划为两个表的 <code>NestedLoopJoin</code>。优化器识别到连接的右侧（<code>SeqScan t2</code>）在列 <code>v3</code> 上有索引，且连接条件是等值条件 <code>v1 = v3</code>。这意味着对于左侧的所有元组，系统可以使用键 <code>v1</code> 查询索引 <code>t2v3</code> 来生成连接结果。</p>
+<p><code>NestedIndexJoin</code> 的模式是左表（子节点，外表）的所有列，然后是右表（索引，内表）的所有列。此执行器将只有一个子节点，传播对应于连接外表的元组批。对于每个这些元组，你需要通过在目录中利用索引来找到与索引键匹配的内表中的对应元组。</p>
+<p><strong>提示：</strong>你需要从外表获取元组，使用 <code>key_predicate</code> 构造索引探测键，然后在索引中查找 RID 以检索内表的对应元组。</p>
+<p>我们将在 Gradescope 上按原样提供所有测试用例。我们不会测试涉及 NULL 的奇怪边缘情况（例如分组子句或索引中的 NULL）。此时，你应该通过 <a href="#testing">SQLLogicTests - #7 到 #13</a>。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #3 - HashJoin Executor and Optimization                           -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task3">任务 #3 - HashJoin 执行器与优化</h2>
+
+<!-- TODO: add grace hash table -->
+
+<p>你需要在以下文件中完成实现：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/intermediate_result_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/intermediate_result_page.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/hash_join_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/hash_join_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/hash_join_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/hash_join_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/optimizer/nlj_as_hash_join.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/optimizer/nlj_as_hash_join.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+<p>在开始此任务之前，你需要先完成<a href="#task2">任务 #2</a> 中的 <code>NestedLoopJoinExecutor</code> 实现。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- HashJoin                                  -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="hashjoin">HashJoin</h3>
+<p>如果查询包含两个列之间多个等值条件的合取（等值条件由 <code>AND</code> 分隔），DBMS 可以使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/hash_join_plan.h"><code>HashJoinPlanNode</code></a>。考虑以下示例查询：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT * FROM __mock_table_1, __mock_table_3 WHERE colA = colE;
+EXPLAIN SELECT * FROM __mock_table_1 INNER JOIN __mock_table_3 ON colA = colE;
+EXPLAIN SELECT * FROM __mock_table_1 LEFT OUTER JOIN __mock_table_3 ON colA = colE;
+EXPLAIN SELECT * FROM test_1 t1, test_2 t2 WHERE t1.colA = t2.colA AND t1.colB = t2.colC;
+EXPLAIN SELECT * FROM test_1 t1 INNER JOIN test_2 t2 on t1.colA = t2.colA AND t2.colC = t1.colB;
+EXPLAIN SELECT * FROM test_1 t1 LEFT OUTER JOIN test_2 t2 on t2.colA = t1.colA AND t2.colC = t1.colB;
+</pre>
+<p>你需要使用课堂上的哈希连接算法为 <code>HashJoinExecutor</code> 实现内连接和<a onclick="javascript:ga('send', 'pageview', '/outgoing/en.wikipedia.org');" href="https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join">左连接</a>。此算子的输出模式是左表的所有列后跟右表的所有列。探测哈希表可能<strong>不</strong>完全适合内存（假设我们的内存最多可以支持 4KB 元组的哈希表）。因此，你的实现应遵循课堂上讨论的 Grace Hash Table 算法。</p>
+<p>你可能已经知道，中间分区结果需要特定的页面格式。在本项目中，你将负责设计页面格式。查看 <code>intermediate_result_page.h</code>，你会发现 <code>IntermediateResultPage</code>，它专门用于存储中间执行结果，但只包含最少的预定义成员/方法。你应该设计页面布局并实现页面的读/写方法。在设计 <code>IntermediateResultPage</code> 之前，建议先阅读<a href="#task4">任务 4 - 外部归并排序</a>部分，以决定是否要在两个任务中使用相同的 <code>IntermediateResultPage</code> 实现。</p>
+<p>你的实现应正确处理多个元组发生哈希冲突的情况（在连接的任一侧）。你将需要使用 <code>HashJoinPlanNode</code> 中的连接键访问器函数 <code>GetLeftJoinKey()</code> 和 <code>GetRightJoinKey()</code> 来分别构造连接的左侧和右侧的连接键。</p>
+<p><strong>提示：</strong>你需要一种方法来对具有多个属性的元组进行哈希处理，以构造唯一的键。作为起点，请查看 <code>AggregationExecutor</code> 中的 <code>SimpleAggregationHashTable</code> 如何实现此功能。</p>
+<p><strong>提示：</strong>与聚合一样，哈希连接的构建侧是<em>流水线阻断器</em>。你应该再次考虑哈希连接的<em>构建</em>阶段应在 <code>HashJoinExecutor::Init()</code> 还是 <code>HashJoinExecutor::Next()</code> 中执行。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Optimizing NestedLoopJoin to HashJoin   -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="optimizing-nestedloopjoin-to-hashjoin">将 NestedLoopJoin 优化为 HashJoin</h3>
+<p>哈希连接通常比嵌套循环连接产生更好的性能。
+你应该修改优化器，在可以使用哈希连接时将 <code>NestedLoopJoinPlanNode</code> 转换为 <code>HashJoinPlanNode</code>。具体来说，当连接谓词是两个列之间多个等值条件的合取时，可以使用哈希连接算法。在本项目中，你应该能够处理由 <code>AND</code> 连接的不同数量的等值条件。</p>
+<p>考虑以下示例：</p>
+<pre class="shadow-sm p-2">
+bustub&gt; EXPLAIN (o) SELECT * FROM test_1 t1, test_2 t2 WHERE t1.colA = t2.colA AND t1.colB = t2.colC;
+</pre>
+<p>在不应用 <code>NLJAsHashJoin</code> 优化器规则的情况下，计划可能如下所示：</p>
+<pre class="shadow-sm p-2">
+ NestedLoopJoin { type=Inner, predicate=((#0.0=#1.0)and(#0.1=#1.2)) } 
+   SeqScan { table=test_1 }                                           
+   SeqScan { table=test_2 }
+</pre>
+<p>在应用 <code>NLJAsHashJoin</code> 优化器规则之后，将从 <code>NestedLoopJoinPlanNode</code> 的单个连接谓词中提取左右连接键表达式。结果计划将如下所示：</p>
+<pre class="shadow-sm p-2">
+ HashJoin { type=Inner, left_key=[#0.0, #0.1], right_key=[#0.0, #0.2] } 
+   SeqScan { table=test_1 }                                             
+   SeqScan { table=test_2 } 
+</pre>
+<p>请查看<a href="#optimizer-guide">优化器规则实现指南</a>部分了解实现优化器规则的详细信息。此时，你应该通过 <a href="#testing">SQLLogicTests - #14 到 #15</a>。</p>
+<p><strong>提示：</strong>确保检查等值条件每一侧的列属于哪个表。外表的列可能位于等值条件的右侧。你可能会发现 <code>ColumnValueExpression::GetTupleIdx</code> 很有帮助。</p>
+<p><strong>提示：</strong>应用优化器规则的顺序很重要。例如，你应该在过滤器和 NestedLoopJoin 合并之后再优化 NestedLoopJoin 为 HashJoin。</p>
+<p><strong>提示</strong> 在处理多个等值条件时，尝试递归地提取键，而不是用多层 if 子句来匹配连接条件。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Task #4 - External Merge Sort, Limit Executors, and Window Functions -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="task4">任务 #4：外部归并排序 + Limit 执行器 + 窗口函数</h2>
+
+<p>你需要在以下文件中完成实现：</p>
+<ul>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/storage/page/intermediate_result_page.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/storage/page/intermediate_result_page.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/execution_common.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/execution_common.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/external_merge_sort_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/external_merge_sort_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/external_merge_sort_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/external_merge_sort_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/limit_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/limit_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/limit_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/limit_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/executors/window_function_executor.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/execution/executors/window_function_executor.h</tt> <i class="fas fa-external-link-alt"></i></a></li>
+<li><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/execution/window_function_executor.cpp" target="_bustub" class="filepath" title="View Source Code"><tt>src/execution/window_function_executor.cpp</tt> <i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+<p>在开始此任务之前，你需要先完成<a href="#task1">任务 #1</a> 中的 <code>IndexScanExecutor</code>。如果表上有索引，查询处理层将自动选择它进行排序。在其他情况下，你将需要一个特殊的排序执行器来完成这项工作，在我们的情况下，就是外部归并排序执行器。</p>
+<p>Limit 执行器的实现将比外部归并排序执行器容易得多。因此，如果你在外部归并排序执行器上遇到困难，可以先实现 Limit 执行器。但是你应该注意，在没有外部归并排序执行器的情况下我们不会测试 Limit 执行器。</p>
+<p>对于所有 <code>ORDER BY</code> 子句，我们假设每个排序键只出现一次。你不需要担心排序中的并列情况。你还需要支持使用外部归并排序对包含 NULL 值的列进行排序。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Sort                                      -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="external-merge-sort">外部归并排序</h3>
+<p>除非 <code>ORDER BY</code> 属性与索引的键匹配，否则 BusTub 将对所有 <code>ORDER BY</code> 算子使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/sort_plan.h"><code>SortPlanNode</code></a>。</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT * FROM __mock_table_1 ORDER BY colA ASC, colB DESC NULLS FIRST;
+</pre>
+<p>此计划节点不改变模式（即输出模式与输入模式相同）。你可以从 <code>order_bys</code> 中提取排序键。如果查询在 <code>ORDER BY</code> 子句中未包含排序方向（即 <code>ASC</code>、<code>DESC</code>），则排序模式将为 <code>default</code>（即 <code>ASC</code>）。如果查询在 <code>ORDER BY</code> 子句中未指定 <code>NULLS FIRST</code> 或 <code>NULLS LAST</code> 选项，则 NULL 值的放置将使用 <code>default</code>，即升序时为 <code>NULLS FIRST</code>，降序时为 <code>NULLS LAST</code>。</p>
+<p>关于外部归并排序的一个重要假设是表中的条目<strong>不</strong>能全部放入内存。因此，你需要按照课堂上学到的内容：将中间排序结果存储在临时页面中，并基于上一轮的排序结果递归地进行归并排序。</p>
+<p>与 HashJoin 类似，中间排序结果需要特定的页面格式。你应该设计页面布局并实现页面的读/写方法。你可以选择重用与 HashJoin 中使用的 <code>IntermediateResultPage</code> 相同的布局，或者在需要时定义新的布局。</p>
+<p>你的 <code>IntermediateResultPage</code> 实现必须能够支持包含 <code>VARCHAR</code> 属性的元组排序。为了简化页面实现，包含 <code>VARCHAR</code> 属性的元组<strong>永远不会大于页面大小</strong>，即你不必担心将单个元组存储在两个 <code>IntermediateResultPage</code> 中。如果当前页面无法容纳该元组，你可以获取一个新页面并将其存储在那里。</p>
+<p>然后你将实现归并排序算法。进行内存归并排序并不难。但当涉及磁盘时，你应该仔细思考如何通过页面接口和缓冲池操作排序后的元组。值得注意的是，不再使用的页面（即来自上一轮归并排序的页面）应该被删除，否则你将有一堆永远不会被引用但仍然存在于缓冲池中的"僵尸"页面。</p>
+<p>重要的是你确实在进行<em>外部</em>归并排序（不是将所有数据纯粹存储在内存中）。你可以使用 <code>std::sort</code> 对适合一个排序页面的元组进行排序，但不能对所有元组使用。此外，你的 <code>IntermediateResultPage</code> 布局应该是紧凑的，即尽可能少的碎片。你还应该确保在归并排序完成后页面确实被删除了。</p>
+<p>此外，<strong>本学期我们只测试两路外部归并排序</strong>，即使 <code>ExternalMergeSortExecutor</code> 是模板化的。因此，你可以自由地实现两路归并排序算法，而不是 k 路归并。</p>
+<p><strong>提示：</strong>对于基于排序键的元组比较，我们在 <code>execution_common.h</code> 中提供了一个辅助类 <code>TupleComparator</code>。你可以在 <code>execution_common.cpp</code> 中完成其实现。</p>
+<p><strong>提示：</strong>为了更好地理解 <code>IntermediateResultPage</code> 应该做什么以及从哪里开始，你可以查看你在项目 2 中使用的索引页面布局（例如，<code>char</code> 数组可以用作页面数据的起始）。思考你的执行器将如何调用读/写方法也会很有帮助。</p>
+<p><strong>提示：</strong>在进行外部归并排序时，你实际上不需要手动操作"写入磁盘"的部分。缓冲池管理器会为你处理这些。记住你在 P1 中实现的内容：页面守卫会自动固定和取消固定页面，以及设置可驱逐性。只要正确使用页面守卫，你就不必在这个项目中过多担心页面操作。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Limit                                     -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="limit">Limit</h3>
+<p><a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/execution/plans/limit_plan.h"><code>LimitPlanNode</code></a> 指定查询将生成的元组数量。考虑以下示例：</p>
+<pre class="shadow-sm p-2">
+EXPLAIN SELECT * FROM __mock_table_1 LIMIT 10;
+</pre>
+<p><code>LimitExecutor</code> 限制其子执行器输出的元组数量。如果其子执行器生成的元组数量少于计划节点中指定的限制，则此执行器无效，并产生它接收到的所有元组。</p>
+<p>此计划节点不改变模式（即输出模式与输入模式相同）。你<u>不</u>需要支持偏移量。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Window Functions                          -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="window-functions">窗口函数</h3>
+<p>一般来说，窗口函数有三个部分：partition by、order by 和窗口帧。这三部分都是可选的，因此这些功能的多种组合使得窗口函数一开始看起来令人望而生畏。
+然而，窗口函数的概念模型有助于使其更容易理解。概念模型如下：
+* 根据 partition by 子句中的条件拆分数据。
+* 然后，在每个分区中，按 order by 子句排序。
+* 然后，在每个分区（现已排序）中，遍历每个元组。对于每个元组，我们计算该元组的帧的边界条件。每个帧有一个起始和结束（由窗口帧子句指定）。窗口函数在每个帧中的元组上计算，我们输出在每个帧中计算的结果。</p>
+<p>下图展示了窗口函数的一般执行模型。</p>
+<p><a href="img/window_function_execution_model.jpg"><img alt="" src="img/window_function_execution_model.jpg" class="mx-auto d-block border rounded p-2" width="600" style="max-width: 100%;" /></a></p>
+<p>让我们使用以下表深入了解几个示例：</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE t (user_name VARCHAR(1), dept_name VARCHAR(16), salary INT);
+INSERT INTO t VALUES ('a', 'dept1', 100);
+INSERT INTO t VALUES ('b', 'dept1', 200);
+INSERT INTO t VALUES ('c', 'dept1', 300);
+INSERT INTO t VALUES ('e', 'dept2', 100);
+INSERT INTO t VALUES ('d', 'dept2', 50);
+INSERT INTO t VALUES ('f', 'dept2', 60);
+</pre>
+<p><strong>示例 #1</strong>
+下面的示例计算每个部门工资的移动平均值。你可以将其视为首先按 name 对每个分区的行排序，然后计算当前行之前的行、当前行和当前行之后的行的平均值。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; SELECT user_name, dept_name, AVG(salary) OVER \
+  (PARTITION BY dept_name ORDER BY user_name ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) \
+  FROM t;
++-----------+-----------+-----------------------------+
+| user_name | dept_name | salary                      |
++-----------+-----------+-----------------------------+
+| a         | dept1     | 150                         |
+| b         | dept1     | 200                         |
+| c         | dept1     | 250                         |
+| d         | dept2     | 75                          |
+| e         | dept2     | 70                          |
+| f         | dept2     | 80                          |
++-----------+-----------+-----------------------------+
+</pre>
+<p><strong>示例 #2</strong>
+下面的查询计算每个部门工资的移动平均值。与前面的示例不同，当窗口帧被省略且 order by 子句未被省略时，它计算从每个分区的第一行到当前行的平均值。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; SELECT user_name, dept_name, AVG(salary) OVER (PARTITION BY dept_name ORDER BY user_name) FROM t;
++-----------+-----------+-----------------------------+
+| user_name | dept_name | salary                      |
++-----------+-----------+-----------------------------+
+| a         | dept1     | 100                         |
+| b         | dept1     | 150                         |
+| c         | dept1     | 200                         |
+| d         | dept2     | 50                          |
+| e         | dept2     | 75                          |
+| f         | dept2     | 70                          |
++-----------+-----------+-----------------------------+
+</pre>
+<p><strong>示例 #3</strong>
+此查询展示了当 order by 和窗口帧都被省略时，它计算从每个分区的第一行到最后一行的平均值，这意味着分区内的结果应该是相同的。</p>
+<pre class="shadow-sm p-2">
+bustub&gt; SELECT user_name, dept_name,AVG(salary) OVER (PARTITION BY dept_name) FROM t;
++-----------+-----------+-----------------------------+
+| user_name | dept_name | salary                      |
++-----------+-----------+-----------------------------+
+| a         | dept1     | 200                         |
+| b         | dept1     | 200                         |
+| c         | dept1     | 200                         |
+| e         | dept2     | 70                          |
+| d         | dept2     | 70                          |
+| f         | dept2     | 70                          |
++-----------+-----------+-----------------------------+
+</pre>
+<pre class="shadow-sm p-2">
+bustub&gt; SELECT user_name, dept_name, AVG(salary) OVER () FROM t;
++-----------+-----------+-----------------------------+
+| user_name | dept_name | salary                      |
++-----------+-----------+-----------------------------+
+| a         | dept1     | 135                         |
+| b         | dept1     | 135                         |
+| c         | dept1     | 135                         |
+| e         | dept2     | 135                         |
+| d         | dept2     | 135                         |
+| f         | dept2     | 135                         |
++-----------+-----------+-----------------------------+
+</pre>
+<p>对于此任务，你<u>不</u>需要处理窗口帧。如上面的示例所示，你只需要实现 <code>PARTITION BY</code> 和 <code>ORDER BY</code> 子句。你可能会注意到 <code>ORDER BY</code> 子句也改变了非窗口函数列的顺序。这不是必须的，因为输出顺序不保证，取决于实现。为简单起见，BusTub 确保查询中的所有窗口函数具有相同的 <code>ORDER BY</code> 子句。这意味着以下查询在 BusTub 中<u>不</u>受支持，你的实现不需要处理它们：</p>
+<pre class="shadow-sm p-2">
+SELECT SUM(v1) OVER (ORDER BY v1), SUM(v1) OVER (ORDER BY v2) FROM t1;
+SELECT SUM(v1) OVER (ORDER BY v1), SUM(v2) OVER () FROM t1;
+</pre>
+<p>测试用例不会检查输出行的顺序，只要每行内的列匹配即可。因此，当有 <code>ORDER BY</code> 子句时，你可以在计算之前先对元组排序，当没有 order by 子句时，不改变来自子执行器的元组顺序。</p>
+<p>你可以按以下步骤实现执行器：</p>
+<ol>
+<li>按照 <code>ORDER BY</code> 中的指示对元组排序。</li>
+<li>为每个分区生成初始值</li>
+<li>为每个分区合并值并记录每行的值。</li>
+</ol>
+<p>你可以重用排序执行器中的代码来完成步骤 1，重用聚合执行器中的代码来完成步骤 2 和步骤 3。</p>
+<p>除了之前任务中实现的聚合函数外，你还需要实现 <code>RANK</code>。BusTub 计划器确保如果存在 <code>RANK</code> 窗口函数，则 <code>ORDER BY</code> 子句不为空。请注意可能存在并列情况，请参阅测试用例了解预期行为。</p>
+</div>
+<!-- ********************************************************************** -->
+<!-- Leaderboard                                                            -->
+<!-- ********************************************************************** -->
+<h2 class="task" id="leaderboard">可选排行榜任务</h2>
+
+<p>在本项目的排行榜挑战中，你应该实现新的执行器和优化器规则，使系统尽可能快地执行以下查询。请注意，在 Gradescope 上，我们将随机化排行榜任务的数据生成，因此自动评分器的输出可能与本地输出不同。</p>
+<p>这些任务是可选的。你不需要完成它们就能在项目中获得满分。与之前的项目不同，项目 3 排行榜测试中的段错误和超时不会影响你的分数。</p>
+<p>你的实现可能会在实现排行榜优化后对现有查询产生不同的结果。我们要求你在实现新的优化规则后通过所有测试。我们还将强制对某些测试用例使用入门规则。例如，为了确保你的索引扫描执行器正常工作，我们在此 sqllogictest 文件中强制使用入门规则 <code>set force_optimizer_starter_rule=yes</code>。</p>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Query1                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="query-1-too-many-joins">查询 1：太多连接了！</h3>
+<p>考虑以下示例数据库：</p>
+<pre class="shadow-sm p-2">
+CREATE TABLE t4(x int, y int);
+CREATE TABLE t5(x int, y int);
+CREATE TABLE t6(x int, y int);
+</pre>
+<p>用户不是来自 CMU，他们写出了糟糕的 SQL。他们忘记了如何编写带连接的查询，所以把所有谓词都放在了 <code>WHERE</code> 子句中。</p>
+<pre class="shadow-sm p-2">
+SELECT * FROM t4, t5, t6
+  WHERE (t4.x = t5.x) AND (t5.y = t6.y) AND (t4.y &gt;= 1000000)
+    AND (t4.y &lt; 1500000) AND (t6.x &gt;= 100000) AND (t6.x &lt; 150000);
+</pre>
+<p><strong>推荐优化：</strong> 分解过滤条件以提取哈希连接键，并将剩余的过滤条件下推到哈希连接之下。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Query2                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="query-2-the-mad-data-scientist">查询 2：疯狂的数据科学家</h3>
+<p>有一位数据科学家把所有的钱都投资了 NFT。在意识到他们可怕的错误之后，他们发疯了，开始写一些奇怪的 SQL 查询。考虑以下示例：</p>
+<pre class="shadow-sm p-2">
+SELECT v, d1, d2 FROM (
+  SELECT v,
+         MAX(v1) AS d1, MIN(v1), MAX(v2), MIN(v2),
+         MAX(v1) + MIN(v1), MAX(v2) + MIN(v2),
+         MAX(v1) + MAX(v1) + MAX(v2) AS d2
+    FROM t7 LEFT JOIN (SELECT v4 FROM t8 WHERE 1 == 2) ON v &lt; v4
+    GROUP BY v
+)
+</pre>
+<p>（这与实际的排行榜查询不同；请参阅测试文件。）</p>
+<p><strong>推荐优化：</strong></p>
+<ul>
+<li>列裁剪 —— 你只需要从聚合中的左表计算 v、d1、d2。我们提供了一个骨架文件 <code>column_pruning.cpp</code>。</li>
+<li>公共表达式消除，将永远为假的过滤器转换为虚拟扫描（零行的值计划节点）</li>
+<li>如果你能想到更多的话 :)</li>
+</ul>
+<p><strong>提示：</strong>你不需要实现完整的规则来优化这些查询。(1) 完整的谓词下推需要你处理所有计划节点 —— limit、order by 等。但要优化 Q2，你只需要实现对哈希连接/嵌套循环连接的谓词下推。(2) 完整的连接重排序需要你正确处理谓词（并且可能需要将中间的过滤器吸收回连接谓词），你不需要这样做。只需让你的优化器能处理这些查询就够了。</p>
+</div>
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Query3                                    -->
+<!-- ::::::::::::::::::::::::::::::::::::::::: -->
+<div class="question">
+<h3 id="query-3-all-that-work-for-a-little-thing">查询 3：白忙一场？</h3>
+<p>在完成了 Q1 和 Q2 的辛苦工作之后，这里有一个简短而有趣的题目。假设你有以下两个表，分别表示所有 16 岁以下的人和所有目前在大学的人。有人可能会尝试构造一个查询来输出这两个表的交集，以发现神童。你知道结果将很少有匹配，但你的连接执行器不知道，你能做什么来帮助加速这个过程？</p>
+<pre class="shadow-sm p-2">
+SELECT * FROM under_16s a INNER JOIN college_students b ON a.id = b.id
+</pre>
+<p>（这与实际的排行榜查询不同；请参阅测试文件。）</p>
+<p><strong>推荐优化：</strong> 为哈希连接构建阶段使用的哈希表添加布隆过滤器。</p>
+</div>
+<h3>排行榜政策</h3>
+
+<ul>
+<li><em>获得排行榜加分</em>的提交将由助教进行人工审查。<ul>
+<li>"审查"意味着助教将手动查看你的代码，或者如果他们在查看后不确定某个优化是否正确，他们将对现有测试用例进行简单修改，以确认你的排行榜优化是否<em>正确</em>处理了你想优化的特定情况。</li>
+<li>简单修改的一个例子：更改基准测试的缓冲池管理器大小。</li>
+</ul>
+</li>
+<li>你的优化不应影响正确性。你可以针对特定情况进行优化，但在你优化的情况下它应该适用于所有输入。<ul>
+<li>允许：仅在 Fall 2022 项目 3 中处理 3 表连接重排序。</li>
+<li>允许：在项目 2 中针对叶节点大小 &gt; 100 进行优化。</li>
+<li>不允许：将计划与排行榜测试进行比较，并在项目 3 中将其转换为带有输出表的 ValueExecutor。这是因为你的优化应该适用于所有表内容。硬编码答案在某些情况下会产生错误结果。</li>
+</ul>
+</li>
+<li>你不应该尝试使用辅助信息检测你的提交是否在运行排行榜测试。<ul>
+<li>除非我们允许你这样做。</li>
+<li>不允许：使用 <code>#ifdef NDEBUG</code> 等。</li>
+</ul>
+</li>
+<li>存在明显正确性问题的提交将不会被分配排行榜加分。</li>
+<li>你不能将迟交天数用于排行榜测试。</li>
+<li>如果你不确定某个优化是否合理，你应该在 Piazza 上发帖或访问任何助教的办公时间。</li>
+</ul>
+<!-- ### Bonus Points: Find Planner Bugs! -->
+
+<!-- If you found any bugs in the query processing layer, post on Piazza, and we will give you extra bonus points. You can get at most 10% bonus points for reporting planner bugs, whereas 5% for each confirmed bug. -->
+
+<!-- ========================================================================= -->
+<!-- ADDITIONAL INFORMATION                                                    -->
+<!-- ========================================================================= -->
+<h1 id="additional-information">附加信息</h1>
+<p>本节提供了一些关于 BusTub 中其他系统组件的附加信息，你需要与这些组件交互才能完成本项目。</p>
+<h2 id="system-catalog">系统目录</h2>
+<p>数据库维护一个内部目录来跟踪有关数据库的元数据。在本项目中，你将与系统目录交互以查询有关表、索引及其模式的信息。</p>
+<p>目录实现的全部内容在 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/src/include/catalog/catalog.h" target="_bustub" class="filepath" title="View Source Code"><tt>src/include/catalog/catalog.h</tt> <i class="fas fa-external-link-alt"></i></a> 中。你应该特别注意成员函数 <code>Catalog::GetTable()</code> 和 <code>Catalog::GetIndex()</code>。你将在执行器的实现中使用这些函数来查询目录中的表和索引。</p>
+<h2 id="index-updates">索引更新</h2>
+<p>对于表修改执行器（<code>InsertExecutor</code>、<code>UpdateExecutor</code> 和 <code>DeleteExecutor</code>），你必须修改操作目标表的所有索引。你可能会发现 <code>Catalog::GetTableIndexes()</code> 函数对于查询特定表定义的所有索引很有用。一旦你获得了表的每个索引的 <code>IndexInfo</code> 实例，你就可以在底层索引结构上调用索引修改操作。</p>
+<p>在本项目中，我们使用你在<a href="../project2/index.html">项目 #2</a> 中实现的 B+ 树索引作为所有索引操作的底层数据结构。因此，本项目的成功完成依赖于一个可工作的 B+ 树实现。</p>
+<h2 id="optimizer-guide">优化器规则实现指南</h2>
+<p>BusTub 优化器是一个基于规则的优化器。大多数优化器规则以自底向上的方式构造优化计划。由于查询计划具有这种树结构，在将优化器规则应用于当前计划节点之前，你需要首先递归地将规则应用于其子节点。</p>
+<p>在每个计划节点，你应该确定源计划结构是否与你尝试优化的结构匹配，然后检查该计划中的属性以查看是否可以将其优化为目标优化计划结构。</p>
+<p>在公共 BusTub 仓库中，我们已经提供了几个优化器规则的实现。请查看它们作为参考。</p>
+<!-- ========================================================================= -->
+<!-- INSTRUCTIONS                                                              -->
+<!-- ========================================================================= -->
+<h1 id="instructions">说明</h1>
+
+<p>请参阅<a href="../project0/index.html#instructions">项目 #0 说明</a>了解如何创建你的私有仓库和设置开发环境。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    你必须从上游 BusTub 仓库拉取最新的更改，以获取我们在本项目中提供的测试文件和其他补充文件。
+</p>
+
+<!-- ********************************************************************** -->
+<!-- Testing                                                                -->
+<!-- ********************************************************************** -->
+<h2 id="testing">测试</h2>
+<p>我们将使用 <code>SQLLogicTest</code> 进行测试和基准测试。使用方法如下，</p>
+<pre class="shadow-sm p-2">
+make -j$(nproc) sqllogictest
+./bin/bustub-sqllogictest ../test/sql/p3.00-primer.slt --verbose
+</pre>
+
+<p>你可以使用 <code>bustub-sqllogictest</code> 程序运行 <code>slt</code> 文件。记得在进行任何测试之前重新编译 <code>sqllogictest</code>。在本项目中，我们向提供了所有测试用例。没有隐藏测试。测试用例位于 <a onclick="javascript:ga('send', 'pageview', '/outgoing/github.com');" href="https://github.com/cmu-db/bustub/blob/master/test/sql/" target="_bustub" class="filepath" title="View Source Code"><tt>test/sql/</tt> <i class="fas fa-external-link-alt"></i></a>。</p>
+<!-- **************************************************** -->
+<!-- Formatting                                           -->
+<!-- **************************************************** -->
+<h2 id="formatting">格式化</h2>
+<p>你的代码必须遵循 <a onclick="javascript:ga('send', 'pageview', '/outgoing/google.github.io');" href="https://google.github.io/styleguide/cppguide.html">Google C++ 风格指南</a>。
+我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/">Clang</a> 自动检查你的源代码质量。
+如果你的提交未通过这些检查中的任何一项，你的项目成绩将为<u><b>零</b></u>。</p>
+<p>执行以下命令检查你的语法。
+<code>format</code> 目标将自动纠正你的代码。
+<code>check-lint</code> 和 <code>check-clang-tidy-p3</code> 目标将打印错误并指导你如何修复以符合我们的风格指南。</p>
+<pre class="shadow-sm p-2">
+$ make format
+$ make check-lint
+$ make check-clang-tidy-p3
+</pre>
+
+<!-- **************************************************** -->
+<!-- Memory Leaks                                         -->
+<!-- **************************************************** -->
+<h2 id="memory-leaks">内存泄漏</h2>
+<p>在本项目中，我们使用 <a onclick="javascript:ga('send', 'pageview', '/outgoing/clang.llvm.org');" href="https://clang.llvm.org/docs/AddressSanitizer.html">LLVM Address Sanitizer (ASAN) 和 Leak Sanitizer (LSAN)</a> 来检查内存错误。要启用 ASAN 和 LSAN，请在调试模式下配置 CMake 并像平常一样运行测试。如果存在内存错误，你将看到内存错误报告。注意 macOS <strong>仅支持地址检测器而不支持泄漏检测器</strong>。</p>
+<p>在某些情况下，地址检测器可能会影响调试器的可用性。在这种情况下，你可能需要通过以下方式配置 CMake 项目来禁用所有检测器：</p>
+<pre class="shadow-sm p-2">
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBUSTUB_SANITIZER= ..
+</pre>
+
+<!-- **************************************************** -->
+<!-- Hints                                                -->
+<!-- **************************************************** -->
+<h2 id="development-hints">开发提示</h2>
+<p>你可以在调试模式下使用 <code>BUSTUB_ASSERT</code> 进行断言。注意 <code>BUSTUB_ASSERT</code> 中的语句在发布模式下不会被执行。
+如果你需要在所有情况下进行断言，请改用 <code>BUSTUB_ENSURE</code>。</p>
+<p>如果你遇到问题，我们鼓励你使用图形调试器来调试你的项目。</p>
+<p>如果你遇到编译问题，运行 <code>make clean</code> 不会完全重置编译过程。你需要删除你的 build 目录并在重新运行 <code>make</code> 之前再次运行 <code>cmake ..</code>。</p>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-question-circle fa-lg p-1 pe-lg-2"></i>
+    将所有关于本项目的问题发布在 Piazza 上。<u>不</u>要直接向助教发送电子邮件提问。
+</p>
+
+<!-- ========================================================================= -->
+<!-- GRADING RUBRIC                                                            -->
+<!-- ========================================================================= -->
+<h1 id="grading">评分标准</h1>
+<p>每个项目提交将根据以下标准进行评分：</p>
+<ol>
+    <li> 提交是否成功执行了所有测试用例并产生了正确答案？</li>
+    <li> 提交是否在没有内存泄漏的情况下执行？</li>
+    <li> 提交是否遵循了代码格式化和风格策略？</li>
+</ol>
+
+<!-- ========================================================================= -->
+<!-- LATE POLICY                                                               -->
+<!-- ========================================================================= -->
+<h1 id="late-policy">迟交政策</h1>
+
+<p>请参阅课程大纲中的<a href="../syllabus.html#late-policy">迟交政策</a>。</p>
+<!-- ========================================================================= -->
+<!-- SUBMISSION                                                                -->
+<!-- ========================================================================= -->
+<h1 id="submission">提交</h1>
+
+<p>完成作业后，你可以将你的实现提交到 Gradescope：</p>
+<ul>
+<li><b><a onclick="javascript:ga('send', 'pageview', '/outgoing/www.gradescope.com');" href="https://www.gradescope.com/courses/1074751">https://www.gradescope.com/courses/1074751</a></b></li>
+</ul>
+<p>在你的 <code>build/</code> 目录中运行 <code>make submit-p3</code> 将在项目根目录下生成一个名为 <code>project3-submission.zip</code> 的 <code>zip</code> 归档文件，你可以将其提交到 Gradescope。</p>
+<p>记得在提交之前解决所有风格问题：</p>
+<pre class="shadow-sm p-2">
+make format
+make check-clang-tidy-p3
+</pre>
+
+<!-- ========================================================================= -->
+<!-- COLLABORATION POLICY
+<!-- ========================================================================= -->
+<h1 id="collaboration">协作政策</h1>
+
+<ul>
+<li>每位学生必须独立完成此作业。</li>
+<li>允许学生与他人讨论项目的高级细节。</li>
+<li>学生<strong>不</strong>允许在与其它学生的小组会议后复制白板上的内容。</li>
+<li>学生<strong>不</strong>允许从其他同学那里复制解决方案。</li>
+</ul>
+<p class="warning bg-danger text-white p-2 rounded fw-bold">
+    <i class="trigger fa fa-exclamation-triangle fa-lg p-1 pe-lg-2"></i>
+    <b>警告：</b>本项目的所有代码必须是你自己的。你不能从其他学生或你在网上找到的其他来源复制源代码。抄袭<strong>不会</strong>被容忍。请参阅 CMU 的<a onclick="javascript:ga('send', 'pageview', '/outgoing/www.cmu.edu');" href="https://www.cmu.edu/policies/student-and-student-life/academic-integrity.html">学术诚信政策</a>获取更多信息。
+</p>
+        </div>
+        <!-- END: main -->
+    </main>
+
+<!-- Footer -->
+<footer class="footer mt-auto bg-black">
+  <div class="container">
+    <div class="row pt-3 pb-2">
+      <div class="col-4 my-auto">
+        <a onclick="javascript:ga('send', 'pageview', '/outgoing/db.cs.cmu.edu');" href="https://db.cs.cmu.edu" title="Carnegie Mellon Database Group"><img alt="" src="../images/cmu-db-group.svg" class="cmudb-logo" /></a>
+      </div>
+      <div class="col-8 float-end">
+
+            <div class="dropdown float-end justify-content-end">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-book"></i> 归档
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                    <li class=""> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2025/index.html" class="dropdown-item" target="_archive1" title="查看往期课程网站">Spring 2025 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2024/index.html" class="dropdown-item" target="_archive2" title="查看往期课程网站">Fall 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2024/index.html" class="dropdown-item" target="_archive3" title="查看往期课程网站">Spring 2024 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2023/index.html" class="dropdown-item" target="_archive4" title="查看往期课程网站">Fall 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../spring2023/index.html" class="dropdown-item" target="_archive5" title="查看往期课程网站">Spring 2023 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2022/index.html" class="dropdown-item" target="_archive6" title="查看往期课程网站">Fall 2022 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2021/index.html" class="dropdown-item" target="_archive7" title="查看往期课程网站">Fall 2021 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2020/index.html" class="dropdown-item" target="_archive8" title="查看往期课程网站">Fall 2020 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2019/index.html" class="dropdown-item" target="_archive9" title="查看往期课程网站">Fall 2019 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2018/index.html" class="dropdown-item" target="_archive10" title="查看往期课程网站">Fall 2018 <i class="fa fa-external-link"></i></a>
+                    <li class="border-top"> <a onclick="javascript:ga('send', 'pageview', '/outgoing/15445.courses.cs.cmu.edu');" href="../../fall2017/index.html" class="dropdown-item" target="_archive11" title="查看往期课程网站">Fall 2017 <i class="fa fa-external-link"></i></a>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Google Analytics -->
+    
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-T6CTRQK4NY');
+    </script>
+    <!-- End Google Analytics Code -->
+
+<!--     <script src="js/bootstrap.bundle.min.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> -->
+
+    <script src="../../../cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="../../../assets/css/just-the-docs-default.css" rel="stylesheet">
+  <script src="../../../assets/js/vendor/lunr.min.js">
+  </script>
+  <script src="../../../assets/js/just-the-docs.js">
+  </script>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>
+   Ed 政策与指南 | CS 61B Spring 2024
+  </title>
+  <meta content="Jekyll v3.10.0" name="generator">
+  <meta content="Ed 政策与指南" property="og:title">
+  <meta content="Ethan Ordentlich, Jedidiah Tsang" name="author">
+  <meta content="en_US" property="og:locale">
+  <meta content="Data Structures" name="description">
+  <meta content="Data Structures" property="og:description">
+  <link href="index.html" rel="canonical">
+  <meta content="https://sp24.datastructur.es/resources/guides/ed/" property="og:url">
+  <meta content="CS 61B Spring 2024" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="summary" name="twitter:card">
+  <meta content="Ed 政策与指南" property="twitter:title">
+  <script type="application/ld+json">
+   {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Ethan Ordichtlich, Jedidiah Tsang"},"description":"Data Structures","headline":"Ed 政策与指南","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://sp24.datastructur.es/assets/images/bee.png"},"name":"Ethan Ordentlich, Jedidiah Tsang"},"url":"https://sp24.datastructur.es/resources/guides/ed/"}
+  </script>
+  <!-- End Jekyll SEO tag -->
+  <link as="style" href="../../../assets/css/just-the-docs-dark.css" rel="preload">
+  <!-- Intentionally duplicates the default theme stylesheet so there's a fallback when changing themes -->
+  <link href="../../../assets/css/just-the-docs-default.css" id="jtdThemeCSS" rel="stylesheet">
+  <script>
+   /* Script to enable persistent dark mode. */
+
+  jtd.getTheme = function() {
+    var cssFileHref = (document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]')).getAttribute('href');
+    return cssFileHref.substring(cssFileHref.lastIndexOf('-') + 1, cssFileHref.length - 4);
+  }
+
+  jtd.setTheme = function(theme) {
+    var cssFile = document.getElementById('jtdThemeCSS') || document.querySelector('[rel="stylesheet"]');
+    cssFile.setAttribute('href', cssFile.getAttribute('href').replace(jtd.getTheme(), theme));
+  }
+
+  let toggleDark = () => {
+    let setDark = jtd.getTheme() !== 'dark';
+    jtd.setTheme(setDark ? 'dark' : 'default');
+    localStorage.setItem('darkMode', String(setDark));
+  };
+
+  /* Read local storage state. */
+  if (localStorage.getItem('darkMode') === 'true') {
+    toggleDark();
+  }
+  </script>
+  <!-- Script for LaTeX rendering. -->
+  <link href="../../../assets/katex/katex.min.css" rel="stylesheet">
+  <script defer src="../../../assets/katex/katex.min.js">
+  </script>
+  <script>
+   function renderKaTeX() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true},
+    ],
+  });
+}
+  </script>
+  <script defer onload="renderKaTeX();" src="../../../assets/katex/contrib/auto-render.min.js">
+  </script>
+ </head>
+ <body>
+  <a class="skip-to-main" href="#main-content">
+   跳转到主要内容
+  </a>
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+   <symbol id="svg-link" viewbox="0 0 24 24">
+    <title>
+     Link
+    </title>
+    <svg class="feather feather-link" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71">
+     </path>
+     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71">
+     </path>
+    </svg>
+   </symbol>
+   <symbol id="svg-search" viewbox="0 0 24 24">
+    <title>
+     搜索
+    </title>
+    <svg class="feather feather-search" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="11" cy="11" r="8">
+     </circle>
+     <line x1="21" x2="16.65" y1="21" y2="16.65">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-menu" viewbox="0 0 24 24">
+    <title>
+     菜单
+    </title>
+    <svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <line x1="3" x2="21" y1="12" y2="12">
+     </line>
+     <line x1="3" x2="21" y1="6" y2="6">
+     </line>
+     <line x1="3" x2="21" y1="18" y2="18">
+     </line>
+    </svg>
+   </symbol>
+   <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+    <title>
+     展开
+    </title>
+    <svg class="feather feather-chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <polyline points="9 18 15 12 9 6">
+     </polyline>
+    </svg>
+   </symbol>
+   <symbol id="svg-doc" viewbox="0 0 24 24">
+    <title>
+     Document
+    </title>
+    <svg class="feather feather-file" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+     </path>
+     <polyline points="13 2 13 9 20 9">
+     </polyline>
+    </svg>
+   </symbol>
+   <!-- Feather. MIT License: https://github.com/feathericons/feather/blob/master/LICENSE -->
+   <symbol class="feather feather-external-link" fill="none" height="24" id="svg-external-link" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24">
+    <title id="svg-external-link-title">
+     （外部链接）
+    </title>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+    </path>
+    <polyline points="15 3 21 3 21 9">
+    </polyline>
+    <line x1="10" x2="21" y1="14" y2="3">
+    </line>
+   </symbol>
+  </svg>
+  <div class="side-bar">
+   <div class="site-header">
+    <a class="site-title lh-tight" href="../../../index.html">
+     <div class="site-logo">
+     </div>
+    </a>
+    <a class="site-button" href="#" id="menu-button">
+     <svg class="icon" viewbox="0 0 24 24">
+      <use xlink:href="#svg-menu">
+      </use>
+     </svg>
+    </a>
+   </div>
+   <nav aria-label="Main" class="site-nav" id="site-nav">
+    <ul class="nav-list">
+     <li class="nav-list-item active">
+      <a class="nav-list-link" href="../../../index.html">
+       首页
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../calendar/index.html">
+       日历
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../policies/index.html">
+       Course Info
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../staff/index.html">
+       教师团队
+      </a>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../labs/index.html">
+       实验
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab01/index.html">
+         实验 01：环境搭建
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/faq/index.html">
+           常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/terminal/index.html">
+           How to Use the Terminal
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/linux/index.html">
+           Linux/Unix
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/mac/index.html">
+           Mac OS
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab01/windows/index.html">
+           Windows
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab02/index.html">
+         实验 02: 调试 (部分 1)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab02/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab03/index.html">
+         实验 03: 调试 (部分 2)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab03/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab04/index.html">
+         实验 04：Git
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab04/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab05/index.html">
+         实验 05：不相交集合
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab05/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab06/index.html">
+         实验 06：BSTMap
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/asymptotics-soln/index.html">
+           渐近分析 题目 解答
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab06/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab07/index.html">
+         实验 07：左倾红黑树
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab07/faq/index.html">
+           常见问题
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab08/index.html">
+         实验 08: Hashmaps
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab08/faq/index.html">
+           常见问题 - Lab08
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab09/index.html">
+         实验 09：康威生命游戏
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../labs/lab10/index.html">
+         实验 10：俄罗斯方块
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../labs/lab10/faq/index.html">
+           常见问题 - Lab10
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../homeworks/index.html">
+       作业
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw0/index.html">
+         作业 0
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0a/index.html">
+           作业 0A: Java Syntax
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw0/hw0b/index.html">
+           作业 0B: 数据结构
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../homeworks/hw2/index.html">
+         作业 2: Percolation
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/faq/index.html">
+           作业 2: Percolation 常见问题
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../homeworks/hw2/outputs/index.html">
+           "Expected Outputs - HW 2: Percolation"
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../../projects/index.html">
+       项目
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj0/index.html">
+         项目 0：2048
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj0/faq/index.html">
+           常见问题
+          </a>
+          <ul class="nav-list child">
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1a/index.html">
+         项目 1A：LinkedListDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/faq/index.html">
+           常见问题 - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1a/flags/index.html">
+           Coverage Tests - 项目 1A: 链表 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1b/index.html">
+         项目 1B：ArrayDeque61B
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/faq/index.html">
+           常见问题 - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1b/flags/index.html">
+           Coverage Tests - 项目 1B: 数组 双端队列 61B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj1c/index.html">
+         项目 1C：Deque61B 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj1c/faq/index.html">
+           常见问题 - 项目 1C：Deque61B 增强
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2a/index.html">
+         项目 2A：Ngordnet（N元语法）
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2a/faq/index.html">
+           常见问题 - 项目 2A
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2b/index.html">
+         项目 2B: Ngordnet (Wordnet)
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2b/faq/index.html">
+           常见问题 - 项目 2B
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj2c/index.html">
+         项目 2C：Ngordnet 增强
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj2c/faq/index.html">
+           常见问题 - 项目 2C
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../../projects/proj3/index.html">
+         项目 3: BYOW
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/faq/index.html">
+           常见问题 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/proj3checkoff/index.html">
+           检查点 - 项目 3: BYOW
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../../../projects/proj3/ui_bugs/index.html">
+           Common UI Bugs - 项目 3: BYOW
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item active">
+      <a class="nav-list-expander" href="#">
+       <svg viewbox="0 0 24 24">
+        <use xlink:href="#svg-arrow-right">
+        </use>
+       </svg>
+      </a>
+      <a class="nav-list-link" href="../../index.html">
+       资源
+      </a>
+      <ul class="nav-list">
+       <li class="nav-list-item active">
+        <a class="nav-list-link" href="../index.html">
+         Guides
+        </a>
+        <ul class="nav-list child">
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../asymptotics/index.html">
+           渐近分析
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../beacon/index.html">
+           Beacon 指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../debugging/index.html">
+           调试指南
+          </a>
+         </li>
+         <li class="nav-list-item active">
+          <a class="nav-list-link active" href="index.html">
+           Ed 课程政策 and Guidelines
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="ed-guide/index.html">
+             An Ed 使用指南 for New Users
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../intellij/index.html">
+           IntelliJ
+          </a>
+          <ul class="nav-list child">
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/plugins/index.html">
+             Installing and Using the IntelliJ 插件
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="../intellij/wtfs/index.html">
+             IntelliJ WTFS
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../oh/index.html">
+           Online 办公时间指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../style/index.html">
+           代码风格指南
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../git/index.html">
+           使用 Git
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="../soda-machines/index.html">
+           Using the Soda 实验 Machines
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../academic/index.html">
+         学术资源
+        </a>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../conceptual/index.html">
+         概念资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../exams/index.html">
+         考试资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+       <li class="nav-list-item">
+        <a class="nav-list-link" href="../../support/index.html">
+         支持资源
+        </a>
+        <ul class="nav-list child">
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li class="nav-list-item">
+      <a class="nav-list-link" href="../../../summer/index.html">
+       Summer 2024 常见问题
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <footer class="site-footer">
+    Th是 site uses
+    <a href="https://github.com/just-the-docs/just-the-docs">
+     Just the 文档
+    </a>
+    , a documentation theme for Jekyll.
+   </footer>
+  </div>
+  <div class="main" id="top">
+   <div class="main-header" id="main-header">
+    <div class="search">
+     <div class="search-input-wrap">
+      <input aria-label="Search CS 61B Spring 2024" autocomplete="off" class="search-input" id="search-input" placeholder="Search CS 61B Spring 2024" tabindex="0" type="text">
+      <label class="search-label" for="search-input">
+       <svg class="search-icon" viewbox="0 0 24 24">
+        <use xlink:href="#svg-search">
+        </use>
+       </svg>
+      </label>
+     </div>
+     <div class="search-results" id="search-results">
+     </div>
+    </div>
+    <script>
+     // Adding the site logo and title to the navbar like th是 until JTD adds support for it:
+  // https://github.com/just-the-docs/just-the-docs/issues/938
+  const logoWrapper = document.querySelector(".site-title");
+  const siteLogo = document.querySelector(".site-logo");
+  siteLogo.style.width = "50px";
+  const siteTitle = document.createElement("span");
+  siteTitle.textContent = "CS 61B";
+  logoWrapper.appendChild(siteTitle);
+    </script>
+    <nav aria-label="Auxiliary" class="aux-nav">
+     <ul class="aux-nav-list">
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="#">
+        Dark Mode
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://edstem.org/us/courses/53369/discussion/">
+        Ed
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://oh.datastructur.es/">
+        OH 队列
+       </a>
+      </li>
+      <li class="aux-nav-list-item">
+       <a class="site-button" href="https://beacon.datastructur.es/">
+        Beacon
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <div class="main-content-wrap" id="main-content-wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+     <ol class="breadcrumb-nav-list">
+      <li class="breadcrumb-nav-list-item">
+       <a href="../../index.html">
+        资源
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <a href="../index.html">
+        Guides
+       </a>
+      </li>
+      <li class="breadcrumb-nav-list-item">
+       <span>
+        Ed 政策与指南
+       </span>
+      </li>
+     </ol>
+    </nav>
+    <div class="main-content" id="main-content" role="main">
+     <nav class="content-nav">
+      <ul class="nav-list js-toc">
+       <li class="nav-list-item">
+        Ed 政策与指南
+        <ul>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#introduction">
+           简介
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#keeping-ed-inclusive">
+           保持 Ed 包容性
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#overall-requests">
+           总体要求
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#why-use-forums">
+           为什么要使用论坛？
+          </a>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#cs-61b-forum-policies">
+           计算机科学 61B 论坛政策
+          </a>
+          <ul>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#categories">
+             分类
+            </a>
+           </li>
+           <li class="nav-list-item">
+            <a class="nav-list-link" href="#how-to-ask-and-how-to-not-ask-questions">
+             如何提问，如何不提问
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="nav-list-item">
+          <a class="nav-list-link" href="#ed-tips-and-tricks">
+           Ed 使用技巧
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </nav>
+     <div class="content-container">
+      <h1 class="title">
+       Ed 政策与指南
+      </h1>
+      <div class="due-date">
+       作者：Ethan Ordentlich, Jedidiah Tsang
+      </div>
+      <h2 id="introduction">
+       <a aria-labelledby="introduction" class="anchor-heading" href="#introduction">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       简介
+      </h2>
+      <p>
+       我们使用 Ed 讨论s 作为课程论坛。如果你对 Ed 不熟悉，请阅读
+       <a href="ed-guide/index.html">
+        Ed 使用指南
+       </a>
+       ，它将帮助你熟悉这个平台。这篇文章包含了一系列关于 Ed 礼仪的指南，我们希望你完整阅读，以便我们所有人都有一个愉快的学期体验！
+      </p>
+      <h2 id="keeping-ed-inclusive">
+       <a aria-labelledby="keeping-ed-inclusive" class="anchor-heading" href="#keeping-ed-inclusive">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       保持 Ed 包容性
+      </h2>
+      <p>
+       任何在 Ed 等公共论坛上针对、排斥、侮辱或歧视特定个人或群体的内容都将被删除，内容发布者将面临相应的后果。请努力为每个人保持包容的环境。如果你任何时候觉得自己被学生或我们的课程工作人员针对、排斥、侮辱或歧视，请填写我们的
+       <a href="https://forms.gle/5Q33zxKXDQmSqU6v5">
+        事件报告表
+       </a>
+       进行报告。如果你不愿意与工作人员交谈，你可以向学校的多个办公室进行举报（
+       <a href="https://diversity.berkeley.edu/report-incident">
+        https://diversity.berkeley.edu/report-incident
+       </a>
+       ）。
+      </p>
+      <h2 id="overall-requests">
+       <a aria-labelledby="overall-requests" class="anchor-heading" href="#overall-requests">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       总体要求
+      </h2>
+      <p>
+       我们不想以"不要做什么"的列表开始，但还是请
+       <strong>
+        不要
+       </strong>
+       ：
+      </p>
+      <dl>
+       <dt>
+        发布无用的后续回复
+       </dt>
+       <dd>
+        像"+1"和"我也一样"这样的回复毫无意义，只会给所有关注该帖子的人发送烦人的邮件。这些可能会被删除。你可以使用帖子旁边的爱心图标来表达"+1"、感谢等。
+       </dd>
+       <dt>
+        使用烦人或误导性的标题
+       </dt>
+       <dd>
+        这些是全大写或使用过多标点符号的标题，只是为了吸引用户注意。请保持标题（以及一般内容）描述性强且专业。
+       </dd>
+       <dt>
+        发布无关话题或猜测性内容或钓鱼内容
+       </dt>
+       <dd>
+        与课程无关和/或非教育性的内容不属于 Ed。猜测性的、制造 drama 的或故意误导的内容会阻碍课程工作人员和其他学生之间的有效沟通。
+       </dd>
+       <dt>
+        如果自己解决了问题却说"算了"或"已解决"
+       </dt>
+       <dd>
+        论坛是集体知识的宝贵来源。自己回答问题是有效的，也是对集体知识的贡献。每个人都讨厌有人在回复自己问题时说类似
+        <a href="https://www.optipess.com/comic/titsmcgee4782/">
+         "算了，我自己解决了！"
+        </a>
+        ，或者
+        <a href="https://xkcd.com/979/">
+         根本不回答
+        </a>
+        。其他学生如果遇到同样的问题，就无法从中学习。相反，请添加包含你的解决方案的回答或评论！
+       </dd>
+      </dl>
+      <h2 id="why-use-forums">
+       <a aria-labelledby="why-use-forums" class="anchor-heading" href="#why-use-forums">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       为什么要使用论坛？
+      </h2>
+      <p>
+       <a href="https://dl.acm.org/doi/10.1145/3017680.3017745">
+        杜克/北卡州立/UNC/UF 的最新研究
+       </a>
+       表明，学生在课程论坛（如 Piazza 和 Ed）上的参与，在学生提出
+       <strong>
+        建设性问题
+       </strong>
+       时最为有益，这些问题反映了他们解决问题的推理和尝试。通过创建和提出这些建设性问题，学生正在练习他们的
+       <em>
+        元认知
+       </em>
+       技能，或者说是他们
+       <em>
+        思考如何处理问题和学习
+       </em>
+       的方式。
+      </p>
+      <p>
+       论坛也是寻求异步帮助的有效方式。办公时间和实验课并不总是在进行，与 TA 同步交流也并不总是可能的。相反，你可以在 Ed 上提问，同时继续做其他事情，等待回复。
+      </p>
+      <p>
+       此外，论坛和其他异步求助方式在许多现实世界的场景中也是广泛使用的工具，从
+       <a href="https://stackoverflow.com/">
+        StackOverflow
+       </a>
+       到公司内部工单系统。
+      </p>
+      <h2 id="cs-61b-forum-policies">
+       <a aria-labelledby="cs-61b-forum-policies" class="anchor-heading" href="#cs-61b-forum-policies">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       计算机科学 61B 论坛政策
+      </h2>
+      <p>
+       论坛的许多好处只有在我们都适当和有效地使用它，并投入工作来维护其质量时才能实现。
+      </p>
+      <h3 id="categories">
+       <a aria-labelledby="categories" class="anchor-heading" href="#categories">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       分类
+      </h3>
+      <p>
+       CS 61B 有很多学生，肯定会有很多帖子。为了组织这些帖子，我们使用
+       <em>
+        Ed 分类
+       </em>
+       。要在 Ed 上发帖或提问，你
+       <strong>
+        必须
+       </strong>
+       选择一个合适的分类。
+      </p>
+      <p>
+       分类概述如下：
+      </p>
+      <dl>
+       <dt>
+        物流
+       </dt>
+       <dd>
+        关于课程一般性问题。
+       </dd>
+       <dt>
+        讲座
+       </dt>
+       <dd>
+        关于每个讲座内容的问题。此分类有一个模板，要求提供讲座编号。
+       </dd>
+       <dt>
+        项目、实验、作业
+       </dt>
+       <dd>
+        关于作业的调试帮助的问题和请求。这些分类有每个作业的子分类。每个子分类还有子子分类，用于区分私人调试问题（Gitbugs）和各种公开问题。例如，
+        <code class="language-plaintext highlighter-rouge">
+         Projects - Project 1 - Gitbugs
+        </code>
+        和
+        <code class="language-plaintext highlighter-rouge">
+         Projects - Project 1 - Conceptual (Circular Buffer)
+        </code>
+        。
+       </dd>
+       <dt>
+        讨论
+       </dt>
+       <dd>
+        关于讨论工作表的题和概念性澄清。此分类有每周的子分类。
+       </dd>
+       <dt>
+        考试
+       </dt>
+       <dd>
+        关于考试物流、历年考试以及与考试相关的任何问题。随着考试临近，我们将添加额外的分类来提问关于历年考试的问题。
+       </dd>
+       <dt>
+        其他
+       </dt>
+       <dd>
+        任何不适合上述分类的关于课程的问题都可以放在这里。
+       </dd>
+       <dt>
+        社交
+       </dt>
+       <dd>
+        想组建学习小组或举办学习会议？在这里发帖。
+       </dd>
+       <dt>
+        外部公告
+       </dt>
+       <dd>
+        来自与 CS 61B 无关的外部团体的任何帖子都将发布在此分类中。此分类中的帖子必须经课程工作人员批准。
+       </dd>
+      </dl>
+      <h3 id="how-to-ask-and-how-to-not-ask-questions">
+       <a aria-labelledby="how-to-ask-and-how-to-not-ask-questions" class="anchor-heading" href="#how-to-ask-and-how-to-not-ask-questions">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       如何提问，如何不提问
+      </h3>
+      <p>
+       不幸的是，在 Ed 上寻求帮助比较慢，因为我们不能在论坛上花费所有时间。在你寻求帮助之前，你应该尝试自己回答你的问题！我们也希望你学会如何帮助自己，这在某些情况下比问工作人员更慢，但从长远来看会更有益。可以帮助你做到这一点的资源包括：
+      </p>
+      <dl>
+       <dt>
+        Ed 上的先前问题。
+       </dt>
+       <dd>
+        你可以使用 Ed 的搜索功能在分类内搜索，这样你就不必浏览所有内容。
+       </dd>
+       <dt>
+        官方课程材料
+       </dt>
+       <dd>
+        作业规范是一个很好的信息来源。此外，每个作业都会从页面顶部链接一个
+        <strong>
+         常见问题
+        </strong>
+        。FAQ 将在作业运行期间更新，所以要经常查看！课程工作人员也会在学生作业时为作业创建一些补充材料，因为我们会发现学生遇到困难的地方。
+       </dd>
+       <dt>
+        Google 或你选择的搜索引擎。
+       </dt>
+       <dd>
+        虽然搜索 Google 可能看起来不像"独立编程"，但专业程序员经常在网上搜索类似问题的解决方案。现在学习好的搜索技术将在学期剩余时间和你的职业生涯中得到回报。
+        <strong>
+         但这不包括搜索解决方案代码。不要那样做。
+        </strong>
+       </dd>
+      </dl>
+      <p>
+       <strong>
+        但是，你不应该在一个问题上花费数小时
+       </strong>
+       ，你应该寻求帮助，可能在论坛上。当你在 Ed 上寻求帮助时，以下是你可以做的一些事情，以确保你收到的回复更有可能解决你的问题。
+      </p>
+      <dl>
+       <dt>
+        解释你的问题是什么，以及你认为什么会帮助你继续前进。
+       </dt>
+       <dd>
+        课程工作人员不会读心术。我们不会神奇地知道哪里出了问题，或者你想回答什么。
+       </dd>
+      </dl>
+      <p>
+       如果你的问题没有包含足够的信息让我们能够回答，或者没有向我们展示你到目前为止尝试了什么，我们会询问。你整体上会得到较慢的回复，但你也会学会如何改进你未来的问题以获得更快的回复。
+      </p>
+      <p>
+       同样，有一些事情你不应该做
+       <strong>
+        来获得回复：
+       </strong>
+      </p>
+      <dl>
+       <dt>
+        要求"提示"或"答案"
+       </dt>
+       <dd>
+        我们不知道你想要什么样的提示，或者你试图完成什么。我们甚至不知道你是否在这个问题上工作过，或者你是否看到了错误就立即提问。
+       </dd>
+      </dl>
+      <p>
+       我们不会给答案，而是会问一个后续问题来澄清你在问什么。
+      </p>
+      <dl>
+       <dt>
+        说"我什么都不懂"
+       </dt>
+       <dd>
+        这很难，有时不可能给出答案。相反，你应该尝试找出你不理解的起点。如果你无法开始，这仍然是一个有效的问题&mdash;&mdash;而且与"任何事情"完全不同。
+       </dd>
+      </dl>
+      <p>
+       <cite>
+        部分材料来自 Adam Blank 的
+        <a href="https://countablethoughts.com/documents/HowToAskForHelp.pdf">
+         "如何寻求帮助"
+        </a>
+        指南。
+       </cite>
+      </p>
+      <h4 id="conceptual-posts">
+       <a aria-labelledby="conceptual-posts" class="anchor-heading" href="#conceptual-posts">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       概念性帖子
+      </h4>
+      <p>
+       通常，你会有关于实验或项目中的概念性问题，或者关于讨论、历年考试或外部资源的问题。以下是一些你应该遵循的指南，以更快获得有用的答案：
+      </p>
+      <dl>
+       <dt>
+        不要问你的解决方案"是否正确"
+       </dt>
+       <dd>
+        相反，解释你为什么认为你的解决方案是正确的，并指出你不确定的任何部分。重建你的论点需要工作人员做很多工作，所以向我们解释你的思路可以帮助你获得更好的答案，并解决你可能存在的任何误解。
+       </dd>
+      </dl>
+      <h4 id="private-debugging-help-or-gitbugs">
+       <a aria-labelledby="private-debugging-help-or-gitbugs" class="anchor-heading" href="#private-debugging-help-or-gitbugs">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       私人调试帮助，或 Gitbugs
+      </h4>
+      <p>
+       有时，你可能遇到需要向课程工作人员展示代码的问题。但是，根据我们的
+       <a href="../../../policies/index.html#project-collaboration">
+        合作政策
+       </a>
+       ，你不能公开发布代码，包括在公开 Ed 帖子上。相反，你可以使用每个作业的 Gitbugs 分类来发布私人调试帖子。
+      </p>
+      <p>
+       以下是专门针对私人调试问题的指南：
+      </p>
+      <dl>
+       <dt>
+        链接你的 GitHub 仓库并推送。
+       </dt>
+       <dd>
+        有时（但并非总是），我们会查看你的代码。这确保我们能够轻松查看最新版本。
+       </dd>
+       <dt>
+        提供你有问题的那部分代码的截图。
+       </dt>
+       <dd>
+        我们要求你提供截图，这样我们就知道你在看代码的哪一部分。
+       </dd>
+       <dt>
+        在描述你的 bug 时，要具体。
+       </dt>
+       <dd>
+        "一切"、"它不工作"、"自动评分失败"、"我不知道"等描述都不够具体。没有具体信息我们无法提供帮助。至少，你应该告诉我们哪个测试失败了，或者你看到什么错误，尽管仅此一项并不能保证第一个回复会有帮助。
+       </dd>
+      </dl>
+      <p>
+       如果你能识别出一小块代码，比如一个方法或几行代码，不符合你的预期，那很好&mdash;&mdash;告诉我们你发现了什么，以及你困惑的地方！
+      </p>
+      <dl>
+       <dt>
+        我们期望你已经尝试过调试。告诉我们你学到了什么。
+       </dt>
+       <dd>
+        这与上面的指南相辅相成！如果我们看不出你尝试过调试，我们不会为你调试，而是会问你尝试了什么。这可以是打印调试，或使用 IntelliJ 调试器。截图在这里非常有用，只要你解释我们在看什么！
+       </dd>
+      </dl>
+      <h2 id="ed-tips-and-tricks">
+       <a aria-labelledby="ed-tips-and-tricks" class="anchor-heading" href="#ed-tips-and-tricks">
+        <svg aria-hidden="true" viewbox="0 0 16 16">
+         <use xlink:href="#svg-link">
+         </use>
+        </svg>
+       </a>
+       Ed 使用技巧
+      </h2>
+      <dl>
+       <dt>
+        更改你的电子邮件设置以接收更少的邮件。
+       </dt>
+       <dd>
+        在右上角，点击你的头像，然后"设置"，然后点击"通知"来调整你从 Ed 收到的电子邮件数量。公告邮件将始终发送给你。
+       </dd>
+       <dt>
+        关注你想了解更多的主题帖子。
+       </dt>
+       <dd>
+        如果你看到一个你想继续跟踪的正在进行的问题，你可以：
+       </dd>
+      </dl>
+      <ul>
+       <li>
+        点击问题右上角的"Watch"选项以接收电子邮件更新，或
+       </li>
+       <li>
+        "Star"问题右上角的帖子，以将其固定在你的 Ed 上。
+       </li>
+      </ul>
+      <dl>
+       <dt>
+        引用其他问题、回答和评论
+       </dt>
+       <dd>
+        使用 #N（例如 #1 或 #1c）是引用其他线程的简洁方式。你可以用它来回答重复的问题，或指向你尝试过但不工作的东西。
+       </dd>
+       <dt>
+        使代码（和堆栈跟踪）可读。
+       </dt>
+       <dd>
+        使用编辑器工具栏中的可运行代码按钮，这样你的代码看起来更好。语法高亮的代码比纯文本代码更容易阅读。
+       </dd>
+      </dl>
+      <p>
+       如果你有不想让其他学生看到的个人问题，请发布私人帖子。私人帖子只对课程工作人员可见。如果你只希望首席 TA 和 Josh 看到你的问题，请发送电子邮件至
+       <code class="language-plaintext blue highlighter-rouge">
+        cs61b [at] berkeley.edu
+       </code>
+      </p>
+     </div>
+     <hr>
+     <h2 class="text-delta">
+      目录
+     </h2>
+     <ul>
+     </ul>
+     <hr>
+     <footer>
+      <script>
+       (function() {
+  var navList = document.querySelector('.aux-nav-list');
+  if (!navList || !navList.firstElementChild) return;
+  var darkToggle = navList.firstElementChild;
+  darkToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleDark();
+  });
+})();
+      </script>
+      <script src="../../../assets/js/jquery.min.js">
+      </script>
+      <script src="../../../assets/js/clipboard.min.js">
+      </script>
+      <script>
+       // adapted from https://stackoverflow.com/a/48078807/1217368
+// Waiting for https://github.com/just-the-docs/just-the-docs/pull/945
+$(document).ready(function () {
+  $('pre.highlight').each(function (i) {
+    // create an id for the current code section
+    var currentId = 'codeBlock' + i
+
+    // find the code section and add the id to it
+    var codeSection = $(th是).find('code')
+    codeSection.attr('id', currentId)
+
+    // now create the button, setting the clipboard target to the id
+    var btn = document.createElement('a')
+    btn.setAttribute('type', 'btn')
+    btn.setAttribute('class', 'badge badge-light btn-copy-code')
+    btn.setAttribute('data-clipboard-target', '#' + currentId)
+    btn.innerHTML = '<i class="fal fa-copy"></i> Copy'
+    $(th是).after(btn)
+  })
+
+  new ClipboardJS('.btn-copy-code')
+})
+      </script>
+      <script src="../../../assets/js/tocbot.min.js">
+      </script>
+      <script>
+       // Tries to mirror the HTML TOC
+tocbot.init({
+  tocSelector: '.js-toc',
+  contentSelector: '.main-content',
+  headingSelector: 'h2, h3',
+  ignoreSelector: '.no_toc',
+  hasInnerContainers: true,
+  linkClass: 'nav-list-link',
+  activeLinkClass: 'active',
+  listClass: 'nav-list',
+  listItemClass: 'nav-list-item',
+  activeListItemClass: 'active',
+  collapseDepth: 3,
+  scrollSmooth: false,
+});
+      </script>
+     </footer>
+    </div>
+   </div>
+   <div class="search-overlay">
+   </div>
+  </div>
+ </body>
+</html>
