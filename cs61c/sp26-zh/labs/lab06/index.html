@@ -97,7 +97,7 @@
         
 <div class="row spec">
   
-    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="table of contents">
+    <nav id="toc-wrapper" class="col-md-3 d-print-none sticky-md-top nav-wrapper" aria-label="目录">
       
   <ul class="nav flex-column">
     
@@ -260,7 +260,7 @@ funct3
 <p>请参阅<a href="#testing">练习1的测试部分</a>，但输出文件前缀现在是<code>ex2-test</code>而不是<code>ex1-test</code>。</p>
 <h2 id="exercise-3-inefficiencies-everywhere">练习3：到处都是低效</h2>
 <p>对于本练习，我们可以假设寄存器最初携带零值。我们将使用实验文件<code>ex3.circ</code>，它应该有一个名为<code>non_pipelined</code>的子电路，看起来像这样：</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/exercise3.png" alt="" /></p>
+<p><img src="labs/lab06/exercise3.png" alt="" /></p>
 <p>这个电路简单地接收两个输入，将它们相乘，然后将结果添加到当前状态值。对于这个电路，假设加法器块的传播延迟为45ns，乘法块的传播延迟为60ns。寄存器的CLK-to-Q延迟为10ns，建立时间为10ns，保持时间为5ns。假设两个输入都从寄存器接收数据（因此输入在上升沿之后CLK-to-Q时间到达）。</p>
 <p>本练习要求您在<code>ex3_answers.txt</code>中写下您的答案。</p>
 <ul>
@@ -301,17 +301,17 @@ funct3
 </li>
 <li>
 <p>This ROM will output a 32-bit integer at the index provided. In this case, we go sequentially through each number stored in our ROM.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-rom.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-rom.png" alt="" /></p>
 </li>
 </ul>
 </li>
 <li>
 <p><strong>Navigate</strong> from the test harness to our <code>num_checker</code> circuit by right-clicking on <code>num_checker</code> and click &quot;View num_checker&quot;.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-subcircuit-view.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-subcircuit-view.png" alt="" /></p>
 <ul>
 <li>
 <p>Alternatively, the &quot;Simulate&quot; tab allows you to easily switch between circuits as well.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-simulate-tab.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-simulate-tab.png" alt="" /></p>
 </li>
 </ul>
 </li>
@@ -322,21 +322,21 @@ funct3
 <p><strong>Build</strong> the following gadget in <code>num_checker</code>. Remember to label the register in the gadget to <code>num_cycles</code>. This gadget, like a counter, allows us to check the current time step by probing the output of the register. This gadget can be located anywhere in the <code>num_checker</code> circuit standalone. It’s recommended to build this gadget whenever you debug in projects to make debugging easier.</p>
 <ul>
 <li>To edit <code>num_checker</code>, you must open its corresponding circuit file, <code>ex5.circ</code>. You cannot edit it through the test circuit. After editing, <strong>reopen</strong> <code>ex5_test.circ</code> for the changes to show up.
-<img src="https://cs61c.org/sp26/labs/lab06/ex5-gadget.png" alt="" /></li>
+<img src="labs/lab06/ex5-gadget.png" alt="" /></li>
 <li>To label the register, go on the selection tool (the one that looks like a mouse cursor), and then double-click the corresponding register.</li>
 </ul>
 </li>
 <li>
 <p>Next, <strong>open</strong> the waveform viewer in Logisim (<code>Simulate -&gt; Timing Diagram</code>). After the window pops up, click the <code>Timing Diagram</code> to view the waveforms. If your window is too small, drag it out along the side of your screen so it looks like the window below.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-waveform-viewer.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-waveform-viewer.png" alt="" /></p>
 <ul>
 <li>
 <p>Click the <code>Add or Remove Signals</code> button. Let's remove the signals <code>halt</code> and <code>CYCLE</code> from view by using the arrows in the middle. Let's also add the <code>num_cycles</code> signal to view. You can find the <code>num_cycles</code> signal by scrolling down the signals available in the circuit and clicking the <code>num_checker</code> dropdown.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-signal-selection.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-signal-selection.png" alt="" /></p>
 </li>
 <li>
 <p>After you click <code>Ok</code>, you should see the added <code>num_cycles</code> signal in the waveform viewer. Make sure to expand the <code>Signal Name</code> column so that all text is visible. Then, right click on <code>num_cycles</code> to change its type to <code>Signed Decimal</code>. Do the same to the <code>num</code> signal.</p>
-<p><img src="https://cs61c.org/sp26/labs/lab06/ex5-waveform-viewer-type.png" alt="" /></p>
+<p><img src="labs/lab06/ex5-waveform-viewer-type.png" alt="" /></p>
 </li>
 <li>
 <p>The waveform viewer allows us to see a bunch of signals and their corresponding values per cycle. It's recommended to use the waveform viewer whenever you debug in projects.</p>

@@ -220,7 +220,7 @@
 <ol>
 <li>
 <p><strong>查看测试线架</strong>：您在此电路中首先看到的是测试线架：</p>
-<p><img src="../alu-add-1.png" alt="Annotated screenshot of alu-add.circ."></p>
+<p><img src="../alu-add-1.png" alt="alu-add.circ 注释截图"></p>
 <p>这会向您的ALU输入一系列输入（<code>InputA</code>、<code>InputB</code>和<code>ALUSel</code>）。</p>
 <p>ROM（在红色框中）包含电路的输入列表。第一个输入（<code>InputA = 0x00002020</code>、<code>InputB = 0x00000f0f</code>、<code>ALUSel = 0b0000</code>）以深灰色高亮显示。您还可以通过探针看到这些值被传入ALU（在蓝色框中）。</p>
 </li>
@@ -239,7 +239,7 @@
 <li>
 <p><strong>探测导线</strong>：如果子电路的输出不是您预期的，您可以探测导线以调查不正确输出的来源。</p>
 <p>在ALU子电路内部，您可以看到从线架提供给子电路的输入（<code>A</code>、<code>B</code>和<code>ALUSel</code>）。您可以点击导线查看其中的值：</p>
-<p><img src="../alu-add-4.png" alt="Clicking on wires inside alu.circ to debug."></p>
+<p><img src="../alu-add-4.png" alt="点击 alu.circ 内电线进行调试"></p>
 <p>在起始电路中，<code>ALUResult</code>输出未定义。在这种情况下，请注意<code>ALUResult</code>隧道未定义，所以我们可能需要向此隧道发送一个值。</p>
 <p>要返回线架，您可以点击左上角Simulate → Active Simulations选项卡中的<code>main</code>。</p>
 </li>
@@ -330,7 +330,7 @@ addi t0, x0, 2047
 <p>我们建议插入一个时间步计数器电路来计算指令数。见下文。</p>
 <h2 id=debugging-integration-tests-time-step-counter>调试集成测试：时间步计数器</h2>
 <p>当指令不按顺序执行时，可能很难确定需要跳动多少周期才能到达第一条失败的指令。为了简化此过程，我们建议在<code>cpu.circ</code>电路中添加一个小型计数器电路：</p>
-<p><img src="../timestep-counter.png" alt="Basic circuit that adds 1 at each time step."></p>
+<p><img src="../timestep-counter.png" alt="每个时间步加1的基本电路"></p>
 <ul>
 <li>这与起始代码中的PC电路逻辑相同，只是计数器电路在每个时间步加1而不是加4。</li>
 <li><code>ProgramCounter</code>隧道也已被替换为探针，让您在调试时可以查看导线的值。</li>
