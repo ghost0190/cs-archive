@@ -294,107 +294,105 @@ funct3
 <p>本练习要求您在<code>ex5_answers.txt</code>中写下您的答案。文本文件只有前两个问题的项目符号，所以请在回答问题时添加项目符号（例如<code>3. </code>、<code>4. </code>等）。问题编号可能与步骤编号不同，请小心！</p>
 <ol>
 <li>
-<p>First, let’s get familiar with our testing harness. <strong>Open</strong> up the exercise 5 test circuit (<code>File -&gt; Open -&gt; lab06/tests/ex5-test.circ</code>).</p>
-<ul>
-<li>
-<p>The project test harness uses ROMs to store RISC-V instructions which will be fed into your CPU. For this circuit, the big block with hex digits is our ROM that contains the numbers which we will feed sequentially into our <code>ex5</code> circuit.</p>
-</li>
-<li>
-<p>This ROM will output a 32-bit integer at the index provided. In this case, we go sequentially through each number stored in our ROM.</p>
-<p><img src="labs/lab06/ex5-rom.png" alt="" /></p>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>Navigate</strong> from the test harness to our <code>num_checker</code> circuit by right-clicking on <code>num_checker</code> and click &quot;View num_checker&quot;.</p>
-<p><img src="labs/lab06/ex5-subcircuit-view.png" alt="" /></p>
-<ul>
-<li>
-<p>Alternatively, the &quot;Simulate&quot; tab allows you to easily switch between circuits as well.</p>
-<p><img src="labs/lab06/ex5-simulate-tab.png" alt="" /></p>
-</li>
-</ul>
-</li>
-<li>
-<p>Before we start debugging, we should do two things:</p>
-<ol>
-<li>
-<p><strong>Build</strong> the following gadget in <code>num_checker</code>. Remember to label the register in the gadget to <code>num_cycles</code>. This gadget, like a counter, allows us to check the current time step by probing the output of the register. This gadget can be located anywhere in the <code>num_checker</code> circuit standalone. It’s recommended to build this gadget whenever you debug in projects to make debugging easier.</p>
-<ul>
-<li>To edit <code>num_checker</code>, you must open its corresponding circuit file, <code>ex5.circ</code>. You cannot edit it through the test circuit. After editing, <strong>reopen</strong> <code>ex5_test.circ</code> for the changes to show up.
-<img src="labs/lab06/ex5-gadget.png" alt="" /></li>
-<li>To label the register, go on the selection tool (the one that looks like a mouse cursor), and then double-click the corresponding register.</li>
-</ul>
-</li>
-<li>
-<p>Next, <strong>open</strong> the waveform viewer in Logisim (<code>Simulate -&gt; Timing Diagram</code>). After the window pops up, click the <code>Timing Diagram</code> to view the waveforms. If your window is too small, drag it out along the side of your screen so it looks like the window below.</p>
-<p><img src="labs/lab06/ex5-waveform-viewer.png" alt="" /></p>
-<ul>
-<li>
-<p>Click the <code>Add or Remove Signals</code> button. Let's remove the signals <code>halt</code> and <code>CYCLE</code> from view by using the arrows in the middle. Let's also add the <code>num_cycles</code> signal to view. You can find the <code>num_cycles</code> signal by scrolling down the signals available in the circuit and clicking the <code>num_checker</code> dropdown.</p>
-<p><img src="labs/lab06/ex5-signal-selection.png" alt="" /></p>
-</li>
-<li>
-<p>After you click <code>Ok</code>, you should see the added <code>num_cycles</code> signal in the waveform viewer. Make sure to expand the <code>Signal Name</code> column so that all text is visible. Then, right click on <code>num_cycles</code> to change its type to <code>Signed Decimal</code>. Do the same to the <code>num</code> signal.</p>
-<p><img src="labs/lab06/ex5-waveform-viewer-type.png" alt="" /></p>
-</li>
-<li>
-<p>The waveform viewer allows us to see a bunch of signals and their corresponding values per cycle. It's recommended to use the waveform viewer whenever you debug in projects.</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>
-<p>Let's <strong>probe</strong> (i.e. look at the value of certain wires) some outputs and use the waveform viewer to pinpoint the bug!</p>
-<ul>
-<li>Question 1: What is the value of <code>bit_zero</code> at time step 0 (before we tick)? The answer should be a single decimal digit. (Hint: You can find <code>bit_zero</code> inside of the <code>num_checker</code> circuit.)</li>
-<li>Question 2: What is the value of <code>is_odd</code> at time step 0? The answer should be a single decimal digit.</li>
-</ul>
-</li>
-<li>
-<p><strong>Tick</strong> the clock one full cycle. The circuit should be at time step 1 now (the gadget you made in step 3 part 1 should also reflect that).</p>
-<ul>
-<li>Question 3: What is the value of <code>bit_zero</code>? The answer should be a single decimal digit.</li>
-<li>Question 4: What is the output for <code>is_odd</code>? The answer should be a single decimal digit.</li>
-</ul>
-</li>
-<li>
-<p><strong>Tick</strong> the clock two more full cycles.</p>
-<ul>
-<li>Question 5: Using the waveform viewer, what is the value of <code>num</code>, in decimal? The answer should be an integer.</li>
-<li>Question 6: Using the waveform viewer, what is the value of the output pin <code>greater_than_fifteen</code>? The answer should be a single decimal digit.</li>
-</ul>
-</li>
-<li>
-<p><strong>Tick</strong> the clock one more full cycle.</p>
-<ul>
-<li>Question 7: Using the waveform viewer, what is the value of <code>num</code>, in decimal? The answer should be an integer.</li>
-<li>Question 8: Using the waveform viewer, what is the value of the output pin <code>greater_than_fifteen</code>? The answer should be a single decimal digit.</li>
-</ul>
-</li>
-<li>
-<p><strong>Tick</strong> the clock one more full cycle.</p>
-<ul>
-<li>Question 9: What time step is the circuit at? The answer should be an integer.</li>
-<li>Question 10: What is the value of <code>bits_five</code>, in binary? The answer should be a 3-bit binary number, with the <code>0b</code> prefix.</li>
-<li>Question 11: What is the value of the output pin <code>five_or_ten</code>. The answer should be a single decimal digit.</li>
-</ul>
-</li>
-<li>
-<p>Now that we are familiar with the behavior of our circuit, let’s <strong>run</strong> the test (using <code>python3 test.py</code>). </p>
-</li>
-<li>
-<p>To look at the output, <strong>open</strong> <code>ex5-test.out</code> (the circuit output) and <code>ex5-test.ref</code> (the expected output). Both files are located in the <code>tests/out</code> folder. There should be a few values that are different.</p>
-</li>
-<li>
-<p>With the knowledge you've gained from simulating the circuit, fix the <code>num_checker</code> circuit so that it passes the test. Feel free to run through the simulator a couple more times! </p>
-<ul>
-<li>Note: All simulation should be done inside your <code>ex5_test.circ</code> Logisim window. Remember to navigate back into the <code>num_checker</code> circuit block to probe your outputs. Do not simulate in your <code>num_checker</code> window (the clock and inputs will not sync between files).</li>
-</ul>
-</li>
-</ol>
-<h2 id="exercise-6-reflection-and-feedback-form">练习6：反思和反馈表</h2>
+<p>首先，让我们熟悉一下测试框架。<strong>打开</strong>练习5的测试电路（<code>File -&gt; Open -&gt; lab06/tests/ex5-test.circ</code>）。</p>
+	<ul>
+	<li>
+	<p>项目测试框架使用ROM存储RISC-V指令，这些指令将输入到您的CPU中。对于此电路，带有十六进制数字的大块是我们的ROM，其中包含我们将按顺序输入到<code>ex5</code>电路中的数字。</p>
+	</li>
+	<li>
+	<p>此ROM将在提供的索引处输出一个32位整数。在本例中，我们按顺序遍历ROM中存储的每个数字。</p>
+	<p><img src="labs/lab06/ex5-rom.png" alt="" /></p>
+	</li>
+	</ul>
+	</li>
+	<li>
+	<p>从测试框架<strong>导航</strong>到我们的<code>num_checker</code>电路：右键单击<code>num_checker</code>，然后点击&quot;View num_checker&quot;。</p>
+	<p><img src="labs/lab06/ex5-subcircuit-view.png" alt="" /></p>
+	<ul>
+	<li>
+	<p>或者，&quot;Simulate&quot;选项卡也可以让您轻松地在电路之间切换。</p>
+	<p><img src="labs/lab06/ex5-simulate-tab.png" alt="" /></p>
+	</li>
+	</ul>
+	</li>
+	<li>
+	<p>在开始调试之前，我们应该做两件事：</p>
+	<ol>
+	<li>
+	<p>在<code>num_checker</code>中<strong>构建</strong>以下小装置。记住将装置中的寄存器标记为<code>num_cycles</code>。这个小装置类似于计数器，允许我们通过探测寄存器的输出来检查当前时间步。该装置可以单独放置在<code>num_checker</code>电路的任何位置。建议您在项目中调试时构建此装置，以便更轻松地调试。</p>
+	<ul>
+	<li>要编辑<code>num_checker</code>，您必须打开其对应的电路文件<code>ex5.circ</code>。您不能通过测试电路进行编辑。编辑后，请<strong>重新打开</strong><code>ex5_test.circ</code>以使更改生效。
+	<img src="labs/lab06/ex5-gadget.png" alt="" /></li>
+	<li>要标记寄存器，请使用选择工具（看起来像鼠标光标的那个），然后双击相应的寄存器。</li>
+	</ul>
+	</li>
+	<li>
+	<p>接下来，在Logisim中<strong>打开</strong>波形查看器（<code>Simulate -&gt; Timing Diagram</code>）。窗口弹出后，点击<code>Timing Diagram</code>查看波形。如果窗口太小，可以将其沿屏幕一侧拖出，使其看起来像下面的窗口。</p>
+	<p><img src="labs/lab06/ex5-waveform-viewer.png" alt="" /></p>
+	<ul>
+	<li>
+	<p>点击<code>Add or Remove Signals</code>按钮。使用中间的箭头从视图中移除信号<code>halt</code>和<code>CYCLE</code>。同时将<code>num_cycles</code>信号添加到视图中。您可以向下滚动电路中可用的信号，点击<code>num_checker</code>下拉菜单找到<code>num_cycles</code>信号。</p>
+	<p><img src="labs/lab06/ex5-signal-selection.png" alt="" /></p>
+	</li>
+	<li>
+	<p>点击<code>Ok</code>后，您应该能在波形查看器中看到添加的<code>num_cycles</code>信号。确保展开<code>Signal Name</code>列使所有文本可见。然后右键单击<code>num_cycles</code>将其类型改为<code>Signed Decimal</code>。对<code>num</code>信号进行同样的操作。</p>
+	<p><img src="labs/lab06/ex5-waveform-viewer-type.png" alt="" /></p>
+	</li>
+	<li>
+	<p>波形查看器允许我们查看大量信号及其每个周期对应的值。建议您在项目中调试时使用波形查看器。</p>
+	</li>
+	</ul>
+	</li>
+	</ol>
+	</li>
+	<li>
+	<p>让我们<strong>探测</strong>（即查看某些电线的值）一些输出，并使用波形查看器精确定位bug！</p>
+	<ul>
+	<li>问题1：时间步0时（滴答之前）<code>bit_zero</code>的值是多少？答案应为单个数位。（提示：您可以在<code>num_checker</code>电路内部找到<code>bit_zero</code>。）</li>
+	<li>问题2：时间步0时<code>is_odd</code>的值是多少？答案应为单个数位。</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>滴答</strong>时钟一个完整周期。电路现在应该在时间步1（您在步骤3第1部分中制作的装置也应反映这一点）。</p>
+	<ul>
+	<li>问题3：<code>bit_zero</code>的值是多少？答案应为单个数位。</li>
+	<li>问题4：<code>is_odd</code>的输出是什么？答案应为单个数位。</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>滴答</strong>时钟另外两个完整周期。</p>
+	<ul>
+	<li>问题5：使用波形查看器，<code>num</code>的值是多少（十进制）？答案应为整数。</li>
+	<li>问题6：使用波形查看器，输出引脚<code>greater_than_fifteen</code>的值是多少？答案应为单个数位。</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>滴答</strong>时钟再一个完整周期。</p>
+	<ul>
+	<li>问题7：使用波形查看器，<code>num</code>的值是多少（十进制）？答案应为整数。</li>
+	<li>问题8：使用波形查看器，输出引脚<code>greater_than_fifteen</code>的值是多少？答案应为单个数位。</li>
+	</ul>
+	</li>
+	<li>
+	<p><strong>滴答</strong>时钟再一个完整周期。</p>
+	<ul>
+	<li>问题9：电路现在处于哪个时间步？答案应为整数。</li>
+	<li>问题10：<code>bits_five</code>的值是多少（二进制）？答案应为3位二进制数，带<code>0b</code>前缀。</li>
+	<li>问题11：输出引脚<code>five_or_ten</code>的值是多少？答案应为单个数位。</li>
+	</ul>
+	</li>
+	<li>
+	<p>现在我们已经熟悉了电路的行为，让我们<strong>运行</strong>测试（使用<code>python3 test.py</code>）。</p>
+	</li>
+	<li>
+	<p>要查看输出，请<strong>打开</strong><code>ex5-test.out</code>（电路输出）和<code>ex5-test.ref</code>（期望输出）。两个文件都位于<code>tests/out</code>文件夹中。应该有一些值是不同的。</p>
+	</li>
+	<li>
+	<p>运用您从模拟电路中学到的知识，修复<code>num_checker</code>电路使其通过测试。请随意再多运行几次模拟器！</p>
+	<ul>
+	<li>注意：所有模拟都应在<code>ex5_test.circ</code> Logisim窗口内进行。记得导航回<code>num_checker</code>电路块来探测输出。不要在<code>num_checker</code>窗口中模拟（时钟和输入不会在文件之间同步）。</li>
+	</ul>
+	</li><h2 id="exercise-6-reflection-and-feedback-form">练习6：反思和反馈表</h2>
 <p>我们每周都在努力改进课程——请填写<a href="https://docs.google.com/forms/d/e/1FAIpQLSfWAGB84Y3G2mguauvDn4beCYne4UAHfuwl2-42lNSsQqQmpw/viewform?usp=publish-editor">此调查</a>告诉我们您到目前为止在讨论课和实验中的体验！</p>
 <hr />
 <h2 id="submission">提交</h2>
