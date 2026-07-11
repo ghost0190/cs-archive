@@ -33,6 +33,12 @@ const tracked = execFileSync("git", ["ls-files", "-z"], {
   .filter(Boolean)
   .filter((file) => !isExcluded(file));
 
+// Include newly created runtime assets before their first commit so local
+// previews and deploys match the working tree.
+for (const runtimeAsset of ["assets/site.js"]) {
+  if (!tracked.includes(runtimeAsset)) tracked.push(runtimeAsset);
+}
+
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
